@@ -5712,6 +5712,7 @@ html {
   scroll-padding-top: calc(4.5rem + env(safe-area-inset-top, 0px));
 }
 
+.section-view > .section-title,
 .section-view .cockpit-top,
 .section-view .cal-path-toggle,
 .section-view .cal-nav,
@@ -5723,6 +5724,13 @@ html {
 .section-view .card,
 .section-view [role="tablist"] {
   scroll-margin-top: calc(4.5rem + env(safe-area-inset-top, 0px));
+}
+
+/* v5.11.1: section titles always visible (nav scroll target) */
+.section-view > .section-title {
+  display: flex;
+  visibility: visible;
+  opacity: 1;
 }
 
 /* Tighten / collapse redundant section chrome so useful UI fits first viewport */
@@ -5767,9 +5775,13 @@ html {
 }
 
 @media (max-width: 420px) {
-  /* On very small screens, keep titles compact so Heute / grid / cards show immediately */
+  /* On very small screens, keep titles compact but readable as nav scroll target */
   .section-view > .section-motif {
     display: none;
+  }
+  .section-view > .section-title {
+    font-size: 1.12rem;
+    line-height: 1.25;
   }
   .section-view {
     padding-top: 0.65rem;
@@ -7037,6 +7049,7 @@ body.stille-modus #sec-cockpit #glance-resonanz-card {
 
 
 /* ——— v5.11.0 Merge Messpult + Start into one Altar home ——— */
+/* v5.11.1: Altar section-title + nav scroll to title */
 .altar-welcome[hidden] { display: none !important; }
 
 .messpult-home {

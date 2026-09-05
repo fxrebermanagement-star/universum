@@ -1442,37 +1442,18 @@
   }
 
   /**
-   * After bottom-nav navigate: bring first useful UI under the sticky header
-   * (not just the huge section title block at scrollY=0).
+   * After bottom-nav navigate: land on section title (or section top) under
+   * sticky header so the heading stays visible in the first viewport.
    */
   function firstSectionContent(sec) {
     if (!sec) return null;
-    const selectors = [
-      '#jetzt-card',
-      '.altar-heart',
-      '.altar-welcome',
-      '.cal-path-toggle',
-      '.cal-nav',
-      '.kosmos-praxis',
-      '#ritual-werkzeug-panel:not(.hidden)',
-      '[data-rpanel="werkzeug"]:not(.hidden)',
-      '[data-rpanel]:not(.hidden)',
-      '.tabs[role="tablist"]',
-      '.korrespondenz-full-card',
-      '.export-pack',
-      '.week-review-card',
-      '.buch-mode-row',
-      '.card',
-      '[role="tablist"]'
-    ];
-    for (let i = 0; i < selectors.length; i++) {
-      const el = sec.querySelector(selectors[i]);
-      if (!el || el.hidden) continue;
-      try {
-        const r = el.getBoundingClientRect();
-        if (r.width > 0 || r.height > 0) return el;
-      } catch (_) { return el; }
-    }
+    try {
+      const title = sec.querySelector('.section-title');
+      if (title && !title.hidden) {
+        const r = title.getBoundingClientRect();
+        if (r.width > 0 || r.height > 0) return title;
+      }
+    } catch (_) { /* fall through */ }
     return sec;
   }
 

@@ -42,7 +42,10 @@
     <div id="main-content" tabindex="-1">
     <!-- 1. Altar (route id: cockpit) -->
     <section id="sec-cockpit" class="section-view active cockpit-lovely-page altar-sacred" aria-label="Altar">
-      <!-- v5.11.0 Altar: Messpult + Heute/Starter + bento glance (one scroll) -->
+      <!-- v5.11.1 Altar: title + Messpult + Heute/Starter + bento glance (one scroll) -->
+      <h1 class="section-title"><span class="sec-ico" aria-hidden="true">🪔</span> Altar</h1>
+      <span class="section-motif" aria-hidden="true"></span>
+      <p class="section-sub">Messpult · Heute · Apps — dein Home am Altar.</p>
       <div class="altar-welcome altar-welcome-compact" id="altar-welcome" hidden aria-hidden="true">
         <div class="altar-welcome-glow" aria-hidden="true">
           <div class="candle-flame altar-candle"><div class="flame"></div><div class="wick"></div></div>
@@ -94,7 +97,7 @@
       <!-- legacy chip kept for JS; visually replaced by Kalender glance card -->
       <button type="button" class="fest-countdown-chip" id="fest-countdown-chip" hidden aria-live="polite"></button>
 
-      <!-- v5.11.0 Single Altar scroll: Messpult → Heute/Starter → glance apps -->
+      <!-- v5.11.1 Single Altar scroll: title → Messpult → Heute/Starter → glance apps -->
 
       <!-- 1) MESSPULT: instruments (Mond|Stunde, Unruhe, Schumann) -->
       <div class="altar-messpult cockpit-top messpult-home" id="cockpit-top" aria-label="Messpult">
@@ -1177,7 +1180,7 @@
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
         <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">5.11.0</span></p>
+        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">5.11.1</span></p>
       </div>
     </div>
   </div>

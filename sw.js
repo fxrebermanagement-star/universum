@@ -2,9 +2,9 @@
  * UNIVERSUM · Service Worker — offline shell caching
  * Relative URLs so GitHub Pages /universum/ subpath works.
  * Cache-first for app shell; network-first navigations; offline fallback to cockpit.
- * v49: 5.11.0 — Merge Messpult + Start into one Altar home (instruments → Heute/Starter → glance apps).
+ * v50: 5.11.1 — Nav scroll lands on section title; Altar h1 heading visible on menu tap.
  */
-const CACHE = 'universum-shell-v49';
+const CACHE = 'universum-shell-v50';
 const SHELL = [
   './',
   './index.html',
