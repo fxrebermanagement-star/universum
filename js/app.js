@@ -1702,7 +1702,7 @@
   function correspondenceRows(c) {
     const rows = [
       ['🌿 Kräuter', herbNameList(c.herbs).join(' · ')],
-      ['🧂 Küche', namedItemList(c.kitchen).join(' · ')],
+      ['🧂 Hausmittel', namedItemList(c.kitchen).join(' · ')],
       ['💎 Steine', namedItemList(c.stones).join(' · ')],
       ['🎨 Farben', namedItemList(c.colors).join(' · ')],
       ['🔧 Werkzeuge', namedItemList(c.tools).join(' · ')],
@@ -1729,7 +1729,7 @@
 
   const LEXIKON_TAB_META = {
     herb: { title: 'Kräuter', singular: 'Kraut', toast: 'Kraut gemerkt', empty: 'Keine Kräuter hinterlegt.', leadPath: 'Pfadbezogene Kräuter', leadAll: 'Alle Pfade · gleiche Namen zusammengefasst. Tippen merkt den Eintrag für den Altar-Glance.', fallbackIco: '🌿' },
-    kitchen: { title: 'Küche & Hausmittel', singular: 'Hausmittel', toast: 'Hausmittel gemerkt', empty: 'Keine Küchen-Einträge hinterlegt.', leadPath: 'Küche und Hausmittel für', leadAll: 'Alle Pfade · Küche & Hausmittel dedupliziert. Symbolik, kein Heilversprechen.', fallbackIco: '🍯' },
+    kitchen: { title: 'Hausmittel', singular: 'Hausmittel', toast: 'Hausmittel gemerkt', empty: 'Keine Hausmittel hinterlegt.', leadPath: 'Hausmittel für', leadAll: 'Alle Pfade · Hausmittel dedupliziert. Symbolik, kein Heilversprechen.', fallbackIco: '🍯' },
     stone: { title: 'Steine', singular: 'Stein', toast: 'Stein gemerkt', empty: 'Keine Steine hinterlegt.', leadPath: 'Altarsteine und Blickfänge für', leadAll: 'Alle Pfade · Steine dedupliziert. Symbolik, keine Kristallheilung.', fallbackIco: '💎' },
     color: { title: 'Farben', singular: 'Farbe', toast: 'Farbe gemerkt', empty: 'Keine Farben hinterlegt.', leadPath: 'Altarfarben und Tücher für', leadAll: 'Alle Pfade · Farben dedupliziert. Altarfarbe / Blickfang.', fallbackIco: '🎨' },
     tool: { title: 'Werkzeuge', singular: 'Werkzeug', toast: 'Werkzeug gemerkt', empty: 'Keine Werkzeuge hinterlegt.', leadPath: 'Werkzeuge der Hauspraxis für', leadAll: 'Alle Pfade · Werkzeuge dedupliziert. Symbolik und Maß.', fallbackIco: '🛠️' },
@@ -1925,7 +1925,7 @@
     if (chip) chip.textContent = (path && path.name) || 'Pfad';
     if (lead) {
       lead.textContent = 'Heute passt … — kurze Einladung mit Warum für ' +
-        ((path && path.name) || 'diesen Pfad') + '. Darunter das Lexikon (Kräuter, Küche, Steine, Farben, Werkzeuge, Bezüge). Kein medizinischer Rat.';
+        ((path && path.name) || 'diesen Pfad') + '. Darunter das Lexikon (Kräuter, Hausmittel, Steine, Farben, Werkzeuge, Bezüge). Kein medizinischer Rat.';
     }
     if (heuteEl) heuteEl.textContent = (heute && heute.line) || 'Heute passt eine stille Haltung — Grenze und Gabe.';
     if (note) note.textContent = c.note || 'Hauspraxis — kein medizinischer Rat.';

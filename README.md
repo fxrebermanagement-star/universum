@@ -36,7 +36,7 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 3. **Kosmos** — Planeten-Radar mit klareren Labels, **Legende**, aktuelle **Planetenstunde hervorgehoben**, Tap/Klick für Detail, Schumann Live-Station + Tomsk-Spektrogramm
 4. **Rituale** — **nur aktueller Pfad** (4–5 einzigartige Own-Rituale); Grundlagen separat; Signaturen, Dauer-Tags 3/11/21, Sicherheitscheck, Timed-Rituale, Fokus-Timer, Sigil, illustrierte Feldkarten, eigene Rituale + Vorlagen
 5. **Magie-Buch** — Notiz (schnell) · Eintrag (Ritual, Stimmung, Foto, Filter); gemeinsame Timeline; Fotos IndexedDB; ZIP/PDF; Export/Import `universum-buch.json` (`notes` + `diary` in `feldlicht-v15`)
-6. **Resonanzen** — «heute passt …»; **Kräuter-Liste** (Name + Beschreibung); Filter **Nur mein Pfad** / Alle Pfade; Steine & Farben sekundär; kurze Werke; kein medizinischer Rat
+6. **Resonanzen** — «heute passt …»; **Lexikon** (Kräuter · Hausmittel · Steine · Farben · Werkzeuge · Bezüge); Filter **Nur mein Pfad** / Alle Pfade; kurze Werke; kein medizinischer Rat
 
 **Zusätzlich (v1.3–1.4)**
 
@@ -430,15 +430,28 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.15.0 — Lexikon stark erweitert · Tab Hausmittel
+
+- Tab-Label **Küche → Hausmittel** (interne Id `kitchen` unverändert)
+- Lexikon-Kern auf jedem Pfad: Kräuter, Hausmittel, Steine, Farben, Werkzeuge, Bezüge — Name + Erklärung + Icon
+- Pfad-Einträge bleiben vorn; Filter **Nur mein Pfad / Alle Pfade** unverändert (Deduplizierung)
+- Symbolik/Hauspraxis, kein Heilversprechen, kein Schaden
+- SW-Cache `universum-shell-v56`
+
+## 5.14.2 — Lexikon-Tab Hausmittel
+
+Lexikon-Tab-Label **Küche → Hausmittel** (interne Id `kitchen` unverändert). Leads, Empty States, Toasts und Section-Copy angepasst. SW-Cache `universum-shell-v55`.
+
+
 ## 5.14.1 — Lexikon-Icons · Element Wasser
 
-Kleine Emoji-Icons (Menü-Stil) bei **allen** Lexikon-Einträgen (Kräuter · Küche · Steine · Farben · Werkzeuge · Bezüge). Nordisch: Element **Wasser (Klarheit)** statt irreführendem «Eis». SW-Cache `universum-shell-v54`.
+Kleine Emoji-Icons (Menü-Stil) bei **allen** Lexikon-Einträgen (Kräuter · Hausmittel · Steine · Farben · Werkzeuge · Bezüge). Nordisch: Element **Wasser (Klarheit)** statt irreführendem «Eis». SW-Cache `universum-shell-v54`.
 
 ## 5.14.0 — Resonanzen als Lexikon
 
-- Lexikon-Tabs: **Kräuter · Küche · Steine · Farben · Werkzeuge · Bezüge**
+- Lexikon-Tabs: **Kräuter · Hausmittel · Steine · Farben · Werkzeuge · Bezüge**
 - Jeder Eintrag mit Name + Erklärung (Hauspraxis/Symbolik, kein Heilversprechen)
-- Küchen-Staples (Salz, Zucker, Honig, Öl, Pfeffer, Knoblauch, Nelke, Zimt, Anis …)
+- Hausmittel-Staples (Salz, Zucker, Honig, Öl, Pfeffer, Knoblauch, Nelke, Zimt, Anis …)
 - Bezüge/Hilfsmittel (Nagel, Nadel, Haare, Faden/Knoten, Tuch, Erde, Wachs, Asche, Knochen-Symbol, Foto/Name-Zettel, Schlüssel, Münze) — Ethik & Einwilligung
 - Pfadfilter «Nur mein Pfad / Alle Pfade» für alle Kategorien (dedupe + Pfad-Chips)
 - Tippen → Altar-Glance (`touchResonanzActivity`)

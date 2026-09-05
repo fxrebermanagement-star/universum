@@ -860,15 +860,15 @@
         { name: "Tabak (symbolisch)", description: "Gabe und Respekt in manchen Linien — hier nur als Symbol, nie als Rauchzwang oder Initiation.", ico: "🍂" },
       ],
       kitchen: [
-        { name: "Salz", description: "Küche / Hausmittel: Kreis und Grenze am Herd — Prise als Merkzeichen, kein Reinigungsversprechen.", ico: "🧂" },
-        { name: "Honig", description: "Küche: süße Gabe an den Alltag — teilen statt fordern, Symbol für Wärme ohne Spektakel.", ico: "🍯" },
-        { name: "Öl", description: "Küche / Hausmittel: Salbung als Haltung — Tropfen am Blickfang, nicht als Heilsalbe.", ico: "🫙" },
-        { name: "Pfeffer", description: "Küche: Schärfe und Wachheit am Tisch — Fokus-Symbol, kein Rezept und kein Heilversprechen.", ico: "🌶️" },
-        { name: "Zucker", description: "Küche: süße Gabe und Anziehen mit Maß — teilen statt binden, Symbolik ohne Heilversprechen.", ico: "🍬" },
-        { name: "Knoblauch", description: "Küche: scharfe Hausgrenze am Eingang — Symbol, kein Heilversprechen und kein Zwang.", ico: "🧄" },
-        { name: "Nelke", description: "Küche / Würze: Schutz-Ton und Wärme — Maß halten, keinen fremden Willen binden.", ico: "🌺" },
-        { name: "Zimt", description: "Küche: Willkommen und Wärme — Duft-Symbol, kein Spektakel.", ico: "🟤" },
-        { name: "Anis", description: "Küche: würzige Klarheit — Hausmittel-Symbol für Atem und Maß, nicht als Medizin.", ico: "✨" },
+        { name: "Salz", description: "Hausmittel: Kreis und Grenze am Herd — Prise als Merkzeichen, kein Reinigungsversprechen.", ico: "🧂" },
+        { name: "Honig", description: "Hausmittel: süße Gabe an den Alltag — teilen statt fordern, Symbol für Wärme ohne Spektakel.", ico: "🍯" },
+        { name: "Öl", description: "Hausmittel: Salbung als Haltung — Tropfen am Blickfang, nicht als Heilsalbe.", ico: "🫙" },
+        { name: "Pfeffer", description: "Hausmittel: Schärfe und Wachheit am Tisch — Fokus-Symbol, kein Rezept und kein Heilversprechen.", ico: "🌶️" },
+        { name: "Zucker", description: "Hausmittel: süße Gabe und Anziehen mit Maß — teilen statt binden, Symbolik ohne Heilversprechen.", ico: "🍬" },
+        { name: "Knoblauch", description: "Hausmittel: scharfe Hausgrenze am Eingang — Symbol, kein Heilversprechen und kein Zwang.", ico: "🧄" },
+        { name: "Nelke", description: "Hausmittel / Würze: Schutz-Ton und Wärme — Maß halten, keinen fremden Willen binden.", ico: "🌺" },
+        { name: "Zimt", description: "Hausmittel: Willkommen und Wärme — Duft-Symbol, kein Spektakel.", ico: "🟤" },
+        { name: "Anis", description: "Hausmittel: würzige Klarheit — Hausmittel-Symbol für Atem und Maß, nicht als Medizin.", ico: "✨" },
       ],
       stones: [
         { name: "Obsidian", description: "Blickfang für Schutz-Grenze — dunkler Schnitt als Symbol, keine Kristallheilung.", ico: "🖤" },
@@ -924,15 +924,15 @@
         { name: "Angelika", description: "Schutz- und Wege-Kraut in der Volkspraxis — hier als Haltung: klar gehen, nichts erzwingen.", ico: "🌿" },
       ],
       kitchen: [
-        { name: "Salz", description: "Küche / Hausmittel: Frith und Grenze am Tisch — Prise als Eid-Symbol, kein Reinigungsversprechen.", ico: "🧂" },
-        { name: "Honig", description: "Küche: süße Gabe im Ring — teilen, Wort halten, kein Heilversprechen.", ico: "🍯" },
-        { name: "Anis", description: "Küche: würzige Klarheit — Hausmittel-Symbol für Maß und Atem, nicht als Medizin.", ico: "✨" },
-        { name: "Öl", description: "Küche: Tropfen am Blickfang oder Brot — Haltung der Versorgung, keine Salbung als Heilspruch.", ico: "🫙" },
-        { name: "Zucker", description: "Küche: süße Gabe und Anziehen mit Maß — teilen statt binden, Symbolik ohne Heilversprechen.", ico: "🍬" },
-        { name: "Pfeffer", description: "Küche: Schärfe und Wachheit — Fokus-Symbol am Tisch, kein Rezept.", ico: "🌶️" },
-        { name: "Knoblauch", description: "Küche: scharfe Hausgrenze am Eingang — Symbol, kein Heilversprechen und kein Zwang.", ico: "🧄" },
-        { name: "Nelke", description: "Küche / Würze: Schutz-Ton und Wärme — Maß halten, keinen fremden Willen binden.", ico: "🌺" },
-        { name: "Zimt", description: "Küche: Willkommen und Wärme — Duft-Symbol, kein Spektakel.", ico: "🟤" },
+        { name: "Salz", description: "Hausmittel: Frith und Grenze am Tisch — Prise als Eid-Symbol, kein Reinigungsversprechen.", ico: "🧂" },
+        { name: "Honig", description: "Hausmittel: süße Gabe im Ring — teilen, Wort halten, kein Heilversprechen.", ico: "🍯" },
+        { name: "Anis", description: "Hausmittel: würzige Klarheit — Hausmittel-Symbol für Maß und Atem, nicht als Medizin.", ico: "✨" },
+        { name: "Öl", description: "Hausmittel: Tropfen am Blickfang oder Brot — Haltung der Versorgung, keine Salbung als Heilspruch.", ico: "🫙" },
+        { name: "Zucker", description: "Hausmittel: süße Gabe und Anziehen mit Maß — teilen statt binden, Symbolik ohne Heilversprechen.", ico: "🍬" },
+        { name: "Pfeffer", description: "Hausmittel: Schärfe und Wachheit — Fokus-Symbol am Tisch, kein Rezept.", ico: "🌶️" },
+        { name: "Knoblauch", description: "Hausmittel: scharfe Hausgrenze am Eingang — Symbol, kein Heilversprechen und kein Zwang.", ico: "🧄" },
+        { name: "Nelke", description: "Hausmittel / Würze: Schutz-Ton und Wärme — Maß halten, keinen fremden Willen binden.", ico: "🌺" },
+        { name: "Zimt", description: "Hausmittel: Willkommen und Wärme — Duft-Symbol, kein Spektakel.", ico: "🟤" },
       ],
       stones: [
         { name: "Bernstein", description: "Wärme-Blickfang — Honigton am Altar, Symbol nicht Therapie.", ico: "🟠" },
@@ -957,7 +957,7 @@
         { name: "Faden", description: "Werkzeug: Band und Maß — knüpfen ohne fremden Willen zu binden.", ico: "🧵" },
         { name: "Besen", description: "Werkzeug: Haus kehren vor dem Blót-Ton — Ordnung, kein Spektakel.", ico: "🧹" },
         { name: "Spiegel", description: "Werkzeug: Klarheit des Worts — sich selbst prüfen.", ico: "🪞" },
-        { name: "Messer (Küche)", description: "Werkzeug: Schnitt und Versorgung — ethisch, nie gegen Personen gerichtet.", ico: "🗡️" },
+        { name: "Messer (Haus)", description: "Werkzeug: Schnitt und Versorgung — ethisch, nie gegen Personen gerichtet.", ico: "🗡️" },
         { name: "Schlüssel", description: "Werkzeug: Hof und Schwelle — öffnen und schließen mit Maß.", ico: "🔑" },
       ],
       links: [
@@ -983,20 +983,20 @@
         { name: "Lorbeer", description: "Klarheit und Würde im Haus — Blatt als Merkzeichen, nicht als Orakelzwang.", ico: "🍃" },
         { name: "Minze", description: "Frisch und hell: Schwelle und Atem. Wasser und Duft reichen oft für den Alltag.", ico: "🌱" },
         { name: "Petersilie", description: "Einfache Gabe und Grün am Tisch — Respekt im Haus, ohne Medium zu spielen.", ico: "🌿" },
-        { name: "Rosmarin", description: "Erinnerung und Hausgrenze — Räucher- oder Küchensymbol mit klarer Ethik.", ico: "🌿" },
+        { name: "Rosmarin", description: "Erinnerung und Hausgrenze — Räucher- oder Hausmittel-Symbol mit klarer Ethik.", ico: "🌿" },
         { name: "Salbei", description: "Raumklarheit am Hof — Duft und Ordnung, keine Initiation.", ico: "🍃" },
         { name: "Thymian", description: "Hauskraft am Tisch — Alltag ehren, kein Medium spielen.", ico: "🌿" },
       ],
       kitchen: [
-        { name: "Nelke", description: "Küche / Würze: Schutz-Symbol am Eingang — Maß halten, keinen fremden Willen binden.", ico: "🌺" },
-        { name: "Zimt", description: "Küche: Wärme und Willkommen — Duft für den Hof, nicht für Spektakel oder Heilversprechen.", ico: "🟤" },
-        { name: "Salz", description: "Küche / Hausmittel: Schwelle und Ordnung — Prise als Merkzeichen, keine Initiation.", ico: "🧂" },
-        { name: "Zucker", description: "Küche: süße Gabe und Willkommen — teilen statt binden, Symbolik ohne Heilversprechen.", ico: "🍬" },
-        { name: "Öl", description: "Küche / Hausmittel: Licht und Pflege am Blickfang — Tropfen als Haltung, nicht als Heilsalbe.", ico: "🫙" },
-        { name: "Knoblauch", description: "Küche: scharfe Hausgrenze — Symbol am Eingang, kein medizinischer Claim und kein Zwang.", ico: "🧄" },
-        { name: "Honig", description: "Küche: Wärme und Gabe — Tropfen oder Schälchen als Symbol, kein medizinischer Claim.", ico: "🍯" },
-        { name: "Pfeffer", description: "Küche: Schärfe und Wachheit — Fokus-Symbol am Tisch, kein Rezept.", ico: "🌶️" },
-        { name: "Anis", description: "Küche: würzige Klarheit — Hausmittel-Symbol für Atem und Maß, nicht als Medizin.", ico: "✨" },
+        { name: "Nelke", description: "Hausmittel / Würze: Schutz-Symbol am Eingang — Maß halten, keinen fremden Willen binden.", ico: "🌺" },
+        { name: "Zimt", description: "Hausmittel: Wärme und Willkommen — Duft für den Hof, nicht für Spektakel oder Heilversprechen.", ico: "🟤" },
+        { name: "Salz", description: "Hausmittel: Schwelle und Ordnung — Prise als Merkzeichen, keine Initiation.", ico: "🧂" },
+        { name: "Zucker", description: "Hausmittel: süße Gabe und Willkommen — teilen statt binden, Symbolik ohne Heilversprechen.", ico: "🍬" },
+        { name: "Öl", description: "Hausmittel: Licht und Pflege am Blickfang — Tropfen als Haltung, nicht als Heilsalbe.", ico: "🫙" },
+        { name: "Knoblauch", description: "Hausmittel: scharfe Hausgrenze — Symbol am Eingang, kein medizinischer Claim und kein Zwang.", ico: "🧄" },
+        { name: "Honig", description: "Hausmittel: Wärme und Gabe — Tropfen oder Schälchen als Symbol, kein medizinischer Claim.", ico: "🍯" },
+        { name: "Pfeffer", description: "Hausmittel: Schärfe und Wachheit — Fokus-Symbol am Tisch, kein Rezept.", ico: "🌶️" },
+        { name: "Anis", description: "Hausmittel: würzige Klarheit — Hausmittel-Symbol für Atem und Maß, nicht als Medizin.", ico: "✨" },
       ],
       stones: [
         { name: "Muschel", description: "Wasser-Blickfang — Schwelle und Atem, öffentliche Hauspraxis nur.", ico: "🐚" },
@@ -1051,15 +1051,15 @@
         { name: "Lorbeer", description: "Klarheit und Würde — Blatt als Merkzeichen für Dank und Haltung.", ico: "🍃" },
       ],
       kitchen: [
-        { name: "Nelke", description: "Küche / Würze: würzige Grenze und Wärme — Symbol am Altarlicht, mit Respekt und Maß.", ico: "🌺" },
-        { name: "Salz", description: "Küche / Hausmittel: Reinheit-Symbol am Haus — Prise als Haltung, ohne Ile-Anspruch.", ico: "🧂" },
-        { name: "Zucker", description: "Küche: süße Gabe und Dank — teilen, nicht fordern.", ico: "🍬" },
-        { name: "Honig", description: "Küche: Wärme und Willkommen — Tropfen oder Schälchen als Symbol, kein Heilversprechen.", ico: "🍯" },
-        { name: "Öl", description: "Küche / Hausmittel: Lichtpflege und Gabe — Tropfen am Blickfang, keine Heilsalbung.", ico: "🫙" },
-        { name: "Pfeffer", description: "Küche: Schärfe und Wachheit — Fokus-Symbol am Tisch, kein Rezept.", ico: "🌶️" },
-        { name: "Knoblauch", description: "Küche: scharfe Hausgrenze am Eingang — Symbol, kein Heilversprechen und kein Zwang.", ico: "🧄" },
-        { name: "Zimt", description: "Küche: Willkommen und Wärme — Duft-Symbol, kein Spektakel.", ico: "🟤" },
-        { name: "Anis", description: "Küche: würzige Klarheit — Hausmittel-Symbol für Atem und Maß, nicht als Medizin.", ico: "✨" },
+        { name: "Nelke", description: "Hausmittel / Würze: würzige Grenze und Wärme — Symbol am Altarlicht, mit Respekt und Maß.", ico: "🌺" },
+        { name: "Salz", description: "Hausmittel: Reinheit-Symbol am Haus — Prise als Haltung, ohne Ile-Anspruch.", ico: "🧂" },
+        { name: "Zucker", description: "Hausmittel: süße Gabe und Dank — teilen, nicht fordern.", ico: "🍬" },
+        { name: "Honig", description: "Hausmittel: Wärme und Willkommen — Tropfen oder Schälchen als Symbol, kein Heilversprechen.", ico: "🍯" },
+        { name: "Öl", description: "Hausmittel: Lichtpflege und Gabe — Tropfen am Blickfang, keine Heilsalbung.", ico: "🫙" },
+        { name: "Pfeffer", description: "Hausmittel: Schärfe und Wachheit — Fokus-Symbol am Tisch, kein Rezept.", ico: "🌶️" },
+        { name: "Knoblauch", description: "Hausmittel: scharfe Hausgrenze am Eingang — Symbol, kein Heilversprechen und kein Zwang.", ico: "🧄" },
+        { name: "Zimt", description: "Hausmittel: Willkommen und Wärme — Duft-Symbol, kein Spektakel.", ico: "🟤" },
+        { name: "Anis", description: "Hausmittel: würzige Klarheit — Hausmittel-Symbol für Atem und Maß, nicht als Medizin.", ico: "✨" },
       ],
       stones: [
         { name: "Koralle", description: "Meer-Blickfang — Symbol für Fluss und Haus, kein Ile-Anspruch.", ico: "🪸" },
@@ -1115,15 +1115,15 @@
         { name: "Lavendel", description: "Ruhe im Denken — Pause zwischen Operationen, kein Spektakel.", ico: "💜" },
       ],
       kitchen: [
-        { name: "Salz", description: "Küche / Labor-Symbol: Fixierung und Maß — Prise als Merkzeichen (Salz-Prinzip), kein Heilversprechen.", ico: "🧂" },
-        { name: "Pfeffer", description: "Küche: Schärfe der Frage — Fokus-Symbol vor dem Eingriff.", ico: "🌶️" },
-        { name: "Öl", description: "Küche / Labor: Lösung und Träger — Tropfen als Metapher, keine alchemistische Heilsalbe.", ico: "🫙" },
-        { name: "Zucker", description: "Küche: lösliche Klarheit — Ballast süß lösen, Hypothese prüfen, nicht spekulieren.", ico: "🍬" },
-        { name: "Honig", description: "Küche: Wärme und Gabe — Tropfen oder Schälchen als Symbol, kein medizinischer Claim.", ico: "🍯" },
-        { name: "Knoblauch", description: "Küche: scharfe Hausgrenze am Eingang — Symbol, kein Heilversprechen und kein Zwang.", ico: "🧄" },
-        { name: "Nelke", description: "Küche / Würze: Schutz-Ton und Wärme — Maß halten, keinen fremden Willen binden.", ico: "🌺" },
-        { name: "Zimt", description: "Küche: Willkommen und Wärme — Duft-Symbol, kein Spektakel.", ico: "🟤" },
-        { name: "Anis", description: "Küche: würzige Klarheit — Hausmittel-Symbol für Atem und Maß, nicht als Medizin.", ico: "✨" },
+        { name: "Salz", description: "Hausmittel / Labor-Symbol: Fixierung und Maß — Prise als Merkzeichen (Salz-Prinzip), kein Heilversprechen.", ico: "🧂" },
+        { name: "Pfeffer", description: "Hausmittel: Schärfe der Frage — Fokus-Symbol vor dem Eingriff.", ico: "🌶️" },
+        { name: "Öl", description: "Hausmittel / Labor: Lösung und Träger — Tropfen als Metapher, keine alchemistische Heilsalbe.", ico: "🫙" },
+        { name: "Zucker", description: "Hausmittel: lösliche Klarheit — Ballast süß lösen, Hypothese prüfen, nicht spekulieren.", ico: "🍬" },
+        { name: "Honig", description: "Hausmittel: Wärme und Gabe — Tropfen oder Schälchen als Symbol, kein medizinischer Claim.", ico: "🍯" },
+        { name: "Knoblauch", description: "Hausmittel: scharfe Hausgrenze am Eingang — Symbol, kein Heilversprechen und kein Zwang.", ico: "🧄" },
+        { name: "Nelke", description: "Hausmittel / Würze: Schutz-Ton und Wärme — Maß halten, keinen fremden Willen binden.", ico: "🌺" },
+        { name: "Zimt", description: "Hausmittel: Willkommen und Wärme — Duft-Symbol, kein Spektakel.", ico: "🟤" },
+        { name: "Anis", description: "Hausmittel: würzige Klarheit — Hausmittel-Symbol für Atem und Maß, nicht als Medizin.", ico: "✨" },
       ],
       stones: [
         { name: "Lapis", description: "Denken-Blickfang — Königsblau am Labor-Tisch, Symbol nicht Orakel.", ico: "🔵" },
@@ -1180,15 +1180,15 @@
         { name: "Rose", description: "Anziehen mit Maß — Liebe und Dank ohne Besitzanspruch.", ico: "🌹" },
       ],
       kitchen: [
-        { name: "Salz", description: "Küche / Hausmittel: Kreis und Schutz-Grenze — Prise als Symbol, an niemandem Schaden.", ico: "🧂" },
-        { name: "Honig", description: "Küche: süße Gabe und Anziehen mit Maß — teilen, kein Besitzanspruch.", ico: "🍯" },
-        { name: "Zimt", description: "Küche: Wärme und Willkommen am Altar — Duft-Symbol, kein Heilversprechen.", ico: "🟤" },
-        { name: "Öl", description: "Küche / Hausmittel: Salbung als Haltung — Tropfen am Blickfang, keine Heilsalbe.", ico: "🫙" },
-        { name: "Nelke", description: "Küche: würzige Grenze — Schutz-Ton ohne Angriff.", ico: "🌺" },
-        { name: "Zucker", description: "Küche: süße Gabe und Anziehen mit Maß — teilen statt binden, Symbolik ohne Heilversprechen.", ico: "🍬" },
-        { name: "Pfeffer", description: "Küche: Schärfe und Wachheit — Fokus-Symbol am Tisch, kein Rezept.", ico: "🌶️" },
-        { name: "Knoblauch", description: "Küche: scharfe Hausgrenze am Eingang — Symbol, kein Heilversprechen und kein Zwang.", ico: "🧄" },
-        { name: "Anis", description: "Küche: würzige Klarheit — Hausmittel-Symbol für Atem und Maß, nicht als Medizin.", ico: "✨" },
+        { name: "Salz", description: "Hausmittel: Kreis und Schutz-Grenze — Prise als Symbol, an niemandem Schaden.", ico: "🧂" },
+        { name: "Honig", description: "Hausmittel: süße Gabe und Anziehen mit Maß — teilen, kein Besitzanspruch.", ico: "🍯" },
+        { name: "Zimt", description: "Hausmittel: Wärme und Willkommen am Altar — Duft-Symbol, kein Heilversprechen.", ico: "🟤" },
+        { name: "Öl", description: "Hausmittel: Salbung als Haltung — Tropfen am Blickfang, keine Heilsalbe.", ico: "🫙" },
+        { name: "Nelke", description: "Hausmittel: würzige Grenze — Schutz-Ton ohne Angriff.", ico: "🌺" },
+        { name: "Zucker", description: "Hausmittel: süße Gabe und Anziehen mit Maß — teilen statt binden, Symbolik ohne Heilversprechen.", ico: "🍬" },
+        { name: "Pfeffer", description: "Hausmittel: Schärfe und Wachheit — Fokus-Symbol am Tisch, kein Rezept.", ico: "🌶️" },
+        { name: "Knoblauch", description: "Hausmittel: scharfe Hausgrenze am Eingang — Symbol, kein Heilversprechen und kein Zwang.", ico: "🧄" },
+        { name: "Anis", description: "Hausmittel: würzige Klarheit — Hausmittel-Symbol für Atem und Maß, nicht als Medizin.", ico: "✨" },
       ],
       stones: [
         { name: "Obsidian", description: "Grenze-Blickfang — Schutz ohne Angriff, an niemandem Schaden.", ico: "🖤" },
@@ -1251,18 +1251,18 @@
         { name: "Wacholder", description: "Raumduft als mentaler Schnitt — Theater optional.", ico: "🌲" },
       ],
       kitchen: [
-        { name: "Kaffee", description: "Küche / Wachheit als Gnosis-Werkzeug — scharf starten, Ethik behalten, Ergebnis nicht jagen.", ico: "☕" },
-        { name: "Pfeffer", description: "Küche: Schnitt und Fokus — Schärfe als Metapher für knappe Absicht.", ico: "🌶️" },
-        { name: "Ingwer", description: "Küche: Funke und Wärme — Labor-Energie ohne Identitätsdrama.", ico: "🫚" },
-        { name: "Zitrone", description: "Küche: Säure als Klarheit — unbrauchbare Sigils entsorgen, neu formulieren.", ico: "🍋" },
-        { name: "Salz", description: "Küche / Hausmittel: Banishing und Schnitt — Prise als Reset-Symbol, kein Heilversprechen.", ico: "🧂" },
-        { name: "Zucker", description: "Küche: schnelle Gnosis-Metapher — kurz süß, dann Modell wechseln.", ico: "🍬" },
-        { name: "Öl", description: "Küche: Träger und Labor-Tropfen — Werkzeug, keine Heilsalbung.", ico: "🫙" },
-        { name: "Knoblauch", description: "Küche: scharfer Schnitt am Eingang — Symbol für Banishing, nicht Medizin.", ico: "🧄" },
-        { name: "Honig", description: "Küche: Wärme und Gabe — Tropfen oder Schälchen als Symbol, kein medizinischer Claim.", ico: "🍯" },
-        { name: "Nelke", description: "Küche / Würze: Schutz-Ton und Wärme — Maß halten, keinen fremden Willen binden.", ico: "🌺" },
-        { name: "Zimt", description: "Küche: Willkommen und Wärme — Duft-Symbol, kein Spektakel.", ico: "🟤" },
-        { name: "Anis", description: "Küche: würzige Klarheit — Hausmittel-Symbol für Atem und Maß, nicht als Medizin.", ico: "✨" },
+        { name: "Kaffee", description: "Hausmittel / Wachheit als Gnosis-Werkzeug — scharf starten, Ethik behalten, Ergebnis nicht jagen.", ico: "☕" },
+        { name: "Pfeffer", description: "Hausmittel: Schnitt und Fokus — Schärfe als Metapher für knappe Absicht.", ico: "🌶️" },
+        { name: "Ingwer", description: "Hausmittel: Funke und Wärme — Labor-Energie ohne Identitätsdrama.", ico: "🫚" },
+        { name: "Zitrone", description: "Hausmittel: Säure als Klarheit — unbrauchbare Sigils entsorgen, neu formulieren.", ico: "🍋" },
+        { name: "Salz", description: "Hausmittel: Banishing und Schnitt — Prise als Reset-Symbol, kein Heilversprechen.", ico: "🧂" },
+        { name: "Zucker", description: "Hausmittel: schnelle Gnosis-Metapher — kurz süß, dann Modell wechseln.", ico: "🍬" },
+        { name: "Öl", description: "Hausmittel: Träger und Labor-Tropfen — Werkzeug, keine Heilsalbung.", ico: "🫙" },
+        { name: "Knoblauch", description: "Hausmittel: scharfer Schnitt am Eingang — Symbol für Banishing, nicht Medizin.", ico: "🧄" },
+        { name: "Honig", description: "Hausmittel: Wärme und Gabe — Tropfen oder Schälchen als Symbol, kein medizinischer Claim.", ico: "🍯" },
+        { name: "Nelke", description: "Hausmittel / Würze: Schutz-Ton und Wärme — Maß halten, keinen fremden Willen binden.", ico: "🌺" },
+        { name: "Zimt", description: "Hausmittel: Willkommen und Wärme — Duft-Symbol, kein Spektakel.", ico: "🟤" },
+        { name: "Anis", description: "Hausmittel: würzige Klarheit — Hausmittel-Symbol für Atem und Maß, nicht als Medizin.", ico: "✨" },
       ],
       stones: [
         { name: "Obsidian", description: "Schnitt-Blickfang — altes Modell ablegen, Ethik behalten.", ico: "🖤" },
@@ -1318,15 +1318,15 @@
         { name: "Thymian", description: "Hauskraft und Mut-Symbol — kleine Praxis statt großem Spektakel.", ico: "🌿" },
       ],
       kitchen: [
-        { name: "Salz", description: "Küche / Hausmittel: schlichte Grenze am Tisch — Prise als Merkzeichen, kein Reinigungsversprechen.", ico: "🧂" },
-        { name: "Honig", description: "Küche: süße Gabe und Sanftheit — teilen, kein Heilversprechen.", ico: "🍯" },
-        { name: "Zimt", description: "Küche: Wärme und Willkommen — Duft-Symbol für den Alltagstisch.", ico: "🟤" },
-        { name: "Öl", description: "Küche / Hausmittel: Tropfen am Blickfang — Haltung der Pflege, keine Heilsalbe.", ico: "🫙" },
-        { name: "Anis", description: "Küche: würzige Ruhe — Hausmittel-Symbol für Atem und Maß.", ico: "✨" },
-        { name: "Zucker", description: "Küche: süße Gabe und Anziehen mit Maß — teilen statt binden, Symbolik ohne Heilversprechen.", ico: "🍬" },
-        { name: "Pfeffer", description: "Küche: Schärfe und Wachheit — Fokus-Symbol am Tisch, kein Rezept.", ico: "🌶️" },
-        { name: "Knoblauch", description: "Küche: scharfe Hausgrenze am Eingang — Symbol, kein Heilversprechen und kein Zwang.", ico: "🧄" },
-        { name: "Nelke", description: "Küche / Würze: Schutz-Ton und Wärme — Maß halten, keinen fremden Willen binden.", ico: "🌺" },
+        { name: "Salz", description: "Hausmittel: schlichte Grenze am Tisch — Prise als Merkzeichen, kein Reinigungsversprechen.", ico: "🧂" },
+        { name: "Honig", description: "Hausmittel: süße Gabe und Sanftheit — teilen, kein Heilversprechen.", ico: "🍯" },
+        { name: "Zimt", description: "Hausmittel: Wärme und Willkommen — Duft-Symbol für den Alltagstisch.", ico: "🟤" },
+        { name: "Öl", description: "Hausmittel: Tropfen am Blickfang — Haltung der Pflege, keine Heilsalbe.", ico: "🫙" },
+        { name: "Anis", description: "Hausmittel: würzige Ruhe — Hausmittel-Symbol für Atem und Maß.", ico: "✨" },
+        { name: "Zucker", description: "Hausmittel: süße Gabe und Anziehen mit Maß — teilen statt binden, Symbolik ohne Heilversprechen.", ico: "🍬" },
+        { name: "Pfeffer", description: "Hausmittel: Schärfe und Wachheit — Fokus-Symbol am Tisch, kein Rezept.", ico: "🌶️" },
+        { name: "Knoblauch", description: "Hausmittel: scharfe Hausgrenze am Eingang — Symbol, kein Heilversprechen und kein Zwang.", ico: "🧄" },
+        { name: "Nelke", description: "Hausmittel / Würze: Schutz-Ton und Wärme — Maß halten, keinen fremden Willen binden.", ico: "🌺" },
       ],
       stones: [
         { name: "Rosenquarz", description: "Sanft-Blickfang — Nähe ohne Besitzanspruch, keine Kristallheilung.", ico: "💗" },
@@ -1398,12 +1398,12 @@
     return { name: raw, description: 'Hauspraxis-Symbolik — Haltung und Gabe, kein medizinischer Rat.' };
   }
 
-  /** Steine/Farben/Küche/Werkzeuge/Bezüge: gleiche Form; Fallback aus Alt-Strings. */
+  /** Steine/Farben/Hausmittel/Werkzeuge/Bezüge: gleiche Form; Fallback aus Alt-Strings. */
   function normalizeNamedItem(item, kind) {
     const fallbacks = {
       color: 'Altarfarbe / Blickfang — Symbolik, kein Heilversprechen.',
       stone: 'Altarstein / Blickfang — Symbolik, keine Kristallheilung.',
-      kitchen: 'Küche / Hausmittel — Symbolik der Hauspraxis, kein Heilversprechen.',
+      kitchen: 'Hausmittel — Symbolik der Hauspraxis, kein Heilversprechen.',
       tool: 'Werkzeug der Hauspraxis — Symbolik und Maß, kein Zwang.',
       link: 'Bezug / Hilfsmittel — traditionelle Symbolik mit Ethik und Einwilligung; kein Schaden.'
     };
@@ -1444,17 +1444,214 @@
     return normalizeHerb(item).name;
   }
 
+  /** Gemeinsamer Lexikon-Kern — erscheint auf jedem Pfad (Pfad-Einträge bleiben vorn und gewinnen bei Namenskollision). */
+  const LEXIKON_CORE = {
+    herbs: [
+      { name: "Salbei", description: "Klarheit im Raum als Haltung — Duft und Absicht, kein Reinigungsversprechen am Körper.", ico: "🍃" },
+      { name: "Rosmarin", description: "Erinnerung und Hausgrenze — Räucher- oder Hausmittel-Symbol mit klarer Ethik, kein Heilversprechen.", ico: "🌿" },
+      { name: "Lavendel", description: "Ruhe-Symbol für den Raum — sanft, ethisch, kein Heilversprechen.", ico: "💜" },
+      { name: "Thymian", description: "Hauskraft am Tisch — kleine Gabe, Alltag ehren, kein medizinischer Claim.", ico: "🌿" },
+      { name: "Minze", description: "Frisch starten — Schwelle und Atem, oft reicht ein bewusster Zug.", ico: "🌱" },
+      { name: "Kamille", description: "Sanfter Frieden im Raum — Blüte als Haltung, keine medizinischen Claims.", ico: "🌼" },
+      { name: "Rose", description: "Anziehen mit Maß — Dank und Nähe ohne Besitzanspruch.", ico: "🌹" },
+      { name: "Basilikum", description: "Hausfrieden und Frische — Topf oder Blatt als Ordnung, keine Initiation.", ico: "🌱" },
+      { name: "Lorbeer", description: "Klarheit und Würde — Blatt als Merkzeichen, nicht als Orakelzwang.", ico: "🍃" },
+      { name: "Beifuß", description: "Räucher- und Schwellen-Symbol — Reise nur geerdet, keine Geister fordern.", ico: "🌾" },
+      { name: "Wacholder", description: "Harziger Raum- und Grenzduft — frische Luft und Maß statt Spektakel.", ico: "🌲" },
+      { name: "Wermut", description: "Bittere Grenze: was nicht dient, bleibt draußen — Haltung, kein Heilmittel.", ico: "🌾" },
+      { name: "Eisenkraut", description: "Klassisches Schutz- und Schwellenkraut — Symbolik, kein Rezept.", ico: "🌿" },
+      { name: "Melisse", description: "Sanfte Ruhe am Tisch — Duft-Symbol, kein Heilversprechen.", ico: "🍋" },
+      { name: "Johanniskraut", description: "Licht- und Sonnenwende-Symbol — Haltung, keine medizinischen Claims.", ico: "🟡" },
+      { name: "Holunder", description: "Schwelle und Jahreskreis — Blüte oder Zweig als Gabe, respektvoll, kein Heilversprechen.", ico: "🤍" },
+      { name: "Brennnessel", description: "Kraft und Stand — Alltagsgrün als Anker, nicht als Medizin.", ico: "🌿" },
+      { name: "Löwenzahn", description: "Sonne und Loslassen — Pusteblume als Symbol, was fliegt, darf gehen.", ico: "🌼" },
+      { name: "Schafgarbe", description: "Grenze und Ausgleich — Wiesenkraut als Merkzeichen, kein Heilversprechen.", ico: "🤍" },
+      { name: "Ringelblume", description: "Wärme und Sonnenblick am Altar — Farbe als Haltung, keine Salbe-Claims.", ico: "🟠" },
+      { name: "Lindenblüte", description: "Sanftheit und Atem-Raum — Duft-Symbol, kein medizinischer Rat.", ico: "🌼" },
+      { name: "Fenchel", description: "Klarheit und Maß — Samen als Hausmittel-Symbol, nicht als Medizin.", ico: "🌿" },
+      { name: "Dill", description: "Schutz-Ton am Tisch — schlichte Würze als Grenze, kein Rezeptzwang.", ico: "🌿" },
+      { name: "Majoran", description: "Haus und Geborgenheit — Würzkraut als Alltagssymbol.", ico: "🌿" },
+      { name: "Oregano", description: "Wärme und Alltagskraft — Herd-Symbol, kein Heilversprechen.", ico: "🌿" },
+      { name: "Petersilie", description: "Einfache Gabe und Grün am Tisch — Respekt im Haus.", ico: "🌿" },
+      { name: "Frauenmantel", description: "Kreis und Behütung — Blatt als Symbol, kein medizinischer Claim.", ico: "💚" },
+      { name: "Gänseblümchen", description: "Schlichte Freude — Wiesenblüte als kleiner Blickfang.", ico: "🌼" },
+      { name: "Ysop", description: "Reinheit-Symbol im Raum — Duft und Absicht, kein Reinigungsversprechen am Körper.", ico: "🌿" },
+      { name: "Weihrauch", description: "Gebet- und Harzduft — Raum ehren, Maß statt Spektakel, kein Heilversprechen.", ico: "💨" },
+      { name: "Myrrhe", description: "Abschluss und Würde — Harz-Symbol für Ende und Dank, nicht als Medizin.", ico: "🟤" },
+      { name: "Zeder", description: "Stand und Dauer — Holz- oder Nadelsymbol, Wald-Anker ohne Drama.", ico: "🌲" },
+      { name: "Angelika", description: "Wege-Kraut in der Volkspraxis — klar gehen, nichts erzwingen, kein Heilversprechen.", ico: "🌿" },
+      { name: "Hopfen", description: "Ruhe und Traum-Ton — Zapfen als Symbol, keine Schlafmittel-Claims.", ico: "🌿" },
+      { name: "Baldrian", description: "Stille-Symbol für den Abend — Haltung, kein medizinischer Rat.", ico: "🌸" },
+      { name: "Eibisch", description: "Weiche Grenze — Schleimkraut als Sanftheit-Symbol, kein Heilversprechen.", ico: "🌸" }
+    ],
+    kitchen: [
+      { name: "Salz", description: "Hausmittel: Kreis und Grenze — Prise als Merkzeichen, kein Reinigungsversprechen.", ico: "🧂" },
+      { name: "Zucker", description: "Hausmittel: süße Gabe und Anziehen mit Maß — teilen statt binden, kein Heilversprechen.", ico: "🍬" },
+      { name: "Zimt", description: "Hausmittel: Willkommen und Wärme — Duft-Symbol, kein Spektakel.", ico: "🟤" },
+      { name: "Honig", description: "Hausmittel: süße Gabe an den Alltag — teilen statt fordern, Wärme ohne Spektakel.", ico: "🍯" },
+      { name: "Öl", description: "Hausmittel: Tropfen am Blickfang — Haltung der Pflege, keine Heilsalbe.", ico: "🫙" },
+      { name: "Essig", description: "Hausmittel: Säure als Schnitt und Klarheit — Symbol zum Loslassen, kein Reinigungsmittel-Mythos.", ico: "🍶" },
+      { name: "Milch", description: "Hausmittel: sanfte Gabe und Mond-Ton — Schälchen als Symbol, kein Heilversprechen.", ico: "🥛" },
+      { name: "Ei", description: "Hausmittel: Keim und Ganzheit — Schale als Kreis-Symbol, nicht als Orakelzwang.", ico: "🥚" },
+      { name: "Brot", description: "Hausmittel: Versorgung und Teilen — Laib als Alltagseid, kein Opferzwang.", ico: "🍞" },
+      { name: "Pfeffer", description: "Hausmittel: Schärfe und Wachheit am Tisch — Fokus-Symbol, kein Rezept.", ico: "🌶️" },
+      { name: "Knoblauch", description: "Hausmittel: scharfe Hausgrenze am Eingang — Symbol, kein Heilversprechen und kein Zwang.", ico: "🧄" },
+      { name: "Nelke", description: "Hausmittel / Würze: Schutz-Ton und Wärme — Maß halten, keinen fremden Willen binden.", ico: "🌺" },
+      { name: "Anis", description: "Hausmittel: würzige Klarheit — Symbol für Atem und Maß, nicht als Medizin.", ico: "✨" },
+      { name: "Kardamom", description: "Hausmittel: Wärme und weite Wege — Duft-Symbol für Gastfreundschaft.", ico: "🟢" },
+      { name: "Vanille", description: "Hausmittel: weiche Süße — Anziehen mit Maß, teilen statt binden.", ico: "🤍" },
+      { name: "Senf", description: "Hausmittel: scharfer Funke — Wachheit und Schnitt, kein Angriff.", ico: "🟡" },
+      { name: "Wein", description: "Hausmittel: Gabe und Bund — Schluck oder Tropfen als Symbol, Maß halten, kein Rauschzwang.", ico: "🍷" },
+      { name: "Bier", description: "Hausmittel: Herd und Gemeinschaft — Becher als Alltagseid, Maß vor Pathos.", ico: "🍺" },
+      { name: "Kaffee", description: "Hausmittel: Wachheit als Werkzeug — scharf starten, Ethik behalten, Ergebnis nicht jagen.", ico: "☕" },
+      { name: "Tee", description: "Hausmittel: Pause und Atem — Tasse als Schwelle, kein Heilversprechen.", ico: "🍵" },
+      { name: "Mehl", description: "Hausmittel: Stoff und Form — Kreis streuen als Symbol, Alltag ehren.", ico: "🌾" },
+      { name: "Reis", description: "Hausmittel: Fülle und Geduld — Körner als Gabe, teilen statt fordern.", ico: "🍚" },
+      { name: "Butter", description: "Hausmittel: Weichheit und Versorgung — Schmelz als Wärme-Symbol, keine Heilsalbe.", ico: "🧈" },
+      { name: "Seife", description: "Hausmittel: Schwelle waschen — Hände und Alltag, kein Reinigungsversprechen an Personen.", ico: "🧼" },
+      { name: "Wasser", description: "Hausmittel: Fluss, Atem, Loslassen — Glas oder Schale, Haltung statt Magie-Claim.", ico: "💧" },
+      { name: "Zitrone", description: "Hausmittel: Säure als Klarheit — unbrauchbares entlassen, neu formulieren.", ico: "🍋" },
+      { name: "Ingwer", description: "Hausmittel: Funke und Wärme — Labor-Energie ohne Drama, kein Heilversprechen.", ico: "🫚" },
+      { name: "Zwiebel", description: "Hausmittel: Schichten und Tränen — Schnitt als Loslassen-Symbol, kein Zwang.", ico: "🧅" },
+      { name: "Hafer", description: "Hausmittel: schlichte Nahrung — Stand und Alltag, teilen statt Spektakel.", ico: "🥣" },
+      { name: "Apfel", description: "Hausmittel: Jahreskreis und Wahl — Frucht als Gabe, Kern als Keim-Symbol.", ico: "🍎" }
+    ],
+    stones: [
+      { name: "Bergkristall", description: "Klarer Fokus-Stein — Haltung und Atem, keine Kristallheilung und keine Messung.", ico: "💎" },
+      { name: "Rosenquarz", description: "Sanftes Anziehen-Symbol — Nähe ohne Besitzanspruch, keine Kristallheilung.", ico: "💗" },
+      { name: "Rauchquarz", description: "Weiches Klarheits-Symbol — Raum und Atem, kein Messversprechen.", ico: "🌫️" },
+      { name: "Amethyst", description: "Stille und Schweigen am Altar — Haltung, nicht Therapie.", ico: "💜" },
+      { name: "Citrin", description: "Licht-Stein — Dank und Frische als Haltung, keine Reichtumsgarantie.", ico: "🟡" },
+      { name: "Milchquarz", description: "Sanfter Quarz — weicher Blickfang für den Alltagstisch.", ico: "🤍" },
+      { name: "Aventurin", description: "Grünes Maß — Wachstum-Blickfang, kein Glücksversprechen.", ico: "💚" },
+      { name: "Obsidian", description: "Dunkler Schnitt als Schutz-Grenze — Symbol, keine Kristallheilung.", ico: "🖤" },
+      { name: "Schwarzer Turmalin", description: "Schutz-Blickfang — Grenze ehren, kein Angriff und kein Heilversprechen.", ico: "🖤" },
+      { name: "Hämatit", description: "Erdungs-Blickfang: schwer und nah am Boden — Körper zuerst.", ico: "⚫" },
+      { name: "Onyx", description: "Nacht-Grenze — schlichter Halt-Stein, kein Angriff.", ico: "⬛" },
+      { name: "Labradorit", description: "Schimmer-Stein — Schwelle und Blickwechsel, kein Orakelzwang.", ico: "💠" },
+      { name: "Mondstein", description: "Zyklus-Blickfang — Phase achten, nichts erzwingen, keine Kristallheilung.", ico: "🌙" },
+      { name: "Selenit", description: "Mond- und Lichtton — schlichte Klarheit, vorsichtig handhaben, kein Heilversprechen.", ico: "🤍" },
+      { name: "Jaspis", description: "Erd-Stein — Stand und Farbe, Alltag ehren.", ico: "🟤" },
+      { name: "Achat", description: "Schichten-Stein — Geduld und Band, Blickfang ohne Therapie-Claim.", ico: "🟠" },
+      { name: "Moosachat", description: "Erde und Ankern — Stand nach dem Kreis, Wachstum mit Maß.", ico: "💚" },
+      { name: "Tigerauge", description: "Wachheit und Sonne — Blickfang für klaren Schnitt, kein Mut-Zauber.", ico: "🟤" },
+      { name: "Karneol", description: "Wärme und Herdton — Funke als Symbol, kein Heilversprechen.", ico: "🟠" },
+      { name: "Lapis", description: "Denken-Blickfang — Königsblau am Tisch, Symbol nicht Orakel.", ico: "🔵" },
+      { name: "Fluorit", description: "Ordnung der Gedanken — Farbe als Merkzeichen, keine Heilung.", ico: "💚" },
+      { name: "Pyrit", description: "Funke und Prüfung — Hypothesen schärfen, nicht glänzen wollen.", ico: "✨" },
+      { name: "Bernstein", description: "Wärme-Blickfang — Honigton am Altar, Symbol nicht Therapie.", ico: "🟠" },
+      { name: "Jade", description: "Maß und Dauer — stiller Stein, kein Glücksversprechen.", ico: "🟢" },
+      { name: "Türkis", description: "Weg und Himmelston — Reise-Blickfang, respektvoll, keine Heilung.", ico: "🩵" },
+      { name: "Malachit", description: "Tiefgrünes Wandel-Symbol — vorsichtig handhaben, kein Heilversprechen.", ico: "🟢" },
+      { name: "Granat", description: "Wurzel und Glut — kleine Wärme, kein Blut- oder Zwangssymbol gegen andere.", ico: "🔴" },
+      { name: "Flint", description: "Funke und Feuerstein — Herd und Stand, ohne Spektakel.", ico: "🪨" },
+      { name: "Flusskiesel", description: "Schlichter Alltags-Blickfang — kleine Praxis statt Spektakel.", ico: "🪨" },
+      { name: "Sodalith", description: "Nachtblaues Denk-Symbol — Wort knapper halten, kein Orakelzwang.", ico: "🔵" }
+    ],
+    colors: [
+      { name: "Weiß", description: "Altarfarbe / Kerze: Klarheit und leere Tafel — Haltung, kein Reinigungsversprechen.", ico: "⬜" },
+      { name: "Schwarz", description: "Altarfarbe: Schutz-Grenze, Reset, Schweigen — ohne Angriff.", ico: "⬛" },
+      { name: "Grau", description: "Altarfarbe: Neutralität — Beobachtung vor Spektakel.", ico: "⬜" },
+      { name: "Silber", description: "Altarfarbe: Mond-Ton — Phase achten, nichts erzwingen.", ico: "🪙" },
+      { name: "Gold", description: "Altarfarbe / Kerze: Sonne, Dank, Klarheit der Frage — kein Reichtumszauber.", ico: "🥇" },
+      { name: "Rot", description: "Kerze: Kraft-Symbol — Ethik zuerst, nie fremden Willen binden.", ico: "🔴" },
+      { name: "Weinrot", description: "Altarfarbe: tiefe Wärme und Bund — teilen, nicht greifen.", ico: "🍷" },
+      { name: "Orange", description: "Altarfarbe: Herd und Ermutigung — Funke ohne Drama.", ico: "🟠" },
+      { name: "Gelb", description: "Altarfarbe: Willkommen und Licht — teilen statt fordern.", ico: "🟡" },
+      { name: "Grün", description: "Altarfarbe: Wachstum mit Maß — Blickfang, kein Heilversprechen.", ico: "🟢" },
+      { name: "Erdbraun", description: "Altarfarbe / Tuch: Stand und Boden — Alltag ehren statt Pathos.", ico: "🟤" },
+      { name: "Blau", description: "Altarfarbe: Ruhe und Wasser-Ton.", ico: "🔵" },
+      { name: "Nachtblau", description: "Altarfarbe: stille Tiefe — nur geerdet, ohne Drama.", ico: "🌌" },
+      { name: "Indigo", description: "Altarfarbe: Schwelle der Nacht — Schweigen vor dem Wort.", ico: "🧿" },
+      { name: "Violett", description: "Altarfarbe: stille Absicht — Ethik vor Spektakel.", ico: "🟣" },
+      { name: "Rosa", description: "Altarfarbe: sanfte Nähe ohne Besitzanspruch.", ico: "🩷" },
+      { name: "Türkis", description: "Altarfarbe: frischer Fluss — Weg und Atem.", ico: "🩵" },
+      { name: "Kupfer", description: "Altarfarbe / Metallton: Leitung und Alltagswärme — Symbol, kein Laborgift.", ico: "🟠" },
+      { name: "Knochenweiß", description: "Altarfarbe: Schlichtheit und Gabe — rein als Symbol.", ico: "⬜" },
+      { name: "Mintgrün", description: "Altarfarbe: frischer Start und Atem.", ico: "🟢" },
+      { name: "Purpur", description: "Altarfarbe: Würde und Maß — kein Herrschaftsanspruch über andere.", ico: "🟣" },
+      { name: "Waldgrün", description: "Altarfarbe: Kreis im Grünen — Wachstum ohne Gier.", ico: "🌲" }
+    ],
+    tools: [
+      { name: "Kerze", description: "Werkzeug: kleines Herdlicht — Schwelle markieren, Absicht klein halten.", ico: "🕯️" },
+      { name: "Kreide", description: "Werkzeug: Kreis und Grenze zeichnen — Symbolik, kein Bann gegen Personen.", ico: "✏️" },
+      { name: "Besen", description: "Werkzeug: Raum kehren als Ordnung — Alltag ehren, kein Reinigungsversprechen an Personen.", ico: "🧹" },
+      { name: "Becher", description: "Werkzeug: Gabe und Wasser — teilen, nicht spekulieren.", ico: "🏺" },
+      { name: "Faden", description: "Werkzeug: Verbindung und Maß — knüpfen als Haltung, nicht als Fesselung anderer.", ico: "🧵" },
+      { name: "Spiegel", description: "Werkzeug: Blick zurück auf den eigenen Stand — kein Orakelzwang.", ico: "🪞" },
+      { name: "Schale", description: "Werkzeug: Gabe ablegen — teilen statt fordern.", ico: "🥣" },
+      { name: "Glocke", description: "Werkzeug: Ruf und Maß — Ton setzen, nicht zwingen.", ico: "🔔" },
+      { name: "Athame (Symbol)", description: "Werkzeug: Schnitt der Absicht — Symbolklinge, nie gegen Personen.", ico: "🗡️" },
+      { name: "Beutel", description: "Werkzeug: klein tragen und schließen — Absicht sammeln, kein Zwangspäckchen gegen andere.", ico: "👝" },
+      { name: "Altar-Tuch", description: "Werkzeug: Farbe und Grenze des Tisches — Raum ehren, waschen und neu legen.", ico: "🧺" },
+      { name: "Weihrauchhalter", description: "Werkzeug: Duft sicher tragen — Maß statt Spektakel, Brandschutz achten.", ico: "💨" },
+      { name: "Mörser", description: "Werkzeug: Stoffe mischen als Haltung — Symbolik, keine Rezeptur und kein Gift.", ico: "🪨" },
+      { name: "Pendel", description: "Werkzeug: ja/nein als Denkhilfe — Feedback auf die eigene Frage, kein Orakelzwang.", ico: "🔮" },
+      { name: "Stab / Wand", description: "Werkzeug: Richtung zeigen — Absicht lenken, nie gegen Personen.", ico: "🪄" },
+      { name: "Kessel", description: "Werkzeug: Wandlung und Herd — mischen, wärmen, schließen; Alltag, kein Spektakel.", ico: "🫕" },
+      { name: "Karten", description: "Werkzeug: Spiegel der Frage — ziehen als Denkhilfe, kein Schicksalszwang.", ico: "🃏" },
+      { name: "Trommel", description: "Werkzeug: Rhythmus und Atem — Körper zuerst, Reise nur geerdet.", ico: "🥁" },
+      { name: "Rassel", description: "Werkzeug: Rhythmus und Schnitt — Raum markieren, ohne Geister zu fordern.", ico: "🪇" },
+      { name: "Feder", description: "Werkzeug: Luft und Protokoll — schreiben oder wehen, ethisch gefunden, kein Wildfang.", ico: "🪶" },
+      { name: "Messer (Haus)", description: "Werkzeug: Schnitt und Versorgung — ethisch, nie gegen Personen gerichtet.", ico: "🗡️" },
+      { name: "Schere", description: "Werkzeug: lösen und kürzen — Faden trennen als Loslassen, kein Schaden.", ico: "✂️" },
+      { name: "Nadelkissen", description: "Werkzeug: Nadeln ruhen lassen — Fokus parken, keine Verletzung.", ico: "📌" },
+      { name: "Schlüssel", description: "Werkzeug: Hof und Schwelle — öffnen und schließen mit Maß.", ico: "🔑" },
+      { name: "Waage (Symbol)", description: "Werkzeug: Ausgleich prüfen — Ethik vor Spektakel.", ico: "⚖️" },
+      { name: "Streichhölzer", description: "Werkzeug: Funke setzen — Licht bewusst zünden und löschen.", ico: "🔥" },
+      { name: "Buch", description: "Werkzeug: Wort halten — Notiz, Eid, Abschluss; lokal, kein Zwang.", ico: "📖" }
+    ],
+    links: [
+      { name: "Nagel (Eisen)", description: "Bezug: Eisen-Nagel als Grenz- und Festigungs-Symbol — Absicht am Ort fixieren, nie gegen Personen und nie illegal.", ico: "🔩" },
+      { name: "Nadel", description: "Bezug: Stich als Merkzeichen für Fokus und Naht — Arbeit am Tuch, keine Verletzung, kein Schaden an anderen.", ico: "🪡" },
+      { name: "Haare (eigene)", description: "Bezug: eigenes Haar als persönliches Merkzeichen — nur mit Einwilligung; fremdes Haar ohne Zustimmung ist tabu.", ico: "💇" },
+      { name: "Faden / Knoten", description: "Bezug: knüpfen und lösen — Absicht binden oder freigeben; nie fremden Willen fesseln.", ico: "🧵" },
+      { name: "Tuch / Fetzen", description: "Bezug: Träger von Farbe und Absicht — einwickeln, ablegen, waschen; Symbolik, kein Zwang.", ico: "🧣" },
+      { name: "Erde / Staub", description: "Bezug: Erde vom eigenen Ort als Anker — fremde Erde nicht stehlen, Respekt vor Ort.", ico: "🌍" },
+      { name: "Wachs", description: "Bezug: Kerzenwachs formen oder versiegeln — Absicht sichtbar machen, ohne Schaden zu wollen.", ico: "🕯️" },
+      { name: "Asche", description: "Bezug: Rest und Abschluss — was beendet ist; Loslassen, kein Angriff.", ico: "🖤" },
+      { name: "Knochen (Symbol)", description: "Bezug: nur ethisches Symbol (Nachbildung oder Fund mit Respekt) — kein Wildfang, kein illegaler Besitz.", ico: "🦴" },
+      { name: "Foto / Name-Zettel", description: "Bezug: Name oder Bild — nur mit Einwilligung oder für das eigene Selbst; nie heimlich gegen jemanden.", ico: "📷" },
+      { name: "Schlüssel", description: "Bezug: öffnen und schließen von Schwellen — Haus, Kapitel, Thema; Symbol der Entscheidung.", ico: "🔑" },
+      { name: "Münze", description: "Bezug: Gabe, Ausgleich und Tausch — opfern oder teilen mit Maß, kein Kauf von Willen.", ico: "🪙" },
+      { name: "Blut (Symbol)", description: "Bezug: nur eigenes winziges Merkzeichen oder Ersatz (Tinte, Rotwein) — nie fremdes Blut, nie Verletzung, nie Schaden, nie illegal.", ico: "🩸" },
+      { name: "Speichel (Symbol)", description: "Bezug: eigenes Merkzeichen auf Papier — intimer Selbstbezug; nie heimlich gegen andere.", ico: "💧" },
+      { name: "Fußabdruck (Symbol)", description: "Bezug: eigene Spur als Weg-Symbol — fremde Spur nur mit Einwilligung; kein Nachstellen.", ico: "👣" },
+      { name: "Grab-Erde (Symbol)", description: "Bezug: nur Denkbild — niemals Erde von Gräbern nehmen (Respekt, oft verboten). Platzhalter: eigene Gartenerde.", ico: "🪦" },
+      { name: "Rost", description: "Bezug: Eisen das Zeit geworden ist — Verfall und Dauer als Blickfang, kein Schaden.", ico: "🟤" },
+      { name: "Schwefel (Symbol)", description: "Bezug: Hermetik-Laborbild für Feuer und Schlacke — reines Denkbild, kein chemisches Experiment und kein Gift-Anraten.", ico: "🟡" },
+      { name: "Quecksilber (Symbol)", description: "Bezug: nur Hermetik-Labor-Symbolik (Flüchtigkeit, Geist) — niemals echtes Quecksilber beschaffen oder verwenden; giftig. Reines Denkbild.", ico: "🩶" }
+    ]
+  };
+
   var LEXIKON_KINDS = ['herb', 'kitchen', 'stone', 'color', 'tool', 'link'];
+
+  function mergeLexikonLists(pathList, coreList, normalizer) {
+    const seen = Object.create(null);
+    const out = [];
+    function add(raw) {
+      const n = normalizer(raw);
+      if (!n.name) return;
+      const key = n.name.toLowerCase();
+      if (seen[key]) return;
+      seen[key] = true;
+      out.push(n);
+    }
+    (pathList || []).forEach(add);
+    (coreList || []).forEach(add);
+    return out;
+  }
 
   function getCorrespondences(pathId) {
     const c = CORRESPONDENCES[pathId] || CORRESPONDENCES.esoterik;
+    const core = LEXIKON_CORE;
     const out = Object.assign({}, c);
-    out.herbs = (c.herbs || []).map(normalizeHerb).filter(function (h) { return h.name; });
-    out.kitchen = (c.kitchen || []).map(normalizeKitchen).filter(function (h) { return h.name; });
-    out.stones = (c.stones || []).map(normalizeStone).filter(function (s) { return s.name; });
-    out.colors = (c.colors || []).map(normalizeColor).filter(function (col) { return col.name; });
-    out.tools = (c.tools || []).map(normalizeTool).filter(function (t) { return t.name; });
-    out.links = (c.links || []).map(normalizeLink).filter(function (l) { return l.name; });
+    out.herbs = mergeLexikonLists(c.herbs, core.herbs, normalizeHerb);
+    out.kitchen = mergeLexikonLists(c.kitchen, core.kitchen, normalizeKitchen);
+    out.stones = mergeLexikonLists(c.stones, core.stones, normalizeStone);
+    out.colors = mergeLexikonLists(c.colors, core.colors, normalizeColor);
+    out.tools = mergeLexikonLists(c.tools, core.tools, normalizeTool);
+    out.links = mergeLexikonLists(c.links, core.links, normalizeLink);
     return out;
   }
 
