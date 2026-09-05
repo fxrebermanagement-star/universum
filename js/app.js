@@ -1,5 +1,5 @@
 /**
- * UNIVERSUM · COCKPIT — main UI controller (practice companion · Feld-Klarheit · v2.7)
+ * UNIVERSUM · ALTAR — main UI controller (practice companion · Feld-Klarheit · v2.7)
  */
 (function () {
   'use strict';
@@ -178,29 +178,29 @@
     'Praxis-Log hält Ritual, 369 und Atem diskret fest — löschbar.',
     'Alles lokal: kein Sync, kein Konto — Daten bleiben auf dem Gerät.',
     'Tageskarte: einmal ziehen, bis Mitternacht gesiegelt — ohne Datenverlust.',
-    'Mond-Arbeit: bei Neu- und Vollmond erscheint ein stiller Praxis-Impuls im Cockpit.',
+    'Mond-Arbeit: bei Neu- und Vollmond erscheint ein stiller Praxis-Impuls am Altar.',
     'Planetenstunde-Wecker: optional sanfte Erinnerung beim Stundenwechsel (Standard aus).',
     'Notizen wandern mit einem Tippen ins Magie-Tagebuch.',
     'Ritual-Vorlagen: bis zu drei eigene Schablonen unter Eigene Rituale.',
     'Globale Suche findet Rituale, Feldkarten und Tagebuch-Titel.',
     'Exportiere dein Buch alle paar Einträge — Quota-Fehler vermeiden.',
-    'Schnellzugriff zeigt Favoriten und letzte Praxis auf dem Cockpit.',
+    'Schnellzugriff zeigt Favoriten und letzte Praxis am Altar.',
     'Wochenrückblick im Tagebuch: sieben Tage Praxis auf einen Blick — ohne Vergleich.',
     'Zum Home-Bildschirm hinzufügen: UNIVERSUM fühlt sich an wie eine App, bleibt aber lokal.',
     'Warum UNIVERSUM: lokal, ethisch, pfadstark — Praxiswerkzeug, kein Feed.',
     'Tagesbriefing teilen: klarer Text oder Link — Praxis weitergeben ohne Druck.',
     'Weitergeben: sanfte Einladung mit Pages-URL — für Menschen im Feld, ohne Hype.',
-    'Pfad-Lehre: ein Lehrsatz pro Pfad auf dem Cockpit — Tiefe ohne Dogma.',
+    'Pfad-Lehre: ein Lehrsatz pro Pfad am Altar — Tiefe ohne Dogma.',
     'Erste Praxis in 3 Minuten: Intention, Atem, Erdung — klarer Einstieg für Neue.',
     'Stiller Modus blendet Chrome aus — Fokus aufs Ritual, Esc bringt alles zurück.',
     'Export-Paket: universum-buch.json plus Praxis-Zusammenfassung für Coaches.',
-    'Fest-Countdown: wenn der nächste Sabbat unter 14 Tagen liegt, zeigt das Cockpit einen Chip.',
+    'Fest-Countdown: wenn der nächste Sabbat unter 14 Tagen liegt, zeigt der Altar einen Chip.',
     'Kalender „Nur mein Pfad“: standardmäßig nur pfadrelevante Feste — Umschalter auf Alle Feste.',
     'Pfad-Woche: sieben kurze Schritte Mo–So — erledigt speichert lokal.',
     'Werkzeug-Set: Mini-Modul pro Pfad (Eid, Sigil, Elemente, Haus-Reinheit).',
     'Pfad-Symbole: jedes Symbol steht für eine Haltung — Chip, Rituale, Kalender.',
     'Heute: ein Tip genügt — Ritual oder Haltung, stabil für Datum und Pfad.',
-    'Korrespondenzen sind Hauspraxis-Symbolik — kein medizinischer Rat.',
+    'Resonanzen sind Hauspraxis-Symbolik — kein medizinischer Rat.',
     'Mondfenster: «gut für …» zur Phase, angepasst an deinen Pfad.',
     'Ritual-Journal: nach dem Schließen optional einen Satz speichern (Mehr).',
     'Empfehlen: teilen oder Link kopieren — lokal, ohne Konto.',
@@ -237,13 +237,17 @@
     Mars: '#e05060', Jupiter: '#c4a060', Saturn: '#9a8fb0'
   };
 
+  /** User-facing labels — swap here if renamed via chat; route ids stay stable */
+  const ALTAR_LABEL = { name: 'Altar', ico: '🪔' };
+  const RESONANZ_LABEL = { name: 'Resonanzen', short: 'Resonanz', ico: '🌿' };
+
   const SECTIONS = [
-    { id: 'cockpit', name: 'Cockpit', ico: '◈' },
+    { id: 'cockpit', name: ALTAR_LABEL.name, ico: ALTAR_LABEL.ico },
     { id: 'kalender', name: 'Kalender', ico: '📅' },
     { id: 'kosmos', name: 'Kosmos', ico: '🪐' },
     { id: 'rituale', name: 'Rituale', ico: '🕯️' },
-    { id: 'buch', name: 'Buch', ico: '📖' },
-    { id: 'korrespondenzen', name: 'Korresp.', ico: '🌿' }
+    { id: 'korrespondenzen', name: RESONANZ_LABEL.short, ico: RESONANZ_LABEL.ico },
+    { id: 'buch', name: 'Buch', ico: '📖' }
   ];
   /** Magie-Buch compose mode: notiz | eintrag */
   let buchMode = 'notiz';
@@ -252,8 +256,13 @@
   const SECTION_REDIRECTS = {
     netzwerk: 'cockpit',
     kreis: 'cockpit',
+    altar: 'cockpit',
     korrespondenz: 'korrespondenzen',
-    korresp: 'korrespondenzen'
+    korresp: 'korrespondenzen',
+    resonanzen: 'korrespondenzen',
+    resonanz: 'korrespondenzen',
+    entsprechungen: 'korrespondenzen',
+    entsprechung: 'korrespondenzen'
   };
   /** Sitzung A–Z: heute → ritual → schliessen → buch */
   let sitzung = { phase: 'idle', ritualId: null, ritualName: null, savedToBuch: false, visible: false };
@@ -424,7 +433,7 @@
   function buildInviteText() {
     const path = currentPath();
     return [
-      'Einladung zu UNIVERSUM · COCKPIT',
+      'Einladung zu UNIVERSUM · ALTAR',
       '',
       'Hier übe ich mit UNIVERSUM — einem stillen Praxiswerkzeug (kein Hype, kein Konto).',
       'Tagesbriefing, Rituale, Magie-Tagebuch: Daten bleiben auf dem Gerät.',
@@ -627,7 +636,7 @@
           navigate('cockpit', { force: true });
           const el = $('#phrase-369');
           if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          toast('369 auf dem Cockpit');
+          toast('369 am Altar');
           return;
         }
         if (lk === 'atem') {
@@ -1510,7 +1519,7 @@
       const c = Paths.getCorrespondences(state.path);
       const path = currentPath();
       const blob = [
-        'korrespondenzen korrespondenz kräuter steine farben elemente hauspraxis',
+        'resonanzen resonanz korrespondenzen korrespondenz entsprechungen kräuter steine farben elemente hauspraxis',
         (c.herbs || []).join(' '),
         (c.stones || []).join(' '),
         (c.colors || []).join(' '),
@@ -1520,7 +1529,7 @@
       items.push({
         kind: 'section',
         id: 'korrespondenzen',
-        title: 'Korrespondenzen · ' + ((path && path.name) || 'Pfad'),
+        title: RESONANZ_LABEL.name + ' · ' + ((path && path.name) || 'Pfad'),
         hay: blob,
         meta: 'Hauspraxis-Symbolik',
         action: 'section:korrespondenzen'
@@ -1945,7 +1954,7 @@
       '" data-pin-id="' + o.id + '" aria-pressed="' + (pins.includes(o.id) ? 'true' : 'false') + '">' +
       escapeHtml(o.label) + '</button>'
     ).join('') +
-      '<p class="hint-sm" style="flex-basis:100%;margin:0.25rem 0 0">2–3 Chips auf dem Cockpit · Reihenfolge = Klick-Reihenfolge</p>';
+      '<p class="hint-sm" style="flex-basis:100%;margin:0.25rem 0 0">2–3 Chips am Altar · Reihenfolge = Klick-Reihenfolge</p>';
     $$('#briefing-pins-panel [data-pin-id]').forEach(btn => {
       btn.addEventListener('click', () => {
         let next = Store.getBriefingPins().slice();
@@ -2274,7 +2283,7 @@
       '<button type="button" class="ghost" id="day-start-ritual" data-ritual="' + escapeHtml(ritualId) + '">' +
       'Ritual: ' + escapeHtml(ritual ? ritual.name : 'Empfohlen') + '</button>' +
       '</div>' +
-      '<p class="hint-sm day-quick-hint">Intention öffnet das Cockpit · Ritual startet die pfadbezogene Empfehlung.</p>';
+      '<p class="hint-sm day-quick-hint">Intention öffnet den Altar · Ritual startet die pfadbezogene Empfehlung.</p>';
 
     const setInt = $('#day-set-intention');
     if (setInt) {

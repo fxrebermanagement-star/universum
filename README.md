@@ -13,7 +13,7 @@ python3 -m http.server 8765
 
 Dann im Browser:
 
-- Einstieg / Landing: [http://127.0.0.1:8765/](http://127.0.0.1:8765/) → **Üben öffnen** → Cockpit  
+- Einstieg / Landing: [http://127.0.0.1:8765/](http://127.0.0.1:8765/) → **Üben öffnen** → Altar  
 - Direkt: [http://127.0.0.1:8765/cockpit.html](http://127.0.0.1:8765/cockpit.html)
 
 PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offline.  
@@ -31,12 +31,12 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 
 ## Funktionen
 
-1. **Cockpit** — **Above-the-fold**: Suche, Mond/Planetenstunde/Unruhe-Tiles (Näherung), Schumann-Station (Tomsk); darunter Heute-Tip, Pfad-Woche, Mondfenster, Korrespondenzen-Peek, Journal u. a.; Empfehlen/PWA; Pfad-Chip, Streak
+1. **Altar** — **Above-the-fold**: Suche, Mond/Planetenstunde/Unruhe-Tiles (Näherung), Schumann-Station (Tomsk); darunter Heute-Tip, Pfad-Woche, Mondfenster, Resonanzen-Peek, Journal u. a.; Empfehlen/PWA; Pfad-Chip, Streak
 2. **Kalender** — Monatsnavigation, Tagesdetails (Mond/Sonne/Feste), **standardmäßig nur Pfad-Feste** (Umschalter Alle Feste), Betonung und Kalender-Notizen
 3. **Kosmos** — Planeten-Radar mit klareren Labels, **Legende**, aktuelle **Planetenstunde hervorgehoben**, Tap/Klick für Detail, Schumann Live-Station + Tomsk-Spektrogramm
 4. **Rituale** — **nur aktueller Pfad** (4–5 einzigartige Own-Rituale); Grundlagen separat; Signaturen, Dauer-Tags 3/11/21, Sicherheitscheck, Timed-Rituale, Fokus-Timer, Sigil, illustrierte Feldkarten, eigene Rituale + Vorlagen
 5. **Magie-Buch** — Notiz (schnell) · Eintrag (Ritual, Stimmung, Foto, Filter); gemeinsame Timeline; Fotos IndexedDB; ZIP/PDF; Export/Import `universum-buch.json` (`notes` + `diary` in `feldlicht-v15`)
-6. **Korrespondenzen** — pfadbezogene Hauspraxis-Symbolik (Kräuter, Steine, Farben, Elemente); wechselt mit dem Pfad; kein medizinischer Rat
+6. **Resonanzen** — pfadbezogene Hauspraxis-Symbolik (Kräuter, Steine, Farben, Elemente); wechselt mit dem Pfad; kein medizinischer Rat
 
 **Zusätzlich (v1.3–1.4)**
 
@@ -159,7 +159,7 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 
 **Zusätzlich (v3.9 · Liebliches Cockpit)**
 
-- **Alles auf einer Seite** — Mehr-Akkordeon entfernt; Heute, Pfad-Woche, Mondfenster, Korrespondenzen, Astronomie, Schumann, Journal und Praxis-Karten als ruhiger Scroll-Flow
+- **Alles auf einer Seite** — Mehr-Akkordeon entfernt; Heute, Pfad-Woche, Mondfenster, Resonanzen, Astronomie, Schumann, Journal und Praxis-Karten als ruhiger Scroll-Flow
 - **Mehr Effekte** — weiche Glows, Gradienten, Sternenstaub (respektiert `prefers-reduced-motion`), Karten-Hover, Atmungs-Orb am Pfad
 - **Lieblicher mit Bildern** — Mond-Orb, Pfad-Kunst, bildhafte Emoji-Titel, wärmere Karten
 - App `3.9.0`, SW-Cache `universum-shell-v30`
@@ -237,7 +237,7 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 
 **Zusätzlich (v3.0 · Hexerei-Tiefe)**
 
-- **Korrespondenzen** — pfadbezogene Kräuter / Steine / Farben (Hauspraxis-Symbolik, keine medizinischen Claims)
+- **Resonanzen** — pfadbezogene Kräuter / Steine / Farben (Hauspraxis-Symbolik, keine medizinischen Claims)
 - **Mondfenster** — actionable «gut für …» für aktuelle Phase × Pfad
 - **Ritual-Journal** — optionale Kurzreflexion nach Ritual-Abschluss; Liste unter Mehr; `ritualJournal` in `feldlicht-v15`
 - App `3.0.0` (Zwischenstand), aufgegangen in `3.1.0`
@@ -325,7 +325,7 @@ Kein Ersatz für Ephemeriden oder traditionelle Einweihung.
 
 ```
 universum/
-  index.html          Landing / Produkt-Intro → Cockpit
+  index.html          Landing / Produkt-Intro → Altar
   cockpit.html        Haupt-App (7 Bereiche + Onboarding + Settings)
   sw.js               Service Worker
   manifest.webmanifest
@@ -339,6 +339,15 @@ universum/
 
 Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine Verantwortung — mit Grenze und Ausgleich.
 
+
+
+## Craft-Pass (v4.9.0) · Altar + Resonanzen
+
+- **Bottom-Nav** — **Altar** 🪔 · Kalender · Kosmos · Rituale · **Resonanz** 🌿 · Buch
+- User-facing **Altar** (Route bleibt `cockpit`, Alias `#altar`); Stack-Logo UNIVERSUM · ALTAR
+- User-facing **Resonanzen** (kurz: Resonanz); interne ids bleiben `korrespondenzen`
+- Labels zentral: `ALTAR_LABEL` / `RESONANZ_LABEL` — per Chat leicht austauschbar
+- App `4.9.0`, SW-Cache `universum-shell-v40`
 
 
 ## Craft-Pass (v4.8.0) · Korrespondenzen in der Nav
