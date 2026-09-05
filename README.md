@@ -13,7 +13,7 @@ python3 -m http.server 8765
 
 Dann im Browser:
 
-- Einstieg: [http://127.0.0.1:8765/](http://127.0.0.1:8765/) → weiter zum Cockpit  
+- Einstieg / Landing: [http://127.0.0.1:8765/](http://127.0.0.1:8765/) → **Üben öffnen** → Cockpit  
 - Direkt: [http://127.0.0.1:8765/cockpit.html](http://127.0.0.1:8765/cockpit.html)
 
 PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offline.  
@@ -116,9 +116,16 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 - **Kreis ehrlich** — klar lokal, kein Sync; Kreis-Notizen nur auf dem Gerät
 - App `2.0.0`, SW-Cache `universum-shell-v12`
 
+**Zusätzlich (v2.1 · Erste Minute)**
+
+- **Erste Minute** — Onboarding: Pfad → eine Praxis-Einladung → fertig; Ethik als kurze Bestätigungszeile; optional Überspringen; danach Cockpit mit Jetzt-Karte
+- **Astronomie-Vertrauen** — Badge „Näherung“ an Mond/Stunde/Maya/VoC; Hinweis in Mehr & Einstellungen; kein Ephemeriden-Anspruch
+- **Landing** — `index.html` als ruhiges Produkt-Intro (für wen, lokal, Ethik, CTA «Üben öffnen», Empfehlen-Link)
+- App `2.1.0`, SW-Cache `universum-shell-v13`
+
 **Zusätzlich**
 
-- **First-run Onboarding** — Willkommen, Pfadwahl, Standort (Zürich-Default), Ethik-Bestätigung
+- **First-run Onboarding (Erste Minute)** — Pfad → Praxis-Einladung → fertig; Ethik als eine Zeile; optional Überspringen; Standort Zürich-Default (Einstellungen)
 - **Einstellungen (⚙)** — Standort, Haptik, Schumann-Audio, sanfter Ambient-Ton (separat, Standard aus), reduzierte Bewegung, Planetenstunde-Wecker (Standard aus), Stiller Modus bei Ritual, Suche, Onboarding/Starter zurücksetzen, Tipp des Tages
 - **Toasts** — kurze Bestätigungen; Escape schließt Drawer/Modal/Ritual-Runner; bessere Labels/a11y
 - **Feldkarten** — Flip-/Reveal-Animation, Verlauf der letzten Züge in `feldlicht-v15`
@@ -130,6 +137,8 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 **Pfadwahl:** Schamanismus, Nordisch, Voodoo, Santería, Hermetik, Wicca-Hexerei, Chaosmagie, Esoterik — jeweils mit eigenen Sprüchen, Praxis-Hinweisen, Tagebuch-Impulsen und Kalender-Notizen.
 
 ## Astronomie (Näherungen)
+
+Mond, Planetenstunde, Maya, Sonne und VoC sind **Näherungen** für die Praxis — klar gekennzeichnet (Badge „Näherung“ im Cockpit, Hinweis in Mehr/Einstellungen). **Kein professionelles Ephemeris.**
 
 Dokumentiert in `js/astronomy.js`:
 
@@ -159,14 +168,14 @@ Kein Ersatz für Ephemeriden oder traditionelle Einweihung.
 
 - Schriften: **Syne** (Titel/Zahlen) + **Manrope** (Fließtext) via Google Fonts
 - Dark-Violet Mystik-Cockpit, mobile-first, Micro-Interactions
-- Service Worker: Offline-Shell (`universum-shell-v12`), Scope relativ für GitHub Pages `/universum/`
+- Service Worker: Offline-Shell (`universum-shell-v13`), Scope relativ für GitHub Pages `/universum/`
 - Kein React, kein Bundler, kein Backend
 
 ## Dateien
 
 ```
 universum/
-  index.html          Einstieg / Splash
+  index.html          Landing / Produkt-Intro → Cockpit
   cockpit.html        Haupt-App (7 Bereiche + Onboarding + Settings)
   sw.js               Service Worker
   manifest.webmanifest
@@ -215,3 +224,7 @@ Neunte Runde — **Angebot & Fokus**: geführte Erste Praxis (3 Min), Stiller Mo
 ## Craft-Pass (v2.0) · Feld-Klarheit
 
 Zehnte Runde — **Feld-Klarheit**: weniger Cockpit auf einmal (eine klare „Jetzt“-Einladung, Sekundäres im ruhigen „Mehr“-Akkordeon); tieferes Schließen nach Ritual, 3-Min-Starter und Fokus (Atem + verkörperte Zeile + optionaler Tagebuch-Keim); Pfad als Haltung (CSS `data-path`-Akzente, Begrüßung, Briefing-Ton, Empty-States, Ritual-Betonung); Vertrauen statt Versprechen (Praxis-Stimme, ehrlicher Trust-Strip); Kreis ehrlich lokal (kein Sync-Versprechen). App `2.0.0`, SW-Cache `universum-shell-v12`. Server Port **8765**.
+
+## Craft-Pass (v2.1) · Erste Minute · Vertrauen · Anbieten
+
+Elfte Runde — **Drei Verbesserungen**: (1) Onboarding auf Erste Minute gekürzt (Pfad → Praxis-Einladung → fertig, Ethik eine Zeile, optional Überspringen, Jetzt-Karte bereit); (2) Astronomie-Vertrauen mit „Näherung“-Badges und ruhigem Hinweis in Mehr/Einstellungen; (3) Landing `index.html` als Produkt-Intro (für wen, lokal, Ethik-One-Liner, CTA «Üben öffnen», optional Empfehlen). App `2.1.0`, SW-Cache `universum-shell-v13`. Server Port **8765**.

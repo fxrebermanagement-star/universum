@@ -3,7 +3,7 @@
  * Relative URLs so GitHub Pages /universum/ subpath works.
  * Cache-first for app shell; network fallback + update.
  */
-const CACHE = 'universum-shell-v12';
+const CACHE = 'universum-shell-v13';
 const SHELL = [
   './',
   './index.html',

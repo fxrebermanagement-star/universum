@@ -3595,3 +3595,102 @@ body.quiet-mode .path-haltung {
 .ritual-item.path-emphasized .r-meta {
   color: var(--accent);
 }
+
+
+/* ——— v2.1 Erste Minute · Astronomie-Vertrauen · Landing ——— */
+.approx-badge {
+  display: inline-block;
+  margin-left: 0.25rem;
+  padding: 0.08rem 0.38rem;
+  border-radius: 999px;
+  font-family: Manrope, system-ui, sans-serif;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: rgba(139, 111, 208, 0.14);
+  border: 1px solid rgba(139, 111, 208, 0.32);
+  vertical-align: middle;
+  line-height: 1.3;
+}
+.dash-panel .label .approx-badge {
+  margin-left: 0.2rem;
+}
+.approx-note {
+  margin: 0.15rem 0 0.55rem;
+  padding: 0.45rem 0.65rem;
+  border-radius: var(--radius-sm);
+  background: rgba(139, 111, 208, 0.08);
+  border: 1px solid rgba(139, 111, 208, 0.2);
+  color: var(--muted);
+  line-height: 1.45;
+}
+.approx-note strong { color: var(--text-soft); font-weight: 600; }
+.approx-settings-note {
+  margin-bottom: 0.65rem;
+  line-height: 1.45;
+}
+.voc-banner {
+  align-items: flex-start;
+  gap: 0.45rem;
+}
+.voc-banner .voc-approx {
+  margin-left: auto;
+  flex-shrink: 0;
+  align-self: center;
+}
+.astro-doc .approx-badge { margin-right: 0.35rem; }
+
+.onboard-nav #onboard-skip {
+  order: 0;
+}
+.onboard-ethics {
+  margin-top: 0.85rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: var(--radius-sm);
+  background: rgba(90, 171, 122, 0.08);
+  border: 1px solid rgba(90, 171, 122, 0.28);
+}
+.onboard-invite-box {
+  margin-top: 0.5rem;
+}
+
+.landing-v21 {
+  max-width: 28rem;
+  margin: 0 auto;
+}
+.landing-ethics-line {
+  text-align: center;
+  font-size: 0.86rem;
+  color: var(--text-soft);
+  line-height: 1.5;
+  margin: 0.85rem auto 1.25rem;
+  max-width: 24rem;
+}
+.landing-ethics-line em {
+  color: var(--muted);
+  font-style: italic;
+}
+.landing-recommend {
+  margin-top: 1rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+}
+.landing-url {
+  word-break: break-all;
+  opacity: 0.85;
+}
+.landing-v21 .enter {
+  min-width: 12rem;
+}
+@media (max-width: 520px) {
+  .dash-panel .label .approx-badge {
+    display: inline-block;
+    margin-top: 0.15rem;
+    margin-left: 0;
+  }
+}

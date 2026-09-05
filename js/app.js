@@ -3254,8 +3254,10 @@
     });
     const back = $('#onboard-back');
     const next = $('#onboard-next');
+    const skip = $('#onboard-skip');
     if (back) back.hidden = n === 0;
-    if (next) next.textContent = n >= 3 ? 'Beginnen' : 'Weiter';
+    if (next) next.textContent = n >= 1 ? 'Üben' : 'Weiter';
+    if (skip) skip.hidden = false;
     $$('#onboard-progress [data-op]').forEach(dot => {
       const i = Number(dot.getAttribute('data-op'));
       dot.classList.toggle('on', i === n);
@@ -3263,16 +3265,12 @@
     });
     const lead = $('#onboard-lead');
     const titles = [
-      'Dein Praxis-Cockpit',
       'Dein Pfad',
-      'Dein Standort',
-      'Ethik & Vertrauen'
+      'Erste Praxis'
     ];
     const leads = [
-      'Der stille Ritualbegleiter für den Tag — lokal, ethisch, pfadstark. Kein Konto, kein Backend.',
-      'Rituale, Impulse und Kalender-Betonung folgen deinem Weg.',
-      'Nur für Sonnenzeiten und Planetenstunden — bleibt auf diesem Gerät.',
-      'Klarheit vor Start: Grenze, Ausgleich, Privatsphäre.'
+      'Haltung wählen — Ethik in einer Zeile.',
+      'Danach: Cockpit mit Jetzt-Karte bereit.'
     ];
     const title = $('#onboard-title');
     if (title && titles[n]) title.textContent = titles[n];
@@ -3315,6 +3313,7 @@
     const eth = $('#onboard-ethics');
     if (!eth || !eth.checked) {
       toast('Bitte Ethik bestätigen');
+      showOnboardStep(0);
       return false;
     }
     const lat = parseFloat(($('#onboard-lat') && $('#onboard-lat').value) || '47.37');
@@ -3325,22 +3324,23 @@
       lon: isNaN(lon) ? 8.54 : lon,
       ethicsAck: true
     });
+    // Erste Minute: land with Jetzt ready (starter optional later via settings)
+    try { if (Store.dismissStarterFlow) Store.dismissStarterFlow(); } catch (_) {}
     refreshState();
     applyMotionPref();
     $('#path-chip').textContent = currentPath().name;
     closeOnboarding();
-    toast('Willkommen — Praxis beginnt hier.');
+    toast('Bereit — Jetzt-Karte wartet.');
     navigate('cockpit');
     renderStarterCard();
-    setTimeout(() => { try { showInstallBanner(true); } catch (_) {} }, 900);
+    renderJetztCard();
     setTimeout(() => {
       try {
-        if (Store.shouldShowStarterFlow && Store.shouldShowStarterFlow()) {
-          const card = $('#starter-card');
-          if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
+        const card = $('#jetzt-card');
+        if (card && !card.hidden) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
       } catch (_) {}
-    }, 500);
+    }, 350);
+    setTimeout(() => { try { showInstallBanner(true); } catch (_) {} }, 900);
     return true;
   }
 
@@ -3800,18 +3800,40 @@
       if (box) box.hidden = true;
     });
 
-    // Onboarding controls
+    // Onboarding controls · Erste Minute (Pfad → Einladung → fertig)
     const onbNext = $('#onboard-next');
     if (onbNext) {
       onbNext.addEventListener('click', () => {
-        if (onboardStep < 3) showOnboardStep(onboardStep + 1);
-        else finishOnboarding();
+        if (onboardStep === 0) {
+          const eth = $('#onboard-ethics');
+          if (!eth || !eth.checked) {
+            toast('Bitte Ethik bestätigen');
+            return;
+          }
+          if (!onboardPath) onboardPath = 'esoterik';
+          showOnboardStep(1);
+          return;
+        }
+        finishOnboarding();
       });
     }
     const onbBack = $('#onboard-back');
     if (onbBack) {
       onbBack.addEventListener('click', () => {
         if (onboardStep > 0) showOnboardStep(onboardStep - 1);
+      });
+    }
+    const onbSkip = $('#onboard-skip');
+    if (onbSkip) {
+      onbSkip.addEventListener('click', () => {
+        const eth = $('#onboard-ethics');
+        if (!eth || !eth.checked) {
+          toast('Bitte Ethik bestätigen, dann Überspringen');
+          showOnboardStep(0);
+          return;
+        }
+        if (!onboardPath) onboardPath = 'esoterik';
+        finishOnboarding();
       });
     }
     const onbZurich = $('#onboard-zurich');

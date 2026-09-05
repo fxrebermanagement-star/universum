@@ -101,6 +101,7 @@
       <div class="voc-banner" id="voc-banner" role="status">
         <span class="voc-ico">☾</span>
         <span id="voc-text"></span>
+        <span class="approx-badge voc-approx" title="VoC-Hinweis ist eine JS-Näherung">Näherung</span>
       </div>
 
       <article class="card mond-arbeit-card" id="mond-arbeit" hidden aria-live="polite">
@@ -140,7 +141,7 @@
       <details class="card mehr-accordion" id="mehr-accordion">
         <summary class="mehr-summary">
           <span>Mehr</span>
-          <span class="mehr-hint">Empfehlen · Lehre · Intention · Chips · Werkzeuge</span>
+          <span class="mehr-hint">Astronomie · Empfehlen · Lehre · Intention · Werkzeuge</span>
         </summary>
         <div class="mehr-body">
 
@@ -217,19 +218,19 @@
         <div class="global-search-results" id="global-search-results-cockpit" hidden role="listbox" aria-label="Suchergebnisse"></div>
       </details>
 
-      <div class="dashboard-grid">
+      <div class="dashboard-grid" aria-label="Astronomie-Näherungen">
         <div class="dash-panel moon">
-          <div class="label">Mond</div>
+          <div class="label">Mond <span class="approx-badge" title="JS-Näherung — kein professionelles Ephemeris">Näherung</span></div>
           <div class="value" id="dash-moon-val">—</div>
           <div class="meta" id="dash-moon-meta"></div>
         </div>
         <div class="dash-panel hour">
-          <div class="label">Planetenstunde</div>
+          <div class="label">Planetenstunde <span class="approx-badge" title="JS-Näherung — kein professionelles Ephemeris">Näherung</span></div>
           <div class="value" id="dash-hour-val">—</div>
           <div class="meta" id="dash-hour-meta"></div>
         </div>
         <div class="dash-panel maya">
-          <div class="label">Maya Tzolkin</div>
+          <div class="label">Maya Tzolkin <span class="approx-badge" title="JS-Näherung — GMT-Korrelation">Näherung</span></div>
           <div class="value" id="dash-maya-val">—</div>
           <div class="meta" id="dash-maya-meta"></div>
         </div>
@@ -239,6 +240,7 @@
           <div class="unrest-bar"><i id="dash-unrest-bar"></i></div>
         </div>
       </div>
+      <p class="approx-note hint-sm" id="astro-approx-note">Mond, Stunde, Maya, Sonne und VoC sind <strong>Näherungen</strong> für die Praxis — kein Ersatz für professionelle Ephemeriden.</p>
 
       <div class="card nested-card">
         <h3>Schumann · 7,83 Hz</h3>
@@ -251,7 +253,7 @@
         <h3>Hinweise</h3>
         <ul class="recs-list" id="dash-recs"></ul>
         <p class="meta-line" id="dash-next-moon"></p>
-        <p class="astro-doc">Näherungen: Mondphase (synodisch), Sonne tropisch aus ekliptikaler Länge, Planetenstunden ab Zürich-Sonnenzeiten, Maya GMT 584283. Kein Ephemeriden-Ersatz.</p>
+        <p class="astro-doc"><span class="approx-badge">Näherung</span> Mondphase (synodisch), Sonne tropisch, Planetenstunden ab Sonnenzeiten, Maya GMT 584283, VoC-Stil — ruhige Praxiswerte, <strong>kein professionelles Ephemeris</strong>.</p>
       </div>
 
       <div class="card nested-card">
@@ -324,7 +326,7 @@
         <button type="button" class="tile" data-tile="netzwerk"><div class="tile-ico">◯</div><div class="tile-name">Netzwerk</div><div class="tile-desc">Lokal · kein Sync</div></button>
       </div>
 
-      <p class="footer-ethics">Näherungen zum Üben · keine Astrologie-Beratung · Voodoo/Santería nur Hauspraxis</p>
+      <p class="footer-ethics">Astronomie = Näherungen zum Üben · keine Astrologie-Beratung · Voodoo/Santería nur Hauspraxis</p>
     </section>
 
     <!-- 2. Kalender -->
@@ -351,7 +353,7 @@
     <section id="sec-kosmos" class="section-view">
       <h1 class="section-title">Kosmos</h1>
       <p class="section-sub">Tageskreis der Luminare &amp; Planeten (Näherung) · Schumann-Visualisierung</p>
-      <div class="notice">Positionen sind approximativ für die Praxis — kein Ephemeriden-Ersatz.</div>
+      <div class="notice">Positionen sind <strong>Näherungen</strong> für die Praxis — kein professionelles Ephemeris. <span class="approx-badge">Näherung</span></div>
       <p class="kosmos-hour-hint" id="kosmos-hour-hint" aria-live="polite">Planetenstunde: —</p>
       <div class="radar-wrap">
         <canvas id="radar-canvas" aria-label="Planetenradar — tippe einen Planeten für Details" role="img"></canvas>
@@ -704,58 +706,35 @@
     </div>
   </div>
 
-  <!-- First-run onboarding -->
+  <!-- First-run onboarding · Erste Minute (v2.1) -->
   <div class="onboard-overlay" id="onboard-overlay" hidden>
     <div class="onboard-card" role="dialog" aria-modal="true" aria-labelledby="onboard-title">
-      <p class="splash-eyebrow">WILLKOMMEN · UNIVERSUM</p>
-      <h2 id="onboard-title">Dein Praxis-Cockpit</h2>
-      <p class="onboard-copy" id="onboard-lead">Ritualbegleiter für den Tag — lokal, ethisch, pfadstark. Kein Konto, kein Backend.</p>
-      <div class="onboard-progress" id="onboard-progress" aria-hidden="true"><i data-op="0"></i><i data-op="1"></i><i data-op="2"></i><i data-op="3"></i></div>
+      <p class="splash-eyebrow">ERSTE MINUTE · UNIVERSUM</p>
+      <h2 id="onboard-title">Dein Pfad</h2>
+      <p class="onboard-copy" id="onboard-lead">Haltung wählen — dann üben.</p>
+      <div class="onboard-progress" id="onboard-progress" aria-hidden="true"><i data-op="0"></i><i data-op="1"></i></div>
 
       <div class="onboard-step" data-onboard-step="0">
-        <p class="hint"><strong>Warum UNIVERSUM?</strong> Für Magier:innen und Praktizierende, die ein ruhiges Werkzeug brauchen — nicht einen Feed.</p>
-        <ul class="trust-strip trust-strip-onboard" aria-label="Warum UNIVERSUM">
-          <li><strong>Lokal zuerst</strong><span>Tagebuch &amp; Rituale bleiben auf dem Gerät</span></li>
-          <li><strong>Ethisch klar</strong><span>Grenze &amp; Ausgleich · kein Schaden</span></li>
-          <li><strong>Pfadstark</strong><span>8 Traditionen · Hauspraxis mit Respekt</span></li>
-        </ul>
-        <ul class="onboard-value-list">
-          <li>Tagesbriefing mit Mond, Stunde &amp; Empfehlung</li>
-          <li>Geführte Rituale, Atem, Sigil, Feldkarten</li>
-          <li>Magie-Tagebuch mit Export — du besitzt die Daten</li>
-        </ul>
+        <p class="hint">Pfad prägt Rituale und Impulse. Später jederzeit wechselbar. Standort: Zürich (in Einstellungen änderbar).</p>
+        <div class="path-grid" id="onboard-paths"></div>
+        <label class="inline-check onboard-ethics">
+          <input type="checkbox" id="onboard-ethics" />
+          Grenze &amp; Ausgleich · kein Schaden an Personen.
+        </label>
+        <input type="hidden" id="onboard-lat" value="47.37" />
+        <input type="hidden" id="onboard-lon" value="8.54" />
       </div>
 
       <div class="onboard-step hidden" data-onboard-step="1">
-        <p class="hint">Wähle deinen Pfad. Du kannst später wechseln — Rituale und Impulse passen sich an.</p>
-        <div class="path-grid" id="onboard-paths"></div>
-      </div>
-
-      <div class="onboard-step hidden" data-onboard-step="2">
-        <p class="hint">Standort für Planetenstunden (Standard: Zürich). Nur lokal gespeichert.</p>
-        <div class="loc-grid">
-          <div class="form-row" style="margin:0"><label for="onboard-lat">Breite</label><input id="onboard-lat" type="number" step="0.01" value="47.37" /></div>
-          <div class="form-row" style="margin:0"><label for="onboard-lon">Länge</label><input id="onboard-lon" type="number" step="0.01" value="8.54" /></div>
+        <p class="hint"><strong>Einladung zur Praxis:</strong> Im Cockpit steht die Karte <em>Jetzt</em> bereit — eine klare Empfehlung für heute.</p>
+        <div class="notice ethics-line onboard-invite-box">
+          Tippe «Üben» — keine lange Tour. Eine Praxis reicht.
         </div>
-        <button type="button" class="ghost w-full mt-1" id="onboard-zurich">Zürich übernehmen</button>
-      </div>
-
-      <div class="onboard-step hidden" data-onboard-step="3">
-        <p class="hint">Ethik &amp; Vertrauen — bitte bewusst bestätigen.</p>
-        <div class="notice ethics-line">
-          Grenze und Ausgleich. Kein Schaden an Personen.<br />
-          Voodoo/Santería nur Hauspraxis, keine Initiation.<br />
-          Privatsphäre: alles in <code>feldlicht-v15</code> auf diesem Gerät.<br />
-          <em>Ein Handy kann keine Geister messen.</em>
-        </div>
-        <label class="inline-check onboard-ethics">
-          <input type="checkbox" id="onboard-ethics" />
-          Ich bestätige diese Haltung für meine Praxis hier.
-        </label>
       </div>
 
       <div class="onboard-nav">
         <button type="button" class="ghost" id="onboard-back" hidden>Zurück</button>
+        <button type="button" class="ghost" id="onboard-skip">Überspringen</button>
         <button type="button" class="primary" id="onboard-next">Weiter</button>
       </div>
     </div>
@@ -801,12 +780,15 @@
         <h3 class="mt-2">Tipp des Tages</h3>
         <p class="tip-text" id="settings-tip-of-day">…</p>
 
+        <h3 class="mt-2">Astronomie</h3>
+        <p class="hint-sm approx-settings-note">Mond, Planetenstunde, Maya, Sonne und VoC sind <strong>Näherungen</strong> (JS) — ehrlich für die Praxis, kein professionelles Ephemeris.</p>
+
         <h3 class="mt-2">Onboarding</h3>
-        <p class="hint-sm">Willkommen, Pfad und Ethik erneut durchlaufen</p>
+        <p class="hint-sm">Pfad und Ethik erneut — kurze Erste Minute</p>
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
         <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">2.0.0</span></p>
+        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">2.1.0</span></p>
       </div>
     </div>
   </div>
