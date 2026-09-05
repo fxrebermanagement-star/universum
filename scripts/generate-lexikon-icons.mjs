@@ -991,14 +991,14 @@ manifest.sort((a, b) => a.slug.localeCompare(b.slug));
 fs.writeFileSync(path.join(OUT, 'manifest.json'), JSON.stringify(manifest, null, 2) + '\n');
 
 const categoryDefaults = {
-  '_cat-herb.svg': defaultHerb(),
-  '_cat-kitchen.svg': defaultKitchen(),
-  '_cat-stone.svg': defaultStone(),
-  '_cat-tool.svg': defaultTool(),
-  '_cat-link.svg': defaultLink(),
-  '_cat-offering.svg': defaultOffering(),
-  '_cat-color.svg': defaultColor(),
-  '_blank.svg': softBlankGlyph(),
+  'fallback-herb.svg': defaultHerb(),
+  'fallback-kitchen.svg': defaultKitchen(),
+  'fallback-stone.svg': defaultStone(),
+  'fallback-tool.svg': defaultTool(),
+  'fallback-link.svg': defaultLink(),
+  'fallback-offering.svg': defaultOffering(),
+  'fallback-color.svg': defaultColor(),
+  'fallback-blank.svg': softBlankGlyph(),
 };
 for (const [file, inner] of Object.entries(categoryDefaults)) {
   const label = file.replace('.svg', '').replace(/^_cat-/, 'Kategorie ').replace('_blank', 'Symbol');

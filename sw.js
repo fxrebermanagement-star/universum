@@ -2,9 +2,9 @@
  * UNIVERSUM · Service Worker — offline shell caching
  * Relative URLs so GitHub Pages /universum/ subpath works.
  * Cache-first for app shell; network-first navigations; offline fallback to cockpit.
- * v61: 5.18.1 — Lexikon SVG Feinschliff · keine Abkürzungen · category/_blank fallbacks.
+ * v62: 5.18.1 — Lexikon SVG Feinschliff · keine Abkürzungen · fallback-* SVGs · .nojekyll
  */
-const CACHE = 'universum-shell-v61';
+const CACHE = 'universum-shell-v62';
 const SHELL = [
   './',
   './index.html',
@@ -46,14 +46,14 @@ const SHELL = [
   './icons/icon-192.png',
   './icons/icon-512.png',
   './assets/lexikon/manifest.json',
-  './assets/lexikon/_blank.svg',
-  './assets/lexikon/_cat-herb.svg',
-  './assets/lexikon/_cat-kitchen.svg',
-  './assets/lexikon/_cat-stone.svg',
-  './assets/lexikon/_cat-color.svg',
-  './assets/lexikon/_cat-tool.svg',
-  './assets/lexikon/_cat-link.svg',
-  './assets/lexikon/_cat-offering.svg'
+  './assets/lexikon/fallback-blank.svg',
+  './assets/lexikon/fallback-herb.svg',
+  './assets/lexikon/fallback-kitchen.svg',
+  './assets/lexikon/fallback-stone.svg',
+  './assets/lexikon/fallback-color.svg',
+  './assets/lexikon/fallback-tool.svg',
+  './assets/lexikon/fallback-link.svg',
+  './assets/lexikon/fallback-offering.svg'
 ];
 
 function cacheUrl(cache, url) {

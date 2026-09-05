@@ -1816,8 +1816,8 @@
     const src = (Paths.lexikonDisplayIconSrc
       ? Paths.lexikonDisplayIconSrc(name, k)
       : (Paths.lexikonIconSrc ? Paths.lexikonIconSrc(name) : '')) ||
-      (Paths.lexikonBlankIconSrc ? Paths.lexikonBlankIconSrc() : 'assets/lexikon/_blank.svg');
-    const blank = Paths.lexikonBlankIconSrc ? Paths.lexikonBlankIconSrc() : 'assets/lexikon/_blank.svg';
+      (Paths.lexikonBlankIconSrc ? Paths.lexikonBlankIconSrc() : 'assets/lexikon/fallback-blank.svg');
+    const blank = Paths.lexikonBlankIconSrc ? Paths.lexikonBlankIconSrc() : 'assets/lexikon/fallback-blank.svg';
     return '<span class="' + cls + ' lex-ico-wrap" aria-hidden="true">' +
       '<img class="lex-ico-img" src="' + src + '" alt="" width="32" height="32" loading="lazy" decoding="async" ' +
       "onerror=\"this.onerror=null;this.src='" + blank + "';\"/>" +

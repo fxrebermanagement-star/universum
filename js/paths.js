@@ -1802,21 +1802,21 @@
   /** Category default SVG — never letters/monograms. */
   function lexikonCategoryIconSrc(kind) {
     const map = {
-      herb: '_cat-herb.svg',
-      kitchen: '_cat-kitchen.svg',
-      stone: '_cat-stone.svg',
-      color: '_cat-color.svg',
-      tool: '_cat-tool.svg',
-      link: '_cat-link.svg',
-      offering: '_cat-offering.svg'
+      herb: 'fallback-herb.svg',
+      kitchen: 'fallback-kitchen.svg',
+      stone: 'fallback-stone.svg',
+      color: 'fallback-color.svg',
+      tool: 'fallback-tool.svg',
+      link: 'fallback-link.svg',
+      offering: 'fallback-offering.svg'
     };
-    const file = map[kind] || '_blank.svg';
+    const file = map[kind] || 'fallback-blank.svg';
     return 'assets/lexikon/' + file;
   }
 
   /** Soft blank glyph when even category is unknown. */
   function lexikonBlankIconSrc() {
-    return 'assets/lexikon/_blank.svg';
+    return 'assets/lexikon/fallback-blank.svg';
   }
 
   /** Resolve display SVG: named icon → category default → blank. Never abbreviations. */
