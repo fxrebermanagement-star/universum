@@ -7740,9 +7740,16 @@ button.primary:active:not(:disabled),
 }
 .resonanz-sec-tabs {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
+  flex-wrap: nowrap;
+  gap: 0.35rem;
   margin: 0.55rem 0 0.65rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+.resonanz-sec-tabs .cal-filter-btn {
+  flex: 0 0 auto;
+  white-space: nowrap;
 }
 .resonanz-secondary-card .korrespondenz-list {
   margin-top: 0.35rem;
@@ -7765,7 +7772,7 @@ body.reduced-motion .herb-ref-item:focus-visible {
   font-size: 0.82rem;
 }
 
-/* ——— Lexikon v5.16.1: Suche · A–Z-Sort · Opfergaben · Brücke · eigene Einträge ——— */
+/* ——— Lexikon v5.16.1→5.17: Suche · A–Z-Sort · Opfergaben · Brücke · eigene Einträge ——— */
 .lexikon-toolbar {
   display: flex;
   flex-direction: column;
@@ -7895,7 +7902,7 @@ body.reduced-motion .herb-ref-item:focus-visible {
   white-space: nowrap; border: 0;
 }
 
-/* ——— Resonanzen v5.16.1 UI polish ——— */
+/* ——— Resonanzen v5.17.0 UI polish ——— */
 #sec-korrespondenzen .resonanz-path-toggle {
   margin: 0.35rem 0 0.85rem;
   gap: 0.45rem;
@@ -7905,14 +7912,21 @@ body.reduced-motion .herb-ref-item:focus-visible {
 }
 #sec-korrespondenzen .lexikon-tabs {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.45rem;
-  margin: 0.75rem 0 0.85rem;
+  flex-wrap: nowrap;
+  gap: 0.35rem;
+  margin: 0.55rem 0 0.7rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  padding-bottom: 0.2rem;
+  mask-image: linear-gradient(90deg, #000 0%, #000 calc(100% - 1.2rem), transparent 100%);
 }
 #sec-korrespondenzen .lexikon-tabs .cal-filter-btn {
-  font-size: 0.84rem;
-  padding: 0.42rem 0.72rem;
-  line-height: 1.25;
+  flex: 0 0 auto;
+  font-size: 0.78rem;
+  padding: 0.34rem 0.62rem;
+  line-height: 1.2;
+  white-space: nowrap;
 }
 #sec-korrespondenzen .lexikon-toolbar {
   gap: 0.65rem;
@@ -7983,4 +7997,115 @@ body.reduced-motion .herb-ref-item:focus-visible {
 }
 #sec-korrespondenzen .lexikon-custom-details {
   margin: 0.35rem 0 0.85rem;
+}
+
+
+/* ——— Lexikon v5.17.0: scroll tabs · Detail-Sheet · Favoriten · Ethik einmal ——— */
+.lexikon-ethics-once {
+  margin: 0.35rem 0 0.55rem;
+  padding: 0.45rem 0.65rem;
+  border-radius: calc(var(--radius) - 2px);
+  border: 1px solid rgba(126, 192, 120, 0.18);
+  background: rgba(126, 192, 120, 0.06);
+  color: var(--text-soft);
+  line-height: 1.4;
+}
+.lexikon-fav-btn {
+  margin-left: 0.15rem;
+  padding: 0.1rem 0.35rem;
+  border: none;
+  background: transparent;
+  color: var(--gold, #d4af6a);
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 6px;
+}
+.lexikon-fav-btn:hover,
+.lexikon-fav-btn:focus-visible {
+  outline: 2px solid rgba(212, 175, 106, 0.45);
+  outline-offset: 1px;
+}
+.lexikon-fav-btn.is-fav {
+  color: #f0d78c;
+  text-shadow: 0 0 8px rgba(212, 175, 106, 0.35);
+}
+#lexikon-filter-fav.active {
+  border-color: rgba(212, 175, 106, 0.55);
+  color: var(--gold, #d4af6a);
+}
+.herb-ref-item .herb-ref-desc {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+#lexikon-detail-overlay.modal-overlay {
+  z-index: 120;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0;
+  background: rgba(4, 2, 10, 0.62);
+}
+#lexikon-detail-overlay .lexikon-detail-sheet {
+  width: min(520px, 100%);
+  max-height: min(88vh, 640px);
+  margin: 0;
+  border-radius: 1.1rem 1.1rem 0 0;
+  border: 1px solid rgba(139, 111, 208, 0.35);
+  background: linear-gradient(165deg, #161022, #0c0814 72%);
+  padding: 1rem 1.05rem calc(1rem + env(safe-area-inset-bottom, 0px));
+  box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.45);
+  overflow: auto;
+}
+.lexikon-detail-head {
+  display: flex;
+  gap: 0.65rem;
+  align-items: flex-start;
+  margin-bottom: 0.65rem;
+}
+.lexikon-detail-ico {
+  font-size: 2rem;
+  line-height: 1;
+  flex: 0 0 auto;
+  filter: saturate(1.08);
+}
+.lexikon-detail-titles {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.lexikon-detail-titles h2 {
+  margin: 0;
+  font-family: var(--font-title);
+  font-size: 1.2rem;
+  color: var(--moon, #b8e0a8);
+}
+.lexikon-detail-paths {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0 0 0.75rem;
+}
+.lexikon-detail-desc {
+  margin: 0 0 1rem;
+  font-size: 0.98rem;
+  line-height: 1.55;
+  color: var(--text, #efeaf8);
+  white-space: pre-wrap;
+}
+.lexikon-detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  justify-content: flex-end;
+}
+@media (min-width: 720px) {
+  #lexikon-detail-overlay.modal-overlay {
+    align-items: center;
+    padding: 1rem;
+  }
+  #lexikon-detail-overlay .lexikon-detail-sheet {
+    border-radius: 1.1rem;
+    max-height: min(80vh, 560px);
+  }
 }

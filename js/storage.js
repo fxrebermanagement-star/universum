@@ -19,6 +19,7 @@
     practice369: {},
     dailyIntention: { text: '', date: null, link369: false },
     ritualFavorites: [],
+    lexikonFavorites: [],
     briefingPins: ['moon', 'hour', 'unrest'],
     sigilGallery: [],
     intentionHistory: [],
@@ -115,6 +116,7 @@
         practice369: data.practice369 && typeof data.practice369 === 'object' ? data.practice369 : {},
         dailyIntention: Object.assign({}, DEFAULTS.dailyIntention, data.dailyIntention || {}),
         ritualFavorites: Array.isArray(data.ritualFavorites) ? data.ritualFavorites.slice(0, 24) : [],
+        lexikonFavorites: Array.isArray(data.lexikonFavorites) ? data.lexikonFavorites.slice(0, 200) : [],
         briefingPins: normalizePins(data.briefingPins),
         sigilGallery: Array.isArray(data.sigilGallery) ? data.sigilGallery.slice(0, 8) : [],
         intentionHistory: Array.isArray(data.intentionHistory) ? data.intentionHistory.slice(0, 14) : [],
@@ -254,7 +256,7 @@
     });
   }
 
-  const APP_VERSION = '5.16.1';
+  const APP_VERSION = '5.17.0';
 
   function buildExportMeta(data) {
     const pathId = data.path || 'esoterik';
@@ -499,6 +501,7 @@
         ? incoming.practice369 : {},
       dailyIntention: Object.assign({}, DEFAULTS.dailyIntention, incoming.dailyIntention || {}),
       ritualFavorites: Array.isArray(incoming.ritualFavorites) ? incoming.ritualFavorites.slice(0, 24) : [],
+      lexikonFavorites: Array.isArray(incoming.lexikonFavorites) ? incoming.lexikonFavorites.slice(0, 200) : [],
       briefingPins: normalizePins(incoming.briefingPins),
       sigilGallery: Array.isArray(incoming.sigilGallery) ? incoming.sigilGallery.slice(0, 8) : [],
       intentionHistory: Array.isArray(incoming.intentionHistory) ? incoming.intentionHistory.slice(0, 14) : [],
@@ -564,6 +567,7 @@
               practice369: Object.assign({}, local.practice369 || {}, norm.practice369 || {}),
               cardDrawHistory: (norm.cardDrawHistory || []).concat(local.cardDrawHistory || []).slice(0, 40),
               ritualFavorites: Array.from(new Set([].concat(local.ritualFavorites || [], norm.ritualFavorites || []))).slice(0, 24),
+              lexikonFavorites: Array.from(new Set([].concat(local.lexikonFavorites || [], norm.lexikonFavorites || []))).slice(0, 200),
               sigilGallery: (norm.sigilGallery || []).concat(local.sigilGallery || []).slice(0, 8),
               intentionHistory: mergeById(local.intentionHistory || [], norm.intentionHistory || []).slice(0, 14),
               practiceLog: mergeById(local.practiceLog || [], norm.practiceLog || []).slice(0, 80),
@@ -1137,6 +1141,84 @@
     });
   }
 
+  function lexikonFavKey(kind, name) {
+    return String(kind || 'herb') + '::' + String(name || '').trim().toLowerCase();
+  }
+
+  function getLexikonFavorites() {
+    const d = load();
+    return Array.isArray(d.lexikonFavorites) ? d.lexikonFavorites.slice() : [];
+  }
+
+  function isLexikonFavorite(kind, name) {
+    const key = lexikonFavKey(kind, name);
+    if (!key.endsWith('::') && key.indexOf('::') > 0) {
+      return getLexikonFavorites().indexOf(key) >= 0;
+    }
+    return false;
+  }
+
+  function toggleLexikonFavorite(kind, name) {
+    const key = lexikonFavKey(kind, name);
+    if (!name || key.endsWith('::')) return getLexikonFavorites();
+    return update(d => {
+      if (!Array.isArray(d.lexikonFavorites)) d.lexikonFavorites = [];
+      const favs = d.lexikonFavorites.slice();
+      const i = favs.indexOf(key);
+      if (i >= 0) favs.splice(i, 1);
+      else favs.unshift(key);
+      d.lexikonFavorites = favs.slice(0, 200);
+    });
+  }
+
+  /** Local download: eigene Lexikon-Einträge + optional Favoriten-Liste (Buch-Export-Stil). */
+  function exportLexikon(opts) {
+    const data = load();
+    const includeFavs = !opts || opts.favorites !== false;
+    const payload = {
+      app: 'UNIVERSUM',
+      formerly: 'Feldlicht Ritualbegleiter',
+      appVersion: APP_VERSION,
+      exportedAt: new Date().toISOString(),
+      storageKey: STORAGE_KEY,
+      format: 'universum-lexikon-v1',
+      meta: {
+        customCount: (data.customLexikon || []).length,
+        favoriteCount: includeFavs ? (data.lexikonFavorites || []).length : 0
+      },
+      customLexikon: (data.customLexikon || []).slice(),
+      lexikonFavorites: includeFavs ? (data.lexikonFavorites || []).slice() : []
+    };
+    downloadJsonPayload(payload, 'universum-lexikon.json');
+    return true;
+  }
+
+  function exportLexikonText() {
+    const data = load();
+    const lines = [];
+    lines.push('UNIVERSUM · Lexikon-Export');
+    lines.push('App v' + APP_VERSION + ' · ' + new Date().toISOString());
+    lines.push('');
+    lines.push('— Eigene Einträge —');
+    (data.customLexikon || []).forEach(e => {
+      if (!e) return;
+      lines.push((e.ico || '✦') + ' ' + (e.name || '') + ' [' + (e.kind || '') + ']');
+      lines.push(String(e.description || ''));
+      lines.push('');
+    });
+    lines.push('— Favoriten (Keys) —');
+    (data.lexikonFavorites || []).forEach(k => lines.push(String(k)));
+    const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'universum-lexikon.txt';
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+    return true;
+  }
+
+
   function getLastActivity() {
     const d = load();
     return Object.assign({}, DEFAULTS.lastActivity, d.lastActivity || {});
@@ -1249,6 +1331,12 @@
     getCustomLexikon,
     upsertCustomLexikon,
     removeCustomLexikon,
+    lexikonFavKey,
+    getLexikonFavorites,
+    isLexikonFavorite,
+    toggleLexikonFavorite,
+    exportLexikon,
+    exportLexikonText,
     getLastActivity,
     touchLastActivity
   };

@@ -526,7 +526,7 @@
         <button type="button" class="tile" data-tile="kalender"><div class="tile-ico" aria-hidden="true">📅</div><div class="tile-name">Kalender</div><div class="tile-desc">Mond &amp; Feste</div></button>
         <button type="button" class="tile" data-tile="kosmos"><div class="tile-ico" aria-hidden="true">🪐</div><div class="tile-name">Kosmos</div><div class="tile-desc">Stunde · Kreis · Fokus</div></button>
         <button type="button" class="tile" data-tile="rituale"><div class="tile-ico" aria-hidden="true">🕯️</div><div class="tile-name">Rituale</div><div class="tile-desc">Werkzeug · Eigene · Sigil</div></button>
-        <button type="button" class="tile" data-tile="korrespondenzen"><div class="tile-ico" aria-hidden="true">🌿</div><div class="tile-name">Resonanzen</div><div class="tile-desc">Lexikon · Kräuter · Hausmittel · Opfergaben · Steine</div></button>
+        <button type="button" class="tile" data-tile="korrespondenzen"><div class="tile-ico" aria-hidden="true">🌿</div><div class="tile-name">Resonanzen</div><div class="tile-desc">Lexikon · Kräuter · Hausmittel · Steine · Opfergaben</div></button>
         <button type="button" class="tile" data-tile="buch"><div class="tile-ico" aria-hidden="true">📖</div><div class="tile-name">Magie-Buch</div><div class="tile-desc">Notiz · Eintrag · lokal</div></button>
       </div>
 
@@ -993,7 +993,7 @@
       <div id="notes-list" hidden aria-hidden="true"></div>
     </section>
 
-    <!-- 6. Resonanzen / korrespondenzen — Lexikon (Kräuter · Hausmittel · Opfergaben · Steine · Farben · Werkzeuge · Bezüge) -->
+    <!-- 6. Resonanzen / korrespondenzen — Lexikon (Kräuter · Hausmittel · Steine · Farben · Werkzeuge · Bezüge · Opfergaben) -->
     <section id="sec-korrespondenzen" class="section-view">
       <h1 class="section-title"><span class="sec-ico" aria-hidden="true">🌿</span> Resonanzen</h1>
       <span class="section-motif" aria-hidden="true"></span>
@@ -1009,24 +1009,27 @@
           <h3 id="herb-list-title">Lexikon</h3>
           <span class="chip-quiet" id="herb-list-chip">Nachschlagen</span>
         </div>
-        <p class="hint-sm" id="herb-list-lead">Name und Erklärung — Symbolik der Hauspraxis, kein Heilversprechen.</p>
+        <p class="hint-sm" id="herb-list-lead">Name tippen für Erklärung und Aktionen.</p>
+        <p class="hint-sm lexikon-ethics-once" id="lexikon-ethics-once">Symbolik / Hauspraxis — kein medizinischer Rat, Maß und Einwilligung.</p>
         <div class="resonanz-sec-tabs lexikon-tabs" role="tablist" aria-label="Lexikon-Kategorien">
           <button type="button" class="cal-filter-btn active" role="tab" data-lexikon-tab="herb" aria-selected="true">Kräuter</button>
           <button type="button" class="cal-filter-btn" role="tab" data-lexikon-tab="kitchen" aria-selected="false">Hausmittel</button>
-          <button type="button" class="cal-filter-btn" role="tab" data-lexikon-tab="offering" aria-selected="false">Opfergaben</button>
           <button type="button" class="cal-filter-btn" role="tab" data-lexikon-tab="stone" aria-selected="false">Steine</button>
           <button type="button" class="cal-filter-btn" role="tab" data-lexikon-tab="color" aria-selected="false">Farben</button>
           <button type="button" class="cal-filter-btn" role="tab" data-lexikon-tab="tool" aria-selected="false">Werkzeuge</button>
           <button type="button" class="cal-filter-btn" role="tab" data-lexikon-tab="link" aria-selected="false">Bezüge</button>
+          <button type="button" class="cal-filter-btn" role="tab" data-lexikon-tab="offering" aria-selected="false">Opfergaben</button>
         </div>
         <div class="lexikon-toolbar" id="lexikon-toolbar">
           <label class="lexikon-search-label" for="lexikon-search">
             <span class="visually-hidden">Lexikon durchsuchen</span>
             <input type="search" id="lexikon-search" class="lexikon-search" placeholder="Suchen … Name oder Erklärung" autocomplete="off" enterkeyhint="search">
           </label>
-          <div class="lexikon-sort-row" role="group" aria-label="Sortierung">
+          <div class="lexikon-sort-row" role="group" aria-label="Sortierung und Filter">
             <button type="button" class="ghost tiny cal-filter-btn active" id="lexikon-sort-az" aria-pressed="true">A–Z</button>
             <button type="button" class="ghost tiny cal-filter-btn" id="lexikon-sort-path" aria-pressed="false">Pfad-Reihenfolge</button>
+            <button type="button" class="ghost tiny cal-filter-btn" id="lexikon-filter-fav" aria-pressed="false" title="Nur Favoriten">★ Favoriten</button>
+            <button type="button" class="ghost tiny" id="lexikon-export" title="Eigene Einträge und Favoriten lokal speichern">Export</button>
           </div>
         </div>
         <details class="lexikon-custom-details" id="lexikon-custom-details">
@@ -1038,11 +1041,11 @@
               <select id="lexikon-custom-kind">
                 <option value="herb">Kräuter</option>
                 <option value="kitchen">Hausmittel</option>
-                <option value="offering">Opfergaben</option>
                 <option value="stone">Steine</option>
                 <option value="color">Farben</option>
                 <option value="tool">Werkzeuge</option>
                 <option value="link">Bezüge</option>
+                <option value="offering">Opfergaben</option>
               </select>
             </label>
             <label>Name <input type="text" id="lexikon-custom-name" maxlength="80" required placeholder="z. B. Rum"></label>
@@ -1257,6 +1260,28 @@
   </div>
 
   <!-- Global search modal -->
+
+  <!-- Lexikon-Eintrags-Detail -->
+  <div class="modal-overlay" id="lexikon-detail-overlay" hidden>
+    <div class="modal lexikon-detail-sheet" role="dialog" aria-modal="true" aria-labelledby="lexikon-detail-title">
+      <div class="lexikon-detail-head">
+        <span class="lexikon-detail-ico" id="lexikon-detail-ico" aria-hidden="true">✦</span>
+        <div class="lexikon-detail-titles">
+          <h2 id="lexikon-detail-title">Eintrag</h2>
+          <p class="hint-sm" id="lexikon-detail-kind">Kategorie</p>
+        </div>
+        <button type="button" class="icon-btn" id="lexikon-detail-close" aria-label="Schließen">✕</button>
+      </div>
+      <div class="lexikon-detail-paths" id="lexikon-detail-paths"></div>
+      <p class="lexikon-detail-desc" id="lexikon-detail-desc"></p>
+      <div class="lexikon-detail-actions">
+        <button type="button" class="ghost" id="lexikon-detail-fav" aria-pressed="false">☆ Favorit</button>
+        <button type="button" class="ghost" id="lexikon-detail-buch">Ins Buch</button>
+        <button type="button" class="primary" id="lexikon-detail-done">Schließen</button>
+      </div>
+    </div>
+  </div>
+
   <div class="modal-overlay" id="global-search-modal">
     <div class="modal search-modal" role="dialog" aria-modal="true" aria-labelledby="global-search-title">
       <div class="drawer-head" style="padding:0;margin-bottom:0.75rem;border:none">

@@ -1742,18 +1742,20 @@
   }
 
   const LEXIKON_TAB_META = {
-    herb: { title: 'Kräuter', singular: 'Kraut', toast: 'Kraut gemerkt', empty: 'Keine Kräuter hinterlegt.', leadPath: 'Pfadbezogene Kräuter', leadAll: 'Alle Pfade · gleiche Namen zusammengefasst. Tippen merkt den Eintrag für den Altar-Glance.', fallbackIco: '🌿' },
-    kitchen: { title: 'Hausmittel', singular: 'Hausmittel', toast: 'Hausmittel gemerkt', empty: 'Keine Hausmittel hinterlegt.', leadPath: 'Hausmittel für', leadAll: 'Alle Pfade · Hausmittel dedupliziert. Symbolik, kein Heilversprechen.', fallbackIco: '🍯' },
-    offering: { title: 'Opfergaben', singular: 'Opfergabe', toast: 'Opfergabe gemerkt', empty: 'Keine Opfergaben hinterlegt.', leadPath: 'Opfergaben für', leadAll: 'Alle Pfade · Opfergaben dedupliziert. Symbolik und Gabe — Maß, Ethik, kein Trinkzwang, keine Initiation.', fallbackIco: '🥂' },
-    stone: { title: 'Steine', singular: 'Stein', toast: 'Stein gemerkt', empty: 'Keine Steine hinterlegt.', leadPath: 'Altarsteine und Blickfänge für', leadAll: 'Alle Pfade · Steine dedupliziert. Symbolik, keine Kristallheilung.', fallbackIco: '💎' },
-    color: { title: 'Farben', singular: 'Farbe', toast: 'Farbe gemerkt', empty: 'Keine Farben hinterlegt.', leadPath: 'Altarfarben und Tücher für', leadAll: 'Alle Pfade · Farben dedupliziert. Altarfarbe / Blickfang.', fallbackIco: '🎨' },
-    tool: { title: 'Werkzeuge', singular: 'Werkzeug', toast: 'Werkzeug gemerkt', empty: 'Keine Werkzeuge hinterlegt.', leadPath: 'Werkzeuge der Hauspraxis für', leadAll: 'Alle Pfade · Werkzeuge dedupliziert. Symbolik und Maß.', fallbackIco: '🛠️' },
-    link: { title: 'Bezüge & Hilfsmittel', singular: 'Bezug', toast: 'Bezug gemerkt', empty: 'Keine Bezüge hinterlegt.', leadPath: 'Klassische Bezüge für', leadAll: 'Alle Pfade · Bezüge dedupliziert. Nur mit Einwilligung — kein Schaden.', fallbackIco: '🔗' }
+    herb: { title: 'Kräuter', singular: 'Kraut', toast: 'Kraut gemerkt', empty: 'Keine Kräuter hinterlegt.', leadPath: 'Pfadbezogene Kräuter', leadAll: 'Alle Pfade · gleiche Namen zusammengefasst.', fallbackIco: '🌿' },
+    kitchen: { title: 'Hausmittel', singular: 'Hausmittel', toast: 'Hausmittel gemerkt', empty: 'Keine Hausmittel hinterlegt.', leadPath: 'Hausmittel für', leadAll: 'Alle Pfade · Hausmittel dedupliziert.', fallbackIco: '🍯' },
+    offering: { title: 'Opfergaben', singular: 'Opfergabe', toast: 'Opfergabe gemerkt', empty: 'Keine Opfergaben hinterlegt.', leadPath: 'Opfergaben für', leadAll: 'Alle Pfade · Opfergaben dedupliziert. Maß und Ethik — kein Trinkzwang, keine Initiation.', fallbackIco: '🥂' },
+    stone: { title: 'Steine', singular: 'Stein', toast: 'Stein gemerkt', empty: 'Keine Steine hinterlegt.', leadPath: 'Altarsteine und Blickfänge für', leadAll: 'Alle Pfade · Steine dedupliziert.', fallbackIco: '💎' },
+    color: { title: 'Farben', singular: 'Farbe', toast: 'Farbe gemerkt', empty: 'Keine Farben hinterlegt.', leadPath: 'Altarfarben und Tücher für', leadAll: 'Alle Pfade · Farben dedupliziert.', fallbackIco: '🎨' },
+    tool: { title: 'Werkzeuge', singular: 'Werkzeug', toast: 'Werkzeug gemerkt', empty: 'Keine Werkzeuge hinterlegt.', leadPath: 'Werkzeuge der Hauspraxis für', leadAll: 'Alle Pfade · Werkzeuge dedupliziert.', fallbackIco: '🛠️' },
+    link: { title: 'Bezüge & Hilfsmittel', singular: 'Bezug', toast: 'Bezug gemerkt', empty: 'Keine Bezüge hinterlegt.', leadPath: 'Klassische Bezüge für', leadAll: 'Alle Pfade · Bezüge dedupliziert. Nur mit Einwilligung.', fallbackIco: '🔗' }
   };
 
   let lexikonSearchQ = '';
   let lexikonSortAz = true;
+  let lexikonFavOnly = false;
   let pendingLexikonFocus = null; // { tab, name }
+  let lexikonDetailCtx = null; // { kind, name, ico, description, pathNames, pathId }
 
 
   function currentLexikonTab() {
@@ -1798,13 +1800,82 @@
     }
   }
 
+  function shortLexikonDesc(text, maxLen) {
+    const t = String(text || '').replace(/\s+/g, ' ').trim();
+    const lim = maxLen || 96;
+    if (t.length <= lim) return t;
+    const cut = t.slice(0, lim - 1);
+    const sp = cut.lastIndexOf(' ');
+    return (sp > 48 ? cut.slice(0, sp) : cut).trim() + '…';
+  }
+
+  function closeLexikonDetail() {
+    const ov = $('#lexikon-detail-overlay');
+    if (ov) {
+      ov.hidden = true;
+      ov.classList.remove('open');
+    }
+    lexikonDetailCtx = null;
+  }
+
+  function openLexikonDetail(ctx) {
+    if (!ctx || !ctx.name) return;
+    lexikonDetailCtx = ctx;
+    const ov = $('#lexikon-detail-overlay');
+    const icoEl = $('#lexikon-detail-ico');
+    const title = $('#lexikon-detail-title');
+    const kindEl = $('#lexikon-detail-kind');
+    const pathsEl = $('#lexikon-detail-paths');
+    const desc = $('#lexikon-detail-desc');
+    const favBtn = $('#lexikon-detail-fav');
+    const meta = LEXIKON_TAB_META[ctx.kind] || LEXIKON_TAB_META.herb;
+    if (icoEl) icoEl.textContent = ctx.ico || meta.fallbackIco || '✦';
+    if (title) title.textContent = ctx.name;
+    if (kindEl) kindEl.textContent = meta.title || 'Lexikon';
+    if (desc) desc.textContent = ctx.description || '';
+    if (pathsEl) {
+      const names = (ctx.pathNames || []).filter(Boolean);
+      pathsEl.innerHTML = names.length
+        ? names.map(function (n) {
+            return '<span class="herb-path-chip">' + escapeHtml(n) + '</span>';
+          }).join('')
+        : (ctx.custom ? '<span class="herb-path-chip">Eigene</span>' : '');
+    }
+    const isFav = Store.isLexikonFavorite && Store.isLexikonFavorite(ctx.kind, ctx.name);
+    if (favBtn) {
+      favBtn.setAttribute('aria-pressed', isFav ? 'true' : 'false');
+      favBtn.textContent = isFav ? '★ Favorit' : '☆ Favorit';
+    }
+    if (ov) {
+      ov.hidden = false;
+      ov.classList.add('open');
+    }
+    touchResonanzActivity(
+      'lex-' + (ctx.kind || 'herb') + '-' + String(ctx.name || '').toLowerCase(),
+      ctx.name,
+      ctx.pathId || 'lexikon',
+      ctx.kind || null
+    );
+    if (typeof renderLastResonanzCard === 'function') renderLastResonanzCard();
+  }
+
   function bindLexikonOpen(el, toastMsg, kindHint) {
     function openIt() {
-      touchResonanzActivity(el.dataset.resonanzId, el.dataset.resonanzLabel, el.dataset.resonanzPath || 'lexikon', kindHint || el.dataset.resonanzKind || null);
-      toast(toastMsg || 'Eintrag gemerkt');
-      if (typeof renderLastResonanzCard === 'function') renderLastResonanzCard();
+      const kind = kindHint || el.dataset.resonanzKind || currentLexikonTab();
+      openLexikonDetail({
+        kind: kind,
+        name: el.dataset.resonanzLabel || '',
+        ico: el.dataset.resonanzIco || '',
+        description: el.dataset.resonanzDesc || '',
+        pathNames: (el.dataset.resonanzPaths || '').split('|').filter(Boolean),
+        pathId: el.dataset.resonanzPath || '',
+        custom: el.dataset.resonanzCustom === '1'
+      });
     }
-    el.addEventListener('click', openIt);
+    el.addEventListener('click', function (ev) {
+      if (ev.target && ev.target.closest && ev.target.closest('[data-lex-fav-toggle]')) return;
+      openIt();
+    });
     el.addEventListener('keydown', function (ev) {
       if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); openIt(); }
     });
@@ -1846,6 +1917,17 @@
     setTimeout(function () {
       const el = document.querySelector('.herb-ref-item.lexikon-highlight');
       if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      if (el) {
+        openLexikonDetail({
+          kind: t,
+          name: el.dataset.resonanzLabel || name || '',
+          ico: el.dataset.resonanzIco || '',
+          description: el.dataset.resonanzDesc || '',
+          pathNames: (el.dataset.resonanzPaths || '').split('|').filter(Boolean),
+          pathId: el.dataset.resonanzPath || '',
+          custom: el.dataset.resonanzCustom === '1'
+        });
+      }
     }, 80);
   }
 
@@ -2008,8 +2090,7 @@
         : (Paths.getHerbsForPath(state.path) || []);
       if (chip) chip.textContent = ((path && path.name) || 'Pfad');
       if (lead) {
-        lead.textContent = meta.leadPath + ' ' + ((path && path.name) || 'diesen Pfad') +
-          ' — Symbolik der Hauspraxis, kein Heilversprechen.';
+        lead.textContent = meta.leadPath + ' ' + ((path && path.name) || 'diesen Pfad') + '.';
       }
     } else {
       items = Paths.getAllLexikonDeduped
@@ -2035,6 +2116,12 @@
         return hay.indexOf(q) !== -1;
       });
     }
+    // Nur Favoriten
+    if (lexikonFavOnly && Store.isLexikonFavorite) {
+      items = items.filter(function (h) {
+        return Store.isLexikonFavorite(tab, h.name);
+      });
+    }
     // Sortierung
     if (lexikonSortAz) {
       items = items.slice().sort(function (a, b) {
@@ -2050,34 +2137,58 @@
     list.innerHTML = items.map(function (h, idx) {
       const rid = 'lex-' + tab + '-' + (h.pathId || 'all') + '-' + idx + '-' + String(h.name || '').toLowerCase().replace(/\s+/g, '-');
       const label = h.name || meta.singular;
-      const pathHint = pathOnly
-        ? (h.custom ? 'Eigene' : '')
-        : ((h.pathNames || []).slice(0, 4).join(' · ') || (h.custom ? 'Eigene' : ''));
+      const pathNamesArr = pathOnly
+        ? (h.custom ? ['Eigene'] : (path && path.name ? [((path.symbol || '') + ' ' + path.name).trim()] : []))
+        : ((h.pathNames || []).slice(0, 6).length ? (h.pathNames || []).slice(0, 6) : (h.custom ? ['Eigene'] : []));
+      const pathHint = pathNamesArr.join(' · ');
       const pathChip = pathHint
         ? '<span class="herb-path-chip">' + escapeHtml(pathHint) + '</span>'
-        : (pathOnly && path && !h.custom
-          ? '<span class="herb-path-chip">' + escapeHtml((path.symbol || '') + ' ' + (path.name || '')) + '</span>'
-          : (h.custom ? '<span class="herb-path-chip">Eigene</span>' : ''));
+        : '';
       const ico = (h.ico && String(h.ico).trim()) || meta.fallbackIco || '✦';
       const icoHtml = '<span class="herb-ref-ico resonanz-ico" aria-hidden="true">' + escapeHtml(ico) + '</span>';
       const hi = focusName && String(h.name || '').toLowerCase() === focusName ? ' lexikon-highlight' : '';
+      const isFav = Store.isLexikonFavorite && Store.isLexikonFavorite(tab, h.name);
+      const favHtml = '<button type="button" class="lexikon-fav-btn' + (isFav ? ' is-fav' : '') +
+        '" data-lex-fav-toggle="1" data-lex-fav-kind="' + escapeHtml(tab) +
+        '" data-lex-fav-name="' + escapeHtml(h.name || '') +
+        '" aria-label="' + (isFav ? 'Favorit entfernen' : 'Als Favorit') +
+        '" aria-pressed="' + (isFav ? 'true' : 'false') + '">' + (isFav ? '★' : '☆') + '</button>';
+      const shortDesc = shortLexikonDesc(h.description || '', 100);
       return '<li class="herb-ref-item resonanz-open' + hi + '" role="button" tabindex="0" data-resonanz-id="' + escapeHtml(rid) +
         '" data-resonanz-label="' + escapeHtml(label) +
         '" data-resonanz-kind="' + escapeHtml(tab) +
+        '" data-resonanz-ico="' + escapeHtml(ico) +
+        '" data-resonanz-desc="' + escapeHtml(h.description || '') +
+        '" data-resonanz-paths="' + escapeHtml(pathNamesArr.join('|')) +
+        '" data-resonanz-custom="' + (h.custom ? '1' : '0') +
         '" data-resonanz-path="' + escapeHtml(h.pathId || (h.paths && h.paths[0]) || state.path || '') + '">' +
-        '<div class="herb-ref-top">' + icoHtml + '<strong>' + escapeHtml(h.name) + '</strong>' + pathChip + '</div>' +
-        '<span class="herb-ref-desc">' + escapeHtml(h.description || '') + '</span></li>';
+        '<div class="herb-ref-top">' + icoHtml + '<strong>' + escapeHtml(h.name) + '</strong>' + favHtml + pathChip + '</div>' +
+        '<span class="herb-ref-desc">' + escapeHtml(shortDesc) + '</span></li>';
     }).join('');
     list.querySelectorAll('.resonanz-open').forEach(function (el) {
       bindLexikonOpen(el, meta.toast, tab);
     });
+    list.querySelectorAll('[data-lex-fav-toggle]').forEach(function (btn) {
+      btn.addEventListener('click', function (ev) {
+        ev.preventDefault();
+        ev.stopPropagation();
+        const kind = btn.getAttribute('data-lex-fav-kind') || tab;
+        const name = btn.getAttribute('data-lex-fav-name') || '';
+        if (!Store.toggleLexikonFavorite) return;
+        Store.toggleLexikonFavorite(kind, name);
+        const now = Store.isLexikonFavorite(kind, name);
+        toast(now ? 'Favorit gesetzt' : 'Favorit entfernt');
+        renderHerbList();
+      });
+    });
     if (countEl) {
       const n = items.length;
+      const filterNote = (q || lexikonFavOnly) ? ' (gefiltert)' : '';
       countEl.textContent = n
         ? (n + (pathOnly
-          ? (' ' + meta.title + (q ? ' (gefiltert)' : ' auf diesem Pfad'))
-          : (' ' + meta.title + (q ? ' (gefiltert)' : ' (dedupliziert)'))))
-        : (q ? 'Keine Treffer.' : meta.empty);
+          ? (' ' + meta.title + (filterNote || ' auf diesem Pfad'))
+          : (' ' + meta.title + (filterNote || ' (dedupliziert)'))))
+        : (lexikonFavOnly ? 'Keine Favoriten in dieser Kategorie.' : (q ? 'Keine Treffer.' : meta.empty));
     }
     if (pendingLexikonFocus && pendingLexikonFocus.tab === tab) {
       // keep highlight one cycle then clear
@@ -6256,6 +6367,78 @@
         sortPath.setAttribute('aria-pressed', 'true');
         if (sortAz) { sortAz.classList.remove('active'); sortAz.setAttribute('aria-pressed', 'false'); }
         renderHerbList();
+      });
+    }
+    const favFilter = $('#lexikon-filter-fav');
+    if (favFilter && !favFilter.dataset.bound) {
+      favFilter.dataset.bound = '1';
+      favFilter.addEventListener('click', function () {
+        lexikonFavOnly = !lexikonFavOnly;
+        favFilter.classList.toggle('active', lexikonFavOnly);
+        favFilter.setAttribute('aria-pressed', lexikonFavOnly ? 'true' : 'false');
+        renderHerbList();
+        toast(lexikonFavOnly ? 'Nur Favoriten' : 'Alle Einträge');
+      });
+    }
+    const lexExport = $('#lexikon-export');
+    if (lexExport && !lexExport.dataset.bound) {
+      lexExport.dataset.bound = '1';
+      lexExport.addEventListener('click', function () {
+        if (!Store.exportLexikon) {
+          toast('Export nicht verfügbar');
+          return;
+        }
+        Store.exportLexikon({ favorites: true });
+        if (Store.exportLexikonText) Store.exportLexikonText();
+        toast('Lexikon exportiert (JSON + Text)');
+      });
+    }
+    const lexDetailClose = $('#lexikon-detail-close');
+    const lexDetailDone = $('#lexikon-detail-done');
+    const lexDetailOv = $('#lexikon-detail-overlay');
+    if (lexDetailClose && !lexDetailClose.dataset.bound) {
+      lexDetailClose.dataset.bound = '1';
+      lexDetailClose.addEventListener('click', closeLexikonDetail);
+    }
+    if (lexDetailDone && !lexDetailDone.dataset.bound) {
+      lexDetailDone.dataset.bound = '1';
+      lexDetailDone.addEventListener('click', closeLexikonDetail);
+    }
+    if (lexDetailOv && !lexDetailOv.dataset.bound) {
+      lexDetailOv.dataset.bound = '1';
+      lexDetailOv.addEventListener('click', function (e) {
+        if (e.target.id === 'lexikon-detail-overlay') closeLexikonDetail();
+      });
+    }
+    const lexDetailFav = $('#lexikon-detail-fav');
+    if (lexDetailFav && !lexDetailFav.dataset.bound) {
+      lexDetailFav.dataset.bound = '1';
+      lexDetailFav.addEventListener('click', function () {
+        if (!lexikonDetailCtx || !Store.toggleLexikonFavorite) return;
+        Store.toggleLexikonFavorite(lexikonDetailCtx.kind, lexikonDetailCtx.name);
+        const now = Store.isLexikonFavorite(lexikonDetailCtx.kind, lexikonDetailCtx.name);
+        lexDetailFav.setAttribute('aria-pressed', now ? 'true' : 'false');
+        lexDetailFav.textContent = now ? '★ Favorit' : '☆ Favorit';
+        toast(now ? 'Favorit gesetzt' : 'Favorit entfernt');
+        renderHerbList();
+      });
+    }
+    const lexDetailBuch = $('#lexikon-detail-buch');
+    if (lexDetailBuch && !lexDetailBuch.dataset.bound) {
+      lexDetailBuch.dataset.bound = '1';
+      lexDetailBuch.addEventListener('click', function () {
+        if (!lexikonDetailCtx) return;
+        const meta = LEXIKON_TAB_META[lexikonDetailCtx.kind] || LEXIKON_TAB_META.herb;
+        const text = (lexikonDetailCtx.ico ? lexikonDetailCtx.ico + ' ' : '') +
+          lexikonDetailCtx.name + ' · ' + (meta.title || 'Lexikon') + '\n\n' +
+          (lexikonDetailCtx.description || '');
+        closeLexikonDetail();
+        navigate('buch', { force: true, buchMode: 'notiz' });
+        setTimeout(function () {
+          if ($('#note-input')) $('#note-input').value = text;
+          if ($('#note-tag')) $('#note-tag').value = 'Lexikon';
+          toast('Notiz vorbereitet');
+        }, 60);
       });
     }
     const customForm = $('#lexikon-custom-form');

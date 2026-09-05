@@ -36,7 +36,7 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 3. **Kosmos** — Planeten-Radar mit klareren Labels, **Legende**, aktuelle **Planetenstunde hervorgehoben**, Tap/Klick für Detail, Schumann Live-Station + Tomsk-Spektrogramm
 4. **Rituale** — **nur aktueller Pfad** (4–5 einzigartige Own-Rituale); Grundlagen separat; Signaturen, Dauer-Tags 3/11/21, Sicherheitscheck, Timed-Rituale, Fokus-Timer, Sigil, illustrierte Feldkarten, eigene Rituale + Vorlagen
 5. **Magie-Buch** — Notiz (schnell) · Eintrag (Ritual, Stimmung, Foto, Filter); gemeinsame Timeline; Fotos IndexedDB; ZIP/PDF; Export/Import `universum-buch.json` (`notes` + `diary` in `feldlicht-v15`)
-6. **Resonanzen** — «heute passt …»; **Lexikon** (Kräuter · Hausmittel · Steine · Farben · Werkzeuge · Bezüge); Filter **Nur mein Pfad** / Alle Pfade; kurze Werke; kein medizinischer Rat
+6. **Resonanzen** — «heute passt …»; **Lexikon** (Kräuter · Hausmittel · Steine · Farben · Werkzeuge · Bezüge · Opfergaben); Detail-Sheet, Favoriten, Export; Filter **Nur mein Pfad** / Alle Pfade; kurze Werke; Ethik einmal oben
 
 **Zusätzlich (v1.3–1.4)**
 
@@ -429,6 +429,17 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Heute-Tip bleibt primär; Altar-Nav 🪔 bleibt
 - Zwischenstand aufgegangen in `5.1.0`
 
+
+## 5.17.0 — Unique Icons · Opfergaben zuletzt · Detail · Favoriten · Export
+
+- Lexikon-Icons: **226 unique** unter 229 Namen (vorher 117); gleiche Namen teilen Icons, verschiedene Namen nicht mehr generisch
+- Tab-Reihenfolge: Kräuter · Hausmittel · Steine · Farben · Werkzeuge · Bezüge · **Opfergaben** (zuletzt)
+- Tabs auf Mobile **horizontal scrollbar**, kompaktere Pills
+- Eintrags-**Detail-Sheet** (große Erklärung, Symbol, Pfad-Chips, Favorit, Ins Buch, Schließen); Liste bleibt kurz
+- **Favoriten** lokal (`lexikonFavorites`), Filter «★ Favoriten», Stern in Liste + Detail
+- **Export** eigene Einträge + Favoriten als JSON/Text (Buch-Export-Stil)
+- Ethik **einmal** oben; Boilerplate in Eintrags-Texten gekürzt
+- SW-Cache `universum-shell-v59`
 
 ## 5.16.1 — Resonanzen UI · Lexikon-Icons · keine Buchstabenleiste
 
