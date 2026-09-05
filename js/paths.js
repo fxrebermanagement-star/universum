@@ -21,6 +21,7 @@
       calendarNote: 'Rauhnächte und Samhain tragen hier besonderes Gewicht — still, geerdet, ohne Spektakel.',
       recommendedRitual: 'erdung',
       practiceHint: 'Heute: kurze Erdung oder Ahnenlicht — Körper zuerst.',
+      teachingTip: 'Die Trommel bringt dich zurück — drei Atemzüge auf der Erde, bevor du reist.',
       diaryPrompts: [
         'Was hat der Körper heute gesagt, bevor der Kopf antwortete?',
         'Welche Spur der Ahnen fühlst du als Kraft — ohne sie zu beschwören?',
@@ -43,6 +44,7 @@
       calendarNote: 'Yule, Ostara, Mabon und Michaelis — Jahresknoten der Ehre und des Maßes.',
       recommendedRitual: 'ahnenlicht',
       practiceHint: 'Heute: Ahnenlicht oder ein klarer Eid an dich selbst — ohne Pathos.',
+      teachingTip: 'Ein Wort, das du hältst, wiegt mehr als zehn Runen ohne Eid.',
       diaryPrompts: [
         'Welchen Eid hast du heute gehalten — und welchen schuldest du noch?',
         'Wo war Grenze nötig, und wie hast du sie in Frieden gesetzt?',
@@ -66,6 +68,7 @@
       calendarNote: 'Samhain und Allerheiligen: Respekt und Erinnerung — Hauspraxis, keine Initiation.',
       recommendedRitual: 'reinigung',
       practiceHint: 'Heute: Reinigung oder Licht am Hausaltar — Respekt, kein Medium.',
+      teachingTip: 'Hauspraxis beginnt mit Reinheit des Raums — Wasser und Licht reichen oft.',
       diaryPrompts: [
         'Was hast du heute mit Respekt getan — ohne Anspruch auf Initiation?',
         'Welcher Ort in deinem Haus braucht Reinheit oder Licht?',
@@ -89,6 +92,7 @@
       calendarNote: 'Ostara, Beltane, Samhain: Reinigung und Dank im Haus — kein Ile.',
       recommendedRitual: 'reinigung',
       practiceHint: 'Heute: Reinigung oder Segen — Aché im Kleinen, ohne Initiation.',
+      teachingTip: 'Aché wächst im Dank — bevor du bittest, nenne drei Dinge, die schon tragen.',
       diaryPrompts: [
         'Wo hast du heute Aché gespürt — im Alltag, nicht im Tempel?',
         'Was verdient Dank, bevor du etwas forderst?',
@@ -111,6 +115,7 @@
       calendarNote: 'Equinoxe und Solstitien: Achsen der Proportion — Ostara, Litha, Mabon, Yule.',
       recommendedRitual: 'kreis',
       practiceHint: 'Heute: Kreis ziehen oder Intention mit Maß prüfen.',
+      teachingTip: 'Kontemplation vor Operation — prüfe das Maß, bevor du das Symbol bewegst.',
       diaryPrompts: [
         'Welches Symbol hat heute oben und unten verbunden — und mit welchem Maß?',
         'Was war Operation, was war nur Wunsch?',
@@ -133,6 +138,7 @@
       calendarNote: 'Alle acht Sabbats sind hervorgehoben — der Jahreskreis als Atem.',
       recommendedRitual: 'kreis',
       practiceHint: 'Heute: Kreis oder Segen — und das Rede an niemandem Schaden.',
+      teachingTip: 'Der Kreis hält, weil du ihn hältst — schließe ihn bewusst, auch nach kurzer Praxis.',
       diaryPrompts: [
         'Hat deine Absicht heute jemandem geschadet — auch subtil?',
         'Welches Element fehlte in deinem Tag: Erde, Luft, Feuer, Wasser?',
@@ -155,6 +161,7 @@
       calendarNote: 'Keine feste Sabbat-Pflicht — jeder Tag kann Labor sein, wenn Ethik hält.',
       recommendedRitual: '369',
       practiceHint: 'Heute: Sigil oder 369 — laden, dann loslassen.',
+      teachingTip: 'Gnosis ist kurz — lade voll, dann lass los. Ergebnis-Jagd schwächt den Sigil.',
       diaryPrompts: [
         'Welches Modell hast du heute benutzt — und hast du es danach wieder abgelegt?',
         'Was hast du geladen und bewusst vergessen?',
@@ -177,6 +184,7 @@
       calendarNote: 'Imbolc, Ostara, Samhain, Yule und Rauhnächte — sanfte Jahresmarker.',
       recommendedRitual: 'atem46',
       practiceHint: 'Heute: Atembrücke oder Intention — still und klar.',
+      teachingTip: 'Feldlicht begleitet still — eine klare Intention ersetzt zehn laute Rituale.',
       diaryPrompts: [
         'Was hat das Feldlicht heute leise gezeigt?',
         'Welche Praxis war Werkzeug — und welche wäre Schau gewesen?',

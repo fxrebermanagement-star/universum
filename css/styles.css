@@ -3107,3 +3107,139 @@ body.mondnacht .install-banner {
 body.mondnacht .week-stat {
   background: rgba(0, 0, 0, 0.22);
 }
+
+
+/* ——— Craft pass v1.8 ——— */
+.path-teach-card {
+  border-color: rgba(139, 111, 208, 0.35);
+  background: linear-gradient(145deg, rgba(139, 111, 208, 0.1), rgba(12, 8, 20, 0.35));
+}
+.path-teach-text {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--text-soft);
+  margin: 0.35rem 0 0.5rem;
+  font-family: var(--font-title);
+  letter-spacing: 0.01em;
+}
+
+.invite-card {
+  border-color: rgba(232, 197, 71, 0.28);
+  background: linear-gradient(155deg, rgba(232, 197, 71, 0.07), rgba(62, 212, 196, 0.05));
+}
+.invite-lead {
+  font-size: 0.88rem;
+  color: var(--text-soft);
+  line-height: 1.5;
+  margin: 0.25rem 0 0.65rem;
+}
+.invite-preview {
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.45;
+  padding: 0.65rem 0.75rem;
+  border-radius: var(--radius-sm);
+  border: 1px dashed rgba(232, 197, 71, 0.3);
+  background: rgba(0, 0, 0, 0.18);
+  margin-bottom: 0.75rem;
+}
+.invite-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.55rem;
+}
+.invite-url {
+  font-size: 0.72rem;
+  word-break: break-all;
+  color: var(--violet);
+}
+
+.briefing-share-hint {
+  margin: 0 0 0.55rem;
+}
+.briefing-card.briefing-share-focus {
+  outline: 2px solid rgba(232, 197, 71, 0.65);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px rgba(232, 197, 71, 0.12);
+  transition: box-shadow 0.35s var(--ease), outline-color 0.35s var(--ease);
+}
+
+.briefing-actions button {
+  min-height: 2.5rem;
+  padding-left: 0.85rem;
+  padding-right: 0.85rem;
+}
+
+.empty-state.convert {
+  text-align: left;
+  padding: 1rem 1rem 1.1rem;
+}
+.empty-state.convert .empty-cta {
+  justify-content: flex-start;
+  margin-top: 0.85rem;
+}
+.empty-state.convert .empty-cta button {
+  min-height: 2.45rem;
+}
+
+/* Mobile spacing polish */
+@media (max-width: 480px) {
+  #sec-cockpit .card,
+  #sec-rituale .card,
+  #sec-tagebuch .card {
+    margin-bottom: 0.85rem;
+  }
+  .briefing-actions {
+    gap: 0.45rem;
+  }
+  .briefing-actions .primary {
+    flex: 1 1 100%;
+  }
+  .invite-actions .primary,
+  .invite-actions .ghost {
+    flex: 1 1 auto;
+    min-width: calc(50% - 0.35rem);
+  }
+  .path-teach-text {
+    font-size: 0.92rem;
+  }
+  .bottom-nav button,
+  .tabbar button {
+    min-height: 3rem;
+  }
+  .tiles {
+    gap: 0.55rem;
+  }
+  .tile {
+    min-height: 5.25rem;
+    padding: 0.75rem 0.65rem;
+  }
+}
+
+/* A11y: clearer focus on new controls */
+#briefing-share:focus-visible,
+#briefing-copy-link:focus-visible,
+#invite-copy:focus-visible,
+#invite-share:focus-visible,
+#empty-draw-one:focus-visible,
+#empty-draw-daily:focus-visible,
+#empty-goto-rituals:focus-visible,
+#empty-start-recommended:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+body.mondnacht .path-teach-card {
+  border-color: rgba(126, 192, 255, 0.28);
+  background: linear-gradient(145deg, rgba(126, 192, 255, 0.08), rgba(139, 111, 208, 0.06));
+}
+body.mondnacht .invite-card {
+  border-color: rgba(126, 192, 255, 0.25);
+}
+
+@media print {
+  .path-teach-card, .path-teach-card *,
+  .invite-card, .invite-card * { visibility: hidden !important; }
+  .briefing-actions, .briefing-share-hint { display: none !important; }
+}

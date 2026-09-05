@@ -215,7 +215,7 @@
     });
   }
 
-  const APP_VERSION = '1.7.0';
+  const APP_VERSION = '1.8.0';
 
   function exportBuch() {
     const data = load();

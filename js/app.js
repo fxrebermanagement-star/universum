@@ -80,7 +80,7 @@
     'Eine Intention des Tages reicht oft als stiller Faden.',
     'Praxis-Log hält Ritual, 369 und Atem diskret fest — löschbar.',
     'Kreis-Notizen sind lokal: ehrlich kein Sync, nur Erinnerung.',
-        'Tageskarte: einmal ziehen, bis Mitternacht gesiegelt — ohne Datenverlust.',
+    'Tageskarte: einmal ziehen, bis Mitternacht gesiegelt — ohne Datenverlust.',
     'Mond-Arbeit: bei Neu- und Vollmond erscheint ein stiller Praxis-Impuls im Cockpit.',
     'Planetenstunde-Wecker: optional sanfte Erinnerung beim Stundenwechsel (Standard aus).',
     'Notizen wandern mit einem Tippen ins Magie-Tagebuch.',
@@ -90,7 +90,10 @@
     'Schnellzugriff zeigt Favoriten und letzte Praxis auf dem Cockpit.',
     'Wochenrückblick im Tagebuch: sieben Tage Praxis auf einen Blick — ohne Vergleich.',
     'Zum Home-Bildschirm hinzufügen: UNIVERSUM fühlt sich an wie eine App, bleibt aber lokal.',
-    'Warum UNIVERSUM: lokal, ethisch, pfadstark — Praxiswerkzeug, kein Feed.'
+    'Warum UNIVERSUM: lokal, ethisch, pfadstark — Praxiswerkzeug, kein Feed.',
+    'Tagesbriefing teilen: professioneller Text oder Link — Praxis empfehlen ohne Druck.',
+    'Empfehlen-Karte: sanfte Einladung mit Pages-URL kopieren — für Kolleg:innen im Feld.',
+    'Pfad-Lehre: ein Lehrsatz pro Pfad auf dem Cockpit — Tiefe ohne Dogma.'
   ];
 
   function tipOfDay(date) {
@@ -143,6 +146,27 @@
   }
   function fmtDate(d) {
     return d.toLocaleDateString('de-CH', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+  }
+
+  const PAGES_URL = 'https://fxrebermanagement-star.github.io/universum/';
+  const BRIEFING_SHARE_URL = PAGES_URL + 'cockpit.html#briefing';
+
+  async function copyToClipboard(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    const ok = document.execCommand('copy');
+    ta.remove();
+    if (!ok) throw new Error('copy failed');
+    return true;
   }
 
   function refreshState() { state = Store.load(); }
@@ -232,11 +256,14 @@
     }, wait);
   }
 
-  function buildBriefingShareText() {
+  function buildBriefingShareText(opts) {
+    opts = opts || {};
+    const withLink = opts.withLink !== false;
     const lead = ($('#briefing-lead') && $('#briefing-lead').textContent) || '';
     const chips = $$('#briefing-meta li').map(li => '· ' + li.textContent.trim()).join('\n');
     const practice = ($('#briefing-practice') && $('#briefing-practice').textContent) || '';
     const pathNote = ($('#briefing-path-note') && $('#briefing-path-note').textContent) || '';
+    const teach = ($('#path-teach-text') && $('#path-teach-text').textContent) || '';
     const streak = $('#briefing-streak');
     const streakTxt = streak && !streak.hidden ? streak.textContent : '';
     const di = Store.getDailyIntention ? Store.getDailyIntention() : null;
@@ -245,47 +272,148 @@
     const cardLine = daily ? 'Tageskarte: Feld ' + daily.n + ' · ' + daily.name + (daily.theme ? ' — ' + daily.theme : '') : '';
     const when = fmtDate(new Date());
     const path = currentPath();
-    return [
-      'UNIVERSUM · Tagesbriefing',
+    const lines = [
+      '✦ UNIVERSUM · Tagesbriefing',
       when + (path && path.name ? ' · ' + path.name : ''),
-      streakTxt ? 'Streak: ' + streakTxt : '',
+      streakTxt ? 'Praxis-Faden: ' + streakTxt : '',
       '',
       lead,
-      chips ? '\n' + chips : '',
-      practice ? '\nPraxis: ' + practice : '',
+      chips ? chips : '',
+      '',
+      practice ? 'Empfohlene Praxis\n' + practice : '',
+      teach ? 'Pfad-Lehre\n' + teach : '',
       pathNote ? pathNote : '',
-      intention ? '\n' + intention : '',
+      intention ? intention : '',
       cardLine ? cardLine : '',
       '',
-      '— Feldlicht · lokal · Grenze und Ausgleich'
-    ].filter((line, i, arr) => {
-      // drop excess blank lines
+      '———',
+      'Stiller Ritualbegleiter für Magier:innen · lokal · ethisch',
+      'Grenze und Ausgleich. Kein Schaden an Personen.'
+    ];
+    if (withLink) {
+      lines.push('Praxis öffnen: ' + BRIEFING_SHARE_URL);
+    }
+    return lines.filter((line, i, arr) => {
       if (line !== '') return true;
       return i > 0 && arr[i - 1] !== '';
     }).join('\n').replace(/\n{3,}/g, '\n\n').trim();
   }
 
+  function buildInviteText() {
+    const path = currentPath();
+    return [
+      'Einladung zu UNIVERSUM · COCKPIT',
+      '',
+      'Ich übe mit einem stillen Ritualbegleiter für Magier:innen und spirituell Praktizierende.',
+      'Tagesbriefing, geführte Rituale, Magie-Tagebuch — alles lokal auf dem Gerät, ohne Konto und ohne Backend.',
+      path && path.name ? 'Mein Pfad gerade: ' + path.name + '.' : '',
+      '',
+      'Öffnen: ' + PAGES_URL,
+      '',
+      'Grenze und Ausgleich. Kein Schaden an Personen.',
+      'Ein Handy kann keine Geister messen.'
+    ].filter(Boolean).join('\n');
+  }
+
   async function copyBriefingText() {
-    const text = buildBriefingShareText();
+    const text = buildBriefingShareText({ withLink: true });
     try {
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        await navigator.clipboard.writeText(text);
-      } else {
-        const ta = document.createElement('textarea');
-        ta.value = text;
-        ta.setAttribute('readonly', '');
-        ta.style.position = 'fixed';
-        ta.style.left = '-9999px';
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        ta.remove();
-      }
-      toast('Tagesbriefing kopiert');
+      await copyToClipboard(text);
+      toast('Tagesbriefing kopiert — bereit zum Empfehlen');
       Rituals.vibrate(12);
     } catch (e) {
       toast('Kopieren nicht möglich — Text manuell markieren.', 3600, 'warn');
     }
+  }
+
+  async function copyBriefingLink() {
+    try {
+      await copyToClipboard(BRIEFING_SHARE_URL);
+      toast('Briefing-Link kopiert');
+      Rituals.vibrate(10);
+    } catch (e) {
+      toast('Link-Kopieren nicht möglich', 3200, 'warn');
+    }
+  }
+
+  async function shareBriefing() {
+    const text = buildBriefingShareText({ withLink: true });
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: 'UNIVERSUM · Tagesbriefing',
+          text: text,
+          url: BRIEFING_SHARE_URL
+        });
+        toast('Briefing geteilt');
+        Rituals.vibrate(14);
+        return;
+      }
+    } catch (e) {
+      if (e && e.name === 'AbortError') return;
+    }
+    await copyBriefingText();
+  }
+
+  async function copyInviteText() {
+    const text = buildInviteText();
+    try {
+      await copyToClipboard(text);
+      toast('Einladung kopiert');
+      Rituals.vibrate(12);
+    } catch (e) {
+      toast('Kopieren nicht möglich', 3200, 'warn');
+    }
+  }
+
+  async function shareInvite() {
+    const text = buildInviteText();
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: 'UNIVERSUM · Einladung',
+          text: text,
+          url: PAGES_URL
+        });
+        toast('Einladung geteilt');
+        Rituals.vibrate(14);
+        return;
+      }
+    } catch (e) {
+      if (e && e.name === 'AbortError') return;
+    }
+    await copyInviteText();
+  }
+
+  function renderInvitePreview() {
+    const el = $('#invite-preview');
+    if (!el) return;
+    const preview = buildInviteText().split('\n').slice(0, 4).join(' · ');
+    el.textContent = preview.length > 160 ? preview.slice(0, 157) + '…' : preview;
+  }
+
+  function renderPathTeachingTip() {
+    const textEl = $('#path-teach-text');
+    const chip = $('#path-teach-chip');
+    if (!textEl) return;
+    const path = currentPath();
+    const tip = (path && path.teachingTip) || (path && path.practiceHint) || 'Praxis vor Spektakel — mit Grenze und Ausgleich.';
+    textEl.textContent = tip;
+    if (chip) chip.textContent = path && path.name ? path.name : 'Pfad';
+  }
+
+  function focusBriefingFromShare() {
+    navigate('cockpit');
+    const card = $('#tagesbriefing');
+    if (!card) return;
+    card.classList.add('briefing-share-focus');
+    try {
+      card.scrollIntoView({
+        behavior: (state.settings && state.settings.reducedMotion) ? 'auto' : 'smooth',
+        block: 'start'
+      });
+    } catch (_) {}
+    setTimeout(() => card.classList.remove('briefing-share-focus'), 3200);
   }
 
   function printBriefing() {
@@ -917,6 +1045,8 @@
 
     render369();
     renderTagesbriefing(now, moon, hour, unrest, path);
+    renderPathTeachingTip();
+    renderInvitePreview();
     renderDailyIntention();
     renderBriefingPinsPanel();
     renderQuickPraxis();
@@ -1494,10 +1624,12 @@
         (ritualPathFilter === 'all' ? ' · gesamte Bibliothek' : ' · ' + path.name);
     }
     if (!list.length) {
-      el.innerHTML = '<div class="empty-state"><strong>Keine Rituale gefunden</strong>' +
-        '<p>Filter lockern oder ein eigenes Ritual anlegen.</p>' +
-        '<div class="empty-cta"><button type="button" class="ghost" id="ritual-filter-reset">Filter zurücksetzen</button>' +
-        '<button type="button" class="primary" id="empty-goto-custom-from-filter">Eigenes anlegen</button></div></div>';
+      el.innerHTML = '<div class="empty-state convert"><strong>Keine Rituale gefunden</strong>' +
+        '<p>Filter lockern, empfohlenes Ritual starten oder ein eigenes anlegen — Praxis vor Spektakel.</p>' +
+        '<div class="empty-cta">' +
+        '<button type="button" class="primary" id="empty-start-recommended">Empfohlenes starten</button>' +
+        '<button type="button" class="ghost" id="ritual-filter-reset">Filter zurücksetzen</button>' +
+        '<button type="button" class="ghost" id="empty-goto-custom-from-filter">Eigenes anlegen</button></div></div>';
       const reset = $('#ritual-filter-reset');
       if (reset) reset.addEventListener('click', () => {
         ritualSearch = ''; ritualDurFilter = 'all'; ritualPathFilter = 'current';
@@ -1514,6 +1646,13 @@
           b.setAttribute('aria-selected', on ? 'true' : 'false');
         });
         $$('[data-rpanel]').forEach(p => p.classList.toggle('hidden', p.dataset.rpanel !== 'custom'));
+      });
+      const startRec = $('#empty-start-recommended');
+      if (startRec) startRec.addEventListener('click', () => {
+        const id = (path && path.recommendedRitual) || 'erdung';
+        const r = Rituals.getRitual(id);
+        if (r) openRitual(r);
+        else toast('Empfohlenes Ritual nicht gefunden', 2800, 'warn');
       });
     } else {
       el.innerHTML = list.map(r => {
@@ -1537,15 +1676,31 @@
 
     const customs = state.customRituals || [];
     const customEl = $('#custom-ritual-list');
-    if (!customs.length) {
-      customEl.innerHTML = '<div class="empty-state"><strong>Noch keine eigenen Rituale</strong>' +
-        '<p>Lege Schritte als Titel|Text|Sekunden an — dein Tempo, deine Ethik.</p>' +
-        '<div class="empty-cta"><button type="button" class="primary" id="empty-goto-custom">Oben anlegen</button></div></div>';
+    if (!customEl) { /* panel missing */ }
+    else if (!customs.length) {
+      customEl.innerHTML = '<div class="empty-state convert"><strong>Noch keine eigenen Rituale</strong>' +
+        '<p>Lege Schritte als Titel|Text|Sekunden an — dein Tempo, deine Ethik. Oder starte zuerst ein geführtes Ritual.</p>' +
+        '<div class="empty-cta">' +
+        '<button type="button" class="primary" id="empty-goto-custom">Oben anlegen</button>' +
+        '<button type="button" class="ghost" id="empty-goto-library">Zur Bibliothek</button></div></div>';
       const go = $('#empty-goto-custom');
       if (go) go.addEventListener('click', () => {
-        $$('[data-rtab]').forEach(b => b.classList.toggle('active', b.dataset.rtab === 'custom'));
+        $$('[data-rtab]').forEach(b => {
+          const on = b.dataset.rtab === 'custom';
+          b.classList.toggle('active', on);
+          b.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
         $$('[data-rpanel]').forEach(p => p.classList.toggle('hidden', p.dataset.rpanel !== 'custom'));
         const name = $('#custom-ritual-name'); if (name) name.focus();
+      });
+      const lib = $('#empty-goto-library');
+      if (lib) lib.addEventListener('click', () => {
+        $$('[data-rtab]').forEach(b => {
+          const on = b.dataset.rtab === 'guided';
+          b.classList.toggle('active', on);
+          b.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+        $$('[data-rpanel]').forEach(p => p.classList.toggle('hidden', p.dataset.rpanel !== 'guided'));
       });
     } else {
       customEl.innerHTML = customs.map(r =>
@@ -3311,11 +3466,32 @@
       });
     }
 
-    // Briefing share / print
+    // Briefing share / print / invite
     const brCopy = $('#briefing-copy');
     if (brCopy) brCopy.addEventListener('click', () => { copyBriefingText(); });
+    const brShare = $('#briefing-share');
+    if (brShare) brShare.addEventListener('click', () => { shareBriefing(); });
+    const brLink = $('#briefing-copy-link');
+    if (brLink) brLink.addEventListener('click', () => { copyBriefingLink(); });
     const brPrint = $('#briefing-print');
     if (brPrint) brPrint.addEventListener('click', () => { printBriefing(); });
+    const invCopy = $('#invite-copy');
+    if (invCopy) invCopy.addEventListener('click', () => { copyInviteText(); });
+    const invShare = $('#invite-share');
+    if (invShare) invShare.addEventListener('click', () => { shareInvite(); });
+    document.addEventListener('click', (e) => {
+      const tbtn = e.target && e.target.closest ? e.target.closest('#empty-draw-one, #empty-draw-daily, #empty-goto-rituals') : null;
+      if (!tbtn) return;
+      if (tbtn.id === 'empty-draw-one') {
+        const b = $('#draw-card');
+        if (b) b.click();
+      } else if (tbtn.id === 'empty-draw-daily') {
+        const b = $('#draw-daily');
+        if (b) b.click();
+      } else if (tbtn.id === 'empty-goto-rituals') {
+        navigate('rituale');
+      }
+    });
 
     // Daily Feldkarte
     const drawDailyBtn = $('#draw-daily');
@@ -3422,8 +3598,19 @@
 
     $('#rr-close').addEventListener('click', closeRunner);
 
-    const hash = (location.hash || '#cockpit').replace('#', '');
-    navigate(SECTIONS.some(s => s.id === hash) ? hash : 'cockpit');
+    const rawHash = (location.hash || '#cockpit').replace('#', '');
+    const hash = rawHash.split('?')[0];
+    if (hash === 'briefing' || hash === 'tagesbriefing') {
+      navigate('cockpit');
+      setTimeout(focusBriefingFromShare, 120);
+    } else {
+      navigate(SECTIONS.some(s => s.id === hash) ? hash : 'cockpit');
+    }
+    window.addEventListener('hashchange', () => {
+      const h = (location.hash || '').replace('#', '').split('?')[0];
+      if (h === 'briefing' || h === 'tagesbriefing') focusBriefingFromShare();
+      else if (SECTIONS.some(s => s.id === h)) navigate(h);
+    });
 
     if (!(state.onboarding && state.onboarding.done)) {
       openOnboarding();

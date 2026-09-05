@@ -89,6 +89,15 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 - Schnelleres First Paint (Font non-blocking, kritische Shell-CSS, Suche unter dem Fold)
 - App `1.7.0`, SW-Cache `universum-shell-v9`
 
+**Zusätzlich (v1.8)**
+
+- **Sharebares Tagesbriefing** — professioneller Empfehlungstext, Web-Share, Text/Link kopieren, Deep-Link `#briefing`
+- **Empfehlen-Karte** — sanfte Einladung mit Pages-URL `https://fxrebermanagement-star.github.io/universum/`
+- **Pfad-Lehre** — ein Teaching-Tipp pro Pfad auf dem Cockpit
+- **Leere Zustände** — Feldkarten- & Ritual-Empty-States mit klarer Erstaktion
+- Accessibility & Mobile-Spacing-Politur; kleine Bugfixes (Tipp-Einrückung, Tab-ARIA bei Empty-CTAs)
+- App `1.8.0`, SW-Cache `universum-shell-v10`
+
 **Zusätzlich**
 
 - **First-run Onboarding** — Willkommen, Pfadwahl, Standort (Zürich-Default), Ethik-Bestätigung
@@ -131,7 +140,7 @@ Kein Ersatz für Ephemeriden oder traditionelle Einweihung.
 
 - Schriften: **Syne** (Titel/Zahlen) + **Manrope** (Fließtext) via Google Fonts
 - Dark-Violet Mystik-Cockpit, mobile-first, Micro-Interactions
-- Service Worker: Offline-Shell (`universum-shell-v9`), Scope relativ für GitHub Pages `/universum/`
+- Service Worker: Offline-Shell (`universum-shell-v10`), Scope relativ für GitHub Pages `/universum/`
 - Kein React, kein Bundler, kein Backend
 
 ## Dateien
@@ -176,3 +185,6 @@ Sechste Runde: **Mond-Arbeit** (Neu/Voll), optionaler **Planetenstunde-Wecker**,
 
 Siebte Runde — **Produktqualität**: Splash & Onboarding verkaufen den Ritualbegleiter klar; Trust-Strip und Privacy-Messaging für Fremde; Install-Coach für Mobile/Pages; Wochenrückblick; Pages/SW-Subpath-Härte; First-Paint-Politur. App `1.7.0`, SW-Cache `universum-shell-v9`. Server Port **8765**.
 
+## Craft-Pass (v1.8)
+
+Achte Runde — **Anbieten & Tiefe**: sharebares Tagesbriefing (Text/Link/Web-Share + `#briefing`), soft Empfehlen-Einladung mit Pages-URL, Pfad-Lehre (ein Tip pro Pfad), konvertierende Empty-States für Feldkarten/Rituale, A11y/Mobile-Spacing, Bugfixes. App `1.8.0`, SW-Cache `universum-shell-v10`. Server Port **8765**.

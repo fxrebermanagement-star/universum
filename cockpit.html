@@ -98,13 +98,39 @@
           <div class="briefing-pins-panel" id="briefing-pins-panel" hidden></div>
         </div>
         <p class="briefing-practice" id="briefing-practice"></p>
-        <div class="briefing-actions">
+        <div class="briefing-actions" role="group" aria-label="Briefing-Aktionen">
           <button type="button" class="primary" id="briefing-start-practice">Empfohlene Praxis</button>
           <button type="button" class="ghost" id="briefing-open-kalender">Zum Fest</button>
+          <button type="button" class="ghost" id="briefing-share" title="Tagesbriefing teilen">Teilen</button>
           <button type="button" class="ghost" id="briefing-copy" title="Tagesbriefing als Text kopieren">Text kopieren</button>
+          <button type="button" class="ghost tiny" id="briefing-copy-link" title="Teilbaren Briefing-Link kopieren">Link</button>
           <button type="button" class="ghost tiny" id="briefing-print" title="Druckansicht">Drucken</button>
         </div>
+        <p class="briefing-share-hint hint-sm" id="briefing-share-hint">Professioneller Tagesimpuls zum Weitergeben — mit Link zur Praxis-App.</p>
         <p class="briefing-path-note" id="briefing-path-note"></p>
+      </article>
+
+      <article class="card path-teach-card" id="path-teach-card" aria-labelledby="path-teach-title">
+        <div class="intention-top">
+          <h3 id="path-teach-title">Pfad-Lehre</h3>
+          <span class="chip-quiet" id="path-teach-chip">Pfad</span>
+        </div>
+        <p class="path-teach-text" id="path-teach-text">…</p>
+        <p class="hint-sm">Ein stiller Lehrsatz für deinen gewählten Pfad — Praxis vor Spektakel.</p>
+      </article>
+
+      <article class="card invite-card" id="invite-card" aria-labelledby="invite-title">
+        <div class="intention-top">
+          <h3 id="invite-title">Empfehlen</h3>
+          <span class="chip-quiet">sanft · ohne Druck</span>
+        </div>
+        <p class="invite-lead">Kennst du jemanden, dem ein stiller Ritualbegleiter guttäte? Teile eine kurze Einladung — lokal, ethisch, ohne Konto.</p>
+        <div class="invite-preview" id="invite-preview" aria-live="polite"></div>
+        <div class="btn-row invite-actions">
+          <button type="button" class="primary" id="invite-copy">Einladung kopieren</button>
+          <button type="button" class="ghost" id="invite-share">Teilen</button>
+        </div>
+        <p class="hint-sm">Link: <code class="invite-url">https://fxrebermanagement-star.github.io/universum/</code></p>
       </article>
 
       <article class="card intention-card" id="intention-card" aria-labelledby="intention-title">
@@ -133,7 +159,13 @@
         </div>
         <p class="hint-sm">Favoriten und letzte Praxis — ein Tippen startet oder öffnet.</p>
         <div class="quick-praxis-row" id="quick-praxis-row" role="list"></div>
-        <p class="empty-state compact" id="quick-praxis-empty">Sterne Rituale oder übe einmal — dann erscheinen sie hier.</p>
+        <div class="empty-state convert compact" id="quick-praxis-empty">
+          <strong>Schnellzugriff ist noch leer</strong>
+          <p>Sterne ein Ritual oder übe einmal — Favoriten und Letzte erscheinen hier.</p>
+          <div class="empty-cta">
+            <button type="button" class="primary" id="empty-goto-rituals">Zu den Ritualen</button>
+          </div>
+        </div>
       </article>
 
 
@@ -375,7 +407,10 @@
           </div>
           <p class="hint-sm">Speichere bis zu drei eigene Vorlagen — laden füllt das Formular unten.</p>
           <div id="ritual-templates-list" class="ritual-templates-list" aria-live="polite"></div>
-          <p class="empty-state compact" id="ritual-templates-empty">Noch keine Vorlagen — speichere eine aus dem Formular.</p>
+          <div class="empty-state convert compact" id="ritual-templates-empty">
+            <strong>Noch keine Vorlagen</strong>
+            <p>Speichere bis zu drei Schablonen aus dem Formular — dein Tempo, deine Ethik.</p>
+          </div>
         </div>
         <div class="card">
           <h3>Eigenes Ritual anlegen</h3>
@@ -450,7 +485,14 @@
         <div class="card draw-history-card" id="draw-history-card">
           <h3>Letzte Züge</h3>
           <div id="draw-history" class="draw-history"></div>
-          <p class="empty-state compact" id="draw-history-empty">Noch keine Züge gespeichert — ziehe eine Karte.</p>
+          <div class="empty-state convert" id="draw-history-empty">
+            <strong>Noch keine Feldkarten-Züge</strong>
+            <p>Ziehe mit Absicht — eine Karte oder die Tageskarte. Fragen, nicht befehlen.</p>
+            <div class="empty-cta">
+              <button type="button" class="primary" id="empty-draw-one">Eine ziehen</button>
+              <button type="button" class="ghost" id="empty-draw-daily">Tageskarte</button>
+            </div>
+          </div>
         </div>
         <div class="cards-grid" id="feldkarten-grid"></div>
       </div>
@@ -698,7 +740,7 @@
         <p class="hint-sm">Willkommen, Pfad und Ethik erneut durchlaufen</p>
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
 
-        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">1.7.0</span></p>
+        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">1.8.0</span></p>
       </div>
     </div>
   </div>
