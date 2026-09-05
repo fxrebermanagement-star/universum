@@ -38,10 +38,11 @@
 
     <div id="main-content" tabindex="-1">
     <!-- 1. Cockpit -->
-    <section id="sec-cockpit" class="section-view active" aria-label="Cockpit">
-      <h1 class="section-title"><span class="sec-ico" aria-hidden="true">◈</span> Cockpit</h1>
+    <section id="sec-cockpit" class="section-view active cockpit-lovely-page" aria-label="Cockpit">
+      <h1 class="section-title"><span class="sec-ico" aria-hidden="true">✨</span> Cockpit</h1>
       <span class="section-motif" aria-hidden="true"></span>
       <p class="section-sub" id="cockpit-greeting">Praxis vor Spektakel.</p>
+      <div class="cockpit-path-art" id="cockpit-path-art" aria-hidden="true"><span class="path-art-orb" id="path-art-orb">✦</span></div>
       <p class="path-haltung" id="path-haltung" aria-live="polite"><span class="path-sym" aria-hidden="true">✦</span> <span class="path-haltung-text">Still üben — Daten bleiben bei dir.</span></p>
       <p class="privacy-line privacy-line-slim" id="privacy-line">Lokal in <code>feldlicht-v15</code> · kein Konto · kein Tracking</p>
 
@@ -69,9 +70,9 @@
       <button type="button" class="fest-countdown-chip" id="fest-countdown-chip" hidden aria-live="polite"></button>
 
       <!-- Above the fold: ONE daily tip (ritual or Haltung) + one CTA -->
-      <article class="card jetzt-card heute-tip-card" id="jetzt-card" aria-labelledby="jetzt-title">
+      <article class="card jetzt-card heute-tip-card cockpit-hero cockpit-lovely" id="jetzt-card" aria-labelledby="jetzt-title">
         <div class="intention-top">
-          <h3 id="jetzt-title">Heute</h3>
+          <h3 id="jetzt-title">🌅 Heute</h3>
           <span class="chip-quiet" id="jetzt-chip">Ein Tip</span>
         </div>
         <p class="jetzt-kind chip-quiet" id="jetzt-kind">Praxis</p>
@@ -81,20 +82,6 @@
           <button type="button" class="primary" id="jetzt-start">Üben</button>
           <button type="button" class="ghost tiny" id="jetzt-starter" hidden>3-Min-Starter</button>
         </div>
-      </article>
-
-      <article class="card empfehlen-card" id="empfehlen-card" aria-labelledby="empfehlen-title">
-        <div class="intention-top">
-          <h3 id="empfehlen-title">Empfehlen</h3>
-          <span class="chip-quiet">lokal · kein Konto</span>
-        </div>
-        <p class="hint-sm" id="empfehlen-lead">UNIVERSUM bleibt auf dem Gerät. Kein Login, kein Tracking — zum Home-Bildschirm oder Link teilen.</p>
-        <div class="btn-row empfehlen-actions">
-          <button type="button" class="primary tiny" id="empfehlen-share">Teilen</button>
-          <button type="button" class="ghost tiny" id="empfehlen-copy">Link kopieren</button>
-          <button type="button" class="ghost tiny" id="empfehlen-install">App installieren</button>
-        </div>
-        <p class="meta-line" id="empfehlen-status" aria-live="polite"></p>
       </article>
 
       <p class="offline-honesty hint-sm" id="offline-honesty" role="status">Lokal auf diesem Gerät · Offline-Shell bereit, wenn einmal geladen.</p>
@@ -111,17 +98,13 @@
         </div>
       </article>
 
-      <!-- Secondary / dense panels: calm Mehr accordion -->
-      <details class="card mehr-accordion" id="mehr-accordion">
-        <summary class="mehr-summary">
-          <span>Mehr</span>
-          <span class="mehr-hint">Pfad-Woche · Korrespondenzen · Mondfenster · Journal · Astronomie</span>
-        </summary>
-        <div class="mehr-body">
+      <!-- One-page cockpit surface (v3.9) — soft hierarchy, no Mehr-gating -->
+      <div class="cockpit-stardust" id="cockpit-stardust" aria-hidden="true"></div>
+      <div class="cockpit-flow" id="cockpit-flow">
 
       <article class="card path-week-card nested-card" id="path-week-card" aria-labelledby="path-week-title">
         <div class="intention-top">
-          <h3 id="path-week-title">Pfad-Woche</h3>
+          <h3 id="path-week-title">🗓️ Pfad-Woche</h3>
           <span class="chip-quiet" id="path-week-chip">Tag —</span>
         </div>
         <p class="path-week-lead" id="path-week-lead">Mikro-Praxis für heute.</p>
@@ -135,25 +118,26 @@
 
       <article class="card korrespondenz-card nested-card" id="korrespondenz-card" aria-labelledby="korrespondenz-title">
         <div class="intention-top">
-          <h3 id="korrespondenz-title">Korrespondenzen</h3>
+          <h3 id="korrespondenz-title">🌿 Korrespondenzen</h3>
           <span class="chip-quiet" id="korrespondenz-chip">Hauspraxis</span>
         </div>
         <p class="hint-sm" id="korrespondenz-note">Kräuter, Steine, Farben als Symbol — kein medizinischer Rat.</p>
         <ul class="korrespondenz-list" id="korrespondenz-list"></ul>
       </article>
 
-      <article class="card mondfenster-card nested-card" id="mondfenster-card" aria-labelledby="mondfenster-title">
+      <article class="card mondfenster-card nested-card cockpit-lovely" id="mondfenster-card" aria-labelledby="mondfenster-title">
         <div class="intention-top">
-          <h3 id="mondfenster-title">Mondfenster</h3>
+          <h3 id="mondfenster-title">🌙 Mondfenster</h3>
           <span class="chip-quiet" id="mondfenster-chip">—</span>
         </div>
+        <div class="mondfenster-visual" aria-hidden="true"><span id="mondfenster-emoji" class="moon-orb">🌕</span></div>
         <p class="mondfenster-lead" id="mondfenster-lead">Gut für …</p>
         <p class="hint-sm" id="mondfenster-meta"></p>
       </article>
 
       <article class="card ritual-journal-card nested-card" id="ritual-journal-card" aria-labelledby="ritual-journal-title">
         <div class="intention-top">
-          <h3 id="ritual-journal-title">Ritual-Journal</h3>
+          <h3 id="ritual-journal-title">🕯️ Ritual-Journal</h3>
           <span class="chip-quiet">lokal</span>
         </div>
         <p class="hint-sm">Kurze Reflexionen nach Ritual-Abschluss — nur auf diesem Gerät.</p>
@@ -207,7 +191,7 @@
 
       <article class="card path-teach-card nested-card" id="path-teach-card" aria-labelledby="path-teach-title">
         <div class="intention-top">
-          <h3 id="path-teach-title">Pfad-Lehre</h3>
+          <h3 id="path-teach-title">📜 Pfad-Lehre</h3>
           <span class="chip-quiet" id="path-teach-chip">Pfad</span>
         </div>
         <p class="path-teach-text" id="path-teach-text">…</p>
@@ -216,7 +200,7 @@
 
       <article class="card path-werkzeug-card nested-card" id="path-werkzeug-card" aria-labelledby="path-werkzeug-title">
         <div class="intention-top">
-          <h3 id="path-werkzeug-title">Werkzeug-Set</h3>
+          <h3 id="path-werkzeug-title">🛠️ Werkzeug-Set</h3>
           <span class="chip-quiet" id="path-werkzeug-chip">Pfad</span>
         </div>
         <p class="hint-sm" id="path-werkzeug-hint">Mini-Modul für deinen Pfad — kein volles Ritual.</p>
@@ -225,7 +209,7 @@
 
       <article class="card invite-card nested-card" id="invite-card" aria-labelledby="invite-title">
         <div class="intention-top">
-          <h3 id="invite-title">Weitergeben</h3>
+          <h3 id="invite-title">🕊️ Weitergeben</h3>
           <span class="chip-quiet">ohne Druck</span>
         </div>
         <p class="invite-lead">Wenn jemand einen ruhigen Ritualbegleiter sucht: kurze Einladung teilen — lokal, ethisch, ohne Konto.</p>
@@ -239,7 +223,7 @@
 
       <article class="card intention-card nested-card" id="intention-card" aria-labelledby="intention-title">
         <div class="intention-top">
-          <h3 id="intention-title">Intention des Tages</h3>
+          <h3 id="intention-title">💫 Intention des Tages</h3>
           <button type="button" class="ghost tiny" id="intention-clear" aria-label="Intention löschen">Löschen</button>
         </div>
         <p class="hint">Eine Zeile — lokal, nur heute. Optional mit 369 verknüpfen.</p>
@@ -258,7 +242,7 @@
 
       <article class="card quick-praxis-card nested-card" id="quick-praxis-card" aria-labelledby="quick-praxis-title">
         <div class="intention-top">
-          <h3 id="quick-praxis-title">Schnellzugriff</h3>
+          <h3 id="quick-praxis-title">⚡ Schnellzugriff</h3>
           <span class="chip-quiet">Favoriten · zuletzt</span>
         </div>
         <p class="hint-sm">Favoriten und letzte Praxis — ein Tippen startet oder öffnet.</p>
@@ -308,7 +292,7 @@
 
       <div class="card nested-card schumann-card">
         <div class="schumann-head">
-          <h3>Schumann · Station</h3>
+          <h3>📡 Schumann · Station</h3>
           <span class="schumann-live-badge" data-sch-badge data-state="offline">Offline · lokale Visualisierung</span>
         </div>
         <div class="schumann-spectrogram" data-sch-spectrogram>
@@ -335,14 +319,14 @@
       </div>
 
       <div class="card nested-card">
-        <h3>Hinweise</h3>
+        <h3>💡 Hinweise</h3>
         <ul class="recs-list" id="dash-recs"></ul>
         <p class="meta-line" id="dash-next-moon"></p>
         <p class="astro-doc"><span class="approx-badge">Näherung</span> Mondphase (synodisch), Sonne tropisch, Planetenstunden ab Sonnenzeiten, VoC-Stil — ruhige Praxiswerte, <strong>kein professionelles Ephemeris</strong>.</p>
       </div>
 
       <div class="card nested-card">
-        <h3>369-Praxis · heute</h3>
+        <h3>🔢 369-Praxis · heute</h3>
         <p class="hint">Ethischer Satz · 3 / 6 / 9 — lokal gespeichert</p>
         <div class="form-row">
           <input id="phrase-369" placeholder="z. B. Ich übe klare Grenzen im Alltag" maxlength="120" />
@@ -367,7 +351,7 @@
       </div>
 
       <div class="card nested-card">
-        <h3>Kurz-Check-in (optional)</h3>
+        <h3>🫧 Kurz-Check-in (optional)</h3>
         <p class="hint">Wie unruhig fühlst du dich gerade? (fließt in die Unruhe-Anzeige)</p>
         <div class="checkin-row">
           <button type="button" data-checkin="0">0</button>
@@ -380,12 +364,12 @@
       </div>
 
       <div class="card nested-card tip-card" id="tip-of-day-card">
-        <h3>Tipp des Tages</h3>
+        <h3>🌟 Tipp des Tages</h3>
         <p id="tip-of-day" class="tip-text">…</p>
       </div>
 
       <div class="card nested-card">
-        <h3>Standort &amp; Einstellungen</h3>
+        <h3>⚙️ Standort &amp; Einstellungen</h3>
         <p class="hint-sm" id="loc-summary">Europa/Zürich · 47,37 / 8,54</p>
         <p class="hint">Standort, Haptik, Schumann-Audio und Bewegung findest du in den Einstellungen (⚙).</p>
         <button type="button" id="open-settings-from-cockpit" class="ghost">Einstellungen öffnen</button>
@@ -398,10 +382,24 @@
         </div>
       </div>
 
-        </div><!-- .mehr-body -->
-      </details>
+      </div><!-- .cockpit-flow -->
 
-      <h3 class="areas-label">Mehr Bereiche</h3>
+
+      <article class="card empfehlen-card" id="empfehlen-card" aria-labelledby="empfehlen-title">
+        <div class="intention-top">
+          <h3 id="empfehlen-title">💌 Empfehlen</h3>
+          <span class="chip-quiet">lokal · kein Konto</span>
+        </div>
+        <p class="hint-sm" id="empfehlen-lead">UNIVERSUM bleibt auf dem Gerät. Kein Login, kein Tracking — zum Home-Bildschirm oder Link teilen.</p>
+        <div class="btn-row empfehlen-actions">
+          <button type="button" class="primary tiny" id="empfehlen-share">Teilen</button>
+          <button type="button" class="ghost tiny" id="empfehlen-copy">Link kopieren</button>
+          <button type="button" class="ghost tiny" id="empfehlen-install">App installieren</button>
+        </div>
+        <p class="meta-line" id="empfehlen-status" aria-live="polite"></p>
+      </article>
+
+      <h3 class="areas-label">✨ Mehr Bereiche</h3>
       <div class="tiles">
         <button type="button" class="tile" data-tile="kalender"><div class="tile-ico" aria-hidden="true">📅</div><div class="tile-name">Kalender</div><div class="tile-desc">Mond &amp; Feste</div></button>
         <button type="button" class="tile" data-tile="kosmos"><div class="tile-ico" aria-hidden="true">🪐</div><div class="tile-name">Kosmos</div><div class="tile-desc">Stunde · Kreis · Fokus</div></button>
@@ -720,7 +718,7 @@
     <section id="sec-tagebuch" class="section-view">
       <h1 class="section-title"><span class="sec-ico" aria-hidden="true">📖</span> Magie-Tagebuch</h1>
       <span class="section-motif" aria-hidden="true"></span>
-      <p class="section-sub">Lokal · <code>feldlicht-v15</code> · Export</p>
+      <p class="section-sub">Lokal · <code>feldlicht-v15</code> · Fotos in IndexedDB · Export</p>
       <div class="toolbar export-pack" role="group" aria-label="Export-Paket">
         <button type="button" class="primary" id="diary-export">Buch JSON</button>
         <button type="button" class="ghost" id="diary-export-summary" title="Kurztext für Coach / Supervision">Praxis-Zusammenfassung</button>
@@ -752,6 +750,29 @@
         <div class="practice-log-timeline" id="practice-log-timeline" aria-live="polite"></div>
         <p class="empty-state compact" id="practice-log-empty">Noch keine Praxis-Einträge.</p>
       </div>
+      <div class="card diary-filters-card" id="diary-filters-card" aria-labelledby="diary-filters-title">
+        <div class="intention-top">
+          <h3 id="diary-filters-title">🔍 Filter</h3>
+          <button type="button" class="ghost tiny" id="diary-filter-reset">Zurücksetzen</button>
+        </div>
+        <div class="diary-filters-grid">
+          <div class="form-row"><label for="diary-filter-path">Pfad</label>
+            <select id="diary-filter-path"><option value="">Alle Pfade</option></select></div>
+          <div class="form-row"><label for="diary-filter-moon">Mond</label>
+            <select id="diary-filter-moon">
+              <option value="">Alle Phasen</option>
+              <option value="neu">🌑 Neumond</option>
+              <option value="zunehmend">🌒 Zunehmend</option>
+              <option value="voll">🌕 Vollmond</option>
+              <option value="abnehmend">🌘 Abnehmend</option>
+            </select></div>
+          <div class="form-row"><label for="diary-filter-ritual">Ritual</label>
+            <select id="diary-filter-ritual"><option value="">Alle Rituale</option></select></div>
+          <div class="form-row"><label for="diary-filter-tag">Tag</label>
+            <select id="diary-filter-tag"><option value="">Alle Tags</option></select></div>
+        </div>
+        <p class="hint-sm" id="diary-filter-count" aria-live="polite"></p>
+      </div>
       <div class="card">
         <div class="form-row">
           <label>Impuls (optional, pfadbezogen)</label>
@@ -770,8 +791,29 @@
             <button type="button" data-mood="offen">Offen</button>
           </div>
         </div>
+        <div class="form-row diary-photo-row">
+          <label>📷 Foto (optional)</label>
+          <div class="diary-photo-actions btn-row tight">
+            <label class="btn ghost tiny diary-photo-pick" title="Kamera">📷 Kamera
+              <input type="file" id="diary-photo-camera" accept="image/*" capture="environment" hidden />
+            </label>
+            <label class="btn ghost tiny diary-photo-pick" title="Galerie">🖼️ Galerie
+              <input type="file" id="diary-photo-gallery" accept="image/*" hidden />
+            </label>
+            <button type="button" class="ghost tiny" id="diary-photo-clear" hidden>Entfernen</button>
+          </div>
+          <div class="diary-photo-preview" id="diary-photo-preview" hidden>
+            <img id="diary-photo-preview-img" alt="Vorschau" />
+          </div>
+          <p class="hint-sm honesty-photo">Fotos bleiben auf diesem Gerät, kein Upload.</p>
+        </div>
         <button type="button" class="primary" id="diary-add">Speichern</button>
       </div>
+      <div class="toolbar export-pack diary-extra-export" role="group" aria-label="Lokaler Buch-Export">
+        <button type="button" class="ghost" id="diary-export-zip" title="ZIP mit Fotos — nur lokal">📦 ZIP-Backup</button>
+        <button type="button" class="ghost" id="diary-export-print" title="Drucken / als PDF speichern — nur lokal">🖨️ Drucken / PDF</button>
+      </div>
+      <p class="hint-sm">📦 ZIP und 🖨️ PDF bleiben auf dem Gerät — kein Cloud-Upload. Buch-JSON kann komprimierte Fotos einbetten.</p>
       <div class="entry-list" id="diary-list"></div>
     </section>
 
@@ -976,7 +1018,7 @@
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
         <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">3.6.1</span></p>
+        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">3.9.0</span></p>
       </div>
     </div>
   </div>
@@ -996,6 +1038,17 @@
       </div>
       <div class="global-search-results" id="global-search-results-modal" role="listbox" aria-label="Suchergebnisse"></div>
       <p class="empty-state compact" id="global-search-empty">Tippe einen Begriff — mind. 2 Zeichen.</p>
+    </div>
+  </div>
+
+
+  <!-- Foto-Lightbox -->
+  <div class="modal-overlay" id="photo-lightbox" hidden>
+    <div class="modal photo-lightbox-modal" role="dialog" aria-modal="true" aria-labelledby="photo-lightbox-title">
+      <h2 id="photo-lightbox-title" class="sr-only">Foto</h2>
+      <img id="photo-lightbox-img" alt="Tagebuch-Foto" />
+      <p class="hint-sm honesty-photo">Nur auf diesem Gerät · kein Upload</p>
+      <button type="button" class="primary w-full mt-2" id="photo-lightbox-close">Schließen</button>
     </div>
   </div>
 
@@ -1038,6 +1091,7 @@
 
   <script defer src="js/astronomy.js"></script>
   <script defer src="js/storage.js"></script>
+  <script defer src="js/media.js"></script>
   <script defer src="js/paths.js"></script>
   <script defer src="js/rituals.js"></script>
   <script defer src="js/sigil.js"></script>

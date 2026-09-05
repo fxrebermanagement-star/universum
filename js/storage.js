@@ -228,7 +228,7 @@
     });
   }
 
-  const APP_VERSION = '3.6.1';
+  const APP_VERSION = '3.9.0';
 
   function buildExportMeta(data) {
     const pathId = data.path || 'esoterik';
@@ -256,27 +256,87 @@
     };
   }
 
+  function collectDiaryPhotoIds(data) {
+    const ids = [];
+    (data.diary || []).forEach(e => {
+      if (e && e.photoId) ids.push(e.photoId);
+    });
+    (data.ritualJournal || []).forEach(e => {
+      if (e && e.photoId) ids.push(e.photoId);
+    });
+    return ids;
+  }
+
+  function downloadJsonPayload(payload, filename) {
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename || 'universum-buch.json';
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+  }
+
+  /** Sync fallback (photo ids only, no blobs). Prefer exportBuchAsync. */
   function exportBuch() {
     const data = load();
     const meta = buildExportMeta(data);
+    const photoIds = collectDiaryPhotoIds(data);
     const payload = {
       app: 'UNIVERSUM',
       formerly: 'Feldlicht Ritualbegleiter',
       appVersion: APP_VERSION,
       exportedAt: new Date().toISOString(),
       storageKey: STORAGE_KEY,
-      format: 'universum-buch-v2',
-      meta: meta,
+      format: 'universum-buch-v3',
+      meta: Object.assign({}, meta, {
+        photoCount: photoIds.length,
+        mediaNote: photoIds.length
+          ? 'Foto-IDs im Tagebuch; Blobs in IndexedDB (universum-media). Für volles Backup exportBuchAsync / ZIP nutzen.'
+          : null
+      }),
       data
     };
-    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'universum-buch.json';
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(url), 2000);
+    downloadJsonPayload(payload, 'universum-buch.json');
     return true;
+  }
+
+  /** Full backup: embeds compressed photos (data URLs) under media{} — still local download. */
+  async function exportBuchAsync() {
+    const data = load();
+    const meta = buildExportMeta(data);
+    const photoIds = collectDiaryPhotoIds(data);
+    let media = {};
+    const Media = global.UniversumMedia;
+    if (Media && photoIds.length) {
+      try {
+        media = await Media.collectMediaMap(photoIds);
+      } catch (e) {
+        console.warn('media collect failed', e);
+      }
+    }
+    const embedded = Object.keys(media).length;
+    const payload = {
+      app: 'UNIVERSUM',
+      formerly: 'Feldlicht Ritualbegleiter',
+      appVersion: APP_VERSION,
+      exportedAt: new Date().toISOString(),
+      storageKey: STORAGE_KEY,
+      format: 'universum-buch-v3',
+      meta: Object.assign({}, meta, {
+        photoCount: photoIds.length,
+        mediaEmbedded: embedded,
+        mediaNote: embedded
+          ? 'Komprimierte Fotos unter media{} eingebettet (Backup).'
+          : (photoIds.length
+            ? 'Foto-IDs vorhanden, aber keine Blobs geladen — IndexedDB prüfen.'
+            : null)
+      }),
+      media: media,
+      data
+    };
+    downloadJsonPayload(payload, 'universum-buch.json');
+    return { ok: true, embedded: embedded, photoIds: photoIds.length };
   }
 
   /** Plain-text practice summary for coaches / supervision (no full diary bodies). */
@@ -478,6 +538,7 @@
               sigilGallery: (norm.sigilGallery || []).concat(local.sigilGallery || []).slice(0, 8),
               intentionHistory: mergeById(local.intentionHistory || [], norm.intentionHistory || []).slice(0, 14),
               practiceLog: mergeById(local.practiceLog || [], norm.practiceLog || []).slice(0, 80),
+              ritualJournal: mergeById(local.ritualJournal || [], norm.ritualJournal || []).slice(0, 80),
               kreisNotes: mergeById(local.kreisNotes || [], norm.kreisNotes || []).slice(0, 40),
               briefingPins: normalizePins(norm.briefingPins && norm.briefingPins.length ? norm.briefingPins : local.briefingPins),
               dailyIntention: (norm.dailyIntention && norm.dailyIntention.date === todayKey())
@@ -500,9 +561,28 @@
           } else {
             result = normalizeIncoming(incoming);
           }
+          // ritualJournal merge if missing from merge branch
+          if (mode === 'merge' && Array.isArray(incoming.ritualJournal)) {
+            result.ritualJournal = mergeById(result.ritualJournal || [], incoming.ritualJournal).slice(0, 80);
+          }
           result.version = 15;
           save(result);
-          resolve({ data: result, mode: mode, meta: parsed.meta || null, appVersion: parsed.appVersion || null });
+          const mediaMap = parsed.media && typeof parsed.media === 'object' ? parsed.media : null;
+          const Media = global.UniversumMedia;
+          const finish = (mediaRestored) => {
+            resolve({
+              data: result,
+              mode: mode,
+              meta: parsed.meta || null,
+              appVersion: parsed.appVersion || null,
+              mediaRestored: mediaRestored || 0
+            });
+          };
+          if (mediaMap && Media && Media.restoreMediaMap) {
+            Media.restoreMediaMap(mediaMap).then(n => finish(n)).catch(() => finish(0));
+          } else {
+            finish(0);
+          }
         } catch (e) {
           reject(e);
         }
@@ -961,16 +1041,20 @@
   function addRitualJournalEntry(entry) {
     return update(d => {
       const list = Array.isArray(d.ritualJournal) ? d.ritualJournal.slice() : [];
+      const text = String((entry && entry.text) || '').trim().slice(0, 280);
+      const photoId = (entry && entry.photoId) || null;
       list.unshift({
         id: uid(),
         at: new Date().toISOString(),
         ritualId: entry && entry.ritualId || null,
         ritualName: (entry && entry.ritualName) || 'Praxis',
         pathId: (entry && entry.pathId) || null,
-        text: String((entry && entry.text) || '').trim().slice(0, 280),
-        mood: (entry && entry.mood) || null
+        text: text,
+        mood: (entry && entry.mood) || null,
+        photoId: photoId
       });
-      d.ritualJournal = list.filter(x => x.text).slice(0, 60);
+      // keep entries that have text OR a photo
+      d.ritualJournal = list.filter(x => x.text || x.photoId).slice(0, 60);
     });
   }
 
@@ -993,6 +1077,8 @@
     save,
     update,
     exportBuch,
+    exportBuchAsync,
+    collectDiaryPhotoIds,
     exportPracticeSummary,
     buildExportMeta,
     importBuch,

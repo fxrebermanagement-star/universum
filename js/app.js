@@ -6,6 +6,7 @@
 
   const Astro = window.UniversumAstro;
   const Store = window.UniversumStorage;
+  const Media = window.UniversumMedia;
   const Paths = window.UniversumPaths;
   const Rituals = window.UniversumRituals;
   const Sigil = window.UniversumSigil;
@@ -103,6 +104,11 @@
   let breathTimer = null;
   let checkInVal = state.checkIn;
   let diaryMood = null;
+  /** Pending diary photo before save: { id, dataUrl, blob, w, h } */
+  let diaryPendingPhoto = null;
+  /** Pending photo in ritual closing seed step */
+  let closingPendingPhoto = null;
+  let diaryFilters = { path: '', moon: '', ritual: '', tag: '' };
   let focusTimer = null;
   let focusRemaining = 300;
   let focusSelectedMins = 5;
@@ -996,13 +1002,15 @@
       if (path.accentDeep) root.style.setProperty('--accent-deep', path.accentDeep);
       if (path.accentSoft) root.style.setProperty('--accent-soft', path.accentSoft);
     }
+    const sym = pathSymbol(path);
     const h = $('#path-haltung');
     if (h) {
-      const sym = pathSymbol(path);
       const text = (path && (path.haltung || path.saying)) || 'Still üben — Daten bleiben bei dir.';
       h.innerHTML = '<span class="path-sym" aria-hidden="true">' + escapeHtml(sym) + '</span> ' +
         '<span class="path-haltung-text">' + escapeHtml(text) + '</span>';
     }
+    const artOrb = $('#path-art-orb');
+    if (artOrb) artOrb.textContent = sym || '✦';
     const chip = $('#path-chip');
     if (chip && path) {
       chip.innerHTML = '<span class="path-sym" aria-hidden="true">' + escapeHtml(pathSymbol(path)) + '</span> ' +
@@ -1091,9 +1099,9 @@
     if (chip) chip.textContent = (path && path.name) || 'Pfad';
     if (note) note.textContent = c.note || 'Hauspraxis — kein medizinischer Rat.';
     const rows = [
-      ['Kräuter', (c.herbs || []).join(' · ')],
-      ['Steine', (c.stones || []).join(' · ')],
-      ['Farben', (c.colors || []).join(' · ')]
+      ['🌿 Kräuter', (c.herbs || []).join(' · ')],
+      ['💎 Steine', (c.stones || []).join(' · ')],
+      ['🎨 Farben', (c.colors || []).join(' · ')]
     ];
     list.innerHTML = rows.map(function (r) {
       return '<li><strong>' + escapeHtml(r[0]) + '</strong><span>' + escapeHtml(r[1]) + '</span></li>';
@@ -1109,6 +1117,8 @@
     const fen = Paths.getMondFenster(state.path, m.name);
     if (chip) chip.textContent = fen.label || m.name || 'Mond';
     lead.textContent = fen.text || 'Gut für ruhige Praxis mit Maß.';
+    const orb = $('#mondfenster-emoji');
+    if (orb) orb.textContent = m.emoji || '🌕';
     if (meta) {
       meta.textContent = (m.emoji || '☾') + ' ' + (m.name || '—') +
         (m.percent != null ? ' · ' + m.percent + ' %' : '') +
@@ -1135,6 +1145,7 @@
         '<div class="rj-top"><strong>' + escapeHtml(it.ritualName || 'Praxis') + '</strong>' +
         '<span class="rj-when">' + escapeHtml(when) + '</span></div>' +
         '<p class="rj-text">' + escapeHtml(it.text || '') + '</p>' +
+        (it.photoId ? '<button type="button" class="ghost tiny" data-rj-photo="' + escapeHtml(it.photoId) + '">📷 Foto</button>' : '') +
         '<button type="button" class="ghost tiny rj-del" data-rj-del="' + escapeHtml(it.id) + '">Löschen</button>' +
         '</div>';
     }).join('');
@@ -1146,6 +1157,11 @@
           renderRitualJournal();
           toast('Journal-Eintrag entfernt');
         }
+      });
+    });
+    host.querySelectorAll('[data-rj-photo]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        openPhotoLightbox(btn.getAttribute('data-rj-photo'));
       });
     });
   }
@@ -1422,6 +1438,7 @@
     const title = firstLine.length > 2 ? firstLine : 'Aus Notiz';
     const body = text;
     const tags = note.tag ? [String(note.tag).slice(0, 40)] : ['notiz'];
+    const moon = diaryMoonMeta(new Date());
     Store.update(d => {
       d.diary.push({
         id: Store.uid(),
@@ -1430,7 +1447,14 @@
         tags: tags,
         mood: null,
         created: new Date().toISOString(),
-        fromNoteId: noteId
+        fromNoteId: noteId,
+        photoId: null,
+        pathId: state.path || null,
+        ritualId: null,
+        ritualName: null,
+        moonPhase: moon.moonPhase,
+        moonBucket: moon.moonBucket,
+        moonEmoji: moon.moonEmoji
       });
       d.notes = (d.notes || []).filter(x => x.id !== noteId);
     });
@@ -3013,9 +3037,9 @@
       },
       {
         id: 'seed',
-        title: 'Reflexion (optional)',
-        text: 'Ein kurzer Satz fürs Ritual-Journal — oder weitergehen. Kein Zwang.',
-        ico: '📝',
+        title: 'Ins Buch (optional)',
+        text: 'Ein kurzer Satz und optional ein Foto — mit Ritualname und Pfad ins Magie-Buch. Kein Zwang.',
+        ico: '📖',
         diary: true
       }
     ];
@@ -3044,7 +3068,16 @@
           '<label class="sr-only" for="rr-closing-seed">Ritual-Reflexion (optional)</label>' +
           '<p class="hint-sm journal-prompt">' + escapeHtml(jPrompt) + '</p>' +
           '<textarea id="rr-closing-seed" maxlength="280" rows="3" placeholder="Dein Satz…"></textarea>' +
-          '<p class="hint-sm">Optional · speichert im Ritual-Journal (Mehr) und als Tagebuch-Keim.</p></div>';
+          '<div class="closing-photo-row">' +
+          '<label class="btn ghost tiny">📷 Foto' +
+          '<input type="file" id="rr-closing-photo" accept="image/*" capture="environment" hidden /></label>' +
+          '<label class="btn ghost tiny">🖼️ Galerie' +
+          '<input type="file" id="rr-closing-photo-gal" accept="image/*" hidden /></label>' +
+          '<button type="button" class="ghost tiny" id="rr-closing-photo-clear" hidden>Entfernen</button>' +
+          '<div class="diary-photo-preview closing-photo-preview" id="rr-closing-photo-preview" hidden>' +
+          '<img id="rr-closing-photo-img" alt="Vorschau" /></div>' +
+          '<p class="hint-sm honesty-photo">Fotos bleiben auf diesem Gerät, kein Upload.</p></div>' +
+          '<p class="hint-sm">Optional · speichert direkt ins Magie-Buch mit Ritual + Pfad.</p></div>';
       }
       const isLast = ci >= CLOSING.length - 1;
       $('#rr-content').innerHTML =
@@ -3058,8 +3091,8 @@
         '<p class="notice ethics-line">Nach ' + escapeHtml(label) + '</p>' +
         '<div class="rr-actions">' +
         (step.diary
-          ? '<button type="button" class="primary" id="rr-close-seed-save">Reflexion speichern · Alltag</button>' +
-            '<button type="button" class="ghost" id="rr-done">Ohne Reflexion · Alltag</button>'
+          ? '<button type="button" class="primary" id="rr-close-seed-save">📖 Ins Buch · Alltag</button>' +
+            '<button type="button" class="ghost" id="rr-done">Ohne Eintrag · Alltag</button>'
           : (isLast
             ? '<button type="button" class="primary" id="rr-done">Fertig · Alltag</button>'
             : '<button type="button" class="primary" id="rr-close-next">Weiter</button>')) +
@@ -3090,38 +3123,104 @@
       if (next) next.addEventListener('click', () => { ci++; paint(); });
       const done = $('#rr-done');
       if (done) done.addEventListener('click', () => finishClosing((Paths.closingToast && Paths.closingToast(state.path)) || 'Praxis gesiegelt — Schwelle gehalten.'));
+      closingPendingPhoto = null;
+      async function handleClosingPhoto(file) {
+        if (!file || !Media) return;
+        try {
+          const packed = await Media.compressImage(file);
+          closingPendingPhoto = {
+            id: Media.uid('ph'),
+            dataUrl: packed.dataUrl,
+            blob: packed.blob,
+            w: packed.w,
+            h: packed.h
+          };
+          const prev = $('#rr-closing-photo-preview');
+          const img = $('#rr-closing-photo-img');
+          const clr = $('#rr-closing-photo-clear');
+          if (img) img.src = packed.dataUrl;
+          if (prev) prev.hidden = false;
+          if (clr) clr.hidden = false;
+          toast('📷 Vorschau');
+        } catch (_) {
+          toast('Foto fehlgeschlagen', 2800, 'warn');
+        }
+      }
+      const cCam = $('#rr-closing-photo');
+      const cGal = $('#rr-closing-photo-gal');
+      if (cCam) cCam.addEventListener('change', e => {
+        const f = e.target.files && e.target.files[0];
+        if (f) handleClosingPhoto(f);
+      });
+      if (cGal) cGal.addEventListener('change', e => {
+        const f = e.target.files && e.target.files[0];
+        if (f) handleClosingPhoto(f);
+      });
+      const cClr = $('#rr-closing-photo-clear');
+      if (cClr) cClr.addEventListener('click', () => {
+        closingPendingPhoto = null;
+        const prev = $('#rr-closing-photo-preview');
+        const img = $('#rr-closing-photo-img');
+        if (prev) prev.hidden = true;
+        if (img) img.removeAttribute('src');
+        cClr.hidden = true;
+        if (cCam) cCam.value = '';
+        if (cGal) cGal.value = '';
+      });
+
       const seedSave = $('#rr-close-seed-save');
-      if (seedSave) seedSave.addEventListener('click', () => {
+      if (seedSave) seedSave.addEventListener('click', async () => {
         const ta = $('#rr-closing-seed');
         const seed = ta ? String(ta.value || '').trim() : '';
-        if (seed) {
-          try {
-            if (Store.addRitualJournalEntry) {
-              Store.addRitualJournalEntry({
-                ritualId: ritual && ritual.id || null,
-                ritualName: label,
-                pathId: state.path,
-                text: seed
-              });
-            }
-            Store.update(d => {
-              d.diary = d.diary || [];
-              d.diary.push({
-                id: Store.uid(),
-                title: 'Reflexion nach ' + label,
-                body: seed,
-                tags: ['abschluss', 'ritual-journal'],
-                mood: null,
-                created: new Date().toISOString()
-              });
-            });
-            toast('Im Ritual-Journal');
-            if (typeof renderRitualJournal === 'function') renderRitualJournal();
-          } catch (_) {
-            toast('Reflexion konnte nicht gespeichert werden', 3200, 'warn');
-          }
+        if (!seed && !closingPendingPhoto) {
+          finishClosing('Schwelle gehalten — gut geübt.');
+          return;
         }
-        finishClosing(seed ? 'Reflexion gespeichert · Schwelle gehalten.' : 'Schwelle gehalten — gut geübt.');
+        try {
+          let photoId = null;
+          if (closingPendingPhoto && Media) {
+            await Media.putPhoto(closingPendingPhoto.id, closingPendingPhoto.blob, {
+              w: closingPendingPhoto.w, h: closingPendingPhoto.h, mime: 'image/jpeg'
+            });
+            photoId = closingPendingPhoto.id;
+          }
+          const moon = diaryMoonMeta(new Date());
+          const bodyText = seed || (photoId ? '(Foto zur Praxis)' : '');
+          if (Store.addRitualJournalEntry) {
+            Store.addRitualJournalEntry({
+              ritualId: ritual && ritual.id || null,
+              ritualName: label,
+              pathId: state.path,
+              text: bodyText.slice(0, 280),
+              photoId: photoId
+            });
+          }
+          Store.update(d => {
+            d.diary = d.diary || [];
+            d.diary.push({
+              id: Store.uid(),
+              title: 'Nach ' + label,
+              body: bodyText,
+              tags: ['abschluss', 'ritual'],
+              mood: null,
+              created: new Date().toISOString(),
+              photoId: photoId,
+              pathId: state.path || null,
+              ritualId: ritual && ritual.id || null,
+              ritualName: label,
+              moonPhase: moon.moonPhase,
+              moonBucket: moon.moonBucket,
+              moonEmoji: moon.moonEmoji
+            });
+          });
+          closingPendingPhoto = null;
+          toast('📖 Ins Magie-Buch');
+          if (typeof renderRitualJournal === 'function') renderRitualJournal();
+          finishClosing('Im Buch · Schwelle gehalten.');
+        } catch (_) {
+          toast('Eintrag konnte nicht gespeichert werden', 3200, 'warn');
+          finishClosing('Schwelle gehalten — gut geübt.');
+        }
       });
       const skip = $('#rr-close-skip');
       if (skip) skip.addEventListener('click', () => {
@@ -3853,16 +3952,287 @@
     });
   }
 
+
+  /* ——— Tagebuch-Fotos / Filter / Export (lokal) ——— */
+  function diaryMoonMeta(date) {
+    const moon = Astro.moonPhase ? Astro.moonPhase(date || new Date()) : null;
+    if (!moon) return { moonPhase: null, moonBucket: null, moonEmoji: '' };
+    const bucket = Paths.moonBucket ? Paths.moonBucket(moon.name) : null;
+    return {
+      moonPhase: moon.name || null,
+      moonBucket: bucket,
+      moonEmoji: moon.emoji || ''
+    };
+  }
+
+  function clearDiaryPendingPhoto() {
+    diaryPendingPhoto = null;
+    const prev = $('#diary-photo-preview');
+    const img = $('#diary-photo-preview-img');
+    const clr = $('#diary-photo-clear');
+    if (prev) prev.hidden = true;
+    if (img) { img.removeAttribute('src'); }
+    if (clr) clr.hidden = true;
+    const cam = $('#diary-photo-camera');
+    const gal = $('#diary-photo-gallery');
+    if (cam) cam.value = '';
+    if (gal) gal.value = '';
+  }
+
+  function setDiaryPendingPreview(dataUrl) {
+    const prev = $('#diary-photo-preview');
+    const img = $('#diary-photo-preview-img');
+    const clr = $('#diary-photo-clear');
+    if (img && dataUrl) img.src = dataUrl;
+    if (prev) prev.hidden = !dataUrl;
+    if (clr) clr.hidden = !dataUrl;
+  }
+
+  async function handleDiaryPhotoFile(file) {
+    if (!file || !Media) return;
+    try {
+      toast('Foto wird komprimiert…', 1600);
+      const packed = await Media.compressImage(file);
+      const id = Media.uid('ph');
+      diaryPendingPhoto = {
+        id: id,
+        dataUrl: packed.dataUrl,
+        blob: packed.blob,
+        w: packed.w,
+        h: packed.h
+      };
+      setDiaryPendingPreview(packed.dataUrl);
+      toast('📷 Vorschau bereit');
+    } catch (e) {
+      toast('Foto konnte nicht geladen werden', 3200, 'warn');
+    }
+  }
+
+  async function openPhotoLightbox(photoId) {
+    if (!photoId || !Media) return;
+    const overlay = $('#photo-lightbox');
+    const img = $('#photo-lightbox-img');
+    if (!overlay || !img) return;
+    try {
+      const url = await Media.getDataUrl(photoId);
+      if (!url) { toast('Foto nicht gefunden', 2400, 'warn'); return; }
+      img.src = url;
+      overlay.hidden = false;
+      overlay.classList.add('open');
+    } catch (_) {
+      toast('Foto nicht lesbar', 2400, 'warn');
+    }
+  }
+
+  function closePhotoLightbox() {
+    const overlay = $('#photo-lightbox');
+    const img = $('#photo-lightbox-img');
+    if (overlay) {
+      overlay.classList.remove('open');
+      overlay.hidden = true;
+    }
+    if (img) img.removeAttribute('src');
+  }
+
+  function populateDiaryFilterOptions() {
+    refreshState();
+    const entries = state.diary || [];
+    const pathSel = $('#diary-filter-path');
+    const ritSel = $('#diary-filter-ritual');
+    const tagSel = $('#diary-filter-tag');
+    if (pathSel) {
+      const cur = diaryFilters.path || '';
+      const paths = (Paths.PATHS || []).map(p => ({ id: p.id, name: p.name }));
+      pathSel.innerHTML = '<option value="">Alle Pfade</option>' +
+        paths.map(p => '<option value="' + escapeHtml(p.id) + '"' +
+          (p.id === cur ? ' selected' : '') + '>' + escapeHtml(p.name) + '</option>').join('');
+    }
+    if (ritSel) {
+      const cur = diaryFilters.ritual || '';
+      const names = [];
+      entries.forEach(e => {
+        const n = (e.ritualName || '').trim();
+        if (n && names.indexOf(n) < 0) names.push(n);
+      });
+      names.sort((a, b) => a.localeCompare(b, 'de'));
+      ritSel.innerHTML = '<option value="">Alle Rituale</option>' +
+        names.map(n => '<option value="' + escapeHtml(n) + '"' +
+          (n === cur ? ' selected' : '') + '>' + escapeHtml(n) + '</option>').join('');
+    }
+    if (tagSel) {
+      const cur = diaryFilters.tag || '';
+      const tags = [];
+      entries.forEach(e => {
+        (e.tags || []).forEach(t => {
+          const x = String(t).trim();
+          if (x && tags.indexOf(x) < 0) tags.push(x);
+        });
+      });
+      tags.sort((a, b) => a.localeCompare(b, 'de'));
+      tagSel.innerHTML = '<option value="">Alle Tags</option>' +
+        tags.map(t => '<option value="' + escapeHtml(t) + '"' +
+          (t === cur ? ' selected' : '') + '>' + escapeHtml(t) + '</option>').join('');
+    }
+    const moonSel = $('#diary-filter-moon');
+    if (moonSel) moonSel.value = diaryFilters.moon || '';
+  }
+
+  function filteredDiaryEntries() {
+    const entries = (state.diary || []).slice().sort((a, b) => (b.created || '').localeCompare(a.created || ''));
+    return entries.filter(e => {
+      if (diaryFilters.path && e.pathId !== diaryFilters.path) return false;
+      if (diaryFilters.moon) {
+        const b = e.moonBucket || (e.moonPhase && Paths.moonBucket ? Paths.moonBucket(e.moonPhase) : '');
+        if (b !== diaryFilters.moon) return false;
+      }
+      if (diaryFilters.ritual && (e.ritualName || '') !== diaryFilters.ritual) return false;
+      if (diaryFilters.tag) {
+        const tags = e.tags || [];
+        if (tags.indexOf(diaryFilters.tag) < 0) return false;
+      }
+      return true;
+    });
+  }
+
+  async function exportDiaryZip() {
+    if (!Media) { toast('Medienmodul fehlt', 2400, 'warn'); return; }
+    refreshState();
+    const entries = (state.diary || []).slice().sort((a, b) => (b.created || '').localeCompare(a.created || ''));
+    const files = [];
+    const indexLines = [
+      'UNIVERSUM · Magie-Buch ZIP',
+      'App v' + (Store.APP_VERSION || '') + ' · ' + new Date().toISOString(),
+      'Fotos bleiben lokal — kein Upload.',
+      ''
+    ];
+    const photoIds = [];
+    entries.forEach((e, i) => {
+      const n = String(i + 1).padStart(3, '0');
+      indexLines.push('--- ' + n + ' ---');
+      indexLines.push((e.created || '') + ' · ' + (e.title || 'Ohne Titel'));
+      if (e.pathId) indexLines.push('Pfad: ' + e.pathId);
+      if (e.ritualName) indexLines.push('Ritual: ' + e.ritualName);
+      if (e.moonPhase) indexLines.push('Mond: ' + e.moonPhase);
+      if (e.tags && e.tags.length) indexLines.push('Tags: ' + e.tags.join(', '));
+      indexLines.push(e.body || '');
+      if (e.photoId) {
+        indexLines.push('Foto: photos/' + e.photoId + '.jpg');
+        photoIds.push(e.photoId);
+      }
+      indexLines.push('');
+      files.push({
+        name: 'eintraege/' + n + '.txt',
+        data: [
+          e.title || 'Ohne Titel',
+          e.created || '',
+          e.pathId ? 'Pfad: ' + e.pathId : '',
+          e.ritualName ? 'Ritual: ' + e.ritualName : '',
+          e.moonPhase ? 'Mond: ' + e.moonPhase : '',
+          (e.tags || []).join(', '),
+          '',
+          e.body || ''
+        ].filter((line, idx, arr) => line || idx === arr.length - 1).join('\n')
+      });
+    });
+    files.unshift({ name: 'INHALT.txt', data: indexLines.join('\n') });
+    // meta json without blobs
+    files.push({
+      name: 'buch-meta.json',
+      data: JSON.stringify({
+        app: 'UNIVERSUM',
+        appVersion: Store.APP_VERSION,
+        exportedAt: new Date().toISOString(),
+        diary: entries.map(e => ({
+          id: e.id, title: e.title, body: e.body, tags: e.tags, mood: e.mood,
+          created: e.created, photoId: e.photoId || null, pathId: e.pathId || null,
+          ritualId: e.ritualId || null, ritualName: e.ritualName || null,
+          moonPhase: e.moonPhase || null, moonBucket: e.moonBucket || null
+        }))
+      }, null, 2)
+    });
+    toast('ZIP wird gebaut…', 2000);
+    for (let i = 0; i < photoIds.length; i++) {
+      const id = photoIds[i];
+      try {
+        const rec = await Media.getPhoto(id);
+        if (rec && rec.blob) {
+          files.push({ name: 'photos/' + id + '.jpg', data: rec.blob });
+        }
+      } catch (_) { /* skip */ }
+    }
+    const zip = await Media.buildZip(files);
+    Media.downloadBlob(zip, 'universum-magie-buch.zip');
+    toast('📦 ZIP gespeichert · lokal');
+  }
+
+  async function exportDiaryPrintable() {
+    refreshState();
+    const entries = (state.diary || []).slice().sort((a, b) => (b.created || '').localeCompare(a.created || ''));
+    if (!entries.length) { toast('Buch ist leer', 2400, 'warn'); return; }
+    toast('Druckansicht wird vorbereitet…', 1800);
+    const blocks = [];
+    for (let i = 0; i < entries.length; i++) {
+      const e = entries[i];
+      let imgHtml = '';
+      if (e.photoId && Media) {
+        try {
+          const du = await Media.getDataUrl(e.photoId);
+          if (du) imgHtml = '<img class="print-photo" src="' + du + '" alt="" />';
+        } catch (_) {}
+      }
+      const meta = [];
+      if (e.pathId) {
+        try { meta.push(Paths.getPath(e.pathId).name || e.pathId); } catch (_) { meta.push(e.pathId); }
+      }
+      if (e.ritualName) meta.push(e.ritualName);
+      if (e.moonPhase) meta.push(e.moonPhase);
+      if (e.mood) meta.push(e.mood);
+      blocks.push(
+        '<article class="pe">' +
+        '<h2>' + escapeHtml(e.title || 'Ohne Titel') + '</h2>' +
+        '<p class="pm">' + escapeHtml(e.created ? new Date(e.created).toLocaleString('de-CH') : '') +
+        (meta.length ? ' · ' + escapeHtml(meta.join(' · ')) : '') + '</p>' +
+        '<p class="pb">' + escapeHtml(e.body || '').replace(/\n/g, '<br/>') + '</p>' +
+        (e.tags && e.tags.length ? '<p class="pt">' + escapeHtml(e.tags.join(', ')) + '</p>' : '') +
+        imgHtml + '</article>'
+      );
+    }
+    const html = '<!DOCTYPE html><html lang="de"><head><meta charset="utf-8"/><title>Magie-Buch</title>' +
+      '<style>body{font-family:Georgia,serif;max-width:720px;margin:1.5rem auto;padding:0 1rem;color:#1a1220;background:#faf6f0}' +
+      'h1{font-size:1.4rem}h2{font-size:1.1rem;margin:0 0 .25rem}.pm{color:#666;font-size:.85rem}' +
+      '.pb{white-space:pre-wrap;line-height:1.45}.pt{font-size:.8rem;color:#555}.pe{border-bottom:1px solid #ddd;padding:1rem 0;break-inside:avoid}' +
+      '.print-photo{max-width:100%;max-height:360px;border-radius:8px;margin-top:.6rem}' +
+      '.note{font-size:.8rem;color:#666;margin-bottom:1.5rem}@media print{body{background:#fff}}</style></head><body>' +
+      '<h1>📖 Magie-Buch · UNIVERSUM</h1>' +
+      '<p class="note">Lokal auf diesem Gerät · kein Upload · App v' + escapeHtml(Store.APP_VERSION || '') +
+      ' · ' + escapeHtml(new Date().toLocaleString('de-CH')) + '</p>' +
+      blocks.join('') +
+      '<script>setTimeout(function(){window.print()},400)</script></body></html>';
+    const w = window.open('', '_blank');
+    if (!w) { toast('Popup blockiert — bitte erlauben', 3600, 'warn'); return; }
+    w.document.write(html);
+    w.document.close();
+  }
+
   function renderTagebuch() {
     refreshState();
     renderDiaryPrompts();
     renderWeekReview();
     renderPracticeLog();
+    populateDiaryFilterOptions();
     const list = $('#diary-list');
-    const entries = (state.diary || []).slice().sort((a, b) => (b.created || '').localeCompare(a.created || ''));
-    if (!entries.length) {
-      list.innerHTML = '<div class="empty-state"><strong>Dein Buch ist noch leer</strong>' +
-        '<p>Nutze einen pfadbezogenen Impuls oder schreibe den ersten Satz — lokal, nur hier.</p>' +
+    const allCount = (state.diary || []).length;
+    const entries = filteredDiaryEntries();
+    const countEl = $('#diary-filter-count');
+    if (countEl) {
+      const active = !!(diaryFilters.path || diaryFilters.moon || diaryFilters.ritual || diaryFilters.tag);
+      countEl.textContent = active
+        ? (entries.length + ' von ' + allCount + ' Einträgen')
+        : (allCount ? allCount + ' Einträge' : '');
+    }
+    if (!allCount) {
+      list.innerHTML = '<div class="empty-state"><strong>📖 Dein Buch ist noch leer</strong>' +
+        '<p>Nutze einen pfadbezogenen Impuls oder schreibe den ersten Satz — lokal, nur hier. Fotos bleiben auf diesem Gerät.</p>' +
         '<div class="empty-cta"><button type="button" class="primary" id="empty-diary-focus">Ersten Impuls nutzen</button></div></div>';
       const b = $('#empty-diary-focus');
       if (b) b.addEventListener('click', () => {
@@ -3872,21 +4242,60 @@
       });
       return;
     }
+    if (!entries.length) {
+      list.innerHTML = '<div class="empty-state compact"><strong>Keine Treffer</strong>' +
+        '<p>Filter lockern oder zurücksetzen.</p></div>';
+      return;
+    }
     list.innerHTML = entries.map(e => {
       const tags = (e.tags || []).map(t => '<span class="e-tag">' + escapeHtml(t) + '</span>').join('');
-      return '<div class="entry-card" data-id="' + escapeHtml(e.id) + '">' +
+      const metaBits = [];
+      if (e.ritualName) metaBits.push('🕯️ ' + e.ritualName);
+      if (e.moonPhase) metaBits.push((e.moonEmoji || '🌙') + ' ' + e.moonPhase);
+      if (e.pathId) {
+        try {
+          const pn = Paths.getPath(e.pathId);
+          metaBits.push((pn.symbol || '✦') + ' ' + (pn.name || e.pathId));
+        } catch (_) {}
+      }
+      const thumb = e.photoId
+        ? '<button type="button" class="e-thumb" data-photo-id="' + escapeHtml(e.photoId) + '" aria-label="Foto vergrößern">' +
+          '<img alt="" data-photo-src="' + escapeHtml(e.photoId) + '" /></button>'
+        : '';
+      return '<div class="entry-card' + (e.photoId ? ' has-photo' : '') + '" data-id="' + escapeHtml(e.id) + '">' +
+        '<div class="e-main">' +
         '<div class="e-date">' + escapeHtml(e.created ? new Date(e.created).toLocaleString('de-CH') : '') +
         (e.mood ? '<span class="e-mood">· ' + escapeHtml(e.mood) + '</span>' : '') + '</div>' +
         '<div class="e-title">' + escapeHtml(e.title || 'Ohne Titel') + '</div>' +
+        (metaBits.length ? '<div class="e-meta">' + escapeHtml(metaBits.join(' · ')) + '</div>' : '') +
         '<div class="e-body">' + escapeHtml(e.body || '') + '</div>' +
         (tags ? '<div class="e-tags">' + tags + '</div>' : '') +
-        '<div class="e-actions"><button type="button" data-del-diary="' + escapeHtml(e.id) + '">Löschen</button></div></div>';
+        '<div class="e-actions"><button type="button" data-del-diary="' + escapeHtml(e.id) + '">Löschen</button></div>' +
+        '</div>' + thumb + '</div>';
     }).join('');
     $$('[data-del-diary]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        Store.update(d => { d.diary = d.diary.filter(x => x.id !== btn.dataset.delDiary); });
+      btn.addEventListener('click', async () => {
+        const id = btn.dataset.delDiary;
+        const entry = (state.diary || []).find(x => x.id === id);
+        const photoId = entry && entry.photoId;
+        Store.update(d => { d.diary = d.diary.filter(x => x.id !== id); });
+        if (photoId && Media) {
+          try { await Media.removePhoto(photoId); } catch (_) {}
+        }
         renderTagebuch();
       });
+    });
+    $$('[data-photo-id]').forEach(btn => {
+      btn.addEventListener('click', () => openPhotoLightbox(btn.getAttribute('data-photo-id')));
+    });
+    // lazy-load thumbs
+    $$('img[data-photo-src]').forEach(async img => {
+      const pid = img.getAttribute('data-photo-src');
+      if (!pid || !Media) return;
+      try {
+        const url = await Media.getDataUrl(pid);
+        if (url) img.src = url;
+      } catch (_) {}
     });
   }
 
@@ -3920,24 +4329,43 @@
     });
   }
 
-  function addDiary() {
+  async function addDiary() {
     const title = $('#diary-title').value.trim();
     const body = $('#diary-body').value.trim();
     const tagsRaw = ($('#diary-tags').value || '').trim();
-    if (!title && !body) return;
+    if (!title && !body && !diaryPendingPhoto) return;
     const tags = tagsRaw ? tagsRaw.split(',').map(t => t.trim()).filter(Boolean).slice(0, 8) : [];
+    const moon = diaryMoonMeta(new Date());
+    let photoId = null;
+    if (diaryPendingPhoto && Media) {
+      try {
+        await Media.putPhoto(diaryPendingPhoto.id, diaryPendingPhoto.blob, {
+          w: diaryPendingPhoto.w, h: diaryPendingPhoto.h, mime: 'image/jpeg'
+        });
+        photoId = diaryPendingPhoto.id;
+      } catch (e) {
+        toast('Foto konnte nicht gespeichert werden', 3200, 'warn');
+        return;
+      }
+    }
     Store.update(d => {
       d.diary.push({
         id: Store.uid(),
-        title: title || 'Eintrag',
+        title: title || (photoId ? 'Foto-Eintrag' : 'Eintrag'),
         body,
         tags,
         mood: diaryMood || null,
-        created: new Date().toISOString()
+        created: new Date().toISOString(),
+        photoId: photoId,
+        pathId: state.path || null,
+        ritualId: null,
+        ritualName: null,
+        moonPhase: moon.moonPhase,
+        moonBucket: moon.moonBucket,
+        moonEmoji: moon.moonEmoji
       });
     });
     if (!afterPersist('Tagebuch gespeichert')) {
-      // Keep form values so the entry is not lost on quota failure
       return;
     }
     $('#diary-title').value = '';
@@ -3945,6 +4373,7 @@
     $('#diary-tags').value = '';
     diaryMood = null;
     $$('#diary-mood-row [data-mood]').forEach(b => b.classList.remove('picked'));
+    clearDiaryPendingPhoto();
     Rituals.vibrate(25);
     renderTagebuch();
   }
@@ -4872,9 +5301,62 @@
       });
     });
 
-    $('#diary-add').addEventListener('click', addDiary);
-    $('#diary-export').addEventListener('click', () => {
-      Store.exportBuch();
+    $('#diary-add').addEventListener('click', () => { addDiary(); });
+    const dCam = $('#diary-photo-camera');
+    const dGal = $('#diary-photo-gallery');
+    if (dCam) dCam.addEventListener('change', e => {
+      const f = e.target.files && e.target.files[0];
+      if (f) handleDiaryPhotoFile(f);
+    });
+    if (dGal) dGal.addEventListener('change', e => {
+      const f = e.target.files && e.target.files[0];
+      if (f) handleDiaryPhotoFile(f);
+    });
+    const dClr = $('#diary-photo-clear');
+    if (dClr) dClr.addEventListener('click', () => clearDiaryPendingPhoto());
+    const lbClose = $('#photo-lightbox-close');
+    if (lbClose) lbClose.addEventListener('click', closePhotoLightbox);
+    const lb = $('#photo-lightbox');
+    if (lb) lb.addEventListener('click', e => { if (e.target === lb) closePhotoLightbox(); });
+
+    function bindDiaryFilter(selId, key) {
+      const el = $(selId);
+      if (!el) return;
+      el.addEventListener('change', () => {
+        diaryFilters[key] = el.value || '';
+        renderTagebuch();
+      });
+    }
+    bindDiaryFilter('#diary-filter-path', 'path');
+    bindDiaryFilter('#diary-filter-moon', 'moon');
+    bindDiaryFilter('#diary-filter-ritual', 'ritual');
+    bindDiaryFilter('#diary-filter-tag', 'tag');
+    const fReset = $('#diary-filter-reset');
+    if (fReset) fReset.addEventListener('click', () => {
+      diaryFilters = { path: '', moon: '', ritual: '', tag: '' };
+      ['#diary-filter-path', '#diary-filter-moon', '#diary-filter-ritual', '#diary-filter-tag'].forEach(id => {
+        const el = $(id); if (el) el.value = '';
+      });
+      renderTagebuch();
+    });
+
+    const zipBtn = $('#diary-export-zip');
+    if (zipBtn) zipBtn.addEventListener('click', () => { exportDiaryZip(); });
+    const printBtn = $('#diary-export-print');
+    if (printBtn) printBtn.addEventListener('click', () => { exportDiaryPrintable(); });
+
+    $('#diary-export').addEventListener('click', async () => {
+      let embedded = 0;
+      try {
+        if (Store.exportBuchAsync) {
+          const r = await Store.exportBuchAsync();
+          embedded = (r && r.embedded) || 0;
+        } else {
+          Store.exportBuch();
+        }
+      } catch (_) {
+        Store.exportBuch();
+      }
       if (Store.markBackupExported) {
         Store.markBackupExported();
         refreshState();
@@ -4883,11 +5365,12 @@
       const ver = Store.APP_VERSION || '';
       const pathName = currentPath().name;
       if (st) {
-        st.textContent = 'Export: universum-buch.json · v' + ver + ' · Pfad ' + pathName;
+        st.textContent = 'Export: universum-buch.json · v' + ver + ' · Pfad ' + pathName +
+          (embedded ? ' · ' + embedded + ' Fotos eingebettet' : '');
         st.classList.add('show');
-        setTimeout(() => st.classList.remove('show'), 4000);
+        setTimeout(() => st.classList.remove('show'), 4500);
       }
-      toast('Buch exportiert · v' + ver);
+      toast('Buch exportiert · v' + ver + (embedded ? ' · mit Fotos' : ''));
     });
     const exportSum = $('#diary-export-summary');
     if (exportSum) {
@@ -4924,6 +5407,7 @@
         let msg = 'Import (' + (result && result.mode === 'merge' ? 'Zusammenführen' : 'Ersetzen') + ') erfolgreich.';
         if (ver) msg += ' Quelle v' + ver + '.';
         if (meta && meta.pathName) msg += ' Pfad: ' + meta.pathName + '.';
+        if (result && result.mediaRestored) msg += ' · ' + result.mediaRestored + ' Fotos wiederhergestellt.';
         if (st) {
           st.textContent = msg;
           st.classList.add('show');
@@ -5205,6 +5689,11 @@
         const starterOv = $('#starter-overlay');
         if (starterOv && !starterOv.hidden) {
           closeStarterFlow();
+          return;
+        }
+        const lb = $('#photo-lightbox');
+        if (lb && lb.classList.contains('open')) {
+          closePhotoLightbox();
           return;
         }
         closeSettings();

@@ -31,11 +31,11 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 
 ## Funktionen
 
-1. **Cockpit** — **Heute in einem Tip** (pfad- + datumsstabil), Empfehlen/PWA, **Korrespondenzen**, **Mondfenster**, Ritual-Journal; Briefing/Astronomie unter Mehr; Schumann Live + Tomsk; Pfad-Chip, Streak
+1. **Cockpit** — **eine scrollbare Seite**: Heute-Tip, Pfad-Woche, Mondfenster, Korrespondenzen, Schumann, Journal u. a.; weiche Effekte & Motive; Empfehlen/PWA; Schumann Live + Tomsk; Pfad-Chip, Streak
 2. **Kalender** — Monatsnavigation, Tagesdetails (Mond/Sonne/Feste), **standardmäßig nur Pfad-Feste** (Umschalter Alle Feste), Betonung und Kalender-Notizen
 3. **Kosmos** — Planeten-Radar mit klareren Labels, **Legende**, aktuelle **Planetenstunde hervorgehoben**, Tap/Klick für Detail, Schumann Live-Station + Tomsk-Spektrogramm
 4. **Rituale** — **nur aktueller Pfad** (4–5 einzigartige Own-Rituale); Grundlagen separat; Signaturen, Dauer-Tags 3/11/21, Sicherheitscheck, Timed-Rituale, Fokus-Timer, Sigil, illustrierte Feldkarten, eigene Rituale + Vorlagen
-5. **Magie-Tagebuch** — **pfadbezogene Impuls-Vorschläge**, Tags & Stimmung, Export/Import `universum-buch.json`
+5. **Magie-Tagebuch** — Fotos (IndexedDB), Ritual→Buch, Filter, ZIP/PDF, Impuls-Vorschläge, Tags & Stimmung, Export/Import `universum-buch.json`
 6. **Notizen** — lokal, optionaler Tag, **ein Tippen → Tagebuch**, leere Zustände mit nächstem Schritt
 7. **Netzwerk/Kreis** — ohne Login leer; Talker = knappe Schnittstelle, kein Medium
 
@@ -157,6 +157,27 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 
 
 
+
+**Zusätzlich (v3.9 · Liebliches Cockpit)**
+
+- **Alles auf einer Seite** — Mehr-Akkordeon entfernt; Heute, Pfad-Woche, Mondfenster, Korrespondenzen, Astronomie, Schumann, Journal und Praxis-Karten als ruhiger Scroll-Flow
+- **Mehr Effekte** — weiche Glows, Gradienten, Sternenstaub (respektiert `prefers-reduced-motion`), Karten-Hover, Atmungs-Orb am Pfad
+- **Lieblicher mit Bildern** — Mond-Orb, Pfad-Kunst, bildhafte Emoji-Titel, wärmere Karten
+- App `3.9.0`, SW-Cache `universum-shell-v30`
+
+**Zusätzlich (v3.8 · Magie-Buch Tiefe)**
+
+- **Ritual → Buch** — nach Abschluss direkt «Ins Buch» mit Ritualname, Pfad und optionalem Foto
+- **Filter** — nach Pfad, Mondphase, Ritual und Tag
+- **Lokaler Export** — ZIP-Backup mit Fotos; Drucken/PDF (on-device); Buch-JSON kann komprimierte Fotos einbetten
+- Deutsch ohne Gendersprache; bildhafte UI-Labels (📷 📦 🖨️)
+
+**Zusätzlich (v3.7 · Tagebuch-Fotos)**
+
+- **Fotos im Magie-Buch** — Kamera + Galerie, Client-Kompression (max. Kante ~1280, JPEG ~0,7), Vorschau/Entfernen vor Speichern
+- **IndexedDB** `universum-media` für Bild-Blobs; `feldlicht-v15` nur Metadaten + `photoId`
+- **Thumbnails + Lightbox**; Ehrlichkeit: *Fotos bleiben auf diesem Gerät, kein Upload*
+- App aufgegangen in `3.8` / `3.9`
 
 **Zusätzlich (v3.6.1 · Bildhafte Icons)**
 

@@ -2,9 +2,9 @@
  * UNIVERSUM · Service Worker — offline shell caching
  * Relative URLs so GitHub Pages /universum/ subpath works.
  * Cache-first for app shell; network-first navigations; offline fallback to cockpit.
- * v29: 3.6.1 — pictorial emoji nav/tiles/headers (restore pre-3.6 clarity).
+ * v30: 3.9.0 — Magie-Buch Fotos + Cockpit one-page lieblich.
  */
-const CACHE = 'universum-shell-v29';
+const CACHE = 'universum-shell-v30';
 const SHELL = [
   './',
   './index.html',
@@ -12,6 +12,7 @@ const SHELL = [
   './css/styles.css',
   './js/astronomy.js',
   './js/storage.js',
+  './js/media.js',
   './js/paths.js',
   './js/rituals.js',
   './js/sigil.js',
