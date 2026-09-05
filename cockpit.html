@@ -302,7 +302,7 @@
           <span class="chip-quiet" id="path-teach-chip">Pfad</span>
         </div>
         <p class="path-teach-text" id="path-teach-text">…</p>
-        <p class="hint-sm">Ein stiller Lehrsatz für deine Haltung — hier übst du, ohne Spektakel.</p>
+        <p class="hint-sm">Ein stiller Lehrsatz für deine Haltung — Praxis vor Spektakel.</p>
       </article>
 
       <article class="card path-werkzeug-card nested-card" id="path-werkzeug-card" aria-labelledby="path-werkzeug-title">
@@ -336,7 +336,7 @@
         <p class="hint">Eine Zeile — lokal, nur heute. Optional mit 369 verknüpfen.</p>
         <div class="form-row" style="margin-bottom:0.55rem">
           <label class="sr-only" for="intention-input">Intention des Tages</label>
-          <input id="intention-input" maxlength="140" placeholder="z. B. Ich übe ruhige Klarheit" autocomplete="off" />
+          <input id="intention-input" maxlength="140" placeholder="z. B. Ich halte ruhige Klarheit" autocomplete="off" />
         </div>
         <div class="intention-row">
           <label class="inline-check"><input type="checkbox" id="intention-link369" /> In 369 übernehmen</label>
@@ -356,7 +356,7 @@
         <div class="quick-praxis-row" id="quick-praxis-row" role="list"></div>
         <div class="empty-state convert compact" id="quick-praxis-empty">
           <strong>Schnellzugriff ist noch leer</strong>
-          <p>Sterne ein Ritual oder übe einmal — Favoriten und Letzte erscheinen hier.</p>
+          <p>Sterne ein Ritual oder halte einmal Praxis — Favoriten und Letzte erscheinen hier.</p>
           <div class="empty-cta">
             <button type="button" class="primary" id="empty-goto-rituals">Zu den Ritualen</button>
           </div>
@@ -381,7 +381,7 @@
         <h3>🔢 369-Praxis · heute</h3>
         <p class="hint">Ethischer Satz · 3 / 6 / 9 — lokal gespeichert</p>
         <div class="form-row">
-          <input id="phrase-369" placeholder="z. B. Ich übe klare Grenzen im Alltag" maxlength="120" />
+          <input id="phrase-369" placeholder="z. B. Ich halte klare Grenzen im Alltag" maxlength="120" />
         </div>
         <div class="tracker-369" id="tracker-369">
           <div class="slot-369" data-slot="morning">
@@ -579,39 +579,149 @@
         <button type="button" class="tab-secondary" role="tab" aria-selected="false" data-rtab="guided">Geführt</button>
       </div>
 
-      <p class="ritual-section-label">Hilfen</p>
-      <div class="card praxis-helper" id="praxis-helper">
-        <h3>Fokus</h3>
-        <p class="hint-sm">Stille · optional Streak</p>
-        <div class="praxis-timer-row">
-          <div class="praxis-timer" id="focus-timer" aria-live="polite">5:00</div>
-          <div class="praxis-timer-btns" role="group" aria-label="Fokusdauer">
-            <button type="button" data-focus-mins="3" aria-label="3 Minuten Fokus">3</button>
-            <button type="button" data-focus-mins="5" class="picked" aria-label="5 Minuten Fokus" aria-pressed="true">5</button>
-            <button type="button" data-focus-mins="10" aria-label="10 Minuten Fokus">10</button>
-            <button type="button" data-focus-mins="15" aria-label="15 Minuten Fokus">15</button>
+      <div data-rpanel="werkzeug" id="ritual-werkzeug-panel">
+        <p class="ritual-section-label">Pfad-Werkzeugkasten</p>
+        <p class="hint-sm">Alles am Platz: Grenze, Resonanzen, Pfad-Modul, Sigil, Feldkarten — nicht als gleichwertige Haupt-Tabs.</p>
+        <div class="werkzeug-jump" role="navigation" aria-label="Werkzeug-Sprungmarken">
+          <a class="werkzeug-jump-chip" href="#werkzeug-grenze">🛡️ Grenze</a>
+          <a class="werkzeug-jump-chip" href="#werkzeug-path">🛠️ Pfad</a>
+          <a class="werkzeug-jump-chip" href="#werkzeug-sigil">✒️ Sigil</a>
+          <a class="werkzeug-jump-chip" href="#werkzeug-karten">🃏 Karten</a>
+        </div>
+
+        <div class="card" id="werkzeug-grenze">
+          <div class="intention-top">
+            <h3>🛡️ Grenze &amp; Ausgleich</h3>
+            <span class="chip-quiet">Ethik</span>
+          </div>
+          <ul class="kreis-honest-list">
+            <li>Kein Schaden an Personen — Absicht prüfen</li>
+            <li>Sigil lehnt Fluch-/Schadensformulierungen ab</li>
+            <li>Voodoo / Santería: nur öffentliche Hauspraxis, keine Initiation</li>
+            <li>Abschluss: Danken → Atmen → Erden → Siegeln</li>
+          </ul>
+          <p class="notice ethics-line">Ein Handy kann keine Geister messen. Praxis vor Spektakel.</p>
+        </div>
+
+        <div class="card path-werkzeug-card" id="path-werkzeug-card-ritual" aria-labelledby="path-werkzeug-title-r">
+          <div class="intention-top">
+            <h3 id="path-werkzeug-title-r">🛠️ Pfad-Modul</h3>
+            <span class="chip-quiet" id="path-werkzeug-chip-r">Pfad</span>
+          </div>
+          <p class="hint-sm" id="path-werkzeug-hint-r">Mini-Modul für deinen Pfad — lokal, kein Sync.</p>
+          <div id="path-werkzeug-body-r" class="path-werkzeug-body"></div>
+        </div>
+        <div id="werkzeug-path" class="sr-only" aria-hidden="true"></div>
+
+        <div id="werkzeug-sigil">
+        <p class="ritual-section-label">✒️ Sigil</p>
+        <div class="notice warn">Sigil lehnt schädliche / Fluch-Absichten ab. Chaosmagie: laden — dann vergessen.</div>
+        <div class="card sigil-area">
+          <div class="form-row" style="width:100%"><label>Absicht (ethisch)</label>
+            <input id="sigil-input" placeholder="z. B. Ich halte klare Grenzen im Alltag" />
+          </div>
+          <div class="sigil-warn" id="sigil-warn"></div>
+          <button type="button" class="primary" id="sigil-make">Sigil wirken</button>
+          <p id="sigil-reduced" class="sigil-reduced"></p>
+          <canvas id="sigil-canvas" width="300" height="300" aria-label="Sigil-Canvas"></canvas>
+          <div class="btn-row">
+            <button type="button" id="sigil-charge" class="hidden primary">Atem-Aufladung</button>
+            <button type="button" id="sigil-forget" class="hidden">Absicht vergessen</button>
+            <button type="button" id="sigil-save-gallery" class="hidden ghost">Ins Buch legen</button>
+          </div>
+          <p class="hint-sm">Galerie speichert nur Hash + Glyph — nie schädliche Absichten, nie Klartext der Intention.</p>
+        </div>
+        <div class="card sigil-gallery-card" id="sigil-gallery-card">
+          <div class="intention-top">
+            <h3>Sigil-Galerie</h3>
+            <button type="button" class="ghost tiny" id="sigil-gallery-clear" aria-label="Galerie leeren">Alle vergessen</button>
+          </div>
+          <p class="hint-sm">Tippe <strong>Ansehen</strong>, um den Glyph aufs Canvas zu legen — optional stiller Atem, nur Lesen.</p>
+          <div class="sigil-gallery" id="sigil-gallery" aria-live="polite"></div>
+          <p class="empty-state compact" id="sigil-gallery-empty">Noch keine Glyphs — nach dem Laden kannst du speichern.</p>
+          <div class="sigil-review-bar" id="sigil-review-bar" hidden>
+            <p class="meta-line" id="sigil-review-label">Glyph zur Ansicht</p>
+            <div class="btn-row">
+              <button type="button" class="ghost" id="sigil-review-breath">Stiller Atem (lesen)</button>
+              <button type="button" class="ghost tiny" id="sigil-review-clear">Ansicht schließen</button>
+            </div>
           </div>
         </div>
-        <div class="btn-row">
-          <button type="button" class="primary" id="focus-start">Stille öffnen</button>
-          <button type="button" class="ghost" id="focus-stop" hidden>Stille beenden</button>
         </div>
-        <p class="meta-line" id="streak-line">Streak: noch keine Praxis heute.</p>
-      </div>
 
-      <div class="card breath-standalone" id="breath-standalone" aria-labelledby="breath-title">
-        <h3 id="breath-title">Atem</h3>
-        <p class="hint-sm">4/6 oder Box — ohne volles Ritual</p>
-        <div class="breath-mode-row" role="group" aria-label="Atemmodus">
-          <button type="button" class="picked" data-breath-mode="46" aria-pressed="true">4 / 6</button>
-          <button type="button" data-breath-mode="box" aria-pressed="false">Box 4–4–4–4</button>
+        <div id="werkzeug-karten">
+        <p class="ritual-section-label">🃏 Feldkarten</p>
+        <div class="notice">22 originale Feldkarten mit eigener Bildsprache — kein Tarot-Klon. Ziehe mit Absicht, ohne Schaden. Bei leeren Motiven: Hard-Refresh oder Site-Daten löschen (neuer Offline-Cache).</div>
+        <div class="card daily-card-panel" id="daily-card-panel" aria-labelledby="daily-card-title">
+          <div class="intention-top">
+            <h3 id="daily-card-title">Tageskarte</h3>
+            <span class="chip-quiet">1× / Tag</span>
+          </div>
+          <p class="hint-sm">Optional eine Karte für heute — danach bis Mitternacht (Lokalzeit) gesperrt. Daten bleiben.</p>
+          <button type="button" class="primary" id="draw-daily">Feldkarte des Tages</button>
+          <div id="daily-card-result" class="daily-card-result" hidden aria-live="polite"></div>
+          <p class="meta-line" id="daily-card-lock" hidden>Gesiegelt bis morgen · weiterziehen entsperrt nach Mitternacht.</p>
         </div>
-        <div class="breath-circle breath-standalone-circle" id="breath-circle-solo" aria-live="polite" role="status">Bereit</div>
-        <p class="meta-line" id="breath-phase-label">Wähle einen Modus und starte.</p>
-        <div class="btn-row">
-          <button type="button" class="primary" id="breath-start">Atem öffnen</button>
-          <button type="button" class="ghost" id="breath-stop" hidden>Atem schließen</button>
+        <div class="toolbar">
+          <button type="button" class="primary" id="draw-card">Feldkarte ziehen</button>
+          <button type="button" id="draw-three">Dreier-Schwelle</button>
+          <button type="button" class="ghost" id="draw-clear">Feld leeren</button>
         </div>
+        <div class="draw-stage" id="draw-stage" hidden aria-live="polite"></div>
+        <div class="spread-area" id="spread-area"></div>
+        <p id="drawn-result" class="drawn-result"></p>
+        <div class="card draw-history-card" id="draw-history-card">
+          <h3>Letzte Züge</h3>
+          <div id="draw-history" class="draw-history"></div>
+          <div class="empty-state convert" id="draw-history-empty">
+            <strong>Noch keine Feldkarten-Züge</strong>
+            <p>Ziehe mit Absicht — eine Karte oder die Tageskarte. Fragen, nicht befehlen.</p>
+            <div class="empty-cta">
+              <button type="button" class="primary" id="empty-draw-one">Eine ziehen</button>
+              <button type="button" class="ghost" id="empty-draw-daily">Tageskarte</button>
+            </div>
+          </div>
+        </div>
+        <div class="cards-grid" id="feldkarten-grid"></div>
+        </div>
+
+        <details class="card hilfen-details" id="rituale-hilfen">
+          <summary>Hilfen · Fokus &amp; Atem</summary>
+          <p class="hint-sm">Optional — Werkzeug bleibt vorn.</p>
+          <div class="praxis-helper" id="praxis-helper">
+            <h3>Fokus</h3>
+            <p class="hint-sm">Stille · optional Streak</p>
+            <div class="praxis-timer-row">
+              <div class="praxis-timer" id="focus-timer" aria-live="polite">5:00</div>
+              <div class="praxis-timer-btns" role="group" aria-label="Fokusdauer">
+                <button type="button" data-focus-mins="3" aria-label="3 Minuten Fokus">3</button>
+                <button type="button" data-focus-mins="5" class="picked" aria-label="5 Minuten Fokus" aria-pressed="true">5</button>
+                <button type="button" data-focus-mins="10" aria-label="10 Minuten Fokus">10</button>
+                <button type="button" data-focus-mins="15" aria-label="15 Minuten Fokus">15</button>
+              </div>
+            </div>
+            <div class="btn-row">
+              <button type="button" class="primary" id="focus-start">Stille öffnen</button>
+              <button type="button" class="ghost" id="focus-stop" hidden>Stille beenden</button>
+            </div>
+            <p class="meta-line" id="streak-line">Streak: noch keine Praxis heute.</p>
+          </div>
+
+          <div class="breath-standalone" id="breath-standalone" aria-labelledby="breath-title">
+            <h3 id="breath-title">Atem</h3>
+            <p class="hint-sm">4/6 oder Box — ohne volles Ritual</p>
+            <div class="breath-mode-row" role="group" aria-label="Atemmodus">
+              <button type="button" class="picked" data-breath-mode="46" aria-pressed="true">4 / 6</button>
+              <button type="button" data-breath-mode="box" aria-pressed="false">Box 4–4–4–4</button>
+            </div>
+            <div class="breath-circle breath-standalone-circle" id="breath-circle-solo" aria-live="polite" role="status">Bereit</div>
+            <p class="meta-line" id="breath-phase-label">Wähle einen Modus und starte.</p>
+            <div class="btn-row">
+              <button type="button" class="primary" id="breath-start">Atem öffnen</button>
+              <button type="button" class="ghost" id="breath-stop" hidden>Atem schließen</button>
+            </div>
+          </div>
+        </details>
       </div>
 
       <div data-rpanel="guided" class="hidden">
@@ -689,113 +799,6 @@
         <div id="custom-ritual-list"></div>
       </div>
 
-      <div data-rpanel="werkzeug" id="ritual-werkzeug-panel">
-        <p class="ritual-section-label">Pfad-Werkzeugkasten</p>
-        <p class="hint-sm">Alles am Platz: Grenze, Resonanzen, Pfad-Modul, Sigil, Feldkarten — nicht als gleichwertige Haupt-Tabs.</p>
-        <div class="werkzeug-jump" role="navigation" aria-label="Werkzeug-Sprungmarken">
-          <a class="werkzeug-jump-chip" href="#werkzeug-grenze">🛡️ Grenze</a>
-          <a class="werkzeug-jump-chip" href="#werkzeug-path">🛠️ Pfad</a>
-          <a class="werkzeug-jump-chip" href="#werkzeug-sigil">✒️ Sigil</a>
-          <a class="werkzeug-jump-chip" href="#werkzeug-karten">🃏 Karten</a>
-        </div>
-
-        <div class="card" id="werkzeug-grenze">
-          <div class="intention-top">
-            <h3>🛡️ Grenze &amp; Ausgleich</h3>
-            <span class="chip-quiet">Ethik</span>
-          </div>
-          <ul class="kreis-honest-list">
-            <li>Kein Schaden an Personen — Absicht prüfen</li>
-            <li>Sigil lehnt Fluch-/Schadensformulierungen ab</li>
-            <li>Voodoo / Santería: nur öffentliche Hauspraxis, keine Initiation</li>
-            <li>Abschluss: Danken → Atmen → Erden → Siegeln</li>
-          </ul>
-          <p class="notice ethics-line">Ein Handy kann keine Geister messen. Praxis vor Spektakel.</p>
-        </div>
-
-        <div class="card path-werkzeug-card" id="path-werkzeug-card-ritual" aria-labelledby="path-werkzeug-title-r">
-          <div class="intention-top">
-            <h3 id="path-werkzeug-title-r">🛠️ Pfad-Modul</h3>
-            <span class="chip-quiet" id="path-werkzeug-chip-r">Pfad</span>
-          </div>
-          <p class="hint-sm" id="path-werkzeug-hint-r">Mini-Modul für deinen Pfad — lokal, kein Sync.</p>
-          <div id="path-werkzeug-body-r" class="path-werkzeug-body"></div>
-        </div>
-        <div id="werkzeug-path" class="sr-only" aria-hidden="true"></div>
-
-        <div id="werkzeug-sigil">
-        <p class="ritual-section-label">✒️ Sigil</p>
-        <div class="notice warn">Sigil lehnt schädliche / Fluch-Absichten ab. Chaosmagie: laden — dann vergessen.</div>
-        <div class="card sigil-area">
-          <div class="form-row" style="width:100%"><label>Absicht (ethisch)</label>
-            <input id="sigil-input" placeholder="z. B. Ich übe klare Grenzen im Alltag" />
-          </div>
-          <div class="sigil-warn" id="sigil-warn"></div>
-          <button type="button" class="primary" id="sigil-make">Sigil wirken</button>
-          <p id="sigil-reduced" class="sigil-reduced"></p>
-          <canvas id="sigil-canvas" width="300" height="300" aria-label="Sigil-Canvas"></canvas>
-          <div class="btn-row">
-            <button type="button" id="sigil-charge" class="hidden primary">Atem-Aufladung</button>
-            <button type="button" id="sigil-forget" class="hidden">Absicht vergessen</button>
-            <button type="button" id="sigil-save-gallery" class="hidden ghost">Ins Buch legen</button>
-          </div>
-          <p class="hint-sm">Galerie speichert nur Hash + Glyph — nie schädliche Absichten, nie Klartext der Intention.</p>
-        </div>
-        <div class="card sigil-gallery-card" id="sigil-gallery-card">
-          <div class="intention-top">
-            <h3>Sigil-Galerie</h3>
-            <button type="button" class="ghost tiny" id="sigil-gallery-clear" aria-label="Galerie leeren">Alle vergessen</button>
-          </div>
-          <p class="hint-sm">Tippe <strong>Ansehen</strong>, um den Glyph aufs Canvas zu legen — optional stiller Atem, nur Lesen.</p>
-          <div class="sigil-gallery" id="sigil-gallery" aria-live="polite"></div>
-          <p class="empty-state compact" id="sigil-gallery-empty">Noch keine Glyphs — nach dem Laden kannst du speichern.</p>
-          <div class="sigil-review-bar" id="sigil-review-bar" hidden>
-            <p class="meta-line" id="sigil-review-label">Glyph zur Ansicht</p>
-            <div class="btn-row">
-              <button type="button" class="ghost" id="sigil-review-breath">Stiller Atem (lesen)</button>
-              <button type="button" class="ghost tiny" id="sigil-review-clear">Ansicht schließen</button>
-            </div>
-          </div>
-        </div>
-        </div>
-
-        <div id="werkzeug-karten">
-        <p class="ritual-section-label">🃏 Feldkarten</p>
-        <div class="notice">22 originale Feldkarten mit eigener Bildsprache — kein Tarot-Klon. Ziehe mit Absicht, ohne Schaden. Bei leeren Motiven: Hard-Refresh oder Site-Daten löschen (neuer Offline-Cache).</div>
-        <div class="card daily-card-panel" id="daily-card-panel" aria-labelledby="daily-card-title">
-          <div class="intention-top">
-            <h3 id="daily-card-title">Tageskarte</h3>
-            <span class="chip-quiet">1× / Tag</span>
-          </div>
-          <p class="hint-sm">Optional eine Karte für heute — danach bis Mitternacht (Lokalzeit) gesperrt. Daten bleiben.</p>
-          <button type="button" class="primary" id="draw-daily">Feldkarte des Tages</button>
-          <div id="daily-card-result" class="daily-card-result" hidden aria-live="polite"></div>
-          <p class="meta-line" id="daily-card-lock" hidden>Gesiegelt bis morgen · weiterziehen entsperrt nach Mitternacht.</p>
-        </div>
-        <div class="toolbar">
-          <button type="button" class="primary" id="draw-card">Feldkarte ziehen</button>
-          <button type="button" id="draw-three">Dreier-Schwelle</button>
-          <button type="button" class="ghost" id="draw-clear">Feld leeren</button>
-        </div>
-        <div class="draw-stage" id="draw-stage" hidden aria-live="polite"></div>
-        <div class="spread-area" id="spread-area"></div>
-        <p id="drawn-result" class="drawn-result"></p>
-        <div class="card draw-history-card" id="draw-history-card">
-          <h3>Letzte Züge</h3>
-          <div id="draw-history" class="draw-history"></div>
-          <div class="empty-state convert" id="draw-history-empty">
-            <strong>Noch keine Feldkarten-Züge</strong>
-            <p>Ziehe mit Absicht — eine Karte oder die Tageskarte. Fragen, nicht befehlen.</p>
-            <div class="empty-cta">
-              <button type="button" class="primary" id="empty-draw-one">Eine ziehen</button>
-              <button type="button" class="ghost" id="empty-draw-daily">Tageskarte</button>
-            </div>
-          </div>
-        </div>
-        <div class="cards-grid" id="feldkarten-grid"></div>
-        </div>
-      </div>
-      </div>
     </section>
 
     <!-- 5. Magie-Buch (Notiz + Eintrag) -->
@@ -1110,7 +1113,7 @@
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
         <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">5.7.0</span></p>
+        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">5.7.1</span></p>
       </div>
     </div>
   </div>

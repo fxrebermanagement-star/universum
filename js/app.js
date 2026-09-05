@@ -169,7 +169,7 @@
     'Kerze nur unter Aufsicht — LED ist ethisch und sicher genug.',
     'Feldkarten fragen — sie befehlen nicht.',
     'Streak ist sanft: ein Ritual oder 369 hält den Faden.',
-    'Standort Zürich ist Default — passe ihn an, wenn du woanders übst.',
+    'Standort Zürich ist Default — passe ihn an, wenn du woanders arbeitest.',
     'Unruhe ist abgeleitet, kein Orakel und kein Diagnosegerät.',
     'Exportiere dein Buch gelegentlich — lokal bleibt lokal.',
     'Mondnacht-Modus dämpft das Licht für abendliche Praxis.',
@@ -466,7 +466,7 @@
     return [
       'Einladung zu UNIVERSUM · ALTAR',
       '',
-      'Hier übe ich mit UNIVERSUM — einem stillen Praxiswerkzeug (kein Hype, kein Konto).',
+      'Hier halte ich Praxis mit UNIVERSUM — einem stillen Praxiswerkzeug (kein Hype, kein Konto).',
       'Tagesbriefing, Rituale, Magie-Tagebuch: Daten bleiben auf dem Gerät.',
       path && path.name ? 'Aktuelle Haltung: ' + path.name + '.' : '',
       '',
@@ -1006,7 +1006,7 @@
         '<p class="hint">Was willst du in diesen drei Minuten halten?</p>' +
         '<div class="form-row" style="margin-bottom:0.4rem">' +
         '<label class="sr-only" for="starter-intention">Intention</label>' +
-        '<input id="starter-intention" maxlength="140" placeholder="z. B. Ich übe ruhige Klarheit" autocomplete="off" />' +
+        '<input id="starter-intention" maxlength="140" placeholder="z. B. Ich halte ruhige Klarheit" autocomplete="off" />' +
         '</div>' +
         '<p class="hint-sm">Wird als Intention des Tages gespeichert — lokal, nur hier.</p>';
       const inp = $('#starter-intention');
@@ -1162,6 +1162,14 @@
             if (typeof renderSigilGallery === 'function') renderSigilGallery();
           }
           if (target === 'guided') renderPathWeek();
+        } else if (!$$('[data-rpanel]:not(.hidden)').length) {
+          // Fallback: always show Werkzeug if nothing visible
+          $$('[data-rtab]').forEach(b => {
+            const on = b.dataset.rtab === 'werkzeug';
+            b.classList.toggle('active', on);
+            b.setAttribute('aria-selected', on ? 'true' : 'false');
+          });
+          $$('[data-rpanel]').forEach(p => p.classList.toggle('hidden', p.dataset.rpanel !== 'werkzeug'));
         }
       }
       if (id === 'buch') renderBuch();
@@ -1210,6 +1218,9 @@
       '.cal-path-toggle',
       '.cal-nav',
       '.kosmos-praxis',
+      '#ritual-werkzeug-panel:not(.hidden)',
+      '[data-rpanel="werkzeug"]:not(.hidden)',
+      '[data-rpanel]:not(.hidden)',
       '.tabs[role="tablist"]',
       '.korrespondenz-full-card',
       '.export-pack',
@@ -2096,7 +2107,7 @@
       ' · Vollmond ≈ ' + (nextFull ? fmtDate(nextFull) + ' ' + fmtTime(nextFull) : '—');
 
     applyPathTheme();
-    $('#cockpit-greeting').textContent = path.greeting || 'Hier übst du — Praxis vor Spektakel.';
+    $('#cockpit-greeting').textContent = path.greeting || 'Hier arbeitest du in der Praxis — Praxis vor Spektakel.';
     renderJetztCard();
     renderPathWeek();
     renderPathWerkzeug();
@@ -2193,7 +2204,7 @@
 
     const ritualId = pathOwnRitualId(path) || path.recommendedRitual;
     const ritual = ritualId ? Rituals.getRitual(ritualId) : null;
-    practice.textContent = (path.practiceHint || 'Hier übst du — eine ruhige Praxis reicht.') +
+    practice.textContent = (path.practiceHint || 'Hier arbeitest du in der Praxis — eine ruhige reicht.') +
       (ritual ? ' Empfohlen: ' + ritual.name + '.' : '');
     practice.dataset.ritual = ritualId;
 
@@ -3187,7 +3198,7 @@
 
     function emptyHtml() {
       return '<div class="empty-state convert"><strong>Keine Rituale für diesen Pfad</strong>' +
-        '<p>' + escapeHtml((currentPath() && currentPath().haltung) || 'Filter lockern oder empfohlenes Ritual starten — hier übst du.') + '</p>' +
+        '<p>' + escapeHtml((currentPath() && currentPath().haltung) || 'Filter lockern oder empfohlenes Ritual starten — hier arbeitest du in der Praxis.') + '</p>' +
         '<div class="empty-cta">' +
         '<button type="button" class="primary" id="empty-start-recommended">Empfohlenes starten</button>' +
         '<button type="button" class="ghost" id="ritual-filter-reset">Filter zurücksetzen</button>' +
@@ -3328,10 +3339,24 @@
       });
     });
 
-    const activePanel = $$('[data-rpanel]:not(.hidden)')[0];
+    // Ensure a panel is visible; default Werkzeug (Hilfen live inside it)
+    let activePanel = $$('[data-rpanel]:not(.hidden)')[0];
+    const activeTab = $$('[data-rtab].active')[0];
+    const want = (activeTab && activeTab.dataset.rtab) || 'werkzeug';
+    if (!activePanel || (want === 'werkzeug' && activePanel.getAttribute('data-rpanel') !== 'werkzeug')) {
+      if (!activePanel || want === 'werkzeug') {
+        $$('[data-rtab]').forEach(b => {
+          const on = b.dataset.rtab === 'werkzeug';
+          b.classList.toggle('active', on);
+          b.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+        $$('[data-rpanel]').forEach(p => p.classList.toggle('hidden', p.dataset.rpanel !== 'werkzeug'));
+        activePanel = $$('[data-rpanel]:not(.hidden)')[0];
+      }
+    }
     const panel = activePanel && activePanel.getAttribute('data-rpanel');
-    if (!panel || panel === 'karten') renderFeldkarten();
-    if (!panel || panel === 'sigil') renderSigilGallery();
+    if (!panel || panel === 'karten' || panel === 'werkzeug') renderFeldkarten();
+    if (!panel || panel === 'sigil' || panel === 'werkzeug') renderSigilGallery();
     renderPathWeek();
     renderPathWerkzeug();
   }
@@ -3359,7 +3384,7 @@
       if (typeof renderFeldkartenGrid === 'function') {
         try { renderFeldkartenGrid(); } catch (_) {}
       }
-      const scrollId = opts.scroll || (tab === 'sigil' ? 'werkzeug-sigil' : tab === 'karten' ? 'werkzeug-karten' : null);
+      const scrollId = opts.scroll || (tab === 'sigil' ? 'werkzeug-sigil' : tab === 'karten' ? 'werkzeug-karten' : 'ritual-werkzeug-panel');
       if (scrollId) {
         setTimeout(() => {
           const el = document.getElementById(scrollId);

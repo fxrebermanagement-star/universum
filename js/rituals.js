@@ -50,7 +50,7 @@
       journal: 'Welche eine Handlung folgt heute aus dem Satz?',
       steps: [
         { phase: 'intention', title: 'Prüfen', text: 'Klar? Ethisch? Ohne Schaden an Personen? Wenn nein — stoppen.', sec: 40 },
-        { phase: 'body', title: 'Formulieren', text: 'Ein positiver Satz in Gegenwart: „Ich übe …“', sec: 50 },
+        { phase: 'body', title: 'Formulieren', text: 'Ein positiver Satz in Gegenwart: „Ich halte …“', sec: 50 },
         { phase: 'body', title: 'Verankern', text: 'Dreimal sagen. Eine kleine nächste Handlung wählen (heute machbar).', sec: 50 },
         { phase: 'closing', title: 'Loslassen des Zwangs', text: 'Absicht halten, Ergebnis nicht erzwingen. Schließen.', sec: 30 }
       ]

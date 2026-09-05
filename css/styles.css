@@ -6146,3 +6146,26 @@ body.stille-modus #quiet-mode-toggle {
   .korrespondenz-list li,
   .craft-works-list li { transition: none; }
 }
+
+
+/* Rituale: Fokus/Atem as collapsed Hilfen under Werkzeug */
+#rituale-hilfen.hilfen-details {
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+#rituale-hilfen.hilfen-details > summary {
+  cursor: pointer;
+  font-weight: 600;
+  list-style: none;
+}
+#rituale-hilfen.hilfen-details > summary::-webkit-details-marker { display: none; }
+#rituale-hilfen .praxis-helper,
+#rituale-hilfen .breath-standalone {
+  margin-top: 0.75rem;
+  box-shadow: none;
+  border: none;
+  padding-left: 0;
+  padding-right: 0;
+  background: transparent;
+}
+#rituale-hilfen .breath-standalone { margin-top: 1rem; }
