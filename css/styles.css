@@ -4271,6 +4271,128 @@ body.reduced-motion .feldkarte:hover {
   transform: none;
 }
 
+
+/* ——— v3.5 Kosmos-Praxis ——— */
+.kosmos-approx-once {
+  margin: 0 0 1rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+.kosmos-praxis {
+  margin-bottom: 0.85rem;
+  background:
+    linear-gradient(160deg, rgba(232, 197, 71, 0.08) 0%, transparent 45%),
+    linear-gradient(145deg, #1e1630, #12101c);
+  border-color: rgba(232, 197, 71, 0.35);
+}
+.kosmos-praxis-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.35rem;
+}
+.kosmos-praxis-head h3 { margin: 0; }
+.kosmos-hour-chip {
+  font-family: var(--font-title);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #1a1228;
+  background: linear-gradient(135deg, #e8c547, #c9a227);
+  padding: 0.28rem 0.7rem;
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+}
+.kosmos-hour-meta {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin: 0 0 0.55rem;
+}
+.kosmos-gut-fuer {
+  font-size: 0.95rem;
+  color: var(--maya);
+  margin: 0 0 0.35rem;
+  line-height: 1.4;
+}
+.kosmos-gut-fuer .label-soft {
+  display: inline-block;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gold);
+  font-weight: 600;
+  margin-right: 0.35rem;
+  vertical-align: middle;
+}
+.kosmos-hour-tip {
+  font-size: 0.84rem;
+  color: var(--text-soft);
+  font-style: italic;
+  margin: 0 0 0.85rem;
+  line-height: 1.45;
+}
+.kosmos-timeline-card { margin-bottom: 0.85rem; }
+.kosmos-timeline {
+  list-style: none;
+  margin: 0.55rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.kosmos-tl-item {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 0.5rem 0.75rem;
+  align-items: baseline;
+  padding: 0.55rem 0.7rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: rgba(10, 6, 16, 0.4);
+  font-size: 0.82rem;
+}
+.kosmos-tl-item.is-current {
+  border-color: rgba(232, 197, 71, 0.55);
+  box-shadow: 0 0 18px rgba(232, 197, 71, 0.12);
+  background:
+    linear-gradient(120deg, rgba(232, 197, 71, 0.1), transparent 60%),
+    rgba(20, 14, 32, 0.75);
+}
+.kosmos-tl-item .tl-planet {
+  font-family: var(--font-title);
+  font-weight: 600;
+  color: var(--text);
+}
+.kosmos-tl-item .tl-time { color: var(--muted); font-variant-numeric: tabular-nums; }
+.kosmos-tl-item .tl-flag {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--gold);
+  font-weight: 600;
+}
+.kosmos-loc-card { margin-top: 0.85rem; }
+.kosmos-loc-grid { margin-top: 0.45rem; }
+.kosmos-schumann-slim {
+  margin-top: 0.85rem;
+  padding: 0.85rem 1rem 1rem;
+}
+.kosmos-schumann-slim > summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-family: var(--font-title);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.kosmos-schumann-slim > summary::-webkit-details-marker { display: none; }
+.kosmos-schumann-slim[open] > summary { margin-bottom: 0.75rem; }
+.kosmos-schumann-slim .schumann-live-badge { font-size: 0.68rem; }
+#sec-kosmos .section-sub { margin-bottom: 0.45rem; }
+
 /* ——— v3.1 Heute-Tip · Korrespondenzen · Mondfenster · Empfehlen · Journal ——— */
 .heute-tip-card .jetzt-kind {
   display: inline-block;

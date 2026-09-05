@@ -2055,6 +2055,146 @@
   }
 
   /* ——— Kosmos ——— */
+
+  /* ——— v3.5 Kosmos-Praxis: Stunde → Pfad-Ritual ——— */
+  const HOUR_RITUAL_PREF = {
+    Sonne: {
+      schamanismus: 'ahnenlicht-schaman', nordisch: 'mass-eid', voodoo: 'licht-wasser',
+      santeria: 'morgenwasser', hermetik: 'stunden-halten', wicca: 'sabbat-segen',
+      chaosmagie: 'sigil-gnosis', esoterik: 'schwelle'
+    },
+    Mond: {
+      schamanismus: 'rauchbruecke', nordisch: 'ahnenstein', voodoo: 'stiller-altar',
+      santeria: 'weisses-tuch', hermetik: 'labor-notiz', wicca: 'mondkreis-klein',
+      chaosmagie: 'vergessen', esoterik: 'mondarbeit'
+    },
+    Mars: {
+      schamanismus: 'spurlesen', nordisch: 'frith-grenze', voodoo: 'hausreinigung-voodoo',
+      santeria: 'reinigung-ache', hermetik: 'weihe-hermetik', wicca: 'rede-check',
+      chaosmagie: 'banishing-punkt', esoterik: 'schwelle'
+    },
+    Merkur: {
+      schamanismus: 'spurlesen', nordisch: 'thing-pause', voodoo: 'dienst-licht',
+      santeria: 'dank-ache', hermetik: 'labor-notiz', wicca: 'rede-check',
+      chaosmagie: '369', esoterik: 'zahlen-klarheit'
+    },
+    Jupiter: {
+      schamanismus: 'ahnenlicht-schaman', nordisch: 'gabe', voodoo: 'dienst-licht',
+      santeria: 'obstgabe-haus', hermetik: 'vier-tafel', wicca: 'sabbat-segen',
+      chaosmagie: 'modell-wechsel', esoterik: 'stille-feld'
+    },
+    Venus: {
+      schamanismus: 'rueckkehrband', nordisch: 'gabe', voodoo: 'hofkehren',
+      santeria: 'dank-ache', hermetik: 'solve-coagula', wicca: 'kraeuter-bund',
+      chaosmagie: 'vergessen', esoterik: 'mondarbeit'
+    },
+    Saturn: {
+      schamanismus: 'rueckkehrband', nordisch: 'frith-grenze', voodoo: 'stiller-altar',
+      santeria: 'reinigung-ache', hermetik: 'stunden-halten', wicca: 'elemente',
+      chaosmagie: 'banishing-punkt', esoterik: 'lostag-achtung'
+    }
+  };
+
+  function ritualForHourPlanet(planet, pathId) {
+    const map = HOUR_RITUAL_PREF[planet] || {};
+    const prefer = map[pathId];
+    if (prefer) {
+      const r = Rituals.getRitual(prefer);
+      if (r && Rituals.isOwnForPath(r, pathId)) return r;
+    }
+    const own = Rituals.listOwnForPath(pathId) || [];
+    const sig = own.find(x => x.signature);
+    return sig || own[0] || Rituals.listGrundlagen()[0] || null;
+  }
+
+  function fmtHourClock(d) {
+    if (!d) return '—';
+    return new Date(d).toLocaleTimeString('de-CH', { hour: '2-digit', minute: '2-digit' });
+  }
+
+  function renderKosmosPraxis(hourNow) {
+    const chip = $('#kosmos-hour-chip');
+    const meta = $('#kosmos-hour-meta');
+    const gut = $('#kosmos-gut-fuer');
+    const tip = $('#kosmos-hour-tip');
+    const cta = $('#kosmos-ritual-cta');
+    if (!hourNow || !hourNow.planet) {
+      if (chip) chip.textContent = '—';
+      if (meta) meta.textContent = 'Keine Stundenberechnung';
+      if (gut) gut.innerHTML = '<span class="label-soft">Gut für</span> —';
+      if (tip) tip.textContent = '';
+      if (cta) { cta.hidden = true; cta.dataset.ritual = ''; }
+      return null;
+    }
+    const planet = hourNow.planet;
+    const pathId = state.path || 'esoterik';
+    const gutTxt = Astro.hourGutFuer ? Astro.hourGutFuer(planet) : planet;
+    const tipTxt = Astro.hourTip ? Astro.hourTip(planet) : '';
+    if (chip) chip.textContent = planet;
+    if (meta) {
+      meta.textContent = (hourNow.isDay ? 'Tag' : 'Nacht') + ' · Stunde ' + hourNow.hourIndex +
+        ' · ' + fmtHourClock(hourNow.start) + '–' + fmtHourClock(hourNow.end) +
+        (hourNow.remainMin != null ? ' · noch ' + hourNow.remainMin + ' Min' : '');
+    }
+    if (gut) gut.innerHTML = '<span class="label-soft">Gut für</span> ' + escapeHtml(gutTxt);
+    if (tip) tip.textContent = tipTxt;
+    const ritual = ritualForHourPlanet(planet, pathId);
+    if (cta) {
+      if (ritual) {
+        cta.hidden = false;
+        cta.dataset.ritual = ritual.id;
+        cta.textContent = 'Ritual: ' + ritual.name;
+      } else {
+        cta.hidden = true;
+        cta.dataset.ritual = '';
+      }
+    }
+    return ritual;
+  }
+
+  function renderKosmosTimeline(now) {
+    const el = $('#kosmos-timeline');
+    if (!el || !Astro.upcomingPlanetaryHours) return;
+    const hours = Astro.upcomingPlanetaryHours(now, state.lat, state.lon, 4);
+    el.innerHTML = hours.map(h => {
+      const cls = h.current ? ' is-current' : '';
+      return '<li class="kosmos-tl-item' + cls + '">' +
+        '<span class="tl-planet">' + escapeHtml(h.planet) + '</span>' +
+        '<span class="tl-time">' + fmtHourClock(h.start) + '–' + fmtHourClock(h.end) + '</span>' +
+        '<span class="tl-flag">' + (h.current ? 'jetzt' : (h.isDay ? 'Tag' : 'Nacht')) + '</span>' +
+        '</li>';
+    }).join('');
+  }
+
+  function syncKosmosLocFields() {
+    const la = $('#kosmos-lat');
+    const lo = $('#kosmos-lon');
+    const sum = $('#kosmos-loc-summary');
+    if (la && document.activeElement !== la) la.value = state.lat;
+    if (lo && document.activeElement !== lo) lo.value = state.lon;
+    if (sum) {
+      const zurich = Math.abs(state.lat - 47.37) < 0.02 && Math.abs(state.lon - 8.54) < 0.02;
+      sum.textContent = Number(state.lat).toFixed(2) + ' / ' + Number(state.lon).toFixed(2) +
+        (zurich ? ' · Zürich (Standard)' : ' · lokal gespeichert');
+    }
+  }
+
+  function saveKosmosLocation() {
+    const lat = parseFloat(($('#kosmos-lat') || {}).value);
+    const lon = parseFloat(($('#kosmos-lon') || {}).value);
+    if (isNaN(lat) || isNaN(lon) || lat < -90 || lat > 90 || lon < -180 || lon > 180) {
+      toast('Koordinaten prüfen', 2800, 'warn');
+      return;
+    }
+    Store.update(d => { d.lat = lat; d.lon = lon; });
+    refreshState();
+    syncHiddenLocControls();
+    syncKosmosLocFields();
+    renderKosmos();
+    renderCockpit();
+    toast('Standort gespeichert');
+  }
+
   function renderKosmos() {
     const canvas = $('#radar-canvas');
     if (!canvas) return;
@@ -2103,15 +2243,9 @@
 
     const hourNow = Astro.planetaryHour(now, state.lat, state.lon);
     const hourPlanet = hourNow && hourNow.planet ? hourNow.planet : null;
-    const hourHint = $('#kosmos-hour-hint');
-    if (hourHint) {
-      hourHint.innerHTML = hourPlanet
-        ? 'Planetenstunde jetzt: <strong class="hour-planet-name">' + escapeHtml(hourPlanet) + '</strong>' +
-          ' · ' + (hourNow.isDay ? 'Tag' : 'Nacht') + ' Std ' + hourNow.hourIndex +
-          (hourNow.remainMin != null ? ' · noch ' + hourNow.remainMin + ' Min' : '') +
-          ' <span class="chip-quiet">hervorgehoben</span>'
-        : 'Planetenstunde: —';
-    }
+    renderKosmosPraxis(hourNow);
+    renderKosmosTimeline(now);
+    syncKosmosLocFields();
 
     const colors = PLANET_COLORS;
     Object.keys(planets).forEach(name => {
@@ -4441,6 +4575,7 @@
         refreshState();
         syncHiddenLocControls();
         renderCockpit();
+        if ($('#sec-kosmos') && !$('#sec-kosmos').hidden) renderKosmos();
         toast('Standort gespeichert');
       });
     }
@@ -4611,6 +4746,29 @@
         if (best) showPlanetDetail(best.name);
       });
     }
+    const kosmosCta = $('#kosmos-ritual-cta');
+    if (kosmosCta) {
+      kosmosCta.addEventListener('click', () => {
+        const id = kosmosCta.dataset.ritual;
+        const r = id && Rituals.getRitual(id);
+        if (r) { navigate('rituale', { force: true }); openRitual(r); }
+        else { navigate('rituale', { force: true }); toast('Rituale öffnen'); }
+      });
+    }
+    const kosmosToR = $('#kosmos-to-rituale');
+    if (kosmosToR) kosmosToR.addEventListener('click', () => navigate('rituale', { force: true }));
+    const kosmosLocSave = $('#kosmos-loc-save');
+    if (kosmosLocSave) kosmosLocSave.addEventListener('click', saveKosmosLocation);
+    const kosmosZurich = $('#kosmos-loc-zurich');
+    if (kosmosZurich) {
+      kosmosZurich.addEventListener('click', () => {
+        if ($('#kosmos-lat')) $('#kosmos-lat').value = '47.37';
+        if ($('#kosmos-lon')) $('#kosmos-lon').value = '8.54';
+      });
+    }
+    const kosmosOpenSet = $('#kosmos-open-settings');
+    if (kosmosOpenSet) kosmosOpenSet.addEventListener('click', () => openSettings());
+
     const kosmosClose = $('#kosmos-detail-close');
     if (kosmosClose) kosmosClose.addEventListener('click', () => {
       const box = $('#kosmos-detail');

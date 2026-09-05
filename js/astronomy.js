@@ -1,5 +1,6 @@
 /**
  * UNIVERSUM — Astronomie & Kalender (JS-Näherungen für die Praxis)
+ * v3.5: Stundenimpuls / upcomingPlanetaryHours für Kosmos-Praxis
  * Standardort: Europa/Zürich 47,37°N · 8,54°E
  *
  * Dokumentierte Methoden (kein Ephemeriden-Ersatz):
@@ -365,6 +366,63 @@
     };
   }
 
+
+  /** Praxis-Fokus je Planetenstunde (pfadneutraler Kern) */
+  const HOUR_GUT_FUER = {
+    Sonne: 'Klarheit, Präsenz, kurze Anrufung',
+    Mond: 'Gefühl, Pflege, sanftes Lauschen',
+    Mars: 'Grenzen, Schutz, ein mutiger Schritt — ohne Schaden',
+    Merkur: 'Schreiben, Sigil, klare Worte',
+    Jupiter: 'Studium, Segen, Erweiterung',
+    Venus: 'Harmonie, Ausgleich, Schönheit',
+    Saturn: 'Struktur, Grenze, ernsthafte Arbeit'
+  };
+
+  const HOUR_TIP = {
+    Sonne: 'Licht halten, nicht blenden. Eine klare Handlung reicht.',
+    Mond: 'Nicht erzwingen — wahrnehmen und pflegen.',
+    Mars: 'Kraft in die Linie, nicht gegen Personen.',
+    Merkur: 'Ein Satz, ein Zeichen — dann Pause.',
+    Jupiter: 'Weite ohne Größenwahn. Lernen und danken.',
+    Venus: 'Ausgleich geben und nehmen — friedlich.',
+    Saturn: 'Rahmen setzen, Tempo drosseln, abschließen.'
+  };
+
+  function hourGutFuer(planet) {
+    return HOUR_GUT_FUER[planet] || 'Ruhige, ethische Praxis';
+  }
+
+  function hourTip(planet) {
+    return HOUR_TIP[planet] || 'Mit dem Feld gehen, nicht dagegen.';
+  }
+
+  /** Nächste n Planetenstunden ab jetzt (inkl. aktueller) */
+  function upcomingPlanetaryHours(date, lat, lon, count) {
+    count = count || 4;
+    const now = date || new Date();
+    const list = [];
+    let cursor = new Date(now.getTime());
+    let guard = 0;
+    while (list.length < count && guard < 40) {
+      guard++;
+      const seg = planetaryHour(cursor, lat, lon);
+      const startMs = seg.start.getTime();
+      if (!list.length || list[list.length - 1].start.getTime() !== startMs) {
+        list.push({
+          planet: seg.planet,
+          isDay: seg.isDay,
+          hourIndex: seg.hourIndex,
+          start: seg.start,
+          end: seg.end,
+          current: now >= seg.start && now < seg.end
+        });
+      }
+      // Jump just past segment end (avoid FP snap on exact boundary)
+      cursor = new Date(seg.end.getTime() + 1500);
+    }
+    return list;
+  }
+
   function recommendations(date, lat, lon, unrest) {
     const moon = moonPhase(date);
     const hour = planetaryHour(date, lat, lon);
@@ -398,6 +456,8 @@
     PLANETS_HOUR_SEQ,
     ZODIAC,
     FESTIVALS,
+    HOUR_GUT_FUER,
+    HOUR_TIP,
     moonPhase,
     nextMoonEvent,
     tropicalSunSign,
@@ -408,6 +468,9 @@
     sunTimes,
     planetaryHour,
     planetaryHoursTable,
+    upcomingPlanetaryHours,
+    hourGutFuer,
+    hourTip,
     festivalsOn,
     festivalsInMonth,
     moonVoidWarning,

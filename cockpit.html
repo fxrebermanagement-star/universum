@@ -403,7 +403,7 @@
       <h3 class="areas-label">Mehr Bereiche</h3>
       <div class="tiles">
         <button type="button" class="tile" data-tile="kalender"><div class="tile-ico">📅</div><div class="tile-name">Kalender</div><div class="tile-desc">Mond &amp; Feste</div></button>
-        <button type="button" class="tile" data-tile="kosmos"><div class="tile-ico">🪐</div><div class="tile-name">Kosmos</div><div class="tile-desc">Radar &amp; Schumann</div></button>
+        <button type="button" class="tile" data-tile="kosmos"><div class="tile-ico">🪐</div><div class="tile-name">Kosmos</div><div class="tile-desc">Stunde · Kreis · Fokus</div></button>
         <button type="button" class="tile" data-tile="rituale"><div class="tile-ico">🕯️</div><div class="tile-name">Rituale</div><div class="tile-desc">Geführt · Sigil · Karten</div></button>
         <button type="button" class="tile" data-tile="tagebuch"><div class="tile-ico">📖</div><div class="tile-name">Tagebuch</div><div class="tile-desc">Magie-Buch lokal</div></button>
         <button type="button" class="tile" data-tile="notizen"><div class="tile-ico">📝</div><div class="tile-name">Notizen</div><div class="tile-desc">Schnell festhalten</div></button>
@@ -440,11 +440,31 @@
     <!-- 3. Kosmos -->
     <section id="sec-kosmos" class="section-view">
       <h1 class="section-title">Kosmos</h1>
-      <p class="section-sub">Tageskreis der Luminare &amp; Planeten (Näherung) · Schumann Station / lokal</p>
-      <div class="notice">Positionen sind <strong>Näherungen</strong> für die Praxis — kein professionelles Ephemeris. <span class="approx-badge">Näherung</span></div>
-      <p class="kosmos-hour-hint" id="kosmos-hour-hint" aria-live="polite">Planetenstunde: —</p>
+      <p class="section-sub">Tageskreis · Planetenstunde · klarer Fokus</p>
+      <p class="hint-sm kosmos-approx-once">Positionen und Planetenstunden sind <strong>Näherungen</strong> für die Praxis — kein professionelles Ephemeris.</p>
+
+      <article class="card kosmos-praxis" id="kosmos-praxis" aria-labelledby="kosmos-praxis-title">
+        <header class="kosmos-praxis-head">
+          <h3 id="kosmos-praxis-title">Jetzt · Stundenimpuls</h3>
+          <span class="kosmos-hour-chip" id="kosmos-hour-chip">—</span>
+        </header>
+        <p class="kosmos-hour-meta" id="kosmos-hour-meta">—</p>
+        <p class="kosmos-gut-fuer" id="kosmos-gut-fuer"><span class="label-soft">Gut für</span> —</p>
+        <p class="kosmos-hour-tip" id="kosmos-hour-tip"></p>
+        <div class="btn-row kosmos-praxis-cta">
+          <button type="button" class="primary" id="kosmos-ritual-cta" hidden>Passendes Ritual</button>
+          <button type="button" class="ghost" id="kosmos-to-rituale">Rituale öffnen</button>
+        </div>
+      </article>
+
+      <article class="card kosmos-timeline-card" aria-labelledby="kosmos-timeline-title">
+        <h3 id="kosmos-timeline-title">Nächste Stunden</h3>
+        <p class="hint-sm">Kommende Planetenstunden ab jetzt (Näherung)</p>
+        <ol class="kosmos-timeline" id="kosmos-timeline" aria-live="polite"></ol>
+      </article>
+
       <div class="radar-wrap">
-        <canvas id="radar-canvas" aria-label="Planetenradar — tippe einen Planeten für Details" role="img"></canvas>
+        <canvas id="radar-canvas" aria-label="Tageskreis der Luminare und Planeten — tippe für Details" role="img"></canvas>
       </div>
       <div class="kosmos-legend" id="kosmos-legend" aria-label="Planeten-Legende"></div>
       <div class="card kosmos-detail" id="kosmos-detail" hidden>
@@ -452,33 +472,46 @@
         <p id="kosmos-detail-body" class="netz-copy"></p>
         <button type="button" class="ghost" id="kosmos-detail-close">Schließen</button>
       </div>
-      <div class="card schumann-card">
-        <div class="schumann-head">
-          <h3>Schumann · Station</h3>
-          <span class="schumann-live-badge" data-sch-badge data-state="offline">Offline · lokale Visualisierung</span>
+
+      <article class="card kosmos-loc-card" aria-labelledby="kosmos-loc-title">
+        <h3 id="kosmos-loc-title">Standort</h3>
+        <p class="hint-sm">Lokal für Sonnenzeiten und Stunden — ohne Konto, in <code>feldlicht-v15</code></p>
+        <div class="loc-grid kosmos-loc-grid">
+          <div class="form-row" style="margin:0"><label for="kosmos-lat">Breite</label><input id="kosmos-lat" type="number" step="0.01" inputmode="decimal" /></div>
+          <div class="form-row" style="margin:0"><label for="kosmos-lon">Länge</label><input id="kosmos-lon" type="number" step="0.01" inputmode="decimal" /></div>
         </div>
+        <div class="btn-row mt-1">
+          <button type="button" class="primary" id="kosmos-loc-save">Speichern</button>
+          <button type="button" class="ghost" id="kosmos-loc-zurich">Zürich</button>
+          <button type="button" class="ghost" id="kosmos-open-settings">Einstellungen</button>
+        </div>
+        <p class="meta-line" id="kosmos-loc-summary">—</p>
+      </article>
+
+      <details class="card kosmos-schumann-slim" id="kosmos-schumann-slim">
+        <summary>
+          <span>Schumann · Station</span>
+          <span class="schumann-live-badge" data-sch-badge data-state="offline">Offline</span>
+        </summary>
+        <p class="hint-sm">Optional — volle Live-Ansicht auch im Cockpit unter Mehr. Kein Sensor am Handy.</p>
         <div class="schumann-spectrogram" data-sch-spectrogram>
           <figure class="schumann-spectrogram-figure">
             <img data-sch-spectrogram-img alt="Schumann-Spektrogramm der Station Tomsk (live Sonogramm)" width="1200" height="400" decoding="async" />
-            <p class="schumann-spectrogram-err" data-sch-spectrogram-err hidden>Spektrogramm derzeit nicht erreichbar — Metriken und lokale Visualisierung bleiben aktiv.</p>
+            <p class="schumann-spectrogram-err" data-sch-spectrogram-err hidden>Spektrogramm derzeit nicht erreichbar.</p>
           </figure>
-          <p class="hint-sm schumann-spectrogram-attr">Spektrogramm der Station Tomsk (SOS / Tomsk State University), bereitgestellt über <a href="https://resonanceone.app/ai" target="_blank" rel="noopener noreferrer">ResonanceOne</a>. Kein Handy-Sensor. · <a href="https://resonanceone.app/schumann-resonance-today" target="_blank" rel="noopener noreferrer">Methodik</a> · <a href="https://sos70.ru/" target="_blank" rel="noopener noreferrer">Tomsk SOS</a></p>
         </div>
-        <p class="schumann-secondary-label">Lokal · 7,83-Hz-Puls (sekundär)</p>
+        <p class="schumann-secondary-label">Lokal · 7,83-Hz-Puls</p>
         <div class="schumann-wrap"><canvas id="schumann-canvas-kosmos" aria-label="Schumann-Puls im Kosmos"></canvas></div>
         <div class="schumann-live-panel" data-sch-panel>
           <div class="schumann-metrics" aria-label="Stationsdaten">
             <div class="sch-metric"><span class="m-label">SR</span> <strong data-sch-hz>—</strong> <span class="m-unit">Hz</span></div>
             <div class="sch-metric"><span class="m-label">Index</span> <strong data-sch-index>—</strong></div>
             <div class="sch-metric"><span class="m-label">Kp</span> <strong data-sch-kp>—</strong></div>
-            <div class="sch-metric"><span class="m-label">Geomag.</span> <strong data-sch-geo>—</strong></div>
           </div>
           <p class="hint-sm schumann-update">Update: <span data-sch-updated>—</span></p>
-          <p class="hint-sm schumann-source">Quelle: <span data-sch-source>—</span> · <a href="https://resonanceone.app/schumann-resonance-today" target="_blank" rel="noopener noreferrer">Methodik</a> · <a href="https://resonanceone.app/ai" target="_blank" rel="noopener noreferrer">ResonanceOne</a></p>
           <button type="button" class="ghost tiny" data-sch-refresh>Aktualisieren</button>
         </div>
-        <p class="schumann-note">Live-Spektrogramm + Stations-/Index-Daten (Tomsk via ResonanceOne + NOAA) — kein Sensor am Handy, keine Geisterbehauptung. Offline: lokaler Puls.</p>
-      </div>
+      </details>
     </section>
 
     <!-- 4. Rituale -->
@@ -934,7 +967,7 @@
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
         <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">3.4.0</span></p>
+        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">3.5.0</span></p>
       </div>
     </div>
   </div>

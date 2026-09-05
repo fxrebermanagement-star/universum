@@ -157,6 +157,16 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 
 
 
+
+**Zusätzlich (v3.5 · Kosmos-Praxis)**
+
+- **Jetzt · Stundenimpuls** — aktuelle Planetenstunde mit «Gut für …», Tip und CTA zum passenden Pfad-Ritual
+- **Nächste Stunden** — Timeline der kommenden 3–4 Planetenstunden
+- **Fokus statt Kopie** — Tageskreis + Stunde klar; Schumann nur optional zugeklappt (volle Station bleibt im Cockpit)
+- **Eine Näherungszeile** — Ehrlichkeit ohne Badge-Wiederholung
+- **Standort lokal** — Breite/Länge in Kosmos speichern (`feldlicht-v15`), Standard Zürich
+- App `3.5.0`, SW-Cache `universum-shell-v27`
+
 **Zusätzlich (v3.4 · Illustrierte Feldkarten)**
 
 - **22 eigene SVG-Illustrationen** — unter `assets/feldkarten/`, mystisch-lineare Ikonografie (Schwelle, Wurzeln, Atem, Grenzstein, Mondspiegel …), kein Stockfoto, kein Tarot-Klon
