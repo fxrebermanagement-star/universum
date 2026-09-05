@@ -340,6 +340,14 @@ universum/
 Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine Verantwortung — mit Grenze und Ausgleich.
 
 
+## Craft-Pass (v4.4.0) · Offline zuerst
+
+- **SW** — resilienter Shell-Precache (Einzel-URLs), `SKIP_WAITING`, Cache `universum-shell-v35`
+- **Install** — Copy «Offline zuerst»; Banner betont einmal laden → lokal üben
+- **Ehrlichkeit** — Offline-Chip, klarere Honesty-Zeile, Station-fehlt → lokal 7,83 Hz (kein Wahrheitsmesser)
+- App `4.4.0`, SW-Cache `universum-shell-v35`
+
+
 ## Craft-Pass (v4.3.0) · Pfad-Werkzeugkasten
 
 Ritual-Tabs entzerrt — Werkzeuge nicht mehr gleichgewichtet:

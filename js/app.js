@@ -26,10 +26,11 @@
   }
 
   function badgeLabelForStatus(status) {
-    if (status === 'live') return 'Live · Station';
-    if (status === 'loading') return 'Laden …';
-    if (status === 'disabled') return 'Aus · lokale Visualisierung';
-    return 'Offline · lokale Visualisierung';
+    if (status === 'live') return 'Live · Station Tomsk';
+    if (status === 'loading') return 'Station wird geladen …';
+    if (status === 'disabled') return 'Live aus · lokal 7,83 Hz';
+    if (status === 'error') return 'Station fehlt · lokal 7,83 Hz';
+    return 'Station offline · lokal 7,83 Hz';
   }
 
   function sourceLineFromReading(r) {
@@ -80,6 +81,12 @@
     $$('[data-sch-geo]').forEach(el => { el.textContent = geo; });
     $$('[data-sch-updated]').forEach(el => { el.textContent = updated; });
     $$('[data-sch-source]').forEach(el => { el.textContent = source; });
+    const honesty = (status === 'live')
+      ? 'Stationsdaten von Tomsk (via ResonanceOne) — Impuls, keine Messung am Handy.'
+      : (status === 'loading')
+        ? 'Versuche Station zu erreichen … Offline-Puls bleibt verfügbar.'
+        : 'Station nicht erreichbar oder aus — du übst mit lokaler 7,83-Hz-Visualisierung. Kein Wahrheitsmesser.';
+    $$('[data-sch-honesty]').forEach(el => { el.textContent = honesty; });
   }
 
   function bootSchumannLive() {
@@ -1272,12 +1279,22 @@
     const el = $('#offline-honesty');
     if (!el) return;
     const online = typeof navigator.onLine === 'boolean' ? navigator.onLine : true;
+    const swOk = !!(navigator.serviceWorker && navigator.serviceWorker.controller);
     if (online) {
-      el.textContent = 'Lokal auf diesem Gerät · kein Konto · Offline-Shell bereit, wenn einmal geladen.';
+      el.textContent = swOk
+        ? 'Online · Offline-Shell aktiv — Praxis, Buch und Rituale bleiben lokal auch ohne Netz.'
+        : 'Online · lokal auf diesem Gerät · einmal laden, dann offline üben (PWA/Home-Bildschirm).';
       el.dataset.state = 'online';
     } else {
-      el.textContent = 'Offline · du übst lokal aus dem Cache. Live-Schumann/Tomsk pausiert bis Verbindung.';
+      el.textContent = swOk
+        ? 'Offline · Shell aus dem Cache. Rituale, Magie-Buch und Fokus laufen lokal. Station Tomsk pausiert.'
+        : 'Offline · ohne Cache ggf. eingeschränkt. Installiere die App / lade einmal online neu.';
       el.dataset.state = 'offline';
+    }
+    const chip = $('#offline-chip');
+    if (chip) {
+      chip.hidden = online;
+      chip.textContent = '📴 Offline · lokal üben';
     }
   }
 
@@ -4031,6 +4048,7 @@
     const steps = $('#install-steps');
     const title = $('#install-banner-title');
     const text = $('#install-banner-text');
+    // Offline-zuerst: Banner auch auf Desktop bei force; Copy betont Cache
     if (plat.isIOS) {
       if (title) title.textContent = 'Auf dem iPhone / iPad';
       if (text) text.textContent = 'Safari → Teilen → „Zum Home-Bildschirm“. Dann öffnet UNIVERSUM wie eine App — offline-fähig, lokal.';
@@ -5512,6 +5530,13 @@
     window.addEventListener('online', updateOfflineHonesty);
     window.addEventListener('offline', updateOfflineHonesty);
     updateOfflineHonesty();
+    if (navigator.serviceWorker) {
+      navigator.serviceWorker.ready.then(() => updateOfflineHonesty()).catch(() => {});
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        updateOfflineHonesty();
+        toast('Offline-Shell aktualisiert', 2200);
+      });
+    }
 
     const setInst = $('#set-install-app');
     if (setInst) setInst.addEventListener('click', () => { promptPwaInstall(); });

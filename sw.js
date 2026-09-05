@@ -2,9 +2,9 @@
  * UNIVERSUM · Service Worker — offline shell caching
  * Relative URLs so GitHub Pages /universum/ subpath works.
  * Cache-first for app shell; network-first navigations; offline fallback to cockpit.
- * v34: 4.3.0 — Pfad-Werkzeugkasten (Sigil, Karten, Grenze).
+ * v35: 4.4.0 — Offline zuerst: resilienter Shell-Cache, ehrliche Station-Hinweise.
  */
-const CACHE = 'universum-shell-v34';
+const CACHE = 'universum-shell-v35';
 const SHELL = [
   './',
   './index.html',
@@ -47,9 +47,19 @@ const SHELL = [
   './icons/icon-512.png'
 ];
 
+function precacheShell(cache) {
+  return Promise.all(
+    SHELL.map((url) =>
+      cache.add(url).catch(() => fetch(url, { cache: 'reload' }).then((res) => {
+        if (res && res.ok) return cache.put(url, res);
+      }).catch(() => null))
+    )
+  );
+}
+
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE).then((cache) => cache.addAll(SHELL)).then(() => self.skipWaiting())
+    caches.open(CACHE).then((cache) => precacheShell(cache)).then(() => self.skipWaiting())
   );
 });
 
@@ -59,6 +69,12 @@ self.addEventListener('activate', (event) => {
       Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))
     ).then(() => self.clients.claim())
   );
+});
+
+self.addEventListener('message', (event) => {
+  if (event && event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });
 
 function isShellPath(pathname) {
@@ -78,10 +94,8 @@ self.addEventListener('fetch', (event) => {
   const req = event.request;
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
-  // Only same-origin; skip Google Fonts (network)
   if (url.origin !== self.location.origin) return;
 
-  // Navigations: prefer network, fall back to cached cockpit/index under subpath
   if (req.mode === 'navigate') {
     event.respondWith(
       fetch(req)

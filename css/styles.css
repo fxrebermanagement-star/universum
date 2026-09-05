@@ -5477,3 +5477,30 @@ body.quiet-mode .path-art-orb {
 }
 .werkzeug-jump-chip:hover { background: rgba(120, 85, 180, 0.45); color: #fff; }
 #ritual-werkzeug-panel .ritual-section-label { margin-top: 1rem; }
+
+
+/* ——— v4.4.0 Offline zuerst ——— */
+.offline-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0.35rem 0 0.25rem;
+  padding: 0.28rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #1a1220;
+  background: linear-gradient(135deg, #fcd34d, #f59e0b);
+  box-shadow: 0 2px 10px rgba(245, 158, 11, 0.35);
+}
+.offline-honesty[data-state="offline"] {
+  color: #fcd34d;
+  font-weight: 600;
+}
+.schumann-honesty {
+  margin: 0.35rem 0 0.5rem;
+  color: rgba(230, 220, 255, 0.78);
+}
+.install-banner {
+  border-color: rgba(110, 181, 255, 0.4);
+}
