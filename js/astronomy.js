@@ -431,7 +431,7 @@
     const recs = [];
     if (moon.phase < 0.08) recs.push('Neumond: Intention setzen, nicht erzwingen.');
     else if (moon.phase > 0.45 && moon.phase < 0.55) recs.push('Vollmond: Loslassen, danken, nicht neu beginnen.');
-    else if (moon.phase < 0.5) recs.push('Zunehmend: aufbauen, üben, festigen.');
+    else if (moon.phase < 0.5) recs.push('Zunehmend: aufbauen, festigen, in der Praxis halten.');
     else recs.push('Abnehmend: reinigen, abschließen, ruhen.');
 
     const hourTips = {

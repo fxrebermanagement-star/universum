@@ -708,10 +708,10 @@
       own: true,
       signature: true,
       breath: true,
-      intention: 'Still üben — Praxiswerkzeug, kein Schaukasten. Daten bleiben bei dir.',
+      intention: 'Stille Praxis — Praxiswerkzeug, kein Schaukasten. Daten bleiben bei dir.',
       journal: 'Welche Schwelle hast du gesetzt — und gehalten?',
       steps: [
-        { phase: 'intention', title: 'Ankommen', text: 'Still üben. Ein Handy kann keine Geister messen.', sec: 35 },
+        { phase: 'intention', title: 'Ankommen', text: 'Stille Praxis. Ein Handy kann keine Geister messen.', sec: 35 },
         { phase: 'body', title: 'Atem', text: '4 ein — 6 aus. Feldlicht begleiten, nicht erzwingen.', sec: 100, breath: true, breathIn: 4, breathOut: 6 },
         { phase: 'body', title: 'Intention', text: 'Ein klarer Satz. Grenze und Ausgleich.', sec: 70 },
         { phase: 'body', title: 'Ausgleich', text: 'Was gibst du zurück an den Tag? Ruhe, Ordnung, Dank.', sec: 50 },
@@ -778,7 +778,7 @@
       paths: ['esoterik'],
       own: true,
       breath: true,
-      intention: 'Längere Stille als Feld — üben ohne zu messen, ohne zu deuten.',
+      intention: 'Längere Stille als Feld — Praxis ohne zu messen, ohne zu deuten.',
       journal: 'Was blieb nach der Stille — ohne es zu verkaufen?',
       steps: [
         { phase: 'intention', title: 'Rahmen', text: 'Stille ist Praxis. Kein EMF, keine Geister. Handy stumm.', sec: 40 },

@@ -1527,6 +1527,19 @@ button.ritual-item { cursor: pointer; }
   border-radius: 999px;
   font-weight: 500;
 }
+.tabs button.tab-secondary {
+  opacity: 0.72;
+  font-weight: 450;
+  color: var(--muted);
+  border-style: dashed;
+  background: transparent;
+}
+.tabs button.tab-secondary.active {
+  opacity: 1;
+  font-weight: 500;
+  color: #fff;
+  border-style: solid;
+}
 .tabs button.active {
   background: rgba(139, 111, 208, 0.35);
   border-color: var(--accent);

@@ -231,7 +231,7 @@
     });
   }
 
-  const APP_VERSION = '5.6.0';
+  const APP_VERSION = '5.7.0';
 
   function buildExportMeta(data) {
     const pathId = data.path || 'esoterik';
@@ -360,7 +360,7 @@
     lines.push('Tagebuch-Einträge: ' + meta.diaryCount);
     lines.push('Notizen: ' + meta.notesCount);
     lines.push('Praxis-Log gesamt (gespeichert): ' + meta.practiceLogCount);
-    lines.push('Streak (sanft): ' + (streak.count || 0) + (streak.doneToday ? ' · heute geübt' : ''));
+    lines.push('Streak (sanft): ' + (streak.count || 0) + (streak.doneToday ? ' · heute Praxis' : ''));
     lines.push('Intention heute: ' + (meta.intentionToday ? 'ja' : 'nein'));
     lines.push('');
     lines.push('— 14 Tage Praxis —');

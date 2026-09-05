@@ -188,7 +188,7 @@
       safetyItems: [
         { id: 'body', label: 'Körper: Ich bin ruhig und klar genug für Hauspraxis.' },
         { id: 'purpose', label: 'Zweck: Reinigung und Dank — Aché ohne Anspruch auf Ile.' },
-        { id: 'boundaries', label: 'Grenzen: Ich ehre Orisha-Tradition, ohne Priestertum hier zu üben.' },
+        { id: 'boundaries', label: 'Grenzen: Ich ehre Orisha-Tradition, ohne Priestertum hier zu praktizieren.' },
         { id: 'noharm', label: 'Kein Schaden: Keine Arbeit gegen Personen, keine Willensbeugung.' },
         { id: 'closing', label: 'Abschluss: Ich schließe Kerze und Raum und kehre in den Alltag.' }
       ],
@@ -341,10 +341,10 @@
       closing: {
         danken: 'Dank dem Modell — und Ablegen desselben. Nichts festhalten.',
         atmen: 'Kurzer Atem. Gnosis zu. Ergebnis nicht jagen.',
-        erden: 'Ablenkung erlauben: dehnen, ordnen, trinken. Vergessen üben.',
+        erden: 'Ablenkung erlauben: dehnen, ordnen, trinken. Vergessen als Praxis.',
         siegeln: '„Geladen. Vergessen.“ Ethik bleibt. Alltag.'
       },
-      closingToast: 'Vergessen geübt — Ethik gehalten.'
+      closingToast: 'Vergessen als Praxis — Ethik gehalten.'
     },
     {
       id: 'esoterik',
@@ -354,7 +354,7 @@
       accent: '#8b6fd0',
       accentSoft: 'rgba(139, 111, 208, 0.22)',
       accentDeep: '#6a4fb0',
-      haltung: 'Still üben — Daten bleiben bei dir.',
+      haltung: 'Stille Praxis — Daten bleiben bei dir.',
       saying: 'Feldlicht ist da — still begleiten.',
       sayings: [
         'Feldlicht ist da — still begleiten.',
@@ -377,7 +377,7 @@
         'Welche Praxis war Werkzeug — und welche wäre Schau gewesen?',
         'Wo brauchst du Ausgleich, bevor du weitermachst?'
       ],
-      stepIntro: 'Still üben. Feldlicht begleiten — nicht erzwingen.',
+      stepIntro: 'Stille Praxis. Feldlicht begleiten — nicht erzwingen.',
       safetyLead: 'Vor der Schwelle — Klarheit und ethische Absicht.',
       safetyItems: [
         { id: 'body', label: 'Körper: Ich bin ruhig genug für stille Praxis.' },
@@ -392,7 +392,7 @@
         erden: 'Füße, Schultern, ein Schluck Wasser. Du bist im Körper.',
         siegeln: '„Schwelle gehalten.“ Daten bei dir. Alltag klar.'
       },
-      closingToast: 'Schwelle gehalten — still geübt.'
+      closingToast: 'Schwelle gehalten — stille Praxis.'
     }
   ];
 
@@ -551,7 +551,7 @@
 
   function closingToast(pathId) {
     const path = getPath(pathId);
-    return path.closingToast || 'Schwelle gehalten — gut geübt.';
+    return path.closingToast || 'Schwelle gehalten — gute Praxis.';
   }
 
   /** Next festival from today (inclusive). opts.pathOnly: only path-relevant. */
@@ -621,7 +621,7 @@
       { day: 3, title: 'Trommel-Atem kurz', text: 'Eine Minute rhythmisch atmen (oder klopfen). Danach Wasser.' },
       { day: 4, title: 'Erdung im Alltag', text: 'Bewusst gehen oder sitzen. Mit dem Feld, nicht dagegen.' },
       { day: 5, title: 'Ahnenlicht still', text: 'Ein Satz Dank — Erinnerung, keine Geistermessung.' },
-      { day: 6, title: 'Grenze halten', text: 'Wo war Überforderung? Ein klares Nein üben.' },
+      { day: 6, title: 'Grenze halten', text: 'Wo war Überforderung? Ein klares Nein als Praxis.' },
       { day: 7, title: 'Rückkehr', text: 'Schultern sinken. „Ich bin hier.“ Woche schließen.' }
     ],
     nordisch: [
@@ -664,7 +664,7 @@
       { day: 1, title: 'Schutz', text: 'Kleine Grenze: Hand am Türrahmen oder Blickkreis. „Hier halte ich.“' },
       { day: 2, title: 'Reinigung', text: 'Wasser an den Händen oder frische Luft — was nicht dient, darf gehen.' },
       { day: 3, title: 'Anziehen', text: 'Eine ethische Gabe/Absicht setzen — klein, gegen niemanden.' },
-      { day: 4, title: 'Loslassen', text: 'Einen Satz entlassen. Ergebnis nicht jagen. Schweigen üben.' },
+      { day: 4, title: 'Loslassen', text: 'Einen Satz entlassen. Ergebnis nicht jagen. Schweigen als Praxis.' },
       { day: 5, title: 'Kreis-Mini', text: 'Raum markieren. Vier Elemente kurz grüßen. Kreis halten.' },
       { day: 6, title: 'Jahresrad-Atem', text: 'Welches Fest-Ton ist nah? Ein Satz Praxis — nicht nur Datum.' },
       { day: 7, title: 'Schließen', text: 'Elemente danken. Kreis öffnen. Alltag frei.' }
@@ -675,7 +675,7 @@
       { day: 3, title: 'Gnosis-Mini', text: '30 Sekunden Fokus oder Atem — dann lockern.' },
       { day: 4, title: 'Ergebnis-Jagd stoppen', text: 'Bewusst ablenken. Nicht nachchecken.' },
       { day: 5, title: 'Ethik-Check', text: 'Hält die Absicht ohne Schaden an Personen?' },
-      { day: 6, title: 'Vergessen üben', text: 'Absicht ablegen. Alltag vor Modell.' },
+      { day: 6, title: 'Vergessen als Praxis', text: 'Absicht ablegen. Alltag vor Modell.' },
       { day: 7, title: 'Woche reset', text: 'Modelle stapeln? Eins behalten, Rest streichen.' }
     ],
     esoterik: [
@@ -820,7 +820,7 @@
       { kind: 'ritual', title: 'Feldlicht-Schwelle', text: '≈ 11 Min · Eine klare Schwelle — Praxiswerkzeug.', ritualId: 'schwelle', cta: 'Schwelle starten' },
       { kind: 'ritual', title: 'Mondfenster', text: '≈ 11 Min · Setzen oder lösen — mit Grenze und Ausgleich.', ritualId: 'mondarbeit', cta: 'Mondfenster starten' },
       { kind: 'ritual', title: 'Zahlen-Klarheit', text: '≈ 11 Min · Eine Zahl als Fokus — kein Schicksalsglaube.', ritualId: 'zahlen-klarheit', cta: 'Zahlen-Klarheit' },
-      { kind: 'ritual', title: 'Stille-Feld', text: '≈ 21 Min · Längere Stille — üben ohne zu messen.', ritualId: 'stille-feld', cta: 'Stille-Feld' }
+      { kind: 'ritual', title: 'Stille-Feld', text: '≈ 21 Min · Längere Stille — Praxis ohne zu messen.', ritualId: 'stille-feld', cta: 'Stille-Feld' }
     ]
   };
 
@@ -969,13 +969,13 @@
     },
     chaosmagie: {
       neu: 'Gut für: Sigil laden und Absicht knapper formulieren.',
-      zunehmend: 'Gut für: Gnosis-Übungen, 369, Labor-Notizen.',
+      zunehmend: 'Gut für: Gnosis-Praxis, 369, Labor-Notizen.',
       voll: 'Gut für: Ergebnis beobachten — ohne Identitätsdrama.',
       abnehmend: 'Gut für: Vergessen, Reset, unbrauchbare Sigils entsorgen.'
     },
     esoterik: {
       neu: 'Gut für: Intention setzen, Schwelle markieren, still starten.',
-      zunehmend: 'Gut für: Klarheit üben, Mondarbeit vorbereiten.',
+      zunehmend: 'Gut für: Klarheit in der Praxis, Mondarbeit vorbereiten.',
       voll: 'Gut für: Danken, Licht halten, Tagebuch-Satz.',
       abnehmend: 'Gut für: Loslassen, Lostage achten, Ruhe gönnen.'
     }
@@ -994,7 +994,7 @@
       { kind: 'Schutz', text: 'Schwelle achten: ein Nein, das den Raum hält.' },
       { kind: 'Reinigung', text: 'Drei Atemzüge. Unnötiges ablegen — ohne Drama.' },
       { kind: 'Anziehen', text: 'Eine klare Intention in der Gegenwart — klein und haltbar.' },
-      { kind: 'Loslassen', text: 'Lostag-Stille: nicht nachdrücken. Schweigen üben.' }
+      { kind: 'Loslassen', text: 'Lostag-Stille: nicht nachdrücken. Schweigen als Praxis.' }
     ],
     schamanismus: [
       { kind: 'Schutz', text: 'Füße spüren. Körpergrenze — Reise nur mit Maß.' },
@@ -1030,7 +1030,7 @@
       { kind: 'Schutz', text: 'Banishing-Punkt: mentaler Reset — Raum klären ohne Theater.' },
       { kind: 'Reinigung', text: 'Unbrauchbares Modell ablegen. Ethik behalten.' },
       { kind: 'Anziehen', text: 'Sigil knapper formulieren — laden mit Ethik.' },
-      { kind: 'Loslassen', text: 'Vergessen üben. Ergebnis-Jagd stoppen.' }
+      { kind: 'Loslassen', text: 'Vergessen als Praxis. Ergebnis-Jagd stoppen.' }
     ]
   };
 
@@ -1048,7 +1048,7 @@
   /** Jahresrad: Praxis-Ton pro Sabbat (nicht nur Datum) */
   const SABBAT_PRAXIS = {
     Imbolc: 'Keim und Licht im Haus — Reinigung, neuer Schutz um den Keim.',
-    Ostara: 'Gleichgewicht üben — Anziehen mit Maß, Saat ethisch setzen.',
+    Ostara: 'Gleichgewicht in der Praxis — Anziehen mit Maß, Saat ethisch setzen.',
     Beltane: 'Freude und Grenze — Feuer der Absicht ohne Besitzanspruch.',
     Litha: 'Fülle achten — danken, nicht greifen; Schutz der Klarheit.',
     Lughnasadh: 'Erste Ernte — Gabe teilen, Stolz mit Maß.',

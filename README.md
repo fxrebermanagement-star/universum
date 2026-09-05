@@ -2,7 +2,7 @@
 
 **Feld-Klarheit — hier übst du, Daten bleiben bei dir.**
 
-Praxiswerkzeug zum Üben — klar, lokal, ohne Hype. Vanilla HTML/CSS/JS, kein Backend, kein Build. Früher: *Feldlicht Ritualbegleiter*.
+Praxiswerkzeug — klar, lokal, ohne Hype. Vanilla HTML/CSS/JS, kein Backend, kein Build. Früher: *Feldlicht Ritualbegleiter*.
 
 ## Lokal öffnen
 
@@ -13,7 +13,7 @@ python3 -m http.server 8765
 
 Dann im Browser:
 
-- Einstieg / Landing: [http://127.0.0.1:8765/](http://127.0.0.1:8765/) → **Üben öffnen** → Altar  
+- Einstieg / Landing: [http://127.0.0.1:8765/](http://127.0.0.1:8765/) → **Praxis öffnen** → Altar  
 - Direkt: [http://127.0.0.1:8765/cockpit.html](http://127.0.0.1:8765/cockpit.html)
 
 PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offline.  
@@ -44,7 +44,7 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 - **Intention des Tages** — eine Zeile im Cockpit, optional in 369
 - **Ritual-Favoriten** — Stern/Pin, Favoriten zuerst
 - **Briefing-Chips** — 2–3 Kalender-Metriken wählen/reihen
-- **Atem-Übung** — 4/6 und Box-Atmung mit Kreis, ohne volles Ritual
+- **Atem** — 4/6 und Box-Atmung mit Kreis, ohne volles Ritual
 - **Sigil-Galerie** — letzte Glyphs (Hash + optional dataURL), vergessen möglich
 - **Barrierefreiheit** — Skip-to-content, Fokusringe, ARIA an Schlüsselkontrollen
 
@@ -119,7 +119,7 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 
 - **Erste Minute** — Onboarding: Pfad → eine Praxis-Einladung → fertig; Ethik als kurze Bestätigungszeile; optional Überspringen; danach Cockpit mit Jetzt-Karte
 - **Astronomie-Vertrauen** — Badge „Näherung“ an Mond/Stunde/VoC; Hinweis in Mehr & Einstellungen; kein Ephemeriden-Anspruch
-- **Landing** — `index.html` als ruhiges Produkt-Intro (für wen, lokal, Ethik, CTA «Üben öffnen», Empfehlen-Link)
+- **Landing** — `index.html` als ruhiges Produkt-Intro (für wen, lokal, Ethik, CTA «Praxis öffnen», Empfehlen-Link)
 - App `2.1.0`, SW-Cache `universum-shell-v13`
 
 **Zusätzlich (v2.2 · Sprache & Erste Minute)**
@@ -343,6 +343,14 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 
 
 
+## Craft-Pass (v5.7.0) · Rituale für Kenner
+
+- **Rituale-Tabs** — Reihenfolge **🛠️ Werkzeug · Eigene · Geführt**; Standard-Tab beim Öffnen = **Werkzeug**
+- **Eigene** = selbst angelegte Rituale; **Geführt** = Pfad-Rituale + Grundlagen (geteilt) — Pfad-own-Logik unverändert
+- **Geführt** sekundär (dezenter Tab-Stil); führt nicht mehr
+- **Sprache** — user-facing «Üben/Übung» → **Praxis** (natürliches Deutsch, keine Gendersprache)
+- App `5.7.0`, SW-Cache `universum-shell-v44`
+
 ## Craft-Pass (v5.6.0) · Mystische Atmosphäre
 
 - **5.2 Licht & Schwellen** — weicheres Kerzen-/Mondlicht, sanftere Kartenkanten; Schwellen-Übergänge beim Ritual öffnen und Feldkarte enthüllen (dim/reveal); respektiert reduzierte Bewegung; Mondnacht leichter + abends automatisch (19–6)
@@ -482,7 +490,7 @@ Zweite autonome Verbesserungsrunde: reichere Feldkarten-Animation mit Zug-Verlau
 
 ## Craft-Pass (v1.3)
 
-Dritte Runde: **Mondnacht-Modus**, **Intention des Tages** (optional → 369), Ritual-**Favoriten**, Briefing-**Chip-Auswahl** (2–3), standalone **Atem-Übung** (4/6 & Box), **Sigil-Galerie** (nur Hash + Glyph, nie schädliche Absichten), Accessibility (Skip-Link, Fokusringe, ARIA), kleine Bug-Politur. App `1.3.0`, SW-Cache `universum-shell-v5`. Server unverändert Port **8765**.
+Dritte Runde: **Mondnacht-Modus**, **Intention des Tages** (optional → 369), Ritual-**Favoriten**, Briefing-**Chip-Auswahl** (2–3), standalone **Atem** (4/6 & Box), **Sigil-Galerie** (nur Hash + Glyph, nie schädliche Absichten), Accessibility (Skip-Link, Fokusringe, ARIA), kleine Bug-Politur. App `1.3.0`, SW-Cache `universum-shell-v5`. Server unverändert Port **8765**.
 
 ## Craft-Pass (v1.4)
 
@@ -514,7 +522,7 @@ Zehnte Runde — **Feld-Klarheit**: weniger Cockpit auf einmal (eine klare „Je
 
 ## Craft-Pass (v2.1) · Erste Minute · Vertrauen · Anbieten
 
-Elfte Runde — **Drei Verbesserungen**: (1) Onboarding auf Erste Minute gekürzt (Pfad → Praxis-Einladung → fertig, Ethik eine Zeile, optional Überspringen, Jetzt-Karte bereit); (2) Astronomie-Vertrauen mit „Näherung“-Badges und ruhigem Hinweis in Mehr/Einstellungen; (3) Landing `index.html` als Produkt-Intro (für wen, lokal, Ethik-One-Liner, CTA «Üben öffnen», optional Empfehlen). App `2.1.0`, SW-Cache `universum-shell-v13`. Server Port **8765**.
+Elfte Runde — **Drei Verbesserungen**: (1) Onboarding auf Erste Minute gekürzt (Pfad → Praxis-Einladung → fertig, Ethik eine Zeile, optional Überspringen, Jetzt-Karte bereit); (2) Astronomie-Vertrauen mit „Näherung“-Badges und ruhigem Hinweis in Mehr/Einstellungen; (3) Landing `index.html` als Produkt-Intro (für wen, lokal, Ethik-One-Liner, CTA «Praxis öffnen», optional Empfehlen). App `2.1.0`, SW-Cache `universum-shell-v13`. Server Port **8765**.
 
 ## Craft-Pass (v2.2) · Sprache · Erste Minute
 

@@ -674,7 +674,7 @@
           navigate('rituale', { force: true });
           const breath = $('.breath-standalone') || $('#breath-start');
           if (breath) breath.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          toast('Atem-Übung');
+          toast('Atem');
           return;
         }
         navigate('buch', { force: true });
@@ -1147,7 +1147,23 @@
       if (id === 'cockpit') renderCockpit();
       if (id === 'kalender') renderCalendar();
       if (id === 'kosmos') renderKosmos();
-      if (id === 'rituale') renderRituale();
+      if (id === 'rituale') {
+        renderRituale();
+        if (!opts.keepRitualTab) {
+          const target = opts.ritualTab || 'werkzeug';
+          $$('[data-rtab]').forEach(b => {
+            const on = b.dataset.rtab === target;
+            b.classList.toggle('active', on);
+            b.setAttribute('aria-selected', on ? 'true' : 'false');
+          });
+          $$('[data-rpanel]').forEach(p => p.classList.toggle('hidden', p.dataset.rpanel !== target));
+          if (target === 'werkzeug') {
+            if (typeof renderPathWerkzeug === 'function') renderPathWerkzeug();
+            if (typeof renderSigilGallery === 'function') renderSigilGallery();
+          }
+          if (target === 'guided') renderPathWeek();
+        }
+      }
       if (id === 'buch') renderBuch();
       if (id === 'korrespondenzen') renderKorrespondenzenSection();
     } else if (id === 'buch' && opts.force) {
@@ -1266,7 +1282,7 @@
     const sym = pathSymbol(path);
     const h = $('#path-haltung');
     if (h) {
-      const text = (path && (path.haltung || path.saying)) || 'Still üben — Daten bleiben bei dir.';
+      const text = (path && (path.haltung || path.saying)) || 'Stille Praxis — Daten bleiben bei dir.';
       h.innerHTML = '<span class="path-sym" aria-hidden="true">' + escapeHtml(sym) + '</span> ' +
         '<span class="path-haltung-text">' + escapeHtml(text) + '</span>';
     }
@@ -1599,7 +1615,7 @@
     if (online) {
       el.textContent = swOk
         ? 'Online · Offline-Shell aktiv — Praxis, Buch und Rituale bleiben lokal auch ohne Netz.'
-        : 'Online · lokal auf diesem Gerät · einmal laden, dann offline üben (PWA/Home-Bildschirm).';
+        : 'Online · lokal auf diesem Gerät · einmal laden, dann offline Praxis (PWA/Home-Bildschirm).';
       el.dataset.state = 'online';
     } else {
       el.textContent = swOk
@@ -1610,7 +1626,7 @@
     const chip = $('#offline-chip');
     if (chip) {
       chip.hidden = online;
-      chip.textContent = '📴 Offline · lokal üben';
+      chip.textContent = '📴 Offline · lokale Praxis';
     }
   }
 
@@ -3242,7 +3258,7 @@
     if (!customEl) { /* panel missing */ }
     else if (!customs.length) {
       customEl.innerHTML = '<div class="empty-state convert"><strong>Noch keine eigenen Rituale</strong>' +
-        '<p>Lege Schritte als Titel|Text|Sekunden an — dein Tempo, deine Ethik. Oder starte zuerst ein geführtes Ritual.</p>' +
+        '<p>Lege Schritte als Titel|Text|Sekunden an — dein Tempo, deine Ethik. Oder starte zuerst ein Ritual aus deinem Pfad.</p>' +
         '<div class="empty-cta">' +
         '<button type="button" class="primary" id="empty-goto-custom">Oben anlegen</button>' +
         '<button type="button" class="ghost" id="empty-goto-library">Zur Bibliothek</button></div></div>';
@@ -3329,8 +3345,8 @@
   function openRitualTab(tab, opts) {
     opts = opts || {};
     const alias = { sigil: 'werkzeug', karten: 'werkzeug', cards: 'werkzeug', tools: 'werkzeug' };
-    const target = alias[tab] || tab || 'guided';
-    navigate('rituale', { force: true });
+    const target = alias[tab] || tab || 'werkzeug';
+    navigate('rituale', { force: true, keepRitualTab: true });
     $$('[data-rtab]').forEach(b => {
       const on = b.dataset.rtab === target;
       b.classList.toggle('active', on);
@@ -3583,7 +3599,7 @@
     function finishClosing(msg, optsFinish) {
       optsFinish = optsFinish || {};
       clearClosingBreath();
-      toast(msg || 'Schwelle gehalten — gut geübt.');
+      toast(msg || 'Schwelle gehalten — gute Praxis.');
       closeRunner();
       renderStreakLine();
       if (typeof renderJetztCard === 'function') renderJetztCard();
@@ -3717,7 +3733,7 @@
         const ta = $('#rr-closing-seed');
         const seed = ta ? String(ta.value || '').trim() : '';
         if (!seed && !closingPendingPhoto) {
-          finishClosing('Schwelle gehalten — gut geübt.');
+          finishClosing('Schwelle gehalten — gute Praxis.');
           return;
         }
         try {
@@ -3763,7 +3779,7 @@
           finishClosing('Im Buch · Schwelle gehalten.', { goBuch: true, savedToBuch: true });
         } catch (_) {
           toast('Eintrag konnte nicht gespeichert werden', 3200, 'warn');
-          finishClosing('Schwelle gehalten — gut geübt.');
+          finishClosing('Schwelle gehalten — gute Praxis.');
         }
       });
       const skip = $('#rr-close-skip');
@@ -4004,7 +4020,7 @@
       Store.recordPractice('atem');
       Store.addPracticeLog({
         kind: 'atem',
-        label: 'Atem-Übung',
+        label: 'Atem',
         detail: modeLabel + ' · ' + completedCycles + ' Zyklus' + (completedCycles === 1 ? '' : 'se')
       });
       refreshState();
@@ -4324,7 +4340,7 @@
   async function shareAppRecommend() {
     const url = appShareUrl();
     const title = 'UNIVERSUM · Praxiswerkzeug';
-    const text = 'UNIVERSUM: in 3 Minuten ernsthaft üben — lokal, ethisch, ohne Konto. Praxiswerkzeug zum Empfehlen.';
+    const text = 'UNIVERSUM: in 3 Minuten ernsthafte Praxis — lokal, ethisch, ohne Konto. Praxiswerkzeug zum Empfehlen.';
     const status = $('#empfehlen-status');
     try {
       if (navigator.share) {
@@ -5151,7 +5167,7 @@
     const next = $('#onboard-next');
     const skip = $('#onboard-skip');
     if (back) back.hidden = n === 0;
-    if (next) next.textContent = n >= 2 ? 'Üben öffnen' : 'Weiter';
+    if (next) next.textContent = n >= 2 ? 'Praxis öffnen' : 'Weiter';
     if (skip) skip.hidden = false;
     $$('#onboard-progress [data-op]').forEach(dot => {
       const i = Number(dot.getAttribute('data-op'));
@@ -5167,7 +5183,7 @@
     const leads = [
       'Symbol tippen · Ethik bestätigen.',
       'Heute → Ritual → Schließen → Buch — ernsthaft, lokal.',
-      'Wenn es stimmt: einem Kollegen zeigen. Dann üben.'
+      'Wenn es stimmt: einem Kollegen zeigen. Dann Praxis.'
     ];
     const title = $('#onboard-title');
     if (title && titles[n]) title.textContent = titles[n];
@@ -6246,7 +6262,7 @@
           Store.recordPractice('atem');
           Store.addPracticeLog({
             kind: 'atem',
-            label: 'Atem-Übung',
+            label: 'Atem',
             detail: modeLabel + ' · ' + breathSoloCycles + ' Zyklus' + (breathSoloCycles === 1 ? '' : 'se')
           });
           refreshState();
