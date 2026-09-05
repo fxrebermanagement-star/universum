@@ -2,9 +2,9 @@
  * UNIVERSUM · Service Worker — offline shell caching
  * Relative URLs so GitHub Pages /universum/ subpath works.
  * Cache-first for app shell; network-first navigations; offline fallback to cockpit.
- * v48: 5.10.0 — Phone-home bento Altar: denser Messpult, last-activity widgets (Resonanz/Kalender/Kosmos).
+ * v49: 5.11.0 — Merge Messpult + Start into one Altar home (instruments → Heute/Starter → glance apps).
  */
-const CACHE = 'universum-shell-v48';
+const CACHE = 'universum-shell-v49';
 const SHELL = [
   './',
   './index.html',

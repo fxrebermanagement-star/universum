@@ -42,8 +42,8 @@
     <div id="main-content" tabindex="-1">
     <!-- 1. Altar (route id: cockpit) -->
     <section id="sec-cockpit" class="section-view active cockpit-lovely-page altar-sacred" aria-label="Altar">
-      <!-- v5.10.0 Altar: phone-home bento · Messpult + last-activity widgets -->
-      <div class="altar-welcome altar-welcome-compact" id="altar-welcome">
+      <!-- v5.11.0 Altar: Messpult + Heute/Starter + bento glance (one scroll) -->
+      <div class="altar-welcome altar-welcome-compact" id="altar-welcome" hidden aria-hidden="true">
         <div class="altar-welcome-glow" aria-hidden="true">
           <div class="candle-flame altar-candle"><div class="flame"></div><div class="wick"></div></div>
         </div>
@@ -94,10 +94,10 @@
       <!-- legacy chip kept for JS; visually replaced by Kalender glance card -->
       <button type="button" class="fest-countdown-chip" id="fest-countdown-chip" hidden aria-live="polite"></button>
 
-      <!-- v5.10.0 Phone-home bento: Messpult widgets + glance apps -->
+      <!-- v5.11.0 Single Altar scroll: Messpult → Heute/Starter → glance apps -->
 
-      <!-- MESSPULT: instrument widgets (compact) -->
-      <div class="altar-messpult cockpit-top messpult-bento" id="cockpit-top" aria-label="Messpult">
+      <!-- 1) MESSPULT: instruments (Mond|Stunde, Unruhe, Schumann) -->
+      <div class="altar-messpult cockpit-top messpult-home" id="cockpit-top" aria-label="Messpult">
         <div class="messpult-head">
           <p class="messpult-eyebrow">Messpult</p>
           <span class="approx-badge" title="JS-Näherungen für die Praxis">Näherung</span>
@@ -125,7 +125,7 @@
           </div>
         </div>
 
-        <article class="card mess-schumann schumann-card cockpit-schumann mess-schumann-tight" id="glance-schumann-card" aria-labelledby="glance-schumann-title">
+        <article class="card mess-schumann schumann-card cockpit-schumann mess-schumann-home" id="glance-schumann-card" aria-labelledby="glance-schumann-title">
           <div class="schumann-head compact-head">
             <h3 id="glance-schumann-title">Schumann · Station</h3>
             <span class="schumann-live-badge" data-sch-badge data-state="offline">Lokal · 7,83 Hz</span>
@@ -155,24 +155,21 @@
         <p class="approx-note hint-sm cockpit-approx-once soft-honesty" id="astro-approx-note-home">Kreis, Grenze, Gabe, Schweigen — Mond und Stunde sind <strong>Fenster zur Praxis</strong> (Näherung), keine Orakel-Wahrheit.</p>
       </div>
 
-      <!-- APP-HOME widgets: Heute + last-activity apps -->
+      <!-- 2) Heute / Starter hero — one clear CTA (no second «start» block) -->
+      <article class="card jetzt-card heute-starter-hero cockpit-hero cockpit-lovely heute-primary altar-heart" id="jetzt-card" aria-labelledby="jetzt-title">
+        <h2 id="jetzt-title" class="sr-only">Heute</h2>
+        <span class="chip-quiet" id="jetzt-chip" hidden>Praxis</span>
+        <p class="jetzt-kind chip-quiet" id="jetzt-kind" hidden>Praxis</p>
+        <p class="jetzt-lead" id="jetzt-lead" hidden>Eine Einladung für heute.</p>
+        <p class="jetzt-meta heute-starter-meta" id="jetzt-meta">für dich heute</p>
+        <div class="btn-row heute-starter-actions">
+          <button type="button" class="primary" id="jetzt-start">Kreis öffnen</button>
+          <button type="button" class="ghost tiny" id="jetzt-starter" hidden>3-Min-Starter</button>
+        </div>
+      </article>
+
+      <!-- 3) Bento glance-apps -->
       <div class="altar-glance altar-bento" id="altar-glance" aria-label="Altar auf einen Blick">
-
-        <article class="card jetzt-card heute-tip-card cockpit-hero cockpit-lovely heute-primary altar-heart glance-card glance-heute" id="jetzt-card" aria-labelledby="jetzt-title">
-          <div class="glance-ico" aria-hidden="true">✨</div>
-          <div class="intention-top">
-            <h2 id="jetzt-title" class="heute-heart-title">Heute</h2>
-            <span class="chip-quiet" id="jetzt-chip">Ein Tip</span>
-          </div>
-          <p class="jetzt-kind chip-quiet" id="jetzt-kind">Praxis</p>
-          <p class="jetzt-lead" id="jetzt-lead">Eine Einladung für heute — bleib, wenn es sich gut anfühlt.</p>
-          <p class="jetzt-meta hint-sm" id="jetzt-meta"></p>
-          <div class="btn-row">
-            <button type="button" class="primary" id="jetzt-start">Kreis öffnen</button>
-            <button type="button" class="ghost tiny" id="jetzt-starter" hidden>3-Min-Starter</button>
-          </div>
-        </article>
-
         <div class="glance-apps" id="glance-apps" aria-label="Letzte Aktivität">
           <button type="button" class="card glance-card glance-ritual nested-card cockpit-lovely glance-widget" id="glance-ritual-card" aria-labelledby="glance-ritual-title">
             <div class="glance-ico" aria-hidden="true">🕯️</div>
@@ -180,7 +177,7 @@
               <h3 id="glance-ritual-title">Letztes Ritual</h3>
               <span class="chip-quiet" id="glance-ritual-chip">—</span>
             </div>
-            <p class="glance-lead" id="glance-ritual-lead">Noch keine Praxis geloggt.</p>
+            <p class="glance-lead" id="glance-ritual-lead">Nach einem Ritual erscheint es hier.</p>
             <p class="hint-sm" id="glance-ritual-meta">Tippen zum Fortsetzen</p>
           </button>
 
@@ -281,9 +278,12 @@
         <button type="button" class="ghost tiny" id="korrespondenz-open">Alle Resonanzen</button>
       </article>
 
-      <span class="offline-chip" id="offline-chip" hidden>Offline · lokale Praxis</span>
-      <p class="offline-honesty hint-sm" id="offline-honesty" role="status">Lokal auf diesem Gerät · Offline-Shell bereit, wenn einmal geladen.</p>
-      <p class="privacy-line privacy-line-slim" id="privacy-line">Lokal in <code>feldlicht-v15</code> · kein Konto · kein Tracking</p>
+      <!-- 4) Offline bar -->
+      <div class="altar-offline-bar" id="altar-offline-bar" role="status">
+        <span class="offline-chip offline-chip-bar" id="offline-chip">💾 Offline · lokale Praxis</span>
+        <p class="offline-honesty hint-sm" id="offline-honesty">Lokal auf diesem Gerät · Offline-Shell bereit, wenn einmal geladen.</p>
+        <p class="privacy-line privacy-line-slim" id="privacy-line">Lokal in <code>feldlicht-v15</code> · kein Konto · kein Tracking</p>
+      </div>
 
       <div class="cockpit-stardust" id="cockpit-stardust" aria-hidden="true"></div>
 
@@ -1177,7 +1177,7 @@
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
         <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">5.10.0</span></p>
+        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">5.11.0</span></p>
       </div>
     </div>
   </div>

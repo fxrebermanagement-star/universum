@@ -343,6 +343,14 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 
 
 
+## Craft-Pass (v5.11.0) · Altar Messpult + Start = ein Home
+
+- **Ein Altar-Scroll** — Session-Banner → **Messpult** (Mond|Planetenstunde, Unruhe·Impuls, Schumann Spektrogramm+Metriken) → **Heute/Starter**-Hero (eine CTA, 3-Min wenn offen) → **Bento Glance-Apps** 2-spaltig → Offline-Leiste → Mehr am Altar
+- Kein konkurrierendes Willkommen/Start über dem Messpult; kein zweites Heute; kein leerer Altar
+- Heute-Hero wie Startseite: Meta-Zeile + Ritual-Name als Primary; 3-Min-Starter sekundär
+- Offline-Leiste gelb (lokale Praxis), immer sichtbar
+- App `5.11.0`, SW-Cache `universum-shell-v49`
+
 ## Craft-Pass (v5.10.0) · Altar Phone-Home Bento
 
 - **Dichteres Messpult** — Mond|Planetenstunde halbbreit; Unruhe volle Breite kompakt; Schumann enger (weniger Padding, kleineres Spektrogramm)

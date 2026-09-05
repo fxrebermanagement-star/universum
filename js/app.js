@@ -1024,8 +1024,8 @@
     });
     const last = log[0];
     if (!last) {
-      lead.textContent = 'Noch keine Praxis geloggt.';
-      if (meta) meta.textContent = 'Nach einem Ritual erscheint es hier';
+      lead.textContent = 'Nach einem Ritual erscheint es hier';
+      if (meta) meta.textContent = 'Tippen → Rituale';
       if (chip) chip.textContent = '—';
       if (card) { card.dataset.ritualId = ''; card.dataset.logKind = ''; }
       return;
@@ -1185,11 +1185,9 @@
 
   function renderStarterCard() {
     const card = $('#starter-card');
-    if (!card) return;
-    const show = Store.shouldShowStarterFlow && Store.shouldShowStarterFlow();
-    card.hidden = !show;
-    // Keep "Jetzt" in sync when starter visibility changes
-    if (!show && typeof renderJetztCard === 'function') renderJetztCard();
+    // Legacy card stays buried — 3-Min lives on Heute/Starter hero
+    if (card) card.hidden = true;
+    if (typeof renderJetztCard === 'function') renderJetztCard();
   }
 
   /* ——— Erste Praxis in 3 Minuten ——— */
@@ -1651,16 +1649,7 @@
     const lead = $('#jetzt-lead');
     const meta = $('#jetzt-meta');
 
-    // Prefer ONE invitation above the fold: starter OR seeded daily tip
-    if (showStarter) {
-      card.hidden = true;
-      if (starterCard) starterCard.hidden = false;
-      renderPathWeek();
-      renderKorrespondenzen();
-      renderMondfenster();
-      renderRitualJournal();
-      return;
-    }
+    // One Heute/Starter hero after Messpult — never swap for a second start card
     if (starterCard) starterCard.hidden = true;
     card.hidden = false;
 
@@ -1689,17 +1678,22 @@
     if (lead) {
       lead.textContent = (tip && tip.text) || (path && path.practiceHint) || 'Eine ruhige Praxis reicht — bleib, wenn es sich gut anfühlt.';
     }
+    const tipTitle = tip && tip.title ? tip.title : (ritual ? ritual.name : 'Praxis');
+    const dur = ritual
+      ? ((Rituals.durLabel && Rituals.durLabel(ritual.mins)) || (ritual.mins + ' Min'))
+      : '';
     if (meta) {
-      const tipTitle = tip && tip.title ? tip.title : (ritual ? ritual.name : 'Praxis');
-      meta.textContent = tipTitle +
-        (ritual ? (' · ' + ((Rituals.durLabel && Rituals.durLabel(ritual.mins)) || ('≈ ' + ritual.mins + ' Min'))) : '') +
-        ' · für dich heute';
+      meta.textContent = tipTitle + (dur ? (' · ' + dur) : '') + ' · für dich heute';
     }
     if (jetztStart) {
-      jetztStart.textContent = (tip && tip.cta) || (ritual ? ('Kreis öffnen · ' + ritual.name) : 'Kreis öffnen');
-      jetztStart.dataset.ritual = ritualId;
+      // Clear CTA: ritual name (Start-page style), tip.cta only if short name-like
+      const cta = ritual && ritual.name
+        ? ritual.name
+        : ((tip && tip.cta) || 'Kreis öffnen');
+      jetztStart.textContent = cta;
+      jetztStart.dataset.ritual = ritualId || '';
     }
-    if (jetztStarter) jetztStarter.hidden = true;
+    if (jetztStarter) jetztStarter.hidden = !showStarter;
     renderPathWeek();
     renderKorrespondenzen();
     renderMondfenster();
@@ -1902,24 +1896,30 @@
 
   function updateOfflineHonesty() {
     const el = $('#offline-honesty');
-    if (!el) return;
+    const bar = $('#altar-offline-bar');
     const online = typeof navigator.onLine === 'boolean' ? navigator.onLine : true;
     const swOk = !!(navigator.serviceWorker && navigator.serviceWorker.controller);
-    if (online) {
-      el.textContent = swOk
-        ? 'Online · Offline-Shell aktiv — Praxis, Buch und Rituale bleiben lokal auch ohne Netz.'
-        : 'Online · lokal auf diesem Gerät · einmal laden, dann offline Praxis (PWA/Home-Bildschirm).';
-      el.dataset.state = 'online';
-    } else {
-      el.textContent = swOk
-        ? 'Offline · Shell aus dem Cache. Rituale, Magie-Buch und Fokus laufen lokal. Station Tomsk pausiert.'
-        : 'Offline · ohne Cache ggf. eingeschränkt. Installiere die App / lade einmal online neu.';
-      el.dataset.state = 'offline';
+    const stateKey = online ? 'online' : 'offline';
+    if (el) {
+      if (online) {
+        el.textContent = swOk
+          ? 'Online · Offline-Shell aktiv — Praxis, Buch und Rituale bleiben lokal auch ohne Netz.'
+          : 'Online · lokal auf diesem Gerät · einmal laden, dann offline Praxis (PWA/Home-Bildschirm).';
+        el.dataset.state = 'online';
+      } else {
+        el.textContent = swOk
+          ? 'Offline · Shell aus dem Cache. Rituale, Magie-Buch und Fokus laufen lokal. Station Tomsk pausiert.'
+          : 'Offline · ohne Cache ggf. eingeschränkt. Installiere die App / lade einmal online neu.';
+        el.dataset.state = 'offline';
+      }
     }
+    if (bar) bar.dataset.state = stateKey;
     const chip = $('#offline-chip');
     if (chip) {
-      chip.hidden = online;
-      chip.textContent = '📴 Offline · lokale Praxis';
+      chip.hidden = false;
+      chip.textContent = online
+        ? '💾 Offline · lokale Praxis'
+        : '📴 Offline · lokale Praxis';
     }
   }
 

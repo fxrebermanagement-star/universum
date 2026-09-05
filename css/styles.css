@@ -6043,21 +6043,19 @@ body.reduced-motion .feldkarte:hover {
 }
 
 /* ——— v5.6 Stille-Modus · only Heute + one ritual ——— */
-body.stille-modus #sec-cockpit > *:not(#jetzt-card):not(.stille-ritual-slot):not(.sitzung-bar):not(#altar-glance) {
+body.stille-modus #sec-cockpit > *:not(#jetzt-card):not(.stille-ritual-slot):not(.sitzung-bar) {
   display: none !important;
 }
 body.stille-modus #sec-cockpit .sitzung-bar,
 body.stille-modus #sec-cockpit .altar-welcome,
 body.stille-modus #sec-cockpit .altar-companions,
 body.stille-modus #sec-cockpit .altar-messpult,
-body.stille-modus #sec-cockpit #altar-glance > *:not(#jetzt-card),
+body.stille-modus #sec-cockpit #altar-glance,
 body.stille-modus #sec-cockpit #korrespondenz-card,
 body.stille-modus #sec-cockpit .altar-glance-honesty,
-body.stille-modus #sec-cockpit #mehr-aus-dem-feld {
+body.stille-modus #sec-cockpit #mehr-aus-dem-feld,
+body.stille-modus #sec-cockpit .altar-offline-bar {
   display: none !important;
-}
-body.stille-modus #sec-cockpit #altar-glance {
-  display: block !important;
 }
 body.stille-modus #sec-cockpit #jetzt-card {
   display: block !important;
@@ -6367,15 +6365,15 @@ body.stille-modus #quiet-mode-toggle {
   margin: 0;
 }
 
-#sec-cockpit > .offline-honesty,
-#sec-cockpit > .privacy-line-slim {
+#sec-cockpit .altar-offline-bar .offline-honesty,
+#sec-cockpit .altar-offline-bar .privacy-line-slim {
   text-align: center;
-  opacity: 0.72;
-  margin: 0.15rem 0 0.35rem;
+  opacity: 0.85;
+  margin: 0.15rem 0 0.1rem;
 }
-#sec-cockpit > .offline-chip {
+#sec-cockpit .altar-offline-bar .offline-chip {
   display: block;
-  margin: 0.35rem auto 0.25rem;
+  margin: 0 auto 0.15rem;
   text-align: center;
 }
 #sec-cockpit > .footer-ethics {
@@ -7035,4 +7033,166 @@ button.mess-tap:focus-visible {
 body.stille-modus #sec-cockpit #glance-apps,
 body.stille-modus #sec-cockpit #glance-resonanz-card {
   display: none !important;
+}
+
+
+/* ——— v5.11.0 Merge Messpult + Start into one Altar home ——— */
+.altar-welcome[hidden] { display: none !important; }
+
+.messpult-home {
+  margin: 0.1rem 0 0.85rem;
+  padding: 0.85rem 0.75rem 1rem;
+}
+.messpult-home .messpult-grid {
+  margin: 0 0 0.75rem;
+  gap: 0.7rem;
+}
+.messpult-home .mess-tile {
+  min-height: 118px;
+  padding: 0.9rem 0.85rem 0.8rem;
+}
+.messpult-home .mess-unruhe-wide,
+.messpult-home .dash-panel.unrest {
+  grid-column: 1 / -1;
+  min-height: 96px;
+}
+.messpult-home .mess-tile .unrest-bar {
+  display: block !important;
+  margin-top: 0.45rem;
+  height: 7px;
+}
+.mess-schumann-home {
+  padding: 0.85rem 0.9rem 0.95rem !important;
+}
+.mess-schumann-home .schumann-spectrogram-figure {
+  max-height: 140px !important;
+}
+.mess-schumann-home .schumann-spectrogram-figure img {
+  max-height: 140px !important;
+  height: auto;
+  min-height: 110px;
+  object-fit: cover;
+}
+.mess-schumann-home .schumann-wrap {
+  height: 72px !important;
+  margin-top: 0.45rem;
+}
+.mess-schumann-home .schumann-metrics {
+  gap: 0.45rem;
+}
+.mess-schumann-home .sch-metric {
+  padding: 0.4rem 0.5rem;
+}
+
+/* Heute / Starter hero — compact CTA strip like Start page */
+.heute-starter-hero {
+  margin: 0.15rem 0 0.75rem;
+  padding: 0.95rem 1rem 1rem;
+  border-radius: calc(var(--radius, 18px) + 4px);
+  border: 1px solid rgba(252, 211, 77, 0.34);
+  background:
+    radial-gradient(ellipse at 50% -10%, rgba(255, 200, 120, 0.18) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 110%, rgba(140, 100, 220, 0.14) 0%, transparent 50%),
+    linear-gradient(165deg,
+      color-mix(in srgb, var(--accent-soft, rgba(201,160,255,0.22)) 70%, transparent),
+      color-mix(in srgb, var(--card, #1e1628) 94%, #2a1838) 52%,
+      var(--card, #1e1628));
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 14px 40px rgba(0, 0, 0, 0.3),
+    0 0 40px rgba(255, 176, 96, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+.heute-starter-meta {
+  margin: 0 0 0.7rem !important;
+  font-size: 0.92rem;
+  line-height: 1.4;
+  font-weight: 560;
+  color: rgba(245, 240, 255, 0.9);
+  text-align: left;
+}
+.heute-starter-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 0;
+}
+.heute-starter-actions .primary {
+  flex: 1 1 auto;
+  min-width: 9rem;
+  min-height: 2.65rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 1.02rem;
+  box-shadow: 0 0 22px rgba(155, 100, 220, 0.35);
+}
+.heute-starter-actions #jetzt-starter:not([hidden]) {
+  display: inline-flex;
+  min-height: 2.35rem;
+  border-radius: 999px;
+  padding: 0.45rem 0.9rem;
+}
+
+/* Glance apps sit under hero — 2-col phone home */
+.altar-bento {
+  display: block;
+  margin: 0 0 0.75rem;
+}
+.altar-bento .glance-apps {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.55rem;
+}
+@media (min-width: 720px) {
+  .altar-bento .glance-apps {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.65rem;
+  }
+}
+
+/* Yellow offline bar (Start page) */
+.altar-offline-bar {
+  margin: 0.35rem 0 0.85rem;
+  padding: 0.7rem 0.85rem 0.75rem;
+  border-radius: 14px;
+  border: 1px solid rgba(232, 197, 71, 0.45);
+  background:
+    linear-gradient(180deg, rgba(232, 197, 71, 0.22), rgba(40, 32, 12, 0.55));
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 240, 180, 0.12);
+  text-align: center;
+}
+.altar-offline-bar .offline-chip-bar,
+.altar-offline-bar #offline-chip {
+  display: inline-block !important;
+  margin: 0 0 0.35rem !important;
+  padding: 0.28rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: #1a1408;
+  background: linear-gradient(180deg, #f5e08a, #e8c547);
+  border: 1px solid rgba(255, 230, 140, 0.55);
+  box-shadow: 0 2px 10px rgba(232, 197, 71, 0.25);
+}
+.altar-offline-bar .offline-honesty {
+  margin: 0.15rem 0 0.2rem !important;
+  opacity: 0.9;
+  color: rgba(245, 235, 200, 0.88);
+}
+.altar-offline-bar .privacy-line-slim {
+  margin: 0 !important;
+  opacity: 0.7;
+  color: rgba(220, 210, 180, 0.75);
+}
+.altar-offline-bar[data-state="offline"] {
+  border-color: rgba(62, 212, 196, 0.4);
+  background:
+    linear-gradient(180deg, rgba(62, 212, 196, 0.16), rgba(12, 28, 28, 0.55));
+}
+.altar-offline-bar[data-state="offline"] .offline-chip-bar,
+.altar-offline-bar[data-state="offline"] #offline-chip {
+  color: #062824;
+  background: linear-gradient(180deg, #9ef0e4, #3ed4c4);
 }
