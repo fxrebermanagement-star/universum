@@ -1809,46 +1809,24 @@
     return (sp > 48 ? cut.slice(0, sp) : cut).trim() + '…';
   }
 
-  function lexikonMonogram(name) {
-    const cleaned = String(name || '').replace(/\(.*?\)/g, ' ').replace(/\s+/g, ' ').trim();
-    if (!cleaned) return '✦';
-    const parts = cleaned.split(' ').filter(Boolean);
-    function letter(s) {
-      const m = String(s || '').match(/[A-Za-zÄÖÜäöüß]/);
-      return m ? m[0].toUpperCase() : '';
-    }
-    if (parts.length >= 2) {
-      const a = letter(parts[0]);
-      const b = letter(parts[1]);
-      if (a && b) return a + b;
-    }
-    const letters = cleaned.replace(/[^A-Za-zÄÖÜäöüß]/g, '');
-    if (letters.length >= 2) return (letters[0] + letters[1]).toUpperCase();
-    if (letters.length === 1) return letters[0].toUpperCase();
-    return '✦';
-  }
-
-  /** Prefer custom SVG → monogram → emoji last resort. Never show wrong emoji as primary. */
-  function lexikonIconHtml(name, fallbackEmoji, extraClass) {
+  /** SVG only — named motif, else category default, else soft blank. Never letter abbreviations or emoji primary. */
+  function lexikonIconHtml(name, kind, extraClass) {
     const cls = 'herb-ref-ico resonanz-ico' + (extraClass ? ' ' + extraClass : '');
-    const mono = lexikonMonogram(name);
-    const src = Paths.lexikonIconSrc ? Paths.lexikonIconSrc(name) : '';
-    if (src) {
-      return '<span class="' + cls + ' lex-ico-wrap" aria-hidden="true">' +
-        '<img class="lex-ico-img" src="' + src + '" alt="" width="32" height="32" loading="lazy" decoding="async" ' +
-        "onerror=\"this.classList.add('is-broken');var m=this.nextElementSibling;if(m)m.hidden=false;\"/>" +
-        '<span class="lex-ico-mono" hidden>' + escapeHtml(mono) + '</span></span>';
-    }
-    if (mono && mono !== '✦') {
-      return '<span class="' + cls + ' lex-ico-mono" aria-hidden="true">' + escapeHtml(mono) + '</span>';
-    }
-    const emo = (fallbackEmoji && String(fallbackEmoji).trim()) || '✦';
-    return '<span class="' + cls + '" aria-hidden="true">' + escapeHtml(emo) + '</span>';
+    const k = (kind && LEXIKON_TAB_META[kind]) ? kind : '';
+    const src = (Paths.lexikonDisplayIconSrc
+      ? Paths.lexikonDisplayIconSrc(name, k)
+      : (Paths.lexikonIconSrc ? Paths.lexikonIconSrc(name) : '')) ||
+      (Paths.lexikonBlankIconSrc ? Paths.lexikonBlankIconSrc() : 'assets/lexikon/_blank.svg');
+    const blank = Paths.lexikonBlankIconSrc ? Paths.lexikonBlankIconSrc() : 'assets/lexikon/_blank.svg';
+    return '<span class="' + cls + ' lex-ico-wrap" aria-hidden="true">' +
+      '<img class="lex-ico-img" src="' + src + '" alt="" width="32" height="32" loading="lazy" decoding="async" ' +
+      "onerror=\"this.onerror=null;this.src='" + blank + "';\"/>" +
+      '</span>';
   }
 
-  function setLexikonDetailIcon(el, name, fallbackEmoji) {
+  function setLexikonDetailIcon(el, name, kind) {
     if (!el) return;
-    el.innerHTML = lexikonIconHtml(name, fallbackEmoji, 'lexikon-detail-ico-inner');
+    el.innerHTML = lexikonIconHtml(name, kind, 'lexikon-detail-ico-inner');
   }
 
   function closeLexikonDetail() {
@@ -1871,7 +1849,7 @@
     const desc = $('#lexikon-detail-desc');
     const favBtn = $('#lexikon-detail-fav');
     const meta = LEXIKON_TAB_META[ctx.kind] || LEXIKON_TAB_META.herb;
-    if (icoEl) setLexikonDetailIcon(icoEl, ctx.name, ctx.ico || meta.fallbackIco || '✦');
+    if (icoEl) setLexikonDetailIcon(icoEl, ctx.name, ctx.kind || 'herb');
     if (title) title.textContent = ctx.name;
     if (kindEl) kindEl.textContent = meta.title || 'Lexikon';
     if (desc) desc.textContent = ctx.description || '';
@@ -2045,10 +2023,9 @@
       if (slot.chip) slot.chip.textContent = (pack.planet ? pack.planet + ' · ' : '') + (pack.moonBucket || 'Mond');
       slot.list.innerHTML = items.map(function (it) {
         const meta = LEXIKON_TAB_META[it.kind] || LEXIKON_TAB_META.herb;
-        const ico = (it.ico && String(it.ico).trim()) || meta.fallbackIco || '✦';
         return '<li class="lexikon-bridge-item" role="button" tabindex="0" data-lex-tab="' +
           escapeHtml(it.kind) + '" data-lex-name="' + escapeHtml(it.name) + '">' +
-          lexikonIconHtml(it.name, ico) +
+          lexikonIconHtml(it.name, it.kind) +
           '<span><strong>' + escapeHtml(it.name) + '</strong>' +
           '<span class="hint-sm">' + escapeHtml((it.why || meta.title) + ' · ' + meta.title) + '</span></span></li>';
       }).join('');
@@ -2076,7 +2053,7 @@
     ul.innerHTML = all.map(function (e) {
       const meta = LEXIKON_TAB_META[e.kind] || LEXIKON_TAB_META.herb;
       return '<li class="lexikon-custom-item">' +
-        lexikonIconHtml(e.name, e.ico || '✦') +
+        lexikonIconHtml(e.name, e.kind) +
         '<span class="lexikon-custom-main"><strong>' + escapeHtml(e.name) + '</strong> · ' +
         escapeHtml(meta.title) + '<br><span class="hint-sm">' + escapeHtml(e.description || '') +
         '</span></span>' +
@@ -2186,8 +2163,8 @@
       const pathChip = pathHint
         ? '<span class="herb-path-chip">' + escapeHtml(pathHint) + '</span>'
         : '';
-      const ico = (h.ico && String(h.ico).trim()) || meta.fallbackIco || '✦';
-      const icoHtml = lexikonIconHtml(h.name, ico);
+      const ico = (h.ico && String(h.ico).trim()) || meta.fallbackIco || '';
+      const icoHtml = lexikonIconHtml(h.name, h.kind || tab);
       const hi = focusName && String(h.name || '').toLowerCase() === focusName ? ' lexikon-highlight' : '';
       const isFav = Store.isLexikonFavorite && Store.isLexikonFavorite(tab, h.name);
       const favHtml = '<button type="button" class="lexikon-fav-btn' + (isFav ? ' is-fav' : '') +

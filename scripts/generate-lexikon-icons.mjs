@@ -2,7 +2,8 @@
 /**
  * Generate cohesive custom SVG lexicon icons for UNIVERSUM.
  * Motifs: recognizable per herb/kitchen/stone/color/tool/link/offering.
- * Style: warm mystical — gold/cream/earth on dark, ~32px, tiny files.
+ * Style: warm mystical — gold/cream/earth on dark, ~28–36px readable, tiny files.
+ * v5.18.1: Feinschliff silhouettes · no letter monograms · category/_blank fallbacks.
  */
 import fs from 'fs';
 import path from 'path';
@@ -45,8 +46,8 @@ function esc(t) {
   return String(t).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
 }
 
-function frameCircle(stroke = STROKE, opacity = 0.35) {
-  return `<circle cx="16" cy="16" r="14.5" fill="none" stroke="${stroke}" stroke-opacity="${opacity}" stroke-width="1"/>`;
+function frameCircle(stroke = STROKE, opacity = 0.42) {
+  return `<circle cx="16" cy="16" r="14.25" fill="none" stroke="${stroke}" stroke-opacity="${opacity}" stroke-width="1.15"/>`;
 }
 function frameSquare(stroke = STROKE, opacity = 0.3) {
   return `<rect x="2" y="2" width="28" height="28" rx="6" fill="none" stroke="${stroke}" stroke-opacity="${opacity}" stroke-width="1"/>`;
@@ -55,8 +56,8 @@ function frameSquare(stroke = STROKE, opacity = 0.3) {
 /* ——— Motif builders ——— */
 function leafSimple(cx, cy, rot = -25, fill = GREEN, len = 9) {
   return `<g transform="translate(${cx} ${cy}) rotate(${rot})">
-    <path d="M0 ${len} C${len * 0.55} ${len * 0.4} ${len * 0.55} ${-len * 0.35} 0 ${-len} C${-len * 0.55} ${-len * 0.35} ${-len * 0.55} ${len * 0.4} 0 ${len}Z" fill="${fill}" fill-opacity="0.9"/>
-    <path d="M0 ${len * 0.75} V${-len * 0.7}" stroke="${CREAM}" stroke-opacity="0.45" stroke-width="0.6" fill="none"/>
+    <path d="M0 ${len} C${len * 0.58} ${len * 0.38} ${len * 0.55} ${-len * 0.32} 0 ${-len} C${-len * 0.55} ${-len * 0.32} ${-len * 0.58} ${len * 0.38} 0 ${len}Z" fill="${fill}" fill-opacity="0.92"/>
+    <path d="M0 ${len * 0.72} V${-len * 0.65}" stroke="${CREAM}" stroke-opacity="0.5" stroke-width="0.75" fill="none"/>
   </g>`;
 }
 
@@ -172,8 +173,30 @@ function swatch(fill) {
 
 function crystal(fill = TEAL, facets = true) {
   return `${frameCircle()}
-    <path d="M16 5 L24 14 L16 27 L8 14Z" fill="${fill}" fill-opacity="0.55" stroke="${STROKE}" stroke-width="1.1"/>
-    ${facets ? `<path d="M16 5 L16 27 M16 5 L12 14 M16 5 L20 14" fill="none" stroke="${CREAM}" stroke-opacity="0.45" stroke-width="0.7"/>` : ''}`;
+    <path d="M16 4.5 L24.5 14 L16 27.5 L7.5 14Z" fill="${fill}" fill-opacity="0.62" stroke="${STROKE}" stroke-width="1.25"/>
+    ${facets ? `<path d="M16 4.5 L16 27.5 M16 4.5 L11.5 14 M16 4.5 L20.5 14 M11.5 14 H20.5" fill="none" stroke="${CREAM}" stroke-opacity="0.5" stroke-width="0.8"/>` : ''}`;
+}
+
+function tumbledStone(fill, rx = 9, ry = 7) {
+  return `${frameCircle()}
+    <ellipse cx="16" cy="16.5" rx="${rx}" ry="${ry}" fill="${fill}" fill-opacity="0.72" stroke="${STROKE}" stroke-width="1.2"/>
+    <ellipse cx="13" cy="13.5" rx="3.2" ry="2.2" fill="#fff" fill-opacity="0.18"/>`;
+}
+
+function pointCluster(fill) {
+  return `${frameCircle()}
+    <path d="M16 6 L19 14 L16 13 L13 14Z" fill="${fill}" fill-opacity="0.85" stroke="${STROKE}" stroke-width="0.9"/>
+    <path d="M10 10 L13 18 L10 17 L7 18Z" fill="${fill}" fill-opacity="0.7" stroke="${STROKE}" stroke-width="0.85"/>
+    <path d="M22 10 L25 18 L22 17 L19 18Z" fill="${fill}" fill-opacity="0.7" stroke="${STROKE}" stroke-width="0.85"/>
+    <path d="M13 16 L16 26 L13 24 L10 26Z" fill="${fill}" fill-opacity="0.65" stroke="${STROKE}" stroke-width="0.85"/>
+    <path d="M19 16 L22 26 L19 24 L16 26Z" fill="${fill}" fill-opacity="0.65" stroke="${STROKE}" stroke-width="0.85"/>`;
+}
+
+function cabochon(fill) {
+  return `${frameCircle()}
+    <ellipse cx="16" cy="17" rx="8.5" ry="7" fill="${fill}" fill-opacity="0.75" stroke="${STROKE}" stroke-width="1.2"/>
+    <ellipse cx="13.5" cy="14" rx="3" ry="2.4" fill="#fff" fill-opacity="0.22"/>
+    <path d="M9 20 Q16 24 23 20" fill="none" stroke="${CREAM}" stroke-opacity="0.25" stroke-width="0.8"/>`;
 }
 
 function crystalDark(fill = '#3a3a48') {
@@ -456,8 +479,9 @@ function rust() {
 
 function sulfur() {
   return `${frameCircle()}
-    <polygon points="16,6 26,24 6,24" fill="${GOLD}" fill-opacity="0.7" stroke="${GOLD}" stroke-width="1"/>
-    <text x="16" y="21" text-anchor="middle" font-size="9" fill="${DARK}" font-weight="bold">S</text>`;
+    <polygon points="16,5.5 26.5,25 5.5,25" fill="${GOLD}" fill-opacity="0.72" stroke="${GOLD}" stroke-width="1.2"/>
+    <line x1="16" y1="12" x2="16" y2="22" stroke="${DARK}" stroke-width="1.4" stroke-linecap="round"/>
+    <circle cx="16" cy="19.5" r="1.6" fill="${DARK}" fill-opacity="0.85"/>`;
 }
 
 function mercury() {
@@ -611,11 +635,69 @@ function wax() {
     <path d="M16 10 V6" stroke="${CREAM}" stroke-width="1"/><circle cx="16" cy="5" r="1.5" fill="${GOLD}"/>`;
 }
 
+
+function rosemarySprig() {
+  return `${frameCircle()}
+    <line x1="16" y1="26" x2="16" y2="7" stroke="${SAGE}" stroke-width="1.35"/>
+    ${Array.from({length: 7}, (_, i) => {
+      const y = 9 + i * 2.3;
+      const w = 5.5 - i * 0.25;
+      return `<line x1="${16 - w}" y1="${y}" x2="${16 + w}" y2="${y}" stroke="${GREEN}" stroke-width="1.15" stroke-linecap="round"/>`;
+    }).join('')}
+    <circle cx="16" cy="6.5" r="1.2" fill="${GOLD}" fill-opacity="0.55"/>`;
+}
+
+function mugwortLeaf() {
+  return `${frameCircle()}
+    <path d="M16 27 C11 22 8 18 9 13 C7 12 8 8 12 9 C11 6 14 4 16 4 C18 4 21 6 20 9 C24 8 25 12 23 13 C24 18 21 22 16 27Z" fill="${SAGE}" fill-opacity="0.82" stroke="${GREEN}" stroke-width="0.7"/>
+    <path d="M16 25 V6" stroke="${CREAM}" stroke-opacity="0.4" stroke-width="0.7"/>
+    <path d="M16 12 Q12 13 11 15 M16 16 Q20 17 21 19" fill="none" stroke="${CREAM}" stroke-opacity="0.35" stroke-width="0.6"/>`;
+}
+
+function dillUmbrella() {
+  return `${frameCircle()}
+    <line x1="16" y1="26" x2="16" y2="14" stroke="${SAGE}" stroke-width="1.3"/>
+    ${Array.from({length: 8}, (_, i) => {
+      const a = (i * 45 - 90) * Math.PI / 180;
+      const x = 16 + Math.cos(a) * 8;
+      const y = 12 + Math.sin(a) * 7;
+      return `<line x1="16" y1="14" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="${GREEN}" stroke-width="1.05" stroke-linecap="round"/><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="1.15" fill="${CREAM}" fill-opacity="0.75"/>`;
+    }).join('')}`;
+}
+
+function oreganoCluster() {
+  return `${frameCircle()}
+    <line x1="16" y1="26" x2="16" y2="11" stroke="${SAGE}" stroke-width="1.25"/>
+    ${leafSimple(12, 13, -55, GREEN, 5.5)}
+    ${leafSimple(20, 13, 55, GREEN, 5.5)}
+    ${leafSimple(12, 18, -50, SAGE, 5)}
+    ${leafSimple(20, 18, 50, SAGE, 5)}
+    ${leafSimple(16, 15, 0, GREEN, 6)}
+    <circle cx="16" cy="9.5" r="1.3" fill="${GOLD}" fill-opacity="0.5"/>`;
+}
+
+function marjoramCluster() {
+  return `${frameCircle()}
+    <line x1="16" y1="26" x2="16" y2="10" stroke="${SAGE}" stroke-width="1.2"/>
+    <ellipse cx="16" cy="12" rx="2.2" ry="3.2" fill="${GREEN}" fill-opacity="0.85"/>
+    <ellipse cx="12.5" cy="15" rx="2" ry="2.8" fill="${SAGE}" fill-opacity="0.8"/>
+    <ellipse cx="19.5" cy="15" rx="2" ry="2.8" fill="${SAGE}" fill-opacity="0.8"/>
+    <ellipse cx="14" cy="19" rx="1.8" ry="2.5" fill="${GREEN}" fill-opacity="0.75"/>
+    <ellipse cx="18" cy="19" rx="1.8" ry="2.5" fill="${GREEN}" fill-opacity="0.75"/>
+    <circle cx="16" cy="8.5" r="1.2" fill="${GOLD}" fill-opacity="0.55"/>`;
+}
+
+function softBlankGlyph() {
+  return `${frameCircle(STROKE, 0.28)}
+    <circle cx="16" cy="16" r="5.5" fill="none" stroke="${STROKE}" stroke-opacity="0.35" stroke-width="1.1"/>
+    <circle cx="16" cy="16" r="2" fill="${GOLD}" fill-opacity="0.35"/>`;
+}
+
 function defaultHerb() {
   return `${frameCircle()}
-    ${leafSimple(16, 16, -20, GREEN, 10)}
-    ${leafSimple(16, 16, 25, SAGE, 8)}
-    <line x1="16" y1="26" x2="16" y2="12" stroke="${SAGE}" stroke-width="1.2"/>`;
+    ${leafSimple(16, 15, -22, GREEN, 10)}
+    ${leafSimple(16, 17, 28, SAGE, 8)}
+    <line x1="16" y1="26" x2="16" y2="11" stroke="${SAGE}" stroke-width="1.3"/>`;
 }
 
 function defaultKitchen() {
@@ -623,13 +705,13 @@ function defaultKitchen() {
 }
 
 function defaultStone() {
-  return crystal(TEAL);
+  return tumbledStone(TEAL, 8.5, 7);
 }
 
 function defaultTool() {
   return `${frameCircle()}
-    <circle cx="16" cy="16" r="6" fill="none" stroke="${GOLD}" stroke-width="1.5"/>
-    <path d="M16 10 V22 M10 16 H22" stroke="${CREAM}" stroke-width="1.2"/>`;
+    <circle cx="16" cy="16" r="6.5" fill="none" stroke="${GOLD}" stroke-width="1.55"/>
+    <path d="M16 10 V22 M10 16 H22" stroke="${CREAM}" stroke-width="1.25" stroke-linecap="round"/>`;
 }
 
 function defaultLink() {
@@ -638,6 +720,10 @@ function defaultLink() {
 
 function defaultOffering() {
   return offeringHands();
+}
+
+function defaultColor() {
+  return droplet('#9b7ed9');
 }
 
 /* Color name → hex */
@@ -659,17 +745,17 @@ const NAME_MOTIF = {
   'Lavendel': () => spikeFlower(PURPLE),
   'Rose': () => roseBloom(),
   'Salbei': () => sageLeaf(),
-  'Rosmarin': () => fernLeaf(),
-  'Thymian': () => `${frameCircle()}${leafSimple(13, 14, -30, SAGE, 7)}${leafSimple(19, 15, 30, GREEN, 7)}${leafSimple(16, 20, 0, SAGE, 6)}`,
+  'Rosmarin': () => rosemarySprig(),
+  'Thymian': () => `${frameCircle()}<line x1="16" y1="25" x2="16" y2="9" stroke="${SAGE}" stroke-width="1.2"/>${Array.from({length:5},(_,i)=>`<ellipse cx="13" cy="${10+i*2.8}" rx="2.4" ry="1.5" fill="${GREEN}" fill-opacity="0.85"/><ellipse cx="19" cy="${11+i*2.8}" rx="2.4" ry="1.5" fill="${SAGE}" fill-opacity="0.85"/>`).join('')}`,
   'Minze': () => `${frameCircle()}${leafSimple(12, 16, -40, GREEN, 8)}${leafSimple(20, 16, 40, GREEN, 8)}<line x1="16" y1="24" x2="16" y2="10" stroke="${SAGE}" stroke-width="1.2"/>`,
   'Kamille': () => daisy(),
   'Basilikum': () => `${frameCircle()}${leafSimple(16, 15, 0, GREEN, 11)}`,
   'Lorbeer': () => `${frameCircle()}${leafSimple(12, 16, -35, SAGE, 9)}${leafSimple(20, 16, 35, SAGE, 9)}<circle cx="16" cy="16" r="2" fill="${GOLD}" fill-opacity="0.5"/>`,
-  'Beifuß': () => fernLeaf(),
+  'Beifuß': () => mugwortLeaf(),
   'Wacholder': () => treeNeedle(),
   'Wermut': () => thistleLike(SAGE),
   'Eisenkraut': () => spikeFlower('#7a8ac8'),
-  'Melisse': () => `${frameCircle()}${leafSimple(16, 16, -15, GREEN, 10)}<path d="M16 20 Q13 16 16 12 Q19 16 16 20" fill="${CREAM}" fill-opacity="0.25"/>`,
+  'Melisse': () => `${frameCircle()}<path d="M16 26 C10 20 8 14 16 7 C24 14 22 20 16 26Z" fill="${GREEN}" fill-opacity="0.85"/><path d="M16 24 V9" stroke="${CREAM}" stroke-opacity="0.45" stroke-width="0.75"/><path d="M16 14 Q12 16 11 18 M16 12 Q20 14 21 16" fill="none" stroke="${CREAM}" stroke-opacity="0.35" stroke-width="0.6"/><circle cx="16" cy="11" r="1.2" fill="${GOLD}" fill-opacity="0.45"/>`,
   'Johanniskraut': () => sunHerb(),
   'Holunder': () => berryCluster('#5a3a7a'),
   'Brennnessel': () => nettle(),
@@ -678,9 +764,9 @@ const NAME_MOTIF = {
   'Ringelblume': () => marigold(),
   'Lindenblüte': () => `${frameCircle()}${leafSimple(16, 18, 0, GREEN, 9)}<circle cx="16" cy="10" r="3" fill="${GOLD}" fill-opacity="0.7"/><circle cx="12" cy="12" r="2" fill="${GOLD}" fill-opacity="0.5"/><circle cx="20" cy="12" r="2" fill="${GOLD}" fill-opacity="0.5"/>`,
   'Fenchel': () => `${frameCircle()}<line x1="16" y1="26" x2="16" y2="14" stroke="${GREEN}" stroke-width="1.2"/>${Array.from({length:7},(_,i)=>{const a=(i*25-75)*Math.PI/180;return `<line x1="16" y1="14" x2="${(16+Math.cos(a)*10).toFixed(1)}" y2="${(14+Math.sin(a)*10).toFixed(1)}" stroke="${GREEN}" stroke-width="1"/>`;}).join('')}`,
-  'Dill': () => fernLeaf(),
-  'Majoran': () => defaultHerb(),
-  'Oregano': () => defaultHerb(),
+  'Dill': () => dillUmbrella(),
+  'Majoran': () => marjoramCluster(),
+  'Oregano': () => oreganoCluster(),
   'Petersilie': () => `${frameCircle()}${leafSimple(11,14,-40,GREEN,6)}${leafSimple(16,12,0,GREEN,7)}${leafSimple(21,14,40,GREEN,6)}<line x1="16" y1="26" x2="16" y2="14" stroke="${SAGE}" stroke-width="1.1"/>`,
   'Frauenmantel': () => `${frameCircle()}<path d="M8 14 Q16 8 24 14 Q22 24 16 26 Q10 24 8 14Z" fill="${GREEN}" fill-opacity="0.7" stroke="${SAGE}" stroke-width="0.9"/><circle cx="16" cy="16" r="2" fill="${TEAL}" fill-opacity="0.5"/>`,
   'Gänseblümchen': () => daisy(),
@@ -756,49 +842,49 @@ const NAME_MOTIF = {
   'Sekt': () => `${frameCircle()}<path d="M13 8 H19 L18 18 H14Z" fill="${TEAL}" fill-opacity="0.3" stroke="${GOLD}" stroke-width="0.9"/><line x1="16" y1="18" x2="16" y2="24" stroke="${CREAM}" stroke-width="1.1"/><line x1="12" y1="25" x2="20" y2="25" stroke="${CREAM}" stroke-width="1.2"/>`,
 
   // Stones
-  'Bergkristall': () => crystal('#a8d4e8'),
-  'Rosenquarz': () => crystal(ROSE),
+  'Bergkristall': () => pointCluster('#a8d4e8'),
+  'Rosenquarz': () => cabochon(ROSE),
   'Rauchquarz': () => crystal('#6a5a58'),
   'Raucherquarz': () => crystal('#6a5a58'),
-  'Amethyst': () => crystal(PURPLE),
+  'Amethyst': () => pointCluster(PURPLE),
   'Citrin': () => crystal(GOLD),
-  'Milchquarz': () => crystal('#e8e4dc'),
-  'Aventurin': () => crystal('#5a9a6a'),
-  'Obsidian': () => crystalDark('#1a1a22'),
+  'Milchquarz': () => tumbledStone('#e8e4dc', 9, 7.2),
+  'Aventurin': () => cabochon('#5a9a6a'),
+  'Obsidian': () => tumbledStone('#1a1a22', 9, 7),
   'Schwarzer Turmalin': () => crystalDark('#2a2a35'),
   'Schwarzer Turmalin (Symbol)': () => crystalDark('#2a2a35'),
-  'Hämatit': () => crystal('#5a5a68'),
-  'Onyx': () => crystalDark('#22222a'),
-  'Labradorit': () => crystal('#3a6a7a'),
-  'Mondstein': () => crystal('#c8d0e0'),
-  'Selenit': () => crystal('#e8e8f0'),
-  'Jaspis': () => crystal('#c45a3a'),
+  'Hämatit': () => cabochon('#5a5a68'),
+  'Onyx': () => tumbledStone('#22222a', 8.5, 7.5),
+  'Labradorit': () => `${frameCircle()}<path d="M8 18 L16 6 L24 18 L16 26Z" fill="#3a6a7a" fill-opacity="0.7" stroke="${STROKE}" stroke-width="1.2"/><path d="M12 16 L20 14" stroke="${TEAL}" stroke-width="1.4" stroke-opacity="0.7"/><path d="M11 19 L19 17" stroke="#80d0e8" stroke-width="1" stroke-opacity="0.55"/>`,
+  'Mondstein': () => cabochon('#c8d0e0'),
+  'Selenit': () => `${frameCircle()}<rect x="11" y="6" width="10" height="20" rx="1.5" fill="#e8e8f0" fill-opacity="0.7" stroke="${STROKE}" stroke-width="1.1"/><path d="M11 12 H21 M11 16 H21 M11 20 H21" stroke="${CREAM}" stroke-opacity="0.45" stroke-width="0.7"/>`,
+  'Jaspis': () => tumbledStone('#c45a3a', 9, 7),
   'Achat': () => `${frameCircle()}<circle cx="16" cy="16" r="9" fill="#8a6a4a" fill-opacity="0.5" stroke="${GOLD}" stroke-width="1"/><circle cx="16" cy="16" r="6" fill="none" stroke="${CREAM}" stroke-opacity="0.4" stroke-width="1"/><circle cx="16" cy="16" r="3" fill="${EARTH}" fill-opacity="0.5"/>`,
   'Moosachat': () => `${frameCircle()}<circle cx="16" cy="16" r="9" fill="#4a7a5a" fill-opacity="0.45" stroke="${GREEN}" stroke-width="1"/>${leafSimple(14,14,-20,GREEN,5)}${leafSimple(19,17,30,SAGE,4)}`,
   'Tigerauge': () => `${frameCircle()}<ellipse cx="16" cy="16" rx="9" ry="7" fill="#8a6a28" fill-opacity="0.7" stroke="${GOLD}" stroke-width="1"/><ellipse cx="16" cy="16" rx="4" ry="7" fill="#3a2a10" fill-opacity="0.6"/><ellipse cx="16" cy="16" rx="1.5" ry="7" fill="${GOLD}" fill-opacity="0.5"/>`,
-  'Karneol': () => crystal('#d4683a'),
-  'Lapis': () => crystal('#2a4a8a'),
-  'Fluorit': () => crystal('#6a8a6a'),
+  'Karneol': () => cabochon('#d4683a'),
+  'Lapis': () => `${frameCircle()}<circle cx="16" cy="16" r="9" fill="#2a4a8a" fill-opacity="0.75" stroke="${STROKE}" stroke-width="1.2"/><circle cx="12" cy="13" r="1.3" fill="${GOLD}" fill-opacity="0.7"/><circle cx="19" cy="18" r="1" fill="${GOLD}" fill-opacity="0.55"/><circle cx="17" cy="12" r="0.8" fill="${CREAM}" fill-opacity="0.45"/>`,
+  'Fluorit': () => `${frameCircle()}<path d="M16 6 L24 12 L24 20 L16 26 L8 20 L8 12Z" fill="#6a8a6a" fill-opacity="0.65" stroke="${STROKE}" stroke-width="1.2"/><path d="M16 6 V26 M8 12 L24 20 M24 12 L8 20" stroke="${CREAM}" stroke-opacity="0.35" stroke-width="0.7"/>`,
   'Pyrit': () => `${frameCircle()}<rect x="9" y="9" width="14" height="14" rx="1" fill="${GOLD}" fill-opacity="0.55" stroke="${GOLD}" stroke-width="1.2"/><path d="M9 9 L16 5 L23 9 M9 23 L16 27 L23 23 M16 5 V27" fill="none" stroke="${CREAM}" stroke-opacity="0.4" stroke-width="0.7"/>`,
-  'Bernstein': () => crystal('#d49030'),
-  'Jade': () => crystal('#3a8a5a'),
-  'Türkis': () => crystal('#3aa8a8'),
+  'Bernstein': () => cabochon('#d49030'),
+  'Jade': () => tumbledStone('#3a8a5a', 8.8, 7.2),
+  'Türkis': () => cabochon('#3aa8a8'),
   'Malachit': () => `${frameCircle()}<circle cx="16" cy="16" r="9" fill="#2a7a4a" fill-opacity="0.6" stroke="${GREEN}" stroke-width="1"/><circle cx="16" cy="16" r="5" fill="none" stroke="#1a5a3a" stroke-width="2"/><circle cx="16" cy="16" r="2" fill="#1a5a3a"/>`,
-  'Granat': () => crystal('#8a1a2a'),
+  'Granat': () => `${frameCircle()}<path d="M16 6 L22 12 L20 22 L12 22 L10 12Z" fill="#8a1a2a" fill-opacity="0.8" stroke="${STROKE}" stroke-width="1.2"/><path d="M16 6 L16 22 M10 12 H22" stroke="${CREAM}" stroke-opacity="0.35" stroke-width="0.7"/>`,
   'Flint': () => `${frameCircle()}<path d="M10 22 L14 8 L22 12 L18 24Z" fill="#5a5a62" fill-opacity="0.75" stroke="${CREAM}" stroke-width="0.9"/>`,
   'Flusskiesel': () => `${frameCircle()}<ellipse cx="14" cy="17" rx="6" ry="5" fill="#7a8a9a" fill-opacity="0.6"/><ellipse cx="20" cy="15" rx="5" ry="4" fill="#6a9aaa" fill-opacity="0.55"/>`,
-  'Sodalith': () => crystal('#2a3a7a'),
+  'Sodalith': () => tumbledStone('#2a3a7a', 9, 7),
   'Holzperle': () => `${frameCircle()}<circle cx="16" cy="16" r="8" fill="${EARTH}" fill-opacity="0.75" stroke="${GOLD}" stroke-width="1"/><circle cx="16" cy="16" r="2" fill="${DARK}"/><path d="M10 14 Q16 12 22 14" fill="none" stroke="${CREAM}" stroke-opacity="0.35" stroke-width="0.7"/>`,
-  'Knochenweiß-Stein': () => crystal('#e8e0d0'),
-  'Eisengrau-Stein': () => crystal('#5a5a62'),
+  'Knochenweiß-Stein': () => tumbledStone('#e8e0d0', 9, 6.5),
+  'Eisengrau-Stein': () => tumbledStone('#5a5a62', 9, 7),
   'Granit': () => `${frameCircle()}<rect x="8" y="8" width="16" height="16" rx="2" fill="#5a5a62" fill-opacity="0.6" stroke="${CREAM}" stroke-width="0.9"/><circle cx="12" cy="13" r="1.2" fill="${CREAM}" fill-opacity="0.4"/><circle cx="18" cy="18" r="1.5" fill="#2a2a30" fill-opacity="0.5"/><circle cx="20" cy="12" r="1" fill="${CREAM}" fill-opacity="0.35"/>`,
   'Kiesel vom Weg': () => `${frameCircle()}<ellipse cx="16" cy="17" rx="8" ry="6" fill="#7a7060" fill-opacity="0.7" stroke="${EARTH}" stroke-width="0.9"/>`,
   'Tonperle': () => `${frameCircle()}<circle cx="16" cy="16" r="8" fill="#a07848" fill-opacity="0.75" stroke="${EARTH}" stroke-width="1"/><circle cx="16" cy="16" r="2" fill="${DARK}"/>`,
   'Schiefer': () => `${frameSquare()}<rect x="8" y="10" width="16" height="3" fill="#5a5a68" fill-opacity="0.7"/><rect x="8" y="14.5" width="16" height="3" fill="#4a4a55" fill-opacity="0.7"/><rect x="8" y="19" width="16" height="3" fill="#5a5a68" fill-opacity="0.7"/>`,
   'Quarz': () => crystal('#a0c8e0'),
   'Quarzader': () => `${frameCircle()}<path d="M6 20 Q12 10 16 16 Q20 22 26 12" fill="none" stroke="${CREAM}" stroke-width="2"/><path d="M8 22 Q14 12 18 18" fill="none" stroke="${TEAL}" stroke-width="1.2" stroke-opacity="0.6"/>`,
-  'Klarer Quarz': () => crystal('#c8e4f0'),
-  'Grüner Achat': () => crystal('#4a8a5a'),
+  'Klarer Quarz': () => pointCluster('#c8e4f0'),
+  'Grüner Achat': () => `${frameCircle()}<circle cx="16" cy="16" r="9" fill="#4a8a5a" fill-opacity="0.55" stroke="${GREEN}" stroke-width="1.15"/><circle cx="16" cy="16" r="6" fill="none" stroke="${CREAM}" stroke-opacity="0.4" stroke-width="1"/><circle cx="16" cy="16" r="3" fill="#2a5a3a" fill-opacity="0.55"/>`,
   'Lava': () => lava(),
   'Koralle': () => coral(),
   'Korallenstück (Symbol)': () => coral(),
@@ -904,7 +990,23 @@ if (collisions.length) {
 manifest.sort((a, b) => a.slug.localeCompare(b.slug));
 fs.writeFileSync(path.join(OUT, 'manifest.json'), JSON.stringify(manifest, null, 2) + '\n');
 
+const categoryDefaults = {
+  '_cat-herb.svg': defaultHerb(),
+  '_cat-kitchen.svg': defaultKitchen(),
+  '_cat-stone.svg': defaultStone(),
+  '_cat-tool.svg': defaultTool(),
+  '_cat-link.svg': defaultLink(),
+  '_cat-offering.svg': defaultOffering(),
+  '_cat-color.svg': defaultColor(),
+  '_blank.svg': softBlankGlyph(),
+};
+for (const [file, inner] of Object.entries(categoryDefaults)) {
+  const label = file.replace('.svg', '').replace(/^_cat-/, 'Kategorie ').replace('_blank', 'Symbol');
+  fs.writeFileSync(path.join(OUT, file), wrap(inner, label));
+}
+
 console.log('Generated', manifest.length, 'SVGs →', OUT);
+console.log('Category defaults + blank:', Object.keys(categoryDefaults).join(', '));
 console.log('Sample slugs:', manifest.slice(0, 8).map(m => m.slug).join(', '));
 console.log('beifuss?', fs.existsSync(path.join(OUT, 'beifuss.svg')));
 console.log('obsidian?', fs.existsSync(path.join(OUT, 'obsidian.svg')));

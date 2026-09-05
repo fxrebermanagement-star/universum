@@ -430,6 +430,13 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.18.1 — Lexikon SVG Feinschliff · keine Abkürzungen
+
+- Monogramm-/Buchstaben-Chips («Bf» etc.) entfernt — Liste + Detail nur noch SVG
+- Jeder Eintrag mit echtem Motiv; Fallback nur Kategorie-SVG oder weiches Blank-Glyph — nie Buchstaben, kein Emoji als Primärsymbol
+- Feinschliff: klarere Silhouetten, bessere Unterscheidung Kräuter/Steine, konsistenter Kreisrahmen, lesbar ~28–36px
+- SW-Cache `universum-shell-v61`
+
 ## 5.18.0 — Custom SVG Lexikon-Icons
 
 - Eigenes SVG-Set für alle Lexikon-Namen (~229), warm-mystisch (Gold/Cream/Erde)

@@ -1,1 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="Moosachat"><circle cx="16" cy="16" r="14.5" fill="none" stroke="#f0d878" stroke-opacity="0.35" stroke-width="1"/><circle cx="16" cy="16" r="9" fill="#4a7a5a" fill-opacity="0.45" stroke="#8fb88a" stroke-width="1"/><g transform="translate(14 14) rotate(-20)"><path d="M0 5 C2.75 2 2.75 -1.75 0 -5 C-2.75 -1.75 -2.75 2 0 5Z" fill="#8fb88a" fill-opacity="0.9"/><path d="M0 3.75 V-3.5" stroke="#f5e6c8" stroke-opacity="0.45" stroke-width="0.6" fill="none"/></g><g transform="translate(19 17) rotate(30)"><path d="M0 4 C2.2 1.6 2.2 -1.4 0 -4 C-2.2 -1.4 -2.2 1.6 0 4Z" fill="#6a9a78" fill-opacity="0.9"/><path d="M0 3 V-2.8" stroke="#f5e6c8" stroke-opacity="0.45" stroke-width="0.6" fill="none"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="Moosachat"><circle cx="16" cy="16" r="14.25" fill="none" stroke="#f0d878" stroke-opacity="0.42" stroke-width="1.15"/><circle cx="16" cy="16" r="9" fill="#4a7a5a" fill-opacity="0.45" stroke="#8fb88a" stroke-width="1"/><g transform="translate(14 14) rotate(-20)">
+    <path d="M0 5 C2.9 1.9 2.75 -1.6 0 -5 C-2.75 -1.6 -2.9 1.9 0 5Z" fill="#8fb88a" fill-opacity="0.92"/>
+    <path d="M0 3.5999999999999996 V-3.25" stroke="#f5e6c8" stroke-opacity="0.5" stroke-width="0.75" fill="none"/>
+  </g><g transform="translate(19 17) rotate(30)">
+    <path d="M0 4 C2.32 1.52 2.2 -1.28 0 -4 C-2.2 -1.28 -2.32 1.52 0 4Z" fill="#6a9a78" fill-opacity="0.92"/>
+    <path d="M0 2.88 V-2.6" stroke="#f5e6c8" stroke-opacity="0.5" stroke-width="0.75" fill="none"/>
+  </g></svg>

@@ -7729,20 +7729,8 @@ button.primary:active:not(:disabled),
 .lex-ico-img.is-broken {
   display: none;
 }
-.lex-ico-mono {
-  font-family: var(--font-title), serif;
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  color: var(--gold, #e8c547);
-  width: 1.85rem;
-  height: 1.85rem;
-  border-radius: 999px;
-  border: 1px solid rgba(232, 197, 71, 0.35);
-  background: rgba(26, 20, 36, 0.65);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+.lex-ico-blank .lex-ico-img {
+  opacity: 0.85;
 }
 .herb-ref-top strong {
   font-family: var(--font-title);
@@ -7932,7 +7920,7 @@ body.reduced-motion .herb-ref-item:focus-visible {
   white-space: nowrap; border: 0;
 }
 
-/* ——— Resonanzen v5.18.0 UI polish ——— */
+/* ——— Resonanzen v5.18.1 UI polish ——— */
 #sec-korrespondenzen .resonanz-path-toggle {
   margin: 0.35rem 0 0.85rem;
   gap: 0.45rem;
@@ -8030,7 +8018,7 @@ body.reduced-motion .herb-ref-item:focus-visible {
 }
 
 
-/* ——— Lexikon v5.18.0: Custom SVG-Icons · Detail-Sheet · Favoriten · Ethik einmal ——— */
+/* ——— Lexikon v5.18.1: SVG Feinschliff · keine Abkürzungen · Detail · Favoriten ——— */
 .lexikon-ethics-once {
   margin: 0.35rem 0 0.55rem;
   padding: 0.45rem 0.65rem;
@@ -8110,10 +8098,8 @@ body.reduced-motion .herb-ref-item:focus-visible {
   width: 2.4rem;
   height: 2.4rem;
 }
-.lexikon-detail-ico .lex-ico-mono {
-  width: 2.4rem;
-  height: 2.4rem;
-  font-size: 0.95rem;
+.lexikon-detail-ico .lex-ico-blank .lex-ico-img {
+  opacity: 0.9;
 }
 .lexikon-detail-titles {
   flex: 1 1 auto;

@@ -1799,6 +1799,31 @@
     return slug ? ('assets/lexikon/' + slug + '.svg') : '';
   }
 
+  /** Category default SVG — never letters/monograms. */
+  function lexikonCategoryIconSrc(kind) {
+    const map = {
+      herb: '_cat-herb.svg',
+      kitchen: '_cat-kitchen.svg',
+      stone: '_cat-stone.svg',
+      color: '_cat-color.svg',
+      tool: '_cat-tool.svg',
+      link: '_cat-link.svg',
+      offering: '_cat-offering.svg'
+    };
+    const file = map[kind] || '_blank.svg';
+    return 'assets/lexikon/' + file;
+  }
+
+  /** Soft blank glyph when even category is unknown. */
+  function lexikonBlankIconSrc() {
+    return 'assets/lexikon/_blank.svg';
+  }
+
+  /** Resolve display SVG: named icon → category default → blank. Never abbreviations. */
+  function lexikonDisplayIconSrc(name, kind) {
+    return lexikonIconSrc(name) || lexikonCategoryIconSrc(kind) || lexikonBlankIconSrc();
+  }
+
   /** Gemeinsamer Lexikon-Kern — erscheint auf jedem Pfad (Pfad-Einträge bleiben vorn und gewinnen bei Namenskollision). */
   const LEXIKON_CORE = {
     herbs: [
@@ -2563,6 +2588,9 @@
     lexikonIconSlug,
     hasLexikonIcon,
     lexikonIconSrc,
+    lexikonCategoryIconSrc,
+    lexikonBlankIconSrc,
+    lexikonDisplayIconSrc,
     normalizeHerb,
     normalizeStone,
     normalizeColor,
