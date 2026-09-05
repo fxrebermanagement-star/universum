@@ -92,7 +92,7 @@
     'Zum Home-Bildschirm hinzufügen: UNIVERSUM fühlt sich an wie eine App, bleibt aber lokal.',
     'Warum UNIVERSUM: lokal, ethisch, pfadstark — Praxiswerkzeug, kein Feed.',
     'Tagesbriefing teilen: klarer Text oder Link — Praxis weitergeben ohne Druck.',
-    'Weitergeben: sanfte Einladung mit Pages-URL — für Kolleg:innen im Feld, ohne Hype.',
+    'Weitergeben: sanfte Einladung mit Pages-URL — für Menschen im Feld, ohne Hype.',
     'Pfad-Lehre: ein Lehrsatz pro Pfad auf dem Cockpit — Tiefe ohne Dogma.',
     'Erste Praxis in 3 Minuten: Intention, Atem, Erdung — klarer Einstieg für Neue.',
     'Stiller Modus blendet Chrome aus — Fokus aufs Ritual, Esc bringt alles zurück.',
@@ -291,7 +291,7 @@
       cardLine ? cardLine : '',
       '',
       '———',
-      'Stiller Ritualbegleiter für Magier:innen · lokal · ethisch',
+      'Stiller Ritualbegleiter für die Praxis · lokal · ethisch',
       'Grenze und Ausgleich. Kein Schaden an Personen.'
     ];
     if (withLink) {
@@ -920,8 +920,7 @@
       jetztStart.dataset.ritual = ritualId;
     }
     if (jetztStarter) {
-      jetztStarter.hidden = !(Store.shouldShowStarterFlow); // already false path
-      // Keep a soft re-entry only if user reset starter in settings — handled by starter card
+      // Soft re-entry only via starter card / settings reset
       jetztStarter.hidden = true;
     }
   }
@@ -3269,8 +3268,8 @@
       'Erste Praxis'
     ];
     const leads = [
-      'Haltung wählen — Ethik in einer Zeile.',
-      'Danach: Cockpit mit Jetzt-Karte bereit.'
+      'Pfad wählen — Ethik in einer Zeile.',
+      'Danach: Jetzt-Karte im Cockpit — eine Praxis für heute.'
     ];
     const title = $('#onboard-title');
     if (title && titles[n]) title.textContent = titles[n];
@@ -3330,7 +3329,7 @@
     applyMotionPref();
     $('#path-chip').textContent = currentPath().name;
     closeOnboarding();
-    toast('Bereit — Jetzt-Karte wartet.');
+    toast('Bereit — du kannst üben.');
     navigate('cockpit');
     renderStarterCard();
     renderJetztCard();

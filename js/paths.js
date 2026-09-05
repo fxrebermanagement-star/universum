@@ -202,7 +202,7 @@
       accent: '#8b6fd0',
       accentSoft: 'rgba(139, 111, 208, 0.22)',
       accentDeep: '#6a4fb0',
-      haltung: 'Still üben — Feldlicht begleitet.',
+      haltung: 'Still üben — Daten bleiben bei dir.',
       saying: 'Feldlicht ist da — still begleiten.',
       sayings: [
         'Feldlicht ist da — still begleiten.',

@@ -2,7 +2,7 @@
 
 **Feld-Klarheit — hier übst du, Daten bleiben bei dir.**
 
-Praxiswerkzeug für Magier:innen und spirituell Praktizierende. Vanilla HTML/CSS/JS, kein Backend, kein Build. Früher: *Feldlicht Ritualbegleiter*.
+Praxiswerkzeug zum Üben — klar, lokal, ohne Hype. Vanilla HTML/CSS/JS, kein Backend, kein Build. Früher: *Feldlicht Ritualbegleiter*.
 
 ## Lokal öffnen
 
@@ -81,7 +81,7 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 
 **Zusätzlich (v1.7)**
 
-- **Produkt-Splash & Onboarding** — klare Positionierung als Praxis-Cockpit für Magier:innen; 4 Schritte mit Nutzen, Pfad, Standort, Ethik
+- **Produkt-Splash & Onboarding** — klare Positionierung als Praxis-Cockpit; 4 Schritte mit Nutzen, Pfad, Standort, Ethik
 - **Warum UNIVERSUM** — Trust-Strip (lokal · ethisch · pfadstark) + Privacy-Zeile
 - **Install-Coach** — Home-Bildschirm-Tipps für iOS/Android (erste Mobile-Besuche unter Pages)
 - **Wochenrückblick** — 7-Tage-Zusammenfassung aus dem Praxis-Log im Tagebuch
@@ -100,7 +100,7 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 
 **Zusätzlich (v1.9)**
 
-- **Erste Praxis in 3 Minuten** — geführter Starter (Intention → Atem → Erdung) für neue Nutzer:innen
+- **Erste Praxis in 3 Minuten** — geführter Starter (Intention → Atem → Erdung) für den Einstieg
 - **Stiller Modus** — Chrome ausblenden während Ritual/Fokus; manueller Toggle; Esc / Exit-Chip
 - **Export-Paket** — `universum-buch.json` plus optionale Praxis-Zusammenfassung (TXT) für Coaches
 - **Fest-Countdown** — Chip im Cockpit, wenn nächster Sabbat &lt; 14 Tage
@@ -122,6 +122,13 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 - **Astronomie-Vertrauen** — Badge „Näherung“ an Mond/Stunde/Maya/VoC; Hinweis in Mehr & Einstellungen; kein Ephemeriden-Anspruch
 - **Landing** — `index.html` als ruhiges Produkt-Intro (für wen, lokal, Ethik, CTA «Üben öffnen», Empfehlen-Link)
 - App `2.1.0`, SW-Cache `universum-shell-v13`
+
+**Zusätzlich (v2.2 · Sprache & Erste Minute)**
+
+- **Klare Sprache** — UI/README ohne Gendersprache (`:innen`, Doppelformen); klassisch/neutral («du», «Praxis», «Wer übt»)
+- **Landing & Erste Minute** — straffere Produktstimme, ruhigere Onboarding-Texte, CTA-Politur
+- Kleine Bug-Politur (u. a. Jetzt-Karten-Button-Zustand)
+- App `2.2.0`, SW-Cache `universum-shell-v14`
 
 **Zusätzlich**
 
@@ -168,7 +175,7 @@ Kein Ersatz für Ephemeriden oder traditionelle Einweihung.
 
 - Schriften: **Syne** (Titel/Zahlen) + **Manrope** (Fließtext) via Google Fonts
 - Dark-Violet Mystik-Cockpit, mobile-first, Micro-Interactions
-- Service Worker: Offline-Shell (`universum-shell-v13`), Scope relativ für GitHub Pages `/universum/`
+- Service Worker: Offline-Shell (`universum-shell-v14`), Scope relativ für GitHub Pages `/universum/`
 - Kein React, kein Bundler, kein Backend
 
 ## Dateien
@@ -187,7 +194,7 @@ universum/
 
 ## Hinweis
 
-Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt Verantwortung der Praktizierenden — mit Grenze und Ausgleich.
+Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine Verantwortung — mit Grenze und Ausgleich.
 
 ## Craft-Pass (v1.2)
 
@@ -228,3 +235,7 @@ Zehnte Runde — **Feld-Klarheit**: weniger Cockpit auf einmal (eine klare „Je
 ## Craft-Pass (v2.1) · Erste Minute · Vertrauen · Anbieten
 
 Elfte Runde — **Drei Verbesserungen**: (1) Onboarding auf Erste Minute gekürzt (Pfad → Praxis-Einladung → fertig, Ethik eine Zeile, optional Überspringen, Jetzt-Karte bereit); (2) Astronomie-Vertrauen mit „Näherung“-Badges und ruhigem Hinweis in Mehr/Einstellungen; (3) Landing `index.html` als Produkt-Intro (für wen, lokal, Ethik-One-Liner, CTA «Üben öffnen», optional Empfehlen). App `2.1.0`, SW-Cache `universum-shell-v13`. Server Port **8765**.
+
+## Craft-Pass (v2.2) · Sprache · Erste Minute
+
+Zwölfte Runde — **Klare Sprache & Feinschliff**: Gendersprache aus UI/README entfernt (klassisch/neutrales Deutsch); Landing und Erste Minute gestrafft; kleine UX-/Bug-Politur. App `2.2.0`, SW-Cache `universum-shell-v14`. Server Port **8765**.

@@ -1,7 +1,7 @@
 {
   "name": "UNIVERSUM · COCKPIT",
   "short_name": "UNIVERSUM",
-  "description": "UNIVERSUM — stiller Ritualbegleiter für Magier:innen. Lokal, ethisch, pfadstark. Kein Konto.",
+  "description": "UNIVERSUM — stiller Ritualbegleiter für die Praxis. Lokal, ethisch, pfadstark. Kein Konto.",
   "start_url": "./cockpit.html",
   "scope": "./",
   "display": "standalone",
