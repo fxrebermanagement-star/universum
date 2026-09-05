@@ -988,22 +988,50 @@
       <div id="notes-list" hidden aria-hidden="true"></div>
     </section>
 
-    <!-- 6. Resonanzen / korrespondenzen (pfadbezogen) -->
+    <!-- 6. Resonanzen / korrespondenzen (pfadbezogen) — Kräuter-Referenz -->
     <section id="sec-korrespondenzen" class="section-view">
       <h1 class="section-title"><span class="sec-ico" aria-hidden="true">🌿</span> Resonanzen</h1>
       <span class="section-motif" aria-hidden="true"></span>
-      <p class="section-sub">Hauspraxis-Symbolik · <span id="korresp-path-name">Pfad</span></p>
+      <p class="section-sub" id="korresp-section-sub">Kräuter · Hauspraxis-Symbolik · <span id="korresp-path-name">Pfad</span></p>
 
-      <div class="card korrespondenz-full-card" aria-labelledby="korresp-full-title">
+      <div class="card korrespondenz-full-card heute-passt-card" aria-labelledby="korresp-full-title">
         <div class="intention-top">
           <h3 id="korresp-full-title">Heute passt …</h3>
           <span class="chip-quiet" id="korresp-chip">Pfad</span>
         </div>
         <p class="hint" id="korresp-lead">Kurze Einladung mit Warum — Symbolik für die Haltung, kein medizinischer Rat.</p>
-        <p class="heute-passt-lead" id="korresp-heute-passt" aria-live="polite"></p>
-        <ul class="korrespondenz-list" id="korresp-list"></ul>
+        <p class="heute-passt-lead" id="korresp-heute-passt" aria-live="polite" role="button" tabindex="0"></p>
         <p class="hint-sm" id="korresp-note">Hauspraxis — kein Heilversprechen.</p>
         <p class="notice ethics-line">Ein Handy kann keine Geister messen. Symbolik dient der Haltung, nicht der Diagnose.</p>
+      </div>
+
+      <div class="cal-path-toggle resonanz-path-toggle" role="group" aria-label="Kräuterfilter">
+        <button type="button" class="cal-filter-btn active" id="herb-filter-path" aria-pressed="true">Nur mein Pfad</button>
+        <button type="button" class="cal-filter-btn" id="herb-filter-all" aria-pressed="false">Alle Pfade</button>
+      </div>
+
+      <div class="card herb-ref-card" aria-labelledby="herb-list-title">
+        <div class="intention-top">
+          <h3 id="herb-list-title">Kräuter</h3>
+          <span class="chip-quiet" id="herb-list-chip">Referenz</span>
+        </div>
+        <p class="hint-sm" id="herb-list-lead">Name und Beschreibung — Symbolik der Hauspraxis, kein Heilversprechen.</p>
+        <ul class="herb-ref-list" id="herb-list"></ul>
+        <p class="hint-sm" id="herb-list-count" aria-live="polite"></p>
+      </div>
+
+      <div class="card resonanz-secondary-card" aria-labelledby="resonanz-sec-title">
+        <div class="intention-top">
+          <h3 id="resonanz-sec-title">Steine &amp; Farben</h3>
+          <span class="chip-quiet">sekundär</span>
+        </div>
+        <div class="resonanz-sec-tabs" role="tablist" aria-label="Steine und Farben">
+          <button type="button" class="cal-filter-btn active" role="tab" id="resonanz-tab-stones" aria-selected="true" data-resonanz-tab="stones">Steine</button>
+          <button type="button" class="cal-filter-btn" role="tab" id="resonanz-tab-colors" aria-selected="false" data-resonanz-tab="colors">Farben</button>
+        </div>
+        <ul class="korrespondenz-list resonanz-sec-list" id="resonanz-sec-list"></ul>
+        <!-- legacy id kept for older peek code -->
+        <ul class="korrespondenz-list" id="korresp-list" hidden></ul>
       </div>
 
       <div class="card craft-works-card" id="craft-works-card" aria-labelledby="craft-works-title">
@@ -1022,7 +1050,7 @@
         </div>
         <ul class="kreis-honest-list">
           <li>Als Erinnerung für Altar, Farbe oder Räucherung — nicht als Rezept</li>
-          <li>Wechselt mit dem Pfad (wie die Rituale)</li>
+          <li>Filter wie im Kalender: standardmäßig nur dein Pfad</li>
           <li>Keine medizinischen Claims, keine Heilversprechen</li>
         </ul>
         <div class="btn-row mt-1">

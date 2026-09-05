@@ -36,7 +36,7 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 3. **Kosmos** — Planeten-Radar mit klareren Labels, **Legende**, aktuelle **Planetenstunde hervorgehoben**, Tap/Klick für Detail, Schumann Live-Station + Tomsk-Spektrogramm
 4. **Rituale** — **nur aktueller Pfad** (4–5 einzigartige Own-Rituale); Grundlagen separat; Signaturen, Dauer-Tags 3/11/21, Sicherheitscheck, Timed-Rituale, Fokus-Timer, Sigil, illustrierte Feldkarten, eigene Rituale + Vorlagen
 5. **Magie-Buch** — Notiz (schnell) · Eintrag (Ritual, Stimmung, Foto, Filter); gemeinsame Timeline; Fotos IndexedDB; ZIP/PDF; Export/Import `universum-buch.json` (`notes` + `diary` in `feldlicht-v15`)
-6. **Resonanzen** — «heute passt …» mit kurzem Warum; pfadbezogene Symbolik; kurze Werke (Schutz, Reinigung, Anziehen, Loslassen); kein medizinischer Rat
+6. **Resonanzen** — «heute passt …»; **Kräuter-Liste** (Name + Beschreibung); Filter **Nur mein Pfad** / Alle Pfade; Steine & Farben sekundär; kurze Werke; kein medizinischer Rat
 
 **Zusätzlich (v1.3–1.4)**
 
@@ -429,6 +429,13 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Heute-Tip bleibt primär; Altar-Nav 🪔 bleibt
 - Zwischenstand aufgegangen in `5.1.0`
 
+
+## 5.13.0 — Resonanzen als Kräuter-Liste
+
+- Primär: scrollbare **Kräuter-Referenz** mit Name + Hauspraxis-Beschreibung (kein Heilversprechen)
+- Filter wie Kalender: **Nur mein Pfad** (Standard) · **Alle Pfade** (dedupliziert, Pfad-Chips)
+- «Heute passt …» bleibt Lead-Karte; Steine/Farben sekundär; Tippen merkt lastActivity für Altar-Glance
+- Katalog erweitert (ca. 7 Kräuter pro Pfad)
 
 ## Craft-Pass (v4.9.0) · Altar + Resonanzen
 

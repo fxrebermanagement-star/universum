@@ -200,6 +200,7 @@
     'Werkzeug-Set: Mini-Modul pro Pfad (Eid, Sigil, Elemente, Haus-Reinheit).',
     'Pfad-Symbole: jedes Symbol steht für eine Haltung — Chip, Rituale, Kalender.',
     'Heute: ein Tip genügt — Ritual oder Haltung, stabil für Datum und Pfad.',
+    'Resonanzen: Kräuter-Liste mit Beschreibung — Filter „Nur mein Pfad“ / Alle Pfade.',
     'Resonanzen sind Hauspraxis-Symbolik — kein medizinischer Rat.',
     'Mondfenster: «gut für …» zur Phase, angepasst an deinen Pfad.',
     'Kurze Werke: Schutz, Reinigung, Anziehen, Loslassen — pfadbezogen und ethisch.',
@@ -1683,9 +1684,17 @@
     if (state.settings && state.settings.stilleModus) renderStilleRitualSlot();
   }
 
+  function herbNameList(herbs) {
+    return (herbs || []).map(function (h) {
+      if (Paths.herbDisplayName) return Paths.herbDisplayName(h);
+      if (h && typeof h === 'object') return h.name || '';
+      return String(h || '').split('(')[0].trim();
+    }).filter(Boolean);
+  }
+
   function correspondenceRows(c) {
     const rows = [
-      ['🌿 Kräuter', (c.herbs || []).join(' · ')],
+      ['🌿 Kräuter', herbNameList(c.herbs).join(' · ')],
       ['💎 Steine', (c.stones || []).join(' · ')],
       ['🎨 Farben', (c.colors || []).join(' · ')]
     ];
@@ -1693,6 +1702,139 @@
       rows.push(['🜃 Elemente', (c.elements || []).join(' · ')]);
     }
     return rows;
+  }
+
+  /** Resonanzen herb filter: default ON (settings.resonanzPathOnly !== false). */
+  function isResonanzPathOnly() {
+    return !(state.settings && state.settings.resonanzPathOnly === false);
+  }
+
+  function setResonanzPathOnly(on) {
+    Store.update(d => {
+      if (!d.settings || typeof d.settings !== 'object') d.settings = {};
+      d.settings.resonanzPathOnly = !!on;
+    });
+    refreshState();
+  }
+
+  function syncHerbFilterUi() {
+    const pathOnly = isResonanzPathOnly();
+    const path = currentPath();
+    const sym = pathSymbol(path);
+    const btnPath = $('#herb-filter-path');
+    const btnAll = $('#herb-filter-all');
+    if (btnPath) {
+      btnPath.classList.toggle('active', pathOnly);
+      btnPath.setAttribute('aria-pressed', pathOnly ? 'true' : 'false');
+      btnPath.innerHTML = '<span class="path-sym" aria-hidden="true">' + escapeHtml(sym) + '</span> Nur mein Pfad';
+    }
+    if (btnAll) {
+      btnAll.classList.toggle('active', !pathOnly);
+      btnAll.setAttribute('aria-pressed', !pathOnly ? 'true' : 'false');
+    }
+    const sub = $('#korresp-section-sub');
+    if (sub) {
+      const pname = (path && path.name) || 'Pfad';
+      sub.innerHTML = pathOnly
+        ? ('Kräuter · ' + escapeHtml(sym) + ' ' + escapeHtml(pname) + ' · <span id="korresp-path-name">' + escapeHtml(pname) + '</span>')
+        : ('Kräuter · alle Pfade · Symbolik · <span id="korresp-path-name">' + escapeHtml(pname) + '</span>');
+    }
+  }
+
+  function bindHerbOpen(el) {
+    function openIt() {
+      touchResonanzActivity(el.dataset.resonanzId, el.dataset.resonanzLabel, el.dataset.resonanzPath || 'herb');
+      toast('Kraut gemerkt');
+      if (typeof renderLastResonanzCard === 'function') renderLastResonanzCard();
+    }
+    el.addEventListener('click', openIt);
+    el.addEventListener('keydown', function (ev) {
+      if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); openIt(); }
+    });
+  }
+
+  function renderHerbList() {
+    const list = $('#herb-list');
+    const chip = $('#herb-list-chip');
+    const lead = $('#herb-list-lead');
+    const countEl = $('#herb-list-count');
+    if (!list || !Paths.getHerbsForPath) return;
+    const pathOnly = isResonanzPathOnly();
+    const path = currentPath();
+    let herbs = [];
+    if (pathOnly) {
+      herbs = Paths.getHerbsForPath(state.path) || [];
+      if (chip) chip.textContent = ((path && path.name) || 'Pfad');
+      if (lead) {
+        lead.textContent = 'Pfadbezogene Kräuter für ' + ((path && path.name) || 'diesen Pfad') +
+          ' — Symbolik der Hauspraxis, kein Heilversprechen.';
+      }
+    } else {
+      herbs = Paths.getAllHerbsDeduped ? (Paths.getAllHerbsDeduped() || []) : [];
+      if (chip) chip.textContent = 'Alle Pfade';
+      if (lead) {
+        lead.textContent = 'Alle Pfade · gleiche Namen zusammengefasst. Tippen merkt das Kraut für den Altar-Glance.';
+      }
+    }
+    list.innerHTML = herbs.map(function (h, idx) {
+      const rid = 'herb-' + (h.pathId || 'all') + '-' + idx + '-' + String(h.name || '').toLowerCase().replace(/\s+/g, '-');
+      const label = h.name || 'Kraut';
+      const pathHint = pathOnly
+        ? ''
+        : ((h.pathNames || []).slice(0, 4).join(' · ') || '');
+      const pathChip = pathHint
+        ? '<span class="herb-path-chip">' + escapeHtml(pathHint) + '</span>'
+        : (pathOnly && path
+          ? '<span class="herb-path-chip">' + escapeHtml((path.symbol || '') + ' ' + (path.name || '')) + '</span>'
+          : '');
+      return '<li class="herb-ref-item resonanz-open" role="button" tabindex="0" data-resonanz-id="' + escapeHtml(rid) +
+        '" data-resonanz-label="' + escapeHtml(label) +
+        '" data-resonanz-path="' + escapeHtml(h.pathId || (h.paths && h.paths[0]) || state.path || '') + '">' +
+        '<div class="herb-ref-top"><strong>' + escapeHtml(h.name) + '</strong>' + pathChip + '</div>' +
+        '<span class="herb-ref-desc">' + escapeHtml(h.description || '') + '</span></li>';
+    }).join('');
+    list.querySelectorAll('.resonanz-open').forEach(bindHerbOpen);
+    if (countEl) {
+      countEl.textContent = herbs.length
+        ? (herbs.length + (pathOnly ? ' Kräuter auf diesem Pfad' : ' Kräuter (dedupliziert)'))
+        : 'Keine Kräuter hinterlegt.';
+    }
+  }
+
+  function renderResonanzSecondary() {
+    const list = $('#resonanz-sec-list');
+    if (!list || !Paths.getCorrespondences) return;
+    const tab = list.dataset.tab || 'stones';
+    const c = Paths.getCorrespondences(state.path);
+    const items = tab === 'colors' ? (c.colors || []) : (c.stones || []);
+    const ico = tab === 'colors' ? '🎨' : '💎';
+    list.innerHTML = items.map(function (raw, idx) {
+      const label = String(raw);
+      const rid = 'sec-' + tab + '-' + idx;
+      return '<li class="resonanz-motif resonanz-open" role="button" tabindex="0" data-resonanz-id="' + rid +
+        '" data-resonanz-label="' + escapeHtml(ico + ' ' + label.slice(0, 48)) +
+        '" data-resonanz-path="sec">' +
+        '<strong>' + escapeHtml(ico + ' ' + (tab === 'colors' ? 'Farbe' : 'Stein')) + '</strong>' +
+        '<span>' + escapeHtml(label) + '</span></li>';
+    }).join('');
+    list.querySelectorAll('.resonanz-open').forEach(function (el) {
+      function openIt() {
+        touchResonanzActivity(el.dataset.resonanzId, el.dataset.resonanzLabel, 'sec');
+        toast('Resonanz gemerkt');
+        if (typeof renderLastResonanzCard === 'function') renderLastResonanzCard();
+      }
+      el.addEventListener('click', openIt);
+      el.addEventListener('keydown', function (ev) {
+        if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); openIt(); }
+      });
+    });
+    // keep legacy korresp-list in sync for any peek helpers
+    const legacy = $('#korresp-list');
+    if (legacy) {
+      legacy.innerHTML = correspondenceRows(c).map(function (r) {
+        return '<li class="resonanz-motif"><strong>' + escapeHtml(r[0]) + '</strong><span>' + escapeHtml(r[1]) + '</span></li>';
+      }).join('');
+    }
   }
 
   /** Short cockpit peek → full section */
@@ -1740,47 +1882,36 @@
     const titlePath = $('#korresp-path-name');
     const chip = $('#korresp-chip');
     const note = $('#korresp-note');
-    const list = $('#korresp-list');
     const lead = $('#korresp-lead');
     const heuteEl = $('#korresp-heute-passt');
     const heute = Paths.getHeuteResonanz
       ? Paths.getHeuteResonanz(state.path, new Date())
       : null;
+    syncHerbFilterUi();
     if (titlePath) titlePath.textContent = (path && path.name) || 'Pfad';
     if (chip) chip.textContent = (path && path.name) || 'Pfad';
     if (lead) {
       lead.textContent = 'Heute passt … — kurze Einladung mit Warum für ' +
-        ((path && path.name) || 'diesen Pfad') + '. Darunter die Symbolik. Kein medizinischer Rat.';
+        ((path && path.name) || 'diesen Pfad') + '. Darunter die Kräuter-Liste. Kein medizinischer Rat.';
     }
     if (heuteEl) heuteEl.textContent = (heute && heute.line) || 'Heute passt eine stille Haltung — Grenze und Gabe.';
     if (note) note.textContent = c.note || 'Hauspraxis — kein medizinischer Rat.';
-    if (list) {
-      list.innerHTML = correspondenceRows(c).map(function (r, idx) {
-        const rid = 'corr-' + idx;
-        return '<li class="resonanz-motif resonanz-open" role="button" tabindex="0" data-resonanz-id="' + rid +
-          '" data-resonanz-label="' + escapeHtml(r[0] + ' · ' + String(r[1]).slice(0, 48)) + '">' +
-          '<strong>' + escapeHtml(r[0]) + '</strong><span>' + escapeHtml(r[1]) + '</span></li>';
-      }).join('');
-      list.querySelectorAll('.resonanz-open').forEach(function (el) {
-        function openIt() {
-          touchResonanzActivity(el.dataset.resonanzId, el.dataset.resonanzLabel, 'corr');
-          toast('Resonanz gemerkt');
-        }
-        el.addEventListener('click', openIt);
-        el.addEventListener('keydown', function (ev) {
-          if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); openIt(); }
-        });
-      });
-    }
+    renderHerbList();
+    renderResonanzSecondary();
     const heuteElBtn = $('#korresp-heute-passt');
     if (heuteElBtn && !heuteElBtn.dataset.boundResonanz) {
       heuteElBtn.dataset.boundResonanz = '1';
       heuteElBtn.style.cursor = 'pointer';
       heuteElBtn.title = 'Als letzte Resonanz merken';
-      heuteElBtn.addEventListener('click', function () {
+      function markHeute() {
         const h = Paths.getHeuteResonanz ? Paths.getHeuteResonanz(state.path, new Date()) : null;
         touchResonanzActivity('heute', h && h.item ? ('Heute passt · ' + h.item) : 'Heute passt …', 'heute');
         toast('«Heute passt» gemerkt');
+        if (typeof renderLastResonanzCard === 'function') renderLastResonanzCard();
+      }
+      heuteElBtn.addEventListener('click', markHeute);
+      heuteElBtn.addEventListener('keydown', function (ev) {
+        if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); markHeute(); }
       });
     }
     const craftList = $('#craft-works-list');
@@ -1802,6 +1933,7 @@
         function openIt() {
           touchResonanzActivity(el.dataset.resonanzId, el.dataset.resonanzLabel, 'craft');
           toast('Werk gemerkt');
+          if (typeof renderLastResonanzCard === 'function') renderLastResonanzCard();
         }
         el.addEventListener('click', openIt);
         el.addEventListener('keydown', function (ev) {
@@ -2056,7 +2188,8 @@
       const path = currentPath();
       const blob = [
         'resonanzen resonanz korrespondenzen korrespondenz entsprechungen kräuter steine farben elemente hauspraxis',
-        (c.herbs || []).join(' '),
+        herbNameList(c.herbs).join(' '),
+        (c.herbs || []).map(function (h) { return (h && h.description) || ''; }).join(' '),
         (c.stones || []).join(' '),
         (c.colors || []).join(' '),
         (c.elements || []).join(' '),
@@ -5789,6 +5922,40 @@
         Rituals.vibrate(12);
       });
     }
+
+    const herbFilterPath = $('#herb-filter-path');
+    const herbFilterAll = $('#herb-filter-all');
+    if (herbFilterPath) {
+      herbFilterPath.addEventListener('click', () => {
+        setResonanzPathOnly(true);
+        renderHerbList();
+        syncHerbFilterUi();
+        toast('Resonanzen: nur mein Pfad');
+        Rituals.vibrate(12);
+      });
+    }
+    if (herbFilterAll) {
+      herbFilterAll.addEventListener('click', () => {
+        setResonanzPathOnly(false);
+        renderHerbList();
+        syncHerbFilterUi();
+        toast('Resonanzen: alle Pfade');
+        Rituals.vibrate(12);
+      });
+    }
+    $$('[data-resonanz-tab]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        const tab = btn.getAttribute('data-resonanz-tab') || 'stones';
+        const list = $('#resonanz-sec-list');
+        if (list) list.dataset.tab = tab;
+        $$('[data-resonanz-tab]').forEach(function (b) {
+          const on = b === btn;
+          b.classList.toggle('active', on);
+          b.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+        renderResonanzSecondary();
+      });
+    });
 
     $$('[data-tile]').forEach(t => t.addEventListener('click', () => navigate(t.dataset.tile)));
 

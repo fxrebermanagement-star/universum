@@ -843,45 +843,96 @@
     });
   }
 
-  /** Hauspraxis-Korrespondenzen — keine Heilversprechen, keine medizinischen Claims. */
+  /** Hauspraxis-Korrespondenzen — keine Heilversprechen, keine medizinischen Claims.
+   * herbs: { name, description } — Symbolik/Hauspraxis, nicht Medizin.
+   */
   const CORRESPONDENCES = {
     schamanismus: {
-      herbs: ['Beifuß (Räucherung)', 'Wacholder (Raum)', 'Birke (Neubeginn)'],
+      herbs: [
+        { name: 'Beifuß', description: 'Klassisches Räucher-Symbol für Schwelle und Reise — Raum klären, ohne Geister zu fordern.' },
+        { name: 'Wacholder', description: 'Harziger Duft als Raum- und Grenzzeichen. Hauspraxis: frische Luft und Maß statt Spektakel.' },
+        { name: 'Birke', description: 'Neubeginn und weiches Licht nach der Dunkelheit — Blatt oder Zweig als Gabe an den Alltag.' },
+        { name: 'Weide', description: 'Biegsamkeit und Fluss: was weicht, bricht nicht. Symbol für Loslassen ohne Drama.' },
+        { name: 'Fichte', description: 'Harz und Nadel als Wald-Anker — Stand spüren, Körper zuerst, bevor die Reise beginnt.' },
+        { name: 'Salbei', description: 'Klarheit im Raum als Haltung — Duft und Absicht, kein Reinigungsversprechen am Körper.' },
+        { name: 'Tabak (symbolisch)', description: 'Gabe und Respekt in manchen Linien — hier nur als Symbol, nie als Rauchzwang oder Initiation.' }
+      ],
       stones: ['Obsidian (Schutz-Symbol)', 'Rauchquarz (Klarheit)', 'Hämatit (Erdung-Symbol)'],
       colors: ['Erdbraun', 'Waldgrün', 'Knochenweiß'],
       elements: ['Erde (Stand)', 'Luft (Atem)', 'Feuer (Herd)', 'Wasser (Fluss)'],
       note: 'Hauspraxis und Symbolik — kein medizinischer Rat, kein Heilversprechen.'
     },
     nordisch: {
-      herbs: ['Eichenblatt (Maß)', 'Wermut (Grenze)', 'Thymian (Haus)'],
+      herbs: [
+        { name: 'Eichenblatt', description: 'Maß und Stand im Ring — Stärke ohne Prahlerei, Wort und Tat im selben Kreis.' },
+        { name: 'Wermut', description: 'Bittere Grenze: was nicht dient, bleibt draußen. Symbol für Frith und klare Haltung.' },
+        { name: 'Thymian', description: 'Haus und Herd — kleine Gabe auf dem Tisch, Alltag ehren statt Pathos.' },
+        { name: 'Wacholder', description: 'Nordischer Raumduft: Reinigung als Ordnung im Haus, nicht als Heilmittel.' },
+        { name: 'Birke', description: 'Frühlicht und Neubeginn — Yule-/Ostara-Ton: Keim mit Maß setzen.' },
+        { name: 'Beifuß', description: 'Räucher- und Traum-Symbol mit Vorsicht — Reise nur geerdet, Eid vor Spektakel.' },
+        { name: 'Angelika', description: 'Schutz- und Wege-Kraut in der Volkspraxis — hier als Haltung: klar gehen, nichts erzwingen.' }
+      ],
       stones: ['Bernstein (Wärme-Symbol)', 'Flint (Funke)', 'Granit (Stand)'],
       colors: ['Nordblau', 'Eisengrau', 'Honiggold'],
       elements: ['Erde (Ring)', 'Eis (Klarheit)', 'Feuer (Herd)', 'Luft (Wort)'],
       note: 'Symbole für Haltung und Haus — keine medizinischen Aussagen.'
     },
     voodoo: {
-      herbs: ['Basilikum (Haus)', 'Lorbeer (Klarheit)', 'Minze (Frisch)'],
+      herbs: [
+        { name: 'Basilikum', description: 'Hausfrieden und Frische — Topfpflanze oder Blatt als Zeichen von Ordnung, keine Initiation.' },
+        { name: 'Lorbeer', description: 'Klarheit und Würde im Haus — Blatt als Merkzeichen, nicht als Orakelzwang.' },
+        { name: 'Minze', description: 'Frisch und hell: Schwelle und Atem. Wasser und Duft reichen oft für den Alltag.' },
+        { name: 'Petersilie', description: 'Einfache Gabe und Grün am Tisch — Respekt im Haus, ohne Medium zu spielen.' },
+        { name: 'Nelke', description: 'Würze und Schutz-Symbol am Eingang — Maß halten, keinen fremden Willen binden.' },
+        { name: 'Zimt', description: 'Wärme und Willkommen — Duft für den Hof, nicht für Spektakel oder Heilversprechen.' },
+        { name: 'Rosmarin', description: 'Erinnerung und Hausgrenze — Räucher- oder Küchensymbol mit klarer Ethik.' }
+      ],
       stones: ['Muschel (Wasser-Symbol)', 'Quarz (Licht)', 'Lava (Boden)'],
       colors: ['Weiß (Reinheit-Symbol)', 'Blau (Ruhe)', 'Rot (Kraft-Symbol — mit Maß)'],
       elements: ['Wasser (Schwelle)', 'Erde (Hof)', 'Feuer (Licht)', 'Luft (Atem)'],
       note: 'Nur öffentliche Hauspraxis. Keine Initiation, keine medizinischen Claims.'
     },
     santeria: {
-      herbs: ['Rosmarin (Haus)', 'Orange (Dank)', 'Lavendel (Ruhe-Symbol)'],
+      herbs: [
+        { name: 'Rosmarin', description: 'Hausklarheit und Schutz-Ton — Duft und Ordnung, ohne Ile-Anspruch.' },
+        { name: 'Orange', description: 'Dank und Frische — Schale oder Duft als Gabe, teilen statt fordern.' },
+        { name: 'Lavendel', description: 'Ruhe-Symbol für den Raum — sanft, ethisch, kein Heilversprechen.' },
+        { name: 'Basilikum', description: 'Grünes Haus-Aché im Alltag — Topf am Fenster als Haltung, nicht als Ritus der Einweihung.' },
+        { name: 'Nelke', description: 'Würzige Grenze und Wärme — Symbol am Altarlicht, mit Respekt und Maß.' },
+        { name: 'Minze', description: 'Reinheit und Frische — Wasser und Blatt als Alltagspraxis.' },
+        { name: 'Lorbeer', description: 'Klarheit und Würde — Blatt als Merkzeichen für Dank und Haltung.' }
+      ],
       stones: ['Koralle (Meer-Symbol)', 'Citrin (Licht)', 'Mondstein (Zyklus-Symbol)'],
       colors: ['Weiß', 'Gelb (Dank)', 'Grün (Wachstum-Symbol)'],
       elements: ['Wasser (Reinheit-Symbol)', 'Erde (Haus)', 'Feuer (Kerze)', 'Luft (Gebet-Symbol)'],
       note: 'Hauspraxis ohne Ile-Anspruch. Symbolik, kein Heilversprechen.'
     },
     hermetik: {
-      herbs: ['Salbei (Klarheit-Symbol)', 'Rosmarin (Gedächtnis-Symbol)', 'Myrte (Maß)'],
+      herbs: [
+        { name: 'Salbei', description: 'Klarheit und Labor-Haltung — Duft als Fokus, keine alchemistischen Heilsversprechen.' },
+        { name: 'Rosmarin', description: 'Gedächtnis und Maß — Notiz und Absicht knapper halten.' },
+        { name: 'Myrte', description: 'Grenze und Bund — Symbol für Operationen mit klarem Anfang und Ende.' },
+        { name: 'Lorbeer', description: 'Sieg nur als Klarheit der Frage — Beobachtung vor Eingriff.' },
+        { name: 'Wermut', description: 'Bittere Prüfung: Hypothesen verwerfen, Ballast lösen.' },
+        { name: 'Minze', description: 'Frisch starten — Tisch aufräumen, Atem, dann die Stunde notieren.' },
+        { name: 'Lavendel', description: 'Ruhe im Denken — Pause zwischen Operationen, kein Spektakel.' }
+      ],
       stones: ['Lapis (Denken-Symbol)', 'Bergkristall (Fokus)', 'Zinnober-Ton (Labor-Symbol)'],
       colors: ['Königsblau', 'Gold', 'Schwarz (Grenze)'],
       elements: ['Feuer (Schwefel-Symbol)', 'Wasser (Lösung)', 'Luft (Merkur-Symbol)', 'Erde (Salz-Symbol)'],
       note: 'Labor- und Haltungssymbole — keine alchemistischen Heilsversprechen.'
     },
     wicca: {
-      herbs: ['Rosmarin (Schutz-Symbol)', 'Lavendel (Reinigung / Ruhe)', 'Mugwort / Beifuß (Mond-Symbol)'],
+      herbs: [
+        { name: 'Rosmarin', description: 'Schutz-Symbol am Eingang oder Altar — Grenze ohne Angriff, an niemandem Schaden.' },
+        { name: 'Lavendel', description: 'Sanfte Reinigung und Ruhe im Raum — Duft und Absicht, kein Heilversprechen.' },
+        { name: 'Beifuß', description: 'Mond- und Traum-Symbol — mit Maß; Reise nur ethisch und geerdet.' },
+        { name: 'Salbei', description: 'Klarheit im Kreis — Raum achten, nicht Personen „reinigen“.' },
+        { name: 'Thymian', description: 'Mut und Hauskraft als Symbol — kleine Gabe, Alltag ehren.' },
+        { name: 'Eisenkraut', description: 'Klassisches Schutz- und Schwellenkraut in der Hexerei — Haltung, nicht Rezept.' },
+        { name: 'Kamille', description: 'Sanfter Frieden im Raum — Tee oder Duft als Symbol, keine medizinischen Claims.' },
+        { name: 'Rose', description: 'Anziehen mit Maß — Liebe und Dank ohne Besitzanspruch.' }
+      ],
       stones: ['Obsidian (Grenze-Symbol)', 'Mondstein (Zyklus)', 'Moosachat (Erde / Ankern)'],
       colors: ['Schwarz (Schutz-Grenze)', 'Silber (Mond)', 'Grün (Wachstum mit Maß)'],
       elements: ['Erde (Stand)', 'Luft (Rede)', 'Feuer (Absicht)', 'Wasser (Loslassen)'],
@@ -894,14 +945,30 @@
       ]
     },
     chaosmagie: {
-      herbs: ['Kaffee (Wachheit-Symbol)', 'Pfeffer (Scharf / Fokus)', 'Minze (Reset)'],
+      herbs: [
+        { name: 'Kaffee', description: 'Wachheit als Gnosis-Werkzeug — scharf starten, Ethik behalten, Ergebnis nicht jagen.' },
+        { name: 'Pfeffer', description: 'Schnitt und Fokus — Schärfe als Metapher für knappe Absicht.' },
+        { name: 'Minze', description: 'Reset und Frische — Banishing-Punkt: altes Modell ablegen.' },
+        { name: 'Ingwer', description: 'Funke und Wärme — Labor-Energie ohne Identitätsdrama.' },
+        { name: 'Zitrone', description: 'Säure als Klarheit — unbrauchbare Sigils entsorgen, neu formulieren.' },
+        { name: 'Rosmarin', description: 'Anker im Alltag — nach dem Labor zurück in den Körper.' },
+        { name: 'Salbei', description: 'Raum klären als mentaler Reset — Theater optional, Ethik Pflicht.' }
+      ],
       stones: ['Obsidian (Schnitt)', 'Pyrit (Funke-Symbol)', 'Klarer Quarz (Leinwand)'],
       colors: ['Schwarz', 'Neon-Akzent (Labor)', 'Grau (Neutral)'],
       elements: ['Beliebig (Paradigma)', 'Leer (Reset)', 'Funke (Gnosis)', 'Alltag (Anker)'],
       note: 'Werkzeug-Metaphern für Gnosis und Labor — keine medizinischen Claims.'
     },
     esoterik: {
-      herbs: ['Lavendel', 'Kamille (Ruhe-Symbol)', 'Rosmarin'],
+      herbs: [
+        { name: 'Lavendel', description: 'Ruhe und sanfte Reinigung — Duft für den Raum, kein Heilversprechen.' },
+        { name: 'Kamille', description: 'Weiches Friedens-Symbol — Tee oder Blüte als Haltung, nicht als Therapie.' },
+        { name: 'Rosmarin', description: 'Klarheit und Schutz-Ton am Alltagstisch — Absicht klein halten.' },
+        { name: 'Salbei', description: 'Raum klären als Symbol — Fenster auf, Atem, Schweigen.' },
+        { name: 'Rose', description: 'Sanftes Anziehen — Dank und Nähe ohne Besitzanspruch.' },
+        { name: 'Minze', description: 'Frisch starten — drei bewusste Züge oft die beste Schwelle.' },
+        { name: 'Thymian', description: 'Hauskraft und Mut-Symbol — kleine Praxis statt großem Spektakel.' }
+      ],
       stones: ['Rosenquarz (Sanft-Symbol)', 'Amethyst', 'Bergkristall'],
       colors: ['Violett', 'Silber', 'Nachtblau'],
       elements: ['Erde (Stand)', 'Luft (Atem)', 'Feuer (Licht)', 'Wasser (Ruhe)'],
@@ -915,9 +982,95 @@
     }
   };
 
+  function normalizeHerb(h) {
+    if (h && typeof h === 'object') {
+      return {
+        name: String(h.name || '').trim(),
+        description: String(h.description || h.desc || '').trim()
+      };
+    }
+    const raw = String(h || '').trim();
+    if (!raw) return { name: '', description: '' };
+    const m = raw.match(/^(.+?)\s*\((.+)\)\s*$/);
+    if (m) {
+      return { name: m[1].trim(), description: m[2].trim() + ' — Hauspraxis-Symbolik, kein Heilversprechen.' };
+    }
+    return { name: raw, description: 'Hauspraxis-Symbolik — Haltung und Gabe, kein medizinischer Rat.' };
+  }
+
+  function herbDisplayName(h) {
+    return normalizeHerb(h).name;
+  }
+
   function getCorrespondences(pathId) {
     const c = CORRESPONDENCES[pathId] || CORRESPONDENCES.esoterik;
-    return Object.assign({}, c);
+    const out = Object.assign({}, c);
+    out.herbs = (c.herbs || []).map(normalizeHerb).filter(function (h) { return h.name; });
+    return out;
+  }
+
+  /** Kräuter eines Pfads als Referenzliste { name, description, pathId, pathName, paths[] }. */
+  function getHerbsForPath(pathId) {
+    const pid = pathId || 'esoterik';
+    const path = getPath(pid);
+    const c = getCorrespondences(pid);
+    return (c.herbs || []).map(function (h) {
+      return {
+        name: h.name,
+        description: h.description,
+        pathId: pid,
+        pathName: path.name,
+        paths: [pid],
+        pathNames: [path.name],
+        symbol: path.symbol || '✦'
+      };
+    });
+  }
+
+  /** Alle Pfad-Kräuter: dedupliziert nach Name (case-insensitive), paths[] gesammelt. */
+  function getAllHerbsDeduped() {
+    const map = Object.create(null);
+    const order = [];
+    PATHS.forEach(function (p) {
+      getHerbsForPath(p.id).forEach(function (h) {
+        const key = h.name.toLowerCase();
+        if (!map[key]) {
+          map[key] = {
+            name: h.name,
+            description: h.description,
+            pathId: h.pathId,
+            pathName: h.pathName,
+            paths: [h.pathId],
+            pathNames: [h.pathName],
+            symbol: h.symbol
+          };
+          order.push(key);
+        } else {
+          const cur = map[key];
+          if (cur.paths.indexOf(h.pathId) === -1) {
+            cur.paths.push(h.pathId);
+            cur.pathNames.push(h.pathName);
+          }
+          // Prefer longer Hauspraxis description
+          if ((h.description || '').length > (cur.description || '').length) {
+            cur.description = h.description;
+          }
+        }
+      });
+    });
+    return order.map(function (k) { return map[k]; });
+  }
+
+  /** Alle Kräuter gruppiert nach Pfad (für Listen-Darstellung). */
+  function getAllHerbsGrouped() {
+    return PATHS.map(function (p) {
+      return {
+        pathId: p.id,
+        pathName: p.name,
+        symbol: p.symbol || '✦',
+        herbs: getHerbsForPath(p.id)
+      };
+    });
   }
 
   /** Mondfenster: actionable "gut für …" by coarse phase × path */
@@ -1073,8 +1226,22 @@
         why: h.why
       };
     }
-    // Fallback: first herb + soft why
-    const herb = (c.herbs && c.herbs[0]) || 'eine stille Farbe';
+    // Fallback: seeded herb from path catalog + soft why / description
+    const herbs = c.herbs || [];
+    if (herbs.length) {
+      const hi = seedIndex(dayKeyLocal(date), pid, 'heute-res-herb', herbs.length);
+      const herb = herbs[hi];
+      const item = herb.name || 'eine stille Farbe';
+      const why = herb.description
+        || 'als leise Erinnerung an Haltung und Grenze.';
+      // Keep lead line readable: first clause of description
+      const shortWhy = why.split('—')[0].trim().replace(/\.$/, '') || why;
+      return {
+        line: 'Heute passt ' + item + ' — ' + shortWhy + '.',
+        item: item,
+        why: why
+      };
+    }
     const whys = [
       'als leise Erinnerung an Haltung und Grenze.',
       'weil Symbolik heute den Kreis trägt — ohne Anspruch.',
@@ -1082,10 +1249,9 @@
       'um Schutz und Klarheit im Haus zu ehren.'
     ];
     const wi = seedIndex(dayKeyLocal(date), pid, 'heute-res-why', whys.length);
-    const item = String(herb).split('(')[0].trim();
     return {
-      line: 'Heute passt ' + item + ' — ' + whys[wi],
-      item: item,
+      line: 'Heute passt eine stille Haltung — ' + whys[wi],
+      item: 'eine stille Haltung',
       why: whys[wi]
     };
   }
@@ -1134,6 +1300,11 @@
     seedIndex,
     getDailyTip,
     getCorrespondences,
+    normalizeHerb,
+    herbDisplayName,
+    getHerbsForPath,
+    getAllHerbsDeduped,
+    getAllHerbsGrouped,
     moonBucket,
     getMondFenster,
     CRAFT_WORKS,
