@@ -343,6 +343,14 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 
 
 
+## Craft-Pass (v5.1.1) · Nav zeigt Inhalt sofort
+
+- Beim Tippen der Bottom-Nav: Scroll zum **ersten nutzbaren Inhalt** unter dem Sticky-Header (nicht nur Titelblock)
+- Kompaktere Section-Titel/Sub/Motif auf Mobile
+- `prefers-reduced-motion` / Einstellung → sofortiger Scroll
+- App `5.1.1`, SW-Cache `universum-shell-v42`
+
+
 ## Craft-Pass (v5.1.0) · Magie & Hexerei vertiefen
 
 - **Kurze Werke** — Schutz, Reinigung, Anziehen, Loslassen (pfadbezogen) am Altar-Peek und in Resonanzen

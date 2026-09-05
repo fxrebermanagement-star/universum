@@ -1045,7 +1045,84 @@
       renderBuch();
     }
     try { history.replaceState(null, '', '#' + id); } catch (_) { /* ignore */ }
-    if (!opts.keepScroll) window.scrollTo(0, 0);
+    if (!opts.keepScroll) {
+      // After section show + possible re-render, wait one frame for layout
+      try {
+        requestAnimationFrame(function () { scrollSectionToContent(id); });
+      } catch (_) {
+        scrollSectionToContent(id);
+      }
+    }
+  }
+
+  /** Instant scroll when user/settings prefer reduced motion. */
+  function navScrollBehavior() {
+    if (state.settings && state.settings.reducedMotion) return 'auto';
+    try {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return 'auto';
+    } catch (_) { /* ignore */ }
+    return 'smooth';
+  }
+
+  function stickyHeaderOffset() {
+    const h = document.querySelector('.app-header');
+    if (!h) return 64;
+    try {
+      return Math.ceil(h.getBoundingClientRect().height) + 6;
+    } catch (_) {
+      return 64;
+    }
+  }
+
+  /**
+   * After bottom-nav navigate: bring first useful UI under the sticky header
+   * (not just the huge section title block at scrollY=0).
+   */
+  function firstSectionContent(sec) {
+    if (!sec) return null;
+    const selectors = [
+      '.cockpit-top',
+      '.cal-path-toggle',
+      '.cal-nav',
+      '.kosmos-praxis',
+      '.tabs[role="tablist"]',
+      '.korrespondenz-full-card',
+      '.export-pack',
+      '.week-review-card',
+      '.buch-mode-row',
+      '.card',
+      '[role="tablist"]'
+    ];
+    for (let i = 0; i < selectors.length; i++) {
+      const el = sec.querySelector(selectors[i]);
+      if (!el || el.hidden) continue;
+      try {
+        const r = el.getBoundingClientRect();
+        if (r.width > 0 || r.height > 0) return el;
+      } catch (_) { return el; }
+    }
+    return sec;
+  }
+
+  function scrollSectionToContent(sectionId) {
+    const sec = document.getElementById('sec-' + sectionId);
+    const target = firstSectionContent(sec);
+    if (!target) {
+      try { window.scrollTo(0, 0); } catch (_) { /* ignore */ }
+      return;
+    }
+    const behavior = navScrollBehavior();
+    const pad = stickyHeaderOffset();
+    try {
+      const top = target.getBoundingClientRect().top + (window.pageYOffset || window.scrollY || 0) - pad;
+      window.scrollTo({ top: Math.max(0, Math.round(top)), behavior: behavior });
+    } catch (_) {
+      try {
+        target.scrollIntoView({ behavior: behavior, block: 'start' });
+      } catch (__) {
+        try { window.scrollTo(0, 0); } catch (___) { /* ignore */ }
+      }
+    }
   }
 
   function currentPath() {

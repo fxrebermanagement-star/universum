@@ -5692,3 +5692,73 @@ body.quiet-mode .path-art-orb {
   color: rgba(220, 210, 240, 0.7);
   line-height: 1.35;
 }
+
+
+/* ——— v5.1.1 Nav scroll · first content under sticky header ——— */
+html {
+  scroll-padding-top: calc(4.5rem + env(safe-area-inset-top, 0px));
+}
+
+.section-view .cockpit-top,
+.section-view .cal-path-toggle,
+.section-view .cal-nav,
+.section-view .kosmos-praxis,
+.section-view .tabs,
+.section-view .korrespondenz-full-card,
+.section-view .buch-mode-row,
+.section-view .export-pack,
+.section-view .card,
+.section-view [role="tablist"] {
+  scroll-margin-top: calc(4.5rem + env(safe-area-inset-top, 0px));
+}
+
+/* Tighten / collapse redundant section chrome so useful UI fits first viewport */
+@media (max-width: 720px) {
+  .section-view > .section-title {
+    font-size: 1.12rem;
+    margin-bottom: 0.05rem;
+    gap: 0.4rem;
+  }
+  .section-view > .section-title .sec-ico {
+    font-size: 1.1rem;
+  }
+  .section-view > .section-motif {
+    height: 2px;
+    width: min(5.5rem, 32%);
+    margin: -0.05rem 0 0.4rem;
+    opacity: 0.55;
+  }
+  .section-view > .section-sub {
+    font-size: 0.78rem;
+    margin-top: 0;
+    margin-bottom: 0.55rem;
+    line-height: 1.35;
+  }
+  #sec-kalender .section-sub,
+  #sec-kosmos .section-sub,
+  #sec-rituale .section-sub,
+  #sec-buch .section-sub,
+  #sec-korrespondenzen .section-sub {
+    margin-bottom: 0.45rem;
+  }
+  #sec-cockpit .cockpit-practice-head {
+    margin-top: 0.55rem;
+  }
+  #sec-cockpit .cockpit-practice-title {
+    font-size: 1.12rem;
+    margin-bottom: 0.1rem;
+  }
+  #sec-cockpit .cockpit-practice-head > .section-sub {
+    margin-bottom: 0.35rem;
+  }
+}
+
+@media (max-width: 420px) {
+  /* On very small screens, keep titles compact so Heute / grid / cards show immediately */
+  .section-view > .section-motif {
+    display: none;
+  }
+  .section-view {
+    padding-top: 0.65rem;
+  }
+}
