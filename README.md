@@ -31,7 +31,7 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 
 ## Funktionen
 
-1. **Altar** — **Messpult + App-Home**: Anzeigen vorn (Mond %, Zeichen, Planetenstunde-Fenster, Unruhe-Level, Schumann Station+Spektrogramm); darunter Glance-Karten (Heute, Fest, letztes Ritual, letzter Bucheintrag, Werkzeug); warm & dicht; Altar-Nav 🪔
+1. **Altar** — **Phone-Home Bento**: kompakte Messpult-Widgets (Mond|Stunde, Unruhe, Schumann); Heute-Hero; Glance-Apps (Letztes Ritual, Letzter Buch, Letzte Resonanz, Kalender, Kosmos, Werkzeug) mit last-used in `feldlicht-v15`; warm & dicht; Altar-Nav 🪔
 2. **Kalender** — Monatsnavigation, Tagesdetails (Mond/Sonne/Feste), **standardmäßig nur Pfad-Feste** (Umschalter Alle Feste), Betonung und Kalender-Notizen
 3. **Kosmos** — Planeten-Radar mit klareren Labels, **Legende**, aktuelle **Planetenstunde hervorgehoben**, Tap/Klick für Detail, Schumann Live-Station + Tomsk-Spektrogramm
 4. **Rituale** — **nur aktueller Pfad** (4–5 einzigartige Own-Rituale); Grundlagen separat; Signaturen, Dauer-Tags 3/11/21, Sicherheitscheck, Timed-Rituale, Fokus-Timer, Sigil, illustrierte Feldkarten, eigene Rituale + Vorlagen
@@ -342,6 +342,15 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 
 
 
+
+## Craft-Pass (v5.10.0) · Altar Phone-Home Bento
+
+- **Dichteres Messpult** — Mond|Planetenstunde halbbreit; Unruhe volle Breite kompakt; Schumann enger (weniger Padding, kleineres Spektrogramm)
+- **Glance-Apps** — Heute (Hero) + Grid: Letztes Ritual · Letzter Buch · **Letzte Resonanz** · Kalender · Kosmos · Werkzeug — tippen öffnet die Sektion
+- **lastActivity in feldlicht-v15** — Resonanz öffnen, Kalender-Tag, Kosmos-Planet/Stunde, Ritual-Schluss, Buch speichern/öffnen
+- Kalender-Widget: zuletzt angesehener Tag oder nächstes Fest; Kosmos: letzte Stunde/Planet oder Live-Stunde
+- Messpult-Kacheln Mond/Stunde tippen → Kosmos
+- App `5.10.0`, SW-Cache `universum-shell-v48`
 
 ## Craft-Pass (v5.9.0) · Altar Messpult + App-Home
 

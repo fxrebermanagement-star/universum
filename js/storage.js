@@ -45,6 +45,24 @@
     initiationAck: {},
     pathWerkzeug: {},
     ritualJournal: [],
+    lastActivity: {
+      lastResonanzId: null,
+      lastResonanzLabel: null,
+      lastResonanzPath: null,
+      lastResonanzAt: null,
+      lastCalendarDay: null,
+      lastCalendarLabel: null,
+      lastCalendarAt: null,
+      lastKosmosKind: null,
+      lastKosmosLabel: null,
+      lastKosmosAt: null,
+      lastRitualId: null,
+      lastRitualLabel: null,
+      lastRitualAt: null,
+      lastBuchId: null,
+      lastBuchLabel: null,
+      lastBuchAt: null
+    },
     settings: {
       schumannAudio: false,
       ambientTone: false,
@@ -112,6 +130,7 @@
         initiationAck: data.initiationAck && typeof data.initiationAck === 'object' ? data.initiationAck : {},
         pathWerkzeug: data.pathWerkzeug && typeof data.pathWerkzeug === 'object' ? data.pathWerkzeug : {},
         ritualJournal: Array.isArray(data.ritualJournal) ? data.ritualJournal.slice(0, 80) : [],
+        lastActivity: Object.assign({}, DEFAULTS.lastActivity, data.lastActivity || {}),
         settings: Object.assign({}, DEFAULTS.settings, data.settings || {})
       });
     } catch (e) {
@@ -231,7 +250,7 @@
     });
   }
 
-  const APP_VERSION = '5.9.0';
+  const APP_VERSION = '5.10.0';
 
   function buildExportMeta(data) {
     const pathId = data.path || 'esoterik';
@@ -1072,6 +1091,39 @@
     });
   }
 
+
+  function getLastActivity() {
+    const d = load();
+    return Object.assign({}, DEFAULTS.lastActivity, d.lastActivity || {});
+  }
+
+  /** Touch last-used glance fields (Resonanz, Kalender, Kosmos, Ritual, Buch). */
+  function touchLastActivity(partial) {
+    if (!partial || typeof partial !== 'object') return getLastActivity();
+    return update(d => {
+      const cur = Object.assign({}, DEFAULTS.lastActivity, d.lastActivity || {});
+      const now = new Date().toISOString();
+      const next = Object.assign({}, cur, partial);
+      // stamp matching *At keys when caller sets a primary field without At
+      if (partial.lastResonanzId != null || partial.lastResonanzLabel != null) {
+        if (partial.lastResonanzAt == null) next.lastResonanzAt = now;
+      }
+      if (partial.lastCalendarDay != null || partial.lastCalendarLabel != null) {
+        if (partial.lastCalendarAt == null) next.lastCalendarAt = now;
+      }
+      if (partial.lastKosmosKind != null || partial.lastKosmosLabel != null) {
+        if (partial.lastKosmosAt == null) next.lastKosmosAt = now;
+      }
+      if (partial.lastRitualId != null || partial.lastRitualLabel != null) {
+        if (partial.lastRitualAt == null) next.lastRitualAt = now;
+      }
+      if (partial.lastBuchId != null || partial.lastBuchLabel != null) {
+        if (partial.lastBuchAt == null) next.lastBuchAt = now;
+      }
+      d.lastActivity = next;
+    });
+  }
+
   global.UniversumStorage = {
     STORAGE_KEY,
     DEFAULTS,
@@ -1148,6 +1200,8 @@
     setPathWerkzeugState,
     addRitualJournalEntry,
     getRitualJournal,
-    removeRitualJournalEntry
+    removeRitualJournalEntry,
+    getLastActivity,
+    touchLastActivity
   };
 })(typeof window !== 'undefined' ? window : globalThis);

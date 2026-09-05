@@ -942,28 +942,51 @@
     const lead = $('#glance-kalender-lead');
     const meta = $('#glance-kalender-meta');
     const gChip = $('#glance-kalender-chip');
-    const next = nextFestForGlance();
     const pathOnly = isCalendarPathOnly();
-    if (!next) {
-      if (chip) { chip.hidden = true; chip.textContent = ''; }
-      if (lead) lead.textContent = 'Kein baldiges Fest im Kalender.';
-      if (meta) meta.textContent = 'Tippen → Kalender';
-      if (gChip) gChip.textContent = 'Kalender';
-      return;
+    const act = Store.getLastActivity ? Store.getLastActivity() : {};
+    const next = nextFestForGlance();
+
+    // Prefer last viewed day when recent; else next fest
+    let usedLastDay = false;
+    if (act.lastCalendarDay) {
+      try {
+        const parts = String(act.lastCalendarDay).split('-').map(Number);
+        if (parts.length === 3 && parts[0]) {
+          const d = new Date(parts[0], parts[1] - 1, parts[2], 12, 0, 0, 0);
+          const label = act.lastCalendarLabel || fmtDate(d);
+          if (lead) lead.textContent = 'Zuletzt · ' + label;
+          if (meta) meta.textContent = (act.lastCalendarAt
+            ? new Date(act.lastCalendarAt).toLocaleString('de-CH', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) + ' · '
+            : '') + 'Tippen → Kalender';
+          if (gChip) gChip.textContent = 'Tag';
+          usedLastDay = true;
+        }
+      } catch (_) { usedLastDay = false; }
     }
-    const when = next.days <= 0 ? 'heute' : next.days === 1 ? 'morgen' : 'in ' + next.days + ' Tagen';
-    if (lead) lead.textContent = (next.ico || '✦') + ' ' + next.name + ' · ' + when;
-    if (meta) {
-      meta.textContent = (pathOnly ? 'Pfad-Fest' : 'Fest') + ' · ' +
-        (next.date ? fmtDate(next.date) : '') + ' · Tippen → Kalender';
+
+    if (!usedLastDay) {
+      if (!next) {
+        if (lead) lead.textContent = 'Kein baldiges Fest im Kalender.';
+        if (meta) meta.textContent = 'Tippen → Kalender';
+        if (gChip) gChip.textContent = 'Kalender';
+      } else {
+        const when = next.days <= 0 ? 'heute' : next.days === 1 ? 'morgen' : 'in ' + next.days + ' Tagen';
+        if (lead) lead.textContent = (next.ico || '✦') + ' ' + next.name + ' · ' + when;
+        if (meta) {
+          meta.textContent = (pathOnly ? 'Pfad-Fest' : 'Fest') + ' · ' +
+            (next.date ? fmtDate(next.date) : '') + ' · Tippen → Kalender';
+        }
+        if (gChip) gChip.textContent = next.days <= 14 ? when : 'Fest';
+      }
     }
-    if (gChip) gChip.textContent = next.days <= 14 ? when : 'Fest';
-    // Legacy chip: only when < 14 days
+
+    // Legacy chip: only when next fest < 14 days
     if (chip) {
-      if (next.days > 14) {
+      if (!next || next.days > 14) {
         chip.hidden = true;
         chip.textContent = '';
       } else {
+        const when = next.days <= 0 ? 'heute' : next.days === 1 ? 'morgen' : 'in ' + next.days + ' Tagen';
         chip.hidden = false;
         chip.innerHTML = '<span class="fest-ico" aria-hidden="true">' + (next.ico || '✦') + '</span> ' +
           '<strong>' + escapeHtml(next.name) + '</strong> · ' + when;
@@ -1077,6 +1100,87 @@
     const orb = $('#path-art-orb');
     const sym = pathSymbol(path);
     if (orb) orb.textContent = sym;
+  }
+
+  function touchResonanzActivity(id, label, pathHint) {
+    if (!Store.touchLastActivity) return;
+    Store.touchLastActivity({
+      lastResonanzId: id || 'resonanz',
+      lastResonanzLabel: label || 'Resonanz',
+      lastResonanzPath: pathHint || null
+    });
+    refreshState();
+  }
+
+  function renderLastResonanzCard() {
+    const lead = $('#glance-resonanz-lead');
+    const meta = $('#glance-resonanz-meta');
+    const chip = $('#glance-resonanz-chip');
+    const card = $('#glance-resonanz-card');
+    if (!lead) return;
+    const act = Store.getLastActivity ? Store.getLastActivity() : {};
+    if (act.lastResonanzLabel || act.lastResonanzId) {
+      lead.textContent = act.lastResonanzLabel || act.lastResonanzId;
+      const when = act.lastResonanzAt ? new Date(act.lastResonanzAt).toLocaleString('de-CH', {
+        day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
+      }) : '';
+      if (meta) meta.textContent = (when ? when + ' · ' : '') + 'Tippen → Resonanzen';
+      if (chip) chip.textContent = act.lastResonanzId === 'heute' ? 'heute passt' : 'Resonanz';
+      if (card) {
+        card.dataset.resonanzId = act.lastResonanzId || '';
+        card.dataset.resonanzPath = act.lastResonanzPath || '';
+      }
+      return;
+    }
+    // Fallback: today's «heute passt»
+    const heute = Paths.getHeuteResonanz
+      ? Paths.getHeuteResonanz(state.path, new Date())
+      : null;
+    if (heute && heute.item) {
+      lead.textContent = 'Heute passt · ' + heute.item;
+      if (meta) meta.textContent = (heute.why || 'Symbolik für die Haltung') + ' · Tippen';
+      if (chip) chip.textContent = 'heute passt';
+    } else {
+      lead.textContent = 'Noch nichts geöffnet — «heute passt» wartet.';
+      if (meta) meta.textContent = 'Tippen → Resonanzen';
+      if (chip) chip.textContent = 'Resonanz';
+    }
+    if (card) { card.dataset.resonanzId = 'heute'; card.dataset.resonanzPath = ''; }
+  }
+
+  function renderKosmosGlanceCard() {
+    const lead = $('#glance-kosmos-lead');
+    const meta = $('#glance-kosmos-meta');
+    const chip = $('#glance-kosmos-chip');
+    if (!lead) return;
+    const act = Store.getLastActivity ? Store.getLastActivity() : {};
+    if (act.lastKosmosLabel) {
+      lead.textContent = act.lastKosmosLabel;
+      const when = act.lastKosmosAt ? new Date(act.lastKosmosAt).toLocaleString('de-CH', {
+        day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
+      }) : '';
+      if (meta) meta.textContent = (when ? when + ' · ' : '') + 'Tippen → Kosmos';
+      if (chip) chip.textContent = act.lastKosmosKind === 'planet' ? 'Planet' : 'Stunde';
+      return;
+    }
+    // Live hour fallback
+    try {
+      const hour = Astro.planetaryHour(new Date(), state.lat, state.lon);
+      const name = hour && hour.planet ? hour.planet : '—';
+      lead.textContent = 'Stunde · ' + name;
+      if (meta) {
+        if (hour && hour.start && hour.end) {
+          meta.textContent = fmtHourClock(hour.start) + '–' + fmtHourClock(hour.end) + ' · Tippen → Kosmos';
+        } else {
+          meta.textContent = 'Tippen → Kosmos';
+        }
+      }
+      if (chip) chip.textContent = 'Stunde';
+    } catch (_) {
+      lead.textContent = 'Planetenstunde und Radar.';
+      if (meta) meta.textContent = 'Tippen → Kosmos';
+      if (chip) chip.textContent = 'Kosmos';
+    }
   }
 
   function renderStarterCard() {
@@ -1676,9 +1780,33 @@
     if (heuteEl) heuteEl.textContent = (heute && heute.line) || 'Heute passt eine stille Haltung — Grenze und Gabe.';
     if (note) note.textContent = c.note || 'Hauspraxis — kein medizinischer Rat.';
     if (list) {
-      list.innerHTML = correspondenceRows(c).map(function (r) {
-        return '<li class="resonanz-motif"><strong>' + escapeHtml(r[0]) + '</strong><span>' + escapeHtml(r[1]) + '</span></li>';
+      list.innerHTML = correspondenceRows(c).map(function (r, idx) {
+        const rid = 'corr-' + idx;
+        return '<li class="resonanz-motif resonanz-open" role="button" tabindex="0" data-resonanz-id="' + rid +
+          '" data-resonanz-label="' + escapeHtml(r[0] + ' · ' + String(r[1]).slice(0, 48)) + '">' +
+          '<strong>' + escapeHtml(r[0]) + '</strong><span>' + escapeHtml(r[1]) + '</span></li>';
       }).join('');
+      list.querySelectorAll('.resonanz-open').forEach(function (el) {
+        function openIt() {
+          touchResonanzActivity(el.dataset.resonanzId, el.dataset.resonanzLabel, 'corr');
+          toast('Resonanz gemerkt');
+        }
+        el.addEventListener('click', openIt);
+        el.addEventListener('keydown', function (ev) {
+          if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); openIt(); }
+        });
+      });
+    }
+    const heuteElBtn = $('#korresp-heute-passt');
+    if (heuteElBtn && !heuteElBtn.dataset.boundResonanz) {
+      heuteElBtn.dataset.boundResonanz = '1';
+      heuteElBtn.style.cursor = 'pointer';
+      heuteElBtn.title = 'Als letzte Resonanz merken';
+      heuteElBtn.addEventListener('click', function () {
+        const h = Paths.getHeuteResonanz ? Paths.getHeuteResonanz(state.path, new Date()) : null;
+        touchResonanzActivity('heute', h && h.item ? ('Heute passt · ' + h.item) : 'Heute passt …', 'heute');
+        toast('«Heute passt» gemerkt');
+      });
     }
     const craftList = $('#craft-works-list');
     const craftLead = $('#craft-works-lead');
@@ -1688,11 +1816,31 @@
         craftLead.textContent = 'Pfadbezogene Mini-Arbeiten für ' +
           ((path && path.name) || 'diesen Pfad') + ' — ethisch, ohne Spektakel.';
       }
-      craftList.innerHTML = works.map(function (w) {
-        return '<li class="resonanz-motif craft-motif"><strong>' + escapeHtml(w.kind) + '</strong><span>' + escapeHtml(w.text) + '</span></li>';
+      craftList.innerHTML = works.map(function (w, idx) {
+        const rid = 'craft-' + idx;
+        const label = (w.kind || 'Werk') + (w.text ? ' · ' + String(w.text).slice(0, 40) : '');
+        return '<li class="resonanz-motif craft-motif resonanz-open" role="button" tabindex="0" data-resonanz-id="' + rid +
+          '" data-resonanz-label="' + escapeHtml(label) + '">' +
+          '<strong>' + escapeHtml(w.kind) + '</strong><span>' + escapeHtml(w.text) + '</span></li>';
       }).join('');
+      craftList.querySelectorAll('.resonanz-open').forEach(function (el) {
+        function openIt() {
+          touchResonanzActivity(el.dataset.resonanzId, el.dataset.resonanzLabel, 'craft');
+          toast('Werk gemerkt');
+        }
+        el.addEventListener('click', openIt);
+        el.addEventListener('keydown', function (ev) {
+          if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); openIt(); }
+        });
+      });
+    }
+    // Soft touch: opening the section remembers today's «heute passt» if nothing stored yet
+    const act0 = Store.getLastActivity ? Store.getLastActivity() : {};
+    if (!act0.lastResonanzId && heute) {
+      touchResonanzActivity('heute', 'Heute passt · ' + (heute.item || ''), 'heute');
     }
     renderKorrespondenzen();
+    if (typeof renderLastResonanzCard === 'function') renderLastResonanzCard();
   }
 
   function renderMondfenster(moon) {
@@ -2277,7 +2425,7 @@
 
     applyPathTheme();
     const greetEl = $('#cockpit-greeting');
-    if (greetEl) greetEl.textContent = path.greeting || 'Messpult und Praxis — warm, dicht, auf einen Blick.';
+    if (greetEl) greetEl.textContent = path.greeting || 'Home-Bildschirm — Anzeigen und letzte Praxis auf einen Blick.';
     renderJetztCard();
     renderPathWeek();
     renderPathWerkzeug();
@@ -2303,6 +2451,8 @@
     renderFestCountdown();
     renderLastRitualCard();
     renderLastBuchCard();
+    renderLastResonanzCard();
+    renderKosmosGlanceCard();
     renderGlancePathChip();
     renderStarterCard();
     checkPlanetaryHourAlert(false);
@@ -2596,6 +2746,16 @@
         renderDayDetail(c.date);
         // Year-wheel active state without rebuilding month grid
         try { renderYearWheel(now); } catch (_) { /* ignore */ }
+        if (Store.touchLastActivity) {
+          const key = c.date.getFullYear() + '-' +
+            String(c.date.getMonth() + 1).padStart(2, '0') + '-' +
+            String(c.date.getDate()).padStart(2, '0');
+          Store.touchLastActivity({
+            lastCalendarDay: key,
+            lastCalendarLabel: fmtDate(c.date)
+          });
+          refreshState();
+        }
       });
       grid.appendChild(btn);
     });
@@ -3053,6 +3213,14 @@
       ' Aktuell ≈ ' + sign + ' ' + deg + '° (tropische Näherung, kein Ephemeriden-Ersatz).' + hourNote;
     box.hidden = false;
     Rituals.vibrate(15);
+    if (Store.touchLastActivity) {
+      const isHour = !!(hourP && hourP.planet === name);
+      Store.touchLastActivity({
+        lastKosmosKind: isHour ? 'hour' : 'planet',
+        lastKosmosLabel: (isHour ? 'Stunde · ' : '') + name + (sign && sign !== '—' ? ' · ' + sign : '')
+      });
+      refreshState();
+    }
   }
 
 
@@ -3799,6 +3967,12 @@
       optsFinish = optsFinish || {};
       clearClosingBreath();
       toast(msg || 'Schwelle gehalten — gute Praxis.');
+      if (Store.touchLastActivity) {
+        Store.touchLastActivity({
+          lastRitualId: (ritual && ritual.id) || null,
+          lastRitualLabel: label || (ritual && ritual.name) || 'Ritual'
+        });
+      }
       closeRunner();
       renderStreakLine();
       if (typeof renderJetztCard === 'function') renderJetztCard();
@@ -3954,10 +4128,12 @@
               photoId: photoId
             });
           }
+          let savedBuchId = null;
           Store.update(d => {
             d.diary = d.diary || [];
+            savedBuchId = Store.uid();
             d.diary.push({
-              id: Store.uid(),
+              id: savedBuchId,
               title: 'Nach ' + label,
               body: bodyText,
               tags: ['abschluss', 'ritual'],
@@ -3972,6 +4148,12 @@
               moonEmoji: moon.moonEmoji
             });
           });
+          if (Store.touchLastActivity) {
+            Store.touchLastActivity({
+              lastBuchId: savedBuchId,
+              lastBuchLabel: 'Nach ' + label
+            });
+          }
           closingPendingPhoto = null;
           toast('📖 Ins Buch gelegt');
           if (typeof renderRitualJournal === 'function') renderRitualJournal();
@@ -5119,6 +5301,19 @@
         '</div>' + thumb + '</div>';
     }).join('');
 
+    $$('#diary-list .entry-card[data-id]').forEach(card => {
+      card.addEventListener('click', function (ev) {
+        if (ev.target.closest('[data-del-diary], [data-photo-id], button, a')) return;
+        const id = card.getAttribute('data-id');
+        const entry = (state.diary || []).find(x => x.id === id);
+        if (entry && Store.touchLastActivity) {
+          Store.touchLastActivity({
+            lastBuchId: entry.id,
+            lastBuchLabel: entry.title || 'Eintrag'
+          });
+        }
+      });
+    });
     $$('[data-del-diary]').forEach(btn => {
       btn.addEventListener('click', async () => {
         const id = btn.dataset.delDiary;
@@ -5174,10 +5369,13 @@
         return;
       }
     }
+    let newDiaryId = null;
+    const diaryTitle = title || (photoId ? 'Foto-Eintrag' : 'Eintrag');
     Store.update(d => {
+      newDiaryId = Store.uid();
       d.diary.push({
-        id: Store.uid(),
-        title: title || (photoId ? 'Foto-Eintrag' : 'Eintrag'),
+        id: newDiaryId,
+        title: diaryTitle,
         body,
         tags,
         mood: diaryMood || null,
@@ -5191,6 +5389,12 @@
         moonEmoji: moon.moonEmoji
       });
     });
+    if (Store.touchLastActivity) {
+      Store.touchLastActivity({
+        lastBuchId: newDiaryId,
+        lastBuchLabel: diaryTitle
+      });
+    }
     if (!afterPersist('Eintrag im Magie-Buch')) {
       return;
     }
@@ -5908,11 +6112,27 @@
       toast('Stille verlassen — alles wieder da');
     });
     function openFestInKalender() {
-      const next = nextFestForGlance ? nextFestForGlance() : nextSabbatInfo(new Date());
-      if (next && next.date) {
-        calYear = next.date.getFullYear();
-        calMonth = next.date.getMonth();
-        selectedDay = next.date;
+      const act = Store.getLastActivity ? Store.getLastActivity() : {};
+      let opened = false;
+      if (act.lastCalendarDay) {
+        try {
+          const parts = String(act.lastCalendarDay).split('-').map(Number);
+          if (parts.length === 3 && parts[0]) {
+            const d = new Date(parts[0], parts[1] - 1, parts[2], 12, 0, 0, 0);
+            calYear = d.getFullYear();
+            calMonth = d.getMonth();
+            selectedDay = d;
+            opened = true;
+          }
+        } catch (_) { opened = false; }
+      }
+      if (!opened) {
+        const next = nextFestForGlance ? nextFestForGlance() : nextSabbatInfo(new Date());
+        if (next && next.date) {
+          calYear = next.date.getFullYear();
+          calMonth = next.date.getMonth();
+          selectedDay = next.date;
+        }
       }
       navigate('kalender');
     }
@@ -5950,6 +6170,45 @@
     if (craftCard && craftCard.tagName === 'BUTTON') {
       craftCard.addEventListener('click', () => navigate('korrespondenzen', { force: true }));
     }
+    const glanceRes = $('#glance-resonanz-card');
+    if (glanceRes) {
+      glanceRes.addEventListener('click', () => {
+        navigate('korrespondenzen', { force: true });
+      });
+    }
+    const glanceKosmos = $('#glance-kosmos-card');
+    if (glanceKosmos) {
+      glanceKosmos.addEventListener('click', () => {
+        const act = Store.getLastActivity ? Store.getLastActivity() : {};
+        navigate('kosmos', { force: true });
+        if (act.lastKosmosLabel && act.lastKosmosKind === 'planet') {
+          const name = String(act.lastKosmosLabel).replace(/^Stunde · /, '').split(' · ')[0];
+          try { if (name) showPlanetDetail(name); } catch (_) { /* ignore */ }
+        }
+      });
+    }
+    $$('.mess-tap[data-mess-nav]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        const dest = btn.dataset.messNav || 'kosmos';
+        if (btn.id === 'mess-stunde' && Store.touchLastActivity) {
+          const hv = ($('#dash-hour-val') && $('#dash-hour-val').textContent) || 'Stunde';
+          Store.touchLastActivity({
+            lastKosmosKind: 'hour',
+            lastKosmosLabel: 'Stunde · ' + hv
+          });
+          refreshState();
+        }
+        if (btn.id === 'mess-mond' && Store.touchLastActivity) {
+          const mv = ($('#dash-moon-val') && $('#dash-moon-val').textContent) || 'Mond';
+          Store.touchLastActivity({
+            lastKosmosKind: 'planet',
+            lastKosmosLabel: 'Mond · ' + mv.replace(/\s+/g, ' ').trim().slice(0, 40)
+          });
+          refreshState();
+        }
+        navigate(dest, { force: true });
+      });
+    });
     const starterStart = $('#starter-start');
     if (starterStart) starterStart.addEventListener('click', openStarterFlow);
     const starterDismiss = $('#starter-dismiss');
