@@ -1,5 +1,5 @@
 /**
- * UNIVERSUM · COCKPIT — main UI controller (practice companion · Feld-Klarheit)
+ * UNIVERSUM · COCKPIT — main UI controller (practice companion · Feld-Klarheit · v2.6)
  */
 (function () {
   'use strict';
@@ -181,7 +181,9 @@
     'Erste Praxis in 3 Minuten: Intention, Atem, Erdung — klarer Einstieg für Neue.',
     'Stiller Modus blendet Chrome aus — Fokus aufs Ritual, Esc bringt alles zurück.',
     'Export-Paket: universum-buch.json plus Praxis-Zusammenfassung für Coaches.',
-    'Fest-Countdown: wenn der nächste Sabbat unter 14 Tagen liegt, zeigt das Cockpit einen Chip.'
+    'Fest-Countdown: wenn der nächste Sabbat unter 14 Tagen liegt, zeigt das Cockpit einen Chip.',
+    'Pfad-Woche: sieben kurze Schritte Mo–So — erledigt speichert lokal.',
+    'Werkzeug-Set: Mini-Modul pro Pfad (Eid, Sigil, Elemente, Haus-Reinheit).',
   ];
 
   function tipOfDay(date) {
@@ -982,6 +984,7 @@
     if (showStarter) {
       card.hidden = true;
       if (starterCard) starterCard.hidden = false;
+      renderPathWeek();
       return;
     }
     if (starterCard) starterCard.hidden = true;
@@ -1007,6 +1010,7 @@
       // Soft re-entry only via starter card / settings reset
       jetztStarter.hidden = true;
     }
+    renderPathWeek();
   }
 
   function updateClock() {
@@ -1421,6 +1425,8 @@
     applyPathTheme();
     $('#cockpit-greeting').textContent = path.greeting || 'Hier übst du — Praxis vor Spektakel.';
     renderJetztCard();
+    renderPathWeek();
+    renderPathWerkzeug();
     const latEl = $('#loc-lat'); const lonEl = $('#loc-lon');
     if (latEl && document.activeElement !== latEl) latEl.value = state.lat;
     if (lonEl && document.activeElement !== lonEl) lonEl.value = state.lon;
@@ -1968,6 +1974,209 @@
     Rituals.vibrate(15);
   }
 
+
+  /* ——— Pfad-Woche (Mo=1…So=7) ——— */
+  const PATH_WEEK_DAY_LABELS = ['', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
+
+  function renderPathWeek() {
+    const path = currentPath();
+    const pathId = state.path || 'esoterik';
+    const step = Paths.getTodayWeekStep
+      ? Paths.getTodayWeekStep(pathId)
+      : { day: 1, title: 'Praxis', text: 'Eine ruhige Mikro-Praxis.' };
+    const day = step.day || (Paths.weekdayMon1 ? Paths.weekdayMon1() : 1);
+    const done = Store.isPathWeekDayDone ? Store.isPathWeekDayDone(pathId, day) : false;
+    const dayLabel = PATH_WEEK_DAY_LABELS[day] || ('Tag ' + day);
+
+    function fill(prefix) {
+      const chip = $(prefix === 'r' ? '#path-week-chip-r' : '#path-week-chip');
+      const lead = $(prefix === 'r' ? '#path-week-lead-r' : '#path-week-lead');
+      const status = $(prefix === 'r' ? '#path-week-status-r' : '#path-week-status');
+      const doneBtn = $(prefix === 'r' ? '#path-week-done-r' : '#path-week-done');
+      const undoBtn = $(prefix === 'r' ? '#path-week-undo-r' : '#path-week-undo');
+      if (chip) chip.textContent = dayLabel + ' · ' + ((path && path.name) || 'Pfad');
+      if (lead) lead.textContent = (step.title || 'Heute') + ' — ' + (step.text || '');
+      if (status) status.textContent = done ? 'Heute erledigt.' : 'Noch offen — kurz und ruhig.';
+      if (doneBtn) {
+        doneBtn.disabled = !!done;
+        doneBtn.textContent = done ? 'Erledigt' : 'Erledigt markieren';
+      }
+      if (undoBtn) undoBtn.hidden = !done;
+    }
+    fill('');
+    fill('r');
+  }
+
+  function bindPathWeekButtons() {
+    function mark(done) {
+      const pathId = state.path || 'esoterik';
+      const step = Paths.getTodayWeekStep ? Paths.getTodayWeekStep(pathId) : { day: Paths.weekdayMon1() };
+      const day = step.day || 1;
+      if (Store.markPathWeekDay) Store.markPathWeekDay(pathId, day, done);
+      refreshState();
+      if (done && Store.recordPractice) Store.recordPractice('path-week');
+      if (done && Store.addPracticeLog) {
+        Store.addPracticeLog({ kind: 'path-week', label: 'Pfad-Woche · Tag ' + day, detail: step.title || '' });
+      }
+      afterPersist(done ? 'Pfad-Woche: Tag erledigt' : 'Markierung zurückgenommen', { checkBackup: false });
+      renderPathWeek();
+      renderStreakLine();
+      Rituals.vibrate(done ? 20 : 10);
+    }
+    [['#path-week-done', true], ['#path-week-done-r', true],
+     ['#path-week-undo', false], ['#path-week-undo-r', false]].forEach(([sel, val]) => {
+      const el = $(sel);
+      if (el && !el.dataset.boundWeek) {
+        el.dataset.boundWeek = '1';
+        el.addEventListener('click', () => mark(val));
+      }
+    });
+  }
+
+  /* ——— Werkzeug-Set pro Pfad ——— */
+  function renderPathWerkzeug() {
+    const pathId = state.path || 'esoterik';
+    const path = currentPath();
+    const tool = Paths.getPathWerkzeug ? Paths.getPathWerkzeug(pathId) : null;
+    const st = Store.getPathWerkzeugState ? Store.getPathWerkzeugState(pathId) : {};
+
+    function paint(bodySel, chipSel, titleSel) {
+      const body = $(bodySel);
+      const chip = $(chipSel);
+      const title = $(titleSel);
+      if (chip) chip.textContent = (path && path.name) || 'Pfad';
+      if (title && tool) title.textContent = 'Werkzeug · ' + tool.title;
+      if (!body || !tool) return;
+
+      if (tool.kind === 'shortcut') {
+        body.innerHTML = '<p class="hint-sm">Kurz zum Sigil-Labor — ethische Absicht, dann vergessen.</p>' +
+          '<button type="button" class="primary" data-werkzeug-sigil>Sigil öffnen</button>' +
+          (tool.houseOnly ? '<p class="notice ethics-line">Nur Hauspraxis.</p>' : '');
+      } else if (tool.kind === 'note') {
+        const val = st[tool.field] || '';
+        body.innerHTML = (tool.houseOnly ? '<p class="notice ethics-line">Nur Hauspraxis, keine Initiation.</p>' : '') +
+          '<div class="form-row" style="margin-bottom:0.45rem">' +
+          '<label class="sr-only" for="werkzeug-note-' + bodySel.replace('#','') + '">' + escapeHtml(tool.title) + '</label>' +
+          '<input id="werkzeug-note-' + bodySel.replace('#','') + '" maxlength="160" data-werkzeug-note="' + escapeHtml(tool.field) + '" ' +
+          'placeholder="' + escapeHtml(tool.placeholder || '') + '" value="' + escapeHtml(val) + '" autocomplete="off" /></div>' +
+          '<button type="button" class="primary" data-werkzeug-save-note>Speichern</button>';
+      } else if (tool.kind === 'checks') {
+        const checks = st.checks && typeof st.checks === 'object' ? st.checks : {};
+        const items = (tool.fields || []).map(f => {
+          const on = !!checks[f.id];
+          return '<label class="inline-check"><input type="checkbox" data-werkzeug-check="' + escapeHtml(f.id) + '"' +
+            (on ? ' checked' : '') + '> ' + escapeHtml(f.label) + '</label>';
+        }).join('');
+        body.innerHTML = (tool.houseOnly ? '<p class="notice ethics-line">Nur Haus — keine Initiation.</p>' : '') +
+          '<div class="werkzeug-checks">' + items + '</div>' +
+          '<p class="meta-line">Tippen speichert lokal.</p>';
+      } else {
+        body.innerHTML = '<p class="hint-sm">Kein Werkzeug für diesen Pfad.</p>';
+      }
+
+      body.querySelectorAll('[data-werkzeug-sigil]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          navigate('rituale', { force: true });
+          $$('[data-rtab]').forEach(b => {
+            const on = b.dataset.rtab === 'sigil';
+            b.classList.toggle('active', on);
+            b.setAttribute('aria-selected', on ? 'true' : 'false');
+          });
+          $$('[data-rpanel]').forEach(p => p.classList.toggle('hidden', p.dataset.rpanel !== 'sigil'));
+          if (typeof renderSigilGallery === 'function') renderSigilGallery();
+          toast('Sigil-Labor');
+        });
+      });
+      body.querySelectorAll('[data-werkzeug-save-note]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const inp = body.querySelector('[data-werkzeug-note]');
+          if (!inp || !Store.setPathWerkzeugState) return;
+          const field = inp.getAttribute('data-werkzeug-note');
+          const payload = {};
+          payload[field] = (inp.value || '').trim().slice(0, 160);
+          Store.setPathWerkzeugState(pathId, payload);
+          afterPersist('Werkzeug gespeichert', { checkBackup: false });
+          refreshState();
+          Rituals.vibrate(12);
+        });
+      });
+      body.querySelectorAll('[data-werkzeug-check]').forEach(box => {
+        box.addEventListener('change', () => {
+          const checks = Object.assign({}, (Store.getPathWerkzeugState(pathId).checks) || {});
+          checks[box.getAttribute('data-werkzeug-check')] = !!box.checked;
+          Store.setPathWerkzeugState(pathId, { checks: checks });
+          refreshState();
+          Rituals.vibrate(8);
+        });
+      });
+    }
+
+    paint('#path-werkzeug-body', '#path-werkzeug-chip', '#path-werkzeug-title');
+    paint('#path-werkzeug-body-r', '#path-werkzeug-chip-r', '#path-werkzeug-title-r');
+  }
+
+  /* ——— Initiations-Grenze ——— */
+  let pendingInitiationRitual = null;
+
+  function openInitiationGate(ritual) {
+    pendingInitiationRitual = ritual;
+    const gate = $('#initiation-gate');
+    const check = $('#initiation-gate-check');
+    const accept = $('#initiation-gate-accept');
+    if (check) check.checked = false;
+    if (accept) accept.disabled = true;
+    if (gate) gate.classList.add('open');
+  }
+
+  function closeInitiationGate() {
+    const gate = $('#initiation-gate');
+    if (gate) gate.classList.remove('open');
+    pendingInitiationRitual = null;
+  }
+
+  function bindInitiationGate() {
+    const check = $('#initiation-gate-check');
+    const accept = $('#initiation-gate-accept');
+    const cancel = $('#initiation-gate-cancel');
+    if (check && !check.dataset.boundGate) {
+      check.dataset.boundGate = '1';
+      check.addEventListener('change', () => {
+        if (accept) accept.disabled = !check.checked;
+      });
+    }
+    if (accept && !accept.dataset.boundGate) {
+      accept.dataset.boundGate = '1';
+      accept.addEventListener('click', () => {
+        if (!check || !check.checked) return;
+        const pathId = state.path || '';
+        if (Store.setInitiationAck) Store.setInitiationAck(pathId, true);
+        refreshState();
+        const ritual = pendingInitiationRitual;
+        closeInitiationGate();
+        if (ritual) openRitualDirect(ritual);
+        toast('Grenze bestätigt — nur Hauspraxis');
+      });
+    }
+    if (cancel && !cancel.dataset.boundGate) {
+      cancel.dataset.boundGate = '1';
+      cancel.addEventListener('click', () => {
+        closeInitiationGate();
+        toast('Abgebrochen', 2200, 'warn');
+      });
+    }
+  }
+
+  function ritualNeedsInitiationGate(ritual) {
+    const pathId = state.path || '';
+    if (!(Paths.needsInitiationGate && Paths.needsInitiationGate(pathId))) return false;
+    if (Store.hasInitiationAck && Store.hasInitiationAck(pathId)) return false;
+    if (!ritual) return false;
+    // First start of a path ritual (own or houseOnly) on Voodoo/Santería
+    if (ritual.houseOnly) return true;
+    if (Rituals.isOwnForPath && Rituals.isOwnForPath(ritual, pathId)) return true;
+    return false;
+  }
+
   /* ——— Rituale ——— */
   function ritualMatchesFilters(r, path) {
     const q = (ritualSearch || '').trim().toLowerCase();
@@ -2015,66 +2224,105 @@
       }
       return 0;
     });
-    const el = $('#ritual-list');
+    function ritualItemHtml(r) {
+      const isFav = favs.includes(r.id);
+      const isOwn = Rituals.isOwnForPath && Rituals.isOwnForPath(r, state.path);
+      return '<div class="ritual-item' + (isFav ? ' is-fav' : '') + (path.recommendedRitual === r.id || isOwn ? ' path-emphasized' : '') + (isOwn ? ' path-own' : '') + '" data-ritual-wrap="' + r.id + '">' +
+        '<button type="button" class="ritual-item-main" data-ritual="' + r.id + '">' +
+        '<span class="r-ico">' + r.ico + '</span>' +
+        '<span><div class="r-name">' + escapeHtml(r.name) +
+        (isOwn ? '<span class="fav-badge path-own-badge">Pfad</span>' : '') +
+        (isFav ? '<span class="fav-badge">Favorit</span>' : '') + '</div>' +
+        '<div class="r-meta">≈ ' + r.mins + ' Min · ' + r.steps.length + ' Schritte' +
+        (r.breath ? ' · Atem' : '') + (r.candle ? ' · Kerze' : '') +
+        (r.houseOnly ? ' · Haus' : '') +
+        (isOwn ? ' · pfadeigen' : '') +
+        (path.recommendedRitual === r.id ? ' · empfohlen' : '') +
+        '</div></span></button>' +
+        '<button type="button" class="fav-btn" data-fav="' + r.id + '" aria-label="' +
+        (isFav ? 'Favorit entfernen' : 'Als Favorit markieren') + '" aria-pressed="' +
+        (isFav ? 'true' : 'false') + '">' + (isFav ? '★' : '☆') + '</button></div>';
+    }
+
+    const ownList = list.filter(r => Rituals.isOwnForPath && Rituals.isOwnForPath(r, state.path));
+    const sharedList = list.filter(r => !(Rituals.isOwnForPath && Rituals.isOwnForPath(r, state.path)));
+    // Default path filter: show path-own first/only; shared behind accordion
+    const showSplit = ritualPathFilter !== 'all';
+    const elOwn = $('#ritual-list-own');
+    const elShared = $('#ritual-list-shared');
+    const elLegacy = $('#ritual-list');
+    const acc = $('#shared-rituals-accordion');
     const countEl = $('#ritual-filter-count');
     if (countEl) {
       const favCount = list.filter(r => favs.includes(r.id)).length;
-      countEl.textContent = list.length + ' Ritual' + (list.length === 1 ? '' : 'e') +
+      const ownN = showSplit ? ownList.length : list.length;
+      countEl.textContent = (showSplit
+        ? (ownN + ' Pfad-Ritual' + (ownN === 1 ? '' : 'e') +
+           (sharedList.length ? ' · ' + sharedList.length + ' gemeinsam' : ''))
+        : (list.length + ' Ritual' + (list.length === 1 ? '' : 'e'))) +
         (favCount ? ' · ' + favCount + ' Favorit' + (favCount === 1 ? '' : 'en') : '') +
         (ritualPathFilter === 'all' ? ' · gesamte Bibliothek' : ' · ' + path.name);
     }
-    if (!list.length) {
-      el.innerHTML = '<div class="empty-state convert"><strong>Keine Rituale gefunden</strong>' +
+
+    function emptyHtml() {
+      return '<div class="empty-state convert"><strong>Keine Rituale gefunden</strong>' +
         '<p>' + escapeHtml((currentPath() && currentPath().haltung) || 'Filter lockern oder empfohlenes Ritual starten — hier übst du.') + '</p>' +
         '<div class="empty-cta">' +
         '<button type="button" class="primary" id="empty-start-recommended">Empfohlenes starten</button>' +
         '<button type="button" class="ghost" id="ritual-filter-reset">Filter zurücksetzen</button>' +
         '<button type="button" class="ghost" id="empty-goto-custom-from-filter">Eigenes anlegen</button></div></div>';
-      const reset = $('#ritual-filter-reset');
-      if (reset) reset.addEventListener('click', () => {
-        ritualSearch = ''; ritualDurFilter = 'all'; ritualPathFilter = 'current';
-        const s = $('#ritual-search'); if (s) s.value = '';
-        const d = $('#ritual-filter-duration'); if (d) d.value = 'all';
-        const pf = $('#ritual-filter-path'); if (pf) pf.value = 'current';
-        renderRituale();
-      });
-      const go = $('#empty-goto-custom-from-filter');
-      if (go) go.addEventListener('click', () => {
-        $$('[data-rtab]').forEach(b => {
-          const on = b.dataset.rtab === 'custom';
-          b.classList.toggle('active', on);
-          b.setAttribute('aria-selected', on ? 'true' : 'false');
-        });
-        $$('[data-rpanel]').forEach(p => p.classList.toggle('hidden', p.dataset.rpanel !== 'custom'));
-      });
-      const startRec = $('#empty-start-recommended');
-      if (startRec) startRec.addEventListener('click', () => {
-        const id = (path && path.recommendedRitual) || 'erdung';
-        const r = Rituals.getRitual(id);
-        if (r) openRitual(r);
-        else toast('Empfohlenes Ritual nicht gefunden', 2800, 'warn');
-      });
-    } else {
-      el.innerHTML = list.map(r => {
-        const isFav = favs.includes(r.id);
-        const isOwn = Rituals.isOwnForPath && Rituals.isOwnForPath(r, state.path);
-        return '<div class="ritual-item' + (isFav ? ' is-fav' : '') + (path.recommendedRitual === r.id || isOwn ? ' path-emphasized' : '') + (isOwn ? ' path-own' : '') + '" data-ritual-wrap="' + r.id + '">' +
-          '<button type="button" class="ritual-item-main" data-ritual="' + r.id + '">' +
-          '<span class="r-ico">' + r.ico + '</span>' +
-          '<span><div class="r-name">' + escapeHtml(r.name) +
-          (isOwn ? '<span class="fav-badge path-own-badge">Pfad</span>' : '') +
-          (isFav ? '<span class="fav-badge">Favorit</span>' : '') + '</div>' +
-          '<div class="r-meta">≈ ' + r.mins + ' Min · ' + r.steps.length + ' Schritte' +
-          (r.breath ? ' · Atem' : '') + (r.candle ? ' · Kerze' : '') +
-          (r.houseOnly ? ' · Haus' : '') +
-          (isOwn ? ' · pfadeigen' : '') +
-          (path.recommendedRitual === r.id ? ' · empfohlen' : '') +
-          '</div></span></button>' +
-          '<button type="button" class="fav-btn" data-fav="' + r.id + '" aria-label="' +
-          (isFav ? 'Favorit entfernen' : 'Als Favorit markieren') + '" aria-pressed="' +
-          (isFav ? 'true' : 'false') + '">' + (isFav ? '★' : '☆') + '</button></div>';
-      }).join('');
     }
+
+    if (showSplit) {
+      if (elLegacy) { elLegacy.hidden = true; elLegacy.innerHTML = ''; }
+      if (elOwn) {
+        elOwn.hidden = false;
+        if (!ownList.length && !sharedList.length) elOwn.innerHTML = emptyHtml();
+        else if (!ownList.length) {
+          elOwn.innerHTML = '<div class="empty-state compact"><strong>Keine pfadeigenen Rituale im Filter</strong>' +
+            '<p>Gemeinsame Übungen unten öffnen — oder Filter lockern.</p></div>';
+        } else elOwn.innerHTML = ownList.map(ritualItemHtml).join('');
+      }
+      if (acc) acc.hidden = false;
+      if (elShared) {
+        elShared.innerHTML = sharedList.length
+          ? sharedList.map(ritualItemHtml).join('')
+          : '<p class="hint-sm">Keine gemeinsamen Übungen in diesem Filter.</p>';
+      }
+    } else {
+      if (acc) acc.hidden = true;
+      if (elOwn) { elOwn.hidden = true; elOwn.innerHTML = ''; }
+      if (elShared) elShared.innerHTML = '';
+      if (elLegacy) {
+        elLegacy.hidden = false;
+        elLegacy.innerHTML = list.length ? list.map(ritualItemHtml).join('') : emptyHtml();
+      }
+    }
+
+    const reset = $('#ritual-filter-reset');
+    if (reset) reset.addEventListener('click', () => {
+      ritualSearch = ''; ritualDurFilter = 'all'; ritualPathFilter = 'current';
+      const s = $('#ritual-search'); if (s) s.value = '';
+      const d = $('#ritual-filter-duration'); if (d) d.value = 'all';
+      const pf = $('#ritual-filter-path'); if (pf) pf.value = 'current';
+      renderRituale();
+    });
+    const go = $('#empty-goto-custom-from-filter');
+    if (go) go.addEventListener('click', () => {
+      $$('[data-rtab]').forEach(b => {
+        const on = b.dataset.rtab === 'custom';
+        b.classList.toggle('active', on);
+        b.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+      $$('[data-rpanel]').forEach(p => p.classList.toggle('hidden', p.dataset.rpanel !== 'custom'));
+    });
+    const startRec = $('#empty-start-recommended');
+    if (startRec) startRec.addEventListener('click', () => {
+      const id = (path && path.recommendedRitual) || 'erdung';
+      const r = Rituals.getRitual(id);
+      if (r) openRitual(r);
+      else toast('Empfohlenes Ritual nicht gefunden', 2800, 'warn');
+    });
 
     renderRitualTemplates();
 
@@ -2117,10 +2365,12 @@
       ).join('');
     }
 
-    $$('#ritual-list [data-ritual]').forEach(btn => {
+    const ritualRoots = '#ritual-list [data-ritual], #ritual-list-own [data-ritual], #ritual-list-shared [data-ritual]';
+    const favRoots = '#ritual-list [data-fav], #ritual-list-own [data-fav], #ritual-list-shared [data-fav]';
+    $$(ritualRoots).forEach(btn => {
       btn.addEventListener('click', () => openRitual(Rituals.getRitual(btn.dataset.ritual)));
     });
-    $$('#ritual-list [data-fav]').forEach(btn => {
+    $$(favRoots).forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -2155,6 +2405,8 @@
     const panel = activePanel && activePanel.getAttribute('data-rpanel');
     if (!panel || panel === 'karten') renderFeldkarten();
     if (!panel || panel === 'sigil') renderSigilGallery();
+    renderPathWeek();
+    renderPathWerkzeug();
   }
 
   function clearBreath() {
@@ -2162,6 +2414,15 @@
   }
 
   function openRitual(ritual) {
+    if (!ritual) return;
+    if (ritualNeedsInitiationGate(ritual)) {
+      openInitiationGate(ritual);
+      return;
+    }
+    openRitualDirect(ritual);
+  }
+
+  function openRitualDirect(ritual) {
     if (!ritual) return;
     const runner = $('#ritual-runner');
     runner.classList.add('open');
@@ -4292,6 +4553,9 @@
       });
     }
 
+    bindPathWeekButtons();
+    bindInitiationGate();
+
     $$('[data-rtab]').forEach(btn => {
       btn.addEventListener('click', () => {
         $$('[data-rtab]').forEach(b => {
@@ -4301,6 +4565,10 @@
         });
         $$('[data-rpanel]').forEach(p => p.classList.toggle('hidden', p.dataset.rpanel !== btn.dataset.rtab));
         if (btn.dataset.rtab === 'sigil') renderSigilGallery();
+        if (btn.dataset.rtab === 'guided') {
+          renderPathWeek();
+          renderPathWerkzeug();
+        }
       });
     });
 

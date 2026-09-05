@@ -3861,3 +3861,57 @@ body.quiet-mode .path-haltung {
   color: var(--path-accent, var(--gold));
   border: 1px solid color-mix(in srgb, var(--path-accent, var(--gold)) 45%, transparent);
 }
+
+
+/* ——— v2.6 Pfad-Woche · Werkzeug · Gemeinsame Übungen · Initiations-Grenze ——— */
+.path-week-card .path-week-lead,
+.path-werkzeug-card .hint-sm {
+  margin: 0.35rem 0 0.65rem;
+  line-height: 1.45;
+}
+.path-week-card.compact,
+.path-werkzeug-card.compact {
+  padding: 0.85rem 1rem;
+  margin-bottom: 0.75rem;
+}
+.path-week-card.compact h3,
+.path-werkzeug-card.compact h3 {
+  font-size: 0.95rem;
+}
+.werkzeug-checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 0.85rem;
+  margin: 0.35rem 0 0.55rem;
+}
+.shared-rituals-accordion {
+  margin-top: 0.75rem;
+  padding: 0.65rem 0.9rem 0.85rem;
+}
+.shared-rituals-accordion > summary {
+  cursor: pointer;
+  font-weight: 600;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  color: var(--text);
+}
+.shared-rituals-accordion > summary::-webkit-details-marker { display: none; }
+.shared-rituals-accordion > summary::after {
+  content: '▾';
+  opacity: 0.65;
+  font-size: 0.85rem;
+}
+.shared-rituals-accordion[open] > summary::after { content: '▴'; }
+.shared-rituals-accordion .hint-sm { margin: 0.4rem 0 0.55rem; }
+.initiation-gate-card .initiation-ack-label {
+  display: flex;
+  gap: 0.55rem;
+  align-items: flex-start;
+  margin-top: 0.85rem;
+  line-height: 1.4;
+}
+.initiation-gate-card .notice { margin-top: 0.65rem; }
+#initiation-gate { z-index: 95; }

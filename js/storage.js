@@ -41,6 +41,9 @@
       lastKind: null
     },
     cardDrawHistory: [],
+    pathWeekDone: {},
+    initiationAck: {},
+    pathWerkzeug: {},
     settings: {
       schumannAudio: false,
       ambientTone: false,
@@ -101,6 +104,9 @@
         onboarding: Object.assign({}, DEFAULTS.onboarding, data.onboarding || {}),
         streaks: Object.assign({}, DEFAULTS.streaks, data.streaks || {}),
         cardDrawHistory: Array.isArray(data.cardDrawHistory) ? data.cardDrawHistory : [],
+        pathWeekDone: data.pathWeekDone && typeof data.pathWeekDone === 'object' ? data.pathWeekDone : {},
+        initiationAck: data.initiationAck && typeof data.initiationAck === 'object' ? data.initiationAck : {},
+        pathWerkzeug: data.pathWerkzeug && typeof data.pathWerkzeug === 'object' ? data.pathWerkzeug : {},
         settings: Object.assign({}, DEFAULTS.settings, data.settings || {})
       });
     } catch (e) {
@@ -220,7 +226,7 @@
     });
   }
 
-  const APP_VERSION = '2.5.0';
+  const APP_VERSION = '2.6.0';
 
   function buildExportMeta(data) {
     const pathId = data.path || 'esoterik';
@@ -876,6 +882,78 @@
     });
   }
 
+
+  function weekKeyNow() {
+    try {
+      if (global.UniversumPaths && global.UniversumPaths.isoWeekKey) {
+        return global.UniversumPaths.isoWeekKey(new Date());
+      }
+    } catch (_) {}
+    const x = new Date();
+    return x.getFullYear() + '-Wxx';
+  }
+
+  function getPathWeekDone(pathId) {
+    const d = load();
+    const wk = weekKeyNow();
+    const byPath = (d.pathWeekDone && d.pathWeekDone[pathId]) || {};
+    const done = byPath[wk] && typeof byPath[wk] === 'object' ? byPath[wk] : {};
+    return { weekKey: wk, done: Object.assign({}, done) };
+  }
+
+  function markPathWeekDay(pathId, day, value) {
+    return update(d => {
+      const wk = weekKeyNow();
+      if (!d.pathWeekDone || typeof d.pathWeekDone !== 'object') d.pathWeekDone = {};
+      if (!d.pathWeekDone[pathId] || typeof d.pathWeekDone[pathId] !== 'object') d.pathWeekDone[pathId] = {};
+      if (!d.pathWeekDone[pathId][wk] || typeof d.pathWeekDone[pathId][wk] !== 'object') {
+        d.pathWeekDone[pathId][wk] = {};
+      }
+      const dayKey = String(day);
+      if (value === false) delete d.pathWeekDone[pathId][wk][dayKey];
+      else d.pathWeekDone[pathId][wk][dayKey] = true;
+      // prune old weeks for this path (keep current + previous)
+      const keys = Object.keys(d.pathWeekDone[pathId]).sort();
+      while (keys.length > 3) {
+        const old = keys.shift();
+        if (old !== wk) delete d.pathWeekDone[pathId][old];
+      }
+    });
+  }
+
+  function isPathWeekDayDone(pathId, day) {
+    const st = getPathWeekDone(pathId);
+    return !!st.done[String(day)];
+  }
+
+  function hasInitiationAck(pathId) {
+    const d = load();
+    return !!(d.initiationAck && d.initiationAck[pathId]);
+  }
+
+  function setInitiationAck(pathId, value) {
+    return update(d => {
+      if (!d.initiationAck || typeof d.initiationAck !== 'object') d.initiationAck = {};
+      if (value) d.initiationAck[pathId] = { at: new Date().toISOString() };
+      else delete d.initiationAck[pathId];
+    });
+  }
+
+  function getPathWerkzeugState(pathId) {
+    const d = load();
+    const raw = (d.pathWerkzeug && d.pathWerkzeug[pathId]) || {};
+    return Object.assign({}, raw);
+  }
+
+  function setPathWerkzeugState(pathId, partial) {
+    return update(d => {
+      if (!d.pathWerkzeug || typeof d.pathWerkzeug !== 'object') d.pathWerkzeug = {};
+      const cur = d.pathWerkzeug[pathId] && typeof d.pathWerkzeug[pathId] === 'object'
+        ? d.pathWerkzeug[pathId] : {};
+      d.pathWerkzeug[pathId] = Object.assign({}, cur, partial || {});
+    });
+  }
+
   global.UniversumStorage = {
     STORAGE_KEY,
     DEFAULTS,
@@ -940,6 +1018,13 @@
     normalizeTemplates,
     getRitualTemplates,
     saveRitualTemplate,
-    removeRitualTemplate
+    removeRitualTemplate,
+    getPathWeekDone,
+    markPathWeekDay,
+    isPathWeekDayDone,
+    hasInitiationAck,
+    setInitiationAck,
+    getPathWerkzeugState,
+    setPathWerkzeugState
   };
 })(typeof window !== 'undefined' ? window : globalThis);

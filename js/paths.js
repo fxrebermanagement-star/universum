@@ -1,6 +1,6 @@
 /**
  * UNIVERSUM — 8 practice paths (path-aware rituals/sayings/calendar/diary)
- * v2.4: richer calendar emphasis, Haltung in safety/closing/step intros
+ * v2.6: Pfad-Woche, Werkzeug-Set, Initiations-Grenze helpers
  */
 (function (global) {
   'use strict';
@@ -573,9 +573,147 @@
     return same[0];
   }
 
+
+  /** 7-day micro-practice (Mon=1 … Sun=7). Calm, short, path-specific. */
+  const PATH_WEEKS = {
+    schamanismus: [
+      { day: 1, title: 'Füße & Atem', text: 'Füße spüren. Drei ruhige Atemzüge. Körper zuerst.' },
+      { day: 2, title: 'Körper-Check', text: 'Hand auf Brust und Bauch. Was meldet der Körper — ohne Drama?' },
+      { day: 3, title: 'Trommel-Atem kurz', text: 'Eine Minute rhythmisch atmen (oder klopfen). Danach Wasser.' },
+      { day: 4, title: 'Erdung im Alltag', text: 'Bewusst gehen oder sitzen. Mit dem Feld, nicht dagegen.' },
+      { day: 5, title: 'Ahnenlicht still', text: 'Ein Satz Dank — Erinnerung, keine Geistermessung.' },
+      { day: 6, title: 'Grenze halten', text: 'Wo war Überforderung? Ein klares Nein üben.' },
+      { day: 7, title: 'Rückkehr', text: 'Schultern sinken. „Ich bin hier.“ Woche schließen.' }
+    ],
+    nordisch: [
+      { day: 1, title: 'Grenze nennen', text: 'Ein Wort für deine Grenze heute. Ohne Pathos.' },
+      { day: 2, title: 'Eid prüfen', text: 'Welchen Eid hältst du — und welchen schuldest du noch?' },
+      { day: 3, title: 'Kleine Gabe', text: 'Ordnung, Hilfe oder Stille als Gabe. Maß statt Drama.' },
+      { day: 4, title: 'Wort = Tat', text: 'Einen Satz sagen, den du heute halten kannst.' },
+      { day: 5, title: 'Sippe / Selbst', text: 'Beides braucht Maß. Wo warst du einseitig?' },
+      { day: 6, title: 'Ahnenlicht', text: 'Kurzer Dank an Linie oder Lehrer — ohne Forderung.' },
+      { day: 7, title: 'Ring schließen', text: 'Woche ehren. Was bleibt als Haltung?' }
+    ],
+    voodoo: [
+      { day: 1, title: 'Haus ansehen', text: 'Einen Raum ruhig betrachten. Nur Hauspraxis.' },
+      { day: 2, title: 'Wasser', text: 'Wasser bereithalten oder Raum feucht abwischen — Respekt.' },
+      { day: 3, title: 'Licht', text: 'Kerze oder Lampe: Klarheit im Haus, kein Medium.' },
+      { day: 4, title: 'Reinheit kurz', text: 'Eine Ecke ordnen. Reinheit beginnt im Sichtbaren.' },
+      { day: 5, title: 'Respekt-Satz', text: '„Nur Hauspraxis, keine Initiation.“ Laut oder still.' },
+      { day: 6, title: 'Stille im Haus', text: 'Zwei Minuten Stille. Kein Spektakel.' },
+      { day: 7, title: 'Schließen', text: 'Licht aus / Wasser wegräumen. Alltag nimmt Raum.' }
+    ],
+    santeria: [
+      { day: 1, title: 'Hausraum', text: 'Einen Ort im Haus klären. Ile bleibt Tradition — hier nur Haus.' },
+      { day: 2, title: 'Wasser & Ordnung', text: 'Frischwasser oder saubere Fläche. Respekt ohne Initiation.' },
+      { day: 3, title: 'Licht halten', text: 'Ruhiges Licht. Keine Orisha-Ansprüche hier.' },
+      { day: 4, title: 'Reinheit prüfen', text: 'Was stört den Raum? Ein kleines Aufräumen.' },
+      { day: 5, title: 'Grenze sprechen', text: '„Hauspraxis. Keine Einweihung hier.“' },
+      { day: 6, title: 'Dank ohne Forderung', text: 'Ein stiller Dank — ohne Medium, ohne Besitz.' },
+      { day: 7, title: 'Alltag siegeln', text: 'Praxis schließen. Verantwortung im Alltag.' }
+    ],
+    hermetik: [
+      { day: 1, title: 'Stunde notieren', text: 'Welche Planetenstunde ungefähr? Ein Wort dazu (Näherung).' },
+      { day: 2, title: 'Entsprechung', text: 'Ein Paar: oben/unten oder innen/außen — kurz beobachten.' },
+      { day: 3, title: 'Atem der Klarheit', text: 'Vier ruhige Züge. Geist vor Spektakel.' },
+      { day: 4, title: 'Maß der Absicht', text: 'Eine Absicht prüfen: haltbar und ohne Schaden?' },
+      { day: 5, title: 'Studium kurz', text: 'Einen Satz lesen oder erinnern. Verdauen, nicht sammeln.' },
+      { day: 6, title: 'Arbeit & Ruhe', text: 'Wo war Ungleichgewicht? Eine Korrektur wählen.' },
+      { day: 7, title: 'Siegel der Woche', text: 'Was bleibt als Haltung? Notieren, schließen.' }
+    ],
+    wicca: [
+      { day: 1, title: 'Erde', text: 'Boden oder Gegenstand berühren. Element Erde spüren.' },
+      { day: 2, title: 'Luft', text: 'Fenster oder Atem. Klarheit ohne Hetze.' },
+      { day: 3, title: 'Feuer', text: 'Kerze oder Wärme-Idee. Wille mit Maß.' },
+      { day: 4, title: 'Wasser', text: 'Trinken oder Hände waschen. Fließen lassen.' },
+      { day: 5, title: 'Kreis-Mini', text: 'Raum markieren (Blick/Hand). „Dieser Raum hält.“' },
+      { day: 6, title: 'Jahreskreis-Achtung', text: 'Welches Fest ist nah? Ein Satz Respekt.' },
+      { day: 7, title: 'Elemente danken', text: 'Vier Richtungen kurz ehren. Alltag öffnen.' }
+    ],
+    chaosmagie: [
+      { day: 1, title: 'Modell wählen', text: 'Welches Modell dient heute — und darf wieder weg?' },
+      { day: 2, title: 'Sigil-Keim', text: 'Eine ethische Absicht skizzieren (noch nicht laden).' },
+      { day: 3, title: 'Gnosis-Mini', text: '30 Sekunden Fokus oder Atem — dann lockern.' },
+      { day: 4, title: 'Ergebnis-Jagd stoppen', text: 'Bewusst ablenken. Nicht nachchecken.' },
+      { day: 5, title: 'Ethik-Check', text: 'Hält die Absicht ohne Schaden an Personen?' },
+      { day: 6, title: 'Vergessen üben', text: 'Absicht ablegen. Alltag vor Modell.' },
+      { day: 7, title: 'Woche reset', text: 'Modelle stapeln? Eins behalten, Rest streichen.' }
+    ],
+    esoterik: [
+      { day: 1, title: 'Schwelle', text: 'Ankommen. Daten bleiben bei dir. Ein Handy misst keine Geister.' },
+      { day: 2, title: 'Atem 4/6', text: 'Kurz 4 ein — 6 aus. Feldlicht begleiten.' },
+      { day: 3, title: 'Intention', text: 'Ein klarer Satz. Praxiswerkzeug, kein Schaukasten.' },
+      { day: 4, title: 'Ausgleich', text: 'Was gibst du dem Tag zurück? Ruhe oder Ordnung.' },
+      { day: 5, title: 'Mond-Achtung', text: 'Phase wahrnehmen (Näherung). Ohne Astro-Anspruch.' },
+      { day: 6, title: 'Notiz lokal', text: 'Einen Satz ins Tagebuch oder Notizen — lokal.' },
+      { day: 7, title: 'Durchgehen', text: 'Schwelle halten und öffnen. Woche schließen.' }
+    ]
+  };
+
+  function isoWeekKey(d) {
+    const x = d ? new Date(d.getTime()) : new Date();
+    // ISO week: Thursday-based
+    const t = new Date(Date.UTC(x.getFullYear(), x.getMonth(), x.getDate()));
+    const dayNum = t.getUTCDay() || 7;
+    t.setUTCDate(t.getUTCDate() + 4 - dayNum);
+    const yearStart = new Date(Date.UTC(t.getUTCFullYear(), 0, 1));
+    const weekNo = Math.ceil((((t - yearStart) / 86400000) + 1) / 7);
+    return t.getUTCFullYear() + '-W' + String(weekNo).padStart(2, '0');
+  }
+
+  /** Monday=1 … Sunday=7 (local) */
+  function weekdayMon1(d) {
+    const x = d || new Date();
+    const wd = x.getDay(); // 0=Sun
+    return wd === 0 ? 7 : wd;
+  }
+
+  function getPathWeek(pathId) {
+    const days = PATH_WEEKS[pathId] || PATH_WEEKS.esoterik;
+    return days.slice();
+  }
+
+  function getTodayWeekStep(pathId, date) {
+    const day = weekdayMon1(date);
+    const days = getPathWeek(pathId);
+    return days.find(d => d.day === day) || days[0];
+  }
+
+  /** Mini toolkits per path (not full ritual duplicates). */
+  const PATH_WERKZEUG = {
+    nordisch: { id: 'eid-gabe', title: 'Eid / Gabe', kind: 'note', field: 'eidGabe', placeholder: 'Eid oder Gabe heute…' },
+    chaosmagie: { id: 'sigil-labor', title: 'Sigil-Labor', kind: 'shortcut', target: 'sigil' },
+    hermetik: { id: 'stunden-notiz', title: 'Stunden-Notiz', kind: 'note', field: 'stundenNotiz', placeholder: 'Stunde / Beobachtung…' },
+    wicca: { id: 'element-check', title: 'Element-Check', kind: 'checks', fields: [
+      { id: 'erde', label: 'Erde' }, { id: 'luft', label: 'Luft' },
+      { id: 'feuer', label: 'Feuer' }, { id: 'wasser', label: 'Wasser' }
+    ]},
+    schamanismus: { id: 'koerper-check', title: 'Körper-Check', kind: 'checks', fields: [
+      { id: 'atem', label: 'Atem' }, { id: 'fuesse', label: 'Füße' },
+      { id: 'schultern', label: 'Schultern' }, { id: 'ruhe', label: 'Ruhe' }
+    ]},
+    voodoo: { id: 'haus-reinheit', title: 'Haus-Reinheit', kind: 'checks', houseOnly: true, fields: [
+      { id: 'raum', label: 'Raum' }, { id: 'wasser', label: 'Wasser' }, { id: 'licht', label: 'Licht' }
+    ]},
+    santeria: { id: 'haus-reinheit', title: 'Haus-Reinheit', kind: 'checks', houseOnly: true, fields: [
+      { id: 'raum', label: 'Raum' }, { id: 'wasser', label: 'Wasser' }, { id: 'licht', label: 'Licht' }
+    ]},
+    esoterik: { id: 'schwellen-notiz', title: 'Schwellen-Notiz', kind: 'note', field: 'schwellenNotiz', placeholder: 'Schwelle / Klarheit…' }
+  };
+
+  function getPathWerkzeug(pathId) {
+    return PATH_WERKZEUG[pathId] || PATH_WERKZEUG.esoterik;
+  }
+
+  function needsInitiationGate(pathId) {
+    return pathId === 'voodoo' || pathId === 'santeria';
+  }
+
   global.UniversumPaths = {
     PATHS,
     PATH_FESTIVALS,
+    PATH_WEEKS,
+    PATH_WERKZEUG,
     getPath,
     isEmphasized,
     festivalsForPath,
@@ -586,6 +724,12 @@
     safetyLead,
     stepIntro,
     closingWords,
-    closingToast
+    closingToast,
+    getPathWeek,
+    getTodayWeekStep,
+    weekdayMon1,
+    isoWeekKey,
+    getPathWerkzeug,
+    needsInitiationGate
   };
 })(typeof window !== 'undefined' ? window : globalThis);

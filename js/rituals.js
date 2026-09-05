@@ -1,6 +1,6 @@
 /**
  * UNIVERSUM — Geführte Rituale, 369, Sicherheit, Atembrücke, Kerzenwache
- * v2.4: path-own guided rituals; shared secondary; Haltung-aware safety/closing helpers
+ * v2.6: path-own default UI; shared behind accordion; initiation gate for house paths
  */
 (function (global) {
   'use strict';

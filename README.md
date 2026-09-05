@@ -154,6 +154,14 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 - Bestehende Live-SR/Kp-Panels und lokale Puls-Viz bleiben (sekundär)
 - App `2.5.0`, SW-Cache `universum-shell-v17`
 
+**Zusätzlich (v2.6 · Pfad-Woche & Werkzeug)**
+
+- **Pfad-Woche** — 7-Tage-Mikroplan pro Pfad (Mo–So), erledigt in `feldlicht-v15`
+- **Rituale-Default** — pfadeigene Rituale zuerst/allein; gemeinsame Übungen hinter Akkordeon
+- **Werkzeug-Set** — Mini-Module pro Pfad (Eid/Gabe, Sigil-Labor, Stunden-Notiz, Element-/Körper-/Haus-Check, Schwellen-Notiz)
+- **Initiations-Grenze** — Erststart Voodoo/Santería: Bestätigung „Nur Hauspraxis, keine Initiation“
+- App `2.6.0`, SW-Cache `universum-shell-v18`
+
 **Zusätzlich**
 
 - **First-run Onboarding (Erste Minute)** — Pfad → Praxis-Einladung → fertig; Ethik als eine Zeile; optional Überspringen; Standort Zürich-Default (Einstellungen)
@@ -199,7 +207,7 @@ Kein Ersatz für Ephemeriden oder traditionelle Einweihung.
 
 - Schriften: **Syne** (Titel/Zahlen) + **Manrope** (Fließtext) via Google Fonts
 - Dark-Violet Mystik-Cockpit, mobile-first, Micro-Interactions
-- Service Worker: Offline-Shell (`universum-shell-v17`), Scope relativ für GitHub Pages `/universum/`
+- Service Worker: Offline-Shell (`universum-shell-v18`), Scope relativ für GitHub Pages `/universum/`
 - Kein React, kein Bundler, kein Backend
 
 ## Dateien
@@ -274,5 +282,13 @@ Vierzehnte Runde — **Pfad-Tiefe**: jedes der 8 Pfade erhält eigene geführte 
 
 ## Craft-Pass (v2.5) · Tomsk-Spektrogramm
 
-Fünfzehnte Runde — **Live Tomsk-Spektrogramm**: ResonanceOne `/api/spectrogram` als sonogramm-artige Hauptgrafik in Cockpit/Kosmos (5-Min-Refresh, ehrliche Attribution, Fehlerfall ohne Metrik-/Viz-Verlust). Pfadtiefe aus v2.4 und Live-Metriken aus v2.3 bleiben. App `2.5.0`, SW-Cache `universum-shell-v17`. Server Port **8765**.
+Fünfzehnte Runde — **Live Tomsk-Spektrogramm**: ResonanceOne `/api/spectrogram` als sonogramm-artige Hauptgrafik in Cockpit/Kosmos (5-Min-Refresh, ehrliche Attribution, Fehlerfall ohne Metrik-/Viz-Verlust). Pfadtiefe aus v2.4 und Live-Metriken aus v2.3 bleiben. App `2.5.0`, SW-Cache `universum-shell-v17`
+
+**Zusätzlich (v2.6 · Pfad-Woche & Werkzeug)**
+
+- **Pfad-Woche** — 7-Tage-Mikroplan pro Pfad (Mo–So), erledigt in `feldlicht-v15`
+- **Rituale-Default** — pfadeigene Rituale zuerst/allein; gemeinsame Übungen hinter Akkordeon
+- **Werkzeug-Set** — Mini-Module pro Pfad (Eid/Gabe, Sigil-Labor, Stunden-Notiz, Element-/Körper-/Haus-Check, Schwellen-Notiz)
+- **Initiations-Grenze** — Erststart Voodoo/Santería: Bestätigung „Nur Hauspraxis, keine Initiation“
+- App `2.6.0`, SW-Cache `universum-shell-v18`. Server Port **8765**.
 

@@ -86,6 +86,20 @@
         </div>
       </article>
 
+      <article class="card path-week-card" id="path-week-card" aria-labelledby="path-week-title">
+        <div class="intention-top">
+          <h3 id="path-week-title">Pfad-Woche</h3>
+          <span class="chip-quiet" id="path-week-chip">Tag —</span>
+        </div>
+        <p class="path-week-lead" id="path-week-lead">Mikro-Praxis für heute.</p>
+        <p class="hint-sm" id="path-week-hint">Mo–So · rollt mit dem Wochentag</p>
+        <div class="btn-row">
+          <button type="button" class="primary" id="path-week-done">Erledigt</button>
+          <button type="button" class="ghost tiny" id="path-week-undo" hidden>Zurücknehmen</button>
+        </div>
+        <p class="meta-line" id="path-week-status" aria-live="polite"></p>
+      </article>
+
       <article class="card starter-card" id="starter-card" hidden aria-labelledby="starter-title">
         <div class="intention-top">
           <h3 id="starter-title">Erste Praxis in 3 Minuten</h3>
@@ -141,7 +155,7 @@
       <details class="card mehr-accordion" id="mehr-accordion">
         <summary class="mehr-summary">
           <span>Mehr</span>
-          <span class="mehr-hint">Astronomie · Empfehlen · Lehre · Intention · Werkzeuge</span>
+          <span class="mehr-hint">Astronomie · Pfad-Woche · Werkzeug · Lehre · Intention</span>
         </summary>
         <div class="mehr-body">
 
@@ -152,6 +166,15 @@
         </div>
         <p class="path-teach-text" id="path-teach-text">…</p>
         <p class="hint-sm">Ein stiller Lehrsatz für deine Haltung — hier übst du, ohne Spektakel.</p>
+      </article>
+
+      <article class="card path-werkzeug-card nested-card" id="path-werkzeug-card" aria-labelledby="path-werkzeug-title">
+        <div class="intention-top">
+          <h3 id="path-werkzeug-title">Werkzeug-Set</h3>
+          <span class="chip-quiet" id="path-werkzeug-chip">Pfad</span>
+        </div>
+        <p class="hint-sm" id="path-werkzeug-hint">Mini-Modul für deinen Pfad — kein volles Ritual.</p>
+        <div id="path-werkzeug-body" class="path-werkzeug-body"></div>
       </article>
 
       <article class="card invite-card nested-card" id="invite-card" aria-labelledby="invite-title">
@@ -462,6 +485,25 @@
       <div data-rpanel="guided">
         <div class="notice ethics-line">Vor jeder Arbeit: Körper, Zweck, Grenzen, kein Schaden, Abschluss.</div>
         <p class="path-flavor" id="ritual-path-flavor"></p>
+        <div class="card path-week-card compact" id="path-week-card-ritual" aria-labelledby="path-week-title-r">
+          <div class="intention-top">
+            <h3 id="path-week-title-r">Pfad-Woche · heute</h3>
+            <span class="chip-quiet" id="path-week-chip-r">Tag —</span>
+          </div>
+          <p class="path-week-lead" id="path-week-lead-r"></p>
+          <div class="btn-row">
+            <button type="button" class="primary" id="path-week-done-r">Erledigt</button>
+            <button type="button" class="ghost tiny" id="path-week-undo-r" hidden>Zurücknehmen</button>
+          </div>
+          <p class="meta-line" id="path-week-status-r" aria-live="polite"></p>
+        </div>
+        <div class="card path-werkzeug-card compact" id="path-werkzeug-card-ritual" aria-labelledby="path-werkzeug-title-r">
+          <div class="intention-top">
+            <h3 id="path-werkzeug-title-r">Werkzeug-Set</h3>
+            <span class="chip-quiet" id="path-werkzeug-chip-r">Pfad</span>
+          </div>
+          <div id="path-werkzeug-body-r" class="path-werkzeug-body"></div>
+        </div>
         <div class="ritual-filters card" id="ritual-filters">
           <div class="form-row" style="margin-bottom:0.55rem">
             <label for="ritual-search">Bibliothek durchsuchen</label>
@@ -483,7 +525,13 @@
           </div>
           <p class="meta-line" id="ritual-filter-count"></p>
         </div>
-        <div class="ritual-list" id="ritual-list"></div>
+        <div class="ritual-list" id="ritual-list-own" aria-label="Pfad-eigene Rituale"></div>
+        <details class="card shared-rituals-accordion" id="shared-rituals-accordion">
+          <summary>Gemeinsame Übungen</summary>
+          <p class="hint-sm">Geteilte Rituale für alle Pfade — optional.</p>
+          <div class="ritual-list" id="ritual-list-shared" aria-label="Gemeinsame Rituale"></div>
+        </details>
+        <div class="ritual-list" id="ritual-list" hidden aria-hidden="true"></div>
       </div>
 
       <div data-rpanel="custom" class="hidden">
@@ -832,7 +880,7 @@
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
         <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">2.5.0</span></p>
+        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">2.6.0</span></p>
       </div>
     </div>
   </div>
@@ -862,6 +910,23 @@
       <p class="modal-sub">Wählt Haltung und Farbe für diese Sitzung: Begrüßung, Briefing-Ton, Ritual-Betonung. Voodoo/Santería = nur Hauspraxis, keine Initiation.</p>
       <div class="path-grid" id="path-grid"></div>
       <button type="button" id="path-modal-close" class="w-full mt-2">Schließen</button>
+    </div>
+  </div>
+
+  <!-- Initiations-Grenze (Voodoo / Santería) -->
+  <div class="modal-overlay" id="initiation-gate">
+    <div class="modal initiation-gate-card" role="dialog" aria-modal="true" aria-labelledby="initiation-gate-title">
+      <h2 id="initiation-gate-title">Nur Hauspraxis, keine Initiation</h2>
+      <p class="modal-sub">Dieser Pfad bleibt hier bewusst an der Grenze öffentlicher Hauspraxis. Keine Einweihung, kein Medium, kein Anspruch auf Ile/Lwa-Tradition.</p>
+      <p class="notice ethics-line">Ein Handy kann keine Geister messen. Respekt statt Besitz.</p>
+      <label class="inline-check initiation-ack-label">
+        <input type="checkbox" id="initiation-gate-check" />
+        Ich verstehe: nur Hauspraxis, keine Initiation.
+      </label>
+      <div class="btn-row" style="margin-top:1rem">
+        <button type="button" class="primary" id="initiation-gate-accept" disabled>Weiter zur Praxis</button>
+        <button type="button" class="ghost" id="initiation-gate-cancel">Abbrechen</button>
+      </div>
     </div>
   </div>
 
