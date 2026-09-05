@@ -5578,3 +5578,9 @@ body.quiet-mode .path-art-orb {
   line-height: 1.4;
 }
 .landing-three-min li { margin: 0.3rem 0; }
+
+/* v4.8 — Korrespondenzen section + cockpit peek */
+.korrespondenz-peek #korrespondenz-open { margin-top: 0.45rem; }
+.korrespondenz-full-card .korrespondenz-list { margin-top: 0.75rem; }
+.korrespondenz-full-card .notice { margin-top: 0.85rem; }
+#sec-korrespondenzen .section-sub { margin-bottom: 0.85rem; }

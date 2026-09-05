@@ -42,7 +42,7 @@
     <div id="main-content" tabindex="-1">
     <!-- 1. Cockpit -->
     <section id="sec-cockpit" class="section-view active cockpit-lovely-page" aria-label="Cockpit">
-      <!-- v4.5.0 Cockpit above-the-fold: Suche · Astro-Tiles · Schumann -->
+      <!-- v4.8.0 Cockpit above-the-fold: Suche · Astro-Tiles · Schumann -->
       <div class="cockpit-top" id="cockpit-top">
         <div class="cockpit-search-pill" id="cockpit-search-bar">
           <label class="sr-only" for="global-search-input-cockpit">Suche</label>
@@ -204,13 +204,13 @@
         <p class="meta-line" id="path-week-status" aria-live="polite"></p>
       </article>
 
-      <article class="card korrespondenz-card nested-card" id="korrespondenz-card" aria-labelledby="korrespondenz-title">
+      <article class="card korrespondenz-card korrespondenz-peek nested-card" id="korrespondenz-card" aria-labelledby="korrespondenz-title">
         <div class="intention-top">
           <h3 id="korrespondenz-title">🌿 Korrespondenzen</h3>
           <span class="chip-quiet" id="korrespondenz-chip">Hauspraxis</span>
         </div>
-        <p class="hint-sm" id="korrespondenz-note">Kräuter, Steine, Farben als Symbol — kein medizinischer Rat.</p>
-        <ul class="korrespondenz-list" id="korrespondenz-list"></ul>
+        <p class="hint-sm" id="korrespondenz-peek-text">Pfadbezogene Symbolik — Kräuter, Steine, Farben, Elemente.</p>
+        <button type="button" class="ghost tiny" id="korrespondenz-open">Alle Korrespondenzen</button>
       </article>
 
       <article class="card mondfenster-card nested-card cockpit-lovely" id="mondfenster-card" aria-labelledby="mondfenster-title">
@@ -423,7 +423,8 @@
           <h3 id="empfehlen-title">💌 Empfehlen</h3>
           <span class="chip-quiet">lokal · kein Konto</span>
         </div>
-        <p class="hint-sm" id="empfehlen-lead">UNIVERSUM bleibt auf dem Gerät. Kein Login, kein Tracking — zum Home-Bildschirm oder Link teilen.</p>
+        <p class="hint-sm" id="empfehlen-lead">UNIVERSUM bleibt auf dem Gerät. Kein Login, kein Tracking, <strong>kein Sync</strong> — zum Home-Bildschirm oder Link teilen.</p>
+        <p class="hint-sm" id="empfehlen-trust">Vertrauen: lokal in <code>feldlicht-v15</code>, ohne Konto und ohne Online-Kreis.</p>
         <div class="btn-row empfehlen-actions">
           <button type="button" class="primary tiny" id="empfehlen-share">Teilen</button>
           <button type="button" class="ghost tiny" id="empfehlen-copy">Link kopieren</button>
@@ -438,7 +439,7 @@
         <button type="button" class="tile" data-tile="kosmos"><div class="tile-ico" aria-hidden="true">🪐</div><div class="tile-name">Kosmos</div><div class="tile-desc">Stunde · Kreis · Fokus</div></button>
         <button type="button" class="tile" data-tile="rituale"><div class="tile-ico" aria-hidden="true">🕯️</div><div class="tile-name">Rituale</div><div class="tile-desc">Geführt · Sigil · Karten</div></button>
         <button type="button" class="tile" data-tile="buch"><div class="tile-ico" aria-hidden="true">📖</div><div class="tile-name">Magie-Buch</div><div class="tile-desc">Notiz · Eintrag · lokal</div></button>
-        <button type="button" class="tile" data-tile="netzwerk"><div class="tile-ico" aria-hidden="true">🔮</div><div class="tile-name">Netzwerk</div><div class="tile-desc">Lokal · kein Sync</div></button>
+        <button type="button" class="tile" data-tile="korrespondenzen"><div class="tile-ico" aria-hidden="true">🌿</div><div class="tile-name">Korrespondenzen</div><div class="tile-desc">Kräuter · Steine · Farben</div></button>
       </div>
 
       <p class="footer-ethics">Astronomie = Näherungen zum Üben · keine Astrologie-Beratung · Voodoo/Santería nur Hauspraxis</p>
@@ -897,67 +898,36 @@
       <div id="notes-list" hidden aria-hidden="true"></div>
     </section>
 
-    <!-- 7. Netzwerk / Kreis -->
-    <section id="sec-netzwerk" class="section-view">
-      <h1 class="section-title"><span class="sec-ico" aria-hidden="true">🔮</span> Netzwerk / Kreis</h1>
+    <!-- 6. Korrespondenzen (pfadbezogen) -->
+    <section id="sec-korrespondenzen" class="section-view">
+      <h1 class="section-title"><span class="sec-ico" aria-hidden="true">🌿</span> Korrespondenzen</h1>
       <span class="section-motif" aria-hidden="true"></span>
-      <p class="section-sub">Offline-ehrlich · kein Login · kein Backend</p>
+      <p class="section-sub">Hauspraxis-Symbolik · <span id="korresp-path-name">Pfad</span></p>
 
-      <div class="card kreis-offline-card">
+      <div class="card korrespondenz-full-card" aria-labelledby="korresp-full-title">
         <div class="intention-top">
-          <h3>Offline-Kreis</h3>
-          <span class="chip-quiet">nur Gerät · kein Sync</span>
+          <h3 id="korresp-full-title">Pfad-Korrespondenzen</h3>
+          <span class="chip-quiet" id="korresp-chip">Pfad</span>
         </div>
-        <p class="netz-copy">
-          In dieser App gibt es <strong>keinen echten Online-Kreis</strong>. Kein Account, keine sozialen APIs,
-          keine geteilten Feeds. Was hier steht, bleibt auf diesem Gerät in <code>feldlicht-v15</code>.
-        </p>
-        <ul class="kreis-honest-list">
-          <li>Google- / X-Verbindung: <em>nicht verfügbar</em> (bewusst deaktiviert)</li>
-          <li>Gemeinsame Intentionen: nur als <strong>lokaler Notizblock</strong> — kein Teilen</li>
-          <li>Talker: knappe Strukturhilfe, <em>kein Medium</em>, keine Geisterstimme</li>
-        </ul>
-        <p class="netz-muted">
-          In dieser Version: <strong>kein Sync, kein Online-Kreis</strong>. Praxis, Tagebuch und Kreis-Notizen bleiben lokal.
-        </p>
-        <div class="btn-stack">
-          <button type="button" disabled title="Nicht verfügbar in der Offline-Version">Mit Google verbinden (nicht verfügbar)</button>
-          <button type="button" disabled title="Nicht verfügbar in der Offline-Version">Mit X verbinden (nicht verfügbar)</button>
-        </div>
-      </div>
-
-      <div class="card kreis-notes-card" id="kreis-notes-card" aria-labelledby="kreis-notes-title">
-        <div class="intention-top">
-          <h3 id="kreis-notes-title">Kreis-Notizen</h3>
-          <span class="chip-quiet">nur lokal</span>
-        </div>
-        <p class="hint">
-          Lokaler Pad — <strong>kein Sync, nicht geteilt</strong>. Nur du siehst diese Zeilen auf diesem Gerät.
-          Gut für Formulierungen, die du später in Ritual oder 369 trägst.
-        </p>
-        <div class="form-row">
-          <label class="sr-only" for="kreis-note-input">Kreis-Notiz</label>
-          <textarea id="kreis-note-input" maxlength="400" rows="3" placeholder="z. B. Gemeinsame Klarheit im Haus — nur als lokale Erinnerung"></textarea>
-        </div>
-        <button type="button" class="primary" id="kreis-note-add">Lokal festhalten</button>
-        <div class="entry-list kreis-notes-list" id="kreis-notes-list"></div>
-        <p class="empty-state compact" id="kreis-notes-empty">Noch keine Kreis-Notizen — lokal, ohne Sync.</p>
+        <p class="hint" id="korresp-lead">Kräuter, Steine, Farben und Elemente als Symbol — kein medizinischer Rat.</p>
+        <ul class="korrespondenz-list" id="korresp-list"></ul>
+        <p class="hint-sm" id="korresp-note">Hauspraxis — kein Heilversprechen.</p>
+        <p class="notice ethics-line">Ein Handy kann keine Geister messen. Symbolik dient der Haltung, nicht der Diagnose.</p>
       </div>
 
       <div class="card">
-        <h3>Talker</h3>
-        <p class="netz-copy">
-          Der Talker ist eine <strong>knappe Schnittstelle</strong> für Hinweise und Struktur —
-          <em>kein Medium</em>, keine Geisterstimme, keine Channeling-Behauptung.
-          Ein Handy kann keine Geister messen.
-        </p>
-        <div class="empty-state mt-2">
-          <strong>Kreis ist still</strong>
-          <p>Kein Login, kein Backend — Talker bleibt offline. Nutze lokale Praxis, Tagebuch oder Kreis-Notizen.</p>
-          <div class="empty-cta">
-            <button type="button" class="primary" data-tile="rituale">Zu den Ritualen</button>
-            <button type="button" class="ghost" data-tile="buch">Magie-Buch</button>
-          </div>
+        <div class="intention-top">
+          <h3>Wie nutzen?</h3>
+          <span class="chip-quiet">Praxis</span>
+        </div>
+        <ul class="kreis-honest-list">
+          <li>Als Erinnerung für Altar, Farbe oder Räucherung — nicht als Rezept</li>
+          <li>Wechselt mit dem Pfad (wie die Rituale)</li>
+          <li>Keine medizinischen Claims, keine Heilversprechen</li>
+        </ul>
+        <div class="btn-row mt-1">
+          <button type="button" class="ghost" data-tile="rituale">Zu den Ritualen</button>
+          <button type="button" class="ghost" data-tile="cockpit">Zum Cockpit</button>
         </div>
       </div>
     </section>
@@ -1085,6 +1055,10 @@
 
         <h3 class="mt-2">App &amp; Teilen</h3>
         <p class="hint-sm">PWA auf den Home-Bildschirm · offline-fähig · Daten nur lokal (<code>feldlicht-v15</code>), kein Konto.</p>
+        <div class="card nested-card" style="margin:0.65rem 0;padding:0.75rem 0.85rem">
+          <p class="hint-sm" style="margin:0"><strong>Vertrauen · lokal · kein Sync</strong><br />
+          Kein Login, kein Online-Kreis, kein Backend. Praxis und Magie-Buch bleiben auf diesem Gerät.</p>
+        </div>
         <div class="btn-row">
           <button type="button" class="ghost" id="set-install-app">App installieren / Hinweis</button>
           <button type="button" class="ghost" id="set-share-app">Empfehlen</button>
@@ -1101,7 +1075,7 @@
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
         <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">4.6.0</span></p>
+        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">4.8.0</span></p>
       </div>
     </div>
   </div>

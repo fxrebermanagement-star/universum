@@ -847,48 +847,56 @@
       herbs: ['Beifuß (Räucherung)', 'Wacholder (Raum)', 'Birke (Neubeginn)'],
       stones: ['Obsidian (Schutz-Symbol)', 'Rauchquarz (Klarheit)', 'Hämatit (Erdung-Symbol)'],
       colors: ['Erdbraun', 'Waldgrün', 'Knochenweiß'],
+      elements: ['Erde (Stand)', 'Luft (Atem)', 'Feuer (Herd)', 'Wasser (Fluss)'],
       note: 'Hauspraxis und Symbolik — kein medizinischer Rat, kein Heilversprechen.'
     },
     nordisch: {
       herbs: ['Eichenblatt (Maß)', 'Wermut (Grenze)', 'Thymian (Haus)'],
       stones: ['Bernstein (Wärme-Symbol)', 'Flint (Funke)', 'Granit (Stand)'],
       colors: ['Nordblau', 'Eisengrau', 'Honiggold'],
+      elements: ['Erde (Ring)', 'Eis (Klarheit)', 'Feuer (Herd)', 'Luft (Wort)'],
       note: 'Symbole für Haltung und Haus — keine medizinischen Aussagen.'
     },
     voodoo: {
       herbs: ['Basilikum (Haus)', 'Lorbeer (Klarheit)', 'Minze (Frisch)'],
       stones: ['Muschel (Wasser-Symbol)', 'Quarz (Licht)', 'Lava (Boden)'],
       colors: ['Weiß (Reinheit-Symbol)', 'Blau (Ruhe)', 'Rot (Kraft-Symbol — mit Maß)'],
+      elements: ['Wasser (Schwelle)', 'Erde (Hof)', 'Feuer (Licht)', 'Luft (Atem)'],
       note: 'Nur öffentliche Hauspraxis. Keine Initiation, keine medizinischen Claims.'
     },
     santeria: {
       herbs: ['Rosmarin (Haus)', 'Orange (Dank)', 'Lavendel (Ruhe-Symbol)'],
       stones: ['Koralle (Meer-Symbol)', 'Citrin (Licht)', 'Mondstein (Zyklus-Symbol)'],
       colors: ['Weiß', 'Gelb (Dank)', 'Grün (Wachstum-Symbol)'],
+      elements: ['Wasser (Reinheit-Symbol)', 'Erde (Haus)', 'Feuer (Kerze)', 'Luft (Gebet-Symbol)'],
       note: 'Hauspraxis ohne Ile-Anspruch. Symbolik, kein Heilversprechen.'
     },
     hermetik: {
       herbs: ['Salbei (Klarheit-Symbol)', 'Rosmarin (Gedächtnis-Symbol)', 'Myrte (Maß)'],
       stones: ['Lapis (Denken-Symbol)', 'Bergkristall (Fokus)', 'Zinnober-Ton (Labor-Symbol)'],
       colors: ['Königsblau', 'Gold', 'Schwarz (Grenze)'],
+      elements: ['Feuer (Schwefel-Symbol)', 'Wasser (Lösung)', 'Luft (Merkur-Symbol)', 'Erde (Salz-Symbol)'],
       note: 'Labor- und Haltungssymbole — keine alchemistischen Heilsversprechen.'
     },
     wicca: {
       herbs: ['Lavendel (Ruhe)', 'Mugwort / Beifuß (Mond-Symbol)', 'Rosmarin (Schutz-Symbol)'],
       stones: ['Mondstein', 'Amethyst (Ruhe-Symbol)', 'Moosachat (Erde)'],
       colors: ['Silber', 'Grün', 'Violett'],
+      elements: ['Erde', 'Luft', 'Feuer', 'Wasser'],
       note: 'Elemente und Hausaltar-Symbolik. Kein medizinischer Rat. An niemandem Schaden.'
     },
     chaosmagie: {
       herbs: ['Kaffee (Wachheit-Symbol)', 'Pfeffer (Scharf / Fokus)', 'Minze (Reset)'],
       stones: ['Obsidian (Schnitt)', 'Pyrit (Funke-Symbol)', 'Klarer Quarz (Leinwand)'],
       colors: ['Schwarz', 'Neon-Akzent (Labor)', 'Grau (Neutral)'],
+      elements: ['Beliebig (Paradigma)', 'Leer (Reset)', 'Funke (Gnosis)', 'Alltag (Anker)'],
       note: 'Werkzeug-Metaphern für Gnosis und Labor — keine medizinischen Claims.'
     },
     esoterik: {
       herbs: ['Lavendel', 'Kamille (Ruhe-Symbol)', 'Rosmarin'],
       stones: ['Rosenquarz (Sanft-Symbol)', 'Amethyst', 'Bergkristall'],
       colors: ['Violett', 'Silber', 'Nachtblau'],
+      elements: ['Erde (Stand)', 'Luft (Atem)', 'Feuer (Licht)', 'Wasser (Ruhe)'],
       note: 'Sanfte Hauspraxis-Symbolik. Kein Heilversprechen, kein Medium.'
     }
   };

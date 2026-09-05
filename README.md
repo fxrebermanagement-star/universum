@@ -31,12 +31,12 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 
 ## Funktionen
 
-1. **Cockpit** — **Above-the-fold**: Suche, Mond/Planetenstunde/Unruhe-Tiles (Näherung), Schumann-Station (Tomsk); darunter Heute-Tip, Pfad-Woche, Mondfenster, Korrespondenzen, Journal u. a.; Empfehlen/PWA; Pfad-Chip, Streak
+1. **Cockpit** — **Above-the-fold**: Suche, Mond/Planetenstunde/Unruhe-Tiles (Näherung), Schumann-Station (Tomsk); darunter Heute-Tip, Pfad-Woche, Mondfenster, Korrespondenzen-Peek, Journal u. a.; Empfehlen/PWA; Pfad-Chip, Streak
 2. **Kalender** — Monatsnavigation, Tagesdetails (Mond/Sonne/Feste), **standardmäßig nur Pfad-Feste** (Umschalter Alle Feste), Betonung und Kalender-Notizen
 3. **Kosmos** — Planeten-Radar mit klareren Labels, **Legende**, aktuelle **Planetenstunde hervorgehoben**, Tap/Klick für Detail, Schumann Live-Station + Tomsk-Spektrogramm
 4. **Rituale** — **nur aktueller Pfad** (4–5 einzigartige Own-Rituale); Grundlagen separat; Signaturen, Dauer-Tags 3/11/21, Sicherheitscheck, Timed-Rituale, Fokus-Timer, Sigil, illustrierte Feldkarten, eigene Rituale + Vorlagen
 5. **Magie-Buch** — Notiz (schnell) · Eintrag (Ritual, Stimmung, Foto, Filter); gemeinsame Timeline; Fotos IndexedDB; ZIP/PDF; Export/Import `universum-buch.json` (`notes` + `diary` in `feldlicht-v15`)
-6. **Netzwerk/Kreis** — ohne Login leer; Talker = knappe Schnittstelle, kein Medium
+6. **Korrespondenzen** — pfadbezogene Hauspraxis-Symbolik (Kräuter, Steine, Farben, Elemente); wechselt mit dem Pfad; kein medizinischer Rat
 
 **Zusätzlich (v1.3–1.4)**
 
@@ -338,6 +338,25 @@ universum/
 ## Hinweis
 
 Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine Verantwortung — mit Grenze und Ausgleich.
+
+
+
+## Craft-Pass (v4.8.0) · Korrespondenzen in der Nav
+
+Pfadbezogene Korrespondenzen als eigener Menüpunkt:
+
+- **Bottom-Nav** — Cockpit · Kalender · Kosmos · Rituale · Buch · **Korresp.** 🌿
+- Eigene Sektion mit Kräutern, Steinen, Farben, Elementen (pro Pfad)
+- Cockpit behält kurzen Peek mit Sprung zur Sektion
+- App `4.8.0`, SW-Cache `universum-shell-v39`
+
+
+## Craft-Pass (v4.7.0) · Netzwerk/Kreis aus der Nav
+
+- **Kreis/Netzwerk** aus Bottom-Nav und Tiles entfernt
+- Redirects `#netzwerk` / `#kreis` → Cockpit
+- Vertrauen / lokal / kein Sync in Einstellungen und Empfehlen-Karte
+- App `4.7.0` (Zwischenstand), SW folgte in 4.8.0
 
 
 ## Craft-Pass (v4.6.0) · 3-Minuten empfehlenswert

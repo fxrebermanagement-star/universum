@@ -176,7 +176,7 @@
     'Sterne deine Lieblingsrituale — Favoriten erscheinen zuerst.',
     'Eine Intention des Tages reicht oft als stiller Faden.',
     'Praxis-Log hält Ritual, 369 und Atem diskret fest — löschbar.',
-    'Kreis-Notizen sind lokal: ehrlich kein Sync, nur Erinnerung.',
+    'Alles lokal: kein Sync, kein Konto — Daten bleiben auf dem Gerät.',
     'Tageskarte: einmal ziehen, bis Mitternacht gesiegelt — ohne Datenverlust.',
     'Mond-Arbeit: bei Neu- und Vollmond erscheint ein stiller Praxis-Impuls im Cockpit.',
     'Planetenstunde-Wecker: optional sanfte Erinnerung beim Stundenwechsel (Standard aus).',
@@ -243,11 +243,18 @@
     { id: 'kosmos', name: 'Kosmos', ico: '🪐' },
     { id: 'rituale', name: 'Rituale', ico: '🕯️' },
     { id: 'buch', name: 'Buch', ico: '📖' },
-    { id: 'netzwerk', name: 'Kreis', ico: '🔮' }
+    { id: 'korrespondenzen', name: 'Korresp.', ico: '🌿' }
   ];
   /** Magie-Buch compose mode: notiz | eintrag */
   let buchMode = 'notiz';
   const BUCH_ALIASES = { tagebuch: 'buch', notizen: 'buch', diary: 'buch', notes: 'buch' };
+  /** Legacy hashes → aktuelle Sektionen */
+  const SECTION_REDIRECTS = {
+    netzwerk: 'cockpit',
+    kreis: 'cockpit',
+    korrespondenz: 'korrespondenzen',
+    korresp: 'korrespondenzen'
+  };
   /** Sitzung A–Z: heute → ritual → schliessen → buch */
   let sitzung = { phase: 'idle', ritualId: null, ritualName: null, savedToBuch: false, visible: false };
 
@@ -968,6 +975,7 @@
   function resolveSectionId(id) {
     if (!id) return 'cockpit';
     if (BUCH_ALIASES[id]) return BUCH_ALIASES[id];
+    if (SECTION_REDIRECTS[id]) return SECTION_REDIRECTS[id];
     return id;
   }
 
@@ -992,7 +1000,7 @@
       if (id === 'kosmos') renderKosmos();
       if (id === 'rituale') renderRituale();
       if (id === 'buch') renderBuch();
-      if (id === 'netzwerk') renderNetzwerk();
+      if (id === 'korrespondenzen') renderKorrespondenzenSection();
     } else if (id === 'buch' && opts.force) {
       renderBuch();
     }
@@ -1208,23 +1216,66 @@
     updateOfflineHonesty();
   }
 
-  function renderKorrespondenzen() {
-    const list = $('#korrespondenz-list');
-    const note = $('#korrespondenz-note');
-    const chip = $('#korrespondenz-chip');
-    if (!list || !Paths.getCorrespondences) return;
-    const path = currentPath();
-    const c = Paths.getCorrespondences(state.path);
-    if (chip) chip.textContent = (path && path.name) || 'Pfad';
-    if (note) note.textContent = c.note || 'Hauspraxis — kein medizinischer Rat.';
+  function correspondenceRows(c) {
     const rows = [
       ['🌿 Kräuter', (c.herbs || []).join(' · ')],
       ['💎 Steine', (c.stones || []).join(' · ')],
       ['🎨 Farben', (c.colors || []).join(' · ')]
     ];
-    list.innerHTML = rows.map(function (r) {
-      return '<li><strong>' + escapeHtml(r[0]) + '</strong><span>' + escapeHtml(r[1]) + '</span></li>';
-    }).join('');
+    if (c.elements && c.elements.length) {
+      rows.push(['🜃 Elemente', (c.elements || []).join(' · ')]);
+    }
+    return rows;
+  }
+
+  /** Short cockpit peek → full section */
+  function renderKorrespondenzen() {
+    const peek = $('#korrespondenz-peek-text');
+    const chip = $('#korrespondenz-chip');
+    if (!Paths.getCorrespondences) return;
+    const path = currentPath();
+    const c = Paths.getCorrespondences(state.path);
+    if (chip) chip.textContent = (path && path.name) || 'Pfad';
+    if (peek) {
+      const herbs = (c.herbs || []).slice(0, 2).join(' · ');
+      peek.textContent = herbs
+        ? (herbs + ' — Symbolik für ' + ((path && path.name) || 'deinen Pfad') + '.')
+        : (c.note || 'Hauspraxis-Symbolik — kein medizinischer Rat.');
+    }
+    // Legacy list id (if still present)
+    const list = $('#korrespondenz-list');
+    const note = $('#korrespondenz-note');
+    if (list) {
+      if (note) note.textContent = c.note || 'Hauspraxis — kein medizinischer Rat.';
+      list.innerHTML = correspondenceRows(c).map(function (r) {
+        return '<li><strong>' + escapeHtml(r[0]) + '</strong><span>' + escapeHtml(r[1]) + '</span></li>';
+      }).join('');
+    }
+  }
+
+  function renderKorrespondenzenSection() {
+    refreshState();
+    if (!Paths.getCorrespondences) return;
+    const path = currentPath();
+    const c = Paths.getCorrespondences(state.path);
+    const titlePath = $('#korresp-path-name');
+    const chip = $('#korresp-chip');
+    const note = $('#korresp-note');
+    const list = $('#korresp-list');
+    const lead = $('#korresp-lead');
+    if (titlePath) titlePath.textContent = (path && path.name) || 'Pfad';
+    if (chip) chip.textContent = (path && path.name) || 'Pfad';
+    if (lead) {
+      lead.textContent = 'Kräuter, Steine, Farben und Elemente als Hauspraxis-Symbolik für ' +
+        ((path && path.name) || 'diesen Pfad') + ' — kein medizinischer Rat, kein Heilversprechen.';
+    }
+    if (note) note.textContent = c.note || 'Hauspraxis — kein medizinischer Rat.';
+    if (list) {
+      list.innerHTML = correspondenceRows(c).map(function (r) {
+        return '<li><strong>' + escapeHtml(r[0]) + '</strong><span>' + escapeHtml(r[1]) + '</span></li>';
+      }).join('');
+    }
+    renderKorrespondenzen();
   }
 
   function renderMondfenster(moon) {
@@ -1455,6 +1506,26 @@
         action: 'note:' + n.id
       });
     });
+    if (Paths.getCorrespondences) {
+      const c = Paths.getCorrespondences(state.path);
+      const path = currentPath();
+      const blob = [
+        'korrespondenzen korrespondenz kräuter steine farben elemente hauspraxis',
+        (c.herbs || []).join(' '),
+        (c.stones || []).join(' '),
+        (c.colors || []).join(' '),
+        (c.elements || []).join(' '),
+        c.note || ''
+      ].join(' ').toLowerCase();
+      items.push({
+        kind: 'section',
+        id: 'korrespondenzen',
+        title: 'Korrespondenzen · ' + ((path && path.name) || 'Pfad'),
+        hay: blob,
+        meta: 'Hauspraxis-Symbolik',
+        action: 'section:korrespondenzen'
+      });
+    }
     return items;
   }
 
@@ -1550,6 +1621,10 @@
         try { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (_) {}
       }
       toast('Magie-Buch · Notiz');
+      return;
+    }
+    if (kind === 'section') {
+      navigate(id || 'cockpit', { force: true });
     }
   }
 
@@ -4577,36 +4652,6 @@
     });
   }
 
-  /* ——— Netzwerk / Kreis-Notizen (lokal) ——— */
-  function renderNetzwerk() {
-    refreshState();
-    const list = $('#kreis-notes-list');
-    const empty = $('#kreis-notes-empty');
-    if (!list) return;
-    const notes = Store.getKreisNotes();
-    if (!notes.length) {
-      list.innerHTML = '';
-      if (empty) empty.hidden = false;
-      return;
-    }
-    if (empty) empty.hidden = true;
-    list.innerHTML = notes.map(n =>
-      '<div class="entry-card kreis-note-card">' +
-      '<div class="e-date">' + escapeHtml(n.at ? new Date(n.at).toLocaleString('de-CH') : '') +
-      ' · <span class="chip-quiet">nur lokal</span></div>' +
-      '<div class="e-body">' + escapeHtml(n.text || '') + '</div>' +
-      '<div class="e-actions"><button type="button" data-del-kreis="' + escapeHtml(n.id) + '">Löschen</button></div></div>'
-    ).join('');
-    $$('[data-del-kreis]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        Store.removeKreisNote(btn.dataset.delKreis);
-        refreshState();
-        renderNetzwerk();
-        toast('Kreis-Notiz gelöscht');
-      });
-    });
-  }
-
   async function addDiary() {
     const title = $('#diary-title').value.trim();
     const body = $('#diary-body').value.trim();
@@ -5905,22 +5950,10 @@
       toast('Ansicht geschlossen');
     });
 
-    // Kreis-Notizen (lokal)
-    const kreisAdd = $('#kreis-note-add');
-    if (kreisAdd) {
-      kreisAdd.addEventListener('click', () => {
-        const inp = $('#kreis-note-input');
-        const val = (inp && inp.value.trim()) || '';
-        if (!val) { toast('Notiz ist leer'); return; }
-        const check = Sigil.isHarmful(val);
-        if (!check.ok) { toast(check.reason); return; }
-        Store.addKreisNote(val);
-        if (inp) inp.value = '';
-        refreshState();
-        renderNetzwerk();
-        toast('Kreis-Notiz lokal gehalten');
-        Rituals.vibrate(15);
-      });
+    // Korrespondenzen peek → section
+    const korrespOpen = $('#korrespondenz-open');
+    if (korrespOpen) {
+      korrespOpen.addEventListener('click', () => navigate('korrespondenzen', { force: true }));
     }
 
     // Skip link focus target
