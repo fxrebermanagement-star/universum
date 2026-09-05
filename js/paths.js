@@ -256,45 +256,47 @@
       accent: '#5aab7a',
       accentSoft: 'rgba(90, 171, 122, 0.22)',
       accentDeep: '#3f8a5a',
-      haltung: 'Kreis halten — niemandem schaden.',
+      haltung: 'Kreis halten — Schutz, Reinigung, Anziehen, Loslassen ohne Schaden.',
       saying: 'An es schadet niemandem — tue, was du willst.',
       sayings: [
         'An es schadet niemandem — tue, was du willst.',
         'Der Kreis hält, weil du ihn hältst.',
         'Sabbat ist Rhythmus, nicht Pflicht.',
+        'Schutz zuerst, dann Reinigung, dann Anziehen — Loslassen schließt.',
         'Elemente erinnern: Körper, Atem, Feuer der Absicht, Wasser der Emotion.'
       ],
       emphasis: [
         'Imbolc', 'Ostara', 'Beltane', 'Litha', 'Lughnasadh', 'Mabon', 'Samhain', 'Yule',
         'Vollmond-Achtung', 'Neumond-Setzen'
       ],
-      ritualFlavor: 'Vier-Wege · Mondkreis klein · Kräuter-Bund · Rede und Segen · Rede-Check — nur dieser Pfad.',
-      greeting: 'Wicca & Hexerei: Sabbat, Kreis, Schadensfreiheit.',
-      calendarNote: 'Alle acht Sabbats plus Mond-Achtung — der Jahreskreis als Atem, nicht als Pflicht.',
+      ritualFlavor: 'Vier-Wege · Mondkreis · Schutz/Reinigung · Anziehen/Loslassen · Rede-Check — nur dieser Pfad.',
+      greeting: 'Wicca-Hexerei: Kreis, Sabbat-Atem, kurze Werke ohne Schaden.',
+      calendarNote: 'Jahresrad als Praxis — Sabbats und Mond als Arbeitsfenster, nicht als Pflichtkalender.',
       recommendedRitual: 'elemente',
-      practiceHint: 'Heute nur Pfad: Vier-Wege, Mondkreis oder Rede-Check — an niemandem Schaden.',
-      teachingTip: 'Der Kreis hält, weil du ihn hältst — schließe ihn bewusst, auch nach kurzer Praxis.',
+      practiceHint: 'Heute: ein kurzes Werk — Schutz, Reinigung, Anziehen oder Loslassen — an niemandem Schaden.',
+      teachingTip: 'Hexerei hier heißt Hauspraxis im Kreis: klare Absicht, Grenze, Gabe, Schweigen — kein Spektakel.',
       diaryPrompts: [
-        'Hat deine Absicht heute jemandem geschadet — auch subtil?',
-        'Welches Element fehlte in deinem Tag: Erde, Luft, Feuer, Wasser?',
-        'Welcher Sabbat-Ton (auch außerhalb des Datums) spürst du gerade?'
+        'Welches Werk war es heute: Schutz, Reinigung, Anziehen oder Loslassen?',
+        'Hat deine Absicht jemandem geschadet — auch subtil?',
+        'Welches Element fehlte: Erde, Luft, Feuer, Wasser?',
+        'Welcher Sabbat-Ton (auch außerhalb des Datums) trug dich?'
       ],
-      stepIntro: 'An es schadet niemandem. Kreis halten.',
-      safetyLead: 'Vor dem Kreis — Rede und Grenze prüfen.',
+      stepIntro: 'An es schadet niemandem. Kreis halten. Werk klein halten.',
+      safetyLead: 'Vor dem Kreis — Rede, Grenze und Ausgleich prüfen.',
       safetyItems: [
         { id: 'body', label: 'Körper: Ich bin stabil genug, den Kreis ruhig zu halten.' },
         { id: 'purpose', label: 'Zweck: Meine Absicht schadet niemandem — auch nicht subtil.' },
         { id: 'boundaries', label: 'Grenzen: Ich halte den Kreis und respektiere fremde Willen.' },
         { id: 'noharm', label: 'Kein Schaden: An es harm none — keine Arbeit gegen Personen.' },
-        { id: 'closing', label: 'Abschluss: Ich öffne den Kreis bewusst und kehre in den Alltag.' }
+        { id: 'closing', label: 'Abschluss: Ich öffne den Kreis bewusst, danke und kehre in den Alltag.' }
       ],
       closing: {
-        danken: 'Dank den Elementen und dem Kreis — ohne Pflichtzwang.',
-        atmen: 'Atem wie Sabbat-Rhythmus: kommen und gehen lassen.',
-        erden: 'Erde unter den Füßen. Kreis noch spüren, dann öffnen.',
+        danken: 'Dank den Elementen, dem Mond und dem Kreis — Gabe ohne Pflichtzwang.',
+        atmen: 'Atem wie Sabbat-Rhythmus: kommen, halten, gehen lassen.',
+        erden: 'Erde unter den Füßen. Was gebunden war, darf jetzt schweigen.',
         siegeln: '„Der Kreis ist geöffnet.“ Niemandem geschadet. Alltag frei.'
       },
-      closingToast: 'Kreis geöffnet — schadensfrei.'
+      closingToast: 'Kreis geöffnet — Werk ethisch geschlossen.'
     },
     {
       id: 'chaosmagie',
@@ -659,13 +661,13 @@
       { day: 7, title: 'Siegel der Woche', text: 'Was bleibt als Haltung? Notieren, schließen.' }
     ],
     wicca: [
-      { day: 1, title: 'Erde', text: 'Boden oder Gegenstand berühren. Element Erde spüren.' },
-      { day: 2, title: 'Luft', text: 'Fenster oder Atem. Klarheit ohne Hetze.' },
-      { day: 3, title: 'Feuer', text: 'Kerze oder Wärme-Idee. Wille mit Maß.' },
-      { day: 4, title: 'Wasser', text: 'Trinken oder Hände waschen. Fließen lassen.' },
-      { day: 5, title: 'Kreis-Mini', text: 'Raum markieren (Blick/Hand). „Dieser Raum hält.“' },
-      { day: 6, title: 'Jahreskreis-Achtung', text: 'Welches Fest ist nah? Ein Satz Respekt.' },
-      { day: 7, title: 'Elemente danken', text: 'Vier Richtungen kurz ehren. Alltag öffnen.' }
+      { day: 1, title: 'Schutz', text: 'Kleine Grenze: Hand am Türrahmen oder Blickkreis. „Hier halte ich.“' },
+      { day: 2, title: 'Reinigung', text: 'Wasser an den Händen oder frische Luft — was nicht dient, darf gehen.' },
+      { day: 3, title: 'Anziehen', text: 'Eine ethische Gabe/Absicht setzen — klein, gegen niemanden.' },
+      { day: 4, title: 'Loslassen', text: 'Einen Satz entlassen. Ergebnis nicht jagen. Schweigen üben.' },
+      { day: 5, title: 'Kreis-Mini', text: 'Raum markieren. Vier Elemente kurz grüßen. Kreis halten.' },
+      { day: 6, title: 'Jahresrad-Atem', text: 'Welches Fest-Ton ist nah? Ein Satz Praxis — nicht nur Datum.' },
+      { day: 7, title: 'Schließen', text: 'Elemente danken. Kreis öffnen. Alltag frei.' }
     ],
     chaosmagie: [
       { day: 1, title: 'Modell wählen', text: 'Welches Modell dient heute — und darf wieder weg?' },
@@ -800,10 +802,10 @@
       { kind: 'ritual', title: 'Labor-Notiz', text: '≈ 3 Min · Eine Beobachtung — ohne Deutung.', ritualId: 'labor-notiz', cta: 'Labor-Notiz' }
     ],
     wicca: [
-      { kind: 'ritual', title: 'Vier-Wege', text: '≈ 11 Min · Erde, Luft, Feuer, Wasser — Rede zuerst.', ritualId: 'elemente', cta: 'Vier-Wege starten' },
-      { kind: 'ritual', title: 'Mondkreis klein', text: '≈ 11 Min · Phase achten, Kreis ziehen und öffnen.', ritualId: 'mondkreis-klein', cta: 'Mondkreis starten' },
-      { kind: 'ritual', title: 'Rede und Segen', text: '≈ 11 Min · Segen mit Ausgleich — nie gegen jemanden.', ritualId: 'sabbat-segen', cta: 'Segen starten' },
-      { kind: 'ritual', title: 'Kräuter-Bund', text: '≈ 11 Min · Symbol binden — kein Heilversprechen.', ritualId: 'kraeuter-bund', cta: 'Kräuter-Bund' },
+      { kind: 'ritual', title: 'Vier-Wege', text: '≈ 11 Min · Erde, Luft, Feuer, Wasser — Schutz und Rede zuerst.', ritualId: 'elemente', cta: 'Vier-Wege starten' },
+      { kind: 'ritual', title: 'Mondkreis', text: '≈ 11 Min · Phase als Arbeitsfenster — setzen, klären oder lösen.', ritualId: 'mondkreis-klein', cta: 'Mondkreis starten' },
+      { kind: 'ritual', title: 'Schutz & Reinigung', text: '≈ 11 Min · Grenze halten, Raum klären — ohne Angriff.', ritualId: 'schutz-reinigung', cta: 'Schutz starten' },
+      { kind: 'ritual', title: 'Anziehen / Loslassen', text: '≈ 11 Min · Ethisch anziehen oder bewusst entlassen.', ritualId: 'anziehen-loslassen', cta: 'Werk starten' },
       { kind: 'ritual', title: 'Rede-Check', text: '≈ 3 Min · Schadet es jemandem? Kurz und ehrlich.', ritualId: 'rede-check', cta: 'Rede-Check' }
     ],
     chaosmagie: [
@@ -879,11 +881,17 @@
       note: 'Labor- und Haltungssymbole — keine alchemistischen Heilsversprechen.'
     },
     wicca: {
-      herbs: ['Lavendel (Ruhe)', 'Mugwort / Beifuß (Mond-Symbol)', 'Rosmarin (Schutz-Symbol)'],
-      stones: ['Mondstein', 'Amethyst (Ruhe-Symbol)', 'Moosachat (Erde)'],
-      colors: ['Silber', 'Grün', 'Violett'],
-      elements: ['Erde', 'Luft', 'Feuer', 'Wasser'],
-      note: 'Elemente und Hausaltar-Symbolik. Kein medizinischer Rat. An niemandem Schaden.'
+      herbs: ['Rosmarin (Schutz-Symbol)', 'Lavendel (Reinigung / Ruhe)', 'Mugwort / Beifuß (Mond-Symbol)'],
+      stones: ['Obsidian (Grenze-Symbol)', 'Mondstein (Zyklus)', 'Moosachat (Erde / Ankern)'],
+      colors: ['Schwarz (Schutz-Grenze)', 'Silber (Mond)', 'Grün (Wachstum mit Maß)'],
+      elements: ['Erde (Stand)', 'Luft (Rede)', 'Feuer (Absicht)', 'Wasser (Loslassen)'],
+      note: 'Hausaltar-Symbolik für Schutz, Reinigung, Anziehen, Loslassen. Kein medizinischer Rat. An niemandem Schaden.',
+      heute: [
+        { item: 'Rosmarin', why: 'als Schutz-Symbol am Eingang oder Altar — Grenze ohne Angriff.' },
+        { item: 'Lavendel', why: 'für sanfte Reinigung und Ruhe im Raum — Duft, kein Heilversprechen.' },
+        { item: 'Silber / Mondlicht', why: 'um die Phase als Arbeitsfenster zu achten, nicht zu erzwingen.' },
+        { item: 'Wasser', why: 'zum Loslassen: Hände waschen, Absicht entlassen, schweigen.' }
+      ]
     },
     chaosmagie: {
       herbs: ['Kaffee (Wachheit-Symbol)', 'Pfeffer (Scharf / Fokus)', 'Minze (Reset)'],
@@ -897,7 +905,13 @@
       stones: ['Rosenquarz (Sanft-Symbol)', 'Amethyst', 'Bergkristall'],
       colors: ['Violett', 'Silber', 'Nachtblau'],
       elements: ['Erde (Stand)', 'Luft (Atem)', 'Feuer (Licht)', 'Wasser (Ruhe)'],
-      note: 'Sanfte Hauspraxis-Symbolik. Kein Heilversprechen, kein Medium.'
+      note: 'Sanfte Hauspraxis-Symbolik. Kein Heilversprechen, kein Medium.',
+      heute: [
+        { item: 'Lavendel', why: 'für Ruhe und sanfte Reinigung — Duft, kein Heilversprechen.' },
+        { item: 'Silber', why: 'um Mond und Schweigen zu ehren, ohne Orakel-Zwang.' },
+        { item: 'Bergkristall', why: 'als klarer Fokus — Haltung, nicht Messung.' },
+        { item: 'Atem', why: 'weil drei bewusste Züge oft die beste Schwelle sind.' }
+      ]
     }
   };
 
@@ -948,10 +962,10 @@
       abnehmend: 'Gut für: Labor aufräumen, Hypothesen verwerfen, siegeln.'
     },
     wicca: {
-      neu: 'Gut für: Absicht im Kreis setzen — an niemandem Schaden.',
-      zunehmend: 'Gut für: Elemente stärken, Kräuter/Steine als Symbol wählen.',
-      voll: 'Gut für: Segen, Dank, Lichtarbeit — Kreis bewusst schließen.',
-      abnehmend: 'Gut für: Loslassen, Reinigen, was nicht dient entlassen.'
+      neu: 'Gut für: Absicht setzen und Schutz um den Keim — an niemandem Schaden.',
+      zunehmend: 'Gut für: Anziehen mit Maß — Elemente und Symbole nähren, was ethisch wachsen darf.',
+      voll: 'Gut für: Segen, Klarheit, Dank — Kreis halten und bewusst öffnen.',
+      abnehmend: 'Gut für: Reinigung und Loslassen — was nicht dient, entlassen und schweigen.'
     },
     chaosmagie: {
       neu: 'Gut für: Sigil laden und Absicht knapper formulieren.',
@@ -966,6 +980,115 @@
       abnehmend: 'Gut für: Loslassen, Lostage achten, Ruhe gönnen.'
     }
   };
+
+
+  /** Kurze Werke: Schutz, Reinigung, Anziehen, Loslassen — pfadbezogen, ethisch */
+  const CRAFT_WORKS = {
+    wicca: [
+      { kind: 'Schutz', text: 'Blickkreis oder Hand am Türrahmen. „Hier halte ich — ohne Angriff.“' },
+      { kind: 'Reinigung', text: 'Fenster auf oder Hände waschen. Was nicht dient, darf gehen.' },
+      { kind: 'Anziehen', text: 'Eine ethische Absicht flüstern oder notieren — Gabe, nicht Besitzanspruch.' },
+      { kind: 'Loslassen', text: 'Satz zerreissen oder ausatmen. Ergebnis nicht jagen. Schweigen.' }
+    ],
+    esoterik: [
+      { kind: 'Schutz', text: 'Schwelle achten: ein Nein, das den Raum hält.' },
+      { kind: 'Reinigung', text: 'Drei Atemzüge. Unnötiges ablegen — ohne Drama.' },
+      { kind: 'Anziehen', text: 'Eine klare Intention in der Gegenwart — klein und haltbar.' },
+      { kind: 'Loslassen', text: 'Lostag-Stille: nicht nachdrücken. Schweigen üben.' }
+    ],
+    schamanismus: [
+      { kind: 'Schutz', text: 'Füße spüren. Körpergrenze — Reise nur mit Maß.' },
+      { kind: 'Reinigung', text: 'Rauch oder frische Luft als Symbol — Raum klären, nicht Geister fordern.' },
+      { kind: 'Anziehen', text: 'Eine kraftvolle, ethische Absicht im Körper verankern.' },
+      { kind: 'Loslassen', text: 'Unruhe abgeben an Erde. Zurückkommen. Schließen.' }
+    ],
+    nordisch: [
+      { kind: 'Schutz', text: 'Ring/Grenze nennen. Frith halten — kein Schaden.' },
+      { kind: 'Reinigung', text: 'Haus oder Tisch ordnen. Altes Wort lösen, wenn unhaltbar.' },
+      { kind: 'Anziehen', text: 'Kleine Gabe oder haltbaren Vorsatz setzen.' },
+      { kind: 'Loslassen', text: 'Unhaltbares entlassen. Maß vor Pathos.' }
+    ],
+    voodoo: [
+      { kind: 'Schutz', text: 'Haus-Schwelle ehren — öffentliche Hauspraxis, keine Initiation.' },
+      { kind: 'Reinigung', text: 'Wasser und Licht im Haus — Ordnung ohne Medium.' },
+      { kind: 'Anziehen', text: 'Respektvolle Absicht klein halten — kein fremder Wille.' },
+      { kind: 'Loslassen', text: 'Altes aus dem Haus bringen. Schwelle schließen.' }
+    ],
+    santeria: [
+      { kind: 'Schutz', text: 'Weiße Klarheit im Haus — Reinheit als Haltung, kein Ile-Anspruch.' },
+      { kind: 'Reinigung', text: 'Wasser, Tuch, Ordnung — Aché als Frische.' },
+      { kind: 'Anziehen', text: 'Dank und Gabe (Obst/Wasser) — teilen, nicht fordern.' },
+      { kind: 'Loslassen', text: 'Was nicht dient, entlassen. Alltag segnen und schließen.' }
+    ],
+    hermetik: [
+      { kind: 'Schutz', text: 'Maß und Grenze der Operation nennen — zeitlich begrenzt.' },
+      { kind: 'Reinigung', text: 'Labor/Tisch aufräumen. Hypothese prüfen, Ballast verwerfen.' },
+      { kind: 'Anziehen', text: 'Eine präzise Frage setzen — Beobachten vor Eingriff.' },
+      { kind: 'Loslassen', text: 'Ergebnis nicht erzwingen. Siegel und Alltag.' }
+    ],
+    chaosmagie: [
+      { kind: 'Schutz', text: 'Banishing-Punkt: mentaler Reset — Raum klären ohne Theater.' },
+      { kind: 'Reinigung', text: 'Unbrauchbares Modell ablegen. Ethik behalten.' },
+      { kind: 'Anziehen', text: 'Sigil knapper formulieren — laden mit Ethik.' },
+      { kind: 'Loslassen', text: 'Vergessen üben. Ergebnis-Jagd stoppen.' }
+    ]
+  };
+
+  function getCraftWorks(pathId) {
+    const list = CRAFT_WORKS[pathId] || CRAFT_WORKS.esoterik;
+    return list.map(function (w) { return Object.assign({}, w); });
+  }
+
+  function getTodayCraft(pathId, date) {
+    const list = getCraftWorks(pathId);
+    const idx = seedIndex(dayKeyLocal(date), pathId || 'esoterik', 'craft', list.length);
+    return list[idx];
+  }
+
+  /** Jahresrad: Praxis-Ton pro Sabbat (nicht nur Datum) */
+  const SABBAT_PRAXIS = {
+    Imbolc: 'Keim und Licht im Haus — Reinigung, neuer Schutz um den Keim.',
+    Ostara: 'Gleichgewicht üben — Anziehen mit Maß, Saat ethisch setzen.',
+    Beltane: 'Freude und Grenze — Feuer der Absicht ohne Besitzanspruch.',
+    Litha: 'Fülle achten — danken, nicht greifen; Schutz der Klarheit.',
+    Lughnasadh: 'Erste Ernte — Gabe teilen, Stolz mit Maß.',
+    Mabon: 'Ausgleich und Dank — was bleibt, was Loslassen will.',
+    Samhain: 'Ahnenachtung und Schweigen — Grenze zum Unsichtbaren halten.',
+    Yule: 'Rückkehr des Lichts — Schutz, Ruhe, kleiner Keim fürs Neue.'
+  };
+
+  function getSabbatPraxis(name) {
+    return SABBAT_PRAXIS[name] || 'Jahresatem achten — Praxis, nicht Pflicht.';
+  }
+
+  function getHeuteResonanz(pathId, date) {
+    const c = getCorrespondences(pathId);
+    const pid = pathId || 'esoterik';
+    if (c.heute && c.heute.length) {
+      const idx = seedIndex(dayKeyLocal(date), pid, 'heute-res', c.heute.length);
+      const h = c.heute[idx];
+      return {
+        line: 'Heute passt ' + h.item + ' — ' + h.why,
+        item: h.item,
+        why: h.why
+      };
+    }
+    // Fallback: first herb + soft why
+    const herb = (c.herbs && c.herbs[0]) || 'eine stille Farbe';
+    const whys = [
+      'als leise Erinnerung an Haltung und Grenze.',
+      'weil Symbolik heute den Kreis trägt — ohne Anspruch.',
+      'als Gabe an den Alltag, nicht als Rezept.',
+      'um Schutz und Klarheit im Haus zu ehren.'
+    ];
+    const wi = seedIndex(dayKeyLocal(date), pid, 'heute-res-why', whys.length);
+    const item = String(herb).split('(')[0].trim();
+    return {
+      line: 'Heute passt ' + item + ' — ' + whys[wi],
+      item: item,
+      why: whys[wi]
+    };
+  }
 
   function getMondFenster(pathId, moonName) {
     const bucket = moonBucket(moonName);
@@ -1012,6 +1135,12 @@
     getDailyTip,
     getCorrespondences,
     moonBucket,
-    getMondFenster
+    getMondFenster,
+    CRAFT_WORKS,
+    SABBAT_PRAXIS,
+    getCraftWorks,
+    getTodayCraft,
+    getSabbatPraxis,
+    getHeuteResonanz
   };
 })(typeof window !== 'undefined' ? window : globalThis);

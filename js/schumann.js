@@ -131,7 +131,7 @@
     ctx.fillStyle = 'rgba(154, 143, 176, 0.85)';
     ctx.font = '600 10px Manrope, sans-serif';
     const label = liveMode
-      ? (formatHz(freq) + ' Hz · Live · Station (kein Sensor)')
+      ? (formatHz(freq) + ' Hz · Tomsk (kein Sensor)')
       : '7,83 Hz · lokale Visualisierung · kein Sensor';
     ctx.fillText(label, 10, 14);
   }

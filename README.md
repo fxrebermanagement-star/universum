@@ -26,17 +26,17 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 - Voodoo / Santería: nur öffentliche **Hauspraxis**, keine Initiation
 - Explizit: *Ein Handy kann keine Geister messen.* Keine EMF-/Geister-Behauptungen
 - Unruhe = abgeleitet aus Mondphase, VoC-Hinweis, Retrograd-Näherung, optionalem Check-in
-- Schumann = optionale **Live-Stationsdaten** und **Tomsk-Spektrogramm** (via ResonanceOne + NOAA Kp/Solar) plus 7,83-Hz-Puls-Visualisierung als Offline-Fallback (optional leiser 136-Hz-Web-Audio-Träger); kein Magnetometer, keine Körper-/Geister-Messung
+- Schumann = optionale, **leise** Stationsdaten und Tomsk-Spektrogramm (via ResonanceOne + NOAA) plus lokale 7,83-Hz-Visualisierung; sekundär, kein Wahrheitsmesser, kein Magnetometer, keine Körper-/Geister-Messung
 - Erststart: Ethik-Bestätigung im Onboarding (gespeichert in `feldlicht-v15`)
 
 ## Funktionen
 
-1. **Altar** — **Above-the-fold**: Suche, Mond/Planetenstunde/Unruhe-Tiles (Näherung), Schumann-Station (Tomsk); darunter Heute-Tip, Pfad-Woche, Mondfenster, Resonanzen-Peek, Journal u. a.; Empfehlen/PWA; Pfad-Chip, Streak
+1. **Altar** — **Above-the-fold**: Suche, weiche Praxis-Fenster (Mond · Stunde · Unruhe als Einladung), Schumann leise/optional; **Heute-Tip primär**; Pfad-Woche, Mondfenster, Resonanzen «heute passt», kurze Werke; Empfehlen/PWA; Pfad-Chip, Streak
 2. **Kalender** — Monatsnavigation, Tagesdetails (Mond/Sonne/Feste), **standardmäßig nur Pfad-Feste** (Umschalter Alle Feste), Betonung und Kalender-Notizen
 3. **Kosmos** — Planeten-Radar mit klareren Labels, **Legende**, aktuelle **Planetenstunde hervorgehoben**, Tap/Klick für Detail, Schumann Live-Station + Tomsk-Spektrogramm
 4. **Rituale** — **nur aktueller Pfad** (4–5 einzigartige Own-Rituale); Grundlagen separat; Signaturen, Dauer-Tags 3/11/21, Sicherheitscheck, Timed-Rituale, Fokus-Timer, Sigil, illustrierte Feldkarten, eigene Rituale + Vorlagen
 5. **Magie-Buch** — Notiz (schnell) · Eintrag (Ritual, Stimmung, Foto, Filter); gemeinsame Timeline; Fotos IndexedDB; ZIP/PDF; Export/Import `universum-buch.json` (`notes` + `diary` in `feldlicht-v15`)
-6. **Resonanzen** — pfadbezogene Hauspraxis-Symbolik (Kräuter, Steine, Farben, Elemente); wechselt mit dem Pfad; kein medizinischer Rat
+6. **Resonanzen** — «heute passt …» mit kurzem Warum; pfadbezogene Symbolik; kurze Werke (Schutz, Reinigung, Anziehen, Loslassen); kein medizinischer Rat
 
 **Zusätzlich (v1.3–1.4)**
 
@@ -339,6 +339,27 @@ universum/
 
 Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine Verantwortung — mit Grenze und Ausgleich.
 
+
+
+
+
+## Craft-Pass (v5.1.0) · Magie & Hexerei vertiefen
+
+- **Kurze Werke** — Schutz, Reinigung, Anziehen, Loslassen (pfadbezogen) am Altar-Peek und in Resonanzen
+- **Resonanzen** — «heute passt …» mit kurzem Warum statt steriler Listen zuerst
+- **Jahresrad** — Sabbat als Praxis-Atem (nicht nur Datum); Mond als Arbeitsfenster
+- **Wicca-Hexerei** — Rituale/Closing/Woche in Craft-Sprache; Ethik, Hauspraxis, keine Gendersprache, keine Medizin-/EMF-Claims
+- App `5.1.0`, SW-Cache `universum-shell-v41`
+
+
+## Craft-Pass (v5.0.0) · Altar enttechnisieren
+
+- Mond / Stunde / Unruhe als **weiche Praxis-Einladungen** («gut für …»), nicht als Metrics-Dashboard
+- Weniger %/Score/Fortschrittsbalken; Mond = Arbeitsfenster
+- Schumann ehrlich, aber **leiser** (zugeklappt/sekundär) — nie Wahrheitsmesser
+- Näherung-Spam visuell entschärft; Ehrlichkeit **einmal** (Kreis, Grenze, Gabe, Schweigen)
+- Heute-Tip bleibt primär; Altar-Nav 🪔 bleibt
+- Zwischenstand aufgegangen in `5.1.0`
 
 
 ## Craft-Pass (v4.9.0) · Altar + Resonanzen

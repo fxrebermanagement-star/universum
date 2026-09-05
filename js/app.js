@@ -26,11 +26,11 @@
   }
 
   function badgeLabelForStatus(status) {
-    if (status === 'live') return 'Live · Station Tomsk';
-    if (status === 'loading') return 'Station wird geladen …';
-    if (status === 'disabled') return 'Live aus · lokal 7,83 Hz';
-    if (status === 'error') return 'Station fehlt · lokal 7,83 Hz';
-    return 'Station offline · lokal 7,83 Hz';
+    if (status === 'live') return 'Tomsk erreichbar';
+    if (status === 'loading') return 'Verbinde leise …';
+    if (status === 'disabled') return 'Lokal · 7,83 Hz';
+    if (status === 'error') return 'Lokal · 7,83 Hz';
+    return 'Lokal · 7,83 Hz';
   }
 
   function sourceLineFromReading(r) {
@@ -82,10 +82,10 @@
     $$('[data-sch-updated]').forEach(el => { el.textContent = updated; });
     $$('[data-sch-source]').forEach(el => { el.textContent = source; });
     const honesty = (status === 'live')
-      ? 'Stationsdaten von Tomsk (via ResonanceOne) — Impuls, keine Messung am Handy.'
+      ? 'Tomsk-Daten (via ResonanceOne) — leise und optional, kein Messgerät am Handy.'
       : (status === 'loading')
-        ? 'Versuche Station zu erreichen … Offline-Puls bleibt verfügbar.'
-        : 'Station nicht erreichbar oder aus — du übst mit lokaler 7,83-Hz-Visualisierung. Kein Wahrheitsmesser.';
+        ? 'Kurz verbinden … lokal 7,83 Hz bleibt.'
+        : 'Lokal 7,83 Hz — optional und leise. Kein Wahrheitsmesser.';
     $$('[data-sch-honesty]').forEach(el => { el.textContent = honesty; });
   }
 
@@ -202,6 +202,9 @@
     'Heute: ein Tip genügt — Ritual oder Haltung, stabil für Datum und Pfad.',
     'Resonanzen sind Hauspraxis-Symbolik — kein medizinischer Rat.',
     'Mondfenster: «gut für …» zur Phase, angepasst an deinen Pfad.',
+    'Kurze Werke: Schutz, Reinigung, Anziehen, Loslassen — pfadbezogen und ethisch.',
+    'Altar zeigt Mond und Stunde als Arbeitsfenster — nicht als Mess-Dashboard.',
+    'Jahresrad ist Praxis-Atem, nicht nur ein Kalenderdatum.',
     'Ritual-Journal: nach dem Schließen optional einen Satz speichern (Mehr).',
     'Empfehlen: teilen oder Link kopieren — lokal, ohne Konto.',
   ];
@@ -238,6 +241,34 @@
   };
 
   /** User-facing labels — swap here if renamed via chat; route ids stay stable */
+
+  const HOUR_GUT_FUER = {
+    Sonne: 'Klarheit und Gabe — Absicht mit Licht, ohne Druck.',
+    Mond: 'Gefühl und Schweigen — Nähe zum Körper.',
+    Merkur: 'Worte mit Maß — Wege klären, nicht hetzen.',
+    Venus: 'Bindung und Schönheit — ohne Besitzanspruch.',
+    Mars: 'Antrieb und Grenze — Kraft ohne Schaden.',
+    Jupiter: 'Weite und Sinn — Wachstum mit Ethik.',
+    Saturn: 'Struktur und Zeit — Verantwortung halten.'
+  };
+
+  function softHourInvite(hour) {
+    const p = hour && hour.planet ? hour.planet : '—';
+    const gut = HOUR_GUT_FUER[p] || 'Ruhige Praxis mit Maß.';
+    return { planet: p, gut: gut };
+  }
+
+  function softUnrestInvite(unrest) {
+    const label = unrest && unrest.label ? unrest.label : '';
+    if (label === 'Hoch') {
+      return { word: 'Bewegt', meta: 'Gut für: Grenze halten, Atem, Schweigen — kein Spektakel.' };
+    }
+    if (label === 'Bewegt') {
+      return { word: 'Lebendig', meta: 'Gut für: kurze Praxis, Klarheit, nicht alles auf einmal.' };
+    }
+    return { word: 'Ruhig', meta: 'Gut für: Gabe setzen oder einfach schweigen.' };
+  }
+
   const ALTAR_LABEL = { name: 'Altar', ico: '🪔' };
   const RESONANZ_LABEL = { name: 'Resonanzen', short: 'Resonanz', ico: '🌿' };
 
@@ -1244,13 +1275,15 @@
     if (!Paths.getCorrespondences) return;
     const path = currentPath();
     const c = Paths.getCorrespondences(state.path);
-    if (chip) chip.textContent = (path && path.name) || 'Pfad';
+    const heute = Paths.getHeuteResonanz
+      ? Paths.getHeuteResonanz(state.path, new Date())
+      : null;
+    if (chip) chip.textContent = 'heute passt';
     if (peek) {
-      const herbs = (c.herbs || []).slice(0, 2).join(' · ');
-      peek.textContent = herbs
-        ? (herbs + ' — Symbolik für ' + ((path && path.name) || 'deinen Pfad') + '.')
-        : (c.note || 'Hauspraxis-Symbolik — kein medizinischer Rat.');
+      peek.textContent = (heute && heute.line)
+        || (c.note || 'Hauspraxis-Symbolik — kein medizinischer Rat.');
     }
+    renderCraftPeek();
     // Legacy list id (if still present)
     const list = $('#korrespondenz-list');
     const note = $('#korrespondenz-note');
@@ -1260,6 +1293,16 @@
         return '<li><strong>' + escapeHtml(r[0]) + '</strong><span>' + escapeHtml(r[1]) + '</span></li>';
       }).join('');
     }
+  }
+
+  function renderCraftPeek() {
+    const text = $('#craft-peek-text');
+    const chip = $('#craft-peek-chip');
+    if (!Paths.getTodayCraft) return;
+    const craft = Paths.getTodayCraft(state.path, new Date());
+    if (!craft) return;
+    if (chip) chip.textContent = craft.kind || 'Werk';
+    if (text) text.textContent = (craft.kind ? craft.kind + ': ' : '') + (craft.text || '');
   }
 
   function renderKorrespondenzenSection() {
@@ -1272,16 +1315,33 @@
     const note = $('#korresp-note');
     const list = $('#korresp-list');
     const lead = $('#korresp-lead');
+    const heuteEl = $('#korresp-heute-passt');
+    const heute = Paths.getHeuteResonanz
+      ? Paths.getHeuteResonanz(state.path, new Date())
+      : null;
     if (titlePath) titlePath.textContent = (path && path.name) || 'Pfad';
     if (chip) chip.textContent = (path && path.name) || 'Pfad';
     if (lead) {
-      lead.textContent = 'Kräuter, Steine, Farben und Elemente als Hauspraxis-Symbolik für ' +
-        ((path && path.name) || 'diesen Pfad') + ' — kein medizinischer Rat, kein Heilversprechen.';
+      lead.textContent = 'Heute passt … — kurze Einladung mit Warum für ' +
+        ((path && path.name) || 'diesen Pfad') + '. Darunter die Symbolik. Kein medizinischer Rat.';
     }
+    if (heuteEl) heuteEl.textContent = (heute && heute.line) || 'Heute passt eine stille Haltung — Grenze und Gabe.';
     if (note) note.textContent = c.note || 'Hauspraxis — kein medizinischer Rat.';
     if (list) {
       list.innerHTML = correspondenceRows(c).map(function (r) {
         return '<li><strong>' + escapeHtml(r[0]) + '</strong><span>' + escapeHtml(r[1]) + '</span></li>';
+      }).join('');
+    }
+    const craftList = $('#craft-works-list');
+    const craftLead = $('#craft-works-lead');
+    if (craftList && Paths.getCraftWorks) {
+      const works = Paths.getCraftWorks(state.path);
+      if (craftLead) {
+        craftLead.textContent = 'Pfadbezogene Mini-Arbeiten für ' +
+          ((path && path.name) || 'diesen Pfad') + ' — ethisch, ohne Spektakel.';
+      }
+      craftList.innerHTML = works.map(function (w) {
+        return '<li><strong>' + escapeHtml(w.kind) + '</strong><span>' + escapeHtml(w.text) + '</span></li>';
       }).join('');
     }
     renderKorrespondenzen();
@@ -1300,8 +1360,7 @@
     if (orb) orb.textContent = m.emoji || '🌕';
     if (meta) {
       meta.textContent = (m.emoji || '☾') + ' ' + (m.name || '—') +
-        (m.percent != null ? ' · ' + m.percent + ' %' : '') +
-        ' · Näherung · pfadbezogen';
+        ' · Arbeitsfenster · pfadbezogen';
     }
   }
 
@@ -1792,22 +1851,26 @@
 
     $('#dash-moon-val').innerHTML =
       '<span class="moon-emoji">' + moon.emoji + '</span>' + escapeHtml(moon.name);
-    $('#dash-moon-meta').textContent =
-      moon.percent + '% · ' + moonInfo.sign + ' · Sonne ' + sunSign;
-    $('#dash-hour-val').textContent = hour.planet;
-    $('#dash-hour-meta').textContent =
-      (hour.isDay ? 'Tag' : 'Nacht') + ' · Std ' + hour.hourIndex +
-      ' · ' + fmtTime(hour.start) + '–' + fmtTime(hour.end) +
-      (hour.remainMin != null ? ' · noch ' + hour.remainMin + ' Min' : '');
-    // Impuls, kein Messwert: Label ohne Prozent-Wahrheit
-    const impulseWord = unrest.label === 'Hoch' ? 'Stark' : (unrest.label === 'Bewegt' ? 'Bewegt' : 'Ruhig');
-    $('#dash-unrest-val').textContent = impulseWord;
-    $('#dash-unrest-val').style.color = unrest.color;
+    // Arbeitsfenster: «gut für …», kein %-Dashboard
+    let moonGut = '';
+    if (Paths.getMondFenster) {
+      const fen = Paths.getMondFenster(state.path, moon.name);
+      moonGut = fen && fen.text ? fen.text : '';
+    }
+    $('#dash-moon-meta').textContent = moonGut || ('Gut für ruhige Praxis · ' + (moonInfo.sign || ''));
+    const hourInv = softHourInvite(hour);
+    $('#dash-hour-val').textContent = hourInv.planet;
+    $('#dash-hour-meta').textContent = 'Gut für: ' + hourInv.gut.replace(/^Gut für:\s*/i, '');
+    const uInv = softUnrestInvite(unrest);
+    $('#dash-unrest-val').textContent = uInv.word;
+    $('#dash-unrest-val').style.color = unrest.color || '';
+    const uMeta = $('#dash-unrest-meta');
+    if (uMeta) uMeta.textContent = uInv.meta;
     const bar = $('#dash-unrest-bar');
     if (bar) {
-      bar.style.width = Math.max(12, Math.min(88, unrest.value)) + '%';
-      bar.style.background = unrest.color;
-      bar.style.opacity = '0.55';
+      // Fortschrittsbalken bewusst still — kein Score-Feeling
+      bar.style.width = '0%';
+      bar.style.opacity = '0';
     }
 
     const voc = $('#voc-banner');
@@ -1852,6 +1915,7 @@
     renderDayBanner();
     renderMondArbeit(moon);
     renderMondfenster(moon);
+    renderKorrespondenzen();
     renderFestCountdown();
     renderStarterCard();
     checkPlanetaryHourAlert(false);
@@ -1873,7 +1937,7 @@
     const hourName = hour && hour.planet ? hour.planet : '—';
     if (id === 'moon') return moon.emoji + ' ' + moon.name;
     if (id === 'hour') return 'Stunde · ' + hourName;
-    if (id === 'unrest') return 'Impuls · ' + (unrest ? unrest.label : '—') + ' (abgeleitet)';
+    if (id === 'unrest') return 'Unruhe · ' + (unrest ? unrest.label : '—') + ' (Einladung)';
     if (id === 'sun') return 'Sonne · ' + (sunSign || '—');
     if (id === 'fest' && nextFest) {
       const festNoon = new Date(nextFest.date.getFullYear(), nextFest.date.getMonth(), nextFest.date.getDate(), 12, 0, 0, 0);
@@ -1900,7 +1964,7 @@
     const nextFest = Paths.nextFestival(now, state.path, { pathOnly: isCalendarPathOnly() });
     lead.textContent =
       moon.emoji + ' ' + moon.name + ' · Stunde ' + hourName +
-      ' · Impuls ' + unrestWord + ' (abgeleitet). ' + saying;
+      ' · Unruhe ' + unrestWord + ' — mit Maß. ' + saying;
 
     const pins = Store.getBriefingPins();
     const ctx = { moon, hour, unrest, sunSign, nextFest, now };
@@ -2225,6 +2289,23 @@
         cap.textContent = 'Jahresrad · ' + y;
       }
     }
+    const praxisEl = $('#year-wheel-praxis');
+    if (praxisEl && Paths.getSabbatPraxis) {
+      const focusName = next && next.sab ? next.sab.name : null;
+      // Near sabbat practice, else today's seasonal feel via closest
+      let praxisName = focusName;
+      if (!praxisName) {
+        let best = null;
+        let bestAbs = Infinity;
+        for (const sab of SABBATS) {
+          const dt = sabbatDate(y, sab);
+          const abs = Math.abs(dt - start);
+          if (abs < bestAbs) { bestAbs = abs; best = sab; }
+        }
+        praxisName = best ? best.name : 'Yule';
+      }
+      praxisEl.textContent = 'Praxis: ' + Paths.getSabbatPraxis(praxisName);
+    }
   }
 
   function renderDayDetail(date) {
@@ -2317,7 +2398,7 @@
   const HOUR_RITUAL_PREF = {
     Sonne: {
       schamanismus: 'ahnenlicht-schaman', nordisch: 'mass-eid', voodoo: 'licht-wasser',
-      santeria: 'morgenwasser', hermetik: 'stunden-halten', wicca: 'sabbat-segen',
+      santeria: 'morgenwasser', hermetik: 'stunden-halten', wicca: 'anziehen-loslassen',
       chaosmagie: 'sigil-gnosis', esoterik: 'schwelle'
     },
     Mond: {
@@ -2327,7 +2408,7 @@
     },
     Mars: {
       schamanismus: 'spurlesen', nordisch: 'frith-grenze', voodoo: 'hausreinigung-voodoo',
-      santeria: 'reinigung-ache', hermetik: 'weihe-hermetik', wicca: 'rede-check',
+      santeria: 'reinigung-ache', hermetik: 'weihe-hermetik', wicca: 'schutz-reinigung',
       chaosmagie: 'banishing-punkt', esoterik: 'schwelle'
     },
     Merkur: {
@@ -2337,12 +2418,12 @@
     },
     Jupiter: {
       schamanismus: 'ahnenlicht-schaman', nordisch: 'gabe', voodoo: 'dienst-licht',
-      santeria: 'obstgabe-haus', hermetik: 'vier-tafel', wicca: 'sabbat-segen',
+      santeria: 'obstgabe-haus', hermetik: 'vier-tafel', wicca: 'anziehen-loslassen',
       chaosmagie: 'modell-wechsel', esoterik: 'stille-feld'
     },
     Venus: {
       schamanismus: 'rueckkehrband', nordisch: 'gabe', voodoo: 'hofkehren',
-      santeria: 'dank-ache', hermetik: 'solve-coagula', wicca: 'kraeuter-bund',
+      santeria: 'dank-ache', hermetik: 'solve-coagula', wicca: 'schutz-reinigung',
       chaosmagie: 'vergessen', esoterik: 'mondarbeit'
     },
     Saturn: {
@@ -5963,6 +6044,10 @@
     const korrespOpen = $('#korrespondenz-open');
     if (korrespOpen) {
       korrespOpen.addEventListener('click', () => navigate('korrespondenzen', { force: true }));
+    }
+    const craftOpen = $('#craft-peek-open');
+    if (craftOpen) {
+      craftOpen.addEventListener('click', () => navigate('korrespondenzen', { force: true }));
     }
 
     // Skip link focus target

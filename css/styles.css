@@ -5584,3 +5584,111 @@ body.quiet-mode .path-art-orb {
 .korrespondenz-full-card .korrespondenz-list { margin-top: 0.75rem; }
 .korrespondenz-full-card .notice { margin-top: 0.85rem; }
 #sec-korrespondenzen .section-sub { margin-bottom: 0.85rem; }
+
+
+/* ——— v5.0.0 Altar enttechnisieren · v5.1.0 Magie/Hexerei ——— */
+.cockpit-dash-soft .dash-panel {
+  min-height: 108px;
+}
+.cockpit-dash-soft .dash-panel .label {
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: rgba(220, 210, 245, 0.72);
+}
+.cockpit-dash-soft .dash-panel .meta {
+  font-size: 0.78rem;
+  line-height: 1.35;
+  color: rgba(230, 222, 255, 0.78);
+}
+.soft-honesty {
+  border-style: dashed;
+  background: rgba(90, 70, 140, 0.08);
+  color: rgba(210, 200, 230, 0.7);
+  font-size: 0.78rem;
+}
+.soft-honesty strong { font-weight: 600; color: rgba(235, 225, 255, 0.85); }
+.cockpit-dash-soft .approx-badge { display: none; }
+.soft-impulse-quiet { display: none !important; }
+.heute-primary {
+  order: -1;
+  border-color: rgba(252, 211, 77, 0.35);
+  box-shadow:
+    0 0 0 1px rgba(252, 211, 77, 0.12),
+    0 12px 36px rgba(0, 0, 0, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+.heute-primary .jetzt-lead {
+  font-size: 1.02rem;
+  color: rgba(250, 245, 255, 0.95);
+}
+.schumann-quiet {
+  opacity: 0.88;
+  border-color: rgba(139, 111, 208, 0.18);
+}
+.schumann-quiet > summary.schumann-summary {
+  font-weight: 550;
+  color: rgba(210, 200, 230, 0.78);
+  font-size: 0.9rem;
+}
+.schumann-badge-quiet,
+.schumann-quiet .schumann-live-badge {
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  opacity: 0.85;
+  background: rgba(40, 32, 60, 0.65);
+  border-color: rgba(139, 111, 208, 0.25);
+}
+.schumann-quiet .schumann-metrics {
+  opacity: 0.82;
+  font-size: 0.85rem;
+}
+.heute-passt-lead {
+  margin: 0.35rem 0 0.85rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: 12px;
+  background: linear-gradient(145deg, rgba(90, 171, 122, 0.14), rgba(40, 30, 60, 0.35));
+  border: 1px solid rgba(90, 171, 122, 0.28);
+  color: rgba(235, 245, 235, 0.95);
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+.craft-works-list,
+.korrespondenz-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0;
+}
+.craft-works-list li,
+.korrespondenz-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.65rem 0.15rem;
+  border-bottom: 1px solid rgba(155, 126, 217, 0.12);
+}
+.craft-works-list li strong {
+  color: rgba(180, 230, 200, 0.95);
+  font-size: 0.88rem;
+}
+.craft-works-list li span,
+.korrespondenz-list li span {
+  color: rgba(220, 210, 240, 0.78);
+  font-size: 0.86rem;
+  line-height: 1.4;
+}
+.craft-peek,
+.craft-works-card {
+  border-color: rgba(90, 171, 122, 0.22);
+}
+.year-wheel-praxis {
+  margin-top: 0.45rem;
+  color: rgba(230, 220, 255, 0.82);
+  line-height: 1.4;
+}
+.impulse-meta {
+  color: rgba(220, 210, 240, 0.7);
+  line-height: 1.35;
+}

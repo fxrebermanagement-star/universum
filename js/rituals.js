@@ -533,61 +533,62 @@
         { phase: 'body', title: 'Luft', text: 'Atem und Klarheit. Ein Gedanke, der dienen darf.', sec: 50, breath: true },
         { phase: 'body', title: 'Feuer', text: 'Absicht als Wärme — nicht als Zorn gegen Personen.', sec: 50 },
         { phase: 'body', title: 'Wasser', text: 'Gefühl anerkennen, ohne es über andere zu gießen.', sec: 50 },
-        { phase: 'closing', title: 'Kreis schließen', text: 'Elemente danken. Kreis öffnen. Alltag.', sec: 45 }
-      ]
-    },
-    {
-      id: 'sabbat-segen',
-      name: 'Rede und Segen',
-      ico: '🌙',
-      mins: 11,
-      paths: ['wicca'],
-      own: true,
-      signature: true,
-      intention: 'Segen im Jahresatem — nie gegen jemanden. Ausgleich geben.',
-      journal: 'Welchen Segen hast du gesprochen — und welchen Ausgleich setzt du?',
-      steps: [
-        { phase: 'intention', title: 'Rhythmus', text: 'Sabbat ist Atem des Jahres — auch außerhalb des Datums. Kein Pflichtzwang.', sec: 40 },
-        { phase: 'body', title: 'Kreis', text: 'Kleinen Kreis ziehen. „Ich halte den Kreis in Frieden.“', sec: 55 },
-        { phase: 'body', title: 'Segen', text: 'Segen für dich, Haus oder Gemeinschaft — nie gegen jemanden.', sec: 100 },
-        { phase: 'body', title: 'Ausgleich', text: 'Eine kleine gute Tat oder Dank als Ausgleich.', sec: 55 },
-        { phase: 'closing', title: 'Öffnen', text: 'Kreis öffnen. „Der Raum ist frei.“', sec: 35 }
+        { phase: 'closing', title: 'Kreis öffnen', text: 'Elemente danken. Gabe ohne Pflicht. Kreis öffnen. Alltag frei.', sec: 45 }
       ]
     },
     {
       id: 'mondkreis-klein',
-      name: 'Mondkreis klein',
+      name: 'Mondkreis',
       ico: '🌕',
       mins: 11,
       paths: ['wicca'],
       own: true,
       signature: true,
       candle: true,
-      intention: 'Kleiner Mondkreis — Phase achten, Rede halten, Kreis wieder öffnen.',
-      journal: 'Neu, Voll oder dazwischen — was war die ehrliche Absicht?',
+      intention: 'Mond als Arbeitsfenster — Phase achten, Werk wählen, Kreis wieder öffnen.',
+      journal: 'Neu, Voll oder dazwischen — Schutz, Reinigung, Anziehen oder Loslassen?',
       steps: [
-        { phase: 'intention', title: 'Phase und Rede', text: 'Neu setzen / Voll klären / dazwischen pflegen. An niemandem Schaden.', sec: 45 },
+        { phase: 'intention', title: 'Phase und Rede', text: 'Neu: setzen. Voll: klären. Abnehmend: lösen. An niemandem Schaden.', sec: 45 },
         { phase: 'body', title: 'Kreis ziehen', text: 'Hand oder Blick. Kerze/LED wenn sicher. „Kreis in Frieden.“', sec: 55 },
-        { phase: 'body', title: 'Mondarbeit', text: 'Eine Absicht passend zur Phase — klein, ethisch.', sec: 120, candle: true },
-        { phase: 'body', title: 'Danken', text: 'Mond und Elemente danken. Kein Spektakel.', sec: 50 },
-        { phase: 'closing', title: 'Öffnen', text: 'Kreis öffnen. Licht achten. Alltag.', sec: 40 }
+        { phase: 'body', title: 'Mondwerk', text: 'Ein kleines Werk passend zur Phase — ethisch, ohne Spektakel.', sec: 120, candle: true },
+        { phase: 'body', title: 'Danken', text: 'Mond und Elemente danken. Gabe ohne Pflicht.', sec: 50 },
+        { phase: 'closing', title: 'Öffnen', text: 'Kreis öffnen. Licht achten. Schweigen. Alltag.', sec: 40 }
       ]
     },
     {
-      id: 'kraeuter-bund',
-      name: 'Kräuter-Bund',
-      ico: '🌿',
+      id: 'schutz-reinigung',
+      name: 'Schutz & Reinigung',
+      ico: '🛡️',
       mins: 11,
       paths: ['wicca'],
       own: true,
-      intention: 'Kräuter als Haus-Symbol binden — Duft und Ordnung, kein Heilversprechen.',
-      journal: 'Welches Kraut (oder Symbol) hast du gewählt — und wofür im Haus?',
+      signature: true,
+      intention: 'Grenze halten und Raum klären — Schutz ohne Angriff, Reinigung ohne Drama.',
+      journal: 'Wo hast du die Grenze gesetzt — und was durfte gehen?',
       steps: [
-        { phase: 'intention', title: 'Kein Medizin-Claim', text: 'Symbol und Duft. Kein Heilversprechen. Rede: kein Schaden.', sec: 40 },
-        { phase: 'body', title: 'Wählen', text: 'Lavendel, Rosmarin, getrocknetes Blatt oder nur Vorstellung.', sec: 50 },
-        { phase: 'body', title: 'Binden', text: 'Faden oder Handgriff. Absicht: Klarheit im Haus — nicht gegen Personen.', sec: 100 },
-        { phase: 'body', title: 'Platz', text: 'Bund hinlegen oder aufhängen wo sicher. Kurz danken.', sec: 70 },
-        { phase: 'closing', title: 'Fertig', text: 'Werkzeug weg. Alltag. Kein medizinischer Rat.', sec: 35 }
+        { phase: 'intention', title: 'Rede', text: 'Kein Schaden, kein Angriff. Schutz ist Nein können.', sec: 40 },
+        { phase: 'body', title: 'Schutz', text: 'Blickkreis, Hand oder Wort: „Hier halte ich.“ Grenze spüren.', sec: 70 },
+        { phase: 'body', title: 'Reinigung', text: 'Fenster, Wasser an den Händen oder Symbol-Kraut. Was nicht dient, darf gehen.', sec: 100 },
+        { phase: 'body', title: 'Ausgleich', text: 'Kurzer Dank oder Ordnung im Raum als Gabe.', sec: 50 },
+        { phase: 'closing', title: 'Schließen', text: 'Kreis öffnen. Schutz hält im Alltag ohne Zwang.', sec: 35 }
+      ]
+    },
+    {
+      id: 'anziehen-loslassen',
+      name: 'Anziehen / Loslassen',
+      ico: '🌙',
+      mins: 11,
+      paths: ['wicca'],
+      own: true,
+      signature: true,
+      intention: 'Ethisch anziehen oder bewusst loslassen — nie gegen Personen.',
+      journal: 'Hast du angezogen oder entlassen — und hast du geschwiegen danach?',
+      steps: [
+        { phase: 'intention', title: 'Wahl', text: 'Anziehen (Gabe/Absicht) oder Loslassen (Entlassen)? Rede prüfen.', sec: 40 },
+        { phase: 'body', title: 'Kreis', text: 'Kleinen Kreis ziehen. Elemente grüßen.', sec: 50 },
+        { phase: 'body', title: 'Werk', text: 'Anziehen: Absicht flüstern/notieren. Loslassen: Satz ausatmen oder zerreissen.', sec: 120 },
+        { phase: 'body', title: 'Schweigen', text: 'Ergebnis nicht jagen. Drei Atemzüge Stille.', sec: 55, breath: true },
+        { phase: 'closing', title: 'Öffnen', text: 'Kreis öffnen. „Getan. Geschlossen.“ Alltag frei.', sec: 35 }
       ]
     },
     {
@@ -597,13 +598,13 @@
       mins: 3,
       paths: ['wicca'],
       own: true,
-      intention: 'Bevor du handelst: schadet es jemandem? Kurz und ehrlich.',
-      journal: 'Hast du gestoppt — oder angepasst?',
+      intention: 'Bevor Schutz, Reinigung, Anziehen oder Loslassen: schadet es jemandem?',
+      journal: 'Hast du gestoppt, angepasst — und den Kreis im Kleinen geschlossen?',
       steps: [
-        { phase: 'intention', title: 'Vorhaben nennen', text: 'Was willst du tun? Ein Satz.', sec: 25 },
+        { phase: 'intention', title: 'Vorhaben nennen', text: 'Welches Werk? Ein Satz.', sec: 25 },
         { phase: 'body', title: 'Rede', text: 'Schadet es einer Person — auch subtil? Wenn ja: stoppen oder ändern.', sec: 50 },
-        { phase: 'body', title: 'Ausgleich', text: 'Falls ja zum Handeln: welcher kleine Ausgleich?', sec: 40 },
-        { phase: 'closing', title: 'Weiter oder stoppen', text: 'Entscheidung halten. Kreis im Kleinen geschlossen.', sec: 20 }
+        { phase: 'body', title: 'Ausgleich', text: 'Falls ja zum Handeln: welcher kleine Ausgleich oder Gabe?', sec: 40 },
+        { phase: 'closing', title: 'Weiter oder stoppen', text: 'Entscheidung halten. Schweigen. Kreis im Kleinen geschlossen.', sec: 20 }
       ]
     },
 

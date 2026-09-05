@@ -42,7 +42,7 @@
     <div id="main-content" tabindex="-1">
     <!-- 1. Altar (route id: cockpit) -->
     <section id="sec-cockpit" class="section-view active cockpit-lovely-page" aria-label="Altar">
-      <!-- v4.9.0 Altar above-the-fold: Suche · Astro-Tiles · Schumann -->
+      <!-- v5.0/5.1 Altar: weiche Praxis-Einladungen · Heute primär · Schumann leise -->
       <div class="cockpit-top" id="cockpit-top">
         <div class="cockpit-search-pill" id="cockpit-search-bar">
           <label class="sr-only" for="global-search-input-cockpit">Suche</label>
@@ -52,33 +52,33 @@
           <div class="global-search-results" id="global-search-results-cockpit" hidden role="listbox" aria-label="Suchergebnisse"></div>
         </div>
 
-        <div class="dashboard-grid cockpit-dash" aria-label="Astronomie-Näherungen">
+        <div class="dashboard-grid cockpit-dash cockpit-dash-soft" aria-label="Praxis-Fenster">
           <div class="dash-panel moon">
-            <div class="label">Mond <span class="approx-badge" title="JS-Näherung — kein professionelles Ephemeris">Näherung</span></div>
+            <div class="label">Mond · Arbeitsfenster</div>
             <div class="value" id="dash-moon-val">—</div>
             <div class="meta" id="dash-moon-meta"></div>
           </div>
           <div class="dash-panel hour">
-            <div class="label">Planetenstunde <span class="approx-badge" title="JS-Näherung — kein professionelles Ephemeris">Näherung</span></div>
+            <div class="label">Stunde · Gabe</div>
             <div class="value" id="dash-hour-val">—</div>
             <div class="meta" id="dash-hour-meta"></div>
           </div>
           <div class="dash-panel unrest impulse-panel">
-            <div class="label">Impuls <span class="approx-badge" title="Abgeleitet aus Mond, VoC, Retrograd-Näherung — kein Messgerät">abgeleitet</span></div>
+            <div class="label">Unruhe · Grenze</div>
             <div class="value" id="dash-unrest-val">—</div>
-            <div class="unrest-bar soft-impulse"><i id="dash-unrest-bar"></i></div>
-            <div class="meta impulse-meta">Zum Üben, kein Wahrheitsmesser</div>
+            <div class="unrest-bar soft-impulse soft-impulse-quiet" hidden aria-hidden="true"><i id="dash-unrest-bar"></i></div>
+            <div class="meta impulse-meta" id="dash-unrest-meta">Schweigen darf — kein Messgerät</div>
           </div>
         </div>
-        <p class="approx-note hint-sm cockpit-approx-once" id="astro-approx-note">Mond, Stunde und Impuls sind <strong>Näherungen zum Üben</strong> — keine Orakel-Wahrheit, kein Ersatz für Ephemeriden.</p>
+        <p class="approx-note hint-sm cockpit-approx-once soft-honesty" id="astro-approx-note">Kreis, Grenze, Gabe, Schweigen — Mond und Stunde sind <strong>Fenster zum Üben</strong>, keine Orakel-Wahrheit.</p>
 
-        <details class="card nested-card schumann-card cockpit-schumann cockpit-schumann-details impulse-details">
+        <details class="card nested-card schumann-card cockpit-schumann cockpit-schumann-details impulse-details schumann-quiet">
           <summary class="schumann-summary">
-            <span>📡 Schumann · Impuls</span>
-            <span class="chip-quiet">optional · kein Messgerät</span>
+            <span>Schumann · leise</span>
+            <span class="chip-quiet">optional · sekundär</span>
           </summary>
           <div class="schumann-head compact-head">
-            <span class="schumann-live-badge" data-sch-badge data-state="offline">Offline · lokal 7,83 Hz</span>
+            <span class="schumann-live-badge schumann-badge-quiet" data-sch-badge data-state="offline">Lokal · 7,83 Hz</span>
           </div>
           <div class="schumann-spectrogram" data-sch-spectrogram>
             <figure class="schumann-spectrogram-figure">
@@ -87,7 +87,7 @@
             </figure>
             <p class="hint-sm schumann-spectrogram-attr">Spektrogramm der Station Tomsk (SOS / Tomsk State University), bereitgestellt über <a href="https://resonanceone.app/ai" target="_blank" rel="noopener noreferrer">ResonanceOne</a>. Kein Handy-Sensor. · <a href="https://resonanceone.app/schumann-resonance-today" target="_blank" rel="noopener noreferrer">Methodik</a> · <a href="https://sos70.ru/" target="_blank" rel="noopener noreferrer">Tomsk SOS</a></p>
           </div>
-          <p class="schumann-secondary-label">Lokal · 7,83-Hz-Puls (sekundär)</p>
+          <p class="schumann-secondary-label">Lokal · leiser 7,83-Hz-Puls</p>
           <div class="schumann-wrap"><canvas id="schumann-canvas" aria-label="Schumann-Puls Visualisierung"></canvas></div>
           <div class="schumann-live-panel" data-sch-panel>
             <div class="schumann-metrics" aria-label="Stationsdaten">
@@ -100,8 +100,8 @@
             <p class="hint-sm schumann-source">Quelle: <span data-sch-source>—</span> · <a href="https://resonanceone.app/schumann-resonance-today" target="_blank" rel="noopener noreferrer">Methodik</a> · <a href="https://resonanceone.app/ai" target="_blank" rel="noopener noreferrer">ResonanceOne</a></p>
             <button type="button" class="ghost tiny" data-sch-refresh>Aktualisieren</button>
           </div>
-          <p class="hint-sm schumann-honesty" data-sch-honesty>Station optional — lokal 7,83 Hz bleibt.</p>
-          <p class="schumann-note">Live-Spektrogramm + Stations-/Index-Daten (Tomsk Space Observing System via ResonanceOne + NOAA Kp/Solar) — kein Handy-Magnetometer, keine Körper- oder Geister-Messung. Offline: lokale 7,83-Hz-Visualisierung. Optional leiser 136-Hz-Träger in den Einstellungen.</p>
+          <p class="hint-sm schumann-honesty" data-sch-honesty>Optional und leise — lokal 7,83 Hz bleibt. Kein Messgerät am Handy.</p>
+          <p class="schumann-note">Ehrliche Stationsdaten (Tomsk via ResonanceOne + NOAA), wenn erreichbar — sekundär, kein Wahrheitsmesser, keine Körper- oder Geister-Messung. Offline: lokale Visualisierung. Optional leiser 136-Hz-Träger in den Einstellungen.</p>
         
           <p class="hint-sm impulse-frame">Stationsdaten und Puls sind <strong>Impulse für die Praxis</strong> — keine Erdbeben-, Körper- oder Geister-Messung.</p>
         </details>
@@ -157,7 +157,7 @@
       <button type="button" class="fest-countdown-chip" id="fest-countdown-chip" hidden aria-live="polite"></button>
 
       <!-- Praxis darunter: Heute-Tip + CTA -->
-      <article class="card jetzt-card heute-tip-card cockpit-hero cockpit-lovely" id="jetzt-card" aria-labelledby="jetzt-title">
+      <article class="card jetzt-card heute-tip-card cockpit-hero cockpit-lovely heute-primary" id="jetzt-card" aria-labelledby="jetzt-title">
         <div class="intention-top">
           <h3 id="jetzt-title">🌅 Heute</h3>
           <span class="chip-quiet" id="jetzt-chip">Ein Tip</span>
@@ -207,10 +207,19 @@
       <article class="card korrespondenz-card korrespondenz-peek nested-card" id="korrespondenz-card" aria-labelledby="korrespondenz-title">
         <div class="intention-top">
           <h3 id="korrespondenz-title">🌿 Resonanzen</h3>
-          <span class="chip-quiet" id="korrespondenz-chip">Hauspraxis</span>
+          <span class="chip-quiet" id="korrespondenz-chip">heute passt</span>
         </div>
-        <p class="hint-sm" id="korrespondenz-peek-text">Pfadbezogene Symbolik — Kräuter, Steine, Farben, Elemente.</p>
+        <p class="hint-sm" id="korrespondenz-peek-text">Heute passt … — kurze Symbolik mit Warum.</p>
         <button type="button" class="ghost tiny" id="korrespondenz-open">Alle Resonanzen</button>
+      </article>
+
+      <article class="card craft-peek nested-card" id="craft-peek-card" aria-labelledby="craft-peek-title">
+        <div class="intention-top">
+          <h3 id="craft-peek-title">✨ Kurzes Werk</h3>
+          <span class="chip-quiet" id="craft-peek-chip">Schutz</span>
+        </div>
+        <p class="hint-sm" id="craft-peek-text">Ein kleines Werk für heute — mit Grenze und Ausgleich.</p>
+        <button type="button" class="ghost tiny" id="craft-peek-open">Werke &amp; Resonanzen</button>
       </article>
 
       <article class="card mondfenster-card nested-card cockpit-lovely" id="mondfenster-card" aria-labelledby="mondfenster-title">
@@ -461,10 +470,11 @@
       </div>
       <button type="button" id="cal-today" class="w-full" style="margin-bottom:0.75rem">Heute</button>
       <div class="card year-wheel-card" id="year-wheel-card">
-        <h3>Jahresrad · Sabbats</h3>
-        <p class="hint-sm">Acht Feste im Ring — Tippen springt zum Datum</p>
-        <div class="year-wheel" id="year-wheel" role="list" aria-label="Sabbat-Jahresrad"></div>
+        <h3>Jahresrad · Praxis</h3>
+        <p class="hint-sm">Acht Feste als Atem des Jahres — nicht nur Daten. Tippen öffnet den Tag.</p>
+        <div class="year-wheel" id="year-wheel" role="list" aria-label="Sabbat-Jahresrad als Praxis"></div>
         <p class="meta-line" id="year-wheel-caption"></p>
+        <p class="hint-sm year-wheel-praxis" id="year-wheel-praxis"></p>
       </div>
       <div class="cal-grid" id="cal-grid"></div>
       <div class="card day-detail" id="cal-detail"></div>
@@ -524,8 +534,8 @@
 
       <details class="card kosmos-schumann-slim" id="kosmos-schumann-slim">
         <summary>
-          <span>Schumann · Station</span>
-          <span class="schumann-live-badge" data-sch-badge data-state="offline">Offline</span>
+          <span>Schumann · leise</span>
+          <span class="schumann-live-badge schumann-badge-quiet" data-sch-badge data-state="offline">Lokal</span>
         </summary>
         <p class="hint-sm">Optional — volle Live-Ansicht auch am Altar unter Mehr. Kein Sensor am Handy.</p>
         <div class="schumann-spectrogram" data-sch-spectrogram>
@@ -906,13 +916,23 @@
 
       <div class="card korrespondenz-full-card" aria-labelledby="korresp-full-title">
         <div class="intention-top">
-          <h3 id="korresp-full-title">Pfad-Resonanzen</h3>
+          <h3 id="korresp-full-title">Heute passt …</h3>
           <span class="chip-quiet" id="korresp-chip">Pfad</span>
         </div>
-        <p class="hint" id="korresp-lead">Kräuter, Steine, Farben und Elemente als Symbol — kein medizinischer Rat.</p>
+        <p class="hint" id="korresp-lead">Kurze Einladung mit Warum — Symbolik für die Haltung, kein medizinischer Rat.</p>
+        <p class="heute-passt-lead" id="korresp-heute-passt" aria-live="polite"></p>
         <ul class="korrespondenz-list" id="korresp-list"></ul>
         <p class="hint-sm" id="korresp-note">Hauspraxis — kein Heilversprechen.</p>
         <p class="notice ethics-line">Ein Handy kann keine Geister messen. Symbolik dient der Haltung, nicht der Diagnose.</p>
+      </div>
+
+      <div class="card craft-works-card" id="craft-works-card" aria-labelledby="craft-works-title">
+        <div class="intention-top">
+          <h3 id="craft-works-title">Kurze Werke</h3>
+          <span class="chip-quiet">Schutz · Reinigung · Anziehen · Loslassen</span>
+        </div>
+        <p class="hint-sm" id="craft-works-lead">Pfadbezogene Mini-Arbeiten — ethisch, ohne Spektakel.</p>
+        <ul class="craft-works-list" id="craft-works-list"></ul>
       </div>
 
       <div class="card">
@@ -1075,7 +1095,7 @@
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
         <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">4.9.0</span></p>
+        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">5.1.0</span></p>
       </div>
     </div>
   </div>
