@@ -31,7 +31,7 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 
 ## Funktionen
 
-1. **Cockpit** — **eine scrollbare Seite**: Heute-Tip, Pfad-Woche, Mondfenster, Korrespondenzen, Schumann, Journal u. a.; weiche Effekte & Motive; Empfehlen/PWA; Schumann Live + Tomsk; Pfad-Chip, Streak
+1. **Cockpit** — **Above-the-fold**: Suche, Mond/Planetenstunde/Unruhe-Tiles (Näherung), Schumann-Station (Tomsk); darunter Heute-Tip, Pfad-Woche, Mondfenster, Korrespondenzen, Journal u. a.; Empfehlen/PWA; Pfad-Chip, Streak
 2. **Kalender** — Monatsnavigation, Tagesdetails (Mond/Sonne/Feste), **standardmäßig nur Pfad-Feste** (Umschalter Alle Feste), Betonung und Kalender-Notizen
 3. **Kosmos** — Planeten-Radar mit klareren Labels, **Legende**, aktuelle **Planetenstunde hervorgehoben**, Tap/Klick für Detail, Schumann Live-Station + Tomsk-Spektrogramm
 4. **Rituale** — **nur aktueller Pfad** (4–5 einzigartige Own-Rituale); Grundlagen separat; Signaturen, Dauer-Tags 3/11/21, Sicherheitscheck, Timed-Rituale, Fokus-Timer, Sigil, illustrierte Feldkarten, eigene Rituale + Vorlagen
@@ -339,6 +339,21 @@ universum/
 ## Hinweis
 
 Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine Verantwortung — mit Grenze und Ausgleich.
+
+
+## Craft-Pass (v4.0.0) · Cockpit Reference Layout
+
+Erste Bildschirmseite am Referenz-Screenshot ausgerichtet:
+
+- **Header** — UNIVERSUM + COCKPIT gestapelt, kompakte Rund-Icons
+- **Suche** — sichtbare Pill «Suche · Rituale, Karten, Tagebuch»
+- **Dashboard** — Mond / Planetenstunde / Unruhe (abgeleitet) mit Näherung-Badges und weichen Glows
+- **Eine Näherungszeile** — ehrlich, ohne Spam
+- **Schumann · Station** — Live-Badge, Tomsk-Spektrogramm, lokal 7,83-Hz sekundär
+- **Bottom-Nav** — bildhafte Emojis, aktives Cockpit mit Diamant-Unterstreichung
+- Heute-Tip und Praxis-Karten **darunter**; `feldlicht-v15` unverändert
+- App `4.0.0`, SW-Cache `universum-shell-v31`
+
 
 ## Craft-Pass (v1.2)
 

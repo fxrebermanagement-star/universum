@@ -28,7 +28,10 @@
   <a class="skip-link" href="#main-content">Zum Inhalt springen</a>
   <div class="app-shell">
     <header class="app-header">
-      <a href="index.html" class="logo" aria-label="UNIVERSUM Start">UNIVERSUM <span>· COCKPIT</span></a>
+      <a href="index.html" class="logo logo-stack" aria-label="UNIVERSUM Start">
+        <span class="logo-mark">UNIVERSUM</span>
+        <span class="logo-sub">COCKPIT</span>
+      </a>
       <span class="live-clock" id="live-clock" aria-live="polite"></span>
       <button type="button" class="path-chip" id="path-chip" title="Pfad wählen" aria-label="Pfad wählen" aria-haspopup="dialog">Esoterik</button>
       <button type="button" class="icon-btn" id="quiet-mode-toggle" title="Stiller Modus" aria-label="Stiller Modus umschalten" aria-pressed="false">◉</button>
@@ -39,12 +42,71 @@
     <div id="main-content" tabindex="-1">
     <!-- 1. Cockpit -->
     <section id="sec-cockpit" class="section-view active cockpit-lovely-page" aria-label="Cockpit">
-      <h1 class="section-title"><span class="sec-ico" aria-hidden="true">✨</span> Cockpit</h1>
-      <span class="section-motif" aria-hidden="true"></span>
-      <p class="section-sub" id="cockpit-greeting">Praxis vor Spektakel.</p>
-      <div class="cockpit-path-art" id="cockpit-path-art" aria-hidden="true"><span class="path-art-orb" id="path-art-orb">✦</span></div>
-      <p class="path-haltung" id="path-haltung" aria-live="polite"><span class="path-sym" aria-hidden="true">✦</span> <span class="path-haltung-text">Still üben — Daten bleiben bei dir.</span></p>
-      <p class="privacy-line privacy-line-slim" id="privacy-line">Lokal in <code>feldlicht-v15</code> · kein Konto · kein Tracking</p>
+      <!-- v4.0.0 Cockpit above-the-fold: Suche · Astro-Tiles · Schumann -->
+      <div class="cockpit-top" id="cockpit-top">
+        <div class="cockpit-search-pill" id="cockpit-search-bar">
+          <label class="sr-only" for="global-search-input-cockpit">Suche</label>
+          <span class="cockpit-search-ico" aria-hidden="true">⌕</span>
+          <input type="search" id="global-search-input-cockpit" placeholder="Suche · Rituale, Karten, Tagebuch" autocomplete="off" />
+          <button type="button" class="ghost tiny cockpit-search-go" id="global-search-go-cockpit" aria-label="Suchen">Suchen</button>
+          <div class="global-search-results" id="global-search-results-cockpit" hidden role="listbox" aria-label="Suchergebnisse"></div>
+        </div>
+
+        <div class="dashboard-grid cockpit-dash" aria-label="Astronomie-Näherungen">
+          <div class="dash-panel moon">
+            <div class="label">Mond <span class="approx-badge" title="JS-Näherung — kein professionelles Ephemeris">Näherung</span></div>
+            <div class="value" id="dash-moon-val">—</div>
+            <div class="meta" id="dash-moon-meta"></div>
+          </div>
+          <div class="dash-panel hour">
+            <div class="label">Planetenstunde <span class="approx-badge" title="JS-Näherung — kein professionelles Ephemeris">Näherung</span></div>
+            <div class="value" id="dash-hour-val">—</div>
+            <div class="meta" id="dash-hour-meta"></div>
+          </div>
+          <div class="dash-panel unrest">
+            <div class="label">Unruhe (abgeleitet)</div>
+            <div class="value" id="dash-unrest-val">—</div>
+            <div class="unrest-bar"><i id="dash-unrest-bar"></i></div>
+          </div>
+        </div>
+        <p class="approx-note hint-sm cockpit-approx-once" id="astro-approx-note">Mond, Stunde, Sonne und VoC sind <strong>Näherungen</strong> für die Praxis — kein Ersatz für professionelle Ephemeriden.</p>
+
+        <div class="card nested-card schumann-card cockpit-schumann">
+          <div class="schumann-head">
+            <h3>📡 Schumann · Station</h3>
+            <span class="schumann-live-badge" data-sch-badge data-state="offline">Offline · lokale Visualisierung</span>
+          </div>
+          <div class="schumann-spectrogram" data-sch-spectrogram>
+            <figure class="schumann-spectrogram-figure">
+              <img data-sch-spectrogram-img alt="Schumann-Spektrogramm der Station Tomsk (live Sonogramm)" width="1200" height="400" decoding="async" />
+              <p class="schumann-spectrogram-err" data-sch-spectrogram-err hidden>Spektrogramm derzeit nicht erreichbar — Metriken und lokale Visualisierung bleiben aktiv.</p>
+            </figure>
+            <p class="hint-sm schumann-spectrogram-attr">Spektrogramm der Station Tomsk (SOS / Tomsk State University), bereitgestellt über <a href="https://resonanceone.app/ai" target="_blank" rel="noopener noreferrer">ResonanceOne</a>. Kein Handy-Sensor. · <a href="https://resonanceone.app/schumann-resonance-today" target="_blank" rel="noopener noreferrer">Methodik</a> · <a href="https://sos70.ru/" target="_blank" rel="noopener noreferrer">Tomsk SOS</a></p>
+          </div>
+          <p class="schumann-secondary-label">Lokal · 7,83-Hz-Puls (sekundär)</p>
+          <div class="schumann-wrap"><canvas id="schumann-canvas" aria-label="Schumann-Puls Visualisierung"></canvas></div>
+          <div class="schumann-live-panel" data-sch-panel>
+            <div class="schumann-metrics" aria-label="Stationsdaten">
+              <div class="sch-metric"><span class="m-label">SR</span> <strong data-sch-hz>—</strong> <span class="m-unit">Hz</span></div>
+              <div class="sch-metric"><span class="m-label">Index</span> <strong data-sch-index>—</strong></div>
+              <div class="sch-metric"><span class="m-label">Kp</span> <strong data-sch-kp>—</strong></div>
+              <div class="sch-metric"><span class="m-label">Geomag.</span> <strong data-sch-geo>—</strong></div>
+            </div>
+            <p class="hint-sm schumann-update">Update: <span data-sch-updated>—</span></p>
+            <p class="hint-sm schumann-source">Quelle: <span data-sch-source>—</span> · <a href="https://resonanceone.app/schumann-resonance-today" target="_blank" rel="noopener noreferrer">Methodik</a> · <a href="https://resonanceone.app/ai" target="_blank" rel="noopener noreferrer">ResonanceOne</a></p>
+            <button type="button" class="ghost tiny" data-sch-refresh>Aktualisieren</button>
+          </div>
+          <p class="schumann-note">Live-Spektrogramm + Stations-/Index-Daten (Tomsk Space Observing System via ResonanceOne + NOAA Kp/Solar) — kein Handy-Magnetometer, keine Körper- oder Geister-Messung. Offline: lokale 7,83-Hz-Visualisierung. Optional leiser 136-Hz-Träger in den Einstellungen.</p>
+        </div>
+      </div>
+
+      <div class="cockpit-practice-head">
+        <h2 class="section-title cockpit-practice-title"><span class="sec-ico" aria-hidden="true">✨</span> Praxis heute</h2>
+        <p class="section-sub" id="cockpit-greeting">Praxis vor Spektakel.</p>
+        <div class="cockpit-path-art" id="cockpit-path-art" aria-hidden="true"><span class="path-art-orb" id="path-art-orb">✦</span></div>
+        <p class="path-haltung" id="path-haltung" aria-live="polite"><span class="path-sym" aria-hidden="true">✦</span> <span class="path-haltung-text">Still üben — Daten bleiben bei dir.</span></p>
+        <p class="privacy-line privacy-line-slim" id="privacy-line">Lokal in <code>feldlicht-v15</code> · kein Konto · kein Tracking</p>
+      </div>
 
       <div class="install-banner" id="install-banner" hidden role="region" aria-label="App installieren">
         <div class="install-banner-inner">
@@ -69,7 +131,7 @@
 
       <button type="button" class="fest-countdown-chip" id="fest-countdown-chip" hidden aria-live="polite"></button>
 
-      <!-- Above the fold: ONE daily tip (ritual or Haltung) + one CTA -->
+      <!-- Praxis darunter: Heute-Tip + CTA -->
       <article class="card jetzt-card heute-tip-card cockpit-hero cockpit-lovely" id="jetzt-card" aria-labelledby="jetzt-title">
         <div class="intention-top">
           <h3 id="jetzt-title">🌅 Heute</h3>
@@ -261,61 +323,6 @@
         <div class="briefing-pins-panel" id="briefing-pins-panel" hidden></div>
       </div>
 
-      <details class="card compact-search-details nested-card" id="cockpit-search-bar">
-        <summary>Suche · Rituale, Karten, Tagebuch</summary>
-        <div class="global-search-bar compact-search">
-          <label class="sr-only" for="global-search-input-cockpit">Suche</label>
-          <input type="search" id="global-search-input-cockpit" placeholder="Begriff…" autocomplete="off" />
-          <button type="button" class="ghost tiny" id="global-search-go-cockpit">Suchen</button>
-        </div>
-        <div class="global-search-results" id="global-search-results-cockpit" hidden role="listbox" aria-label="Suchergebnisse"></div>
-      </details>
-
-      <div class="dashboard-grid" aria-label="Astronomie-Näherungen">
-        <div class="dash-panel moon">
-          <div class="label">Mond <span class="approx-badge" title="JS-Näherung — kein professionelles Ephemeris">Näherung</span></div>
-          <div class="value" id="dash-moon-val">—</div>
-          <div class="meta" id="dash-moon-meta"></div>
-        </div>
-        <div class="dash-panel hour">
-          <div class="label">Planetenstunde <span class="approx-badge" title="JS-Näherung — kein professionelles Ephemeris">Näherung</span></div>
-          <div class="value" id="dash-hour-val">—</div>
-          <div class="meta" id="dash-hour-meta"></div>
-        </div>
-        <div class="dash-panel unrest">
-          <div class="label">Unruhe (abgeleitet)</div>
-          <div class="value" id="dash-unrest-val">—</div>
-          <div class="unrest-bar"><i id="dash-unrest-bar"></i></div>
-        </div>
-      </div>
-      <p class="approx-note hint-sm" id="astro-approx-note">Mond, Stunde, Sonne und VoC sind <strong>Näherungen</strong> für die Praxis — kein Ersatz für professionelle Ephemeriden.</p>
-
-      <div class="card nested-card schumann-card">
-        <div class="schumann-head">
-          <h3>📡 Schumann · Station</h3>
-          <span class="schumann-live-badge" data-sch-badge data-state="offline">Offline · lokale Visualisierung</span>
-        </div>
-        <div class="schumann-spectrogram" data-sch-spectrogram>
-          <figure class="schumann-spectrogram-figure">
-            <img data-sch-spectrogram-img alt="Schumann-Spektrogramm der Station Tomsk (live Sonogramm)" width="1200" height="400" decoding="async" />
-            <p class="schumann-spectrogram-err" data-sch-spectrogram-err hidden>Spektrogramm derzeit nicht erreichbar — Metriken und lokale Visualisierung bleiben aktiv.</p>
-          </figure>
-          <p class="hint-sm schumann-spectrogram-attr">Spektrogramm der Station Tomsk (SOS / Tomsk State University), bereitgestellt über <a href="https://resonanceone.app/ai" target="_blank" rel="noopener noreferrer">ResonanceOne</a>. Kein Handy-Sensor. · <a href="https://resonanceone.app/schumann-resonance-today" target="_blank" rel="noopener noreferrer">Methodik</a> · <a href="https://sos70.ru/" target="_blank" rel="noopener noreferrer">Tomsk SOS</a></p>
-        </div>
-        <p class="schumann-secondary-label">Lokal · 7,83-Hz-Puls (sekundär)</p>
-        <div class="schumann-wrap"><canvas id="schumann-canvas" aria-label="Schumann-Puls Visualisierung"></canvas></div>
-        <div class="schumann-live-panel" data-sch-panel>
-          <div class="schumann-metrics" aria-label="Stationsdaten">
-            <div class="sch-metric"><span class="m-label">SR</span> <strong data-sch-hz>—</strong> <span class="m-unit">Hz</span></div>
-            <div class="sch-metric"><span class="m-label">Index</span> <strong data-sch-index>—</strong></div>
-            <div class="sch-metric"><span class="m-label">Kp</span> <strong data-sch-kp>—</strong></div>
-            <div class="sch-metric"><span class="m-label">Geomag.</span> <strong data-sch-geo>—</strong></div>
-          </div>
-          <p class="hint-sm schumann-update">Update: <span data-sch-updated>—</span></p>
-          <p class="hint-sm schumann-source">Quelle: <span data-sch-source>—</span> · <a href="https://resonanceone.app/schumann-resonance-today" target="_blank" rel="noopener noreferrer">Methodik</a> · <a href="https://resonanceone.app/ai" target="_blank" rel="noopener noreferrer">ResonanceOne</a></p>
-          <button type="button" class="ghost tiny" data-sch-refresh>Aktualisieren</button>
-        </div>
-        <p class="schumann-note">Live-Spektrogramm + Stations-/Index-Daten (Tomsk Space Observing System via ResonanceOne + NOAA Kp/Solar) — kein Handy-Magnetometer, keine Körper- oder Geister-Messung. Offline: lokale 7,83-Hz-Visualisierung. Optional leiser 136-Hz-Träger in den Einstellungen.</p>
       </div>
 
       <div class="card nested-card">
@@ -1018,7 +1025,7 @@
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
         <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">3.9.0</span></p>
+        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">4.0.0</span></p>
       </div>
     </div>
   </div>
