@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#0c0814" />
-  <meta name="description" content="UNIVERSUM · COCKPIT — stiller Ritualbegleiter für Magier:innen. Lokal, ethisch, pfadstark." />
+  <meta name="description" content="UNIVERSUM · COCKPIT — Praxiswerkzeug zum Üben. Lokal, ethisch, pfadstark. Daten bleiben bei dir." />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>UNIVERSUM · COCKPIT</title>
@@ -41,13 +41,14 @@
     <section id="sec-cockpit" class="section-view active" aria-label="Cockpit">
       <h1 class="section-title">Cockpit</h1>
       <p class="section-sub" id="cockpit-greeting">Still begleiten — Praxis vor Spektakel.</p>
+      <p class="path-haltung" id="path-haltung" aria-live="polite">Still üben — Feldlicht begleitet.</p>
 
       <ul class="trust-strip trust-strip-inline" aria-label="Warum UNIVERSUM">
-        <li><strong>Lokal</strong><span>Kein Konto · Gerät only</span></li>
+        <li><strong>Lokal</strong><span>Daten bleiben bei dir</span></li>
         <li><strong>Ethisch</strong><span>Grenze &amp; Ausgleich</span></li>
-        <li><strong>Pfadstark</strong><span>Praxis statt Show</span></li>
+        <li><strong>Pfadstark</strong><span>Haltung statt Show</span></li>
       </ul>
-      <p class="privacy-line" id="privacy-line">Daten bleiben in <code>feldlicht-v15</code> auf diesem Gerät — kein Server, kein Tracking.</p>
+      <p class="privacy-line" id="privacy-line">Hier übst du. Alles bleibt in <code>feldlicht-v15</code> auf diesem Gerät — kein Server, kein Tracking.</p>
 
       <div class="install-banner" id="install-banner" hidden role="region" aria-label="App installieren">
         <div class="install-banner-inner">
@@ -70,6 +71,20 @@
       </div>
 
       <button type="button" class="fest-countdown-chip" id="fest-countdown-chip" hidden aria-live="polite"></button>
+
+      <!-- Above the fold: ONE clear "jetzt" invitation -->
+      <article class="card jetzt-card" id="jetzt-card" aria-labelledby="jetzt-title">
+        <div class="intention-top">
+          <h3 id="jetzt-title">Jetzt</h3>
+          <span class="chip-quiet" id="jetzt-chip">Praxis</span>
+        </div>
+        <p class="jetzt-lead" id="jetzt-lead">Eine ruhige Praxis reicht — empfohlen für heute.</p>
+        <p class="jetzt-meta hint-sm" id="jetzt-meta"></p>
+        <div class="btn-row">
+          <button type="button" class="primary" id="jetzt-start">Empfohlene Praxis</button>
+          <button type="button" class="ghost tiny" id="jetzt-starter" hidden>3-Min-Starter</button>
+        </div>
+      </article>
 
       <article class="card starter-card" id="starter-card" hidden aria-labelledby="starter-title">
         <div class="intention-top">
@@ -101,45 +116,49 @@
         </div>
       </article>
 
-      <article class="card briefing-card" id="tagesbriefing" aria-labelledby="briefing-title">
+      <article class="card briefing-card briefing-card-slim" id="tagesbriefing" aria-labelledby="briefing-title">
         <div class="briefing-top">
           <h3 id="briefing-title">Heute</h3>
           <span class="briefing-streak" id="briefing-streak" hidden></span>
         </div>
         <p class="briefing-lead" id="briefing-lead">Der Tag wird gelesen…</p>
         <ul class="briefing-meta" id="briefing-meta" aria-label="Tages-Chips"></ul>
-        <div class="briefing-pin-bar" id="briefing-pin-bar">
-          <button type="button" class="ghost tiny" id="briefing-pins-toggle" aria-expanded="false" aria-controls="briefing-pins-panel">Chips wählen</button>
-          <div class="briefing-pins-panel" id="briefing-pins-panel" hidden></div>
-        </div>
-        <p class="briefing-practice" id="briefing-practice"></p>
-        <div class="briefing-actions" role="group" aria-label="Briefing-Aktionen">
-          <button type="button" class="primary" id="briefing-start-practice">Empfohlene Praxis</button>
-          <button type="button" class="ghost" id="briefing-open-kalender">Zum Fest</button>
-          <button type="button" class="ghost" id="briefing-share" title="Tagesbriefing teilen">Teilen</button>
-          <button type="button" class="ghost" id="briefing-copy" title="Tagesbriefing als Text kopieren">Text kopieren</button>
+        <p class="briefing-practice" id="briefing-practice" hidden></p>
+        <p class="briefing-path-note" id="briefing-path-note"></p>
+        <div class="briefing-actions briefing-actions-slim" role="group" aria-label="Briefing-Aktionen">
+          <button type="button" class="ghost tiny" id="briefing-share" title="Tagesbriefing teilen">Teilen</button>
+          <button type="button" class="ghost tiny" id="briefing-copy" title="Tagesbriefing als Text kopieren">Text</button>
           <button type="button" class="ghost tiny" id="briefing-copy-link" title="Teilbaren Briefing-Link kopieren">Link</button>
           <button type="button" class="ghost tiny" id="briefing-print" title="Druckansicht">Drucken</button>
+          <button type="button" class="ghost tiny" id="briefing-open-kalender">Zum Fest</button>
+          <button type="button" class="primary hidden" id="briefing-start-practice" tabindex="-1" aria-hidden="true">Empfohlene Praxis</button>
         </div>
-        <p class="briefing-share-hint hint-sm" id="briefing-share-hint">Tagesimpuls zum Weitergeben — mit Link zur Praxis-App.</p>
-        <p class="briefing-path-note" id="briefing-path-note"></p>
+        <p class="briefing-share-hint hint-sm" id="briefing-share-hint">Impuls teilen — ohne Druck.</p>
       </article>
 
-      <article class="card path-teach-card" id="path-teach-card" aria-labelledby="path-teach-title">
+      <!-- Secondary / dense panels: calm Mehr accordion -->
+      <details class="card mehr-accordion" id="mehr-accordion">
+        <summary class="mehr-summary">
+          <span>Mehr</span>
+          <span class="mehr-hint">Empfehlen · Lehre · Intention · Chips · Werkzeuge</span>
+        </summary>
+        <div class="mehr-body">
+
+      <article class="card path-teach-card nested-card" id="path-teach-card" aria-labelledby="path-teach-title">
         <div class="intention-top">
           <h3 id="path-teach-title">Pfad-Lehre</h3>
           <span class="chip-quiet" id="path-teach-chip">Pfad</span>
         </div>
         <p class="path-teach-text" id="path-teach-text">…</p>
-        <p class="hint-sm">Ein stiller Lehrsatz für deinen gewählten Pfad — Praxis vor Spektakel.</p>
+        <p class="hint-sm">Ein stiller Lehrsatz für deine Haltung — hier übst du, ohne Spektakel.</p>
       </article>
 
-      <article class="card invite-card" id="invite-card" aria-labelledby="invite-title">
+      <article class="card invite-card nested-card" id="invite-card" aria-labelledby="invite-title">
         <div class="intention-top">
-          <h3 id="invite-title">Empfehlen</h3>
-          <span class="chip-quiet">sanft · ohne Druck</span>
+          <h3 id="invite-title">Weitergeben</h3>
+          <span class="chip-quiet">ohne Druck</span>
         </div>
-        <p class="invite-lead">Wenn jemand einen ruhigen Ritualbegleiter braucht: kurze Einladung teilen — lokal, ethisch, ohne Konto.</p>
+        <p class="invite-lead">Wenn jemand einen ruhigen Ritualbegleiter sucht: kurze Einladung teilen — lokal, ethisch, ohne Konto.</p>
         <div class="invite-preview" id="invite-preview" aria-live="polite"></div>
         <div class="btn-row invite-actions">
           <button type="button" class="primary" id="invite-copy">Einladung kopieren</button>
@@ -148,7 +167,7 @@
         <p class="hint-sm">Link: <code class="invite-url">https://fxrebermanagement-star.github.io/universum/</code></p>
       </article>
 
-      <article class="card intention-card" id="intention-card" aria-labelledby="intention-title">
+      <article class="card intention-card nested-card" id="intention-card" aria-labelledby="intention-title">
         <div class="intention-top">
           <h3 id="intention-title">Intention des Tages</h3>
           <button type="button" class="ghost tiny" id="intention-clear" aria-label="Intention löschen">Löschen</button>
@@ -167,7 +186,7 @@
         <p class="empty-state compact" id="intention-history-empty" hidden>Noch keine Intentionen in den letzten 7 Tagen.</p>
       </article>
 
-      <article class="card quick-praxis-card" id="quick-praxis-card" aria-labelledby="quick-praxis-title">
+      <article class="card quick-praxis-card nested-card" id="quick-praxis-card" aria-labelledby="quick-praxis-title">
         <div class="intention-top">
           <h3 id="quick-praxis-title">Schnellzugriff</h3>
           <span class="chip-quiet">Favoriten · zuletzt</span>
@@ -183,8 +202,12 @@
         </div>
       </article>
 
+      <div class="briefing-pin-bar nested-card card" id="briefing-pin-bar">
+        <button type="button" class="ghost tiny" id="briefing-pins-toggle" aria-expanded="false" aria-controls="briefing-pins-panel">Chips wählen</button>
+        <div class="briefing-pins-panel" id="briefing-pins-panel" hidden></div>
+      </div>
 
-      <details class="card compact-search-details" id="cockpit-search-bar">
+      <details class="card compact-search-details nested-card" id="cockpit-search-bar">
         <summary>Suche · Rituale, Karten, Tagebuch</summary>
         <div class="global-search-bar compact-search">
           <label class="sr-only" for="global-search-input-cockpit">Suche</label>
@@ -217,21 +240,21 @@
         </div>
       </div>
 
-      <div class="card">
+      <div class="card nested-card">
         <h3>Schumann · 7,83 Hz</h3>
         <div class="schumann-wrap"><canvas id="schumann-canvas" aria-label="Schumann-Puls Visualisierung"></canvas></div>
         <p class="schumann-note">Nur Visualisierung (optional leiser 136-Hz-Träger). Kein Magnetometer, keine Geister- oder EMF-Messung.</p>
         <p class="hint-sm">Audio-Puls in den Einstellungen (⚙) schaltbar — leiser 136-Hz-Träger.</p>
       </div>
 
-      <div class="card">
-        <h3>Empfehlungen</h3>
+      <div class="card nested-card">
+        <h3>Hinweise</h3>
         <ul class="recs-list" id="dash-recs"></ul>
         <p class="meta-line" id="dash-next-moon"></p>
         <p class="astro-doc">Näherungen: Mondphase (synodisch), Sonne tropisch aus ekliptikaler Länge, Planetenstunden ab Zürich-Sonnenzeiten, Maya GMT 584283. Kein Ephemeriden-Ersatz.</p>
       </div>
 
-      <div class="card">
+      <div class="card nested-card">
         <h3>369-Praxis · heute</h3>
         <p class="hint">Ethischer Satz · 3 / 6 / 9 — lokal gespeichert</p>
         <div class="form-row">
@@ -256,7 +279,7 @@
         </div>
       </div>
 
-      <div class="card">
+      <div class="card nested-card">
         <h3>Kurz-Check-in (optional)</h3>
         <p class="hint">Wie unruhig fühlst du dich gerade? (fließt in die Unruhe-Anzeige)</p>
         <div class="checkin-row">
@@ -269,22 +292,16 @@
         </div>
       </div>
 
-      <h3 class="areas-label">Bereiche</h3>
-      <div class="tiles">
-        <button type="button" class="tile" data-tile="kalender"><div class="tile-ico">📅</div><div class="tile-name">Kalender</div><div class="tile-desc">Mond, Feste, Maya</div></button>
-        <button type="button" class="tile" data-tile="kosmos"><div class="tile-ico">🪐</div><div class="tile-name">Kosmos</div><div class="tile-desc">Radar &amp; Schumann</div></button>
-        <button type="button" class="tile" data-tile="rituale"><div class="tile-ico">🕯️</div><div class="tile-name">Rituale</div><div class="tile-desc">Geführt · Sigil · Karten</div></button>
-        <button type="button" class="tile" data-tile="tagebuch"><div class="tile-ico">📖</div><div class="tile-name">Tagebuch</div><div class="tile-desc">Magie-Buch lokal</div></button>
-        <button type="button" class="tile" data-tile="notizen"><div class="tile-ico">📝</div><div class="tile-name">Notizen</div><div class="tile-desc">Schnell festhalten</div></button>
-        <button type="button" class="tile" data-tile="netzwerk"><div class="tile-ico">◯</div><div class="tile-name">Netzwerk</div><div class="tile-desc">Kreis / Talker</div></button>
+      <div class="card nested-card tip-card" id="tip-of-day-card">
+        <h3>Tipp des Tages</h3>
+        <p id="tip-of-day" class="tip-text">…</p>
       </div>
 
-      <div class="card mt-2">
+      <div class="card nested-card">
         <h3>Standort &amp; Einstellungen</h3>
         <p class="hint-sm" id="loc-summary">Europa/Zürich · 47,37 / 8,54</p>
         <p class="hint">Standort, Haptik, Schumann-Audio und Bewegung findest du in den Einstellungen (⚙).</p>
         <button type="button" id="open-settings-from-cockpit" class="ghost">Einstellungen öffnen</button>
-        <!-- hidden mirrors kept for backwards-compatible JS hooks -->
         <div class="hidden" aria-hidden="true">
           <input id="loc-lat" type="number" step="0.01" value="47.37" />
           <input id="loc-lon" type="number" step="0.01" value="8.54" />
@@ -293,11 +310,21 @@
           <input type="checkbox" id="schumann-audio" />
         </div>
       </div>
-      <div class="card tip-card" id="tip-of-day-card">
-        <h3>Tipp des Tages</h3>
-        <p id="tip-of-day" class="tip-text">…</p>
+
+        </div><!-- .mehr-body -->
+      </details>
+
+      <h3 class="areas-label">Bereiche</h3>
+      <div class="tiles">
+        <button type="button" class="tile" data-tile="kalender"><div class="tile-ico">📅</div><div class="tile-name">Kalender</div><div class="tile-desc">Mond, Feste, Maya</div></button>
+        <button type="button" class="tile" data-tile="kosmos"><div class="tile-ico">🪐</div><div class="tile-name">Kosmos</div><div class="tile-desc">Radar &amp; Schumann</div></button>
+        <button type="button" class="tile" data-tile="rituale"><div class="tile-ico">🕯️</div><div class="tile-name">Rituale</div><div class="tile-desc">Geführt · Sigil · Karten</div></button>
+        <button type="button" class="tile" data-tile="tagebuch"><div class="tile-ico">📖</div><div class="tile-name">Tagebuch</div><div class="tile-desc">Magie-Buch lokal</div></button>
+        <button type="button" class="tile" data-tile="notizen"><div class="tile-ico">📝</div><div class="tile-name">Notizen</div><div class="tile-desc">Schnell festhalten</div></button>
+        <button type="button" class="tile" data-tile="netzwerk"><div class="tile-ico">◯</div><div class="tile-name">Netzwerk</div><div class="tile-desc">Lokal · kein Sync</div></button>
       </div>
-      <p class="footer-ethics">Näherungswerte · keine professionelle Astrologie · Voodoo/Santería nur Hauspraxis</p>
+
+      <p class="footer-ethics">Näherungen zum Üben · keine Astrologie-Beratung · Voodoo/Santería nur Hauspraxis</p>
     </section>
 
     <!-- 2. Kalender -->
@@ -592,7 +619,7 @@
       <div class="card kreis-offline-card">
         <div class="intention-top">
           <h3>Offline-Kreis</h3>
-          <span class="chip-quiet">lokal · kein Sync</span>
+          <span class="chip-quiet">nur Gerät · kein Sync</span>
         </div>
         <p class="netz-copy">
           In dieser App gibt es <strong>keinen echten Online-Kreis</strong>. Kein Account, keine sozialen APIs,
@@ -604,7 +631,7 @@
           <li>Talker: knappe Strukturhilfe, <em>kein Medium</em>, keine Geisterstimme</li>
         </ul>
         <p class="netz-muted">
-          Später könnte ein echter Kreis Login brauchen. Bis dahin: Praxis, Tagebuch und lokale Kreis-Notizen.
+          In dieser Version: <strong>kein Sync, kein Online-Kreis</strong>. Praxis, Tagebuch und Kreis-Notizen bleiben lokal.
         </p>
         <div class="btn-stack">
           <button type="button" disabled title="Nicht verfügbar in der Offline-Version">Mit Google verbinden (nicht verfügbar)</button>
@@ -618,7 +645,7 @@
           <span class="chip-quiet">nur lokal</span>
         </div>
         <p class="hint">
-          Pad für geteilte Intentionen — <strong>ehrlich: nicht geteilt</strong>. Nur du siehst diese Zeilen.
+          Lokaler Pad — <strong>kein Sync, nicht geteilt</strong>. Nur du siehst diese Zeilen auf diesem Gerät.
           Gut für Formulierungen, die du später in Ritual oder 369 trägst.
         </p>
         <div class="form-row">
@@ -627,7 +654,7 @@
         </div>
         <button type="button" class="primary" id="kreis-note-add">Lokal festhalten</button>
         <div class="entry-list kreis-notes-list" id="kreis-notes-list"></div>
-        <p class="empty-state compact" id="kreis-notes-empty">Noch keine Kreis-Notizen — alles bleibt offline.</p>
+        <p class="empty-state compact" id="kreis-notes-empty">Noch keine Kreis-Notizen — lokal, ohne Sync.</p>
       </div>
 
       <div class="card">
@@ -779,7 +806,7 @@
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
         <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">1.9.0</span></p>
+        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">2.0.0</span></p>
       </div>
     </div>
   </div>
@@ -806,7 +833,7 @@
   <div class="modal-overlay" id="path-modal">
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="path-modal-title">
       <h2 id="path-modal-title">Pfad wählen</h2>
-      <p class="modal-sub">Ändert Ritual-Auswahl, Sprüche und Kalender-Betonung. Voodoo/Santería = nur Hauspraxis, keine Initiation.</p>
+      <p class="modal-sub">Wählt Haltung und Farbe für diese Sitzung: Begrüßung, Briefing-Ton, Ritual-Betonung. Voodoo/Santería = nur Hauspraxis, keine Initiation.</p>
       <div class="path-grid" id="path-grid"></div>
       <button type="button" id="path-modal-close" class="w-full mt-2">Schließen</button>
     </div>

@@ -1,8 +1,8 @@
 # UNIVERSUM · COCKPIT
 
-**Feldlicht ist da — ein stiller Ritualbegleiter für den Tag.**
+**Feld-Klarheit — hier übst du, Daten bleiben bei dir.**
 
-Premium-Praxis-App für Magier:innen und spirituell Praktizierende. Vanilla HTML/CSS/JS, kein Backend, kein Build. Früher: *Feldlicht Ritualbegleiter*.
+Praxiswerkzeug für Magier:innen und spirituell Praktizierende. Vanilla HTML/CSS/JS, kein Backend, kein Build. Früher: *Feldlicht Ritualbegleiter*.
 
 ## Lokal öffnen
 
@@ -107,6 +107,15 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 - Mikro-Copy: ruhige, klare Produktstimme; A11y an Starter, Quiet, Export, Festival-Chip
 - App `1.9.0`, SW-Cache `universum-shell-v11`
 
+**Zusätzlich (v2.0 · Feld-Klarheit)**
+
+- **Weniger Cockpit** — Above the fold: eine klare „Jetzt“-Einladung; Empfehlen, Chips, dichte Panels im „Mehr“-Akkordeon
+- **Tieferes Schließen** — nach Ritual, Starter und Fokus: Danken → Atmen → Erden → Siegeln → optionaler Tagebuch-Keim
+- **Pfad als Haltung** — `data-path`-Theme (8 Akzente), Haltung-Zeile, Briefing/Empty-State-Ton
+- **Vertrauen statt Versprechen** — Praxis-Stimme: hier übst du, Daten bleiben bei dir
+- **Kreis ehrlich** — klar lokal, kein Sync; Kreis-Notizen nur auf dem Gerät
+- App `2.0.0`, SW-Cache `universum-shell-v12`
+
 **Zusätzlich**
 
 - **First-run Onboarding** — Willkommen, Pfadwahl, Standort (Zürich-Default), Ethik-Bestätigung
@@ -150,7 +159,7 @@ Kein Ersatz für Ephemeriden oder traditionelle Einweihung.
 
 - Schriften: **Syne** (Titel/Zahlen) + **Manrope** (Fließtext) via Google Fonts
 - Dark-Violet Mystik-Cockpit, mobile-first, Micro-Interactions
-- Service Worker: Offline-Shell (`universum-shell-v11`), Scope relativ für GitHub Pages `/universum/`
+- Service Worker: Offline-Shell (`universum-shell-v12`), Scope relativ für GitHub Pages `/universum/`
 - Kein React, kein Bundler, kein Backend
 
 ## Dateien
@@ -202,3 +211,7 @@ Achte Runde — **Anbieten & Tiefe**: sharebares Tagesbriefing (Text/Link/Web-Sh
 ## Craft-Pass (v1.9)
 
 Neunte Runde — **Angebot & Fokus**: geführte Erste Praxis (3 Min), Stiller Modus / Focus-Overlay, Export-Paket mit Coach-Zusammenfassung, Sabbat-Countdown-Chip (&lt; 14 Tage), Mikro-Copy und A11y-Politur. App `1.9.0`, SW-Cache `universum-shell-v11`. Server Port **8765**.
+
+## Craft-Pass (v2.0) · Feld-Klarheit
+
+Zehnte Runde — **Feld-Klarheit**: weniger Cockpit auf einmal (eine klare „Jetzt“-Einladung, Sekundäres im ruhigen „Mehr“-Akkordeon); tieferes Schließen nach Ritual, 3-Min-Starter und Fokus (Atem + verkörperte Zeile + optionaler Tagebuch-Keim); Pfad als Haltung (CSS `data-path`-Akzente, Begrüßung, Briefing-Ton, Empty-States, Ritual-Betonung); Vertrauen statt Versprechen (Praxis-Stimme, ehrlicher Trust-Strip); Kreis ehrlich lokal (kein Sync-Versprechen). App `2.0.0`, SW-Cache `universum-shell-v12`. Server Port **8765**.

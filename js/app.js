@@ -1,5 +1,5 @@
 /**
- * UNIVERSUM · COCKPIT — main UI controller (premium practice companion)
+ * UNIVERSUM · COCKPIT — main UI controller (practice companion · Feld-Klarheit)
  */
 (function () {
   'use strict';
@@ -56,7 +56,7 @@
 
   const TIPS = [
     'Drei bewusste Atemzüge reichen oft als Schwelle in die Praxis.',
-    'Schließe jede Arbeit bewusst — Danken, Erden, Siegeln.',
+    'Schließe jede Arbeit bewusst — Atem, Körper, Siegel, optional ein Tagebuch-Keim.',
     'Ein Handy kann keine Geister messen. Respekt bleibt Haltung.',
     'Grenze und Ausgleich: kein Schaden an Personen.',
     'Lieber eine kurze klare Praxis als ein langes Zögern.',
@@ -91,8 +91,8 @@
     'Wochenrückblick im Tagebuch: sieben Tage Praxis auf einen Blick — ohne Vergleich.',
     'Zum Home-Bildschirm hinzufügen: UNIVERSUM fühlt sich an wie eine App, bleibt aber lokal.',
     'Warum UNIVERSUM: lokal, ethisch, pfadstark — Praxiswerkzeug, kein Feed.',
-    'Tagesbriefing teilen: professioneller Text oder Link — Praxis empfehlen ohne Druck.',
-    'Empfehlen-Karte: sanfte Einladung mit Pages-URL kopieren — für Kolleg:innen im Feld.',
+    'Tagesbriefing teilen: klarer Text oder Link — Praxis weitergeben ohne Druck.',
+    'Weitergeben: sanfte Einladung mit Pages-URL — für Kolleg:innen im Feld, ohne Hype.',
     'Pfad-Lehre: ein Lehrsatz pro Pfad auf dem Cockpit — Tiefe ohne Dogma.',
     'Erste Praxis in 3 Minuten: Intention, Atem, Erdung — klarer Einstieg für Neue.',
     'Stiller Modus blendet Chrome aus — Fokus aufs Ritual, Esc bringt alles zurück.',
@@ -308,9 +308,9 @@
     return [
       'Einladung zu UNIVERSUM · COCKPIT',
       '',
-      'Ich übe mit einem stillen Ritualbegleiter für Magier:innen und spirituell Praktizierende.',
-      'Tagesbriefing, geführte Rituale, Magie-Tagebuch — alles lokal auf dem Gerät, ohne Konto und ohne Backend.',
-      path && path.name ? 'Mein Pfad gerade: ' + path.name + '.' : '',
+      'Hier übe ich mit UNIVERSUM — einem stillen Praxiswerkzeug (kein Hype, kein Konto).',
+      'Tagesbriefing, Rituale, Magie-Tagebuch: Daten bleiben auf dem Gerät.',
+      path && path.name ? 'Aktuelle Haltung: ' + path.name + '.' : '',
       '',
       'Öffnen: ' + PAGES_URL,
       '',
@@ -669,6 +669,8 @@
     if (!card) return;
     const show = Store.shouldShowStarterFlow && Store.shouldShowStarterFlow();
     card.hidden = !show;
+    // Keep "Jetzt" in sync when starter visibility changes
+    if (!show && typeof renderJetztCard === 'function') renderJetztCard();
   }
 
   /* ——— Erste Praxis in 3 Minuten ——— */
@@ -812,8 +814,7 @@
     refreshState();
     closeStarterFlow();
     renderStarterCard();
-    renderCockpit();
-    toast('Erste Praxis gehalten — willkommen.');
+    renderJetztCard();
     Rituals.vibrate([40, 30, 60]);
     if (openErdung) {
       const r = Rituals.getRitual('erdung') || Rituals.getRitual((currentPath() && currentPath().recommendedRitual) || 'erdung');
@@ -821,7 +822,9 @@
         navigate('rituale', { force: true });
         openRitual(r);
       }
+      return;
     }
+    showClosingFlow({ name: 'Erste Praxis (3 Min)' }, { label: 'Erste Praxis (3 Min)' });
   }
 
   function syncHiddenLocControls() {
@@ -856,6 +859,71 @@
 
   function currentPath() {
     return Paths.getPath(state.path || 'esoterik');
+  }
+
+  /** Path as Haltung: CSS data-path + accent vars + cockpit line. */
+  function applyPathTheme() {
+    const path = currentPath();
+    const id = (path && path.id) || 'esoterik';
+    try {
+      document.documentElement.setAttribute('data-path', id);
+      document.body.setAttribute('data-path', id);
+    } catch (_) { /* ignore */ }
+    const root = document.documentElement;
+    if (path && path.accent) {
+      root.style.setProperty('--accent', path.accent);
+      if (path.accentDeep) root.style.setProperty('--accent-deep', path.accentDeep);
+      if (path.accentSoft) root.style.setProperty('--accent-soft', path.accentSoft);
+    }
+    const h = $('#path-haltung');
+    if (h) h.textContent = (path && (path.haltung || path.saying)) || 'Still üben — Daten bleiben bei dir.';
+    const chip = $('#path-chip');
+    if (chip && path) chip.textContent = path.name;
+  }
+
+  function renderJetztCard() {
+    const card = $('#jetzt-card');
+    if (!card) return;
+    const path = currentPath();
+    const showStarter = Store.shouldShowStarterFlow && Store.shouldShowStarterFlow();
+    const starterCard = $('#starter-card');
+    const jetztStart = $('#jetzt-start');
+    const jetztStarter = $('#jetzt-starter');
+    const title = $('#jetzt-title');
+    const chip = $('#jetzt-chip');
+    const lead = $('#jetzt-lead');
+    const meta = $('#jetzt-meta');
+
+    // Prefer ONE invitation above the fold: starter OR recommended practice
+    if (showStarter) {
+      card.hidden = true;
+      if (starterCard) starterCard.hidden = false;
+      return;
+    }
+    if (starterCard) starterCard.hidden = true;
+    card.hidden = false;
+
+    const ritualId = (path && path.recommendedRitual) || 'erdung';
+    const ritual = Rituals.getRitual(ritualId);
+    if (title) title.textContent = 'Jetzt';
+    if (chip) chip.textContent = (path && path.name) || 'Praxis';
+    if (lead) {
+      lead.textContent = (path && path.practiceHint) || 'Eine ruhige Praxis reicht.';
+    }
+    if (meta) {
+      meta.textContent = ritual
+        ? ('Empfohlen: ' + ritual.name + (ritual.mins ? ' · ≈ ' + ritual.mins + ' Min' : ''))
+        : 'Wähle eine Praxis, die du halten kannst.';
+    }
+    if (jetztStart) {
+      jetztStart.textContent = ritual ? ('Start · ' + ritual.name) : 'Empfohlene Praxis';
+      jetztStart.dataset.ritual = ritualId;
+    }
+    if (jetztStarter) {
+      jetztStarter.hidden = !(Store.shouldShowStarterFlow); // already false path
+      // Keep a soft re-entry only if user reset starter in settings — handled by starter card
+      jetztStarter.hidden = true;
+    }
   }
 
   function updateClock() {
@@ -1267,8 +1335,9 @@
       'Nächster Neumond ≈ ' + (nextNew ? fmtDate(nextNew) + ' ' + fmtTime(nextNew) : '—') +
       ' · Vollmond ≈ ' + (nextFull ? fmtDate(nextFull) + ' ' + fmtTime(nextFull) : '—');
 
-    $('#path-chip').textContent = path.name;
-    $('#cockpit-greeting').textContent = path.greeting;
+    applyPathTheme();
+    $('#cockpit-greeting').textContent = path.greeting || 'Hier übst du — Praxis vor Spektakel.';
+    renderJetztCard();
     const latEl = $('#loc-lat'); const lonEl = $('#loc-lon');
     if (latEl && document.activeElement !== latEl) latEl.value = state.lat;
     if (lonEl && document.activeElement !== lonEl) lonEl.value = state.lon;
@@ -1361,7 +1430,7 @@
 
     const ritualId = path.recommendedRitual || 'erdung';
     const ritual = Rituals.getRitual(ritualId);
-    practice.textContent = (path.practiceHint || 'Eine ruhige Praxis reicht.') +
+    practice.textContent = (path.practiceHint || 'Hier übst du — eine ruhige Praxis reicht.') +
       (ritual ? ' Empfohlen: ' + ritual.name + '.' : '');
     practice.dataset.ritual = ritualId;
 
@@ -1861,7 +1930,7 @@
     }
     if (!list.length) {
       el.innerHTML = '<div class="empty-state convert"><strong>Keine Rituale gefunden</strong>' +
-        '<p>Filter lockern, empfohlenes Ritual starten oder ein eigenes anlegen — Praxis vor Spektakel.</p>' +
+        '<p>' + escapeHtml((currentPath() && currentPath().haltung) || 'Filter lockern oder empfohlenes Ritual starten — hier übst du.') + '</p>' +
         '<div class="empty-cta">' +
         '<button type="button" class="primary" id="empty-start-recommended">Empfohlenes starten</button>' +
         '<button type="button" class="ghost" id="ritual-filter-reset">Filter zurücksetzen</button>' +
@@ -1893,7 +1962,7 @@
     } else {
       el.innerHTML = list.map(r => {
         const isFav = favs.includes(r.id);
-        return '<div class="ritual-item' + (isFav ? ' is-fav' : '') + '" data-ritual-wrap="' + r.id + '">' +
+        return '<div class="ritual-item' + (isFav ? ' is-fav' : '') + (path.recommendedRitual === r.id ? ' path-emphasized' : '') + '" data-ritual-wrap="' + r.id + '">' +
           '<button type="button" class="ritual-item-main" data-ritual="' + r.id + '">' +
           '<span class="r-ico">' + r.ico + '</span>' +
           '<span><div class="r-name">' + escapeHtml(r.name) +
@@ -2113,45 +2182,166 @@
     showSafety();
   }
 
-  function showClosingFlow(ritual) {
+  let closingBreathTimer = null;
+  function clearClosingBreath() {
+    if (closingBreathTimer) {
+      clearTimeout(closingBreathTimer);
+      closingBreathTimer = null;
+    }
+  }
+
+  /**
+   * Fuller body-felt closing: Danken → Atmen → Erden → Siegeln → optional diary seed.
+   * Used after guided rituals, 3-min starter, and focus sessions.
+   */
+  function showClosingFlow(ritual, opts) {
+    opts = opts || {};
     clearInterval(ritualTimer);
     clearBreath();
+    clearClosingBreath();
+    const label = (ritual && ritual.name) || opts.label || 'Praxis';
+    const path = currentPath();
+    const embodied = (path && path.haltung)
+      ? ('Spüre: ' + path.haltung)
+      : 'Füße auf dem Boden. Schultern sinken. Ein Atemzug länger aus als ein.';
+
+    const runner = $('#ritual-runner');
+    if (runner && !runner.classList.contains('open')) {
+      runner.classList.add('open');
+      setQuietRitual(true);
+    }
+    const titleEl = $('#rr-title');
+    if (titleEl) titleEl.textContent = 'Abschluss · ' + label;
+
     const CLOSING = [
-      { title: 'Danken', text: 'Danke dem Raum, dem Atem und der Absicht — ohne Forderung. Ein kurzer innerer Dank genügt.', ico: '🙏' },
-      { title: 'Erden', text: 'Füße, Hände, Gesicht spüren. Ein Schluck Wasser wenn möglich. Du bist wieder ganz im Alltag.', ico: '🌱' },
-      { title: 'Siegeln', text: '„Die Arbeit ist geschlossen.“ Grenze und Ausgleich. Kein Schaden an Personen.', ico: '✦' }
+      {
+        id: 'danken',
+        title: 'Danken',
+        text: 'Danke dem Raum, dem Atem und der Absicht — ohne Forderung. Ein kurzer innerer Dank genügt.',
+        ico: '🙏'
+      },
+      {
+        id: 'atmen',
+        title: 'Atmen',
+        text: 'Drei ruhige Züge: vier zählen ein, sechs aus. Der Kreis folgt dem Atem — Schwelle, kein Timer-Zwang.',
+        ico: '◯',
+        breath: true
+      },
+      {
+        id: 'erden',
+        title: 'Erden',
+        text: embodied + ' Hände, Gesicht, ein Schluck Wasser wenn möglich. Du bist wieder im Körper.',
+        ico: '🌱'
+      },
+      {
+        id: 'siegeln',
+        title: 'Siegeln',
+        text: '„Die Arbeit ist geschlossen.“ Grenze und Ausgleich. Kein Schaden an Personen. Schwelle gehalten.',
+        ico: '✦'
+      },
+      {
+        id: 'seed',
+        title: 'Keim (optional)',
+        text: 'Ein Satz fürs Magie-Tagebuch — oder weitergehen. Kein Zwang, nur ein möglicher Keim.',
+        ico: '✧',
+        diary: true
+      }
     ];
     let ci = 0;
+
+    function finishClosing(msg) {
+      clearClosingBreath();
+      toast(msg || 'Schwelle gehalten — gut geübt.');
+      closeRunner();
+      renderStreakLine();
+      if (typeof renderJetztCard === 'function') renderJetztCard();
+    }
+
     function paint() {
+      clearClosingBreath();
       const step = CLOSING[ci];
       const prog = Math.round(((ci + 1) / CLOSING.length) * 100);
+      let extra = '';
+      if (step.breath) {
+        extra = '<div class="breath-circle closing-breath" id="rr-closing-breath" aria-live="polite" role="status">Bereit</div>' +
+          '<p class="meta-line" style="text-align:center">4 / 6 · Schwelle</p>';
+      }
+      if (step.diary) {
+        extra = '<div class="form-row closing-seed-row">' +
+          '<label class="sr-only" for="rr-closing-seed">Tagebuch-Keim</label>' +
+          '<textarea id="rr-closing-seed" maxlength="280" rows="3" placeholder="z. B. Was bleibt im Körper nach der Praxis…"></textarea></div>';
+      }
+      const isLast = ci >= CLOSING.length - 1;
       $('#rr-content').innerHTML =
         '<div class="rr-step closing-flow">' +
         '<div class="rr-progress"><i style="width:' + prog + '%"></i></div>' +
-        '<p class="section-sub">Abschluss · ' + (ci + 1) + ' / ' + CLOSING.length + '</p>' +
+        '<p class="section-sub">Schwelle · ' + (ci + 1) + ' / ' + CLOSING.length + '</p>' +
         '<div class="closing-ico" aria-hidden="true">' + step.ico + '</div>' +
         '<h2>' + escapeHtml(step.title) + '</h2>' +
         '<p class="rr-text">' + escapeHtml(step.text) + '</p>' +
-        '<p class="notice ethics-line">Nach ' + escapeHtml(ritual.name || 'der Praxis') + '</p>' +
+        extra +
+        '<p class="notice ethics-line">Nach ' + escapeHtml(label) + '</p>' +
         '<div class="rr-actions">' +
-        (ci < CLOSING.length - 1
-          ? '<button type="button" class="primary" id="rr-close-next">Weiter</button>'
-          : '<button type="button" class="primary" id="rr-done">Fertig · Alltag</button>') +
+        (step.diary
+          ? '<button type="button" class="primary" id="rr-close-seed-save">Keim speichern · Alltag</button>' +
+            '<button type="button" class="ghost" id="rr-done">Ohne Keim · Alltag</button>'
+          : (isLast
+            ? '<button type="button" class="primary" id="rr-done">Fertig · Alltag</button>'
+            : '<button type="button" class="primary" id="rr-close-next">Weiter</button>')) +
         '<button type="button" class="ghost" id="rr-close-skip">Überspringen</button></div></div>';
+
       Rituals.vibrate(ci === 0 ? [40, 40, 80] : 25);
+
+      if (step.breath) {
+        const el = $('#rr-closing-breath');
+        function cycle(phase) {
+          if (!el || !$('#ritual-runner').classList.contains('open')) return;
+          if (phase === 'in') {
+            el.textContent = 'Ein';
+            el.classList.add('in');
+            el.classList.remove('out');
+            closingBreathTimer = setTimeout(() => cycle('out'), 4000);
+          } else {
+            el.textContent = 'Aus';
+            el.classList.add('out');
+            el.classList.remove('in');
+            closingBreathTimer = setTimeout(() => cycle('in'), 6000);
+          }
+        }
+        if (el) cycle('in');
+      }
+
       const next = $('#rr-close-next');
       if (next) next.addEventListener('click', () => { ci++; paint(); });
       const done = $('#rr-done');
-      if (done) done.addEventListener('click', () => {
-        toast('Praxis gesiegelt — gut gehalten.');
-        closeRunner();
-        renderStreakLine();
+      if (done) done.addEventListener('click', () => finishClosing('Praxis gesiegelt — Schwelle gehalten.'));
+      const seedSave = $('#rr-close-seed-save');
+      if (seedSave) seedSave.addEventListener('click', () => {
+        const ta = $('#rr-closing-seed');
+        const seed = ta ? String(ta.value || '').trim() : '';
+        if (seed) {
+          try {
+            Store.update(d => {
+              d.diary = d.diary || [];
+              d.diary.push({
+                id: Store.uid(),
+                title: 'Keim nach ' + label,
+                body: seed,
+                tags: ['abschluss', 'keim'],
+                mood: null,
+                created: new Date().toISOString()
+              });
+            });
+            toast('Keim im Tagebuch');
+          } catch (_) {
+            toast('Keim konnte nicht gespeichert werden', 3200, 'warn');
+          }
+        }
+        finishClosing(seed ? 'Keim gesät · Schwelle gehalten.' : 'Schwelle gehalten — gut geübt.');
       });
       const skip = $('#rr-close-skip');
       if (skip) skip.addEventListener('click', () => {
-        toast('Abschluss übersprungen — kehre bewusst zurück.');
-        closeRunner();
-        renderStreakLine();
+        finishClosing('Abschluss übersprungen — kehre bewusst zurück.');
       });
     }
     paint();
@@ -2160,6 +2350,7 @@
   function closeRunner() {
     clearInterval(ritualTimer);
     clearBreath();
+    clearClosingBreath();
     $('#ritual-runner').classList.remove('open');
     setQuietRitual(false);
   }
@@ -2993,9 +3184,9 @@
         });
         refreshState();
         renderStreakLine();
-        toast('Fokuszeit gehalten — Danke.');
         focusRemaining = focusSelectedMins * 60;
         setFocusDisplay();
+        showClosingFlow({ name: 'Fokus · ' + focusSelectedMins + ' Min' }, { label: 'Fokus · ' + focusSelectedMins + ' Min' });
       }
     }, 1000);
   }
@@ -3007,16 +3198,18 @@
     const grid = $('#path-grid');
     grid.innerHTML = Paths.PATHS.map(p =>
       '<button type="button" class="path-btn' + (p.id === state.path ? ' active' : '') + '" data-path="' + p.id + '">' +
-      escapeHtml(p.name) + '</button>'
+      '<span class="path-btn-name">' + escapeHtml(p.name) + '</span>' +
+      (p.haltung ? '<span class="path-btn-haltung">' + escapeHtml(p.haltung) + '</span>' : '') +
+      '</button>'
     ).join('');
     $$('#path-grid [data-path]').forEach(btn => {
       btn.addEventListener('click', () => {
         Store.update(d => { d.path = btn.dataset.path; });
         refreshState();
-        $('#path-chip').textContent = currentPath().name;
+        applyPathTheme();
         modal.classList.remove('open');
         Rituals.vibrate(25);
-        toast('Pfad: ' + currentPath().name);
+        toast('Haltung: ' + currentPath().name);
         const active = $$('.section-view.active')[0];
         if (active) navigate(active.id.replace('sec-', ''), { force: true });
       });
@@ -3176,6 +3369,7 @@
     setInterval(updateClock, 15000);
     applyMotionPref();
     applyMondnachtPref();
+    applyPathTheme();
     syncQuietUi();
     setFocusDisplay();
 
@@ -3511,9 +3705,21 @@
         if (Store.dismissStarterFlow) Store.dismissStarterFlow();
         refreshState();
         renderStarterCard();
+        renderJetztCard();
         toast('Später — Karte ausgeblendet');
       });
     }
+    const jetztStart = $('#jetzt-start');
+    if (jetztStart) {
+      jetztStart.addEventListener('click', () => {
+        const id = jetztStart.dataset.ritual || ($('#briefing-practice') && $('#briefing-practice').dataset.ritual) || currentPath().recommendedRitual || 'erdung';
+        const r = Rituals.getRitual(id);
+        if (r) { navigate('rituale'); openRitual(r); }
+        else navigate('rituale');
+      });
+    }
+    const jetztStarter = $('#jetzt-starter');
+    if (jetztStarter) jetztStarter.addEventListener('click', openStarterFlow);
     const starterNext = $('#starter-flow-next');
     if (starterNext) starterNext.addEventListener('click', advanceStarterFlow);
     const starterBack = $('#starter-flow-back');

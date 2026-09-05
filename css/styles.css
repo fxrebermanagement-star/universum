@@ -1,4 +1,4 @@
-/* UNIVERSUM · COCKPIT — Premium dark violet mystical board */
+/* UNIVERSUM · COCKPIT — dark violet mystical practice board · Feld-Klarheit */
 :root {
   /* Surfaces */
   --bg: #0c0814;
@@ -1164,6 +1164,19 @@ button.ritual-item { cursor: pointer; }
   font-size: 0.85rem;
   font-weight: 500;
   transition: border-color .2s, background .2s, box-shadow .2s;
+}
+.path-btn {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+  text-align: left;
+}
+.path-btn-name { font-weight: 700; }
+.path-btn-haltung {
+  font-size: 0.72rem;
+  color: var(--muted);
+  font-weight: 500;
+  line-height: 1.3;
 }
 .path-btn.active {
   border-color: var(--maya);
@@ -3416,4 +3429,169 @@ body.reduced-motion .starter-overlay { backdrop-filter: none; }
 
 @media print {
   .starter-card, .fest-countdown-chip, .quiet-exit-chip, .starter-overlay { display: none !important; }
+}
+
+
+/* ——— v2.0 Feld-Klarheit ——— */
+.path-haltung {
+  margin: -0.15rem 0 0.85rem;
+  font-size: 0.92rem;
+  color: var(--accent);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.35;
+}
+
+.jetzt-card {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent-soft), 0 12px 40px rgba(0,0,0,0.28);
+  background: linear-gradient(165deg, var(--accent-soft), var(--bg-card) 55%);
+}
+.jetzt-lead {
+  margin: 0.35rem 0 0.55rem;
+  font-size: 1.02rem;
+  line-height: 1.45;
+  color: var(--text-soft);
+}
+.jetzt-meta { margin-bottom: 0.65rem; }
+
+.briefing-card-slim {
+  margin-top: 0.85rem;
+}
+.briefing-actions-slim {
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+.briefing-actions-slim .primary.hidden {
+  display: none !important;
+}
+
+.mehr-accordion {
+  margin-top: 0.9rem;
+  padding: 0;
+  overflow: hidden;
+}
+.mehr-summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.9rem 1rem;
+  font-family: Syne, system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--text);
+}
+.mehr-summary::-webkit-details-marker { display: none; }
+.mehr-summary::after {
+  content: '▾';
+  position: absolute;
+  right: 1.1rem;
+  top: 1rem;
+  color: var(--muted);
+  font-weight: 400;
+}
+.mehr-accordion { position: relative; }
+.mehr-accordion[open] .mehr-summary::after { content: '▴'; }
+.mehr-hint {
+  font-family: Manrope, system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+.mehr-body {
+  padding: 0 0.75rem 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.mehr-body .nested-card,
+.mehr-body .card {
+  margin: 0;
+  box-shadow: none;
+}
+.mehr-body .dashboard-grid {
+  margin: 0.25rem 0;
+}
+
+.closing-flow .closing-breath {
+  margin: 0.75rem auto;
+}
+.closing-seed-row textarea {
+  width: 100%;
+  min-height: 4.5rem;
+  resize: vertical;
+}
+.closing-flow .rr-text {
+  max-width: 28rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Path Haltung accents (data-path on html/body) */
+html[data-path="schamanismus"], body[data-path="schamanismus"] {
+  --accent: #c4893a;
+  --accent-deep: #a06e2e;
+  --accent-soft: rgba(196, 137, 58, 0.22);
+}
+html[data-path="nordisch"], body[data-path="nordisch"] {
+  --accent: #7aa8c9;
+  --accent-deep: #5a88a8;
+  --accent-soft: rgba(122, 168, 201, 0.22);
+}
+html[data-path="voodoo"], body[data-path="voodoo"] {
+  --accent: #b84a6a;
+  --accent-deep: #943850;
+  --accent-soft: rgba(184, 74, 106, 0.22);
+}
+html[data-path="santeria"], body[data-path="santeria"] {
+  --accent: #c9a03a;
+  --accent-deep: #a8822e;
+  --accent-soft: rgba(201, 160, 58, 0.22);
+}
+html[data-path="hermetik"], body[data-path="hermetik"] {
+  --accent: #9a8fd4;
+  --accent-deep: #7a6fb4;
+  --accent-soft: rgba(154, 143, 212, 0.22);
+}
+html[data-path="wicca"], body[data-path="wicca"] {
+  --accent: #5aab7a;
+  --accent-deep: #3f8a5a;
+  --accent-soft: rgba(90, 171, 122, 0.22);
+}
+html[data-path="chaosmagie"], body[data-path="chaosmagie"] {
+  --accent: #c45ec8;
+  --accent-deep: #a040a8;
+  --accent-soft: rgba(196, 94, 200, 0.22);
+}
+html[data-path="esoterik"], body[data-path="esoterik"] {
+  --accent: #8b6fd0;
+  --accent-deep: #6a4fb0;
+  --accent-soft: rgba(139, 111, 208, 0.22);
+}
+
+.path-chip {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+body.quiet-mode .jetzt-card { /* keep visible in quiet? hide with other chrome */
+}
+body.quiet-mode .mehr-accordion,
+body.quiet-mode .path-haltung {
+  /* quiet mode hides chrome via existing rules; Haltung stays subtle */
+}
+
+@media print {
+  .mehr-accordion { display: none !important; }
+  .jetzt-card { break-inside: avoid; }
+}
+
+.ritual-item.path-emphasized {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent-soft);
+}
+.ritual-item.path-emphasized .r-meta {
+  color: var(--accent);
 }

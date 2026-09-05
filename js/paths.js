@@ -8,6 +8,10 @@
     {
       id: 'schamanismus',
       name: 'Schamanismus',
+      accent: '#c4893a',
+      accentSoft: 'rgba(196, 137, 58, 0.22)',
+      accentDeep: '#a06e2e',
+      haltung: 'Körper zuerst — mit dem Feld gehen.',
       saying: 'Mit dem Feld gehen, nicht dagegen.',
       sayings: [
         'Mit dem Feld gehen, nicht dagegen.',
@@ -31,6 +35,10 @@
     {
       id: 'nordisch',
       name: 'Nordisch',
+      accent: '#7aa8c9',
+      accentSoft: 'rgba(122, 168, 201, 0.22)',
+      accentDeep: '#5a88a8',
+      haltung: 'Ehre und Maß — Wort und Tat im Ring.',
       saying: 'Ehre die Grenze. Halte den Eid.',
       sayings: [
         'Ehre die Grenze. Halte den Eid.',
@@ -54,6 +62,10 @@
     {
       id: 'voodoo',
       name: 'Voodoo',
+      accent: '#b84a6a',
+      accentSoft: 'rgba(184, 74, 106, 0.22)',
+      accentDeep: '#943850',
+      haltung: 'Respekt im Haus — keine Initiation hier.',
       saying: 'Respekt vor Lwa — nur Hauspraxis, keine Initiation.',
       sayings: [
         'Respekt vor Lwa — nur Hauspraxis, keine Initiation.',
@@ -78,6 +90,10 @@
     {
       id: 'santeria',
       name: 'Santería',
+      accent: '#c9a03a',
+      accentSoft: 'rgba(201, 160, 58, 0.22)',
+      accentDeep: '#a8822e',
+      haltung: 'Aché im Alltag — Dank vor Forderung.',
       saying: 'Achè im Alltag — Haus, nicht Ile.',
       sayings: [
         'Achè im Alltag — Haus, nicht Ile.',
@@ -102,6 +118,10 @@
     {
       id: 'hermetik',
       name: 'Hermetik',
+      accent: '#9a8fd4',
+      accentSoft: 'rgba(154, 143, 212, 0.22)',
+      accentDeep: '#7a6fb4',
+      haltung: 'Maß vor Operation — Symbol mit Ethik.',
       saying: 'Wie oben, so unten — mit Maß.',
       sayings: [
         'Wie oben, so unten — mit Maß.',
@@ -125,6 +145,10 @@
     {
       id: 'wicca',
       name: 'Wicca-Hexerei',
+      accent: '#5aab7a',
+      accentSoft: 'rgba(90, 171, 122, 0.22)',
+      accentDeep: '#3f8a5a',
+      haltung: 'Kreis halten — niemandem schaden.',
       saying: 'An es schadet niemandem — tue, was du willst.',
       sayings: [
         'An es schadet niemandem — tue, was du willst.',
@@ -148,6 +172,10 @@
     {
       id: 'chaosmagie',
       name: 'Chaosmagie',
+      accent: '#c45ec8',
+      accentSoft: 'rgba(196, 94, 200, 0.22)',
+      accentDeep: '#a040a8',
+      haltung: 'Laden, dann loslassen — ethisch klar.',
       saying: 'Nichts ist wahr. Alles ist erlaubt — mit Ethik.',
       sayings: [
         'Nichts ist wahr. Alles ist erlaubt — mit Ethik.',
@@ -171,6 +199,10 @@
     {
       id: 'esoterik',
       name: 'Esoterik',
+      accent: '#8b6fd0',
+      accentSoft: 'rgba(139, 111, 208, 0.22)',
+      accentDeep: '#6a4fb0',
+      haltung: 'Still üben — Feldlicht begleitet.',
       saying: 'Feldlicht ist da — still begleiten.',
       sayings: [
         'Feldlicht ist da — still begleiten.',
