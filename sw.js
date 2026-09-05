@@ -2,9 +2,9 @@
  * UNIVERSUM · Service Worker — offline shell caching
  * Relative URLs so GitHub Pages /universum/ subpath works.
  * Cache-first for app shell; network-first navigations; offline fallback to cockpit.
- * v53: 5.14.0 — Resonanzen-Lexikon (Kräuter·Küche·Steine·Farben·Werkzeuge·Bezüge).
+ * v54: 5.14.1 — Lexikon-Icons (alle Tabs) · Element Wasser (nordisch).
  */
-const CACHE = 'universum-shell-v53';
+const CACHE = 'universum-shell-v54';
 const SHELL = [
   './',
   './index.html',

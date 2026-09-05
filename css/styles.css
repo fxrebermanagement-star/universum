@@ -7695,9 +7695,24 @@ button.primary:active:not(:disabled),
 .herb-ref-top {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 0.35rem 0.65rem;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.35rem 0.55rem;
+}
+.herb-ref-top .herb-path-chip {
+  margin-left: auto;
+}
+.herb-ref-ico,
+.resonanz-ico {
+  flex: 0 0 auto;
+  font-size: 1.15rem;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.35rem;
+  text-align: center;
+  filter: saturate(1.05);
 }
 .herb-ref-top strong {
   font-family: var(--font-title);

@@ -1728,12 +1728,12 @@
   }
 
   const LEXIKON_TAB_META = {
-    herb: { title: 'Kräuter', singular: 'Kraut', toast: 'Kraut gemerkt', empty: 'Keine Kräuter hinterlegt.', leadPath: 'Pfadbezogene Kräuter', leadAll: 'Alle Pfade · gleiche Namen zusammengefasst. Tippen merkt den Eintrag für den Altar-Glance.' },
-    kitchen: { title: 'Küche & Hausmittel', singular: 'Hausmittel', toast: 'Hausmittel gemerkt', empty: 'Keine Küchen-Einträge hinterlegt.', leadPath: 'Küche und Hausmittel für', leadAll: 'Alle Pfade · Küche & Hausmittel dedupliziert. Symbolik, kein Heilversprechen.' },
-    stone: { title: 'Steine', singular: 'Stein', toast: 'Stein gemerkt', empty: 'Keine Steine hinterlegt.', leadPath: 'Altarsteine und Blickfänge für', leadAll: 'Alle Pfade · Steine dedupliziert. Symbolik, keine Kristallheilung.' },
-    color: { title: 'Farben', singular: 'Farbe', toast: 'Farbe gemerkt', empty: 'Keine Farben hinterlegt.', leadPath: 'Altarfarben und Tücher für', leadAll: 'Alle Pfade · Farben dedupliziert. Altarfarbe / Blickfang.' },
-    tool: { title: 'Werkzeuge', singular: 'Werkzeug', toast: 'Werkzeug gemerkt', empty: 'Keine Werkzeuge hinterlegt.', leadPath: 'Werkzeuge der Hauspraxis für', leadAll: 'Alle Pfade · Werkzeuge dedupliziert. Symbolik und Maß.' },
-    link: { title: 'Bezüge & Hilfsmittel', singular: 'Bezug', toast: 'Bezug gemerkt', empty: 'Keine Bezüge hinterlegt.', leadPath: 'Klassische Bezüge für', leadAll: 'Alle Pfade · Bezüge dedupliziert. Nur mit Einwilligung — kein Schaden.' }
+    herb: { title: 'Kräuter', singular: 'Kraut', toast: 'Kraut gemerkt', empty: 'Keine Kräuter hinterlegt.', leadPath: 'Pfadbezogene Kräuter', leadAll: 'Alle Pfade · gleiche Namen zusammengefasst. Tippen merkt den Eintrag für den Altar-Glance.', fallbackIco: '🌿' },
+    kitchen: { title: 'Küche & Hausmittel', singular: 'Hausmittel', toast: 'Hausmittel gemerkt', empty: 'Keine Küchen-Einträge hinterlegt.', leadPath: 'Küche und Hausmittel für', leadAll: 'Alle Pfade · Küche & Hausmittel dedupliziert. Symbolik, kein Heilversprechen.', fallbackIco: '🍯' },
+    stone: { title: 'Steine', singular: 'Stein', toast: 'Stein gemerkt', empty: 'Keine Steine hinterlegt.', leadPath: 'Altarsteine und Blickfänge für', leadAll: 'Alle Pfade · Steine dedupliziert. Symbolik, keine Kristallheilung.', fallbackIco: '💎' },
+    color: { title: 'Farben', singular: 'Farbe', toast: 'Farbe gemerkt', empty: 'Keine Farben hinterlegt.', leadPath: 'Altarfarben und Tücher für', leadAll: 'Alle Pfade · Farben dedupliziert. Altarfarbe / Blickfang.', fallbackIco: '🎨' },
+    tool: { title: 'Werkzeuge', singular: 'Werkzeug', toast: 'Werkzeug gemerkt', empty: 'Keine Werkzeuge hinterlegt.', leadPath: 'Werkzeuge der Hauspraxis für', leadAll: 'Alle Pfade · Werkzeuge dedupliziert. Symbolik und Maß.', fallbackIco: '🛠️' },
+    link: { title: 'Bezüge & Hilfsmittel', singular: 'Bezug', toast: 'Bezug gemerkt', empty: 'Keine Bezüge hinterlegt.', leadPath: 'Klassische Bezüge für', leadAll: 'Alle Pfade · Bezüge dedupliziert. Nur mit Einwilligung — kein Schaden.', fallbackIco: '🔗' }
   };
 
   function currentLexikonTab() {
@@ -1837,10 +1837,12 @@
         : (pathOnly && path
           ? '<span class="herb-path-chip">' + escapeHtml((path.symbol || '') + ' ' + (path.name || '')) + '</span>'
           : '');
+      const ico = (h.ico && String(h.ico).trim()) || meta.fallbackIco || '✦';
+      const icoHtml = '<span class="herb-ref-ico resonanz-ico" aria-hidden="true">' + escapeHtml(ico) + '</span>';
       return '<li class="herb-ref-item resonanz-open" role="button" tabindex="0" data-resonanz-id="' + escapeHtml(rid) +
         '" data-resonanz-label="' + escapeHtml(label) +
         '" data-resonanz-path="' + escapeHtml(h.pathId || (h.paths && h.paths[0]) || state.path || '') + '">' +
-        '<div class="herb-ref-top"><strong>' + escapeHtml(h.name) + '</strong>' + pathChip + '</div>' +
+        '<div class="herb-ref-top">' + icoHtml + '<strong>' + escapeHtml(h.name) + '</strong>' + pathChip + '</div>' +
         '<span class="herb-ref-desc">' + escapeHtml(h.description || '') + '</span></li>';
     }).join('');
     list.querySelectorAll('.resonanz-open').forEach(function (el) {

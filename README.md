@@ -430,6 +430,10 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.14.1 — Lexikon-Icons · Element Wasser
+
+Kleine Emoji-Icons (Menü-Stil) bei **allen** Lexikon-Einträgen (Kräuter · Küche · Steine · Farben · Werkzeuge · Bezüge). Nordisch: Element **Wasser (Klarheit)** statt irreführendem «Eis». SW-Cache `universum-shell-v54`.
+
 ## 5.14.0 — Resonanzen als Lexikon
 
 - Lexikon-Tabs: **Kräuter · Küche · Steine · Farben · Werkzeuge · Bezüge**
