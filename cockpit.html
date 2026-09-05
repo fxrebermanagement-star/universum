@@ -39,7 +39,8 @@
     <div id="main-content" tabindex="-1">
     <!-- 1. Cockpit -->
     <section id="sec-cockpit" class="section-view active" aria-label="Cockpit">
-      <h1 class="section-title">Cockpit</h1>
+      <h1 class="section-title"><span class="sec-ico" aria-hidden="true">◈</span> Cockpit</h1>
+      <span class="section-motif" aria-hidden="true"></span>
       <p class="section-sub" id="cockpit-greeting">Praxis vor Spektakel.</p>
       <p class="path-haltung" id="path-haltung" aria-live="polite"><span class="path-sym" aria-hidden="true">✦</span> <span class="path-haltung-text">Still üben — Daten bleiben bei dir.</span></p>
       <p class="privacy-line privacy-line-slim" id="privacy-line">Lokal in <code>feldlicht-v15</code> · kein Konto · kein Tracking</p>
@@ -402,12 +403,12 @@
 
       <h3 class="areas-label">Mehr Bereiche</h3>
       <div class="tiles">
-        <button type="button" class="tile" data-tile="kalender"><div class="tile-ico">📅</div><div class="tile-name">Kalender</div><div class="tile-desc">Mond &amp; Feste</div></button>
-        <button type="button" class="tile" data-tile="kosmos"><div class="tile-ico">🪐</div><div class="tile-name">Kosmos</div><div class="tile-desc">Stunde · Kreis · Fokus</div></button>
-        <button type="button" class="tile" data-tile="rituale"><div class="tile-ico">🕯️</div><div class="tile-name">Rituale</div><div class="tile-desc">Geführt · Sigil · Karten</div></button>
-        <button type="button" class="tile" data-tile="tagebuch"><div class="tile-ico">📖</div><div class="tile-name">Tagebuch</div><div class="tile-desc">Magie-Buch lokal</div></button>
-        <button type="button" class="tile" data-tile="notizen"><div class="tile-ico">📝</div><div class="tile-name">Notizen</div><div class="tile-desc">Schnell festhalten</div></button>
-        <button type="button" class="tile" data-tile="netzwerk"><div class="tile-ico">◯</div><div class="tile-name">Netzwerk</div><div class="tile-desc">Lokal · kein Sync</div></button>
+        <button type="button" class="tile" data-tile="kalender"><div class="tile-ico" aria-hidden="true">☽</div><div class="tile-name">Kalender</div><div class="tile-desc">Mond &amp; Feste</div></button>
+        <button type="button" class="tile" data-tile="kosmos"><div class="tile-ico" aria-hidden="true">✧</div><div class="tile-name">Kosmos</div><div class="tile-desc">Stunde · Kreis · Fokus</div></button>
+        <button type="button" class="tile" data-tile="rituale"><div class="tile-ico" aria-hidden="true">⟡</div><div class="tile-name">Rituale</div><div class="tile-desc">Geführt · Sigil · Karten</div></button>
+        <button type="button" class="tile" data-tile="tagebuch"><div class="tile-ico" aria-hidden="true">✎</div><div class="tile-name">Tagebuch</div><div class="tile-desc">Magie-Buch lokal</div></button>
+        <button type="button" class="tile" data-tile="notizen"><div class="tile-ico" aria-hidden="true">▤</div><div class="tile-name">Notizen</div><div class="tile-desc">Schnell festhalten</div></button>
+        <button type="button" class="tile" data-tile="netzwerk"><div class="tile-ico" aria-hidden="true">◯</div><div class="tile-name">Netzwerk</div><div class="tile-desc">Lokal · kein Sync</div></button>
       </div>
 
       <p class="footer-ethics">Astronomie = Näherungen zum Üben · keine Astrologie-Beratung · Voodoo/Santería nur Hauspraxis</p>
@@ -415,7 +416,8 @@
 
     <!-- 2. Kalender -->
     <section id="sec-kalender" class="section-view">
-      <h1 class="section-title">Kalender</h1>
+      <h1 class="section-title"><span class="sec-ico" aria-hidden="true">☽</span> Kalender</h1>
+      <span class="section-motif" aria-hidden="true"></span>
       <p class="section-sub" id="cal-section-sub">Gregorianisch · Mond · nur pfadrelevante Feste</p>
       <div class="cal-path-toggle" role="group" aria-label="Festfilter">
         <button type="button" class="cal-filter-btn active" id="cal-filter-path" aria-pressed="true">Nur mein Pfad</button>
@@ -439,7 +441,8 @@
 
     <!-- 3. Kosmos -->
     <section id="sec-kosmos" class="section-view">
-      <h1 class="section-title">Kosmos</h1>
+      <h1 class="section-title"><span class="sec-ico" aria-hidden="true">✧</span> Kosmos</h1>
+      <span class="section-motif" aria-hidden="true"></span>
       <p class="section-sub">Tageskreis · Planetenstunde · klarer Fokus</p>
       <p class="hint-sm kosmos-approx-once">Positionen und Planetenstunden sind <strong>Näherungen</strong> für die Praxis — kein professionelles Ephemeris.</p>
 
@@ -516,7 +519,8 @@
 
     <!-- 4. Rituale -->
     <section id="sec-rituale" class="section-view">
-      <h1 class="section-title">Rituale</h1>
+      <h1 class="section-title"><span class="sec-ico" aria-hidden="true">⟡</span> Rituale</h1>
+      <span class="section-motif" aria-hidden="true"></span>
       <p class="section-sub">Praxis-Sessions · Absicht → Körper → Schließen · Sigil · Karten</p>
       <div class="tabs" role="tablist" aria-label="Ritual-Bereiche">
         <button type="button" class="active" role="tab" aria-selected="true" data-rtab="guided">Geführt</button>
@@ -677,7 +681,7 @@
       </div>
 
       <div data-rpanel="karten" class="hidden">
-        <div class="notice">22 originale Feldkarten mit eigener Bildsprache — kein Tarot-Klon. Ziehe mit Absicht, ohne Schaden.</div>
+        <div class="notice">22 originale Feldkarten mit eigener Bildsprache — kein Tarot-Klon. Ziehe mit Absicht, ohne Schaden. Bei leeren Motiven: Hard-Refresh oder Site-Daten löschen (neuer Offline-Cache).</div>
         <div class="card daily-card-panel" id="daily-card-panel" aria-labelledby="daily-card-title">
           <div class="intention-top">
             <h3 id="daily-card-title">Tageskarte</h3>
@@ -714,7 +718,8 @@
 
     <!-- 5. Magie-Tagebuch -->
     <section id="sec-tagebuch" class="section-view">
-      <h1 class="section-title">Magie-Tagebuch</h1>
+      <h1 class="section-title"><span class="sec-ico" aria-hidden="true">✎</span> Magie-Tagebuch</h1>
+      <span class="section-motif" aria-hidden="true"></span>
       <p class="section-sub">Lokal · <code>feldlicht-v15</code> · Export</p>
       <div class="toolbar export-pack" role="group" aria-label="Export-Paket">
         <button type="button" class="primary" id="diary-export">Buch JSON</button>
@@ -772,7 +777,8 @@
 
     <!-- 6. Notizen -->
     <section id="sec-notizen" class="section-view">
-      <h1 class="section-title">Notizen</h1>
+      <h1 class="section-title"><span class="sec-ico" aria-hidden="true">▤</span> Notizen</h1>
+      <span class="section-motif" aria-hidden="true"></span>
       <p class="section-sub">Schnelle lokale Notizen · optional mit Tag · ein Tippen → Tagebuch</p>
       <div class="card">
         <div class="form-row"><label for="note-input">Notiz</label><textarea id="note-input" placeholder="Festhalten…"></textarea></div>
@@ -785,7 +791,8 @@
 
     <!-- 7. Netzwerk / Kreis -->
     <section id="sec-netzwerk" class="section-view">
-      <h1 class="section-title">Netzwerk / Kreis</h1>
+      <h1 class="section-title"><span class="sec-ico" aria-hidden="true">◯</span> Netzwerk / Kreis</h1>
+      <span class="section-motif" aria-hidden="true"></span>
       <p class="section-sub">Offline-ehrlich · kein Login · kein Backend</p>
 
       <div class="card kreis-offline-card">
@@ -880,6 +887,7 @@
   <div class="onboard-overlay" id="onboard-overlay" hidden>
     <div class="onboard-card" role="dialog" aria-modal="true" aria-labelledby="onboard-title">
       <p class="splash-eyebrow">ERSTE MINUTE</p>
+      <div class="onboard-hero" aria-hidden="true"><span>◎</span><span>☽</span><span>✦</span><span>✧</span></div>
       <h2 id="onboard-title">Dein Pfad</h2>
       <p class="onboard-copy" id="onboard-lead">Symbol wählen — dann üben.</p>
       <div class="onboard-progress" id="onboard-progress" aria-hidden="true"><i data-op="0"></i><i data-op="1"></i></div>
@@ -898,6 +906,7 @@
       <div class="onboard-step hidden" data-onboard-step="1">
         <p class="hint">Im Cockpit wartet <em>Heute</em> — ein Tip für deinen Pfad.</p>
         <div class="notice ethics-line onboard-invite-box">
+          <span class="onboard-invite-illu" aria-hidden="true">⟡</span>
           «Üben» öffnet das Cockpit. Keine Tour.
         </div>
       </div>
@@ -967,7 +976,7 @@
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
         <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">3.5.0</span></p>
+        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">3.6.0</span></p>
       </div>
     </div>
   </div>

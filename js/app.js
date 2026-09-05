@@ -226,11 +226,11 @@
 
   const SECTIONS = [
     { id: 'cockpit', name: 'Cockpit', ico: '◈' },
-    { id: 'kalender', name: 'Kalender', ico: '📅' },
-    { id: 'kosmos', name: 'Kosmos', ico: '🪐' },
-    { id: 'rituale', name: 'Rituale', ico: '🕯️' },
-    { id: 'tagebuch', name: 'Tagebuch', ico: '📖' },
-    { id: 'notizen', name: 'Notizen', ico: '📝' },
+    { id: 'kalender', name: 'Kalender', ico: '☽' },
+    { id: 'kosmos', name: 'Kosmos', ico: '✧' },
+    { id: 'rituale', name: 'Rituale', ico: '⟡' },
+    { id: 'tagebuch', name: 'Tagebuch', ico: '✎' },
+    { id: 'notizen', name: 'Notizen', ico: '▤' },
     { id: 'netzwerk', name: 'Kreis', ico: '◯' }
   ];
 
@@ -2611,11 +2611,13 @@
       const durClass = (r.mins || 0) <= 5 ? 'dur-short' : ((r.mins || 0) <= 15 ? 'dur-mid' : 'dur-long');
       return '<div class="ritual-item' + (isFav ? ' is-fav' : '') + (path.recommendedRitual === r.id || isOwn ? ' path-emphasized' : '') + (isOwn ? ' path-own' : '') + (r.signature ? ' is-signature' : '') + '" data-ritual-wrap="' + r.id + '">' +
         '<button type="button" class="ritual-item-main" data-ritual="' + r.id + '">' +
-        '<span class="r-ico">' + r.ico + '</span>' +
-        '<span><div class="r-name">' + escapeHtml(r.name) +
+        '<span class="r-ico" aria-hidden="true">' + (isOwn ? escapeHtml(pathSymbol(path)) : r.ico) + '</span>' +
+        '<span><div class="r-name">' +
+        (isOwn ? '<span class="r-path-sym" aria-hidden="true">' + escapeHtml(pathSymbol(path)) + '</span>' : '') +
+        escapeHtml(r.name) +
         '<span class="dur-badge ' + durClass + '" title="Dauer-Tag">' + escapeHtml(dur) + '</span>' +
         (r.signature ? '<span class="fav-badge signature-badge">Signatur</span>' : '') +
-        (isOwn ? '<span class="fav-badge path-own-badge"><span class="path-sym">' + escapeHtml(pathSymbol(path)) + '</span> Pfad</span>' : '') +
+        (isOwn ? '<span class="fav-badge path-own-badge">Pfad</span>' : '') +
         (isFav ? '<span class="fav-badge">Favorit</span>' : '') + '</div>' +
         '<div class="r-meta">' + r.steps.length + ' Schritte' +
         (r.breath ? ' · Atem' : '') + (r.candle ? ' · Kerze' : '') +

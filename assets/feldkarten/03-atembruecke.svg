@@ -1,20 +1,29 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140" role="img" aria-label="Atembrücke">
   <defs>
-    <linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#1a1430"/>
-      <stop offset="100%" stop-color="#0c0814"/>
+    <linearGradient id="bg3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#241836"/>
+      <stop offset="55%" stop-color="#120c1c"/>
+      <stop offset="100%" stop-color="#080610"/>
     </linearGradient>
-    <radialGradient id="glow3" cx="50%" cy="42%" r="48%">
-      <stop offset="0%" stop-color="#7c5cbf" stop-opacity="0.35"/>
-      <stop offset="100%" stop-color="#7c5cbf" stop-opacity="0"/>
+    <radialGradient id="glow3" cx="50%" cy="38%" r="55%">
+      <stop offset="0%" stop-color="#3ed4c4" stop-opacity="0.55"/>
+      <stop offset="55%" stop-color="#6eb5ff" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
     </radialGradient>
+    <linearGradient id="gold3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f0d878"/>
+      <stop offset="100%" stop-color="#c9a030"/>
+    </linearGradient>
   </defs>
-  <rect width="120" height="140" rx="10" fill="url(#bg3)"/>
-  <rect x="4" y="4" width="112" height="132" rx="8" fill="none" stroke="#7c5cbf" stroke-opacity="0.35" stroke-width="1"/>
-  <circle cx="60" cy="58" r="42" fill="url(#glow3)"/>
-  <path d="M18 70 Q30 50 42 70 T66 70 T90 70 T102 70" fill="none" stroke="#3ed4c4" stroke-width="2"/>
-  <path d="M18 82 Q30 62 42 82 T66 82 T90 82 T102 82" fill="none" stroke="#6eb5ff" stroke-width="1.4" opacity="0.75"/>
-  <path d="M28 98 H92" stroke="#e8c547" stroke-width="1.6"/>
-  <path d="M36 98 V88 M84 98 V88" stroke="#e8c547" stroke-width="1.6"/>
-  <circle cx="60" cy="48" r="4" fill="#e8c547" opacity="0.9"/>
+  <rect width="120" height="140" rx="12" fill="url(#bg3)"/>
+  <rect x="3.5" y="3.5" width="113" height="133" rx="10" fill="none" stroke="#e8c547" stroke-opacity="0.45" stroke-width="1.4"/>
+  <rect x="7" y="7" width="106" height="126" rx="8" fill="none" stroke="#7c5cbf" stroke-opacity="0.35" stroke-width="0.9"/>
+  <circle cx="60" cy="58" r="46" fill="url(#glow3)"/>
+
+  <path d="M18 70 Q30 40 45 70 Q60 100 75 70 Q90 40 102 70" fill="none" stroke="#3ed4c4" stroke-width="2.8" stroke-linecap="round"/>
+  <path d="M18 82 Q30 52 45 82 Q60 112 75 82 Q90 52 102 82" fill="none" stroke="#6eb5ff" stroke-width="1.6" opacity="0.75"/>
+  <circle cx="45" cy="70" r="4" fill="#f0d878"/>
+  <circle cx="75" cy="70" r="4" fill="#f0d878"/>
+  <path d="M45 70 H75" stroke="url(#gold3)" stroke-width="2" stroke-dasharray="3 3"/>
+  <path d="M52 42 Q60 32 68 42" fill="none" stroke="#e8c547" stroke-width="1.5"/>
 </svg>

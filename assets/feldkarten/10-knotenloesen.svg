@@ -1,19 +1,28 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140" role="img" aria-label="Knotenlösen">
   <defs>
-    <linearGradient id="bg10" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#1a1430"/>
-      <stop offset="100%" stop-color="#0c0814"/>
+    <linearGradient id="bg10" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#241836"/>
+      <stop offset="55%" stop-color="#120c1c"/>
+      <stop offset="100%" stop-color="#080610"/>
     </linearGradient>
-    <radialGradient id="glow10" cx="50%" cy="42%" r="48%">
-      <stop offset="0%" stop-color="#7c5cbf" stop-opacity="0.35"/>
-      <stop offset="100%" stop-color="#7c5cbf" stop-opacity="0"/>
+    <radialGradient id="glow10" cx="50%" cy="38%" r="55%">
+      <stop offset="0%" stop-color="#e8c547" stop-opacity="0.55"/>
+      <stop offset="55%" stop-color="#3ed4c4" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
     </radialGradient>
+    <linearGradient id="gold10" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f0d878"/>
+      <stop offset="100%" stop-color="#c9a030"/>
+    </linearGradient>
   </defs>
-  <rect width="120" height="140" rx="10" fill="url(#bg10)"/>
-  <rect x="4" y="4" width="112" height="132" rx="8" fill="none" stroke="#7c5cbf" stroke-opacity="0.35" stroke-width="1"/>
-  <circle cx="60" cy="58" r="42" fill="url(#glow10)"/>
-  <path d="M28 70 C40 40 80 40 92 70 C80 100 40 100 28 70" fill="none" stroke="#7c5cbf" stroke-width="2"/>
-  <path d="M44 70 C50 55 70 55 76 70 C70 85 50 85 44 70" fill="none" stroke="#3ed4c4" stroke-width="1.8"/>
-  <path d="M20 58 C36 52 50 62 60 70 C70 78 84 88 100 82" fill="none" stroke="#e8c547" stroke-width="1.6" stroke-dasharray="3 3"/>
-  <circle cx="60" cy="70" r="3" fill="#e8c547"/>
+  <rect width="120" height="140" rx="12" fill="url(#bg10)"/>
+  <rect x="3.5" y="3.5" width="113" height="133" rx="10" fill="none" stroke="#e8c547" stroke-opacity="0.45" stroke-width="1.4"/>
+  <rect x="7" y="7" width="106" height="126" rx="8" fill="none" stroke="#7c5cbf" stroke-opacity="0.35" stroke-width="0.9"/>
+  <circle cx="60" cy="58" r="46" fill="url(#glow10)"/>
+
+  <path d="M28 50 C48 30 72 90 92 55 C100 40 80 35 70 50 C55 75 40 45 28 50" fill="none" stroke="#e8c547" stroke-width="2.8" stroke-linecap="round"/>
+  <path d="M32 78 C50 95 78 95 90 72" fill="none" stroke="#3ed4c4" stroke-width="2.2" stroke-linecap="round"/>
+  <circle cx="60" cy="58" r="6" fill="none" stroke="#7c5cbf" stroke-width="2"/>
+  <path d="M54 58 L58 62 L68 50" fill="none" stroke="#f0d878" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="28" cy="50" r="3" fill="#3ed4c4"/><circle cx="92" cy="55" r="3" fill="#e8c547"/>
 </svg>

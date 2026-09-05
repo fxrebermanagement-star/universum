@@ -1,12 +1,20 @@
 /**
  * UNIVERSUM — 22 originale Feldkarten (kein Tarot-Klon)
- * v3.4: eigene SVG-Illustrationen unter assets/feldkarten/
+ * v3.6: absolute Art-URLs, pictorial SVGs, onerror-Fallback «Motif geladen»
  * Spread: Einzelzug · Dreierlege (Vergangenheit / Gegenwart / Zukunft)
  */
 (function (global) {
   'use strict';
 
   const ART_BASE = 'assets/feldkarten/';
+
+  /** Glyph-Fallback wenn SVG nicht lädt (offline / Pfadbruch). */
+  const ART_GLYPH = {
+    1: '🚪', 2: '🌿', 3: '💨', 4: '🪨', 5: '⚖️', 6: '🏮',
+    7: '🌙', 8: '☀️', 9: '🌫️', 10: '🔗', 11: '🕯️', 12: '🔨',
+    13: '⭕', 14: '⏳', 15: '✨', 16: '🌧️', 17: '🌱', 18: '〰️',
+    19: '🤲', 20: '🔥', 21: '⭐', 22: '🏠'
+  };
 
   const FELDKARTEN = [
     { n: 1, name: 'Schwelle', theme: 'Übergang, Eintritt, respektvolles Öffnen', prompt: 'Welche Tür steht dir offen — und mit welchem Respekt trittst du ein?', art: ART_BASE + '01-schwelle.svg' },
@@ -67,29 +75,58 @@
     return FELDKARTEN.find(c => c.n === n) || null;
   }
 
+  /** Relativen Art-Pfad absolut gegen location.href auflösen. */
   function artUrl(card) {
     if (!card) return '';
-    if (card.art) return card.art;
-    const full = getCard(card.n);
-    return (full && full.art) || '';
+    let rel = card.art;
+    if (!rel) {
+      const full = getCard(card.n);
+      rel = (full && full.art) || '';
+    }
+    if (!rel) return '';
+    try {
+      if (typeof location !== 'undefined' && location.href) {
+        return new URL(rel, location.href).href;
+      }
+    } catch (_) { /* fall through */ }
+    return rel;
+  }
+
+  function artFallbackHtml(card) {
+    const n = (card && card.n) || 0;
+    const glyph = ART_GLYPH[n] || '✦';
+    const name = (card && card.name) || 'Motif';
+    return '<span class="fk-art-fallback" role="img" aria-label="' + name + ' · Motif geladen">' +
+      '<span class="fk-art-fallback-glyph" aria-hidden="true">' + glyph + '</span>' +
+      '<span class="fk-art-fallback-label">Motif geladen</span></span>';
   }
 
   function artImgHtml(card, cls) {
     const src = artUrl(card);
-    if (!src) return '';
+    if (!src) return artFallbackHtml(card);
     const name = (card && card.name) || '';
-    return '<img class="' + (cls || 'fk-art') + '" src="' + src + '" alt="" width="120" height="140" loading="lazy" decoding="async" data-card-art="' + (card.n || '') + '"/>';
+    const n = (card && card.n) || '';
+    const glyph = ART_GLYPH[n] || '✦';
+    // onerror: swap to inline fallback so broken paths never show blank
+    const onerr =
+      "this.onerror=null;this.replaceWith((function(g,n){var s=document.createElement('span');s.className='fk-art-fallback';s.setAttribute('role','img');s.setAttribute('aria-label',n+' · Motif geladen');s.innerHTML='<span class=\\'fk-art-fallback-glyph\\' aria-hidden=\\'true\\'>'+g+'</span><span class=\\'fk-art-fallback-label\\'>Motif geladen</span>';return s;})('" +
+      glyph + "','" + String(name).replace(/'/g, '') + "'))";
+    return '<img class="' + (cls || 'fk-art') + '" src="' + src + '" alt="' +
+      String(name).replace(/"/g, '&quot;') + '" width="120" height="140" loading="lazy" decoding="async" data-card-art="' +
+      n + '" onerror="' + onerr + '"/>';
   }
 
   global.UniversumCards = {
     FELDKARTEN,
     SPREAD_THREE,
     ART_BASE,
+    ART_GLYPH,
     drawOne,
     drawThree,
     getCard,
     shuffle,
     artUrl,
-    artImgHtml
+    artImgHtml,
+    artFallbackHtml
   };
 })(typeof window !== 'undefined' ? window : globalThis);

@@ -158,7 +158,16 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 
 
 
+**Zusätzlich (v3.6 · Einladende Motive)**
+
+- **Feldkarten sichtbar** — absolute Art-URLs (`new URL(..., location.href)`), größere Grid-Motive (min-height ~140px), pictorial SVGs mit Gold/Teal/Violett-Kontrast, onerror-Fallback «Motif geladen»
+- **App-weit einladender** — Sektions-Icons + Motivstreifen, Nav/Tiles mit Symbol-Badges, Ritual-Liste mit Pfad-Symbol und klareren Dauer-Chips, wärmeres Onboarding, Landing-Konstellation der Pfad-Symbole
+- Ethik, Schumann, Pfad-Ritual-Logik unverändert; Deutsch ohne Gendersprache
+- App `3.6.0`, SW-Cache `universum-shell-v28` (skipWaiting + clientsClaim)
+- **Tipp bei alten Motiven:** Hard-Refresh oder Site-Daten löschen, damit der Service Worker den neuen Cache zieht
+
 **Zusätzlich (v3.5 · Kosmos-Praxis)**
+
 
 - **Jetzt · Stundenimpuls** — aktuelle Planetenstunde mit «Gut für …», Tip und CTA zum passenden Pfad-Ritual
 - **Nächste Stunden** — Timeline der kommenden 3–4 Planetenstunden

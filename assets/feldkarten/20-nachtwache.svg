@@ -1,22 +1,31 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140" role="img" aria-label="Nachtwache">
   <defs>
-    <linearGradient id="bg20" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#1a1430"/>
-      <stop offset="100%" stop-color="#0c0814"/>
+    <linearGradient id="bg20" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#241836"/>
+      <stop offset="55%" stop-color="#120c1c"/>
+      <stop offset="100%" stop-color="#080610"/>
     </linearGradient>
-    <radialGradient id="glow20" cx="50%" cy="42%" r="48%">
-      <stop offset="0%" stop-color="#7c5cbf" stop-opacity="0.35"/>
-      <stop offset="100%" stop-color="#7c5cbf" stop-opacity="0"/>
+    <radialGradient id="glow20" cx="50%" cy="38%" r="55%">
+      <stop offset="0%" stop-color="#6eb5ff" stop-opacity="0.55"/>
+      <stop offset="55%" stop-color="#e8c547" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
     </radialGradient>
+    <linearGradient id="gold20" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f0d878"/>
+      <stop offset="100%" stop-color="#c9a030"/>
+    </linearGradient>
   </defs>
-  <rect width="120" height="140" rx="10" fill="url(#bg20)"/>
-  <rect x="4" y="4" width="112" height="132" rx="8" fill="none" stroke="#7c5cbf" stroke-opacity="0.35" stroke-width="1"/>
-  <circle cx="60" cy="58" r="42" fill="url(#glow20)"/>
-  <path d="M22 62 Q60 28 98 62 Q60 96 22 62 Z" fill="none" stroke="#6eb5ff" stroke-width="2"/>
-  <circle cx="60" cy="62" r="12" fill="none" stroke="#e8c547" stroke-width="1.8"/>
-  <circle cx="60" cy="62" r="5" fill="#e8c547"/>
-  <circle cx="28" cy="32" r="1.5" fill="#7c5cbf"/>
-  <circle cx="90" cy="36" r="1.2" fill="#7c5cbf"/>
-  <circle cx="40" cy="100" r="1.3" fill="#3ed4c4" opacity="0.7"/>
-  <circle cx="82" cy="98" r="1" fill="#3ed4c4" opacity="0.6"/>
+  <rect width="120" height="140" rx="12" fill="url(#bg20)"/>
+  <rect x="3.5" y="3.5" width="113" height="133" rx="10" fill="none" stroke="#e8c547" stroke-opacity="0.45" stroke-width="1.4"/>
+  <rect x="7" y="7" width="106" height="126" rx="8" fill="none" stroke="#7c5cbf" stroke-opacity="0.35" stroke-width="0.9"/>
+  <circle cx="60" cy="58" r="46" fill="url(#glow20)"/>
+
+  <rect x="14" y="20" width="92" height="100" rx="8" fill="#080610" fill-opacity="0.4"/>
+  <path d="M60 88 C52 72 52 58 60 42 C68 58 68 72 60 88 Z" fill="#f0d878" stroke="#e05060" stroke-width="1.2"/>
+  <path d="M60 78 C56 70 56 62 60 52 C64 62 64 70 60 78 Z" fill="#fff3c0"/>
+  <g fill="#6eb5ff">
+    <circle cx="28" cy="36" r="1.5"/><circle cx="92" cy="40" r="1.8"/><circle cx="84" cy="28" r="1.2"/>
+    <circle cx="36" cy="28" r="1.4"/><circle cx="96" cy="70" r="1.3"/>
+  </g>
+  <path d="M40 108 H80" stroke="#7c5cbf" stroke-width="2"/>
 </svg>

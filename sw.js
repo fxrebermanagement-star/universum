@@ -2,9 +2,9 @@
  * UNIVERSUM · Service Worker — offline shell caching
  * Relative URLs so GitHub Pages /universum/ subpath works.
  * Cache-first for app shell; network-first navigations; offline fallback to cockpit.
- * v27: Kosmos praxis 3.5 — Stundenimpuls, Timeline, less duplication.
+ * v28: Feldkarten motifs 3.6 — absolute art URLs + pictorial SVGs + inviting UI.
  */
-const CACHE = 'universum-shell-v27';
+const CACHE = 'universum-shell-v28';
 const SHELL = [
   './',
   './index.html',
