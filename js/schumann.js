@@ -1,12 +1,15 @@
 /**
- * UNIVERSUM — Schumann 7,83 Hz Puls-Visualisierung
- * Optional: leiser 136-Hz-Träger (Web Audio)
- * Explizit: kein Magnetometer, keine Geister-/EMF-Messung
+ * UNIVERSUM — Schumann Puls-Visualisierung + optionale Live-Stationsdaten
+ * Live: ResonanceOne /api/now (Tomsk SR + NOAA Kp/Solar) — Stations-/Index-Daten
+ * Explizit: kein Magnetometer, keine Geister-/EMF-Messung, kein Körper-Sensor
  */
 (function (global) {
   'use strict';
 
-  const FREQ = 7.83;
+  const FALLBACK_FREQ = 7.83;
+  const API_URL = 'https://resonanceone.app/api/now';
+  const REFRESH_MS = 5 * 60 * 1000; // match API cache-control max-age=300
+
   let raf = null;
   let audioCtx = null;
   let carrier = null;
@@ -14,6 +17,8 @@
   let master = null;
   let runningAudio = false;
   let activeCanvas = null;
+  let liveFreqHz = FALLBACK_FREQ;
+  let liveMode = false; // true when viz uses live station Hz
 
   // Soft ambient (separate from Schumann) — very quiet, off by default
   let ambientCtx = null;
@@ -21,6 +26,21 @@
   let ambientOsc2 = null;
   let ambientGain = null;
   let ambientRunning = false;
+
+  // Live station fetch state
+  let liveEnabled = true;
+  let liveReading = null; // last good normalized reading
+  let liveStatus = 'idle'; // idle | loading | live | offline | disabled
+  let liveError = null;
+  let liveTimer = null;
+  let liveListeners = [];
+  let persistFn = null;
+
+  function formatHz(hz) {
+    const n = Number(hz);
+    if (!isFinite(n)) return '—';
+    return String(n).replace('.', ',');
+  }
 
   function drawFrame(canvas, t) {
     const ctx = canvas.getContext('2d');
@@ -34,7 +54,8 @@
     }
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-    const pulse = 0.5 + 0.5 * Math.sin(t * 0.001 * FREQ * Math.PI * 2);
+    const freq = (liveMode && isFinite(liveFreqHz) && liveFreqHz > 0) ? liveFreqHz : FALLBACK_FREQ;
+    const pulse = 0.5 + 0.5 * Math.sin(t * 0.001 * freq * Math.PI * 2);
     const mid = h / 2;
 
     // Background
@@ -57,7 +78,7 @@
     // Glow fill under wave
     ctx.beginPath();
     for (let x = 0; x <= w; x++) {
-      const phase = (x / w) * Math.PI * 4 + t * 0.001 * FREQ * Math.PI * 2;
+      const phase = (x / w) * Math.PI * 4 + t * 0.001 * freq * Math.PI * 2;
       const y = mid + Math.sin(phase) * (10 + pulse * 16);
       if (x === 0) ctx.moveTo(x, y);
       else ctx.lineTo(x, y);
@@ -78,7 +99,7 @@
     ctx.shadowColor = 'rgba(62, 207, 191, 0.45)';
     ctx.shadowBlur = 6 + pulse * 8;
     for (let x = 0; x <= w; x++) {
-      const phase = (x / w) * Math.PI * 4 + t * 0.001 * FREQ * Math.PI * 2;
+      const phase = (x / w) * Math.PI * 4 + t * 0.001 * freq * Math.PI * 2;
       const y = mid + Math.sin(phase) * (10 + pulse * 16);
       if (x === 0) ctx.moveTo(x, y);
       else ctx.lineTo(x, y);
@@ -91,7 +112,7 @@
     ctx.strokeStyle = 'rgba(155, 126, 217, ' + (0.2 + pulse * 0.2) + ')';
     ctx.lineWidth = 1;
     for (let x = 0; x <= w; x++) {
-      const phase = (x / w) * Math.PI * 8 + t * 0.001 * FREQ * Math.PI * 2 * 1.5;
+      const phase = (x / w) * Math.PI * 8 + t * 0.001 * freq * Math.PI * 2 * 1.5;
       const y = mid + Math.sin(phase) * (4 + pulse * 6);
       if (x === 0) ctx.moveTo(x, y);
       else ctx.lineTo(x, y);
@@ -102,10 +123,13 @@
     ctx.fillStyle = 'rgba(232, 197, 71, ' + (0.25 + pulse * 0.55) + ')';
     ctx.fillRect(0, h - 3, w * pulse, 3);
 
-    // Label
+    // Label — honest about station vs local
     ctx.fillStyle = 'rgba(154, 143, 176, 0.85)';
     ctx.font = '600 10px Manrope, sans-serif';
-    ctx.fillText('7,83 Hz · Visualisierung · kein Sensor', 10, 14);
+    const label = liveMode
+      ? (formatHz(freq) + ' Hz · Live · Station (kein Sensor)')
+      : '7,83 Hz · lokale Visualisierung · kein Sensor';
+    ctx.fillText(label, 10, 14);
   }
 
   function startViz(canvas) {
@@ -135,7 +159,7 @@
 
       lfoOsc = audioCtx.createOscillator();
       lfoOsc.type = 'sine';
-      lfoOsc.frequency.value = FREQ;
+      lfoOsc.frequency.value = FALLBACK_FREQ;
 
       const lfoGain = audioCtx.createGain();
       lfoGain.gain.value = 0.012;
@@ -173,7 +197,6 @@
     if (on) startAudio();
     else stopAudio();
   }
-
 
   function startAmbient() {
     if (ambientRunning) return;
@@ -238,13 +261,220 @@
     else stopAmbient();
   }
 
+  function normalizeReading(raw) {
+    if (!raw || typeof raw !== 'object') return null;
+    const hz = Number(raw.schumann_frequency_hz);
+    return {
+      schumann_frequency_hz: isFinite(hz) ? hz : FALLBACK_FREQ,
+      schumann_index: raw.schumann_index != null ? Number(raw.schumann_index) : null,
+      activity_index: raw.activity_index != null ? Number(raw.activity_index) : null,
+      kp_index: raw.kp_index != null ? Number(raw.kp_index) : null,
+      kp_label: raw.kp_label || null,
+      geomagnetic_status: raw.geomagnetic_status || null,
+      solar_flare_class: raw.solar_flare_class || null,
+      updated_at: raw.updated_at || null,
+      data_source: raw.data_source || null,
+      data_quality: raw.data_quality || null,
+      confidence_score: raw.confidence_score != null ? Number(raw.confidence_score) : null,
+      attribution: raw.attribution || null,
+      citation: raw.citation || null,
+      methodology_url: raw.methodology_url || null,
+      cached_at: new Date().toISOString()
+    };
+  }
+
+  function applyReading(reading, status) {
+    liveReading = reading;
+    liveStatus = status;
+    if (reading && isFinite(reading.schumann_frequency_hz) && reading.schumann_frequency_hz > 0) {
+      liveFreqHz = reading.schumann_frequency_hz;
+      liveMode = (status === 'live');
+    } else {
+      liveFreqHz = FALLBACK_FREQ;
+      liveMode = false;
+    }
+    // Keep LFO near live/fallback if audio running
+    try {
+      if (lfoOsc && lfoOsc.frequency) lfoOsc.frequency.value = liveMode ? liveFreqHz : FALLBACK_FREQ;
+    } catch (_) { /* ignore */ }
+    notify();
+  }
+
+  function notify() {
+    const snap = getLiveState();
+    liveListeners.forEach(fn => {
+      try { fn(snap); } catch (e) { console.warn(e); }
+    });
+  }
+
+  function persistCache() {
+    if (typeof persistFn === 'function' && liveReading) {
+      try { persistFn(liveReading); } catch (e) { console.warn(e); }
+    }
+  }
+
+  function getLiveState() {
+    return {
+      enabled: liveEnabled,
+      status: liveStatus,
+      reading: liveReading,
+      error: liveError,
+      liveMode: liveMode,
+      freqHz: liveMode ? liveFreqHz : FALLBACK_FREQ,
+      fallbackHz: FALLBACK_FREQ
+    };
+  }
+
+  async function fetchNow() {
+    if (!liveEnabled) {
+      liveStatus = 'disabled';
+      liveMode = false;
+      liveFreqHz = FALLBACK_FREQ;
+      liveError = null;
+      notify();
+      return getLiveState();
+    }
+    liveStatus = 'loading';
+    liveError = null;
+    notify();
+    try {
+      const res = await fetch(API_URL, {
+        method: 'GET',
+        mode: 'cors',
+        cache: 'no-cache',
+        headers: { Accept: 'application/json' }
+      });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const json = await res.json();
+      const reading = normalizeReading(json);
+      if (!reading) throw new Error('Ungültige Antwort');
+      applyReading(reading, 'live');
+      persistCache();
+      return getLiveState();
+    } catch (e) {
+      liveError = (e && e.message) ? e.message : 'Netzwerkfehler';
+      if (liveReading) {
+        // Keep last good as offline display; viz falls back to local pulse label
+        liveStatus = 'offline';
+        liveMode = false;
+        liveFreqHz = FALLBACK_FREQ;
+        notify();
+      } else {
+        applyReading(null, 'offline');
+      }
+      return getLiveState();
+    }
+  }
+
+  function clearLiveTimer() {
+    if (liveTimer) {
+      clearInterval(liveTimer);
+      liveTimer = null;
+    }
+  }
+
+  function startLive(opts) {
+    opts = opts || {};
+    if (typeof opts.enabled === 'boolean') liveEnabled = opts.enabled;
+    if (typeof opts.persist === 'function') persistFn = opts.persist;
+    if (opts.cached) {
+      const cached = normalizeReading(opts.cached);
+      if (cached) {
+        liveReading = cached;
+        // Cached = not live until fresh fetch succeeds
+        liveStatus = liveEnabled ? 'offline' : 'disabled';
+        liveMode = false;
+        liveFreqHz = FALLBACK_FREQ;
+      }
+    }
+    clearLiveTimer();
+    if (!liveEnabled) {
+      liveStatus = 'disabled';
+      liveMode = false;
+      liveFreqHz = FALLBACK_FREQ;
+      notify();
+      return Promise.resolve(getLiveState());
+    }
+    const p = fetchNow();
+    liveTimer = setInterval(function () { fetchNow(); }, REFRESH_MS);
+    return p;
+  }
+
+  function stopLive() {
+    clearLiveTimer();
+  }
+
+  function setLiveEnabled(on) {
+    liveEnabled = !!on;
+    if (!liveEnabled) {
+      clearLiveTimer();
+      liveStatus = 'disabled';
+      liveMode = false;
+      liveFreqHz = FALLBACK_FREQ;
+      liveError = null;
+      notify();
+      return Promise.resolve(getLiveState());
+    }
+    clearLiveTimer();
+    const p = fetchNow();
+    liveTimer = setInterval(function () { fetchNow(); }, REFRESH_MS);
+    return p;
+  }
+
+  function onLiveUpdate(fn) {
+    if (typeof fn === 'function') liveListeners.push(fn);
+    return function unsubscribe() {
+      liveListeners = liveListeners.filter(f => f !== fn);
+    };
+  }
+
+  function geoLabelDe(status) {
+    const s = String(status || '').toLowerCase();
+    if (s === 'quiet') return 'ruhig';
+    if (s === 'unsettled') return 'unruhig';
+    if (s === 'active') return 'aktiv';
+    if (s === 'storm' || s === 'minor storm') return 'Sturm';
+    if (s === 'moderate storm') return 'mäßiger Sturm';
+    if (s === 'strong storm') return 'starker Sturm';
+    return status || '—';
+  }
+
+  function formatUpdatedLocal(iso) {
+    if (!iso) return '—';
+    try {
+      const d = new Date(iso);
+      if (isNaN(d.getTime())) return String(iso);
+      return d.toLocaleString('de-CH', {
+        timeZone: 'Europe/Zurich',
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      }) + ' MEZ/MESZ';
+    } catch (_) {
+      return String(iso);
+    }
+  }
+
   global.UniversumSchumann = {
-    FREQ,
+    FREQ: FALLBACK_FREQ,
+    API_URL,
+    REFRESH_MS,
     startViz,
     stopViz,
     toggleAudio,
     isAudioRunning: () => runningAudio,
     toggleAmbient,
-    isAmbientRunning: () => ambientRunning
+    isAmbientRunning: () => ambientRunning,
+    startLive,
+    stopLive,
+    setLiveEnabled,
+    fetchNow,
+    getLiveState,
+    onLiveUpdate,
+    formatHz,
+    geoLabelDe,
+    formatUpdatedLocal
   };
 })(typeof window !== 'undefined' ? window : globalThis);

@@ -26,14 +26,14 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 - Voodoo / Santería: nur öffentliche **Hauspraxis**, keine Initiation
 - Explizit: *Ein Handy kann keine Geister messen.* Keine EMF-/Geister-Behauptungen
 - Unruhe = abgeleitet aus Mondphase, VoC-Hinweis, Retrograd-Näherung, Maya-Ton, optionalem Check-in
-- Schumann = 7,83-Hz-Puls-Visualisierung (optional leiser 136-Hz-Web-Audio-Träger), kein Magnetometer
+- Schumann = optionale **Live-Stationsdaten** (Tomsk via ResonanceOne + NOAA Kp/Solar) plus 7,83-Hz-Puls-Visualisierung als Offline-Fallback (optional leiser 136-Hz-Web-Audio-Träger); kein Magnetometer, keine Körper-/Geister-Messung
 - Erststart: Ethik-Bestätigung im Onboarding (gespeichert in `feldlicht-v15`)
 
 ## Funktionen
 
 1. **Cockpit** — **Tagesbriefing** (Mond + Stunde + Unruhe + empfohlene Praxis + nächstes Fest), Mond, **Mond-Arbeit** (Neu/Voll), Planetenstunde (Zürich-Standard), Maya, Unruhe, VoC-Banner, Empfehlungen, Schumann, **369-Tracker**, globale Suche, Pfad-Chip, Streak-Hinweis
 2. **Kalender** — Monatsnavigation, Tagesdetails (Mond/Sonne/Maya/Feste), **pfadabhängige Betonung** und Kalender-Notizen
-3. **Kosmos** — Planeten-Radar mit klareren Labels, **Legende**, aktuelle **Planetenstunde hervorgehoben**, Tap/Klick für Detail, Schumann
+3. **Kosmos** — Planeten-Radar mit klareren Labels, **Legende**, aktuelle **Planetenstunde hervorgehoben**, Tap/Klick für Detail, Schumann Live-Station
 4. **Rituale** — Sicherheitscheck, geführte Timed-Rituale (Atembrücke, Kerzenwache), **Praxis-Helfer** (Fokus-Timer), sanfte Streak, Sigil, 22 Feldkarten + Dreierlege, eigene Rituale + **3 Vorlagen**, pfadbezogene Ritual-Auswahl/Flavor
 5. **Magie-Tagebuch** — **pfadbezogene Impuls-Vorschläge**, Tags & Stimmung, Export/Import `universum-buch.json`
 6. **Notizen** — lokal, optionaler Tag, **ein Tippen → Tagebuch**, leere Zustände mit nächstem Schritt
@@ -130,10 +130,19 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 - Kleine Bug-Politur (u. a. Jetzt-Karten-Button-Zustand)
 - App `2.2.0`, SW-Cache `universum-shell-v14`
 
+**Zusätzlich (v2.3 · Live Schumann Station)**
+
+- **Live-Stationsdaten** — `GET https://resonanceone.app/api/now` (CORS `*`, Cache ~5 Min): SR-Hz, Schumann-Index, Kp, geomagnetischer Status, Solar-Klasse
+- **Ehrliche Kennzeichnung** — Stations-/Index-Daten (Tomsk Space Observing System via ResonanceOne + NOAA), kein Handy-Magnetometer, kein «Körper misst die Erde», keine EMF-/Geister-Behauptung
+- Cockpit + Kosmos: Live-Badge («Live · Station» / «Offline · lokale Visualisierung»), Metriken, Quelle, Update-Zeit, Attribution-Links, manuelles Aktualisieren
+- Einstellung **Live-Stationsdaten laden** (Standard an); letzter guter Stand in `feldlicht-v15` → `settings.schumannLive`; Toggle `settings.schumannLiveEnabled`
+- Viz-Puls nutzt Live-Hz wenn verfügbar, sonst lokaler 7,83-Hz-Fallback
+- App `2.3.0`, SW-Cache `universum-shell-v15`
+
 **Zusätzlich**
 
 - **First-run Onboarding (Erste Minute)** — Pfad → Praxis-Einladung → fertig; Ethik als eine Zeile; optional Überspringen; Standort Zürich-Default (Einstellungen)
-- **Einstellungen (⚙)** — Standort, Haptik, Schumann-Audio, sanfter Ambient-Ton (separat, Standard aus), reduzierte Bewegung, Planetenstunde-Wecker (Standard aus), Stiller Modus bei Ritual, Suche, Onboarding/Starter zurücksetzen, Tipp des Tages
+- **Einstellungen (⚙)** — Standort, Haptik, Live-Stationsdaten (Schumann/NOAA, Standard an), Schumann-Audio, sanfter Ambient-Ton (separat, Standard aus), reduzierte Bewegung, Planetenstunde-Wecker (Standard aus), Stiller Modus bei Ritual, Suche, Onboarding/Starter zurücksetzen, Tipp des Tages
 - **Toasts** — kurze Bestätigungen; Escape schließt Drawer/Modal/Ritual-Runner; bessere Labels/a11y
 - **Feldkarten** — Flip-/Reveal-Animation, Verlauf der letzten Züge in `feldlicht-v15`
 - **Ritual-Bibliothek** — Suche und Filter nach Dauer und Pfad (aktuell/alle)
@@ -164,7 +173,7 @@ Kein Ersatz für Ephemeriden oder traditionelle Einweihung.
 - localStorage-Schlüssel: **`feldlicht-v15`** (unverändert)
 - Export-Dateiname: `universum-buch.json` · optional `universum-praxis-zusammenfassung.txt`
 - Standard-Koordinaten: 47,37 / 8,54 (Europa/Zürich), überschreibbar
-- Zusätzliche Felder im selben Key: `onboarding`, `streaks`, `settings.*` (inkl. `hourAlert`), `dailyIntention`, `intentionHistory`, `ritualFavorites`, `briefingPins`, `sigilGallery`, `practiceLog`, `kreisNotes`, `cardDrawHistory`, `lastSeenDay`, `dayBanner`, `dailyCard`, `backupReminder`, `ritualTemplates`, 369-Tageszähler, Tagebuch-Tags/Stimmung
+- Zusätzliche Felder im selben Key: `onboarding`, `streaks`, `settings.*` (inkl. `hourAlert`, `schumannLiveEnabled`, `schumannLive` Cache), `dailyIntention`, `intentionHistory`, `ritualFavorites`, `briefingPins`, `sigilGallery`, `practiceLog`, `kreisNotes`, `cardDrawHistory`, `lastSeenDay`, `dayBanner`, `dailyCard`, `backupReminder`, `ritualTemplates`, 369-Tageszähler, Tagebuch-Tags/Stimmung
 - Export-Format: `universum-buch-v2` (inkl. `appVersion`, `meta.path` / `pathName`)
 - Weitere Felder (v1.5): `lastSeenDay`, `dayBanner`, `dailyCard`, `backupReminder`
 - Weitere Felder (v1.6): `ritualTemplates`, `settings.hourAlert`
@@ -239,3 +248,7 @@ Elfte Runde — **Drei Verbesserungen**: (1) Onboarding auf Erste Minute gekürz
 ## Craft-Pass (v2.2) · Sprache · Erste Minute
 
 Zwölfte Runde — **Klare Sprache & Feinschliff**: Gendersprache aus UI/README entfernt (klassisch/neutrales Deutsch); Landing und Erste Minute gestrafft; kleine UX-/Bug-Politur. App `2.2.0`, SW-Cache `universum-shell-v14`. Server Port **8765**.
+
+## Craft-Pass (v2.3) · Live Schumann Station
+
+Dreizehnte Runde — **Ehrliche Live-Stationsdaten**: ResonanceOne `/api/now` (Tomsk SR + NOAA Kp/Solar) in Cockpit/Kosmos mit klarer Quellen-/Update-Kennzeichnung; Offline-Fallback 7,83-Hz-Viz; Einstellung und localStorage-Cache unter `feldlicht-v15` (`settings.schumannLive*`). App `2.3.0`, SW-Cache `universum-shell-v15`. Server Port **8765**.

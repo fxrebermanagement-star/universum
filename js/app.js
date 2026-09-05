@@ -12,6 +12,89 @@
   const Cards = window.UniversumCards;
   const Schumann = window.UniversumSchumann;
 
+  function schumannLiveEnabledFromState(st) {
+    const s = (st && st.settings) || {};
+    return s.schumannLiveEnabled !== false;
+  }
+
+  function persistSchumannLiveCache(reading) {
+    Store.update(d => {
+      d.settings = d.settings || {};
+      d.settings.schumannLive = reading || null;
+    });
+  }
+
+  function badgeLabelForStatus(status) {
+    if (status === 'live') return 'Live · Station';
+    if (status === 'loading') return 'Laden …';
+    if (status === 'disabled') return 'Aus · lokale Visualisierung';
+    return 'Offline · lokale Visualisierung';
+  }
+
+  function sourceLineFromReading(r) {
+    if (!r) return '—';
+    const parts = [];
+    const src = r.data_source ? String(r.data_source) : '';
+    if (src.toLowerCase() === 'tomsk') parts.push('Tomsk (ResonanceOne)');
+    else if (src) parts.push(src);
+    else parts.push('ResonanceOne');
+    const attr = r.attribution || {};
+    if (attr.kp || attr.solar) parts.push('NOAA Kp/Solar');
+    if (r.data_quality) parts.push('Qualität ' + r.data_quality);
+    if (r.confidence_score != null && isFinite(r.confidence_score)) {
+      parts.push('Konfidenz ' + r.confidence_score);
+    }
+    return parts.join(' · ');
+  }
+
+  function renderSchumannLiveUI(snap) {
+    if (!Schumann) return;
+    snap = snap || (Schumann.getLiveState && Schumann.getLiveState()) || {};
+    const reading = snap.reading || null;
+    const status = snap.status || 'offline';
+    const badgeText = badgeLabelForStatus(status);
+    $$('[data-sch-badge]').forEach(el => {
+      el.dataset.state = status;
+      el.textContent = badgeText;
+    });
+    const hz = reading && reading.schumann_frequency_hz != null
+      ? Schumann.formatHz(reading.schumann_frequency_hz)
+      : (status === 'live' ? Schumann.formatHz(snap.freqHz) : '—');
+    const idx = reading && reading.schumann_index != null && isFinite(reading.schumann_index)
+      ? String(Math.round(reading.schumann_index))
+      : '—';
+    const kp = reading && reading.kp_index != null && isFinite(reading.kp_index)
+      ? String(reading.kp_index)
+      : '—';
+    const geo = reading && reading.geomagnetic_status
+      ? Schumann.geoLabelDe(reading.geomagnetic_status)
+      : '—';
+    const updated = reading && reading.updated_at
+      ? Schumann.formatUpdatedLocal(reading.updated_at)
+      : (status === 'loading' ? '…' : '—');
+    const source = sourceLineFromReading(reading);
+    $$('[data-sch-hz]').forEach(el => { el.textContent = hz; });
+    $$('[data-sch-index]').forEach(el => { el.textContent = idx; });
+    $$('[data-sch-kp]').forEach(el => { el.textContent = kp; });
+    $$('[data-sch-geo]').forEach(el => { el.textContent = geo; });
+    $$('[data-sch-updated]').forEach(el => { el.textContent = updated; });
+    $$('[data-sch-source]').forEach(el => { el.textContent = source; });
+  }
+
+  function bootSchumannLive() {
+    if (!Schumann || !Schumann.startLive) return;
+    const enabled = schumannLiveEnabledFromState(state);
+    const cached = state.settings && state.settings.schumannLive ? state.settings.schumannLive : null;
+    Schumann.onLiveUpdate(renderSchumannLiveUI);
+    Schumann.startLive({
+      enabled: enabled,
+      cached: cached,
+      persist: persistSchumannLiveCache
+    }).then(renderSchumannLiveUI).catch(() => renderSchumannLiveUI());
+    renderSchumannLiveUI(Schumann.getLiveState());
+  }
+
+
   let state = Store.load();
   let calYear, calMonth;
   let selectedDay = null;
@@ -1366,6 +1449,7 @@
 
     const canvas = $('#schumann-canvas');
     if (canvas) Schumann.startViz(canvas);
+    renderSchumannLiveUI();
     renderTipOfDay();
   }
 
@@ -1841,6 +1925,7 @@
     renderKosmosLegend(planets, hourPlanet);
     const sc = $('#schumann-canvas-kosmos');
     if (sc) Schumann.startViz(sc);
+    renderSchumannLiveUI();
   }
 
   function normalizeLon(lon) {
@@ -3226,6 +3311,8 @@
     if (lon) lon.value = state.lon;
     const hap = $('#set-haptics');
     if (hap) hap.checked = !(state.settings && state.settings.haptics === false);
+    const live = $('#set-schumann-live');
+    if (live) live.checked = schumannLiveEnabledFromState(state);
     const aud = $('#set-schumann-audio');
     if (aud) aud.checked = !!(state.settings && state.settings.schumannAudio);
     const amb = $('#set-ambient-tone');
@@ -3531,6 +3618,22 @@
       hap.addEventListener('change', () => applyHaptics(hap.checked));
     }
 
+    const setLive = $('#set-schumann-live');
+    if (setLive) {
+      setLive.checked = schumannLiveEnabledFromState(state);
+      setLive.addEventListener('change', () => {
+        const on = !!setLive.checked;
+        Store.update(d => {
+          d.settings = d.settings || {};
+          d.settings.schumannLiveEnabled = on;
+        });
+        refreshState();
+        if (Schumann && Schumann.setLiveEnabled) {
+          Schumann.setLiveEnabled(on).then(renderSchumannLiveUI);
+        }
+        toast(on ? 'Live-Stationsdaten an' : 'Live-Stationsdaten aus — lokale Visualisierung');
+      });
+    }
     const setAud = $('#set-schumann-audio');
     if (setAud) {
       setAud.checked = !!(state.settings && state.settings.schumannAudio);
@@ -3539,6 +3642,20 @@
         toast(setAud.checked ? 'Schumann-Audio an' : 'Schumann-Audio aus');
       });
     }
+    $$('[data-sch-refresh]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (!Schumann || !Schumann.fetchNow) return;
+        if (!schumannLiveEnabledFromState(state)) {
+          toast('Live-Stationsdaten sind aus — unter Einstellungen einschalten');
+          return;
+        }
+        btn.disabled = true;
+        Schumann.fetchNow().then(snap => {
+          renderSchumannLiveUI(snap);
+          toast(snap && snap.status === 'live' ? 'Stationsdaten aktualisiert' : 'Offline — lokale Visualisierung');
+        }).finally(() => { btn.disabled = false; });
+      });
+    });
     const setHap = $('#set-haptics');
     if (setHap) {
       setHap.checked = !(state.settings && state.settings.haptics === false);
@@ -3601,6 +3718,8 @@
       });
       if (setAmb.checked) Schumann.toggleAmbient(true);
     }
+
+    bootSchumannLive();
 
     // Ritual library filters
     const rSearch = $('#ritual-search');

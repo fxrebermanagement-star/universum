@@ -48,7 +48,9 @@
       reducedMotion: false,
       mondnacht: false,
       hourAlert: false,
-      quietDuringRitual: true
+      quietDuringRitual: true,
+      schumannLiveEnabled: true,
+      schumannLive: null
     }
   };
 
@@ -218,7 +220,7 @@
     });
   }
 
-  const APP_VERSION = '2.2.0';
+  const APP_VERSION = '2.3.0';
 
   function buildExportMeta(data) {
     const pathId = data.path || 'esoterik';
