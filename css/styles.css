@@ -5541,3 +5541,40 @@ body.quiet-mode .path-art-orb {
   margin-top: 0.65rem;
   color: rgba(220, 210, 240, 0.7);
 }
+
+
+/* ——— v4.6.0 3-Minuten empfehlenswert ——— */
+.onboard-three-min {
+  margin: 0.5rem 0 0.85rem;
+  padding-left: 1.15rem;
+  color: rgba(240, 232, 255, 0.9);
+  line-height: 1.45;
+  font-size: 0.92rem;
+}
+.onboard-three-min li { margin: 0.35rem 0; }
+.onboard-recommend-box {
+  padding: 0.85rem;
+  border-radius: 0.9rem;
+  background: rgba(60, 40, 100, 0.35);
+  border: 1px solid rgba(167, 139, 250, 0.3);
+}
+.onboard-recommend-lead {
+  margin: 0 0 0.65rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: rgba(235, 225, 255, 0.88);
+}
+.landing-three-min {
+  list-style: decimal;
+  margin: 0.85rem auto 1rem;
+  padding: 0.75rem 0.75rem 0.75rem 1.6rem;
+  max-width: 22rem;
+  text-align: left;
+  border-radius: 0.9rem;
+  background: rgba(40, 28, 70, 0.45);
+  border: 1px solid rgba(167, 139, 250, 0.25);
+  color: rgba(240, 232, 255, 0.9);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+.landing-three-min li { margin: 0.3rem 0; }

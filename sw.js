@@ -2,9 +2,9 @@
  * UNIVERSUM · Service Worker — offline shell caching
  * Relative URLs so GitHub Pages /universum/ subpath works.
  * Cache-first for app shell; network-first navigations; offline fallback to cockpit.
- * v36: 4.5.0 — Unruhe/Schumann als Impuls, keine Wahrheitsmesser.
+ * v37: 4.6.0 — 3-Minuten empfehlenswert (Onboarding + Landing).
  */
-const CACHE = 'universum-shell-v36';
+const CACHE = 'universum-shell-v37';
 const SHELL = [
   './',
   './index.html',

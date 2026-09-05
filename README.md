@@ -340,6 +340,16 @@ universum/
 Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine Verantwortung — mit Grenze und Ausgleich.
 
 
+## Craft-Pass (v4.6.0) · 3-Minuten empfehlenswert
+
+Damit ein Kollege die App in drei Minuten ernst nimmt und weitergeben kann:
+
+- **Onboarding** — 3 Schritte: Pfad+Ethik → Was du in 3 Min kannst → Empfehlen
+- **Landing** — klare 3-Minuten-Kette + Empfehlungs-Ton
+- Nach **Sitzung A–Z** sanfter Hinweis auf Empfehlen
+- App `4.6.0`, SW-Cache `universum-shell-v37`
+
+
 ## Craft-Pass (v4.5.0) · Weniger Theorie-Dashboards
 
 - **Unruhe** → **Impuls (abgeleitet)** — Label ohne Prozent-Wahrheit, weiche Leiste

@@ -1055,6 +1055,16 @@
     if (extra.savedToBuch != null) sitzung.savedToBuch = !!extra.savedToBuch;
     if (phase && phase !== 'idle') sitzung.visible = true;
     renderSitzungBar();
+    if (phase === 'buch' && !sitzung._recommendShown) {
+      sitzung._recommendShown = true;
+      setTimeout(() => {
+        const card = $('#empfehlen-card');
+        if (card) {
+          try { card.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (_) {}
+          toast('Sitzung rund — wenn es stimmt: weiterempfehlen', 3200);
+        }
+      }, 1200);
+    }
   }
 
   function renderSitzungBar() {
@@ -3951,7 +3961,7 @@
   async function shareAppRecommend() {
     const url = appShareUrl();
     const title = 'UNIVERSUM · Praxiswerkzeug';
-    const text = 'Lokal üben — Magie und Hexerei ohne Konto. Daten bleiben auf dem Gerät.';
+    const text = 'UNIVERSUM: in 3 Minuten ernsthaft üben — lokal, ethisch, ohne Konto. Praxiswerkzeug zum Empfehlen.';
     const status = $('#empfehlen-status');
     try {
       if (navigator.share) {
@@ -4802,7 +4812,7 @@
     const next = $('#onboard-next');
     const skip = $('#onboard-skip');
     if (back) back.hidden = n === 0;
-    if (next) next.textContent = n >= 1 ? 'Üben' : 'Weiter';
+    if (next) next.textContent = n >= 2 ? 'Üben öffnen' : 'Weiter';
     if (skip) skip.hidden = false;
     $$('#onboard-progress [data-op]').forEach(dot => {
       const i = Number(dot.getAttribute('data-op'));
@@ -4812,11 +4822,13 @@
     const lead = $('#onboard-lead');
     const titles = [
       'Dein Pfad',
-      'Erste Praxis'
+      'In 3 Minuten',
+      'Weiterempfehlen'
     ];
     const leads = [
       'Symbol tippen · Ethik bestätigen.',
-      'Danach wartet Jetzt im Cockpit.'
+      'Heute → Ritual → Schließen → Buch — ernsthaft, lokal.',
+      'Wenn es stimmt: einem Kollegen zeigen. Dann üben.'
     ];
     const title = $('#onboard-title');
     if (title && titles[n]) title.textContent = titles[n];
@@ -4878,10 +4890,11 @@
     applyMotionPref();
     applyPathTheme();
     closeOnboarding();
-    toast('Bereit — du kannst üben.');
+    toast('Bereit — Heute starten. Optional weiterempfehlen.');
     navigate('cockpit');
     renderStarterCard();
     renderJetztCard();
+    setSitzungPhase('heute');
     setTimeout(() => {
       try {
         const card = $('#jetzt-card');
@@ -5468,6 +5481,10 @@
           showOnboardStep(1);
           return;
         }
+        if (onboardStep === 1) {
+          showOnboardStep(2);
+          return;
+        }
         finishOnboarding();
       });
     }
@@ -5498,6 +5515,18 @@
         toast('Zürich gesetzt');
       });
     }
+    const onbShare = $('#onboard-share');
+    if (onbShare) onbShare.addEventListener('click', async () => {
+      await shareAppRecommend();
+      const st = $('#onboard-share-status');
+      if (st) st.textContent = 'Danke — Link geteilt oder kopiert.';
+    });
+    const onbCopy = $('#onboard-copy');
+    if (onbCopy) onbCopy.addEventListener('click', async () => {
+      await copyAppLink();
+      const st = $('#onboard-share-status');
+      if (st) st.textContent = 'Link kopiert — einem Kollegen schicken.';
+    });
 
 
     // Install hint (mobile Pages / PWA coach) + Empfehlen

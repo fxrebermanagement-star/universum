@@ -994,11 +994,11 @@
   <!-- First-run onboarding · Erste Minute (v2.4) -->
   <div class="onboard-overlay" id="onboard-overlay" hidden>
     <div class="onboard-card" role="dialog" aria-modal="true" aria-labelledby="onboard-title">
-      <p class="splash-eyebrow">ERSTE MINUTE</p>
-      <div class="onboard-hero" aria-hidden="true"><span>✨</span><span>📅</span><span>🪐</span><span>🕯️</span></div>
+      <p class="splash-eyebrow">3 MINUTEN · ERNSTHAFT</p>
+      <div class="onboard-hero" aria-hidden="true"><span>✨</span><span>🕯️</span><span>📖</span><span>🔗</span></div>
       <h2 id="onboard-title">Dein Pfad</h2>
-      <p class="onboard-copy" id="onboard-lead">Symbol wählen — dann üben.</p>
-      <div class="onboard-progress" id="onboard-progress" aria-hidden="true"><i data-op="0"></i><i data-op="1"></i></div>
+      <p class="onboard-copy" id="onboard-lead">In drei Minuten ernsthaft üben — und weiterempfehlen können.</p>
+      <div class="onboard-progress" id="onboard-progress" aria-hidden="true"><i data-op="0"></i><i data-op="1"></i><i data-op="2"></i></div>
 
       <div class="onboard-step" data-onboard-step="0">
         <p class="hint">Ein Pfad genügt. Später wechselbar · Standort Zürich.</p>
@@ -1012,10 +1012,27 @@
       </div>
 
       <div class="onboard-step hidden" data-onboard-step="1">
-        <p class="hint">Im Cockpit wartet <em>Heute</em> — ein Tip für deinen Pfad.</p>
+        <p class="hint">Was du in ≈ 3 Minuten ernsthaft kannst — ohne Tour, ohne Konto:</p>
+        <ol class="onboard-three-min">
+          <li><strong>Heute</strong> — ein Pfad-Ritual starten (Sitzung A–Z)</li>
+          <li><strong>Schließen</strong> — Danken → Atmen → Erden → Siegeln</li>
+          <li><strong>Magie-Buch</strong> — optional Satz + Foto, alles lokal</li>
+        </ol>
         <div class="notice ethics-line onboard-invite-box">
           <span class="onboard-invite-illu" aria-hidden="true">🕯️</span>
-          «Üben» öffnet das Cockpit. Keine Tour.
+          Praxis vor Spektakel. Kein Feed. Daten in <code>feldlicht-v15</code>.
+        </div>
+      </div>
+
+      <div class="onboard-step hidden" data-onboard-step="2">
+        <p class="hint">Wenn das Werkzeug stimmt — einen Kollegen ernsthaft darauf hinweisen.</p>
+        <div class="onboard-recommend-box">
+          <p class="onboard-recommend-lead">Lokal · ethisch · offline-fähig. Kein Login, kein Tracking.</p>
+          <div class="btn-row" style="justify-content:center;flex-wrap:wrap;gap:0.45rem">
+            <button type="button" class="ghost" id="onboard-share">Empfehlen · Teilen</button>
+            <button type="button" class="ghost" id="onboard-copy">Link kopieren</button>
+          </div>
+          <p class="hint-sm" id="onboard-share-status" aria-live="polite"></p>
         </div>
       </div>
 
@@ -1084,7 +1101,7 @@
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
         <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">4.5.0</span></p>
+        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">4.6.0</span></p>
       </div>
     </div>
   </div>
