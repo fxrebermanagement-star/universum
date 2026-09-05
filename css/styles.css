@@ -5504,3 +5504,40 @@ body.quiet-mode .path-art-orb {
 .install-banner {
   border-color: rgba(110, 181, 255, 0.4);
 }
+
+
+/* ——— v4.5.0 Weniger Theorie-Dashboards ——— */
+.dash-panel.impulse-panel {
+  opacity: 0.92;
+}
+.dash-panel.impulse-panel .value {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.soft-impulse {
+  opacity: 0.55;
+  height: 4px !important;
+}
+.impulse-meta {
+  font-size: 0.68rem;
+  color: rgba(220, 210, 240, 0.55);
+  margin-top: 0.25rem;
+}
+.cockpit-schumann-details > summary.schumann-summary {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  list-style: none;
+  font-weight: 650;
+  color: rgba(235, 225, 255, 0.9);
+}
+.cockpit-schumann-details > summary.schumann-summary::-webkit-details-marker { display: none; }
+.cockpit-schumann-details:not([open]) {
+  padding-bottom: 0.65rem;
+}
+.impulse-frame {
+  margin-top: 0.65rem;
+  color: rgba(220, 210, 240, 0.7);
+}

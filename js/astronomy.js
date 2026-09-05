@@ -445,7 +445,7 @@
     };
     recs.push(hourTips[hour.planet] || '');
     if (voidW.active) recs.push(voidW.message);
-    if (u.level === 'hoch') recs.push('Unruhe hoch: Erdung vor Magie, Kreis klein halten.');
+    if (u.level === 'hoch') recs.push('Impuls stark (abgeleitet): Erdung vor Magie, Kreis klein halten — kein Messgerät.');
     else if (u.level === 'ruhig') recs.push('Feld ruhig: gute Zeit für feine Arbeit und Atembrücke.');
     return recs.filter(Boolean);
   }

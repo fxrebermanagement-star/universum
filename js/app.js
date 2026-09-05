@@ -1705,11 +1705,16 @@
       (hour.isDay ? 'Tag' : 'Nacht') + ' · Std ' + hour.hourIndex +
       ' · ' + fmtTime(hour.start) + '–' + fmtTime(hour.end) +
       (hour.remainMin != null ? ' · noch ' + hour.remainMin + ' Min' : '');
-    $('#dash-unrest-val').textContent = unrest.label + ' · ' + unrest.value;
+    // Impuls, kein Messwert: Label ohne Prozent-Wahrheit
+    const impulseWord = unrest.label === 'Hoch' ? 'Stark' : (unrest.label === 'Bewegt' ? 'Bewegt' : 'Ruhig');
+    $('#dash-unrest-val').textContent = impulseWord;
     $('#dash-unrest-val').style.color = unrest.color;
     const bar = $('#dash-unrest-bar');
-    bar.style.width = unrest.value + '%';
-    bar.style.background = unrest.color;
+    if (bar) {
+      bar.style.width = Math.max(12, Math.min(88, unrest.value)) + '%';
+      bar.style.background = unrest.color;
+      bar.style.opacity = '0.55';
+    }
 
     const voc = $('#voc-banner');
     if (voidW.active) {
@@ -1774,7 +1779,7 @@
     const hourName = hour && hour.planet ? hour.planet : '—';
     if (id === 'moon') return moon.emoji + ' ' + moon.name;
     if (id === 'hour') return 'Stunde · ' + hourName;
-    if (id === 'unrest') return 'Unruhe · ' + (unrest ? unrest.label + ' (' + unrest.value + ')' : '—');
+    if (id === 'unrest') return 'Impuls · ' + (unrest ? unrest.label : '—') + ' (abgeleitet)';
     if (id === 'sun') return 'Sonne · ' + (sunSign || '—');
     if (id === 'fest' && nextFest) {
       const festNoon = new Date(nextFest.date.getFullYear(), nextFest.date.getMonth(), nextFest.date.getDate(), 12, 0, 0, 0);
@@ -1801,7 +1806,7 @@
     const nextFest = Paths.nextFestival(now, state.path, { pathOnly: isCalendarPathOnly() });
     lead.textContent =
       moon.emoji + ' ' + moon.name + ' · Stunde ' + hourName +
-      ' · Unruhe ' + unrestWord + '. ' + saying;
+      ' · Impuls ' + unrestWord + ' (abgeleitet). ' + saying;
 
     const pins = Store.getBriefingPins();
     const ctx = { moon, hour, unrest, sunSign, nextFest, now };

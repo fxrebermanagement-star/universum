@@ -42,7 +42,7 @@
     <div id="main-content" tabindex="-1">
     <!-- 1. Cockpit -->
     <section id="sec-cockpit" class="section-view active cockpit-lovely-page" aria-label="Cockpit">
-      <!-- v4.2.0 Cockpit above-the-fold: Suche · Astro-Tiles · Schumann -->
+      <!-- v4.5.0 Cockpit above-the-fold: Suche · Astro-Tiles · Schumann -->
       <div class="cockpit-top" id="cockpit-top">
         <div class="cockpit-search-pill" id="cockpit-search-bar">
           <label class="sr-only" for="global-search-input-cockpit">Suche</label>
@@ -63,18 +63,22 @@
             <div class="value" id="dash-hour-val">—</div>
             <div class="meta" id="dash-hour-meta"></div>
           </div>
-          <div class="dash-panel unrest">
-            <div class="label">Unruhe (abgeleitet)</div>
+          <div class="dash-panel unrest impulse-panel">
+            <div class="label">Impuls <span class="approx-badge" title="Abgeleitet aus Mond, VoC, Retrograd-Näherung — kein Messgerät">abgeleitet</span></div>
             <div class="value" id="dash-unrest-val">—</div>
-            <div class="unrest-bar"><i id="dash-unrest-bar"></i></div>
+            <div class="unrest-bar soft-impulse"><i id="dash-unrest-bar"></i></div>
+            <div class="meta impulse-meta">Zum Üben, kein Wahrheitsmesser</div>
           </div>
         </div>
-        <p class="approx-note hint-sm cockpit-approx-once" id="astro-approx-note">Mond, Stunde, Sonne und VoC sind <strong>Näherungen</strong> für die Praxis — kein Ersatz für professionelle Ephemeriden.</p>
+        <p class="approx-note hint-sm cockpit-approx-once" id="astro-approx-note">Mond, Stunde und Impuls sind <strong>Näherungen zum Üben</strong> — keine Orakel-Wahrheit, kein Ersatz für Ephemeriden.</p>
 
-        <div class="card nested-card schumann-card cockpit-schumann">
-          <div class="schumann-head">
-            <h3>📡 Schumann · Station</h3>
-            <span class="schumann-live-badge" data-sch-badge data-state="offline">Offline · lokale Visualisierung</span>
+        <details class="card nested-card schumann-card cockpit-schumann cockpit-schumann-details impulse-details">
+          <summary class="schumann-summary">
+            <span>📡 Schumann · Impuls</span>
+            <span class="chip-quiet">optional · kein Messgerät</span>
+          </summary>
+          <div class="schumann-head compact-head">
+            <span class="schumann-live-badge" data-sch-badge data-state="offline">Offline · lokal 7,83 Hz</span>
           </div>
           <div class="schumann-spectrogram" data-sch-spectrogram>
             <figure class="schumann-spectrogram-figure">
@@ -98,7 +102,9 @@
           </div>
           <p class="hint-sm schumann-honesty" data-sch-honesty>Station optional — lokal 7,83 Hz bleibt.</p>
           <p class="schumann-note">Live-Spektrogramm + Stations-/Index-Daten (Tomsk Space Observing System via ResonanceOne + NOAA Kp/Solar) — kein Handy-Magnetometer, keine Körper- oder Geister-Messung. Offline: lokale 7,83-Hz-Visualisierung. Optional leiser 136-Hz-Träger in den Einstellungen.</p>
-        </div>
+        
+          <p class="hint-sm impulse-frame">Stationsdaten und Puls sind <strong>Impulse für die Praxis</strong> — keine Erdbeben-, Körper- oder Geister-Messung.</p>
+        </details>
       </div>
 
       <div class="cockpit-practice-head">
@@ -1078,7 +1084,7 @@
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
         <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">4.4.0</span></p>
+        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">4.5.0</span></p>
       </div>
     </div>
   </div>

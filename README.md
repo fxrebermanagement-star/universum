@@ -340,6 +340,14 @@ universum/
 Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine Verantwortung — mit Grenze und Ausgleich.
 
 
+## Craft-Pass (v4.5.0) · Weniger Theorie-Dashboards
+
+- **Unruhe** → **Impuls (abgeleitet)** — Label ohne Prozent-Wahrheit, weiche Leiste
+- **Schumann** — im Cockpit eingeklappt als optionaler Impuls, klar «kein Messgerät»
+- Briefing/Empfehlungen sprechen von Impuls, nicht von Messwerten
+- App `4.5.0`, SW-Cache `universum-shell-v36`
+
+
 ## Craft-Pass (v4.4.0) · Offline zuerst
 
 - **SW** — resilienter Shell-Precache (Einzel-URLs), `SKIP_WAITING`, Cache `universum-shell-v35`
