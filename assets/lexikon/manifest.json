@@ -1,0 +1,1376 @@
+[
+  {
+    "name": "Achat",
+    "slug": "achat",
+    "file": "achat.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Alkohol",
+    "slug": "alkohol",
+    "file": "alkohol.svg",
+    "kind": "offering"
+  },
+  {
+    "name": "Altar-Tuch",
+    "slug": "altar-tuch",
+    "file": "altar-tuch.svg",
+    "kind": "tool"
+  },
+  {
+    "name": "Amethyst",
+    "slug": "amethyst",
+    "file": "amethyst.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Angelika",
+    "slug": "angelika",
+    "file": "angelika.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Anis",
+    "slug": "anis",
+    "file": "anis.svg",
+    "kind": "kitchen"
+  },
+  {
+    "name": "Apfel",
+    "slug": "apfel",
+    "file": "apfel.svg",
+    "kind": "kitchen"
+  },
+  {
+    "name": "Asche",
+    "slug": "asche",
+    "file": "asche.svg",
+    "kind": "link"
+  },
+  {
+    "name": "Athame (Symbol)",
+    "slug": "athame-symbol",
+    "file": "athame-symbol.svg",
+    "kind": "tool"
+  },
+  {
+    "name": "Aventurin",
+    "slug": "aventurin",
+    "file": "aventurin.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Baldrian",
+    "slug": "baldrian",
+    "file": "baldrian.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Basilikum",
+    "slug": "basilikum",
+    "file": "basilikum.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Becher",
+    "slug": "becher",
+    "file": "becher.svg",
+    "kind": "tool"
+  },
+  {
+    "name": "Beifuß",
+    "slug": "beifuss",
+    "file": "beifuss.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Bergkristall",
+    "slug": "bergkristall",
+    "file": "bergkristall.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Bernstein",
+    "slug": "bernstein",
+    "file": "bernstein.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Besen",
+    "slug": "besen",
+    "file": "besen.svg",
+    "kind": "tool"
+  },
+  {
+    "name": "Betonstück",
+    "slug": "betonstuck",
+    "file": "betonstuck.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Beutel",
+    "slug": "beutel",
+    "file": "beutel.svg",
+    "kind": "tool"
+  },
+  {
+    "name": "Bier",
+    "slug": "bier",
+    "file": "bier.svg",
+    "kind": "offering"
+  },
+  {
+    "name": "Birke",
+    "slug": "birke",
+    "file": "birke.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Blau",
+    "slug": "blau",
+    "file": "blau.svg",
+    "kind": "color"
+  },
+  {
+    "name": "Blumen",
+    "slug": "blumen",
+    "file": "blumen.svg",
+    "kind": "offering"
+  },
+  {
+    "name": "Blut (Symbol)",
+    "slug": "blut-symbol",
+    "file": "blut-symbol.svg",
+    "kind": "link"
+  },
+  {
+    "name": "Blutrot (Akzent)",
+    "slug": "blutrot-akzent",
+    "file": "blutrot-akzent.svg",
+    "kind": "color"
+  },
+  {
+    "name": "Blutrot (mit Maß)",
+    "slug": "blutrot-mit-mass",
+    "file": "blutrot-mit-mass.svg",
+    "kind": "color"
+  },
+  {
+    "name": "Branntwein",
+    "slug": "branntwein",
+    "file": "branntwein.svg",
+    "kind": "offering"
+  },
+  {
+    "name": "Brennnessel",
+    "slug": "brennnessel",
+    "file": "brennnessel.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Brot",
+    "slug": "brot",
+    "file": "brot.svg",
+    "kind": "offering"
+  },
+  {
+    "name": "Buch",
+    "slug": "buch",
+    "file": "buch.svg",
+    "kind": "tool"
+  },
+  {
+    "name": "Butter",
+    "slug": "butter",
+    "file": "butter.svg",
+    "kind": "kitchen"
+  },
+  {
+    "name": "Champagner",
+    "slug": "champagner",
+    "file": "champagner.svg",
+    "kind": "offering"
+  },
+  {
+    "name": "Citrin",
+    "slug": "citrin",
+    "file": "citrin.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Cognac",
+    "slug": "cognac",
+    "file": "cognac.svg",
+    "kind": "offering"
+  },
+  {
+    "name": "Dankgabe",
+    "slug": "dankgabe",
+    "file": "dankgabe.svg",
+    "kind": "offering"
+  },
+  {
+    "name": "Dill",
+    "slug": "dill",
+    "file": "dill.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Ei",
+    "slug": "ei",
+    "file": "ei.svg",
+    "kind": "kitchen"
+  },
+  {
+    "name": "Eibisch",
+    "slug": "eibisch",
+    "file": "eibisch.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Eichenblatt",
+    "slug": "eichenblatt",
+    "file": "eichenblatt.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Eisengrau",
+    "slug": "eisengrau",
+    "file": "eisengrau.svg",
+    "kind": "color"
+  },
+  {
+    "name": "Eisengrau-Stein",
+    "slug": "eisengrau-stein",
+    "file": "eisengrau-stein.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Eisenkraut",
+    "slug": "eisenkraut",
+    "file": "eisenkraut.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Elektrisches Blau",
+    "slug": "elektrisches-blau",
+    "file": "elektrisches-blau.svg",
+    "kind": "color"
+  },
+  {
+    "name": "Erdbraun",
+    "slug": "erdbraun",
+    "file": "erdbraun.svg",
+    "kind": "color"
+  },
+  {
+    "name": "Erde / Staub",
+    "slug": "erde-staub",
+    "file": "erde-staub.svg",
+    "kind": "link"
+  },
+  {
+    "name": "Essig",
+    "slug": "essig",
+    "file": "essig.svg",
+    "kind": "kitchen"
+  },
+  {
+    "name": "Faden",
+    "slug": "faden",
+    "file": "faden.svg",
+    "kind": "tool"
+  },
+  {
+    "name": "Faden / Knoten",
+    "slug": "faden-knoten",
+    "file": "faden-knoten.svg",
+    "kind": "link"
+  },
+  {
+    "name": "Feder",
+    "slug": "feder",
+    "file": "feder.svg",
+    "kind": "tool"
+  },
+  {
+    "name": "Feder / Stift",
+    "slug": "feder-stift",
+    "file": "feder-stift.svg",
+    "kind": "tool"
+  },
+  {
+    "name": "Fenchel",
+    "slug": "fenchel",
+    "file": "fenchel.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Fichte",
+    "slug": "fichte",
+    "file": "fichte.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Flint",
+    "slug": "flint",
+    "file": "flint.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Fluorit",
+    "slug": "fluorit",
+    "file": "fluorit.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Flusskiesel",
+    "slug": "flusskiesel",
+    "file": "flusskiesel.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Foto / Name-Zettel",
+    "slug": "foto-name-zettel",
+    "file": "foto-name-zettel.svg",
+    "kind": "link"
+  },
+  {
+    "name": "Frauenmantel",
+    "slug": "frauenmantel",
+    "file": "frauenmantel.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Fußabdruck (Symbol)",
+    "slug": "fussabdruck-symbol",
+    "file": "fussabdruck-symbol.svg",
+    "kind": "link"
+  },
+  {
+    "name": "Gänseblümchen",
+    "slug": "ganseblumchen",
+    "file": "ganseblumchen.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Gelb",
+    "slug": "gelb",
+    "file": "gelb.svg",
+    "kind": "color"
+  },
+  {
+    "name": "Glasbruch (sicher)",
+    "slug": "glasbruch-sicher",
+    "file": "glasbruch-sicher.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Glocke",
+    "slug": "glocke",
+    "file": "glocke.svg",
+    "kind": "tool"
+  },
+  {
+    "name": "Gold",
+    "slug": "gold",
+    "file": "gold.svg",
+    "kind": "color"
+  },
+  {
+    "name": "Goldton",
+    "slug": "goldton",
+    "file": "goldton.svg",
+    "kind": "color"
+  },
+  {
+    "name": "Grab-Erde (Symbol)",
+    "slug": "grab-erde-symbol",
+    "file": "grab-erde-symbol.svg",
+    "kind": "link"
+  },
+  {
+    "name": "Granat",
+    "slug": "granat",
+    "file": "granat.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Granit",
+    "slug": "granit",
+    "file": "granit.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Grau",
+    "slug": "grau",
+    "file": "grau.svg",
+    "kind": "color"
+  },
+  {
+    "name": "Grün",
+    "slug": "grun",
+    "file": "grun.svg",
+    "kind": "color"
+  },
+  {
+    "name": "Grüner Achat",
+    "slug": "gruner-achat",
+    "file": "gruner-achat.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Haare (eigene)",
+    "slug": "haare-eigene",
+    "file": "haare-eigene.svg",
+    "kind": "link"
+  },
+  {
+    "name": "Hafer",
+    "slug": "hafer",
+    "file": "hafer.svg",
+    "kind": "kitchen"
+  },
+  {
+    "name": "Hämatit",
+    "slug": "hamatit",
+    "file": "hamatit.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Herbstrot",
+    "slug": "herbstrot",
+    "file": "herbstrot.svg",
+    "kind": "color"
+  },
+  {
+    "name": "Holunder",
+    "slug": "holunder",
+    "file": "holunder.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Holzperle",
+    "slug": "holzperle",
+    "file": "holzperle.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Honig",
+    "slug": "honig",
+    "file": "honig.svg",
+    "kind": "offering"
+  },
+  {
+    "name": "Honiggold",
+    "slug": "honiggold",
+    "file": "honiggold.svg",
+    "kind": "color"
+  },
+  {
+    "name": "Hopfen",
+    "slug": "hopfen",
+    "file": "hopfen.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Horn / Becher",
+    "slug": "horn-becher",
+    "file": "horn-becher.svg",
+    "kind": "tool"
+  },
+  {
+    "name": "Indigo",
+    "slug": "indigo",
+    "file": "indigo.svg",
+    "kind": "color"
+  },
+  {
+    "name": "Ingwer",
+    "slug": "ingwer",
+    "file": "ingwer.svg",
+    "kind": "kitchen"
+  },
+  {
+    "name": "Jade",
+    "slug": "jade",
+    "file": "jade.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Jaspis",
+    "slug": "jaspis",
+    "file": "jaspis.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Johanniskraut",
+    "slug": "johanniskraut",
+    "file": "johanniskraut.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Kaffee",
+    "slug": "kaffee",
+    "file": "kaffee.svg",
+    "kind": "offering"
+  },
+  {
+    "name": "Kamille",
+    "slug": "kamille",
+    "file": "kamille.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Kardamom",
+    "slug": "kardamom",
+    "file": "kardamom.svg",
+    "kind": "kitchen"
+  },
+  {
+    "name": "Karneol",
+    "slug": "karneol",
+    "file": "karneol.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Karten",
+    "slug": "karten",
+    "file": "karten.svg",
+    "kind": "tool"
+  },
+  {
+    "name": "Kerze",
+    "slug": "kerze",
+    "file": "kerze.svg",
+    "kind": "tool"
+  },
+  {
+    "name": "Kessel",
+    "slug": "kessel",
+    "file": "kessel.svg",
+    "kind": "tool"
+  },
+  {
+    "name": "Kiesel vom Weg",
+    "slug": "kiesel-vom-weg",
+    "file": "kiesel-vom-weg.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Klarer Quarz",
+    "slug": "klarer-quarz",
+    "file": "klarer-quarz.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Knoblauch",
+    "slug": "knoblauch",
+    "file": "knoblauch.svg",
+    "kind": "kitchen"
+  },
+  {
+    "name": "Knochen (Symbol)",
+    "slug": "knochen-symbol",
+    "file": "knochen-symbol.svg",
+    "kind": "link"
+  },
+  {
+    "name": "Knochenweiß",
+    "slug": "knochenweiss",
+    "file": "knochenweiss.svg",
+    "kind": "color"
+  },
+  {
+    "name": "Knochenweiß-Stein",
+    "slug": "knochenweiss-stein",
+    "file": "knochenweiss-stein.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Königsblau",
+    "slug": "konigsblau",
+    "file": "konigsblau.svg",
+    "kind": "color"
+  },
+  {
+    "name": "Koralle",
+    "slug": "koralle",
+    "file": "koralle.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Korallenstück (Symbol)",
+    "slug": "korallenstuck-symbol",
+    "file": "korallenstuck-symbol.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Kreide",
+    "slug": "kreide",
+    "file": "kreide.svg",
+    "kind": "tool"
+  },
+  {
+    "name": "Kuchen",
+    "slug": "kuchen",
+    "file": "kuchen.svg",
+    "kind": "offering"
+  },
+  {
+    "name": "Kupfer",
+    "slug": "kupfer",
+    "file": "kupfer.svg",
+    "kind": "color"
+  },
+  {
+    "name": "Labradorit",
+    "slug": "labradorit",
+    "file": "labradorit.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Lapis",
+    "slug": "lapis",
+    "file": "lapis.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Lava",
+    "slug": "lava",
+    "file": "lava.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Lavendel",
+    "slug": "lavendel",
+    "file": "lavendel.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Licht",
+    "slug": "licht",
+    "file": "licht.svg",
+    "kind": "offering"
+  },
+  {
+    "name": "Likör",
+    "slug": "likor",
+    "file": "likor.svg",
+    "kind": "offering"
+  },
+  {
+    "name": "Lindenblüte",
+    "slug": "lindenblute",
+    "file": "lindenblute.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Lorbeer",
+    "slug": "lorbeer",
+    "file": "lorbeer.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Löwenzahn",
+    "slug": "lowenzahn",
+    "file": "lowenzahn.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Majoran",
+    "slug": "majoran",
+    "file": "majoran.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Malachit",
+    "slug": "malachit",
+    "file": "malachit.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Mehl",
+    "slug": "mehl",
+    "file": "mehl.svg",
+    "kind": "kitchen"
+  },
+  {
+    "name": "Melisse",
+    "slug": "melisse",
+    "file": "melisse.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Messer (Haus)",
+    "slug": "messer-haus",
+    "file": "messer-haus.svg",
+    "kind": "tool"
+  },
+  {
+    "name": "Met",
+    "slug": "met",
+    "file": "met.svg",
+    "kind": "offering"
+  },
+  {
+    "name": "Milch",
+    "slug": "milch",
+    "file": "milch.svg",
+    "kind": "offering"
+  },
+  {
+    "name": "Milchquarz",
+    "slug": "milchquarz",
+    "file": "milchquarz.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Mintgrün",
+    "slug": "mintgrun",
+    "file": "mintgrun.svg",
+    "kind": "color"
+  },
+  {
+    "name": "Minze",
+    "slug": "minze",
+    "file": "minze.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Mondstein",
+    "slug": "mondstein",
+    "file": "mondstein.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Moosachat",
+    "slug": "moosachat",
+    "file": "moosachat.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Mörser",
+    "slug": "morser",
+    "file": "morser.svg",
+    "kind": "tool"
+  },
+  {
+    "name": "Münze",
+    "slug": "munze",
+    "file": "munze.svg",
+    "kind": "link"
+  },
+  {
+    "name": "Muschel",
+    "slug": "muschel",
+    "file": "muschel.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Muschelweiß",
+    "slug": "muschelweiss",
+    "file": "muschelweiss.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Myrrhe",
+    "slug": "myrrhe",
+    "file": "myrrhe.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Myrte",
+    "slug": "myrte",
+    "file": "myrte.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Nachtblau",
+    "slug": "nachtblau",
+    "file": "nachtblau.svg",
+    "kind": "color"
+  },
+  {
+    "name": "Nadel",
+    "slug": "nadel",
+    "file": "nadel.svg",
+    "kind": "link"
+  },
+  {
+    "name": "Nadelkissen",
+    "slug": "nadelkissen",
+    "file": "nadelkissen.svg",
+    "kind": "tool"
+  },
+  {
+    "name": "Nagel (Eisen)",
+    "slug": "nagel-eisen",
+    "file": "nagel-eisen.svg",
+    "kind": "link"
+  },
+  {
+    "name": "Nelke",
+    "slug": "nelke",
+    "file": "nelke.svg",
+    "kind": "kitchen"
+  },
+  {
+    "name": "Neon-Akzent",
+    "slug": "neon-akzent",
+    "file": "neon-akzent.svg",
+    "kind": "color"
+  },
+  {
+    "name": "Nordblau",
+    "slug": "nordblau",
+    "file": "nordblau.svg",
+    "kind": "color"
+  },
+  {
+    "name": "Obsidian",
+    "slug": "obsidian",
+    "file": "obsidian.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Obst",
+    "slug": "obst",
+    "file": "obst.svg",
+    "kind": "offering"
+  },
+  {
+    "name": "Öl",
+    "slug": "ol",
+    "file": "ol.svg",
+    "kind": "offering"
+  },
+  {
+    "name": "Onyx",
+    "slug": "onyx",
+    "file": "onyx.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Orange",
+    "slug": "orange",
+    "file": "orange.svg",
+    "kind": "color"
+  },
+  {
+    "name": "Oregano",
+    "slug": "oregano",
+    "file": "oregano.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Pendel",
+    "slug": "pendel",
+    "file": "pendel.svg",
+    "kind": "tool"
+  },
+  {
+    "name": "Petersilie",
+    "slug": "petersilie",
+    "file": "petersilie.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Pfeffer",
+    "slug": "pfeffer",
+    "file": "pfeffer.svg",
+    "kind": "kitchen"
+  },
+  {
+    "name": "Purpur",
+    "slug": "purpur",
+    "file": "purpur.svg",
+    "kind": "color"
+  },
+  {
+    "name": "Pyrit",
+    "slug": "pyrit",
+    "file": "pyrit.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Quarz",
+    "slug": "quarz",
+    "file": "quarz.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Quarzader",
+    "slug": "quarzader",
+    "file": "quarzader.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Quecksilber (Symbol)",
+    "slug": "quecksilber-symbol",
+    "file": "quecksilber-symbol.svg",
+    "kind": "link"
+  },
+  {
+    "name": "Rassel",
+    "slug": "rassel",
+    "file": "rassel.svg",
+    "kind": "tool"
+  },
+  {
+    "name": "Rauch",
+    "slug": "rauch",
+    "file": "rauch.svg",
+    "kind": "offering"
+  },
+  {
+    "name": "Raucherquarz",
+    "slug": "raucherquarz",
+    "file": "raucherquarz.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Räucherschale",
+    "slug": "raucherschale",
+    "file": "raucherschale.svg",
+    "kind": "tool"
+  },
+  {
+    "name": "Rauchgrau",
+    "slug": "rauchgrau",
+    "file": "rauchgrau.svg",
+    "kind": "color"
+  },
+  {
+    "name": "Rauchquarz",
+    "slug": "rauchquarz",
+    "file": "rauchquarz.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Reis",
+    "slug": "reis",
+    "file": "reis.svg",
+    "kind": "kitchen"
+  },
+  {
+    "name": "Ringelblume",
+    "slug": "ringelblume",
+    "file": "ringelblume.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Rosa",
+    "slug": "rosa",
+    "file": "rosa.svg",
+    "kind": "color"
+  },
+  {
+    "name": "Rose",
+    "slug": "rose",
+    "file": "rose.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Rosenquarz",
+    "slug": "rosenquarz",
+    "file": "rosenquarz.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Rosmarin",
+    "slug": "rosmarin",
+    "file": "rosmarin.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Rost",
+    "slug": "rost",
+    "file": "rost.svg",
+    "kind": "link"
+  },
+  {
+    "name": "Rot",
+    "slug": "rot",
+    "file": "rot.svg",
+    "kind": "color"
+  },
+  {
+    "name": "Rot (mit Maß)",
+    "slug": "rot-mit-mass",
+    "file": "rot-mit-mass.svg",
+    "kind": "color"
+  },
+  {
+    "name": "Rotwein",
+    "slug": "rotwein",
+    "file": "rotwein.svg",
+    "kind": "offering"
+  },
+  {
+    "name": "Rum",
+    "slug": "rum",
+    "file": "rum.svg",
+    "kind": "offering"
+  },
+  {
+    "name": "Salbei",
+    "slug": "salbei",
+    "file": "salbei.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Salz",
+    "slug": "salz",
+    "file": "salz.svg",
+    "kind": "kitchen"
+  },
+  {
+    "name": "Schafgarbe",
+    "slug": "schafgarbe",
+    "file": "schafgarbe.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Schale",
+    "slug": "schale",
+    "file": "schale.svg",
+    "kind": "tool"
+  },
+  {
+    "name": "Schere",
+    "slug": "schere",
+    "file": "schere.svg",
+    "kind": "tool"
+  },
+  {
+    "name": "Schiefer",
+    "slug": "schiefer",
+    "file": "schiefer.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Schlüssel",
+    "slug": "schlussel",
+    "file": "schlussel.svg",
+    "kind": "link"
+  },
+  {
+    "name": "Schnaps",
+    "slug": "schnaps",
+    "file": "schnaps.svg",
+    "kind": "offering"
+  },
+  {
+    "name": "Schwarz",
+    "slug": "schwarz",
+    "file": "schwarz.svg",
+    "kind": "color"
+  },
+  {
+    "name": "Schwarzer Turmalin",
+    "slug": "schwarzer-turmalin",
+    "file": "schwarzer-turmalin.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Schwarzer Turmalin (Symbol)",
+    "slug": "schwarzer-turmalin-symbol",
+    "file": "schwarzer-turmalin-symbol.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Schwefel (Symbol)",
+    "slug": "schwefel-symbol",
+    "file": "schwefel-symbol.svg",
+    "kind": "link"
+  },
+  {
+    "name": "Seife",
+    "slug": "seife",
+    "file": "seife.svg",
+    "kind": "kitchen"
+  },
+  {
+    "name": "Sekt",
+    "slug": "sekt",
+    "file": "sekt.svg",
+    "kind": "offering"
+  },
+  {
+    "name": "Selenit",
+    "slug": "selenit",
+    "file": "selenit.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Senf",
+    "slug": "senf",
+    "file": "senf.svg",
+    "kind": "kitchen"
+  },
+  {
+    "name": "Silber",
+    "slug": "silber",
+    "file": "silber.svg",
+    "kind": "color"
+  },
+  {
+    "name": "Sodalith",
+    "slug": "sodalith",
+    "file": "sodalith.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Speichel (Symbol)",
+    "slug": "speichel-symbol",
+    "file": "speichel-symbol.svg",
+    "kind": "link"
+  },
+  {
+    "name": "Spiegel",
+    "slug": "spiegel",
+    "file": "spiegel.svg",
+    "kind": "tool"
+  },
+  {
+    "name": "Stab / Wand",
+    "slug": "stab-wand",
+    "file": "stab-wand.svg",
+    "kind": "tool"
+  },
+  {
+    "name": "Stift",
+    "slug": "stift",
+    "file": "stift.svg",
+    "kind": "tool"
+  },
+  {
+    "name": "Streichhölzer",
+    "slug": "streichholzer",
+    "file": "streichholzer.svg",
+    "kind": "tool"
+  },
+  {
+    "name": "Süßes",
+    "slug": "susses",
+    "file": "susses.svg",
+    "kind": "offering"
+  },
+  {
+    "name": "Tabak (Symbol)",
+    "slug": "tabak-symbol",
+    "file": "tabak-symbol.svg",
+    "kind": "offering"
+  },
+  {
+    "name": "Tabak (symbolisch)",
+    "slug": "tabak-symbolisch",
+    "file": "tabak-symbolisch.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Tannengrün",
+    "slug": "tannengrun",
+    "file": "tannengrun.svg",
+    "kind": "color"
+  },
+  {
+    "name": "Tee",
+    "slug": "tee",
+    "file": "tee.svg",
+    "kind": "offering"
+  },
+  {
+    "name": "Thymian",
+    "slug": "thymian",
+    "file": "thymian.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Tigerauge",
+    "slug": "tigerauge",
+    "file": "tigerauge.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Tonperle",
+    "slug": "tonperle",
+    "file": "tonperle.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Trommel",
+    "slug": "trommel",
+    "file": "trommel.svg",
+    "kind": "tool"
+  },
+  {
+    "name": "Trommel (Symbol)",
+    "slug": "trommel-symbol",
+    "file": "trommel-symbol.svg",
+    "kind": "tool"
+  },
+  {
+    "name": "Tuch / Fetzen",
+    "slug": "tuch-fetzen",
+    "file": "tuch-fetzen.svg",
+    "kind": "link"
+  },
+  {
+    "name": "Türkis",
+    "slug": "turkis",
+    "file": "turkis.svg",
+    "kind": "color"
+  },
+  {
+    "name": "Vanille",
+    "slug": "vanille",
+    "file": "vanille.svg",
+    "kind": "kitchen"
+  },
+  {
+    "name": "Violett",
+    "slug": "violett",
+    "file": "violett.svg",
+    "kind": "color"
+  },
+  {
+    "name": "Waage (Symbol)",
+    "slug": "waage-symbol",
+    "file": "waage-symbol.svg",
+    "kind": "tool"
+  },
+  {
+    "name": "Wacholder",
+    "slug": "wacholder",
+    "file": "wacholder.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Wachs",
+    "slug": "wachs",
+    "file": "wachs.svg",
+    "kind": "link"
+  },
+  {
+    "name": "Waldgrün",
+    "slug": "waldgrun",
+    "file": "waldgrun.svg",
+    "kind": "color"
+  },
+  {
+    "name": "Wasser",
+    "slug": "wasser",
+    "file": "wasser.svg",
+    "kind": "offering"
+  },
+  {
+    "name": "Weide",
+    "slug": "weide",
+    "file": "weide.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Weihrauch",
+    "slug": "weihrauch",
+    "file": "weihrauch.svg",
+    "kind": "offering"
+  },
+  {
+    "name": "Weihrauchhalter",
+    "slug": "weihrauchhalter",
+    "file": "weihrauchhalter.svg",
+    "kind": "tool"
+  },
+  {
+    "name": "Wein",
+    "slug": "wein",
+    "file": "wein.svg",
+    "kind": "offering"
+  },
+  {
+    "name": "Weinrot",
+    "slug": "weinrot",
+    "file": "weinrot.svg",
+    "kind": "color"
+  },
+  {
+    "name": "Weiß",
+    "slug": "weiss",
+    "file": "weiss.svg",
+    "kind": "color"
+  },
+  {
+    "name": "Weißwein",
+    "slug": "weisswein",
+    "file": "weisswein.svg",
+    "kind": "offering"
+  },
+  {
+    "name": "Wermut",
+    "slug": "wermut",
+    "file": "wermut.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Whisky",
+    "slug": "whisky",
+    "file": "whisky.svg",
+    "kind": "offering"
+  },
+  {
+    "name": "Würfel / Münze",
+    "slug": "wurfel-munze",
+    "file": "wurfel-munze.svg",
+    "kind": "tool"
+  },
+  {
+    "name": "Ysop",
+    "slug": "ysop",
+    "file": "ysop.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Zeder",
+    "slug": "zeder",
+    "file": "zeder.svg",
+    "kind": "herb"
+  },
+  {
+    "name": "Zimt",
+    "slug": "zimt",
+    "file": "zimt.svg",
+    "kind": "kitchen"
+  },
+  {
+    "name": "Zinnober-Ton",
+    "slug": "zinnober-ton",
+    "file": "zinnober-ton.svg",
+    "kind": "stone"
+  },
+  {
+    "name": "Zinnoberrot",
+    "slug": "zinnoberrot",
+    "file": "zinnoberrot.svg",
+    "kind": "color"
+  },
+  {
+    "name": "Zitrone",
+    "slug": "zitrone",
+    "file": "zitrone.svg",
+    "kind": "kitchen"
+  },
+  {
+    "name": "Zucker",
+    "slug": "zucker",
+    "file": "zucker.svg",
+    "kind": "kitchen"
+  },
+  {
+    "name": "Zwiebel",
+    "slug": "zwiebel",
+    "file": "zwiebel.svg",
+    "kind": "kitchen"
+  }
+]

@@ -430,6 +430,14 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.18.0 — Custom SVG Lexikon-Icons
+
+- Eigenes SVG-Set für alle Lexikon-Namen (~229), warm-mystisch (Gold/Cream/Erde)
+- Dateien unter `assets/lexikon/{slug}.svg` — gleicher Name → gleiches Icon
+- Liste + Detail-Sheet: SVG bevorzugt, sonst Monogramm (2 Buchstaben), Emoji nur als letzte Reserve
+- Service Worker cached Lexikon-SVGs offline (`universum-shell-v60`)
+- Generator: `scripts/generate-lexikon-icons.mjs`
+
 ## 5.17.0 — Unique Icons · Opfergaben zuletzt · Detail · Favoriten · Export
 
 - Lexikon-Icons: **226 unique** unter 229 Namen (vorher 117); gleiche Namen teilen Icons, verschiedene Namen nicht mehr generisch

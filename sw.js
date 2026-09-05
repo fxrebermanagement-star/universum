@@ -2,9 +2,9 @@
  * UNIVERSUM · Service Worker — offline shell caching
  * Relative URLs so GitHub Pages /universum/ subpath works.
  * Cache-first for app shell; network-first navigations; offline fallback to cockpit.
- * v59: 5.17.0 — Unique Lexikon-Icons · Opfergaben zuletzt · Detail-Sheet · Favoriten · Export · Ethik einmal.
+ * v60: 5.18.0 — Custom SVG Lexikon-Icons · Offline-Cache · cohesive mystical set.
  */
-const CACHE = 'universum-shell-v59';
+const CACHE = 'universum-shell-v60';
 const SHELL = [
   './',
   './index.html',
@@ -44,17 +44,35 @@ const SHELL = [
   './manifest.webmanifest',
   './icons/icon.svg',
   './icons/icon-192.png',
-  './icons/icon-512.png'
+  './icons/icon-512.png',
+  './assets/lexikon/manifest.json'
 ];
 
+function cacheUrl(cache, url) {
+  return cache.add(url).catch(() => fetch(url, { cache: 'reload' }).then((res) => {
+    if (res && res.ok) return cache.put(url, res);
+  }).catch(() => null));
+}
+
+function precacheLexikonIcons(cache) {
+  return fetch('./assets/lexikon/manifest.json', { cache: 'reload' })
+    .then((res) => (res && res.ok ? res.json() : []))
+    .then((list) => {
+      const items = Array.isArray(list) ? list : [];
+      return Promise.all(
+        items.map((item) => {
+          const file = item && (item.file || ((item.slug || '') + '.svg'));
+          if (!file) return null;
+          return cacheUrl(cache, './assets/lexikon/' + file);
+        })
+      );
+    })
+    .catch(() => null);
+}
+
 function precacheShell(cache) {
-  return Promise.all(
-    SHELL.map((url) =>
-      cache.add(url).catch(() => fetch(url, { cache: 'reload' }).then((res) => {
-        if (res && res.ok) return cache.put(url, res);
-      }).catch(() => null))
-    )
-  );
+  return Promise.all(SHELL.map((url) => cacheUrl(cache, url)))
+    .then(() => precacheLexikonIcons(cache));
 }
 
 self.addEventListener('install', (event) => {

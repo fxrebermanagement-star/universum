@@ -1774,6 +1774,31 @@
     return fallback || '';
   }
 
+  /** Slug for assets/lexikon/{slug}.svg — must match scripts/generate-lexikon-icons.mjs */
+  function lexikonIconSlug(name) {
+    return String(name || '')
+      .trim()
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss')
+      .replace(/[()]/g, ' ')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+      .replace(/-+/g, '-');
+  }
+
+  function hasLexikonIcon(name) {
+    const key = String(name || '').trim();
+    return !!(key && ICON_BY_NAME[key]);
+  }
+
+  function lexikonIconSrc(name) {
+    if (!hasLexikonIcon(name)) return '';
+    const slug = lexikonIconSlug(name);
+    return slug ? ('assets/lexikon/' + slug + '.svg') : '';
+  }
+
   /** Gemeinsamer Lexikon-Kern — erscheint auf jedem Pfad (Pfad-Einträge bleiben vorn und gewinnen bei Namenskollision). */
   const LEXIKON_CORE = {
     herbs: [
@@ -2535,6 +2560,9 @@
     getCorrespondences,
     ICON_BY_NAME,
     icoForLexikonName,
+    lexikonIconSlug,
+    hasLexikonIcon,
+    lexikonIconSrc,
     normalizeHerb,
     normalizeStone,
     normalizeColor,

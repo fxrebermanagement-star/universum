@@ -7710,9 +7710,39 @@ button.primary:active:not(:disabled),
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.35rem;
+  width: 1.85rem;
+  height: 1.85rem;
   text-align: center;
   filter: saturate(1.05);
+}
+.lex-ico-wrap {
+  position: relative;
+  width: 1.85rem;
+  height: 1.85rem;
+}
+.lex-ico-img {
+  width: 1.85rem;
+  height: 1.85rem;
+  display: block;
+  object-fit: contain;
+}
+.lex-ico-img.is-broken {
+  display: none;
+}
+.lex-ico-mono {
+  font-family: var(--font-title), serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--gold, #e8c547);
+  width: 1.85rem;
+  height: 1.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(232, 197, 71, 0.35);
+  background: rgba(26, 20, 36, 0.65);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 .herb-ref-top strong {
   font-family: var(--font-title);
@@ -7902,7 +7932,7 @@ body.reduced-motion .herb-ref-item:focus-visible {
   white-space: nowrap; border: 0;
 }
 
-/* ——— Resonanzen v5.17.0 UI polish ——— */
+/* ——— Resonanzen v5.18.0 UI polish ——— */
 #sec-korrespondenzen .resonanz-path-toggle {
   margin: 0.35rem 0 0.85rem;
   gap: 0.45rem;
@@ -8000,7 +8030,7 @@ body.reduced-motion .herb-ref-item:focus-visible {
 }
 
 
-/* ——— Lexikon v5.17.0: scroll tabs · Detail-Sheet · Favoriten · Ethik einmal ——— */
+/* ——— Lexikon v5.18.0: Custom SVG-Icons · Detail-Sheet · Favoriten · Ethik einmal ——— */
 .lexikon-ethics-once {
   margin: 0.35rem 0 0.55rem;
   padding: 0.45rem 0.65rem;
@@ -8069,6 +8099,21 @@ body.reduced-motion .herb-ref-item:focus-visible {
   line-height: 1;
   flex: 0 0 auto;
   filter: saturate(1.08);
+  width: 2.6rem;
+  height: 2.6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.lexikon-detail-ico .lex-ico-wrap,
+.lexikon-detail-ico .lex-ico-img {
+  width: 2.4rem;
+  height: 2.4rem;
+}
+.lexikon-detail-ico .lex-ico-mono {
+  width: 2.4rem;
+  height: 2.4rem;
+  font-size: 0.95rem;
 }
 .lexikon-detail-titles {
   flex: 1 1 auto;
