@@ -3884,7 +3884,7 @@
         renderTagebuch();
         renderNotizen();
         renderRituale();
-        $('#path-chip').textContent = currentPath().name;
+        applyPathTheme();
         const meta = result && result.meta;
         const ver = result && result.appVersion;
         let msg = 'Import (' + (result && result.mode === 'merge' ? 'Zusammenführen' : 'Ersetzen') + ') erfolgreich.';
