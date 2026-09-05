@@ -528,8 +528,8 @@
       </div>
 
       <div data-rpanel="guided">
-        <p class="ritual-section-label">Pfad-Rituale</p>
-        <div class="notice ethics-line">Körper · Zweck · Grenzen · kein Schaden · Abschluss</div>
+        <p class="ritual-section-label" id="ritual-section-label"><span class="path-sym" aria-hidden="true">✦</span> Pfad-Rituale</p>
+        <div class="notice ethics-line">Nur dieser Pfad · Körper · Zweck · Grenzen · kein Schaden · Abschluss</div>
         <p class="path-flavor" id="ritual-path-flavor"></p>
         <div class="card path-week-card compact" id="path-week-card-ritual" aria-labelledby="path-week-title-r">
           <div class="intention-top">
@@ -565,17 +565,17 @@
             </select>
             <label class="sr-only" for="ritual-filter-path">Pfad</label>
             <select id="ritual-filter-path" aria-label="Pfad filtern">
-              <option value="current">Pfad · aktuell</option>
-              <option value="all">Pfad · alle Rituale</option>
+              <option value="current">Nur dieser Pfad</option>
+              <option value="all">Alle Pfade (Bibliothek)</option>
             </select>
           </div>
           <p class="meta-line" id="ritual-filter-count"></p>
         </div>
         <div class="ritual-list" id="ritual-list-own" aria-label="Pfad-eigene Rituale"></div>
         <details class="card shared-rituals-accordion" id="shared-rituals-accordion">
-          <summary>Gemeinsam</summary>
-          <p class="hint-sm">Für alle Pfade</p>
-          <div class="ritual-list" id="ritual-list-shared" aria-label="Gemeinsame Rituale"></div>
+          <summary>Grundlagen <span class="meta-inline">(optional)</span></summary>
+          <p class="hint-sm">Gemeinsame Basis-Übungen — sekundär. Standard bleibt nur dein Pfad.</p>
+          <div class="ritual-list" id="ritual-list-shared" aria-label="Grundlagen-Rituale"></div>
         </details>
         <div class="ritual-list" id="ritual-list" hidden aria-hidden="true"></div>
       </div>
@@ -934,7 +934,7 @@
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
         <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">3.2.0</span></p>
+        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">3.3.0</span></p>
       </div>
     </div>
   </div>

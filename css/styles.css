@@ -4351,3 +4351,12 @@ body.quiet-mode .privacy-line-slim { display: none; }
   font-style: italic;
   color: var(--muted);
 }
+
+.shared-rituals-accordion .meta-inline {
+  opacity: 0.65;
+  font-weight: 400;
+  font-size: 0.85em;
+}
+.ritual-section-label .path-sym {
+  margin-right: 0.35rem;
+}

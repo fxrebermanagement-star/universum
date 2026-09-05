@@ -924,7 +924,8 @@
     renderJetztCard();
     Rituals.vibrate([40, 30, 60]);
     if (openErdung) {
-      const r = Rituals.getRitual('erdung') || Rituals.getRitual((currentPath() && currentPath().recommendedRitual) || 'erdung');
+      const id = pathOwnRitualId() || 'erdung';
+      const r = Rituals.getRitual(id) || Rituals.getRitual('erdung');
       if (r) {
         navigate('rituale', { force: true });
         openRitual(r);
@@ -1036,11 +1037,18 @@
     card.hidden = false;
 
     const tip = (Paths.getDailyTip && Paths.getDailyTip(state.path, new Date())) || null;
-    let ritualId = (tip && tip.ritualId) || (path && path.recommendedRitual) || 'erdung';
-    let ritual = Rituals.getRitual(ritualId);
-    if (!ritual) {
-      ritualId = (path && path.recommendedRitual) || 'erdung';
-      ritual = Rituals.getRitual(ritualId);
+    function firstOwnRitualId() {
+      const own = (Rituals.listOwnForPath && Rituals.listOwnForPath(state.path)) || [];
+      const rec = path && path.recommendedRitual;
+      if (rec && Rituals.isOwnForPath && Rituals.getRitual(rec) && Rituals.isOwnForPath(Rituals.getRitual(rec), state.path)) return rec;
+      return own.length ? own[0].id : (rec || null);
+    }
+    let ritualId = (tip && tip.ritualId) || firstOwnRitualId();
+    let ritual = ritualId ? Rituals.getRitual(ritualId) : null;
+    // Heute: never promote shared Grundlagen (erdung etc.) as primary
+    if (!ritual || (Rituals.isShared && Rituals.isShared(ritual)) || !(Rituals.isOwnForPath && Rituals.isOwnForPath(ritual, state.path))) {
+      ritualId = firstOwnRitualId();
+      ritual = ritualId ? Rituals.getRitual(ritualId) : null;
     }
     if (title) title.textContent = 'Heute';
     if (chip) {
@@ -1175,21 +1183,24 @@
   }
 
   function mondArbeitCopy(kind) {
+    const ownId = pathOwnRitualId();
+    const ownR = ownId ? Rituals.getRitual(ownId) : null;
+    const ownName = ownR ? ownR.name : 'Pfad-Ritual';
     if (kind === 'new') {
       return {
         title: 'Mond-Arbeit · Neumond',
         phase: 'Neumond',
         lead: 'Stiller Keim. Absicht setzen, ohne zu erzwingen — Grenze und Ausgleich.',
-        practice: 'Vorschlag: Intention setzen (kurz) · ethischer Satz · dann loslassen.',
-        ritualId: 'intention'
+        practice: 'Vorschlag: ' + ownName + ' (Pfad) · ethischer Satz · dann loslassen.',
+        ritualId: ownId
       };
     }
     return {
       title: 'Mond-Arbeit · Vollmond',
       phase: 'Vollmond',
       lead: 'Licht und Klarheit. Danken, lösen, was nicht dient — ohne Schaden an Personen.',
-      practice: 'Vorschlag: Loslassen (kurz) · Wasser trinken · einen Satz ins Tagebuch.',
-      ritualId: 'loslassen'
+      practice: 'Vorschlag: ' + ownName + ' (Pfad) · Wasser trinken · einen Satz ins Tagebuch.',
+      ritualId: ownId
     };
   }
 
@@ -1654,8 +1665,8 @@
       }
     }
 
-    const ritualId = path.recommendedRitual || 'erdung';
-    const ritual = Rituals.getRitual(ritualId);
+    const ritualId = pathOwnRitualId(path) || path.recommendedRitual;
+    const ritual = ritualId ? Rituals.getRitual(ritualId) : null;
     practice.textContent = (path.practiceHint || 'Hier übst du — eine ruhige Praxis reicht.') +
       (ritual ? ' Empfohlen: ' + ritual.name + '.' : '');
     practice.dataset.ritual = ritualId;
@@ -1971,7 +1982,7 @@
     const pathFests = split.path;
     const otherFests = split.other;
     const path = currentPath();
-    const ritualId = path.recommendedRitual || 'erdung';
+    const ritualId = pathOwnRitualId(path) || path.recommendedRitual;
     const ritual = Rituals.getRitual(ritualId);
     const box = $('#cal-detail');
     function festPills(list) {
@@ -2387,6 +2398,20 @@
   }
 
   /* ——— Rituale ——— */
+  /** Prefer path-own ritual id; never fall back to shared Grundlagen as primary. */
+  function pathOwnRitualId(fallbackPath) {
+    const path = fallbackPath || currentPath();
+    const pid = (path && path.id) || state.path;
+    const rec = path && path.recommendedRitual;
+    if (rec) {
+      const rr = Rituals.getRitual(rec);
+      if (rr && Rituals.isOwnForPath && Rituals.isOwnForPath(rr, pid)) return rec;
+    }
+    const own = (Rituals.listOwnForPath && Rituals.listOwnForPath(pid)) || [];
+    if (own.length) return own[0].id;
+    return rec || null;
+  }
+
   function ritualMatchesFilters(r, path) {
     const q = (ritualSearch || '').trim().toLowerCase();
     if (q) {
@@ -2403,18 +2428,27 @@
 
   function renderRituale() {
     const path = currentPath();
+    const sym = pathSymbol(path);
+    const label = $('#ritual-section-label');
+    if (label) {
+      label.innerHTML = '<span class="path-sym" aria-hidden="true">' + escapeHtml(sym) + '</span> ' +
+        escapeHtml(path.name) + ' · Pfad-Rituale';
+    }
     const flavor = $('#ritual-path-flavor');
     if (flavor) {
-      flavor.innerHTML = '<span class="path-sym" aria-hidden="true">' + escapeHtml(pathSymbol(path)) + '</span> ' +
+      flavor.innerHTML = '<span class="path-sym" aria-hidden="true">' + escapeHtml(sym) + '</span> ' +
         '<strong>' + escapeHtml(path.name) + '</strong>: ' + escapeHtml(path.ritualFlavor || '') +
         (path.disclaimer ? ' — ' + escapeHtml(path.disclaimer) : '');
     }
     renderStreakLine();
 
     const favs = state.ritualFavorites || [];
+    // Default: ONLY path-own. "all" = full library. Grundlagen always from shared list.
     const base = ritualPathFilter === 'all'
       ? (Rituals.GUIDED || [])
-      : Rituals.listForPath(state.path, { recommendedRitual: path.recommendedRitual });
+      : (Rituals.listOwnForPath
+          ? Rituals.listOwnForPath(state.path, { recommendedRitual: path.recommendedRitual })
+          : Rituals.listForPath(state.path, { recommendedRitual: path.recommendedRitual, ownOnly: true }));
     let list = base.filter(r => ritualMatchesFilters(r, path));
     list = list.slice().sort((a, b) => {
       const af = favs.indexOf(a.id);
@@ -2451,16 +2485,18 @@
         (r.breath ? ' · Atem' : '') + (r.candle ? ' · Kerze' : '') +
         (r.houseOnly ? ' · Haus' : '') +
         (path.recommendedRitual === r.id ? ' · empfohlen' : '') +
-        (r.intention ? ' · Absicht → Praxis → Schließen' : '') +
+        (r.intention ? (' · ' + escapeHtml(String(r.intention).slice(0, 72)) + (String(r.intention).length > 72 ? '…' : '')) : '') +
         '</div></span></button>' +
         '<button type="button" class="fav-btn" data-fav="' + r.id + '" aria-label="' +
         (isFav ? 'Favorit entfernen' : 'Als Favorit markieren') + '" aria-pressed="' +
         (isFav ? 'true' : 'false') + '">' + (isFav ? '★' : '☆') + '</button></div>';
     }
 
-    const ownList = list.filter(r => Rituals.isOwnForPath && Rituals.isOwnForPath(r, state.path));
-    const sharedList = list.filter(r => !(Rituals.isOwnForPath && Rituals.isOwnForPath(r, state.path)));
-    // Default path filter: show path-own first/only; shared behind accordion
+    const ownList = list; // already path-own when filter=current
+    const grundlagenRaw = (Rituals.listGrundlagen && Rituals.listGrundlagen()) ||
+      (Rituals.GUIDED || []).filter(r => !r.paths);
+    const sharedList = grundlagenRaw.filter(r => ritualMatchesFilters(r, path));
+    // Default: ONLY path-own in main list; Grundlagen (closed accordion) secondary
     const showSplit = ritualPathFilter !== 'all';
     const elOwn = $('#ritual-list-own');
     const elShared = $('#ritual-list-shared');
@@ -2469,17 +2505,16 @@
     const countEl = $('#ritual-filter-count');
     if (countEl) {
       const favCount = list.filter(r => favs.includes(r.id)).length;
-      const ownN = showSplit ? ownList.length : list.length;
+      const ownN = list.length;
       countEl.textContent = (showSplit
-        ? (ownN + ' Pfad-Ritual' + (ownN === 1 ? '' : 'e') +
-           (sharedList.length ? ' · ' + sharedList.length + ' gemeinsam' : ''))
-        : (list.length + ' Ritual' + (list.length === 1 ? '' : 'e'))) +
-        (favCount ? ' · ' + favCount + ' Favorit' + (favCount === 1 ? '' : 'en') : '') +
-        (ritualPathFilter === 'all' ? ' · gesamte Bibliothek' : ' · ' + path.name);
+        ? (ownN + ' · ' + path.name + ' (nur dieser Pfad)' +
+           (sharedList.length ? ' · Grundlagen separat' : ''))
+        : (list.length + ' Ritual' + (list.length === 1 ? '' : 'e') + ' · gesamte Bibliothek')) +
+        (favCount ? ' · ' + favCount + ' Favorit' + (favCount === 1 ? '' : 'en') : '');
     }
 
     function emptyHtml() {
-      return '<div class="empty-state convert"><strong>Keine Rituale gefunden</strong>' +
+      return '<div class="empty-state convert"><strong>Keine Rituale für diesen Pfad</strong>' +
         '<p>' + escapeHtml((currentPath() && currentPath().haltung) || 'Filter lockern oder empfohlenes Ritual starten — hier übst du.') + '</p>' +
         '<div class="empty-cta">' +
         '<button type="button" class="primary" id="empty-start-recommended">Empfohlenes starten</button>' +
@@ -2491,17 +2526,18 @@
       if (elLegacy) { elLegacy.hidden = true; elLegacy.innerHTML = ''; }
       if (elOwn) {
         elOwn.hidden = false;
-        if (!ownList.length && !sharedList.length) elOwn.innerHTML = emptyHtml();
-        else if (!ownList.length) {
-          elOwn.innerHTML = '<div class="empty-state compact"><strong>Keine pfadeigenen Rituale im Filter</strong>' +
-            '<p>Gemeinsame Übungen unten öffnen — oder Filter lockern.</p></div>';
+        if (!ownList.length) {
+          elOwn.innerHTML = emptyHtml();
         } else elOwn.innerHTML = ownList.map(ritualItemHtml).join('');
       }
-      if (acc) acc.hidden = false;
+      if (acc) {
+        acc.hidden = false;
+        // stay closed unless user opened; do not force-open
+      }
       if (elShared) {
         elShared.innerHTML = sharedList.length
           ? sharedList.map(ritualItemHtml).join('')
-          : '<p class="hint-sm">Keine gemeinsamen Übungen in diesem Filter.</p>';
+          : '<p class="hint-sm">Keine Grundlagen in diesem Filter.</p>';
       }
     } else {
       if (acc) acc.hidden = true;
@@ -2532,8 +2568,13 @@
     });
     const startRec = $('#empty-start-recommended');
     if (startRec) startRec.addEventListener('click', () => {
-      const id = (path && path.recommendedRitual) || 'erdung';
-      const r = Rituals.getRitual(id);
+      let id = path && path.recommendedRitual;
+      let r = id ? Rituals.getRitual(id) : null;
+      if (!r || !(Rituals.isOwnForPath && Rituals.isOwnForPath(r, state.path))) {
+        const own = (Rituals.listOwnForPath && Rituals.listOwnForPath(state.path)) || [];
+        r = own[0] || null;
+        id = r && r.id;
+      }
       if (r) openRitual(r);
       else toast('Empfohlenes Ritual nicht gefunden', 2800, 'warn');
     });
@@ -3890,9 +3931,17 @@
         Store.update(d => { d.path = btn.dataset.path; });
         refreshState();
         applyPathTheme();
+        ritualPathFilter = 'current';
+        ritualSearch = '';
+        ritualDurFilter = 'all';
+        const s = $('#ritual-search'); if (s) s.value = '';
+        const d = $('#ritual-filter-duration'); if (d) d.value = 'all';
+        const pf = $('#ritual-filter-path'); if (pf) pf.value = 'current';
+        const acc = $('#shared-rituals-accordion'); if (acc) acc.open = false;
         modal.classList.remove('open');
         Rituals.vibrate(25);
-        toast('Haltung: ' + pathDisplayName());
+        toast('Haltung: ' + pathDisplayName() + ' — Rituale gewechselt');
+        renderRituale();
         const active = $$('.section-view.active')[0];
         if (active) navigate(active.id.replace('sec-', ''), { force: true });
       });
@@ -4468,7 +4517,7 @@
     const jetztStart = $('#jetzt-start');
     if (jetztStart) {
       jetztStart.addEventListener('click', () => {
-        const id = jetztStart.dataset.ritual || ($('#briefing-practice') && $('#briefing-practice').dataset.ritual) || currentPath().recommendedRitual || 'erdung';
+        const id = jetztStart.dataset.ritual || ($('#briefing-practice') && $('#briefing-practice').dataset.ritual) || pathOwnRitualId() || currentPath().recommendedRitual;
         const r = Rituals.getRitual(id);
         if (r) { navigate('rituale'); openRitual(r); }
         else navigate('rituale');
@@ -4514,7 +4563,7 @@
     const brStart = $('#briefing-start-practice');
     if (brStart) {
       brStart.addEventListener('click', () => {
-        const id = ($('#briefing-practice') && $('#briefing-practice').dataset.ritual) || currentPath().recommendedRitual || 'erdung';
+        const id = ($('#briefing-practice') && $('#briefing-practice').dataset.ritual) || pathOwnRitualId() || currentPath().recommendedRitual;
         const r = Rituals.getRitual(id);
         if (r) { navigate('rituale'); openRitual(r); }
         else navigate('rituale');

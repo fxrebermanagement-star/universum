@@ -34,7 +34,7 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 1. **Cockpit** — **Heute in einem Tip** (pfad- + datumsstabil), Empfehlen/PWA, **Korrespondenzen**, **Mondfenster**, Ritual-Journal; Briefing/Astronomie unter Mehr; Schumann Live + Tomsk; Pfad-Chip, Streak
 2. **Kalender** — Monatsnavigation, Tagesdetails (Mond/Sonne/Feste), **standardmäßig nur Pfad-Feste** (Umschalter Alle Feste), Betonung und Kalender-Notizen
 3. **Kosmos** — Planeten-Radar mit klareren Labels, **Legende**, aktuelle **Planetenstunde hervorgehoben**, Tap/Klick für Detail, Schumann Live-Station + Tomsk-Spektrogramm
-4. **Rituale** — Praxis-Sessions (Absicht → Körper → Schließen), Signaturen pro Pfad, Dauer-Tags 3/11/21, Sicherheitscheck, Timed-Rituale, Fokus-Timer, Sigil, Feldkarten, eigene Rituale + Vorlagen
+4. **Rituale** — **nur aktueller Pfad** (4–5 einzigartige Own-Rituale); Grundlagen separat; Signaturen, Dauer-Tags 3/11/21, Sicherheitscheck, Timed-Rituale, Fokus-Timer, Sigil, Feldkarten, eigene Rituale + Vorlagen
 5. **Magie-Tagebuch** — **pfadbezogene Impuls-Vorschläge**, Tags & Stimmung, Export/Import `universum-buch.json`
 6. **Notizen** — lokal, optionaler Tag, **ein Tippen → Tagebuch**, leere Zustände mit nächstem Schritt
 7. **Netzwerk/Kreis** — ohne Login leer; Talker = knappe Schnittstelle, kein Medium
@@ -155,6 +155,15 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 - App `2.5.0`, SW-Cache `universum-shell-v17`
 
 
+
+**Zusätzlich (v3.3 · Pfad-Rituale eindeutig)**
+
+- **Nur dieser Pfad** — Rituale-Tab zeigt standardmäßig ausschließlich pfadeigene Rituale; bei Pfadwechsel wechselt die Bibliothek vollständig
+- **Grundlagen** — Erdung / Atembrücke / Intention nur in geschlossenem Akkordeon (optional, sekundär)
+- **4–5 einzigartige Rituale pro Pfad** — eigene Stimme, Werkzeuge, Metaphern, Schlüsse (nicht nur Nomen getauscht)
+- **Heute** — wählt nur aus Pfad-eigenen Ritualen (nie gemeinsame Erdung als Primär)
+- Signaturen, Dauer-Tags 3/11/21, Ethik, Hauspraxis Voodoo/Santería, kein Maya-Kalender, Deutsch ohne Gendersprache
+- App `3.3.0`, SW-Cache `universum-shell-v25`
 
 **Zusätzlich (v3.2 · Ritual-Praxis)**
 

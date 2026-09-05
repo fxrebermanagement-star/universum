@@ -2,9 +2,9 @@
  * UNIVERSUM · Service Worker — offline shell caching
  * Relative URLs so GitHub Pages /universum/ subpath works.
  * Cache-first for app shell; network-first navigations; offline fallback to cockpit.
- * v24: ritual practice sessions 3.2 — path signatures & duration tags.
+ * v25: ritual path-only library 3.3 — unmistakable path difference.
  */
-const CACHE = 'universum-shell-v24';
+const CACHE = 'universum-shell-v25';
 const SHELL = [
   './',
   './index.html',
