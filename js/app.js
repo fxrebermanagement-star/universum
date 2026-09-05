@@ -1412,7 +1412,6 @@
     const now = new Date();
     const moon = Astro.moonPhase(now);
     const hour = Astro.planetaryHour(now, state.lat, state.lon);
-    const maya = Astro.mayaCalendar(now);
     const unrest = Astro.computeUnrest(now, checkInVal);
     const voidW = Astro.moonVoidWarning(now);
     const sunSign = Astro.tropicalSunSign(now);
@@ -1431,8 +1430,6 @@
       (hour.isDay ? 'Tag' : 'Nacht') + ' · Std ' + hour.hourIndex +
       ' · ' + fmtTime(hour.start) + '–' + fmtTime(hour.end) +
       (hour.remainMin != null ? ' · noch ' + hour.remainMin + ' Min' : '');
-    $('#dash-maya-val').textContent = maya.tzolkin;
-    $('#dash-maya-meta').textContent = maya.haab + ' · Ton ' + maya.tone;
     $('#dash-unrest-val').textContent = unrest.label + ' · ' + unrest.value;
     $('#dash-unrest-val').style.color = unrest.color;
     const bar = $('#dash-unrest-bar');
@@ -1497,13 +1494,12 @@
   }
 
   function briefingChipText(id, ctx) {
-    const { moon, hour, unrest, sunSign, maya, nextFest, now } = ctx;
+    const { moon, hour, unrest, sunSign, nextFest, now } = ctx;
     const hourName = hour && hour.planet ? hour.planet : '—';
     if (id === 'moon') return moon.emoji + ' ' + moon.name;
     if (id === 'hour') return 'Stunde · ' + hourName;
     if (id === 'unrest') return 'Unruhe · ' + (unrest ? unrest.label + ' (' + unrest.value + ')' : '—');
     if (id === 'sun') return 'Sonne · ' + (sunSign || '—');
-    if (id === 'maya') return 'Maya · ' + (maya && maya.tzolkin ? maya.tzolkin : '—');
     if (id === 'fest' && nextFest) {
       const festNoon = new Date(nextFest.date.getFullYear(), nextFest.date.getMonth(), nextFest.date.getDate(), 12, 0, 0, 0);
       const todayNoon = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12, 0, 0, 0);
@@ -1526,14 +1522,13 @@
     const hourName = hour && hour.planet ? hour.planet : '—';
     const unrestWord = unrest && unrest.label ? unrest.label.toLowerCase() : 'offen';
     const sunSign = Astro.tropicalSunSign(now);
-    const maya = Astro.mayaCalendar(now);
     const nextFest = Paths.nextFestival(now, state.path, { pathOnly: isCalendarPathOnly() });
     lead.textContent =
       moon.emoji + ' ' + moon.name + ' · Stunde ' + hourName +
       ' · Unruhe ' + unrestWord + '. ' + saying;
 
     const pins = Store.getBriefingPins();
-    const ctx = { moon, hour, unrest, sunSign, maya, nextFest, now };
+    const ctx = { moon, hour, unrest, sunSign, nextFest, now };
     meta.innerHTML = '';
     pins.forEach(id => {
       const t = briefingChipText(id, ctx);
@@ -1713,7 +1708,7 @@
     if (sub) {
       sub.textContent = pathOnly
         ? (sym + ' ' + ((path && path.name) || 'Pfad') + ' · nur Pfad-Feste')
-        : (sym + ' · alle Feste · Mond · Maya');
+        : (sym + ' · alle Feste · Mond');
     }
     const setEl = $('#set-calendar-path-only');
     if (setEl) setEl.checked = pathOnly;
@@ -1860,7 +1855,6 @@
   function renderDayDetail(date) {
     const moon = Astro.moonPhase(date);
     const sunSign = Astro.tropicalSunSign(date);
-    const maya = Astro.mayaCalendar(date);
     const moonInfo = Astro.moonSignInfo(date);
     const hour = Astro.planetaryHour(
       new Date(date.getFullYear(), date.getMonth(), date.getDate(), 12, 0),
@@ -1906,7 +1900,6 @@
       pill('Mond in ' + moonInfo.sign) +
       pill('Sonne: ' + sunSign) +
       pill('Tagesplanet ≈ ' + hour.dayRuler) +
-      pill('Maya: ' + maya.tzolkin + ' / ' + maya.haab) +
       pill(voidW.message) +
       '</div>' +
       festHtml +

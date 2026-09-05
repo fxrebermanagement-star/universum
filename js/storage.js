@@ -63,7 +63,6 @@
     { id: 'hour', label: 'Planetenstunde' },
     { id: 'unrest', label: 'Unruhe' },
     { id: 'sun', label: 'Sonne' },
-    { id: 'maya', label: 'Maya' },
     { id: 'fest', label: 'Nächstes Fest' }
   ];
 

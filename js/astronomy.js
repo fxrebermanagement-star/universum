@@ -9,7 +9,6 @@
  *   der Mitte) → Zeichen = floor(λ/30).
  * - Planetenstunden: Sonnenauf-/untergang (NOAA-ähnlich, Refraktion −0,83°),
  *   12 Tag- + 12 Nachtstunden, chaldäische Reihe ab Tagesregent (So=Sonne…).
- * - Maya: GMT-Korrelation JD 584283 → Tzolkin (13×20) + Haab (365).
  * - VoC-Stil: Mond nahe Zeichenende (>27°) oder frisch im Zeichen (<2°) —
  *   keine Aspekt-Tabelle, nur Grenzhinweis.
  * - Retrograd: grobe Zyklen (Merkur ~116 d, Venus ~584 d), nur Indikator.
@@ -27,14 +26,6 @@
   // Chaldean start index by weekday (0=Sonntag → Sonne = Index 3 in PLANETS_HOUR_SEQ)
   const DAY_RULER_IDX = [3, 6, 2, 5, 1, 4, 0];
 
-  const TZOLKIN_NAMES = [
-    'Imix', 'Ik', 'Akbal', 'Kan', 'Chicchan', 'Cimi', 'Manik', 'Lamat', 'Muluc', 'Oc',
-    'Chuen', 'Eb', 'Ben', 'Ix', 'Men', 'Cib', 'Caban', 'Etznab', 'Cauac', 'Ahau'
-  ];
-  const HAAB_MONTHS = [
-    'Pop', 'Wo', 'Sip', 'Sotz', 'Sek', 'Xul', 'Yaxkin', 'Mol', 'Chen', 'Yax',
-    'Sac', 'Keh', 'Mak', 'Kankin', 'Muan', 'Pax', 'Kayab', 'Cumku', 'Wayeb'
-  ];
   const ZODIAC = ['Widder', 'Stier', 'Zwillinge', 'Krebs', 'Löwe', 'Jungfrau',
     'Waage', 'Skorpion', 'Schütze', 'Steinbock', 'Wassermann', 'Fische'];
 
@@ -299,33 +290,6 @@
     return hours;
   }
 
-  /** Maya Tzolkin + Haab (GMT 584283) */
-  function mayaCalendar(date) {
-    const jd = Math.floor(toJulian(date || new Date()) + 0.5);
-    const longCount = jd - 584283;
-    const tzolkinDay = ((longCount + 4) % 13 + 13) % 13 + 1;
-    const tzolkinNameIdx = ((longCount + 19) % 20 + 20) % 20;
-    const haabTotal = ((longCount + 348) % 365 + 365) % 365;
-    let haabMonth, haabDay;
-    if (haabTotal < 360) {
-      haabMonth = Math.floor(haabTotal / 20);
-      haabDay = haabTotal % 20;
-    } else {
-      haabMonth = 18;
-      haabDay = haabTotal - 360;
-    }
-    return {
-      tzolkin: tzolkinDay + ' ' + TZOLKIN_NAMES[tzolkinNameIdx],
-      tzolkinDay,
-      tzolkinName: TZOLKIN_NAMES[tzolkinNameIdx],
-      haab: haabDay + ' ' + HAAB_MONTHS[haabMonth],
-      haabDay,
-      haabMonth: HAAB_MONTHS[haabMonth],
-      tone: tzolkinDay,
-      longCount
-    };
-  }
-
   function festivalsOn(date) {
     const d = date || new Date();
     const m = d.getMonth() + 1;
@@ -384,12 +348,10 @@
       : moon.illumination > 0.85 || moon.illumination < 0.15 ? 40 : 15;
     const rx = retrogradesApprox(date);
     const rxStress = rx.length * 18;
-    const maya = mayaCalendar(date);
-    const toneStress = [1, 7, 13].includes(maya.tone) ? 20 : [4, 8, 10].includes(maya.tone) ? 8 : 0;
     const voidW = moonVoidWarning(date);
     const voidStress = voidW.active ? 12 : 0;
     const check = checkIn != null ? Math.max(0, Math.min(40, checkIn * 8)) : 10;
-    const raw = Math.min(100, phaseStress + rxStress + toneStress + voidStress + check);
+    const raw = Math.min(100, phaseStress + rxStress + voidStress + check);
     let level, color, label;
     if (raw < 35) { level = 'ruhig'; color = 'var(--unrest-green)'; label = 'Ruhig'; }
     else if (raw < 65) { level = 'bewegt'; color = 'var(--unrest-yellow)'; label = 'Bewegt'; }
@@ -399,7 +361,7 @@
       level,
       color,
       label,
-      factors: { moon: moon.name, rx, tone: maya.tone, voc: voidW.active }
+      factors: { moon: moon.name, rx, voc: voidW.active }
     };
   }
 
@@ -446,7 +408,6 @@
     sunTimes,
     planetaryHour,
     planetaryHoursTable,
-    mayaCalendar,
     festivalsOn,
     festivalsInMonth,
     moonVoidWarning,

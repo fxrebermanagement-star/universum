@@ -25,14 +25,14 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 - Sigil-Werkzeug lehnt Fluch-/Schadensabsichten ab
 - Voodoo / Santería: nur öffentliche **Hauspraxis**, keine Initiation
 - Explizit: *Ein Handy kann keine Geister messen.* Keine EMF-/Geister-Behauptungen
-- Unruhe = abgeleitet aus Mondphase, VoC-Hinweis, Retrograd-Näherung, Maya-Ton, optionalem Check-in
+- Unruhe = abgeleitet aus Mondphase, VoC-Hinweis, Retrograd-Näherung, optionalem Check-in
 - Schumann = optionale **Live-Stationsdaten** und **Tomsk-Spektrogramm** (via ResonanceOne + NOAA Kp/Solar) plus 7,83-Hz-Puls-Visualisierung als Offline-Fallback (optional leiser 136-Hz-Web-Audio-Träger); kein Magnetometer, keine Körper-/Geister-Messung
 - Erststart: Ethik-Bestätigung im Onboarding (gespeichert in `feldlicht-v15`)
 
 ## Funktionen
 
-1. **Cockpit** — **Tagesbriefing** (Mond + Stunde + Unruhe + empfohlene Praxis + nächstes Fest), Mond, **Mond-Arbeit** (Neu/Voll), Planetenstunde (Zürich-Standard), Maya, Unruhe, VoC-Banner, Empfehlungen, Schumann, **369-Tracker**, globale Suche, Pfad-Chip, Streak-Hinweis
-2. **Kalender** — Monatsnavigation, Tagesdetails (Mond/Sonne/Maya/Feste), **standardmäßig nur Pfad-Feste** (Umschalter Alle Feste), Betonung und Kalender-Notizen
+1. **Cockpit** — **Tagesbriefing** (Mond + Stunde + Unruhe + empfohlene Praxis + nächstes Fest), Mond, **Mond-Arbeit** (Neu/Voll), Planetenstunde (Zürich-Standard), Unruhe, VoC-Banner, Empfehlungen, Schumann, **369-Tracker**, globale Suche, Pfad-Chip, Streak-Hinweis
+2. **Kalender** — Monatsnavigation, Tagesdetails (Mond/Sonne/Feste), **standardmäßig nur Pfad-Feste** (Umschalter Alle Feste), Betonung und Kalender-Notizen
 3. **Kosmos** — Planeten-Radar mit klareren Labels, **Legende**, aktuelle **Planetenstunde hervorgehoben**, Tap/Klick für Detail, Schumann Live-Station + Tomsk-Spektrogramm
 4. **Rituale** — Sicherheitscheck, geführte Timed-Rituale (Atembrücke, Kerzenwache), **Praxis-Helfer** (Fokus-Timer), sanfte Streak, Sigil, 22 Feldkarten + Dreierlege, eigene Rituale + **3 Vorlagen**, pfadbezogene Ritual-Auswahl/Flavor
 5. **Magie-Tagebuch** — **pfadbezogene Impuls-Vorschläge**, Tags & Stimmung, Export/Import `universum-buch.json`
@@ -119,7 +119,7 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 **Zusätzlich (v2.1 · Erste Minute)**
 
 - **Erste Minute** — Onboarding: Pfad → eine Praxis-Einladung → fertig; Ethik als kurze Bestätigungszeile; optional Überspringen; danach Cockpit mit Jetzt-Karte
-- **Astronomie-Vertrauen** — Badge „Näherung“ an Mond/Stunde/Maya/VoC; Hinweis in Mehr & Einstellungen; kein Ephemeriden-Anspruch
+- **Astronomie-Vertrauen** — Badge „Näherung“ an Mond/Stunde/VoC; Hinweis in Mehr & Einstellungen; kein Ephemeriden-Anspruch
 - **Landing** — `index.html` als ruhiges Produkt-Intro (für wen, lokal, Ethik, CTA «Üben öffnen», Empfehlen-Link)
 - App `2.1.0`, SW-Cache `universum-shell-v13`
 
@@ -162,6 +162,7 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 - **Pfad-Symbole** — einziges Symbol pro Pfad (◎ ᛟ ✶ ◆ △ ☽ ↯ ✦) in Chip, Haltung, Ritual-Badges, Kalender-Filter und Onboarding
 - **Weniger auf einmal** — Cockpit zeigt Jetzt + Pfad-Woche (+ Fest-Chip); Briefing, VoC, Mond-Arbeit und Astronomie unter Mehr
 - **Rituale & Onboarding** — klarere Abschnitte, kürzere Labels, weniger dichte Hinweise
+- **Maya-Kalender entfernt** — kein Tzolkin/Haab mehr in Cockpit, Kalender oder Briefing-Pins (kein Maya-Praxispfad betroffen)
 - Kalender „Nur mein Pfad“ bleibt (v2.7); Schumann-Live + Tomsk-Spektrogramm, Ethik, `feldlicht-v15` unverändert
 - App `2.8.0`, SW-Cache `universum-shell-v20`
 
@@ -196,7 +197,7 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 
 ## Astronomie (Näherungen)
 
-Mond, Planetenstunde, Maya, Sonne und VoC sind **Näherungen** für die Praxis — klar gekennzeichnet (Badge „Näherung“ im Cockpit, Hinweis in Mehr/Einstellungen). **Kein professionelles Ephemeris.**
+Mond, Planetenstunde, Sonne und VoC sind **Näherungen** für die Praxis — klar gekennzeichnet (Badge „Näherung“ im Cockpit, Hinweis in Mehr/Einstellungen). **Kein professionelles Ephemeris.**
 
 Dokumentiert in `js/astronomy.js`:
 
@@ -205,7 +206,6 @@ Dokumentiert in `js/astronomy.js`:
 | Mondphase | Synodischer Monat ab JD 2451550.1; Feinsuche Neu/Voll |
 | Sonne tropisch | Ekliptikale Länge (Meeus-ähnlich) → Zeichen |
 | Planetenstunden | Sonnenauf-/untergang, chaldäische Reihe, Default Zürich |
-| Maya | GMT-Korrelation JD 584283 → Tzolkin + Haab |
 | VoC-Stil | Mond in letzten ~3° des Zeichens |
 
 Kein Ersatz für Ephemeriden oder traditionelle Einweihung.
@@ -316,4 +316,4 @@ Sechzehnte Runde — **Kalender nur mein Pfad**: Standardfilter auf pfadrelevant
 
 ## Craft-Pass (v2.8)
 
-Siebzehnte Runde — **UX Klarheit**: modernes dunkles UI mit mehr Weißraum und weicher Elevation; eindeutige Pfad-Symbole in Chip/Haltung/Rituale/Kalender; Cockpit auf Jetzt + Pfad-Woche verdichtet (Rest unter Mehr); Rituale und Onboarding gestrafft. Kalender pfadfokussiert (v2.7), Live-Schumann/Tomsk und Ethik bleiben. App `2.8.0`, SW-Cache `universum-shell-v20`. Server Port **8765**.
+Siebzehnte Runde — **UX Klarheit**: modernes dunkles UI mit mehr Weißraum und weicher Elevation; eindeutige Pfad-Symbole in Chip/Haltung/Rituale/Kalender; Cockpit auf Jetzt + Pfad-Woche verdichtet (Rest unter Mehr); Rituale und Onboarding gestrafft; **Maya-Kalender (Tzolkin/Haab) ganz entfernt**. Kalender pfadfokussiert (v2.7), Live-Schumann/Tomsk und Ethik bleiben. App `2.8.0`, SW-Cache `universum-shell-v20`. Server Port **8765**.

@@ -542,7 +542,6 @@ input[type="checkbox"] {
 }
 .dash-panel.moon::after { background: linear-gradient(90deg, var(--moon), transparent); }
 .dash-panel.hour::after { background: linear-gradient(90deg, var(--hour), transparent); }
-.dash-panel.maya::after { background: linear-gradient(90deg, var(--maya), transparent); }
 .dash-panel.unrest::after { background: linear-gradient(90deg, var(--violet), transparent); }
 .dash-panel:hover {
   border-color: rgba(155, 126, 217, 0.42);
@@ -574,7 +573,6 @@ input[type="checkbox"] {
 }
 .dash-panel.moon .value { color: var(--moon); }
 .dash-panel.hour .value { color: var(--hour); }
-.dash-panel.maya .value { color: var(--maya); font-size: 1.08rem; }
 .dash-panel.unrest .value { font-size: 1.08rem; }
 .dash-panel .moon-emoji { font-size: 1.1rem; margin-right: 0.2rem; }
 
