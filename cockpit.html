@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0c0814" />
+  <meta name="description" content="UNIVERSUM · COCKPIT — Premium Ritualbegleiter für die Praxis" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>UNIVERSUM · COCKPIT</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Zum Inhalt springen</a>
+  <div class="app-shell">
+    <header class="app-header">
+      <a href="index.html" class="logo" aria-label="UNIVERSUM Start">UNIVERSUM <span>· COCKPIT</span></a>
+      <span class="live-clock" id="live-clock" aria-live="polite"></span>
+      <button type="button" class="path-chip" id="path-chip" title="Pfad wählen" aria-label="Pfad wählen" aria-haspopup="dialog">Esoterik</button>
+      <button type="button" class="icon-btn" id="global-search-open" title="Suche" aria-label="Globale Suche öffnen" aria-haspopup="dialog">⌕</button>
+      <button type="button" class="icon-btn" id="settings-open" title="Einstellungen" aria-label="Einstellungen öffnen" aria-haspopup="dialog">⚙</button>
+    </header>
+
+    <div id="main-content" tabindex="-1">
+    <!-- 1. Cockpit -->
+    <section id="sec-cockpit" class="section-view active" aria-label="Cockpit">
+      <h1 class="section-title">Cockpit</h1>
+      <p class="section-sub" id="cockpit-greeting">Feldlicht ist da — still begleiten.</p>
+      <div class="notice ethics-line">Grenze und Ausgleich. Kein Schaden an Personen. Ein Handy kann keine Geister messen.</div>
+
+      <div class="global-search-bar card compact-search" id="cockpit-search-bar">
+        <label class="sr-only" for="global-search-input-cockpit">Suche</label>
+        <input type="search" id="global-search-input-cockpit" placeholder="Suche · Rituale, Karten, Tagebuch…" autocomplete="off" />
+        <button type="button" class="ghost tiny" id="global-search-go-cockpit">Suchen</button>
+      </div>
+      <div class="global-search-results" id="global-search-results-cockpit" hidden role="listbox" aria-label="Suchergebnisse"></div>
+
+      <div class="day-banner" id="day-banner" hidden role="status" aria-live="polite">
+        <div class="day-banner-inner">
+          <strong id="day-banner-title">Neuer Tag</strong>
+          <p id="day-banner-text">Deine Einträge bleiben. Intention und Tageskarte sind frisch für heute.</p>
+          <button type="button" class="ghost tiny" id="day-banner-dismiss">Willkommen · schließen</button>
+        </div>
+      </div>
+
+      <div class="voc-banner" id="voc-banner" role="status">
+        <span class="voc-ico">☾</span>
+        <span id="voc-text"></span>
+      </div>
+
+      <article class="card mond-arbeit-card" id="mond-arbeit" hidden aria-live="polite">
+        <div class="intention-top">
+          <h3 id="mond-arbeit-title">Mond-Arbeit</h3>
+          <span class="chip-quiet" id="mond-arbeit-phase">—</span>
+        </div>
+        <p class="mond-arbeit-lead" id="mond-arbeit-lead"></p>
+        <p class="hint-sm" id="mond-arbeit-practice"></p>
+        <div class="btn-row">
+          <button type="button" class="primary" id="mond-arbeit-start">Praxis starten</button>
+          <button type="button" class="ghost tiny" id="mond-arbeit-diary">Im Tagebuch notieren</button>
+        </div>
+      </article>
+
+      <article class="card briefing-card" id="tagesbriefing" aria-labelledby="briefing-title">
+        <div class="briefing-top">
+          <h3 id="briefing-title">Heute</h3>
+          <span class="briefing-streak" id="briefing-streak" hidden></span>
+        </div>
+        <p class="briefing-lead" id="briefing-lead">Feldlicht sammelt den Tag…</p>
+        <ul class="briefing-meta" id="briefing-meta" aria-label="Tages-Chips"></ul>
+        <div class="briefing-pin-bar" id="briefing-pin-bar">
+          <button type="button" class="ghost tiny" id="briefing-pins-toggle" aria-expanded="false" aria-controls="briefing-pins-panel">Chips wählen</button>
+          <div class="briefing-pins-panel" id="briefing-pins-panel" hidden></div>
+        </div>
+        <p class="briefing-practice" id="briefing-practice"></p>
+        <div class="briefing-actions">
+          <button type="button" class="primary" id="briefing-start-practice">Empfohlene Praxis</button>
+          <button type="button" class="ghost" id="briefing-open-kalender">Zum Fest</button>
+          <button type="button" class="ghost" id="briefing-copy" title="Tagesbriefing als Text kopieren">Text kopieren</button>
+          <button type="button" class="ghost tiny" id="briefing-print" title="Druckansicht">Drucken</button>
+        </div>
+        <p class="briefing-path-note" id="briefing-path-note"></p>
+      </article>
+
+      <article class="card intention-card" id="intention-card" aria-labelledby="intention-title">
+        <div class="intention-top">
+          <h3 id="intention-title">Intention des Tages</h3>
+          <button type="button" class="ghost tiny" id="intention-clear" aria-label="Intention löschen">Löschen</button>
+        </div>
+        <p class="hint">Eine Zeile — lokal, nur heute. Optional mit 369 verknüpfen.</p>
+        <div class="form-row" style="margin-bottom:0.55rem">
+          <label class="sr-only" for="intention-input">Intention des Tages</label>
+          <input id="intention-input" maxlength="140" placeholder="z. B. Ich übe ruhige Klarheit" autocomplete="off" />
+        </div>
+        <div class="intention-row">
+          <label class="inline-check"><input type="checkbox" id="intention-link369" /> In 369 übernehmen</label>
+          <button type="button" class="primary" id="intention-save">Speichern</button>
+        </div>
+        <p class="meta-line" id="intention-status" aria-live="polite"></p>
+        <div class="intention-history" id="intention-history" aria-label="Intentionen der letzten Tage"></div>
+        <p class="empty-state compact" id="intention-history-empty" hidden>Noch keine Intentionen in den letzten 7 Tagen.</p>
+      </article>
+
+      <article class="card quick-praxis-card" id="quick-praxis-card" aria-labelledby="quick-praxis-title">
+        <div class="intention-top">
+          <h3 id="quick-praxis-title">Schnellzugriff</h3>
+          <span class="chip-quiet">Favoriten · zuletzt</span>
+        </div>
+        <p class="hint-sm">Favoriten und letzte Praxis — ein Tippen startet oder öffnet.</p>
+        <div class="quick-praxis-row" id="quick-praxis-row" role="list"></div>
+        <p class="empty-state compact" id="quick-praxis-empty">Sterne Rituale oder übe einmal — dann erscheinen sie hier.</p>
+      </article>
+
+      <div class="dashboard-grid">
+        <div class="dash-panel moon">
+          <div class="label">Mond</div>
+          <div class="value" id="dash-moon-val">—</div>
+          <div class="meta" id="dash-moon-meta"></div>
+        </div>
+        <div class="dash-panel hour">
+          <div class="label">Planetenstunde</div>
+          <div class="value" id="dash-hour-val">—</div>
+          <div class="meta" id="dash-hour-meta"></div>
+        </div>
+        <div class="dash-panel maya">
+          <div class="label">Maya Tzolkin</div>
+          <div class="value" id="dash-maya-val">—</div>
+          <div class="meta" id="dash-maya-meta"></div>
+        </div>
+        <div class="dash-panel unrest">
+          <div class="label">Unruhe (abgeleitet)</div>
+          <div class="value" id="dash-unrest-val">—</div>
+          <div class="unrest-bar"><i id="dash-unrest-bar"></i></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Schumann · 7,83 Hz</h3>
+        <div class="schumann-wrap"><canvas id="schumann-canvas" aria-label="Schumann-Puls Visualisierung"></canvas></div>
+        <p class="schumann-note">Nur Visualisierung (optional leiser 136-Hz-Träger). Kein Magnetometer, keine Geister- oder EMF-Messung.</p>
+        <p class="hint-sm">Audio-Puls in den Einstellungen (⚙) schaltbar — leiser 136-Hz-Träger.</p>
+      </div>
+
+      <div class="card">
+        <h3>Empfehlungen</h3>
+        <ul class="recs-list" id="dash-recs"></ul>
+        <p class="meta-line" id="dash-next-moon"></p>
+        <p class="astro-doc">Näherungen: Mondphase (synodisch), Sonne tropisch aus ekliptikaler Länge, Planetenstunden ab Zürich-Sonnenzeiten, Maya GMT 584283. Kein Ephemeriden-Ersatz.</p>
+      </div>
+
+      <div class="card">
+        <h3>369-Praxis · heute</h3>
+        <p class="hint">Ethischer Satz · 3 / 6 / 9 — lokal gespeichert</p>
+        <div class="form-row">
+          <input id="phrase-369" placeholder="z. B. Ich übe klare Grenzen im Alltag" maxlength="120" />
+        </div>
+        <div class="tracker-369" id="tracker-369">
+          <div class="slot-369" data-slot="morning">
+            <div class="slot-label">Morgen</div>
+            <div class="slot-count" id="count-morning">0/3</div>
+            <button type="button" data-inc369="morning">+1</button>
+          </div>
+          <div class="slot-369" data-slot="afternoon">
+            <div class="slot-label">Mittag</div>
+            <div class="slot-count" id="count-afternoon">0/6</div>
+            <button type="button" data-inc369="afternoon">+1</button>
+          </div>
+          <div class="slot-369" data-slot="evening">
+            <div class="slot-label">Abend</div>
+            <div class="slot-count" id="count-evening">0/9</div>
+            <button type="button" data-inc369="evening">+1</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Kurz-Check-in (optional)</h3>
+        <p class="hint">Wie unruhig fühlst du dich gerade? (fließt in die Unruhe-Anzeige)</p>
+        <div class="checkin-row">
+          <button type="button" data-checkin="0">0</button>
+          <button type="button" data-checkin="1">1</button>
+          <button type="button" data-checkin="2">2</button>
+          <button type="button" data-checkin="3">3</button>
+          <button type="button" data-checkin="4">4</button>
+          <button type="button" data-checkin="5">5</button>
+        </div>
+      </div>
+
+      <h3 class="areas-label">Bereiche</h3>
+      <div class="tiles">
+        <button type="button" class="tile" data-tile="kalender"><div class="tile-ico">📅</div><div class="tile-name">Kalender</div><div class="tile-desc">Mond, Feste, Maya</div></button>
+        <button type="button" class="tile" data-tile="kosmos"><div class="tile-ico">🪐</div><div class="tile-name">Kosmos</div><div class="tile-desc">Radar &amp; Schumann</div></button>
+        <button type="button" class="tile" data-tile="rituale"><div class="tile-ico">🕯️</div><div class="tile-name">Rituale</div><div class="tile-desc">Geführt · Sigil · Karten</div></button>
+        <button type="button" class="tile" data-tile="tagebuch"><div class="tile-ico">📖</div><div class="tile-name">Tagebuch</div><div class="tile-desc">Magie-Buch lokal</div></button>
+        <button type="button" class="tile" data-tile="notizen"><div class="tile-ico">📝</div><div class="tile-name">Notizen</div><div class="tile-desc">Schnell festhalten</div></button>
+        <button type="button" class="tile" data-tile="netzwerk"><div class="tile-ico">◯</div><div class="tile-name">Netzwerk</div><div class="tile-desc">Kreis / Talker</div></button>
+      </div>
+
+      <div class="card mt-2">
+        <h3>Standort &amp; Einstellungen</h3>
+        <p class="hint-sm" id="loc-summary">Europa/Zürich · 47,37 / 8,54</p>
+        <p class="hint">Standort, Haptik, Schumann-Audio und Bewegung findest du in den Einstellungen (⚙).</p>
+        <button type="button" id="open-settings-from-cockpit" class="ghost">Einstellungen öffnen</button>
+        <!-- hidden mirrors kept for backwards-compatible JS hooks -->
+        <div class="hidden" aria-hidden="true">
+          <input id="loc-lat" type="number" step="0.01" value="47.37" />
+          <input id="loc-lon" type="number" step="0.01" value="8.54" />
+          <button type="button" id="loc-save">Speichern</button>
+          <input type="checkbox" id="haptics-toggle" checked />
+          <input type="checkbox" id="schumann-audio" />
+        </div>
+      </div>
+      <div class="card tip-card" id="tip-of-day-card">
+        <h3>Tipp des Tages</h3>
+        <p id="tip-of-day" class="tip-text">…</p>
+      </div>
+      <p class="footer-ethics">Näherungswerte · keine professionelle Astrologie · Voodoo/Santería nur Hauspraxis</p>
+    </section>
+
+    <!-- 2. Kalender -->
+    <section id="sec-kalender" class="section-view">
+      <h1 class="section-title">Kalender</h1>
+      <p class="section-sub">Gregorianisch · Mond · Maya · Feste (pfadabhängig hervorgehoben)</p>
+      <div class="cal-nav">
+        <button type="button" id="cal-prev" aria-label="Vorheriger Monat">‹</button>
+        <h2 id="cal-title">—</h2>
+        <button type="button" id="cal-next" aria-label="Nächster Monat">›</button>
+      </div>
+      <button type="button" id="cal-today" class="w-full" style="margin-bottom:0.75rem">Heute</button>
+      <div class="card year-wheel-card" id="year-wheel-card">
+        <h3>Jahresrad · Sabbats</h3>
+        <p class="hint-sm">Acht Feste im Ring — Tippen springt zum Datum</p>
+        <div class="year-wheel" id="year-wheel" role="list" aria-label="Sabbat-Jahresrad"></div>
+        <p class="meta-line" id="year-wheel-caption"></p>
+      </div>
+      <div class="cal-grid" id="cal-grid"></div>
+      <div class="card day-detail" id="cal-detail"></div>
+    </section>
+
+    <!-- 3. Kosmos -->
+    <section id="sec-kosmos" class="section-view">
+      <h1 class="section-title">Kosmos</h1>
+      <p class="section-sub">Tageskreis der Luminare &amp; Planeten (Näherung) · Schumann-Visualisierung</p>
+      <div class="notice">Positionen sind approximativ für die Praxis — kein Ephemeriden-Ersatz.</div>
+      <p class="kosmos-hour-hint" id="kosmos-hour-hint" aria-live="polite">Planetenstunde: —</p>
+      <div class="radar-wrap">
+        <canvas id="radar-canvas" aria-label="Planetenradar — tippe einen Planeten für Details" role="img"></canvas>
+      </div>
+      <div class="kosmos-legend" id="kosmos-legend" aria-label="Planeten-Legende"></div>
+      <div class="card kosmos-detail" id="kosmos-detail" hidden>
+        <h3 id="kosmos-detail-title">Planet</h3>
+        <p id="kosmos-detail-body" class="netz-copy"></p>
+        <button type="button" class="ghost" id="kosmos-detail-close">Schließen</button>
+      </div>
+      <div class="card">
+        <h3>Schumann · 7,83 Hz</h3>
+        <div class="schumann-wrap"><canvas id="schumann-canvas-kosmos" aria-label="Schumann-Puls im Kosmos"></canvas></div>
+        <p class="schumann-note">Puls-Visualisierung. Kein Sensor, keine Geisterbehauptung.</p>
+      </div>
+    </section>
+
+    <!-- 4. Rituale -->
+    <section id="sec-rituale" class="section-view">
+      <h1 class="section-title">Rituale</h1>
+      <p class="section-sub">Geführt · eigene · Sigil · Feldkarten · mit Sicherheitscheck</p>
+      <div class="tabs" role="tablist" aria-label="Ritual-Bereiche">
+        <button type="button" class="active" role="tab" aria-selected="true" data-rtab="guided">Geführt</button>
+        <button type="button" role="tab" aria-selected="false" data-rtab="custom">Eigene</button>
+        <button type="button" role="tab" aria-selected="false" data-rtab="sigil">Sigil</button>
+        <button type="button" role="tab" aria-selected="false" data-rtab="karten">Feldkarten</button>
+      </div>
+
+      <div class="card praxis-helper" id="praxis-helper">
+        <h3>Praxis-Helfer</h3>
+        <p class="hint">Stille Fokuszeit — optional mit sanfter Streak (369 oder abgeschlossenes Ritual).</p>
+        <div class="praxis-timer-row">
+          <div class="praxis-timer" id="focus-timer" aria-live="polite">5:00</div>
+          <div class="praxis-timer-btns" role="group" aria-label="Fokusdauer">
+            <button type="button" data-focus-mins="3" aria-label="3 Minuten Fokus">3</button>
+            <button type="button" data-focus-mins="5" class="picked" aria-label="5 Minuten Fokus" aria-pressed="true">5</button>
+            <button type="button" data-focus-mins="10" aria-label="10 Minuten Fokus">10</button>
+            <button type="button" data-focus-mins="15" aria-label="15 Minuten Fokus">15</button>
+          </div>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="primary" id="focus-start">Stille starten</button>
+          <button type="button" class="ghost" id="focus-stop" hidden>Stoppen</button>
+        </div>
+        <p class="meta-line" id="streak-line">Streak: noch keine Praxis heute.</p>
+      </div>
+
+      <div class="card breath-standalone" id="breath-standalone" aria-labelledby="breath-title">
+        <h3 id="breath-title">Atem-Übung</h3>
+        <p class="hint">Ohne volles Ritual — 4/6 oder Box-Atmung mit visuellem Kreis.</p>
+        <div class="breath-mode-row" role="group" aria-label="Atemmodus">
+          <button type="button" class="picked" data-breath-mode="46" aria-pressed="true">4 / 6</button>
+          <button type="button" data-breath-mode="box" aria-pressed="false">Box 4–4–4–4</button>
+        </div>
+        <div class="breath-circle breath-standalone-circle" id="breath-circle-solo" aria-live="polite" role="status">Bereit</div>
+        <p class="meta-line" id="breath-phase-label">Wähle einen Modus und starte.</p>
+        <div class="btn-row">
+          <button type="button" class="primary" id="breath-start">Atem starten</button>
+          <button type="button" class="ghost" id="breath-stop" hidden>Stoppen</button>
+        </div>
+      </div>
+
+      <div data-rpanel="guided">
+        <div class="notice ethics-line">Vor jeder Arbeit: Körper, Zweck, Grenzen, kein Schaden, Abschluss.</div>
+        <p class="path-flavor" id="ritual-path-flavor"></p>
+        <div class="ritual-filters card" id="ritual-filters">
+          <div class="form-row" style="margin-bottom:0.55rem">
+            <label for="ritual-search">Bibliothek durchsuchen</label>
+            <input id="ritual-search" type="search" placeholder="Name, Atem, Kerze…" autocomplete="off" />
+          </div>
+          <div class="filter-row">
+            <label class="sr-only" for="ritual-filter-duration">Dauer</label>
+            <select id="ritual-filter-duration" aria-label="Dauer filtern">
+              <option value="all">Dauer · alle</option>
+              <option value="short">Kurz · ≤ 5 Min</option>
+              <option value="mid">Mittel · 6–10 Min</option>
+              <option value="long">Lang · &gt; 10 Min</option>
+            </select>
+            <label class="sr-only" for="ritual-filter-path">Pfad</label>
+            <select id="ritual-filter-path" aria-label="Pfad filtern">
+              <option value="current">Pfad · aktuell</option>
+              <option value="all">Pfad · alle Rituale</option>
+            </select>
+          </div>
+          <p class="meta-line" id="ritual-filter-count"></p>
+        </div>
+        <div class="ritual-list" id="ritual-list"></div>
+      </div>
+
+      <div data-rpanel="custom" class="hidden">
+        <div class="card ritual-templates-card" id="ritual-templates-card">
+          <div class="intention-top">
+            <h3>Ritual-Vorlagen</h3>
+            <span class="chip-quiet">max. 3</span>
+          </div>
+          <p class="hint-sm">Speichere bis zu drei eigene Vorlagen — laden füllt das Formular unten.</p>
+          <div id="ritual-templates-list" class="ritual-templates-list" aria-live="polite"></div>
+          <p class="empty-state compact" id="ritual-templates-empty">Noch keine Vorlagen — speichere eine aus dem Formular.</p>
+        </div>
+        <div class="card">
+          <h3>Eigenes Ritual anlegen</h3>
+          <div class="form-row"><label>Name</label><input id="custom-ritual-name" placeholder="z. B. Morgenkreis" /></div>
+          <div class="form-row">
+            <label>Schritte (eine Zeile = Titel|Text|Sekunden)</label>
+            <textarea id="custom-ritual-steps" placeholder="Öffnen|Raum atmen|60&#10;Kern|Absicht sprechen|90&#10;Schließen|Danken|45"></textarea>
+          </div>
+          <div class="btn-row">
+            <button type="button" class="primary" id="custom-ritual-save">Als Ritual speichern</button>
+            <button type="button" class="ghost" id="custom-ritual-save-template">Als Vorlage (max. 3)</button>
+          </div>
+        </div>
+        <div id="custom-ritual-list"></div>
+      </div>
+
+      <div data-rpanel="sigil" class="hidden">
+        <div class="notice warn">Sigil lehnt schädliche / Fluch-Absichten ab. Chaosmagie: laden — dann vergessen.</div>
+        <div class="card sigil-area">
+          <div class="form-row" style="width:100%"><label>Absicht (ethisch)</label>
+            <input id="sigil-input" placeholder="z. B. Ich übe klare Grenzen im Alltag" />
+          </div>
+          <div class="sigil-warn" id="sigil-warn"></div>
+          <button type="button" class="primary" id="sigil-make">Sigil erzeugen</button>
+          <p id="sigil-reduced" class="sigil-reduced"></p>
+          <canvas id="sigil-canvas" width="300" height="300" aria-label="Sigil-Canvas"></canvas>
+          <div class="btn-row">
+            <button type="button" id="sigil-charge" class="hidden primary">Atem-Aufladung</button>
+            <button type="button" id="sigil-forget" class="hidden">Absicht vergessen</button>
+            <button type="button" id="sigil-save-gallery" class="hidden ghost">In Galerie</button>
+          </div>
+          <p class="hint-sm">Galerie speichert nur Hash + Glyph — nie schädliche Absichten, nie Klartext der Intention.</p>
+        </div>
+        <div class="card sigil-gallery-card" id="sigil-gallery-card">
+          <div class="intention-top">
+            <h3>Sigil-Galerie</h3>
+            <button type="button" class="ghost tiny" id="sigil-gallery-clear" aria-label="Galerie leeren">Alle vergessen</button>
+          </div>
+          <p class="hint-sm">Tippe <strong>Ansehen</strong>, um den Glyph aufs Canvas zu legen — optional stiller Atem, nur Lesen.</p>
+          <div class="sigil-gallery" id="sigil-gallery" aria-live="polite"></div>
+          <p class="empty-state compact" id="sigil-gallery-empty">Noch keine Glyphs — nach dem Laden kannst du speichern.</p>
+          <div class="sigil-review-bar" id="sigil-review-bar" hidden>
+            <p class="meta-line" id="sigil-review-label">Glyph zur Ansicht</p>
+            <div class="btn-row">
+              <button type="button" class="ghost" id="sigil-review-breath">Stiller Atem (lesen)</button>
+              <button type="button" class="ghost tiny" id="sigil-review-clear">Ansicht schließen</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div data-rpanel="karten" class="hidden">
+        <div class="notice">22 originale Feldkarten — kein Tarot-Klon. Ziehe mit Absicht, ohne Schaden.</div>
+        <div class="card daily-card-panel" id="daily-card-panel" aria-labelledby="daily-card-title">
+          <div class="intention-top">
+            <h3 id="daily-card-title">Tageskarte</h3>
+            <span class="chip-quiet">1× / Tag</span>
+          </div>
+          <p class="hint-sm">Optional eine Karte für heute — danach bis Mitternacht (Lokalzeit) gesperrt. Daten bleiben.</p>
+          <button type="button" class="primary" id="draw-daily">Tageskarte ziehen</button>
+          <div id="daily-card-result" class="daily-card-result" hidden aria-live="polite"></div>
+          <p class="meta-line" id="daily-card-lock" hidden>Gesiegelt bis morgen · weiterziehen entsperrt nach Mitternacht.</p>
+        </div>
+        <div class="toolbar">
+          <button type="button" class="primary" id="draw-card">Eine ziehen</button>
+          <button type="button" id="draw-three">Dreierlege</button>
+          <button type="button" class="ghost" id="draw-clear">Zurücksetzen</button>
+        </div>
+        <div class="draw-stage" id="draw-stage" hidden aria-live="polite"></div>
+        <div class="spread-area" id="spread-area"></div>
+        <p id="drawn-result" class="drawn-result"></p>
+        <div class="card draw-history-card" id="draw-history-card">
+          <h3>Letzte Züge</h3>
+          <div id="draw-history" class="draw-history"></div>
+          <p class="empty-state compact" id="draw-history-empty">Noch keine Züge gespeichert — ziehe eine Karte.</p>
+        </div>
+        <div class="cards-grid" id="feldkarten-grid"></div>
+      </div>
+    </section>
+
+    <!-- 5. Magie-Tagebuch -->
+    <section id="sec-tagebuch" class="section-view">
+      <h1 class="section-title">Magie-Tagebuch</h1>
+      <p class="section-sub">Lokal in <code>feldlicht-v15</code> · Export als universum-buch.json</p>
+      <div class="toolbar">
+        <button type="button" class="primary" id="diary-export">Export JSON</button>
+        <label class="btn" style="display:inline-block;cursor:pointer;margin:0">
+          Import<input type="file" id="diary-import" accept="application/json,.json" hidden />
+        </label>
+      </div>
+      <div class="import-mode-row" role="group" aria-label="Import-Modus">
+        <label class="inline-check"><input type="radio" name="import-mode" value="merge" checked /> Zusammenführen</label>
+        <label class="inline-check"><input type="radio" name="import-mode" value="replace" /> Ersetzen</label>
+      </div>
+      <p class="hint-sm">Export enthält App-Version und Pfad-Metadaten. Zusammenführen behält lokale Einträge.</p>
+      <p class="import-status" id="import-status"></p>
+      <div class="card practice-log-card" id="practice-log-card" aria-labelledby="practice-log-title">
+        <div class="intention-top">
+          <h3 id="practice-log-title">Praxis-Log</h3>
+          <span class="chip-quiet">automatisch · lokal</span>
+        </div>
+        <p class="hint-sm">Dezente Einträge, wenn Ritual, 369 oder Atem abgeschlossen — jederzeit löschbar.</p>
+        <div class="practice-log-timeline" id="practice-log-timeline" aria-live="polite"></div>
+        <p class="empty-state compact" id="practice-log-empty">Noch keine Praxis-Einträge.</p>
+      </div>
+      <div class="card">
+        <div class="form-row">
+          <label>Impuls (optional, pfadbezogen)</label>
+          <div class="prompt-chips" id="diary-prompts" role="group" aria-label="Tagebuch-Impulse"></div>
+        </div>
+        <div class="form-row"><label for="diary-title">Titel</label><input id="diary-title" placeholder="Titel" /></div>
+        <div class="form-row"><label for="diary-body">Eintrag</label><textarea id="diary-body" placeholder="Was geschah? Was bleibt?"></textarea></div>
+        <div class="form-row"><label for="diary-tags">Tags (optional, Komma)</label><input id="diary-tags" placeholder="z. B. Mond, Erdung, Sigil" /></div>
+        <div class="form-row">
+          <label id="diary-mood-label">Stimmung (optional)</label>
+          <div class="mood-row" id="diary-mood-row">
+            <button type="button" data-mood="ruhig">Ruhig</button>
+            <button type="button" data-mood="klar">Klar</button>
+            <button type="button" data-mood="bewegt">Bewegt</button>
+            <button type="button" data-mood="schwer">Schwer</button>
+            <button type="button" data-mood="offen">Offen</button>
+          </div>
+        </div>
+        <button type="button" class="primary" id="diary-add">Speichern</button>
+      </div>
+      <div class="entry-list" id="diary-list"></div>
+    </section>
+
+    <!-- 6. Notizen -->
+    <section id="sec-notizen" class="section-view">
+      <h1 class="section-title">Notizen</h1>
+      <p class="section-sub">Schnelle lokale Notizen · optional mit Tag · ein Tippen → Tagebuch</p>
+      <div class="card">
+        <div class="form-row"><label for="note-input">Notiz</label><textarea id="note-input" placeholder="Festhalten…"></textarea></div>
+        <div class="form-row"><label for="note-tag">Tag (optional)</label><input id="note-tag" placeholder="z. B. Idee" /></div>
+        <button type="button" class="primary" id="note-add">Hinzufügen</button>
+        <p class="hint-sm">Gespeicherte Notizen: „Ins Tagebuch“ wandelt in einen Magie-Buch-Eintrag um.</p>
+      </div>
+      <div class="entry-list" id="notes-list"></div>
+    </section>
+
+    <!-- 7. Netzwerk / Kreis -->
+    <section id="sec-netzwerk" class="section-view">
+      <h1 class="section-title">Netzwerk / Kreis</h1>
+      <p class="section-sub">Offline-ehrlich · kein Login · kein Backend</p>
+
+      <div class="card kreis-offline-card">
+        <div class="intention-top">
+          <h3>Offline-Kreis</h3>
+          <span class="chip-quiet">lokal · kein Sync</span>
+        </div>
+        <p class="netz-copy">
+          In dieser App gibt es <strong>keinen echten Online-Kreis</strong>. Kein Account, keine sozialen APIs,
+          keine geteilten Feeds. Was hier steht, bleibt auf diesem Gerät in <code>feldlicht-v15</code>.
+        </p>
+        <ul class="kreis-honest-list">
+          <li>Google- / X-Verbindung: <em>nicht verfügbar</em> (bewusst deaktiviert)</li>
+          <li>Gemeinsame Intentionen: nur als <strong>lokaler Notizblock</strong> — kein Teilen</li>
+          <li>Talker: knappe Strukturhilfe, <em>kein Medium</em>, keine Geisterstimme</li>
+        </ul>
+        <p class="netz-muted">
+          Später könnte ein echter Kreis Login brauchen. Bis dahin: Praxis, Tagebuch und lokale Kreis-Notizen.
+        </p>
+        <div class="btn-stack">
+          <button type="button" disabled title="Nicht verfügbar in der Offline-Version">Mit Google verbinden (nicht verfügbar)</button>
+          <button type="button" disabled title="Nicht verfügbar in der Offline-Version">Mit X verbinden (nicht verfügbar)</button>
+        </div>
+      </div>
+
+      <div class="card kreis-notes-card" id="kreis-notes-card" aria-labelledby="kreis-notes-title">
+        <div class="intention-top">
+          <h3 id="kreis-notes-title">Kreis-Notizen</h3>
+          <span class="chip-quiet">nur lokal</span>
+        </div>
+        <p class="hint">
+          Pad für geteilte Intentionen — <strong>ehrlich: nicht geteilt</strong>. Nur du siehst diese Zeilen.
+          Gut für Formulierungen, die du später in Ritual oder 369 trägst.
+        </p>
+        <div class="form-row">
+          <label class="sr-only" for="kreis-note-input">Kreis-Notiz</label>
+          <textarea id="kreis-note-input" maxlength="400" rows="3" placeholder="z. B. Gemeinsame Klarheit im Haus — nur als lokale Erinnerung"></textarea>
+        </div>
+        <button type="button" class="primary" id="kreis-note-add">Lokal festhalten</button>
+        <div class="entry-list kreis-notes-list" id="kreis-notes-list"></div>
+        <p class="empty-state compact" id="kreis-notes-empty">Noch keine Kreis-Notizen — alles bleibt offline.</p>
+      </div>
+
+      <div class="card">
+        <h3>Talker</h3>
+        <p class="netz-copy">
+          Der Talker ist eine <strong>knappe Schnittstelle</strong> für Hinweise und Struktur —
+          <em>kein Medium</em>, keine Geisterstimme, keine Channeling-Behauptung.
+          Ein Handy kann keine Geister messen.
+        </p>
+        <div class="empty-state mt-2">
+          <strong>Kreis ist still</strong>
+          <p>Kein Login, kein Backend — Talker bleibt offline. Nutze lokale Praxis, Tagebuch oder Kreis-Notizen.</p>
+          <div class="empty-cta">
+            <button type="button" class="primary" data-tile="rituale">Zu den Ritualen</button>
+            <button type="button" class="ghost" data-tile="tagebuch">Tagebuch</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    </div><!-- #main-content -->
+
+    <nav class="bottom-nav" id="bottom-nav" aria-label="Hauptnavigation"></nav>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast-host" id="toast-host" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- First-run onboarding -->
+  <div class="onboard-overlay" id="onboard-overlay" hidden>
+    <div class="onboard-card" role="dialog" aria-modal="true" aria-labelledby="onboard-title">
+      <p class="splash-eyebrow">WILLKOMMEN</p>
+      <h2 id="onboard-title">Feldlicht ist da</h2>
+      <p class="onboard-copy">Ein stiller Ritualbegleiter — lokal auf diesem Gerät. Kein Konto, kein Backend.</p>
+
+      <div class="onboard-step" data-onboard-step="0">
+        <p class="hint">Kurz und ruhig: Wähle deinen Pfad. Du kannst später wechseln.</p>
+        <div class="path-grid" id="onboard-paths"></div>
+      </div>
+
+      <div class="onboard-step hidden" data-onboard-step="1">
+        <p class="hint">Standort für Planetenstunden (Standard: Zürich).</p>
+        <div class="loc-grid">
+          <div class="form-row" style="margin:0"><label for="onboard-lat">Breite</label><input id="onboard-lat" type="number" step="0.01" value="47.37" /></div>
+          <div class="form-row" style="margin:0"><label for="onboard-lon">Länge</label><input id="onboard-lon" type="number" step="0.01" value="8.54" /></div>
+        </div>
+        <button type="button" class="ghost w-full mt-1" id="onboard-zurich">Zürich übernehmen</button>
+      </div>
+
+      <div class="onboard-step hidden" data-onboard-step="2">
+        <p class="hint">Ethik — bitte bewusst bestätigen.</p>
+        <div class="notice ethics-line">
+          Grenze und Ausgleich. Kein Schaden an Personen.<br />
+          Voodoo/Santería nur Hauspraxis, keine Initiation.<br />
+          <em>Ein Handy kann keine Geister messen.</em>
+        </div>
+        <label class="inline-check onboard-ethics">
+          <input type="checkbox" id="onboard-ethics" />
+          Ich bestätige diese Haltung für meine Praxis hier.
+        </label>
+      </div>
+
+      <div class="onboard-nav">
+        <button type="button" class="ghost" id="onboard-back" hidden>Zurück</button>
+        <button type="button" class="primary" id="onboard-next">Weiter</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings drawer -->
+  <div class="drawer-overlay" id="settings-drawer" hidden>
+    <div class="drawer" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+      <div class="drawer-head">
+        <h2 id="settings-title">Einstellungen</h2>
+        <button type="button" class="icon-btn" id="settings-close" aria-label="Einstellungen schließen">✕</button>
+      </div>
+      <div class="drawer-body">
+        <h3>Standort</h3>
+        <p class="hint-sm">Für Sonnenzeiten und Planetenstunden</p>
+        <div class="loc-grid">
+          <div class="form-row" style="margin:0"><label for="set-lat">Breite</label><input id="set-lat" type="number" step="0.01" value="47.37" /></div>
+          <div class="form-row" style="margin:0"><label for="set-lon">Länge</label><input id="set-lon" type="number" step="0.01" value="8.54" /></div>
+        </div>
+        <div class="btn-row mt-1">
+          <button type="button" id="set-loc-save" class="primary">Standort speichern</button>
+          <button type="button" class="ghost" id="set-loc-zurich">Zürich</button>
+        </div>
+
+        <h3 class="mt-2">Wahrnehmung</h3>
+        <label class="inline-check"><input type="checkbox" id="set-haptics" checked /> Haptik (Vibration)</label>
+        <label class="inline-check"><input type="checkbox" id="set-schumann-audio" /> Schumann-Audio (leiser 136-Hz-Träger)</label>
+        <label class="inline-check"><input type="checkbox" id="set-ambient-tone" /> Sanfter Ambient-Ton (sehr leise, getrennt von Schumann)</label>
+        <label class="inline-check"><input type="checkbox" id="set-reduced-motion" /> Reduzierte Bewegung</label>
+        <label class="inline-check"><input type="checkbox" id="set-mondnacht" /> Mondnacht-Modus (sanfter Abend-Dimm)</label>
+        <label class="inline-check"><input type="checkbox" id="set-hour-alert" /> Planetenstunde-Wecker (sanfte Vibration/Toast, Standard aus)</label>
+
+        <h3 class="mt-2">Suche</h3>
+        <p class="hint-sm">Rituale, Feldkarten-Namen, Tagebuch-Titel</p>
+        <div class="global-search-bar">
+          <label class="sr-only" for="global-search-input-settings">Suche</label>
+          <input type="search" id="global-search-input-settings" placeholder="Begriff eingeben…" autocomplete="off" />
+          <button type="button" class="ghost tiny" id="global-search-go-settings">Suchen</button>
+        </div>
+        <div class="global-search-results" id="global-search-results-settings" hidden role="listbox" aria-label="Suchergebnisse"></div>
+
+        <h3 class="mt-2">Tipp des Tages</h3>
+        <p class="tip-text" id="settings-tip-of-day">…</p>
+
+        <h3 class="mt-2">Onboarding</h3>
+        <p class="hint-sm">Willkommen, Pfad und Ethik erneut durchlaufen</p>
+        <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
+
+        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">1.6.0</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Global search modal -->
+  <div class="modal-overlay" id="global-search-modal">
+    <div class="modal search-modal" role="dialog" aria-modal="true" aria-labelledby="global-search-title">
+      <div class="drawer-head" style="padding:0;margin-bottom:0.75rem;border:none">
+        <h2 id="global-search-title">Suche</h2>
+        <button type="button" class="icon-btn" id="global-search-close" aria-label="Suche schließen">✕</button>
+      </div>
+      <p class="hint-sm">Rituale, Feldkarten, Tagebuch-Titel — lokal, ohne Backend.</p>
+      <div class="global-search-bar">
+        <label class="sr-only" for="global-search-input-modal">Suchbegriff</label>
+        <input type="search" id="global-search-input-modal" placeholder="z. B. Erdung, Grenze, Mond…" autocomplete="off" />
+        <button type="button" class="primary tiny" id="global-search-go-modal">Suchen</button>
+      </div>
+      <div class="global-search-results" id="global-search-results-modal" role="listbox" aria-label="Suchergebnisse"></div>
+      <p class="empty-state compact" id="global-search-empty">Tippe einen Begriff — mind. 2 Zeichen.</p>
+    </div>
+  </div>
+
+  <!-- Path modal -->
+  <div class="modal-overlay" id="path-modal">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="path-modal-title">
+      <h2 id="path-modal-title">Pfad wählen</h2>
+      <p class="modal-sub">Ändert Ritual-Auswahl, Sprüche und Kalender-Betonung. Voodoo/Santería = nur Hauspraxis, keine Initiation.</p>
+      <div class="path-grid" id="path-grid"></div>
+      <button type="button" id="path-modal-close" class="w-full mt-2">Schließen</button>
+    </div>
+  </div>
+
+  <!-- Ritual runner -->
+  <div class="ritual-runner" id="ritual-runner" role="dialog" aria-modal="true" aria-labelledby="rr-title">
+    <div class="rr-header">
+      <strong id="rr-title">Ritual</strong>
+      <button type="button" id="rr-close" aria-label="Schließen">✕</button>
+    </div>
+    <div id="rr-content"></div>
+  </div>
+
+  <script src="js/astronomy.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/paths.js"></script>
+  <script src="js/rituals.js"></script>
+  <script src="js/sigil.js"></script>
+  <script src="js/cards.js"></script>
+  <script src="js/schumann.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js').catch(function () {});
+    }
+  </script>
+</body>
+</html>

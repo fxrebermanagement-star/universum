@@ -1,0 +1,772 @@
+/**
+ * UNIVERSUM — localStorage (key MUST remain feldlicht-v15)
+ */
+(function (global) {
+  'use strict';
+
+  const STORAGE_KEY = 'feldlicht-v15';
+
+  const DEFAULTS = {
+    version: 15,
+    path: 'esoterik',
+    lat: 47.37,
+    lon: 8.54,
+    diary: [],
+    notes: [],
+    customRituals: [],
+    checkIn: null,
+    practice369: {},
+    dailyIntention: { text: '', date: null, link369: false },
+    ritualFavorites: [],
+    briefingPins: ['moon', 'hour', 'unrest'],
+    sigilGallery: [],
+    intentionHistory: [],
+    practiceLog: [],
+    kreisNotes: [],
+    lastSeenDay: null,
+    dayBanner: { date: null, dismissed: false },
+    dailyCard: { date: null, n: null, name: '', theme: '', prompt: '' },
+    backupReminder: { lastRemindCount: 0, lastExportAt: null },
+    ritualTemplates: [],
+    onboarding: {
+      done: false,
+      ethicsAck: false,
+      completedAt: null
+    },
+    streaks: {
+      count: 0,
+      lastDate: null,
+      lastKind: null
+    },
+    cardDrawHistory: [],
+    settings: {
+      schumannAudio: false,
+      ambientTone: false,
+      haptics: true,
+      reducedMotion: false,
+      mondnacht: false,
+      hourAlert: false
+    }
+  };
+
+  const BRIEFING_PIN_OPTIONS = [
+    { id: 'moon', label: 'Mond' },
+    { id: 'hour', label: 'Planetenstunde' },
+    { id: 'unrest', label: 'Unruhe' },
+    { id: 'sun', label: 'Sonne' },
+    { id: 'maya', label: 'Maya' },
+    { id: 'fest', label: 'Nächstes Fest' }
+  ];
+
+  function todayKey(d) {
+    const x = d || new Date();
+    return x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0') + '-' + String(x.getDate()).padStart(2, '0');
+  }
+
+  function yesterdayKey(d) {
+    const x = d ? new Date(d.getTime()) : new Date();
+    x.setDate(x.getDate() - 1);
+    return todayKey(x);
+  }
+
+  function load() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return structuredClone(DEFAULTS);
+      const data = JSON.parse(raw);
+      return Object.assign(structuredClone(DEFAULTS), data, {
+        diary: Array.isArray(data.diary) ? data.diary : [],
+        notes: Array.isArray(data.notes) ? data.notes : [],
+        customRituals: Array.isArray(data.customRituals) ? data.customRituals : [],
+        practice369: data.practice369 && typeof data.practice369 === 'object' ? data.practice369 : {},
+        dailyIntention: Object.assign({}, DEFAULTS.dailyIntention, data.dailyIntention || {}),
+        ritualFavorites: Array.isArray(data.ritualFavorites) ? data.ritualFavorites.slice(0, 24) : [],
+        briefingPins: normalizePins(data.briefingPins),
+        sigilGallery: Array.isArray(data.sigilGallery) ? data.sigilGallery.slice(0, 8) : [],
+        intentionHistory: Array.isArray(data.intentionHistory) ? data.intentionHistory.slice(0, 14) : [],
+        practiceLog: Array.isArray(data.practiceLog) ? data.practiceLog.slice(0, 80) : [],
+        kreisNotes: Array.isArray(data.kreisNotes) ? data.kreisNotes.slice(0, 40) : [],
+        lastSeenDay: data.lastSeenDay || null,
+        dayBanner: Object.assign({}, DEFAULTS.dayBanner, data.dayBanner || {}),
+        dailyCard: Object.assign({}, DEFAULTS.dailyCard, data.dailyCard || {}),
+        backupReminder: Object.assign({}, DEFAULTS.backupReminder, data.backupReminder || {}),
+        ritualTemplates: normalizeTemplates(data.ritualTemplates),
+        onboarding: Object.assign({}, DEFAULTS.onboarding, data.onboarding || {}),
+        streaks: Object.assign({}, DEFAULTS.streaks, data.streaks || {}),
+        cardDrawHistory: Array.isArray(data.cardDrawHistory) ? data.cardDrawHistory : [],
+        settings: Object.assign({}, DEFAULTS.settings, data.settings || {})
+      });
+    } catch (e) {
+      console.warn('Universum storage load failed', e);
+      return structuredClone(DEFAULTS);
+    }
+  }
+
+  let lastSaveResult = { ok: true, quota: false, message: '' };
+
+  function isQuotaError(e) {
+    if (!e) return false;
+    const name = e.name || '';
+    const code = e.code;
+    return name === 'QuotaExceededError' || name === 'NS_ERROR_DOM_QUOTA_REACHED' || code === 22 || code === 1014;
+  }
+
+  function getLastSaveResult() {
+    return Object.assign({}, lastSaveResult);
+  }
+
+  function save(data) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      lastSaveResult = { ok: true, quota: false, message: '' };
+      return true;
+    } catch (e) {
+      console.warn('Universum storage save failed', e);
+      const quota = isQuotaError(e);
+      lastSaveResult = {
+        ok: false,
+        quota: quota,
+        message: quota
+          ? 'Speicher voll (Quota). Bitte exportieren und Einträge ausdünnen.'
+          : 'Speichern fehlgeschlagen. Lokal prüfen oder Export versuchen.'
+      };
+      return false;
+    }
+  }
+
+  function update(mutator) {
+    const data = load();
+    mutator(data);
+    data.version = 15;
+    save(data);
+    return data;
+  }
+
+  function get369(date) {
+    const data = load();
+    const key = todayKey(date);
+    const entry = data.practice369[key] || { morning: 0, afternoon: 0, evening: 0, phrase: '' };
+    return Object.assign({ key: key }, entry);
+  }
+
+  function set369(partial, date) {
+    return update(d => {
+      const key = todayKey(date);
+      const cur = d.practice369[key] || { morning: 0, afternoon: 0, evening: 0, phrase: '' };
+      d.practice369[key] = Object.assign({}, cur, partial);
+      const keys = Object.keys(d.practice369).sort();
+      while (keys.length > 60) {
+        delete d.practice369[keys.shift()];
+      }
+    });
+  }
+
+  /** Record a completed practice day for gentle streak (369 full or ritual done). */
+  function recordPractice(kind) {
+    return update(d => {
+      const today = todayKey();
+      const streaks = d.streaks || Object.assign({}, DEFAULTS.streaks);
+      if (streaks.lastDate === today) {
+        streaks.lastKind = kind || streaks.lastKind;
+      } else if (streaks.lastDate === yesterdayKey()) {
+        streaks.count = (streaks.count || 0) + 1;
+        streaks.lastDate = today;
+        streaks.lastKind = kind || 'praxis';
+      } else {
+        streaks.count = 1;
+        streaks.lastDate = today;
+        streaks.lastKind = kind || 'praxis';
+      }
+      d.streaks = streaks;
+    });
+  }
+
+  function getStreak() {
+    const d = load();
+    const s = d.streaks || DEFAULTS.streaks;
+    const today = todayKey();
+    const yest = yesterdayKey();
+    // Streak still "alive" if last practice was today or yesterday
+    if (s.lastDate === today || s.lastDate === yest) {
+      return { count: s.count || 0, lastDate: s.lastDate, lastKind: s.lastKind, alive: true, doneToday: s.lastDate === today };
+    }
+    return { count: 0, lastDate: s.lastDate, lastKind: s.lastKind, alive: false, doneToday: false };
+  }
+
+  function resetOnboarding() {
+    return update(d => {
+      d.onboarding = { done: false, ethicsAck: false, completedAt: null };
+    });
+  }
+
+  function completeOnboarding(opts) {
+    opts = opts || {};
+    return update(d => {
+      if (opts.path) d.path = opts.path;
+      if (opts.lat != null) d.lat = opts.lat;
+      if (opts.lon != null) d.lon = opts.lon;
+      d.onboarding = {
+        done: true,
+        ethicsAck: !!opts.ethicsAck,
+        completedAt: new Date().toISOString()
+      };
+    });
+  }
+
+  const APP_VERSION = '1.6.0';
+
+  function exportBuch() {
+    const data = load();
+    const pathId = data.path || 'esoterik';
+    let pathName = pathId;
+    try {
+      if (global.UniversumPaths && global.UniversumPaths.getPath) {
+        pathName = global.UniversumPaths.getPath(pathId).name || pathId;
+      }
+    } catch (_) { /* ignore */ }
+    const payload = {
+      app: 'UNIVERSUM',
+      formerly: 'Feldlicht Ritualbegleiter',
+      appVersion: APP_VERSION,
+      exportedAt: new Date().toISOString(),
+      storageKey: STORAGE_KEY,
+      format: 'universum-buch-v2',
+      meta: {
+        path: pathId,
+        pathName: pathName,
+        diaryCount: (data.diary || []).length,
+        notesCount: (data.notes || []).length,
+        customRitualsCount: (data.customRituals || []).length,
+        ritualTemplatesCount: (data.ritualTemplates || []).length,
+        cardDrawsCount: (data.cardDrawHistory || []).length
+      },
+      data
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'universum-buch.json';
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+    return true;
+  }
+
+  function normalizePins(pins) {
+    const allowed = new Set(BRIEFING_PIN_OPTIONS.map(p => p.id));
+    const list = Array.isArray(pins) ? pins.filter(id => allowed.has(id)) : [];
+    const uniq = [];
+    list.forEach(id => { if (!uniq.includes(id)) uniq.push(id); });
+    while (uniq.length < 2) {
+      for (const d of DEFAULTS.briefingPins) {
+        if (!uniq.includes(d)) { uniq.push(d); break; }
+      }
+      if (uniq.length >= 2) break;
+      break;
+    }
+    return uniq.slice(0, 3);
+  }
+
+  function hashIntention(text) {
+    const s = String(text || '').trim().toLowerCase();
+    let h = 2166136261;
+    for (let i = 0; i < s.length; i++) {
+      h ^= s.charCodeAt(i);
+      h = Math.imul(h, 16777619);
+    }
+    return ('00000000' + (h >>> 0).toString(16)).slice(-8);
+  }
+
+  function normalizeIncoming(incoming) {
+    return Object.assign(structuredClone(DEFAULTS), incoming, {
+      diary: Array.isArray(incoming.diary) ? incoming.diary : [],
+      notes: Array.isArray(incoming.notes) ? incoming.notes : [],
+      customRituals: Array.isArray(incoming.customRituals) ? incoming.customRituals : [],
+      practice369: incoming.practice369 && typeof incoming.practice369 === 'object'
+        ? incoming.practice369 : {},
+      dailyIntention: Object.assign({}, DEFAULTS.dailyIntention, incoming.dailyIntention || {}),
+      ritualFavorites: Array.isArray(incoming.ritualFavorites) ? incoming.ritualFavorites.slice(0, 24) : [],
+      briefingPins: normalizePins(incoming.briefingPins),
+      sigilGallery: Array.isArray(incoming.sigilGallery) ? incoming.sigilGallery.slice(0, 8) : [],
+      intentionHistory: Array.isArray(incoming.intentionHistory) ? incoming.intentionHistory.slice(0, 14) : [],
+      practiceLog: Array.isArray(incoming.practiceLog) ? incoming.practiceLog.slice(0, 80) : [],
+      kreisNotes: Array.isArray(incoming.kreisNotes) ? incoming.kreisNotes.slice(0, 40) : [],
+      lastSeenDay: incoming.lastSeenDay || null,
+      dayBanner: Object.assign({}, DEFAULTS.dayBanner, incoming.dayBanner || {}),
+      dailyCard: Object.assign({}, DEFAULTS.dailyCard, incoming.dailyCard || {}),
+      backupReminder: Object.assign({}, DEFAULTS.backupReminder, incoming.backupReminder || {}),
+      ritualTemplates: normalizeTemplates(incoming.ritualTemplates),
+      cardDrawHistory: Array.isArray(incoming.cardDrawHistory) ? incoming.cardDrawHistory : [],
+      onboarding: Object.assign({}, DEFAULTS.onboarding, incoming.onboarding || {}),
+      streaks: Object.assign({}, DEFAULTS.streaks, incoming.streaks || {}),
+      settings: Object.assign({}, DEFAULTS.settings, incoming.settings || {})
+    });
+  }
+
+  function mergeById(localArr, incomingArr) {
+    const map = new Map();
+    (localArr || []).forEach(x => { if (x && x.id) map.set(x.id, x); });
+    (incomingArr || []).forEach(x => {
+      if (!x || !x.id) {
+        const nid = uid();
+        map.set(nid, Object.assign({}, x, { id: nid }));
+        return;
+      }
+      const prev = map.get(x.id);
+      if (!prev) map.set(x.id, x);
+      else {
+        const pt = prev.updated || prev.created || '';
+        const it = x.updated || x.created || '';
+        map.set(x.id, it >= pt ? Object.assign({}, prev, x) : Object.assign({}, x, prev));
+      }
+    });
+    return Array.from(map.values());
+  }
+
+  /** mode: 'replace' | 'merge' (default replace for backward compat) */
+  function importBuch(file, mode) {
+    mode = mode === 'merge' ? 'merge' : 'replace';
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const parsed = JSON.parse(reader.result);
+          const incoming = parsed.data || parsed;
+          if (!incoming || typeof incoming !== 'object') throw new Error('Ungültiges Format');
+          let result;
+          if (mode === 'merge') {
+            const local = load();
+            const norm = normalizeIncoming(incoming);
+            result = Object.assign(structuredClone(local), {
+              path: norm.path || local.path,
+              lat: norm.lat != null ? norm.lat : local.lat,
+              lon: norm.lon != null ? norm.lon : local.lon,
+              diary: mergeById(local.diary, norm.diary),
+              notes: mergeById(local.notes, norm.notes),
+              customRituals: mergeById(local.customRituals, norm.customRituals),
+              practice369: Object.assign({}, local.practice369 || {}, norm.practice369 || {}),
+              cardDrawHistory: (norm.cardDrawHistory || []).concat(local.cardDrawHistory || []).slice(0, 40),
+              ritualFavorites: Array.from(new Set([].concat(local.ritualFavorites || [], norm.ritualFavorites || []))).slice(0, 24),
+              sigilGallery: (norm.sigilGallery || []).concat(local.sigilGallery || []).slice(0, 8),
+              intentionHistory: mergeById(local.intentionHistory || [], norm.intentionHistory || []).slice(0, 14),
+              practiceLog: mergeById(local.practiceLog || [], norm.practiceLog || []).slice(0, 80),
+              kreisNotes: mergeById(local.kreisNotes || [], norm.kreisNotes || []).slice(0, 40),
+              briefingPins: normalizePins(norm.briefingPins && norm.briefingPins.length ? norm.briefingPins : local.briefingPins),
+              dailyIntention: (norm.dailyIntention && norm.dailyIntention.date === todayKey())
+                ? norm.dailyIntention
+                : (local.dailyIntention || DEFAULTS.dailyIntention),
+              dailyCard: (norm.dailyCard && norm.dailyCard.date === todayKey())
+                ? norm.dailyCard
+                : (local.dailyCard || DEFAULTS.dailyCard),
+              dayBanner: local.dayBanner || DEFAULTS.dayBanner,
+              lastSeenDay: local.lastSeenDay || norm.lastSeenDay || null,
+              backupReminder: Object.assign({}, local.backupReminder || {}, norm.backupReminder || {}),
+              ritualTemplates: normalizeTemplates(
+                mergeById(local.ritualTemplates || [], norm.ritualTemplates || []).slice(0, 3)
+              ),
+              settings: Object.assign({}, local.settings || {}, norm.settings || {}),
+              onboarding: Object.assign({}, local.onboarding || {}, norm.onboarding || {}),
+              streaks: (norm.streaks && (norm.streaks.count || 0) >= (local.streaks && local.streaks.count || 0))
+                ? norm.streaks : (local.streaks || DEFAULTS.streaks)
+            });
+          } else {
+            result = normalizeIncoming(incoming);
+          }
+          result.version = 15;
+          save(result);
+          resolve({ data: result, mode: mode, meta: parsed.meta || null, appVersion: parsed.appVersion || null });
+        } catch (e) {
+          reject(e);
+        }
+      };
+      reader.onerror = () => reject(reader.error || new Error('Lesefehler'));
+      reader.readAsText(file);
+    });
+  }
+
+  function recordCardDraw(entry) {
+    return update(d => {
+      const hist = Array.isArray(d.cardDrawHistory) ? d.cardDrawHistory : [];
+      hist.unshift({
+        id: uid(),
+        at: new Date().toISOString(),
+        kind: entry.kind || 'one',
+        cards: entry.cards || [],
+        path: d.path || null
+      });
+      d.cardDrawHistory = hist.slice(0, 24);
+    });
+  }
+
+  function getCardDrawHistory(limit) {
+    const d = load();
+    const hist = Array.isArray(d.cardDrawHistory) ? d.cardDrawHistory : [];
+    return hist.slice(0, limit || 12);
+  }
+
+  function uid() {
+    return 'id-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8);
+  }
+
+
+  function getDailyIntention() {
+    const d = load();
+    const di = d.dailyIntention || DEFAULTS.dailyIntention;
+    if (di.date && di.date !== todayKey()) {
+      return { text: '', date: null, link369: !!di.link369 };
+    }
+    return Object.assign({}, DEFAULTS.dailyIntention, di);
+  }
+
+  function setDailyIntention(partial) {
+    return update(d => {
+      const cur = Object.assign({}, DEFAULTS.dailyIntention, d.dailyIntention || {});
+      const next = Object.assign({}, cur, partial || {});
+      if (next.text && String(next.text).trim()) {
+        next.date = todayKey();
+        next.text = String(next.text).trim().slice(0, 140);
+        // Keep rolling 7-day local history (one entry per date, newest first)
+        const hist = Array.isArray(d.intentionHistory) ? d.intentionHistory.slice() : [];
+        const filtered = hist.filter(h => h && h.date !== next.date);
+        filtered.unshift({
+          id: uid(),
+          date: next.date,
+          text: next.text,
+          link369: !!next.link369,
+          at: new Date().toISOString()
+        });
+        d.intentionHistory = filtered.slice(0, 14);
+      } else {
+        next.text = '';
+        next.date = null;
+      }
+      d.dailyIntention = next;
+    });
+  }
+
+  function getIntentionHistory(days) {
+    const limit = days == null ? 7 : days;
+    const list = (load().intentionHistory || []).slice();
+    list.sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
+    const seen = new Set();
+    const out = [];
+    for (const item of list) {
+      if (!item || !item.date || seen.has(item.date)) continue;
+      seen.add(item.date);
+      out.push(item);
+      if (out.length >= limit) break;
+    }
+    return out;
+  }
+
+  function clearIntentionHistory() {
+    return update(d => { d.intentionHistory = []; });
+  }
+
+  function addPracticeLog(entry) {
+    return update(d => {
+      const list = Array.isArray(d.practiceLog) ? d.practiceLog.slice() : [];
+      list.unshift({
+        id: uid(),
+        at: new Date().toISOString(),
+        kind: (entry && entry.kind) || 'praxis',
+        label: (entry && entry.label) ? String(entry.label).slice(0, 120) : 'Praxis',
+        detail: (entry && entry.detail) ? String(entry.detail).slice(0, 200) : ''
+      });
+      d.practiceLog = list.slice(0, 60);
+    });
+  }
+
+  function removePracticeLog(id) {
+    return update(d => {
+      d.practiceLog = (d.practiceLog || []).filter(x => x.id !== id);
+    });
+  }
+
+  function getPracticeLog(limit) {
+    return (load().practiceLog || []).slice(0, limit || 30);
+  }
+
+  function addKreisNote(text) {
+    const t = String(text || '').trim().slice(0, 400);
+    if (!t) return load();
+    return update(d => {
+      const list = Array.isArray(d.kreisNotes) ? d.kreisNotes.slice() : [];
+      list.unshift({
+        id: uid(),
+        text: t,
+        at: new Date().toISOString(),
+        updated: new Date().toISOString()
+      });
+      d.kreisNotes = list.slice(0, 30);
+    });
+  }
+
+  function removeKreisNote(id) {
+    return update(d => {
+      d.kreisNotes = (d.kreisNotes || []).filter(x => x.id !== id);
+    });
+  }
+
+  function getKreisNotes() {
+    return (load().kreisNotes || []).slice(0, 30);
+  }
+
+  function toggleRitualFavorite(id) {
+    if (!id) return load();
+    return update(d => {
+      const favs = Array.isArray(d.ritualFavorites) ? d.ritualFavorites.slice() : [];
+      const i = favs.indexOf(id);
+      if (i >= 0) favs.splice(i, 1);
+      else favs.unshift(id);
+      d.ritualFavorites = favs.slice(0, 24);
+    });
+  }
+
+  function isRitualFavorite(id) {
+    const d = load();
+    return (d.ritualFavorites || []).indexOf(id) >= 0;
+  }
+
+  function getBriefingPins() {
+    return normalizePins(load().briefingPins);
+  }
+
+  function setBriefingPins(pins) {
+    return update(d => { d.briefingPins = normalizePins(pins); });
+  }
+
+  function addSigilGalleryEntry(entry) {
+    return update(d => {
+      const list = Array.isArray(d.sigilGallery) ? d.sigilGallery.slice() : [];
+      list.unshift({
+        id: uid(),
+        at: new Date().toISOString(),
+        hash: entry.hash || '',
+        letters: entry.letters || '',
+        dataURL: entry.dataURL || null
+      });
+      d.sigilGallery = list.slice(0, 6);
+    });
+  }
+
+  function removeSigilGalleryEntry(id) {
+    return update(d => {
+      d.sigilGallery = (d.sigilGallery || []).filter(x => x.id !== id);
+    });
+  }
+
+  function clearSigilGallery() {
+    return update(d => { d.sigilGallery = []; });
+  }
+
+  function getSigilGallery() {
+    return (load().sigilGallery || []).slice(0, 6);
+  }
+
+
+
+  function normalizeTemplates(list) {
+    const arr = Array.isArray(list) ? list : [];
+    return arr.filter(t => t && t.id && t.name).slice(0, 3).map(t => ({
+      id: t.id,
+      name: String(t.name || '').slice(0, 80),
+      steps: Array.isArray(t.steps) ? t.steps.slice(0, 24).map(s => ({
+        title: String((s && s.title) || 'Schritt').slice(0, 80),
+        text: String((s && s.text) || '').slice(0, 400),
+        sec: Math.max(15, Math.min(900, Number((s && s.sec) || 60) || 60))
+      })) : [],
+      mins: t.mins != null ? Number(t.mins) : null,
+      updated: t.updated || t.created || null
+    }));
+  }
+
+  function getRitualTemplates() {
+    return normalizeTemplates(load().ritualTemplates);
+  }
+
+  function saveRitualTemplate(tpl) {
+    if (!tpl || !tpl.name) return load();
+    return update(d => {
+      const list = normalizeTemplates(d.ritualTemplates);
+      const steps = Array.isArray(tpl.steps) ? tpl.steps : [];
+      const entry = {
+        id: tpl.id || uid(),
+        name: String(tpl.name).trim().slice(0, 80),
+        steps: steps.slice(0, 24),
+        mins: tpl.mins != null ? tpl.mins : Math.max(1, Math.round(steps.reduce((a, s) => a + (s.sec || 60), 0) / 60)),
+        updated: new Date().toISOString()
+      };
+      const idx = list.findIndex(x => x.id === entry.id);
+      if (idx >= 0) list[idx] = entry;
+      else {
+        if (list.length >= 3) list.pop();
+        list.unshift(entry);
+      }
+      d.ritualTemplates = list.slice(0, 3);
+    });
+  }
+
+  function removeRitualTemplate(id) {
+    return update(d => {
+      d.ritualTemplates = normalizeTemplates(d.ritualTemplates).filter(x => x.id !== id);
+    });
+  }
+
+  const BACKUP_EVERY_N = 15;
+
+  function entryCount(d) {
+    const data = d || load();
+    return (data.diary || []).length + (data.notes || []).length;
+  }
+
+  /** Soft day rollover: no data wipe. Returns whether a greeting banner should show. */
+  function checkDayRollover() {
+    const today = todayKey();
+    const data = load();
+    const prev = data.lastSeenDay || null;
+    if (prev === today) {
+      const ban = data.dayBanner || DEFAULTS.dayBanner;
+      return !!(ban.date === today && !ban.dismissed);
+    }
+    const first = !prev;
+    update(d => {
+      d.lastSeenDay = today;
+      if (!first) {
+        d.dayBanner = { date: today, dismissed: false };
+      } else if (!d.dayBanner) {
+        d.dayBanner = { date: null, dismissed: false };
+      }
+    });
+    return !first;
+  }
+
+  function dismissDayBanner() {
+    return update(d => {
+      const today = todayKey();
+      d.dayBanner = { date: today, dismissed: true };
+      d.lastSeenDay = today;
+    });
+  }
+
+  function shouldShowDayBanner() {
+    const d = load();
+    const ban = d.dayBanner || DEFAULTS.dayBanner;
+    return !!(ban.date === todayKey() && !ban.dismissed);
+  }
+
+  function getDailyCard() {
+    const d = load().dailyCard || DEFAULTS.dailyCard;
+    if (!d.date || d.date !== todayKey() || d.n == null) return null;
+    return Object.assign({}, d);
+  }
+
+  function setDailyCard(card) {
+    if (!card || card.n == null) return load();
+    const existing = getDailyCard();
+    if (existing) return load();
+    return update(d => {
+      d.dailyCard = {
+        date: todayKey(),
+        n: card.n,
+        name: card.name || '',
+        theme: card.theme || '',
+        prompt: card.prompt || ''
+      };
+    });
+  }
+
+  function clearDailyCardIfStale() {
+    return update(d => {
+      const dc = d.dailyCard || DEFAULTS.dailyCard;
+      if (dc.date && dc.date !== todayKey()) {
+        d.dailyCard = Object.assign({}, DEFAULTS.dailyCard);
+      }
+    });
+  }
+
+  function shouldRemindBackup() {
+    const d = load();
+    const count = entryCount(d);
+    const br = d.backupReminder || DEFAULTS.backupReminder;
+    if (count < BACKUP_EVERY_N) return false;
+    const last = br.lastRemindCount || 0;
+    // Remind each time we cross another multiple of N since last remind
+    return count >= last + BACKUP_EVERY_N;
+  }
+
+  function markBackupReminded() {
+    return update(d => {
+      d.backupReminder = Object.assign({}, d.backupReminder || {}, {
+        lastRemindCount: entryCount(d)
+      });
+    });
+  }
+
+  function markBackupExported() {
+    return update(d => {
+      d.backupReminder = {
+        lastRemindCount: entryCount(d),
+        lastExportAt: new Date().toISOString()
+      };
+    });
+  }
+
+  global.UniversumStorage = {
+    STORAGE_KEY,
+    DEFAULTS,
+    APP_VERSION,
+    BRIEFING_PIN_OPTIONS,
+    load,
+    save,
+    update,
+    exportBuch,
+    importBuch,
+    uid,
+    todayKey,
+    get369,
+    set369,
+    recordPractice,
+    getStreak,
+    resetOnboarding,
+    completeOnboarding,
+    recordCardDraw,
+    getCardDrawHistory,
+    hashIntention,
+    getDailyIntention,
+    setDailyIntention,
+    toggleRitualFavorite,
+    isRitualFavorite,
+    getBriefingPins,
+    setBriefingPins,
+    addSigilGalleryEntry,
+    removeSigilGalleryEntry,
+    clearSigilGallery,
+    getSigilGallery,
+    getIntentionHistory,
+    clearIntentionHistory,
+    addPracticeLog,
+    removePracticeLog,
+    getPracticeLog,
+    addKreisNote,
+    removeKreisNote,
+    getKreisNotes,
+    normalizePins,
+    getLastSaveResult,
+    entryCount,
+    BACKUP_EVERY_N,
+    checkDayRollover,
+    dismissDayBanner,
+    shouldShowDayBanner,
+    getDailyCard,
+    setDailyCard,
+    clearDailyCardIfStale,
+    shouldRemindBackup,
+    markBackupReminded,
+    markBackupExported,
+    normalizeTemplates,
+    getRitualTemplates,
+    saveRitualTemplate,
+    removeRitualTemplate
+  };
+})(typeof window !== 'undefined' ? window : globalThis);

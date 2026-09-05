@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0c0814" />
+  <meta name="description" content="UNIVERSUM · COCKPIT — Feldlicht ist da: stiller Ritualbegleiter für den Tag." />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>UNIVERSUM · COCKPIT</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <main class="splash">
+    <p class="splash-eyebrow">PRAXIS · LOKAL · PWA</p>
+    <h1 class="brand-title">UNIVERSUM</h1>
+    <p class="splash-mark">· COCKPIT ·</p>
+    <p class="tagline">Feldlicht ist da — ein stiller Ritualbegleiter für den Tag.</p>
+    <p class="ethics">
+      Grenze und Ausgleich. Kein Schaden an Personen.<br />
+      Praxiswerkzeug für Erfahrene — kein Schaukasten.<br />
+      <em>Ein Handy kann keine Geister messen.</em>
+    </p>
+    <a class="btn primary enter" href="cockpit.html">Cockpit öffnen</a>
+    <p class="splash-foot">
+      Früher: Feldlicht Ritualbegleiter · Daten: localStorage <code>feldlicht-v15</code><br />
+      Offline-Shell via Service Worker
+    </p>
+  </main>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js').catch(function () {});
+    }
+  </script>
+</body>
+</html>
