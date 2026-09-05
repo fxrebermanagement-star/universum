@@ -158,13 +158,20 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 
 
 
+**Zusätzlich (v3.6.1 · Bildhafte Icons)**
+
+- **Bottom-Nav & Tiles** — farbige Emojis zurück (📅 🪐 🕯️ 📖 📝 🔮); enge Violett-Badge-Boxen entfernt, Icons größer (~1.4–1.55rem)
+- **Sektions-Titel, Empty States, Onboarding, Landing** — gleiche bildhafte Sprache statt abstrakter Glyphen (☽✧⟡✎▤)
+- **Schnell-Chips / Abschluss** — wärmere Praxis-Icons (🌬️ 🎯 ✨ …); Feldkarten-SVGs unverändert
+- Ethik und deutsche UI sonst unverändert; kein Gendersprache
+- App `3.6.1`, SW-Cache `universum-shell-v29`
+- **Tipp:** Hard-Refresh oder Site-Daten löschen, damit der Service Worker den neuen Cache zieht
+
 **Zusätzlich (v3.6 · Einladende Motive)**
 
-- **Feldkarten sichtbar** — absolute Art-URLs (`new URL(..., location.href)`), größere Grid-Motive (min-height ~140px), pictorial SVGs mit Gold/Teal/Violett-Kontrast, onerror-Fallback «Motif geladen»
-- **App-weit einladender** — Sektions-Icons + Motivstreifen, Nav/Tiles mit Symbol-Badges, Ritual-Liste mit Pfad-Symbol und klareren Dauer-Chips, wärmeres Onboarding, Landing-Konstellation der Pfad-Symbole
-- Ethik, Schumann, Pfad-Ritual-Logik unverändert; Deutsch ohne Gendersprache
-- App `3.6.0`, SW-Cache `universum-shell-v28` (skipWaiting + clientsClaim)
-- **Tipp bei alten Motiven:** Hard-Refresh oder Site-Daten löschen, damit der Service Worker den neuen Cache zieht
+- **Feldkarten sichtbar** — absolute Art-URLs, pictorial SVGs, onerror-Fallback «Motif geladen»
+- Sektions-Motivstreifen, Ritual-Liste mit Pfad-Symbol, Dauer-Chips
+- App `3.6.0`, SW-Cache `universum-shell-v28`
 
 **Zusätzlich (v3.5 · Kosmos-Praxis)**
 

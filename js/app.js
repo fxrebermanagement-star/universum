@@ -226,12 +226,12 @@
 
   const SECTIONS = [
     { id: 'cockpit', name: 'Cockpit', ico: '◈' },
-    { id: 'kalender', name: 'Kalender', ico: '☽' },
-    { id: 'kosmos', name: 'Kosmos', ico: '✧' },
-    { id: 'rituale', name: 'Rituale', ico: '⟡' },
-    { id: 'tagebuch', name: 'Tagebuch', ico: '✎' },
-    { id: 'notizen', name: 'Notizen', ico: '▤' },
-    { id: 'netzwerk', name: 'Kreis', ico: '◯' }
+    { id: 'kalender', name: 'Kalender', ico: '📅' },
+    { id: 'kosmos', name: 'Kosmos', ico: '🪐' },
+    { id: 'rituale', name: 'Rituale', ico: '🕯️' },
+    { id: 'tagebuch', name: 'Tagebuch', ico: '📖' },
+    { id: 'notizen', name: 'Notizen', ico: '📝' },
+    { id: 'netzwerk', name: 'Kreis', ico: '🔮' }
   ];
 
   function $(sel, root) { return (root || document).querySelector(sel); }
@@ -560,7 +560,7 @@
         id: ritualId || p.id,
         ritualId: ritualId,
         logKind: p.kind,
-        ico: p.kind === '369' ? '③' : p.kind === 'atem' ? '◯' : p.kind === 'fokus' ? '◇' : '✦',
+        ico: p.kind === '369' ? '3️⃣' : p.kind === 'atem' ? '🌬️' : p.kind === 'fokus' ? '🎯' : '✨',
         label: p.label || 'Praxis',
         tag: 'Zuletzt'
       });
@@ -2996,7 +2996,7 @@
         id: 'atmen',
         title: 'Atmen',
         text: cw.atmen || 'Drei ruhige Züge: vier zählen ein, sechs aus. Der Kreis folgt dem Atem — Schwelle, kein Timer-Zwang.',
-        ico: '◯',
+        ico: '🌬️',
         breath: true
       },
       {
@@ -3009,13 +3009,13 @@
         id: 'siegeln',
         title: 'Siegeln',
         text: cw.siegeln || '„Die Arbeit ist geschlossen.“ Grenze und Ausgleich. Kein Schaden an Personen. Schwelle gehalten.',
-        ico: '✦'
+        ico: '🔒'
       },
       {
         id: 'seed',
         title: 'Reflexion (optional)',
         text: 'Ein kurzer Satz fürs Ritual-Journal — oder weitergehen. Kein Zwang.',
-        ico: '✧',
+        ico: '📝',
         diary: true
       }
     ];

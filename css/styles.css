@@ -464,7 +464,7 @@ input[type="checkbox"] {
   font-weight: 500;
   letter-spacing: 0.01em;
 }
-.bottom-nav button .ico { font-size: 1.22rem; line-height: 1; }
+.bottom-nav button .ico { font-size: 1.42rem; line-height: 1; }
 .bottom-nav button.active {
   color: var(--moon);
   background: rgba(110, 181, 255, 0.12);
@@ -639,7 +639,7 @@ input[type="checkbox"] {
   transform: translateY(-2px);
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35), var(--glow-violet);
 }
-.tile .tile-ico { font-size: 1.4rem; margin-bottom: 0.35rem; line-height: 1; }
+.tile .tile-ico { font-size: 1.55rem; margin-bottom: 0.35rem; line-height: 1; }
 .tile .tile-name {
   font-family: var(--font-title);
   font-size: 0.98rem;
@@ -665,10 +665,10 @@ input[type="checkbox"] {
 .recs-list li:last-child { border-bottom: none; padding-bottom: 0; }
 .recs-list li:first-child { padding-top: 0.15rem; }
 .recs-list li::before {
-  content: '✦';
-  color: var(--gold);
-  margin-right: 0.55rem;
-  font-size: 0.68rem;
+  content: '✨';
+  color: inherit;
+  margin-right: 0.45rem;
+  font-size: 0.85rem;
   opacity: 0.9;
 }
 
@@ -4604,7 +4604,7 @@ body.reduced-motion .feldkarte:hover {
 }
 
 
-/* ——— v3.6 Einladende Motive · moderne Ruhe ——— */
+/* ——— v3.6.1 Bildhafte Icons · klare Erkennbarkeit ——— */
 .section-title {
   display: flex;
   align-items: center;
@@ -4615,16 +4615,17 @@ body.reduced-motion .feldkarte:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.85rem;
-  height: 1.85rem;
-  border-radius: 10px;
-  font-size: 1rem;
-  background:
-    linear-gradient(145deg, rgba(232, 197, 71, 0.16), rgba(124, 92, 191, 0.18));
-  border: 1px solid rgba(232, 197, 71, 0.28);
-  color: var(--gold);
+  width: auto;
+  height: auto;
+  min-width: 0;
+  border-radius: 0;
+  font-size: 1.35rem;
+  background: none;
+  border: none;
+  color: inherit;
   flex-shrink: 0;
   line-height: 1;
+  filter: drop-shadow(0 0 8px rgba(232, 197, 71, 0.2));
 }
 .section-motif {
   display: block;
@@ -4639,25 +4640,26 @@ body.reduced-motion .feldkarte:hover {
   margin-top: -0.35rem;
 }
 
-/* Nav + tiles: symbol badges instead of sparse emoji */
+/* Nav + tiles: pictorial emoji, no cramped violet badge */
 .bottom-nav button .ico {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.55rem;
-  height: 1.55rem;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  margin-bottom: 0.15rem;
-  background: rgba(124, 92, 191, 0.14);
-  border: 1px solid rgba(124, 92, 191, 0.22);
-  color: var(--text-soft);
+  display: block;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  font-size: 1.42rem;
+  margin-bottom: 0.12rem;
+  line-height: 1;
+  background: none;
+  border: none;
+  color: inherit;
+  box-shadow: none;
 }
 .bottom-nav button.active .ico {
-  background: rgba(232, 197, 71, 0.18);
-  border-color: rgba(232, 197, 71, 0.4);
-  color: var(--gold);
-  box-shadow: 0 0 12px rgba(232, 197, 71, 0.2);
+  background: none;
+  border: none;
+  color: inherit;
+  box-shadow: none;
+  filter: drop-shadow(0 0 6px rgba(232, 197, 71, 0.35));
 }
 .tile {
   position: relative;
@@ -4673,20 +4675,17 @@ body.reduced-motion .feldkarte:hover {
   pointer-events: none;
 }
 .tile .tile-ico {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.35rem;
-  height: 2.35rem;
-  border-radius: 12px;
-  font-size: 1.15rem;
-  margin-bottom: 0.45rem;
-  background:
-    linear-gradient(160deg, rgba(255,255,255,0.06), transparent),
-    rgba(124, 92, 191, 0.16);
-  border: 1px solid rgba(232, 197, 71, 0.22);
-  color: var(--gold);
+  display: block;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  font-size: 1.55rem;
+  margin-bottom: 0.4rem;
+  background: none;
+  border: none;
+  color: inherit;
   line-height: 1;
+  filter: drop-shadow(0 0 8px rgba(232, 197, 71, 0.18));
 }
 
 /* Ritual list: path symbol + duration more prominent */
@@ -4694,12 +4693,12 @@ body.reduced-motion .feldkarte:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.4rem;
-  height: 2.4rem;
+  width: 2.5rem;
+  height: 2.5rem;
   border-radius: 12px;
-  background: rgba(124, 92, 191, 0.16);
-  border: 1px solid rgba(124, 92, 191, 0.28);
-  font-size: 1.2rem;
+  background: rgba(124, 92, 191, 0.08);
+  border: 1px solid rgba(124, 92, 191, 0.14);
+  font-size: 1.35rem;
 }
 .ritual-item.path-own .r-ico {
   border-color: rgba(232, 197, 71, 0.4);
@@ -4740,15 +4739,15 @@ body.reduced-motion .feldkarte:hover {
   border: 1px solid rgba(124, 92, 191, 0.22);
 }
 .empty-state::before {
-  content: '✦';
+  content: '✨';
   display: block;
-  font-size: 1.35rem;
-  color: var(--gold);
-  opacity: 0.7;
+  font-size: 1.55rem;
+  color: inherit;
+  opacity: 0.9;
   margin-bottom: 0.55rem;
   filter: drop-shadow(0 0 8px rgba(232, 197, 71, 0.25));
 }
-.empty-state.convert::before { content: '⟡'; color: var(--maya); }
+.empty-state.convert::before { content: '🕯️'; color: inherit; }
 
 /* Landing: path constellation + softer invite */
 .landing-v22 {
@@ -4766,13 +4765,13 @@ body.reduced-motion .feldkarte:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.1rem;
-  height: 2.1rem;
+  width: 2.35rem;
+  height: 2.35rem;
   border-radius: 999px;
-  font-size: 0.95rem;
-  color: var(--gold);
-  background: rgba(124, 92, 191, 0.16);
-  border: 1px solid rgba(232, 197, 71, 0.25);
+  font-size: 1.2rem;
+  color: inherit;
+  background: rgba(124, 92, 191, 0.12);
+  border: 1px solid rgba(232, 197, 71, 0.22);
   box-shadow: 0 0 16px rgba(124, 92, 191, 0.12);
 }
 .landing-hero-mark {
@@ -4783,8 +4782,8 @@ body.reduced-motion .feldkarte:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.85rem;
-  color: var(--gold);
+  font-size: 2.1rem;
+  color: inherit;
   background:
     radial-gradient(circle at 40% 30%, rgba(232, 197, 71, 0.35), transparent 55%),
     linear-gradient(145deg, #2a1f42, #120c1c);
@@ -4808,16 +4807,16 @@ body.reduced-motion .feldkarte:hover {
   margin: 0.35rem 0 0.85rem;
 }
 .onboard-hero span {
-  width: 2.4rem;
-  height: 2.4rem;
+  width: 2.55rem;
+  height: 2.55rem;
   border-radius: 12px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: rgba(124, 92, 191, 0.2);
-  border: 1px solid rgba(232, 197, 71, 0.3);
-  color: var(--gold);
-  font-size: 1.1rem;
+  background: rgba(124, 92, 191, 0.12);
+  border: 1px solid rgba(232, 197, 71, 0.22);
+  color: inherit;
+  font-size: 1.35rem;
 }
 .onboard-invite-box {
   text-align: center;
@@ -4855,9 +4854,9 @@ body.reduced-motion .feldkarte:hover {
   font-weight: 650;
 }
 .areas-label::before {
-  content: '✧';
-  color: var(--gold);
-  font-size: 0.9rem;
+  content: '✨';
+  color: inherit;
+  font-size: 1rem;
   text-transform: none;
   letter-spacing: 0;
 }
