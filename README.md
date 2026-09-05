@@ -139,6 +139,13 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 - Viz-Puls nutzt Live-Hz wenn verfügbar, sonst lokaler 7,83-Hz-Fallback
 - App `2.3.0`, SW-Cache `universum-shell-v15`
 
+**Zusätzlich (v2.4 · Pfadtiefe)**
+
+- **Pfad-eigene Rituale** — jeder der 8 Pfade hat 2–3 geführte Eigenrituale (z. B. Trommel-Atem, Maß/Eid, Hausreinigung, Sigil-Gnosis, Schwelle); Pfadfilter zeigt Eigenes zuerst, Geteiltes danach
+- **Kalender-Betonung** — reichere Emphasis-Listen; Chaos: Tore 3/6/9, Labor-Tag, Sigil-Freitag; Voodoo/Santería: respektvolle Erinnerungs-/Haus-Tage mit klaren Hauspraxis-Disclaimern (keine Initiation); starke Unterscheidung Voodoo vs Santería
+- **Haltung in der Praxis** — pfadeigene Sicherheitscheck-Zeilen, Schritt-Intros und Abschlussworte (Danken/Atmen/Erden/Siegeln)
+- App `2.4.0`, SW-Cache `universum-shell-v16`
+
 **Zusätzlich**
 
 - **First-run Onboarding (Erste Minute)** — Pfad → Praxis-Einladung → fertig; Ethik als eine Zeile; optional Überspringen; Standort Zürich-Default (Einstellungen)
@@ -150,7 +157,7 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 - **Abschluss-Mikrofluss** — nach geführten Ritualen: Danken → Erden → Siegeln
 - **Export/Import** — Metadaten (App-Version, Pfad); Import-Wahl Zusammenführen oder Ersetzen
 
-**Pfadwahl:** Schamanismus, Nordisch, Voodoo, Santería, Hermetik, Wicca-Hexerei, Chaosmagie, Esoterik — jeweils mit eigenen Sprüchen, Praxis-Hinweisen, Tagebuch-Impulsen und Kalender-Notizen.
+**Pfadwahl:** Schamanismus, Nordisch, Voodoo, Santería, Hermetik, Wicca-Hexerei, Chaosmagie, Esoterik — jeweils mit eigenen Sprüchen, Praxis-Hinweisen, Tagebuch-Impulsen, Kalender-Notizen, pfadeigenen Ritualen und Haltung (Sicherheit/Abschluss).
 
 ## Astronomie (Näherungen)
 
@@ -184,7 +191,7 @@ Kein Ersatz für Ephemeriden oder traditionelle Einweihung.
 
 - Schriften: **Syne** (Titel/Zahlen) + **Manrope** (Fließtext) via Google Fonts
 - Dark-Violet Mystik-Cockpit, mobile-first, Micro-Interactions
-- Service Worker: Offline-Shell (`universum-shell-v14`), Scope relativ für GitHub Pages `/universum/`
+- Service Worker: Offline-Shell (`universum-shell-v16`), Scope relativ für GitHub Pages `/universum/`
 - Kein React, kein Bundler, kein Backend
 
 ## Dateien
@@ -252,3 +259,7 @@ Zwölfte Runde — **Klare Sprache & Feinschliff**: Gendersprache aus UI/README 
 ## Craft-Pass (v2.3) · Live Schumann Station
 
 Dreizehnte Runde — **Ehrliche Live-Stationsdaten**: ResonanceOne `/api/now` (Tomsk SR + NOAA Kp/Solar) in Cockpit/Kosmos mit klarer Quellen-/Update-Kennzeichnung; Offline-Fallback 7,83-Hz-Viz; Einstellung und localStorage-Cache unter `feldlicht-v15` (`settings.schumannLive*`). App `2.3.0`, SW-Cache `universum-shell-v15`. Server Port **8765**.
+
+## Craft-Pass (v2.4) · Pfadtiefe
+
+Vierzehnte Runde — **Pfad-Tiefe**: jedes der 8 Pfade erhält eigene geführte Rituale (Filter: Eigenes zuerst); reichere Kalender-Betonung inkl. Chaos-Tore 3/6/9 und klar getrennte Voodoo-/Santería-Haus-Erinnerungstage mit Disclaimern; Haltung schreibt Sicherheitscheck, Schritt-Intro und Abschluss (Danken/Atmen/Erden/Siegeln). Schumann-Live aus v2.3 bleibt. App `2.4.0`, SW-Cache `universum-shell-v16`. Server Port **8765**.

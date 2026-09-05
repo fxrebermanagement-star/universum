@@ -1099,7 +1099,7 @@
   function collectSearchIndex() {
     const items = [];
     const path = currentPath();
-    const guided = Rituals.listForPath(state.path) || [];
+    const guided = Rituals.listForPath(state.path, { recommendedRitual: (currentPath() && currentPath().recommendedRitual) }) || [];
     guided.forEach(r => {
       items.push({
         kind: 'ritual',
@@ -1992,7 +1992,9 @@
     renderStreakLine();
 
     const favs = state.ritualFavorites || [];
-    const base = ritualPathFilter === 'all' ? (Rituals.GUIDED || []) : Rituals.listForPath(state.path);
+    const base = ritualPathFilter === 'all'
+      ? (Rituals.GUIDED || [])
+      : Rituals.listForPath(state.path, { recommendedRitual: path.recommendedRitual });
     let list = base.filter(r => ritualMatchesFilters(r, path));
     list = list.slice().sort((a, b) => {
       const af = favs.indexOf(a.id);
@@ -2002,6 +2004,14 @@
       if (aFav && !bFav) return -1;
       if (!aFav && bFav) return 1;
       if (aFav && bFav) return af - bf;
+      if (ritualPathFilter !== 'all') {
+        const aOwn = Rituals.isOwnForPath && Rituals.isOwnForPath(a, state.path) ? 0 : 1;
+        const bOwn = Rituals.isOwnForPath && Rituals.isOwnForPath(b, state.path) ? 0 : 1;
+        if (aOwn !== bOwn) return aOwn - bOwn;
+        const aRec = path.recommendedRitual === a.id ? 0 : 1;
+        const bRec = path.recommendedRitual === b.id ? 0 : 1;
+        if (aRec !== bRec) return aRec - bRec;
+      }
       return 0;
     });
     const el = $('#ritual-list');
@@ -2046,13 +2056,17 @@
     } else {
       el.innerHTML = list.map(r => {
         const isFav = favs.includes(r.id);
-        return '<div class="ritual-item' + (isFav ? ' is-fav' : '') + (path.recommendedRitual === r.id ? ' path-emphasized' : '') + '" data-ritual-wrap="' + r.id + '">' +
+        const isOwn = Rituals.isOwnForPath && Rituals.isOwnForPath(r, state.path);
+        return '<div class="ritual-item' + (isFav ? ' is-fav' : '') + (path.recommendedRitual === r.id || isOwn ? ' path-emphasized' : '') + (isOwn ? ' path-own' : '') + '" data-ritual-wrap="' + r.id + '">' +
           '<button type="button" class="ritual-item-main" data-ritual="' + r.id + '">' +
           '<span class="r-ico">' + r.ico + '</span>' +
           '<span><div class="r-name">' + escapeHtml(r.name) +
+          (isOwn ? '<span class="fav-badge path-own-badge">Pfad</span>' : '') +
           (isFav ? '<span class="fav-badge">Favorit</span>' : '') + '</div>' +
           '<div class="r-meta">≈ ' + r.mins + ' Min · ' + r.steps.length + ' Schritte' +
           (r.breath ? ' · Atem' : '') + (r.candle ? ' · Kerze' : '') +
+          (r.houseOnly ? ' · Haus' : '') +
+          (isOwn ? ' · pfadeigen' : '') +
           (path.recommendedRitual === r.id ? ' · empfohlen' : '') +
           '</div></span></button>' +
           '<button type="button" class="fav-btn" data-fav="' + r.id + '" aria-label="' +
@@ -2155,12 +2169,20 @@
     let remaining = 0;
 
     function showSafety() {
-      const items = Rituals.SAFETY_ITEMS.map(s =>
+      const pathNow = currentPath();
+      const pathSafe = (Paths.safetyItems && Paths.safetyItems(state.path)) || Rituals.SAFETY_ITEMS;
+      const lead = (Paths.safetyLead && Paths.safetyLead(state.path)) || 'Vor der Arbeit — Grenze und Ausgleich.';
+      const houseNote = ritual.houseOnly
+        ? '<p class="notice ethics-line">Nur Hauspraxis — keine Initiation.</p>'
+        : '';
+      const items = pathSafe.map(s =>
         '<label><input type="checkbox" data-safe="' + s.id + '"> ' + escapeHtml(s.label) + '</label>'
       ).join('');
       $('#rr-content').innerHTML =
         '<div class="rr-step"><h2>Sicherheitscheck</h2>' +
-        '<p class="section-sub">Vor der Arbeit — Grenze und Ausgleich.</p>' +
+        '<p class="section-sub">' + escapeHtml(lead) + '</p>' +
+        (pathNow && pathNow.haltung ? '<p class="notice ethics-line">' + escapeHtml(pathNow.haltung) + '</p>' : '') +
+        houseNote +
         '<div class="safety-check" style="text-align:left;width:100%">' + items + '</div>' +
         '<div class="rr-actions"><button type="button" class="primary" id="rr-safety-go" disabled>Weiter</button>' +
         '<button type="button" id="rr-cancel">Abbrechen</button></div></div>';
@@ -2224,10 +2246,12 @@
         extras += '<div class="candle-flame" aria-hidden="true"><div class="flame"></div><div class="wick"></div></div>';
       }
 
+      const intro = (Paths.stepIntro && Paths.stepIntro(state.path)) || '';
       $('#rr-content').innerHTML =
         '<div class="rr-step">' +
         '<div class="rr-progress"><i style="width:' + progress + '%"></i></div>' +
-        '<p class="section-sub">Schritt ' + (i + 1) + ' / ' + ritual.steps.length + '</p>' +
+        '<p class="section-sub">Schritt ' + (i + 1) + ' / ' + ritual.steps.length +
+        (intro ? ' · ' + escapeHtml(intro) : '') + '</p>' +
         '<h2>' + escapeHtml(step.title) + '</h2>' +
         extras +
         '<div class="rr-timer" id="rr-timer">' + formatSec(remaining) + '</div>' +
@@ -2297,30 +2321,31 @@
     const titleEl = $('#rr-title');
     if (titleEl) titleEl.textContent = 'Abschluss · ' + label;
 
+    const cw = (Paths.closingWords && Paths.closingWords(state.path)) || {};
     const CLOSING = [
       {
         id: 'danken',
         title: 'Danken',
-        text: 'Danke dem Raum, dem Atem und der Absicht — ohne Forderung. Ein kurzer innerer Dank genügt.',
+        text: cw.danken || 'Danke dem Raum, dem Atem und der Absicht — ohne Forderung. Ein kurzer innerer Dank genügt.',
         ico: '🙏'
       },
       {
         id: 'atmen',
         title: 'Atmen',
-        text: 'Drei ruhige Züge: vier zählen ein, sechs aus. Der Kreis folgt dem Atem — Schwelle, kein Timer-Zwang.',
+        text: cw.atmen || 'Drei ruhige Züge: vier zählen ein, sechs aus. Der Kreis folgt dem Atem — Schwelle, kein Timer-Zwang.',
         ico: '◯',
         breath: true
       },
       {
         id: 'erden',
         title: 'Erden',
-        text: embodied + ' Hände, Gesicht, ein Schluck Wasser wenn möglich. Du bist wieder im Körper.',
+        text: (cw.erden || (embodied + ' Hände, Gesicht, ein Schluck Wasser wenn möglich. Du bist wieder im Körper.')),
         ico: '🌱'
       },
       {
         id: 'siegeln',
         title: 'Siegeln',
-        text: '„Die Arbeit ist geschlossen.“ Grenze und Ausgleich. Kein Schaden an Personen. Schwelle gehalten.',
+        text: cw.siegeln || '„Die Arbeit ist geschlossen.“ Grenze und Ausgleich. Kein Schaden an Personen. Schwelle gehalten.',
         ico: '✦'
       },
       {
@@ -2398,7 +2423,7 @@
       const next = $('#rr-close-next');
       if (next) next.addEventListener('click', () => { ci++; paint(); });
       const done = $('#rr-done');
-      if (done) done.addEventListener('click', () => finishClosing('Praxis gesiegelt — Schwelle gehalten.'));
+      if (done) done.addEventListener('click', () => finishClosing((Paths.closingToast && Paths.closingToast(state.path)) || 'Praxis gesiegelt — Schwelle gehalten.'));
       const seedSave = $('#rr-close-seed-save');
       if (seedSave) seedSave.addEventListener('click', () => {
         const ta = $('#rr-closing-seed');

@@ -3785,3 +3785,14 @@ body.quiet-mode .path-haltung {
 .onboard-ethics {
   margin-top: 0.85rem;
 }
+
+
+/* ——— v2.4 Pfadtiefe ——— */
+.ritual-item.path-own {
+  border-color: color-mix(in srgb, var(--path-accent, var(--gold)) 55%, transparent);
+}
+.fav-badge.path-own-badge {
+  background: color-mix(in srgb, var(--path-accent, var(--gold)) 28%, transparent);
+  color: var(--path-accent, var(--gold));
+  border: 1px solid color-mix(in srgb, var(--path-accent, var(--gold)) 45%, transparent);
+}

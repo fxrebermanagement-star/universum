@@ -1,10 +1,12 @@
 /**
  * UNIVERSUM — Geführte Rituale, 369, Sicherheit, Atembrücke, Kerzenwache
+ * v2.4: path-own guided rituals; shared secondary; Haltung-aware safety/closing helpers
  */
 (function (global) {
   'use strict';
 
   const GUIDED = [
+    /* ——— Shared (secondary when path filter is on) ——— */
     {
       id: 'erdung',
       name: 'Erdung',
@@ -173,6 +175,285 @@
         { title: 'Abend ×9', text: '9× — dann loslassen und „vergessen“ wie beim Sigil.', sec: 150, slot369: 'evening', count369: 9 },
         { title: 'Schließen', text: 'Praxis beenden. Ergebnis nicht jagen. Alltag.', sec: 30 }
       ]
+    },
+
+    /* ——— Path-own: Schamanismus ——— */
+    {
+      id: 'trommel-atem',
+      name: 'Trommel-Atem',
+      ico: '🥁',
+      mins: 8,
+      paths: ['schamanismus'],
+      own: true,
+      breath: true,
+      steps: [
+        { title: 'Boden', text: 'Setze dich. Füße oder Sitzbein spüren. Keine Geisterreise erzwingen — Körper zuerst.', sec: 45 },
+        { title: 'Puls', text: 'Klopfe sanft auf Oberschenkel oder stelle Trommel vor: gleichmäßiger Puls. Atem folgt dem Puls.', sec: 120, breath: true },
+        { title: 'Reise-Mini', text: 'Augen halb zu. Frage nur: „Was braucht der Alltag heute?“ Kein Spektakel.', sec: 150 },
+        { title: 'Rückkehr', text: 'Puls verlangsamen. Hände, Raum, Wasser. „Ich bin zurück.“', sec: 60 },
+        { title: 'Ankern', text: 'Eine kleine Handlung wählen, die den Körper ehrt — stehen, strecken, trinken.', sec: 45 }
+      ]
+    },
+    {
+      id: 'ahnenlicht-schaman',
+      name: 'Ahnenlicht (Pfad)',
+      ico: '🔥',
+      mins: 9,
+      paths: ['schamanismus'],
+      own: true,
+      steps: [
+        { title: 'Rahmen', text: 'Erinnerung und Kraft der Linie — keine Messung, kein Medium. Handy bleibt Werkzeug, nicht Orakel.', sec: 45 },
+        { title: 'Licht', text: 'Kerze oder digitales Licht. Namen nennen, die tragen — ohne Forderung.', sec: 90 },
+        { title: 'Atem der Trommel', text: 'Drei lange Ausatmen. Mit dem Feld gehen, nicht dagegen.', sec: 90, breath: true },
+        { title: 'Dank', text: 'Dank für Leben und Widerstandskraft. Was du mitnimmst, dient dem Alltag.', sec: 120 },
+        { title: 'Löschen', text: 'Licht aus. Boden spüren. Alltag nimmt Raum.', sec: 45 }
+      ]
+    },
+
+    /* ——— Path-own: Nordisch ——— */
+    {
+      id: 'mass-eid',
+      name: 'Maß und Eid',
+      ico: '⚔️',
+      mins: 8,
+      paths: ['nordisch'],
+      own: true,
+      steps: [
+        { title: 'Grenze', text: 'Was ist heute Maß — und was Übermaß? Ein klarer Satz genügt.', sec: 60 },
+        { title: 'Eid prüfen', text: 'Welchen Eid hältst du? Wort und Tat sollen denselben Ring tragen. Ohne Pathos.', sec: 120 },
+        { title: 'Setzen', text: 'Formuliere einen kleinen Eid an dich selbst — haltbar heute, ethisch, ohne Schaden.', sec: 90 },
+        { title: 'Siegel', text: 'Hand auf Herz oder Tisch. „Ich halte das Maß.“ Stille.', sec: 90 },
+        { title: 'Alltag', text: 'Eid mitnehmen als Haltung, nicht als Drama. Weiter.', sec: 40 }
+      ]
+    },
+    {
+      id: 'gabe',
+      name: 'Gabe',
+      ico: '🌾',
+      mins: 7,
+      paths: ['nordisch'],
+      own: true,
+      steps: [
+        { title: 'Empfangen', text: 'Was hast du schon erhalten — Sippe, Körper, Tag? Nenne drei Dinge.', sec: 60 },
+        { title: 'Wählen', text: 'Eine symbolische Gabe: Brotkrume, Wasser, Zeit, ehrliches Wort — kein Kaufzwang.', sec: 90 },
+        { title: 'Geben', text: 'Gabe hinlegen oder Tat setzen. Ohne Forderung an Götter oder Menschen.', sec: 120 },
+        { title: 'Maß', text: 'Ausgleich: was behältst du, was gibst du weiter? Grenze ehren.', sec: 60 },
+        { title: 'Schließen', text: 'Danken. Raum verlassen in Klarheit.', sec: 40 }
+      ]
+    },
+
+    /* ——— Path-own: Voodoo (Haus only) ——— */
+    {
+      id: 'hausreinigung-voodoo',
+      name: 'Hausreinigung',
+      ico: '🏠',
+      mins: 10,
+      paths: ['voodoo'],
+      own: true,
+      houseOnly: true,
+      steps: [
+        { title: 'Disclaimer', text: 'Nur Hauspraxis. Keine Initiation, keine Lwa-Anrufung als Medium. Respekt vor Tradition.', sec: 45 },
+        { title: 'Schwelle', text: 'Eingang oder Raumecke: Staub weg, Fenster Luft. Reinheit beginnt im Haus.', sec: 90 },
+        { title: 'Wasser und Licht', text: 'Schale Wasser und Kerze/LED. Absicht: Klarheit im Alltag — kein Schaden.', sec: 120 },
+        { title: 'Wort', text: '„Was dem Haus nicht dient, darf gehen.“ Kein Fluch auf Personen.', sec: 60 },
+        { title: 'Schließen', text: 'Wasser entsorgen (Waschbecken/Erde wo erlaubt). Licht aus. Alltag.', sec: 50 }
+      ]
+    },
+    {
+      id: 'licht-wasser',
+      name: 'Licht und Wasser',
+      ico: '💧',
+      mins: 7,
+      paths: ['voodoo'],
+      own: true,
+      houseOnly: true,
+      candle: true,
+      steps: [
+        { title: 'Rahmen', text: 'Öffentliche/Hauspraxis. Kein Ile, keine Einweihung hier. Respekt genügt oft.', sec: 40 },
+        { title: 'Setzen', text: 'Wasser und Licht vor dich. Zweck: Reinheit und Dank — nicht Geistermessen.', sec: 60 },
+        { title: 'Halten', text: 'Bei Licht und Wasser bleiben. Atmen. Was braucht das Haus heute?', sec: 180, candle: true },
+        { title: 'Dank', text: 'Kurzer Dank. Keine Forderungen an Lwa.', sec: 60 },
+        { title: 'Ende', text: 'Licht löschen. Wasser achten. Schwelle zum Alltag.', sec: 40 }
+      ]
+    },
+
+    /* ——— Path-own: Santería (Haus only) ——— */
+    {
+      id: 'reinigung-ache',
+      name: 'Reinigung und Aché',
+      ico: '✨',
+      mins: 9,
+      paths: ['santeria'],
+      own: true,
+      houseOnly: true,
+      steps: [
+        { title: 'Disclaimer', text: 'Nur Hauspraxis. Keine Initiation, kein Orisha-Priestertum hier. Aché im Alltag.', sec: 45 },
+        { title: 'Raum', text: 'Tisch oder Ecke reinigen. Kerze/LED und klares Wasser wenn möglich.', sec: 90 },
+        { title: 'Reinigen', text: 'Hände waschen oder Atem als Abspülen. „Was nicht dient, darf gehen.“', sec: 90, breath: true },
+        { title: 'Dank vor Bitte', text: 'Drei Dinge nennen, die schon tragen — bevor du etwas wünschst.', sec: 120 },
+        { title: 'Schließen', text: 'Licht achten. Alltag mit Aché im Kleinen fortsetzen.', sec: 45 }
+      ]
+    },
+    {
+      id: 'dank-ache',
+      name: 'Dank / Aché',
+      ico: '🙏',
+      mins: 6,
+      paths: ['santeria'],
+      own: true,
+      houseOnly: true,
+      steps: [
+        { title: 'Rahmen', text: 'Haus, nicht Ile. Dank vor Forderung. Kein Anspruch auf Weihe.', sec: 40 },
+        { title: 'Nennen', text: 'Was verdient Dank heute — Körper, Menschen, Arbeit, Ruhe?', sec: 90 },
+        { title: 'Kerze der Klarheit', text: 'Licht setzen (oder vorstellen). Wärme ohne Spektakel.', sec: 90 },
+        { title: 'Aché', text: 'Ein Satz: „Aché im Kleinen.“ Keine Willensbeugung anderer.', sec: 90 },
+        { title: 'Ende', text: 'Licht aus. Mit Dank in den Tag.', sec: 35 }
+      ]
+    },
+
+    /* ——— Path-own: Hermetik ——— */
+    {
+      id: 'stunden-halten',
+      name: 'Stunden halten',
+      ico: '⏳',
+      mins: 8,
+      paths: ['hermetik'],
+      own: true,
+      steps: [
+        { title: 'Maß', text: 'Kontemplation vor Operation. Welche Stunde trägst du — und passt die Absicht?', sec: 60 },
+        { title: 'Proportion', text: 'Oben und unten: ein Symbol wählen, das Maß hält. Kein leerer Glanz.', sec: 90 },
+        { title: 'Halten', text: 'Stille. Der Operator bleibt Mensch. Atem ruhig.', sec: 150, breath: true },
+        { title: 'Prüfen', text: 'Ist die nächste Handlung ethisch und proportioniert? Wenn nein — stoppen.', sec: 60 },
+        { title: 'Schließen', text: 'Symbol ablegen. „Maß gehalten.“ Alltag.', sec: 40 }
+      ]
+    },
+    {
+      id: 'weihe-hermetik',
+      name: 'Weihe (Maß)',
+      ico: '🔮',
+      mins: 10,
+      paths: ['hermetik'],
+      own: true,
+      steps: [
+        { title: 'Ethik', text: 'Zweck des Werkzeugs: klar, ohne Schaden, ohne fremde Willensbeugung.', sec: 60 },
+        { title: 'Kreis-Mini', text: 'Symbolisch Raum halten. „Dieser Raum dient der Klarheit.“', sec: 60 },
+        { title: 'Reinigen', text: 'Gegenstand reinigen (Tuch, Atem, Licht). Kontemplation.', sec: 90 },
+        { title: 'Widmen', text: 'Ein Satz der Widmung. Symbol mit Ethik — nicht Spektakel.', sec: 120 },
+        { title: 'Ablegen', text: 'Platz zuweisen. Kreis öffnen. Wasser trinken.', sec: 50 }
+      ]
+    },
+
+    /* ——— Path-own: Wicca ——— */
+    {
+      id: 'elemente',
+      name: 'Elemente',
+      ico: '🜃',
+      mins: 9,
+      paths: ['wicca'],
+      own: true,
+      steps: [
+        { title: 'Rede', text: 'An es schadet niemandem. Prüfe Absicht bevor du Elemente rufst.', sec: 45 },
+        { title: 'Erde', text: 'Körper und Boden. Was trägt dich heute?', sec: 60 },
+        { title: 'Luft', text: 'Atem und Klarheit. Ein Gedanke, der dienen darf.', sec: 60, breath: true },
+        { title: 'Feuer', text: 'Absicht als Wärme — nicht als Zorn gegen Personen.', sec: 60 },
+        { title: 'Wasser', text: 'Gefühl anerkennen, ohne es über andere zu gießen.', sec: 60 },
+        { title: 'Kreis schließen', text: 'Elemente danken. Kreis halten und öffnen. Alltag.', sec: 50 }
+      ]
+    },
+    {
+      id: 'sabbat-segen',
+      name: 'Sabbat-Segen',
+      ico: '🌙',
+      mins: 7,
+      paths: ['wicca'],
+      own: true,
+      steps: [
+        { title: 'Rhythmus', text: 'Sabbat ist Atem des Jahres — auch außerhalb des Datums spürbar. Kein Pflichtzwang.', sec: 45 },
+        { title: 'Kreis', text: 'Kleinen Kreis ziehen. „Ich halte den Kreis in Frieden.“', sec: 60 },
+        { title: 'Segen', text: 'Segen für dich, Haus oder Gemeinschaft — nie gegen jemanden.', sec: 120 },
+        { title: 'Ausgleich', text: 'Eine kleine gute Tat oder Dank als Ausgleich.', sec: 60 },
+        { title: 'Öffnen', text: 'Kreis öffnen. „Der Raum ist frei.“', sec: 40 }
+      ]
+    },
+
+    /* ——— Path-own: Chaosmagie ——— */
+    {
+      id: 'sigil-gnosis',
+      name: 'Sigil-Gnosis',
+      ico: '🔯',
+      mins: 10,
+      paths: ['chaosmagie'],
+      own: true,
+      steps: [
+        { title: 'Ethik', text: 'Absicht ethisch? Kein Schaden, keine Willensbeugung. Sonst stoppen.', sec: 60 },
+        { title: 'Statement', text: 'Satz positiv formulieren. Dann zu Sigil verdichten (Buchstaben kürzen / zeichnen).', sec: 120 },
+        { title: 'Gnosis-kurz', text: 'Kurzer Fokus: Atem, Starren oder Bewegung — laden, nicht endlos halten.', sec: 150, breath: true },
+        { title: 'Vergessen-Ansatz', text: 'Sigil zur Seite. Ergebnis nicht jagen. Modell ablegen.', sec: 90 },
+        { title: 'Alltag', text: 'Praxis zu. Nichts ist wahr — Ethik bleibt.', sec: 40 }
+      ]
+    },
+    {
+      id: 'vergessen',
+      name: 'Vergessen',
+      ico: '🌫️',
+      mins: 6,
+      paths: ['chaosmagie'],
+      own: true,
+      steps: [
+        { title: 'Benennen', text: 'Was hast du geladen und darfst jetzt loslassen? Ein Wort genügt.', sec: 45 },
+        { title: 'Ablenken', text: 'Kurze bewusste Ablenkung: zählen, dehnen, Raum ordnen — ohne Drama.', sec: 90 },
+        { title: 'Schnitt', text: '„Geladen. Vergessen.“ Ergebnis-Jagd stoppen.', sec: 60 },
+        { title: 'Ethik-Check', text: 'Hält die Absicht noch ohne Schaden? Wenn nein — korrigieren.', sec: 60 },
+        { title: 'Fertig', text: 'Weiter im Alltag. Modell abgelegt.', sec: 30 }
+      ]
+    },
+
+    /* ——— Path-own: Esoterik ——— */
+    {
+      id: 'schwelle',
+      name: 'Schwelle',
+      ico: '🚪',
+      mins: 7,
+      paths: ['esoterik'],
+      own: true,
+      breath: true,
+      steps: [
+        { title: 'Ankommen', text: 'Still üben. Daten bleiben bei dir. Ein Handy kann keine Geister messen.', sec: 40 },
+        { title: 'Atem', text: '4 ein — 6 aus. Feldlicht begleiten, nicht erzwingen.', sec: 120, breath: true, breathIn: 4, breathOut: 6 },
+        { title: 'Intention', text: 'Ein klarer Satz. Praxiswerkzeug, kein Schaukasten.', sec: 90 },
+        { title: 'Ausgleich', text: 'Was gibst du zurück an den Tag? Ruhe, Ordnung, Dank.', sec: 60 },
+        { title: 'Durchgehen', text: 'Schwelle halten und öffnen. Alltag mit Klarheit.', sec: 40 }
+      ]
+    },
+    {
+      id: 'mondarbeit',
+      name: 'Mondarbeit',
+      ico: '🌕',
+      mins: 8,
+      paths: ['esoterik'],
+      own: true,
+      steps: [
+        { title: 'Phase spüren', text: 'Neu: setzen. Voll: klären/lösen. Dazwischen: pflegen. Ohne Astro-Anspruch.', sec: 60 },
+        { title: 'Absicht', text: 'Passende, ethische Absicht wählen — klein und ehrlich.', sec: 90 },
+        { title: 'Licht oder Dunkel', text: 'Kerze oder Stille. Atem. Kein Spektakel.', sec: 150 },
+        { title: 'Notieren', text: 'Ein Satz fürs Tagebuch (mental ok). Daten bleiben lokal.', sec: 60 },
+        { title: 'Schließen', text: 'Danken. Mond ist Rhythmus, nicht Befehl.', sec: 40 }
+      ]
+    },
+    {
+      id: 'lostag-achtung',
+      name: 'Lostag-Achtung',
+      ico: '📜',
+      mins: 6,
+      paths: ['esoterik'],
+      own: true,
+      steps: [
+        { title: 'Rahmen', text: 'Lostage und Rauhnächte: Achtung, Probe, Stille — kein Orakel-Zwang.', sec: 45 },
+        { title: 'Beobachten', text: 'Was zeigt der Tag ohne Drama? Ein Eindruck genügt.', sec: 90 },
+        { title: 'Halten', text: 'Keine große Operation. Feldlicht still begleiten.', sec: 90, breath: true },
+        { title: 'Merken', text: 'Optional: ein Wort notieren. Keine Vorhersage verkaufen.', sec: 60 },
+        { title: 'Ende', text: 'Achtung wahren. Alltag fortsetzen.', sec: 35 }
+      ]
     }
   ];
 
@@ -184,8 +465,26 @@
     { id: 'closing', label: 'Abschluss: Ich werde die Praxis bewusst schließen und in den Alltag zurückkehren.' }
   ];
 
-  function listForPath(pathId) {
-    return GUIDED.filter(r => !r.paths || r.paths.includes(pathId));
+  function isOwnForPath(r, pathId) {
+    if (!r || !pathId) return false;
+    if (r.own && r.paths && r.paths.includes(pathId)) return true;
+    return false;
+  }
+
+  /** Path filter: include shared (paths null) + path-listed; sort own first, then recommended, then shared. */
+  function listForPath(pathId, opts) {
+    opts = opts || {};
+    const recommended = opts.recommendedRitual || null;
+    const list = GUIDED.filter(r => !r.paths || r.paths.includes(pathId));
+    return list.slice().sort((a, b) => {
+      const aOwn = isOwnForPath(a, pathId) ? 0 : 1;
+      const bOwn = isOwnForPath(b, pathId) ? 0 : 1;
+      if (aOwn !== bOwn) return aOwn - bOwn;
+      const aRec = recommended && a.id === recommended ? 0 : 1;
+      const bRec = recommended && b.id === recommended ? 0 : 1;
+      if (aRec !== bRec) return aRec - bRec;
+      return 0;
+    });
   }
 
   function getRitual(id) {
@@ -205,6 +504,7 @@
     SAFETY_ITEMS,
     listForPath,
     getRitual,
+    isOwnForPath,
     vibrate
   };
 })(typeof window !== 'undefined' ? window : globalThis);
