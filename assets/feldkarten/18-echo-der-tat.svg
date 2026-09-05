@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140" role="img" aria-label="Echo der Tat">
+  <defs>
+    <linearGradient id="bg18" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a1430"/>
+      <stop offset="100%" stop-color="#0c0814"/>
+    </linearGradient>
+    <radialGradient id="glow18" cx="50%" cy="42%" r="48%">
+      <stop offset="0%" stop-color="#7c5cbf" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#7c5cbf" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="120" height="140" rx="10" fill="url(#bg18)"/>
+  <rect x="4" y="4" width="112" height="132" rx="8" fill="none" stroke="#7c5cbf" stroke-opacity="0.35" stroke-width="1"/>
+  <circle cx="60" cy="58" r="42" fill="url(#glow18)"/>
+  <circle cx="60" cy="62" r="8" fill="#e8c547" opacity="0.9"/>
+  <circle cx="60" cy="62" r="18" fill="none" stroke="#3ed4c4" stroke-width="1.5"/>
+  <circle cx="60" cy="62" r="28" fill="none" stroke="#6eb5ff" stroke-width="1.2" opacity="0.7"/>
+  <circle cx="60" cy="62" r="38" fill="none" stroke="#7c5cbf" stroke-width="1" opacity="0.45"/>
+  <path d="M60 28 L63 38 L60 35 L57 38 Z" fill="#e8c547"/>
+</svg>

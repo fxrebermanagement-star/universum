@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140" role="img" aria-label="Schwelle">
+  <defs>
+    <linearGradient id="bg1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a1430"/>
+      <stop offset="100%" stop-color="#0c0814"/>
+    </linearGradient>
+    <radialGradient id="glow1" cx="50%" cy="42%" r="48%">
+      <stop offset="0%" stop-color="#7c5cbf" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#7c5cbf" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="120" height="140" rx="10" fill="url(#bg1)"/>
+  <rect x="4" y="4" width="112" height="132" rx="8" fill="none" stroke="#7c5cbf" stroke-opacity="0.35" stroke-width="1"/>
+  <circle cx="60" cy="58" r="42" fill="url(#glow1)"/>
+  <path d="M28 110 V42 Q28 28 42 28 H78 Q92 28 92 42 V110" fill="none" stroke="#e8c547" stroke-width="2.2"/>
+  <path d="M42 110 V50 Q42 40 52 40 H68 Q78 40 78 50 V110" fill="none" stroke="#3ed4c4" stroke-width="1.6"/>
+  <circle cx="72" cy="72" r="2.2" fill="#e8c547"/>
+  <path d="M20 110 H100" stroke="#7c5cbf" stroke-width="1.4" opacity="0.7"/>
+</svg>

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140" role="img" aria-label="Atembrücke">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a1430"/>
+      <stop offset="100%" stop-color="#0c0814"/>
+    </linearGradient>
+    <radialGradient id="glow3" cx="50%" cy="42%" r="48%">
+      <stop offset="0%" stop-color="#7c5cbf" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#7c5cbf" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="120" height="140" rx="10" fill="url(#bg3)"/>
+  <rect x="4" y="4" width="112" height="132" rx="8" fill="none" stroke="#7c5cbf" stroke-opacity="0.35" stroke-width="1"/>
+  <circle cx="60" cy="58" r="42" fill="url(#glow3)"/>
+  <path d="M18 70 Q30 50 42 70 T66 70 T90 70 T102 70" fill="none" stroke="#3ed4c4" stroke-width="2"/>
+  <path d="M18 82 Q30 62 42 82 T66 82 T90 82 T102 82" fill="none" stroke="#6eb5ff" stroke-width="1.4" opacity="0.75"/>
+  <path d="M28 98 H92" stroke="#e8c547" stroke-width="1.6"/>
+  <path d="M36 98 V88 M84 98 V88" stroke="#e8c547" stroke-width="1.6"/>
+  <circle cx="60" cy="48" r="4" fill="#e8c547" opacity="0.9"/>
+</svg>

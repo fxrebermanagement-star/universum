@@ -629,11 +629,13 @@
       if (lock) lock.hidden = false;
       if (result) {
         result.hidden = false;
+        const full = resolveCardArt(card);
         result.innerHTML =
-          '<div class="fk-num">Feld ' + card.n + ' · heute</div>' +
-          '<div class="fk-name">' + escapeHtml(card.name || '') + '</div>' +
-          '<div class="fk-theme">' + escapeHtml(card.theme || '') + '</div>' +
-          (card.prompt ? '<div class="sp-prompt">' + escapeHtml(card.prompt) + '</div>' : '');
+          (Cards.artImgHtml ? Cards.artImgHtml(full, 'fk-art fk-art-daily') : '') +
+          '<div class="fk-num">Feld ' + full.n + ' · heute</div>' +
+          '<div class="fk-name">' + escapeHtml(full.name || '') + '</div>' +
+          '<div class="fk-theme">' + escapeHtml(full.theme || '') + '</div>' +
+          (full.prompt ? '<div class="sp-prompt">' + escapeHtml(full.prompt) + '</div>' : '');
       }
     } else {
       if (btn) { btn.disabled = false; btn.textContent = 'Tageskarte ziehen'; }
@@ -3292,6 +3294,7 @@
     if (!grid) return;
     grid.innerHTML = Cards.FELDKARTEN.map(c =>
       '<button type="button" class="feldkarte" data-card="' + c.n + '">' +
+      (Cards.artImgHtml ? Cards.artImgHtml(c, 'fk-art fk-art-grid') : '') +
       '<div class="fk-num">Feld ' + c.n + '</div>' +
       '<div class="fk-name">' + escapeHtml(c.name) + '</div>' +
       '<div class="fk-theme">' + escapeHtml(c.theme) + '</div></button>'
@@ -3346,13 +3349,20 @@
     });
   }
 
+  function resolveCardArt(card) {
+    const full = Cards.getCard(card && card.n) || card || {};
+    return Object.assign({}, full, card || {});
+  }
+
   function cardFaceHtml(card, posLabel) {
+    const c = resolveCardArt(card);
     return '<div class="draw-card-face">' +
       (posLabel ? '<div class="sp-pos">' + escapeHtml(posLabel) + '</div>' : '') +
-      '<div class="fk-num">Feld ' + card.n + '</div>' +
-      '<div class="fk-name">' + escapeHtml(card.name) + '</div>' +
-      '<div class="fk-theme">' + escapeHtml(card.theme || '') + '</div>' +
-      (card.prompt ? '<div class="sp-prompt">' + escapeHtml(card.prompt) + '</div>' : '') +
+      (Cards.artImgHtml ? Cards.artImgHtml(c, 'fk-art fk-art-face') : '') +
+      '<div class="fk-num">Feld ' + c.n + '</div>' +
+      '<div class="fk-name">' + escapeHtml(c.name) + '</div>' +
+      '<div class="fk-theme">' + escapeHtml(c.theme || '') + '</div>' +
+      (c.prompt ? '<div class="sp-prompt">' + escapeHtml(c.prompt) + '</div>' : '') +
       '</div>';
   }
 
@@ -3438,14 +3448,16 @@
 
   function showSpread(cards, alreadySaved) {
     const area = $('#spread-area');
-    area.innerHTML = cards.map((c, idx) =>
-      '<div class="spread-card" style="animation-delay:' + (idx * 0.12) + 's">' +
+    area.innerHTML = cards.map((c, idx) => {
+      const full = resolveCardArt(c);
+      return '<div class="spread-card" style="animation-delay:' + (idx * 0.12) + 's">' +
       '<div class="sp-pos">' + escapeHtml(c.position.label) + '</div>' +
-      '<div class="sp-name">' + escapeHtml(c.name) + '</div>' +
-      '<div class="sp-theme">' + escapeHtml(c.theme) + '</div>' +
-      '<div class="sp-prompt">' + escapeHtml(c.prompt || c.position.hint) + '</div>' +
-      '</div>'
-    ).join('');
+      (Cards.artImgHtml ? Cards.artImgHtml(full, 'fk-art fk-art-spread') : '') +
+      '<div class="sp-name">' + escapeHtml(full.name) + '</div>' +
+      '<div class="sp-theme">' + escapeHtml(full.theme) + '</div>' +
+      '<div class="sp-prompt">' + escapeHtml(full.prompt || c.position.hint) + '</div>' +
+      '</div>';
+    }).join('');
     area.classList.add('show');
     $$('.feldkarte').forEach(el => {
       el.classList.toggle('drawn', cards.some(c => c.n === Number(el.dataset.card)));

@@ -2,9 +2,9 @@
  * UNIVERSUM · Service Worker — offline shell caching
  * Relative URLs so GitHub Pages /universum/ subpath works.
  * Cache-first for app shell; network-first navigations; offline fallback to cockpit.
- * v25: ritual path-only library 3.3 — unmistakable path difference.
+ * v26: illustrated Feldkarten 3.4 — unique SVG art offline.
  */
-const CACHE = 'universum-shell-v25';
+const CACHE = 'universum-shell-v26';
 const SHELL = [
   './',
   './index.html',
@@ -18,6 +18,28 @@ const SHELL = [
   './js/cards.js',
   './js/schumann.js',
   './js/app.js',
+  './assets/feldkarten/01-schwelle.svg',
+  './assets/feldkarten/02-wurzelband.svg',
+  './assets/feldkarten/03-atembruecke.svg',
+  './assets/feldkarten/04-grenzstein.svg',
+  './assets/feldkarten/05-ausgleich.svg',
+  './assets/feldkarten/06-feldlicht.svg',
+  './assets/feldkarten/07-mondspiegel.svg',
+  './assets/feldkarten/08-sonnenkern.svg',
+  './assets/feldkarten/09-nebelpfad.svg',
+  './assets/feldkarten/10-knotenloesen.svg',
+  './assets/feldkarten/11-ahnenruf.svg',
+  './assets/feldkarten/12-werkzeugweihe.svg',
+  './assets/feldkarten/13-kreisziehen.svg',
+  './assets/feldkarten/14-stille-stunde.svg',
+  './assets/feldkarten/15-funkenwahl.svg',
+  './assets/feldkarten/16-regenwaschen.svg',
+  './assets/feldkarten/17-samenwort.svg',
+  './assets/feldkarten/18-echo-der-tat.svg',
+  './assets/feldkarten/19-hand-der-gabe.svg',
+  './assets/feldkarten/20-nachtwache.svg',
+  './assets/feldkarten/21-sternennadel.svg',
+  './assets/feldkarten/22-heimkehr.svg',
   './manifest.webmanifest',
   './icons/icon.svg',
   './icons/icon-192.png',

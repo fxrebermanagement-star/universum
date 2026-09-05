@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140" role="img" aria-label="Ausgleich">
+  <defs>
+    <linearGradient id="bg5" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a1430"/>
+      <stop offset="100%" stop-color="#0c0814"/>
+    </linearGradient>
+    <radialGradient id="glow5" cx="50%" cy="42%" r="48%">
+      <stop offset="0%" stop-color="#7c5cbf" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#7c5cbf" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="120" height="140" rx="10" fill="url(#bg5)"/>
+  <rect x="4" y="4" width="112" height="132" rx="8" fill="none" stroke="#7c5cbf" stroke-opacity="0.35" stroke-width="1"/>
+  <circle cx="60" cy="58" r="42" fill="url(#glow5)"/>
+  <path d="M60 30 V78" stroke="#e8c547" stroke-width="2"/>
+  <path d="M28 58 H92" stroke="#e8c547" stroke-width="1.8"/>
+  <path d="M28 58 L18 78 H38 Z" fill="none" stroke="#3ed4c4" stroke-width="1.6"/>
+  <path d="M92 58 L82 78 H102 Z" fill="none" stroke="#6eb5ff" stroke-width="1.6"/>
+  <circle cx="60" cy="26" r="5" fill="none" stroke="#7c5cbf" stroke-width="1.5"/>
+  <path d="M52 90 H68 V108 H52 Z" fill="none" stroke="#7c5cbf" stroke-width="1.4"/>
+</svg>

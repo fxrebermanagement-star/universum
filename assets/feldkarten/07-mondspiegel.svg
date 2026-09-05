@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140" role="img" aria-label="Mondspiegel">
+  <defs>
+    <linearGradient id="bg7" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a1430"/>
+      <stop offset="100%" stop-color="#0c0814"/>
+    </linearGradient>
+    <radialGradient id="glow7" cx="50%" cy="42%" r="48%">
+      <stop offset="0%" stop-color="#7c5cbf" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#7c5cbf" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="120" height="140" rx="10" fill="url(#bg7)"/>
+  <rect x="4" y="4" width="112" height="132" rx="8" fill="none" stroke="#7c5cbf" stroke-opacity="0.35" stroke-width="1"/>
+  <circle cx="60" cy="58" r="42" fill="url(#glow7)"/>
+  <path d="M72 30 A28 28 0 1 0 72 86 A20 20 0 1 1 72 30" fill="none" stroke="#6eb5ff" stroke-width="2.2"/>
+  <ellipse cx="60" cy="100" rx="28" ry="8" fill="none" stroke="#3ed4c4" stroke-width="1.4" opacity="0.8"/>
+  <path d="M40 100 Q60 88 80 100" fill="none" stroke="#e8c547" stroke-width="1.2" opacity="0.7"/>
+  <circle cx="54" cy="48" r="2" fill="#e8c547"/>
+  <circle cx="48" cy="62" r="1.5" fill="#e8c547" opacity="0.7"/>
+</svg>
