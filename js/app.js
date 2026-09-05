@@ -1056,7 +1056,7 @@
     if (meta) {
       const tipTitle = tip && tip.title ? tip.title : (ritual ? ritual.name : 'Praxis');
       meta.textContent = tipTitle +
-        (ritual && ritual.mins ? ' · ≈ ' + ritual.mins + ' Min' : '') +
+        (ritual ? (' · ' + ((Rituals.durLabel && Rituals.durLabel(ritual.mins)) || ('≈ ' + ritual.mins + ' Min'))) : '') +
         ' · stabil für heute';
     }
     if (jetztStart) {
@@ -1251,7 +1251,7 @@
         id: r.id,
         title: r.name,
         hay: (r.name + ' ' + (r.steps || []).map(s => (s.title || '') + ' ' + (s.text || '')).join(' ')).toLowerCase(),
-        meta: 'Ritual · ≈ ' + r.mins + ' Min',
+        meta: 'Ritual · ' + ((Rituals.durLabel && Rituals.durLabel(r.mins)) || ('≈ ' + r.mins + ' Min')),
         action: 'ritual:' + r.id
       });
     });
@@ -2396,8 +2396,8 @@
     }
     const mins = r.mins || 0;
     if (ritualDurFilter === 'short' && mins > 5) return false;
-    if (ritualDurFilter === 'mid' && (mins < 6 || mins > 10)) return false;
-    if (ritualDurFilter === 'long' && mins <= 10) return false;
+    if (ritualDurFilter === 'mid' && (mins < 6 || mins > 15)) return false;
+    if (ritualDurFilter === 'long' && mins <= 15) return false;
     return true;
   }
 
@@ -2437,17 +2437,21 @@
     function ritualItemHtml(r) {
       const isFav = favs.includes(r.id);
       const isOwn = Rituals.isOwnForPath && Rituals.isOwnForPath(r, state.path);
-      return '<div class="ritual-item' + (isFav ? ' is-fav' : '') + (path.recommendedRitual === r.id || isOwn ? ' path-emphasized' : '') + (isOwn ? ' path-own' : '') + '" data-ritual-wrap="' + r.id + '">' +
+      const dur = (Rituals.durLabel && Rituals.durLabel(r.mins)) || (('≈ ' + (r.mins || '?') + ' Min'));
+      const durClass = (r.mins || 0) <= 5 ? 'dur-short' : ((r.mins || 0) <= 15 ? 'dur-mid' : 'dur-long');
+      return '<div class="ritual-item' + (isFav ? ' is-fav' : '') + (path.recommendedRitual === r.id || isOwn ? ' path-emphasized' : '') + (isOwn ? ' path-own' : '') + (r.signature ? ' is-signature' : '') + '" data-ritual-wrap="' + r.id + '">' +
         '<button type="button" class="ritual-item-main" data-ritual="' + r.id + '">' +
         '<span class="r-ico">' + r.ico + '</span>' +
         '<span><div class="r-name">' + escapeHtml(r.name) +
+        '<span class="dur-badge ' + durClass + '" title="Dauer-Tag">' + escapeHtml(dur) + '</span>' +
+        (r.signature ? '<span class="fav-badge signature-badge">Signatur</span>' : '') +
         (isOwn ? '<span class="fav-badge path-own-badge"><span class="path-sym">' + escapeHtml(pathSymbol(path)) + '</span> Pfad</span>' : '') +
         (isFav ? '<span class="fav-badge">Favorit</span>' : '') + '</div>' +
-        '<div class="r-meta">≈ ' + r.mins + ' Min · ' + r.steps.length + ' Schritte' +
+        '<div class="r-meta">' + r.steps.length + ' Schritte' +
         (r.breath ? ' · Atem' : '') + (r.candle ? ' · Kerze' : '') +
         (r.houseOnly ? ' · Haus' : '') +
-        (isOwn ? ' · pfadeigen' : '') +
         (path.recommendedRitual === r.id ? ' · empfohlen' : '') +
+        (r.intention ? ' · Absicht → Praxis → Schließen' : '') +
         '</div></span></button>' +
         '<button type="button" class="fav-btn" data-fav="' + r.id + '" aria-label="' +
         (isFav ? 'Favorit entfernen' : 'Als Favorit markieren') + '" aria-pressed="' +
@@ -2719,11 +2723,19 @@
       }
 
       const intro = (Paths.stepIntro && Paths.stepIntro(state.path)) || '';
+      const phase = step.phase || (i === 0 ? 'intention' : (i >= ritual.steps.length - 1 ? 'closing' : 'body'));
+      const phaseLabel = phase === 'intention' ? 'Absicht' : (phase === 'closing' ? 'Schließen' : 'Praxis');
+      const dur = (Rituals.durLabel && Rituals.durLabel(ritual.mins)) || ((ritual.mins || '?') + ' Min');
+      const intentLine = (i === 0 && ritual.intention)
+        ? '<p class="ritual-intention-line">' + escapeHtml(ritual.intention) + '</p>'
+        : '';
       $('#rr-content').innerHTML =
         '<div class="rr-step">' +
         '<div class="rr-progress"><i style="width:' + progress + '%"></i></div>' +
-        '<p class="section-sub">Schritt ' + (i + 1) + ' / ' + ritual.steps.length +
+        '<p class="section-sub"><span class="phase-chip phase-' + phase + '">' + phaseLabel + '</span> · Schritt ' + (i + 1) + ' / ' + ritual.steps.length +
+        ' · ' + escapeHtml(dur) +
         (intro ? ' · ' + escapeHtml(intro) : '') + '</p>' +
+        intentLine +
         '<h2>' + escapeHtml(step.title) + '</h2>' +
         extras +
         '<div class="rr-timer" id="rr-timer">' + formatSec(remaining) + '</div>' +
@@ -2848,9 +2860,11 @@
           '<p class="meta-line" style="text-align:center">4 / 6 · Schwelle</p>';
       }
       if (step.diary) {
+        const jPrompt = (ritual && ritual.journal) || 'Kurze Reflexion: Was bleibt nach der Praxis…';
         extra = '<div class="form-row closing-seed-row">' +
           '<label class="sr-only" for="rr-closing-seed">Ritual-Reflexion (optional)</label>' +
-          '<textarea id="rr-closing-seed" maxlength="280" rows="3" placeholder="Kurze Reflexion: Was bleibt nach der Praxis…"></textarea>' +
+          '<p class="hint-sm journal-prompt">' + escapeHtml(jPrompt) + '</p>' +
+          '<textarea id="rr-closing-seed" maxlength="280" rows="3" placeholder="Dein Satz…"></textarea>' +
           '<p class="hint-sm">Optional · speichert im Ritual-Journal (Mehr) und als Tagebuch-Keim.</p></div>';
       }
       const isLast = ci >= CLOSING.length - 1;

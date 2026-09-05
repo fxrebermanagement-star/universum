@@ -34,7 +34,7 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 1. **Cockpit** — **Heute in einem Tip** (pfad- + datumsstabil), Empfehlen/PWA, **Korrespondenzen**, **Mondfenster**, Ritual-Journal; Briefing/Astronomie unter Mehr; Schumann Live + Tomsk; Pfad-Chip, Streak
 2. **Kalender** — Monatsnavigation, Tagesdetails (Mond/Sonne/Feste), **standardmäßig nur Pfad-Feste** (Umschalter Alle Feste), Betonung und Kalender-Notizen
 3. **Kosmos** — Planeten-Radar mit klareren Labels, **Legende**, aktuelle **Planetenstunde hervorgehoben**, Tap/Klick für Detail, Schumann Live-Station + Tomsk-Spektrogramm
-4. **Rituale** — Sicherheitscheck, geführte Timed-Rituale (Atembrücke, Kerzenwache), **Praxis-Helfer** (Fokus-Timer), sanfte Streak, Sigil, 22 Feldkarten + Dreierlege, eigene Rituale + **3 Vorlagen**, pfadbezogene Ritual-Auswahl/Flavor
+4. **Rituale** — Praxis-Sessions (Absicht → Körper → Schließen), Signaturen pro Pfad, Dauer-Tags 3/11/21, Sicherheitscheck, Timed-Rituale, Fokus-Timer, Sigil, Feldkarten, eigene Rituale + Vorlagen
 5. **Magie-Tagebuch** — **pfadbezogene Impuls-Vorschläge**, Tags & Stimmung, Export/Import `universum-buch.json`
 6. **Notizen** — lokal, optionaler Tag, **ein Tippen → Tagebuch**, leere Zustände mit nächstem Schritt
 7. **Netzwerk/Kreis** — ohne Login leer; Talker = knappe Schnittstelle, kein Medium
@@ -155,6 +155,15 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 - App `2.5.0`, SW-Cache `universum-shell-v17`
 
 
+
+**Zusätzlich (v3.2 · Ritual-Praxis)**
+
+- **Pfad-Signaturen** — jedes Pfad-Ritual neu geschrieben mit eigener Stimme; 1–2 Signatur-Rituale pro Pfad (z. B. Trommelpuls, Ringwort, Schwellenwasser, Haus-Aché, Operator-Stunde, Vier-Wege, Gnosis-Schnitt, Feldlicht-Schwelle)
+- **Session-Struktur** — Absicht → Praxis (3–7 Schritte) → Schließen/Erden · optionaler Journal-Prompt
+- **Dauer-Tags** — 3 / 11 / 21 Min (Badges + Filter); Heute-Tip bevorzugt kurze Pfad-Rituale
+- **Gemeinsame Rituale** — weniger und klar sekundär hinter dem Pfad
+- Ethik: Grenze/Ausgleich, Hauspraxis-Framing, keine medizinischen/EMF-Claims; Deutsch ohne Gendersprache
+- App `3.2.0`, SW-Cache `universum-shell-v24`
 
 **Zusätzlich (v3.1 · Vertrauen / Teilen)**
 

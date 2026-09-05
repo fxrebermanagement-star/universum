@@ -1,6 +1,6 @@
 /**
  * UNIVERSUM — 8 practice paths (path-aware rituals/sayings/calendar/diary)
- * v3.1: Heute-Tip · Korrespondenzen · Mondfenster · Ritual-Journal · Teilen/PWA
+ * v3.2: Ritual-Praxis-Sessions · Signaturen · Dauer-Tags · Heute aus Pfad-Ritualen
  */
 (function (global) {
   'use strict';
@@ -26,7 +26,7 @@
         'Samhain', 'Yule', 'Rauhnächte Beginn', 'Rauhnächte Ende', 'Imbolc',
         'Lostage (Probe)', 'Ahnen-Gedenken'
       ],
-      ritualFlavor: 'Trommel-Atem, Ahnenlicht, Erdung — Körper vor Spektakel.',
+      ritualFlavor: 'Trommelpuls, Knochenlicht — Körper vor Spektakel. Gemeinsames sekundär.',
       greeting: 'Der Weg der Trommel und der Geisterreise — achtsam, geerdet.',
       calendarNote: 'Rauhnächte, Samhain, Ahnen-Gedenken und Lostage: still, geerdet, ohne Spektakel. Körper zuerst.',
       recommendedRitual: 'trommel-atem',
@@ -74,7 +74,7 @@
         'Yule', 'Ostara', 'Mabon', 'Michaelis', 'Rauhnächte Beginn',
         'Rauhnächte Ende', 'Ahnen-Gedenken', 'Mittsommer-Achtung'
       ],
-      ritualFlavor: 'Maß/Eid, Gabe, Ahnenlicht — Wort und Tat im Ring.',
+      ritualFlavor: 'Ringwort, Gastgabe — Wort und Tat im Ring. Gemeinsames sekundär.',
       greeting: 'Nordischer Pfad: Ehre, Sippe, Jahreskreis.',
       calendarNote: 'Yule, Ostara, Mabon, Michaelis, Rauhnächte und Ahnen-Gedenken — Knoten der Ehre und des Maßes.',
       recommendedRitual: 'mass-eid',
@@ -122,7 +122,7 @@
         'Samhain', 'Allerheiligen', 'Fetene Gede (Erinnerung)',
         'Hausaltar-Tag', 'Lostage (Probe)'
       ],
-      ritualFlavor: 'Hausreinigung, Licht/Wasser — öffentlich/Haus, nicht Initiation. Lwa-Respekt ohne Medium.',
+      ritualFlavor: 'Schwellenwasser, Weißes Licht — nur Hauspraxis, nicht Initiation.',
       greeting: 'Voodoo-Hauspraxis: Respekt, Reinheit, keine Einweihung hier.',
       disclaimer: 'Nur öffentliche/Hauspraxis. Keine Initiation, keine Lwa-Anrufung als Medium. Fetene Gede hier nur als respektvolle Erinnerung — kein Ritus der Einweihung.',
       calendarNote: 'Samhain, Allerheiligen, Fetene Gede (Erinnerung) und Hausaltar-Tag: Respekt und Reinheit im Haus — ausdrücklich keine Initiation und kein Medium.',
@@ -171,7 +171,7 @@
         'Ostara', 'Beltane', 'Samhain', 'Allerheiligen',
         'Día de las Madres (Haus-Dank)', 'Hausaltar-Tag'
       ],
-      ritualFlavor: 'Reinigung und Aché, Dank/Kerze — Hauspraxis. Orisha-Respekt ohne Priestertum hier.',
+      ritualFlavor: 'Haus-Aché, Drei Danke — Hauspraxis. Orisha-Respekt ohne Priestertum hier.',
       greeting: 'Santería-Hauspraxis: Achtung, Reinigung, Dank.',
       disclaimer: 'Nur öffentliche/Hauspraxis. Keine Initiation, kein Orisha-Priestertum, kein Ile hier. Dank und Reinigung im Alltag — Aché ohne Anspruch.',
       calendarNote: 'Ostara, Beltane, Samhain, Allerheiligen und Haus-Dank-Tage: Reinigung und Aché im Haus — klar getrennt von Ile und Einweihung. Anders als Voodoo-Hauspraxis: Fokus Dank/Aché, nicht Lwa/Fetene-Gede-Ton.',
@@ -220,7 +220,7 @@
         'Ostara', 'Mabon', 'Litha', 'Yule',
         'Merkur-Tag (Achtung)', 'Equinox-Achse'
       ],
-      ritualFlavor: 'Kreis, Stunden halten, Weihe — Kontemplation vor Operation.',
+      ritualFlavor: 'Operator-Stunde, Siegel der Proportion — Kontemplation vor Operation.',
       greeting: 'Hermetischer Weg: Maß, Symbol, innere Alchemie.',
       calendarNote: 'Equinoxe, Solstitien und Merkur-Achtung: Achsen der Proportion — Ostara, Litha, Mabon, Yule.',
       recommendedRitual: 'stunden-halten',
@@ -268,7 +268,7 @@
         'Imbolc', 'Ostara', 'Beltane', 'Litha', 'Lughnasadh', 'Mabon', 'Samhain', 'Yule',
         'Vollmond-Achtung', 'Neumond-Setzen'
       ],
-      ritualFlavor: 'Kreis, Elemente, Sabbat-Segen — Schadensfreiheit zuerst.',
+      ritualFlavor: 'Vier-Wege, Rede und Segen — Schadensfreiheit zuerst.',
       greeting: 'Wicca & Hexerei: Sabbat, Kreis, Schadensfreiheit.',
       calendarNote: 'Alle acht Sabbats plus Mond-Achtung — der Jahreskreis als Atem, nicht als Pflicht.',
       recommendedRitual: 'elemente',
@@ -316,7 +316,7 @@
         'Tor 3 (Gnosis)', 'Tor 6 (Laden)', 'Tor 9 (Vergessen)',
         'Labor-Tag', 'Sigil-Freitag'
       ],
-      ritualFlavor: 'Sigil-Gnosis, 369, Vergessen — laden, dann loslassen.',
+      ritualFlavor: 'Gnosis-Schnitt, Vergiss-Schnitt — laden, dann loslassen.',
       greeting: 'Chaosmagie: Modell-Agnostik, Praxis vor Dogma.',
       calendarNote: 'Tore 3/6/9, Labor-Tag und Sigil-Freitag: jeder Tag kann Labor sein — Ethik hält, Ergebnis-Jagd nicht.',
       recommendedRitual: 'sigil-gnosis',
@@ -364,7 +364,7 @@
         'Imbolc', 'Ostara', 'Samhain', 'Yule', 'Rauhnächte Beginn',
         'Rauhnächte Ende', 'Lostage (Probe)', 'Vollmond-Achtung', 'Neumond-Setzen'
       ],
-      ritualFlavor: 'Schwelle, Mondarbeit, Lostag-Achtung — still und klar.',
+      ritualFlavor: 'Feldlicht-Schwelle, Mondfenster, Lostag-Stille — still und klar.',
       greeting: 'Offene Esoterik: Praxiswerkzeug, kein Schaukasten.',
       calendarNote: 'Imbolc, Ostara, Samhain, Yule, Rauhnächte, Lostage und Mond-Achtung — sanfte Jahresmarker ohne Orakel-Zwang.',
       recommendedRitual: 'schwelle',
@@ -764,52 +764,52 @@
    */
   const DAILY_TIPS = {
     schamanismus: [
-      { kind: 'ritual', title: 'Trommel-Atem', text: 'Drei ruhige Züge auf dem Boden — Körper zuerst, dann Feld.', ritualId: 'trommel-atem', cta: 'Trommel-Atem starten' },
-      { kind: 'haltung', title: 'Haltung · Körper', text: 'Heute: Füße spüren, Schultern sinken. Mit dem Feld gehen, nicht dagegen.', cta: 'Erdung öffnen', ritualId: 'erdung' },
-      { kind: 'ritual', title: 'Ahnenlicht', text: 'Ein Licht der Achtung — ohne Geister zu messen oder zu fordern.', ritualId: 'ahnenlicht-schaman', cta: 'Ahnenlicht starten' },
-      { kind: 'haltung', title: 'Haltung · Alltag', text: 'Die Reise dient dem Alltag. Ein klarer Atemzug genügt als Übung.', cta: 'Atembrücke', ritualId: 'atem46' }
+      { kind: 'ritual', title: 'Trommelpuls', text: '≈ 11 Min · Körper zuerst — Puls vor Spektakel.', ritualId: 'trommel-atem', cta: 'Trommelpuls starten' },
+      { kind: 'haltung', title: 'Haltung · Körper', text: '≈ 3 Min · Füße spüren. Mit dem Feld gehen, nicht dagegen.', cta: 'Erdung öffnen', ritualId: 'erdung' },
+      { kind: 'ritual', title: 'Knochenlicht', text: '≈ 11 Min · Ahnen ehren — ohne Geister zu messen.', ritualId: 'ahnenlicht-schaman', cta: 'Knochenlicht starten' },
+      { kind: 'haltung', title: 'Haltung · Atem', text: '≈ 3 Min · Ein klarer Atemzug genügt als Übung.', cta: 'Atembrücke', ritualId: 'atem46' }
     ],
     nordisch: [
-      { kind: 'ritual', title: 'Maß / Eid', text: 'Ein Wort, das du hältst — Maß prüfen, Eid prüfen, ohne Pathos.', ritualId: 'mass-eid', cta: 'Maß/Eid starten' },
-      { kind: 'haltung', title: 'Haltung · Grenze', text: 'Ehre die Grenze. Sippe und Selbst brauchen dasselbe Maß.', cta: 'Erdung öffnen', ritualId: 'erdung' },
-      { kind: 'ritual', title: 'Gabe', text: 'Eine ehrliche Gabe an den Alltag — klein, haltbar, ohne Spektakel.', ritualId: 'gabe', cta: 'Gabe starten' },
-      { kind: 'haltung', title: 'Haltung · Ring', text: 'Wort und Tat im selben Ring. Heute reicht ein klarer Satz.', cta: 'Intention setzen', ritualId: 'intention' }
+      { kind: 'ritual', title: 'Ringwort', text: '≈ 11 Min · Ein Wort, das du hältst — Maß ohne Pathos.', ritualId: 'mass-eid', cta: 'Ringwort starten' },
+      { kind: 'haltung', title: 'Haltung · Grenze', text: '≈ 3 Min · Sippe und Selbst brauchen dasselbe Maß.', cta: 'Erdung öffnen', ritualId: 'erdung' },
+      { kind: 'ritual', title: 'Gastgabe', text: '≈ 11 Min · Geben ohne Forderung — Ausgleich ehren.', ritualId: 'gabe', cta: 'Gastgabe starten' },
+      { kind: 'haltung', title: 'Haltung · Ring', text: '≈ 3 Min · Wort und Tat im selben Ring — ein klarer Satz.', cta: 'Intention setzen', ritualId: 'intention' }
     ],
     voodoo: [
-      { kind: 'ritual', title: 'Hausreinigung', text: 'Raum, Wasser, Licht — Hauspraxis mit Respekt, kein Medium.', ritualId: 'hausreinigung-voodoo', cta: 'Hausreinigung starten' },
-      { kind: 'haltung', title: 'Haltung · Grenze', text: 'Nur öffentliche Hauspraxis. Keine Initiation, kein Anspruch auf Lwa.', cta: 'Erdung öffnen', ritualId: 'erdung' },
-      { kind: 'ritual', title: 'Licht / Wasser', text: 'Klarheit im Haus — danken, reinigen, schließen.', ritualId: 'licht-wasser', cta: 'Licht/Wasser starten' },
-      { kind: 'haltung', title: 'Haltung · Respekt', text: 'Respekt vor dem Haus und der Grenze. Üben ohne Spektakel.', cta: 'Atembrücke', ritualId: 'atem46' }
+      { kind: 'ritual', title: 'Schwellenwasser', text: '≈ 11 Min · Hauspraxis: Schwelle, Wasser, Licht — kein Medium.', ritualId: 'hausreinigung-voodoo', cta: 'Schwellenwasser starten' },
+      { kind: 'haltung', title: 'Haltung · Grenze', text: '≈ 3 Min · Nur Hauspraxis. Keine Initiation.', cta: 'Erdung öffnen', ritualId: 'erdung' },
+      { kind: 'ritual', title: 'Weißes Licht', text: '≈ 11 Min · Licht und Wasser — danken, schließen.', ritualId: 'licht-wasser', cta: 'Weißes Licht starten' },
+      { kind: 'haltung', title: 'Haltung · Atem', text: '≈ 3 Min · Respekt vor dem Haus. Üben ohne Spektakel.', cta: 'Atembrücke', ritualId: 'atem46' }
     ],
     santeria: [
-      { kind: 'ritual', title: 'Reinigung & Aché', text: 'Hausdank und Reinheit — ohne Initiation, ohne Ile-Anspruch.', ritualId: 'reinigung-ache', cta: 'Reinigung starten' },
-      { kind: 'haltung', title: 'Haltung · Hauspraxis', text: 'Nur Hauspraxis. Keine Einweihung, kein Medium.', cta: 'Erdung öffnen', ritualId: 'erdung' },
-      { kind: 'ritual', title: 'Dank', text: 'Kurzer Dank an den Alltag — klar, ehrlich, geschlossen.', ritualId: 'dank-ache', cta: 'Dank starten' },
-      { kind: 'haltung', title: 'Haltung · Maß', text: 'Aché im Alltag heißt: reinigen, danken, Grenze halten.', cta: 'Intention setzen', ritualId: 'intention' }
+      { kind: 'ritual', title: 'Drei Danke', text: '≈ 3 Min · Dank vor Forderung — kurz und geschlossen.', ritualId: 'dank-ache', cta: 'Drei Danke starten' },
+      { kind: 'haltung', title: 'Haltung · Hauspraxis', text: '≈ 3 Min · Nur Hauspraxis. Keine Einweihung.', cta: 'Erdung öffnen', ritualId: 'erdung' },
+      { kind: 'ritual', title: 'Haus-Aché', text: '≈ 11 Min · Reinheit und Dank — ohne Ile-Anspruch.', ritualId: 'reinigung-ache', cta: 'Haus-Aché starten' },
+      { kind: 'haltung', title: 'Haltung · Maß', text: '≈ 3 Min · Aché im Alltag: reinigen, danken, Grenze halten.', cta: 'Intention setzen', ritualId: 'intention' }
     ],
     hermetik: [
-      { kind: 'ritual', title: 'Stunden halten', text: 'Die aktuelle Stunde bewusst halten — Beobachtung mit Maß.', ritualId: 'stunden-halten', cta: 'Stunden halten' },
-      { kind: 'haltung', title: 'Haltung · Maß', text: 'Wie oben, so unten — aber mit Ethik und ohne Größenwahn.', cta: 'Erdung öffnen', ritualId: 'erdung' },
-      { kind: 'ritual', title: 'Weihe mit Maß', text: 'Ein Werkzeug oder Satz weihen — klar, zeitlich begrenzt.', ritualId: 'weihe-hermetik', cta: 'Weihe starten' },
-      { kind: 'haltung', title: 'Haltung · Klarheit', text: 'Heute: ein Gedanke ordnen, dann loslassen. Labor, nicht Drama.', cta: 'Atembrücke', ritualId: 'atem46' }
+      { kind: 'ritual', title: 'Operator-Stunde', text: '≈ 11 Min · Stunde halten — Kontemplation vor Operation.', ritualId: 'stunden-halten', cta: 'Operator-Stunde' },
+      { kind: 'haltung', title: 'Haltung · Maß', text: '≈ 3 Min · Ethik und Proportion — ohne Größenwahn.', cta: 'Erdung öffnen', ritualId: 'erdung' },
+      { kind: 'ritual', title: 'Siegel der Proportion', text: '≈ 11 Min · Werkzeug weihen — klar, begrenzt.', ritualId: 'weihe-hermetik', cta: 'Siegel starten' },
+      { kind: 'haltung', title: 'Haltung · Atem', text: '≈ 3 Min · Ein Gedanke ordnen, dann loslassen.', cta: 'Atembrücke', ritualId: 'atem46' }
     ],
     wicca: [
-      { kind: 'ritual', title: 'Elemente', text: 'Erde, Luft, Feuer, Wasser — kurz prüfen, was fehlt und was hält.', ritualId: 'elemente', cta: 'Elemente starten' },
-      { kind: 'haltung', title: 'Haltung · Rede', text: 'An niemandem Schaden. Das Rede trägt die Praxis.', cta: 'Erdung öffnen', ritualId: 'erdung' },
-      { kind: 'ritual', title: 'Sabbat-Segen', text: 'Ein stiller Segen für den Kreis des Jahres — ohne Show.', ritualId: 'sabbat-segen', cta: 'Segen starten' },
-      { kind: 'haltung', title: 'Haltung · Kreis', text: 'Kreis öffnen heißt auch: Kreis schließen. Heute Maß halten.', cta: 'Intention setzen', ritualId: 'intention' }
+      { kind: 'ritual', title: 'Vier-Wege', text: '≈ 11 Min · Erde, Luft, Feuer, Wasser — Rede zuerst.', ritualId: 'elemente', cta: 'Vier-Wege starten' },
+      { kind: 'haltung', title: 'Haltung · Rede', text: '≈ 3 Min · An niemandem Schaden.', cta: 'Erdung öffnen', ritualId: 'erdung' },
+      { kind: 'ritual', title: 'Rede und Segen', text: '≈ 11 Min · Segen mit Ausgleich — nie gegen jemanden.', ritualId: 'sabbat-segen', cta: 'Segen starten' },
+      { kind: 'haltung', title: 'Haltung · Kreis', text: '≈ 3 Min · Öffnen heißt auch schließen.', cta: 'Intention setzen', ritualId: 'intention' }
     ],
     chaosmagie: [
-      { kind: 'ritual', title: 'Sigil-Gnosis', text: 'Laden, dann vergessen. Gnosis kurz und ehrlich.', ritualId: 'sigil-gnosis', cta: 'Sigil-Gnosis starten' },
-      { kind: 'haltung', title: 'Haltung · Vergessen', text: 'Was geladen ist, darf gehen. Kein Festhalten am Ergebnis.', cta: 'Loslassen', ritualId: 'loslassen' },
-      { kind: 'ritual', title: '369', text: 'Ethischer Satz · 3 / 6 / 9 — lokal, ohne Hype.', ritualId: '369', cta: '369 öffnen' },
-      { kind: 'haltung', title: 'Haltung · Labor', text: 'Heute: ein Experiment, kein Identitätsdrama. Ergebnis beobachten.', cta: 'Atembrücke', ritualId: 'atem46' }
+      { kind: 'ritual', title: 'Vergiss-Schnitt', text: '≈ 3 Min · Was geladen ist, darf gehen.', ritualId: 'vergessen', cta: 'Vergiss-Schnitt' },
+      { kind: 'haltung', title: 'Haltung · Atem', text: '≈ 3 Min · Labor, kein Identitätsdrama.', cta: 'Atembrücke', ritualId: 'atem46' },
+      { kind: 'ritual', title: 'Gnosis-Schnitt', text: '≈ 11 Min · Laden, schneiden, vergessen — Ethik zuerst.', ritualId: 'sigil-gnosis', cta: 'Gnosis-Schnitt' },
+      { kind: 'ritual', title: '369', text: '≈ 11 Min · Ethischer Satz · 3 / 6 / 9 — dann loslassen.', ritualId: '369', cta: '369 öffnen' }
     ],
     esoterik: [
-      { kind: 'ritual', title: 'Schwelle', text: 'Eine klare Schwelle setzen — still, ohne Spektakel.', ritualId: 'schwelle', cta: 'Schwelle starten' },
-      { kind: 'haltung', title: 'Haltung · Klarheit', text: 'Still üben. Daten bleiben bei dir. Ein Tip genügt.', cta: 'Erdung öffnen', ritualId: 'erdung' },
-      { kind: 'ritual', title: 'Mondarbeit', text: 'Zum Mond passen: setzen oder lösen — mit Grenze und Ausgleich.', ritualId: 'intention', cta: 'Intention setzen' },
-      { kind: 'haltung', title: 'Haltung · Alltag', text: 'Lostage und Schwellen achten — ohne Drama, mit Maß.', cta: 'Atembrücke', ritualId: 'atem46' }
+      { kind: 'ritual', title: 'Lostag-Stille', text: '≈ 3 Min · Achtung ohne Orakel-Zwang.', ritualId: 'lostag-achtung', cta: 'Lostag-Stille' },
+      { kind: 'haltung', title: 'Haltung · Klarheit', text: '≈ 3 Min · Still üben. Daten bleiben bei dir.', cta: 'Erdung öffnen', ritualId: 'erdung' },
+      { kind: 'ritual', title: 'Feldlicht-Schwelle', text: '≈ 11 Min · Eine klare Schwelle — Praxiswerkzeug, kein Schaukasten.', ritualId: 'schwelle', cta: 'Schwelle starten' },
+      { kind: 'ritual', title: 'Mondfenster', text: '≈ 11 Min · Setzen oder lösen — mit Grenze und Ausgleich.', ritualId: 'mondarbeit', cta: 'Mondfenster starten' }
     ]
   };
 

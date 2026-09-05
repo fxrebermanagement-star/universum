@@ -1,6 +1,6 @@
 /**
  * UNIVERSUM — Geführte Rituale, 369, Sicherheit, Atembrücke, Kerzenwache
- * v2.6: path-own default UI; shared behind accordion; initiation gate for house paths
+ * v3.2: Praxis-Sessions — Absicht → Körper (3–7) → Schließen · Dauer-Tags · Signaturen
  */
 (function (global) {
   'use strict';
@@ -11,448 +11,457 @@
       id: 'erdung',
       name: 'Erdung',
       ico: '🌱',
-      mins: 5,
+      mins: 3,
       paths: null,
       breath: true,
+      intention: 'Ich komme in den Körper — ohne Spektakel.',
+      journal: 'Wo spürst du den Boden jetzt am klarsten?',
       steps: [
-        { title: 'Stand', text: 'Füße fest auf dem Boden. Schultern sinken lassen. Drei bewusste Atemzüge.', sec: 45, breath: true },
-        { title: 'Wurzel', text: 'Stell dir Wurzeln von den Fußsohlen in die Erde vor. Gewicht abgeben — ohne Kraftverlust.', sec: 90 },
-        { title: 'Rückkehr', text: 'Fühle Hände, Gesicht, Raum. Sage leise: „Ich bin hier.“', sec: 60 },
-        { title: 'Schluss', text: 'Danke dem Boden. Öffne die Augen vollständig. Trink einen Schluck Wasser.', sec: 45 }
-      ]
-    },
-    {
-      id: 'kreis',
-      name: 'Kreis ziehen',
-      ico: '⭕',
-      mins: 8,
-      paths: null,
-      steps: [
-        { title: 'Vorbereitung', text: 'Raum lüften. Störquellen beiseite. Ethik: kein Schaden, klare Absicht.', sec: 60 },
-        { title: 'Mittelpunkt', text: 'Stehe oder sitze mittig. Spüre die vier Richtungen oder einfach „rundherum“.', sec: 60 },
-        { title: 'Kreis', text: 'Mit der Hand oder dem Blick einen Kreis um dich ziehen. „Dieser Raum hält.“', sec: 90 },
-        { title: 'Halten', text: 'Atme ruhig. Der Kreis ist Symbol — du bleibst verantwortlich.', sec: 120, breath: true },
-        { title: 'Schließen', text: 'Kreis bewusst öffnen/auflösen. „Der Raum ist frei.“ Danken.', sec: 60 }
-      ]
-    },
-    {
-      id: 'schutzfeld',
-      name: 'Schutzfeld',
-      ico: '🛡️',
-      mins: 7,
-      paths: null,
-      steps: [
-        { title: 'Grenze', text: 'Erinnere: Grenze und Ausgleich. Schutz heißt Nein können — nicht angreifen.', sec: 45 },
-        { title: 'Atem', text: 'Einatmen: Klarheit. Ausatmen: Spannung abgeben. 4×.', sec: 90, breath: true },
-        { title: 'Feld', text: 'Stelle dir eine ruhige Hülle um dich vor — durchlässig für Gutes, klar gegen Übergriff.', sec: 120 },
-        { title: 'Wort', text: '„Ich halte meine Grenze in Frieden.“ Kein Fluch, kein Schaden.', sec: 60 },
-        { title: 'Alltag', text: 'Öffne sanft. Schutz bleibt als Haltung, nicht als Panik.', sec: 45 }
-      ]
-    },
-    {
-      id: 'weihe',
-      name: 'Werkzeug weihen',
-      ico: '✨',
-      mins: 10,
-      paths: null,
-      steps: [
-        { title: 'Gegenstand', text: 'Lege das Werkzeug vor dich. Zweck benennen — ehrlich und ohne Schaden.', sec: 60 },
-        { title: 'Reinigen', text: 'Abwischen, über Räucherwerk/Kerze halten oder mit Atem streichen (symbolisch).', sec: 90 },
-        { title: 'Widmen', text: '„Du dienest zu …“ — ein Satz. Keine fremde Willensbeugung.', sec: 90 },
-        { title: 'Halten', text: 'Stille. Spüre Gewicht und Form. Zustimmung des Körpers prüfen.', sec: 120 },
-        { title: 'Ablegen', text: 'Werkzeug an seinen Platz. Ritual schließen. Wasser trinken.', sec: 45 }
-      ]
-    },
-    {
-      id: 'ahnenlicht',
-      name: 'Ahnenlicht',
-      ico: '🕯️',
-      mins: 8,
-      paths: ['schamanismus', 'nordisch', 'voodoo', 'santeria', 'wicca', 'esoterik'],
-      steps: [
-        { title: 'Rahmen', text: 'Nur Erinnerung und Dank — keine Geistermessung. Ein Handy kann keine Geister messen.', sec: 45 },
-        { title: 'Licht', text: 'Kerze oder digitales Licht. Namen oder Linie nennen, die du ehren willst.', sec: 90 },
-        { title: 'Dank', text: 'Kurzer Dank für Leben, Lehre, Widerstandskraft. Keine Forderungen.', sec: 120 },
-        { title: 'Stille', text: 'Schweigen. Gefühle kommen und gehen dürfen.', sec: 90 },
-        { title: 'Löschen', text: 'Licht löschen/aus. „Der Alltag nimmt wieder Raum.“', sec: 45 }
-      ]
-    },
-    {
-      id: 'loslassen',
-      name: 'Loslassen',
-      ico: '🍃',
-      mins: 9,
-      paths: null,
-      steps: [
-        { title: 'Benennen', text: 'Was darf gehen? Ein Wort oder Satz aufschreiben (mental oder Papier).', sec: 90 },
-        { title: 'Körper', text: 'Schultern, Kiefer, Bauch prüfen. Spannung anerkennen ohne Drama.', sec: 60 },
-        { title: 'Übergabe', text: 'Atem: ein — halten — aus und „ich lasse los“ (ohne Schaden an Personen).', sec: 120, breath: true },
-        { title: 'Ersatz', text: 'Was darf an die Stelle? Eine kleine, ethische Intention.', sec: 90 },
-        { title: 'Schluss', text: 'Papier entsorgen oder Satz streichen. Zurück in den Raum.', sec: 45 }
-      ]
-    },
-    {
-      id: 'segen',
-      name: 'Segen',
-      ico: '🙏',
-      mins: 6,
-      paths: null,
-      steps: [
-        { title: 'Absicht', text: 'Segen für dich, einen Ort oder eine Situation — nie gegen jemanden.', sec: 45 },
-        { title: 'Hände', text: 'Hände öffnen oder über Herz. Wärme vorstellen.', sec: 60 },
-        { title: 'Worte', text: '„Möge … in Frieden und Klarheit sein.“ Kurz und ehrlich.', sec: 90 },
-        { title: 'Ausgleich', text: 'Was gibst du zurück? Dank, Geduld, eine kleine gute Tat.', sec: 60 },
-        { title: 'Ende', text: 'Hände senken. Alltag fortsetzen.', sec: 30 }
-      ]
-    },
-    {
-      id: 'reinigung',
-      name: 'Reinigung',
-      ico: '💧',
-      mins: 8,
-      paths: null,
-      steps: [
-        { title: 'Raum', text: 'Fenster öffnen oder symbolisch „Luft“ einladen. Staub wegwischen.', sec: 60 },
-        { title: 'Wasser/Atem', text: 'Hände waschen oder drei klare Atemzüge als Abspülen.', sec: 90, breath: true },
-        { title: 'Wort', text: '„Was nicht dient, darf gehen.“ Ohne Fluch auf Personen.', sec: 60 },
-        { title: 'Neu setzen', text: 'Eine frische Absicht für den Raum: Ruhe, Arbeit, Gastfreundschaft.', sec: 90 },
-        { title: 'Schließen', text: 'Danken. Fenster nach Bedarf. Weiter.', sec: 40 }
-      ]
-    },
-    {
-      id: 'intention',
-      name: 'Intention setzen',
-      ico: '🎯',
-      mins: 7,
-      paths: null,
-      steps: [
-        { title: 'Prüfen', text: 'Ist die Absicht klar, ethisch, ohne Schaden? Wenn nein — stoppen.', sec: 60 },
-        { title: 'Formulieren', text: 'Ein positiver Satz in Gegenwart („Ich übe …“).', sec: 90 },
-        { title: 'Körper', text: 'Satz dreimal sagen. Spüren: ja, nein, oder zu groß?', sec: 90 },
-        { title: 'Verankern', text: 'Kleine nächste Handlung wählen (heute noch machbar).', sec: 60 },
-        { title: 'Loslassen des Zwangs', text: 'Absicht halten, Ergebnis nicht erzwingen. Schließen.', sec: 45 }
+        { phase: 'intention', title: 'Absicht', text: 'Grenze und Ausgleich. Kein Schaden. Nur: hier sein.', sec: 25 },
+        { phase: 'body', title: 'Stand', text: 'Füße fest. Schultern sinken. Drei bewusste Atemzüge.', sec: 45, breath: true },
+        { phase: 'body', title: 'Wurzel', text: 'Gewicht an den Boden abgeben — Kraft bleibt bei dir.', sec: 60 },
+        { phase: 'closing', title: 'Schließen', text: '„Ich bin hier.“ Augen öffnen. Schluck Wasser.', sec: 30 }
       ]
     },
     {
       id: 'atem46',
       name: 'Atembrücke 4/6',
       ico: '🌬️',
-      mins: 5,
+      mins: 3,
       paths: null,
       breath: true,
+      intention: 'Atem als Brücke in den Alltag — nicht als Flucht.',
+      journal: 'War der Ausatem länger und ruhiger?',
       steps: [
-        { title: 'Haltung', text: 'Bequem sitzen. Kiefer locker. Handy stumm.', sec: 30 },
-        { title: 'Rhythmus', text: 'Einatmen 4 — Ausatmen 6. Sanft durch die Nase wenn möglich.', sec: 180, breath: true, breathIn: 4, breathOut: 6 },
-        { title: 'Brücke', text: 'Mit dem Ausatmen Spannung abgeben. Mit dem Einatmen Präsenz.', sec: 60, breath: true },
-        { title: 'Rückkehr', text: 'Normal atmen. Augen öffnen. Bereit für den nächsten Schritt.', sec: 30 }
+        { phase: 'intention', title: 'Absicht', text: 'Nur Atmen. Kein Orakel, keine Messung.', sec: 20 },
+        { phase: 'body', title: 'Haltung', text: 'Bequem sitzen. Kiefer locker. Handy stumm.', sec: 25 },
+        { phase: 'body', title: 'Rhythmus', text: 'Einatmen 4 — Ausatmen 6. Sanft durch die Nase wenn möglich.', sec: 90, breath: true, breathIn: 4, breathOut: 6 },
+        { phase: 'closing', title: 'Rückkehr', text: 'Normal atmen. Augen öffnen. Bereit für den nächsten Schritt.', sec: 25 }
+      ]
+    },
+    {
+      id: 'intention',
+      name: 'Intention setzen',
+      ico: '🎯',
+      mins: 3,
+      paths: null,
+      intention: 'Eine ethische Absicht — klar, klein, ohne Schaden.',
+      journal: 'Welche eine Handlung folgt heute aus dem Satz?',
+      steps: [
+        { phase: 'intention', title: 'Prüfen', text: 'Klar? Ethisch? Ohne Schaden an Personen? Wenn nein — stoppen.', sec: 40 },
+        { phase: 'body', title: 'Formulieren', text: 'Ein positiver Satz in Gegenwart: „Ich übe …“', sec: 50 },
+        { phase: 'body', title: 'Verankern', text: 'Dreimal sagen. Eine kleine nächste Handlung wählen (heute machbar).', sec: 50 },
+        { phase: 'closing', title: 'Loslassen des Zwangs', text: 'Absicht halten, Ergebnis nicht erzwingen. Schließen.', sec: 30 }
+      ]
+    },
+    {
+      id: 'schutzfeld',
+      name: 'Schutzfeld',
+      ico: '🛡️',
+      mins: 11,
+      paths: null,
+      breath: true,
+      intention: 'Schutz heißt Nein können — nicht angreifen.',
+      journal: 'Welche Grenze hast du heute klarer gespürt?',
+      steps: [
+        { phase: 'intention', title: 'Absicht', text: 'Grenze und Ausgleich. Kein Fluch, kein Schaden.', sec: 40 },
+        { phase: 'body', title: 'Atem', text: 'Einatmen: Klarheit. Ausatmen: Spannung abgeben. 4×.', sec: 90, breath: true },
+        { phase: 'body', title: 'Feld', text: 'Ruhige Hülle um dich — durchlässig für Gutes, klar gegen Übergriff.', sec: 120 },
+        { phase: 'body', title: 'Wort', text: '„Ich halte meine Grenze in Frieden.“', sec: 60 },
+        { phase: 'closing', title: 'Alltag', text: 'Öffne sanft. Schutz bleibt Haltung, nicht Panik.', sec: 40 }
+      ]
+    },
+    {
+      id: 'loslassen',
+      name: 'Loslassen',
+      ico: '🍃',
+      mins: 11,
+      paths: null,
+      breath: true,
+      intention: 'Etwas darf gehen — ohne Schaden an Personen.',
+      journal: 'Was hast du entlassen — und was darf an die Stelle?',
+      steps: [
+        { phase: 'intention', title: 'Benennen', text: 'Was darf gehen? Ein Wort oder Satz (mental oder Papier).', sec: 70 },
+        { phase: 'body', title: 'Körper', text: 'Schultern, Kiefer, Bauch prüfen. Spannung anerkennen ohne Drama.', sec: 50 },
+        { phase: 'body', title: 'Übergabe', text: 'Atem: ein — halten — aus und „ich lasse los“.', sec: 100, breath: true },
+        { phase: 'body', title: 'Ersatz', text: 'Eine kleine, ethische Intention an die Stelle setzen.', sec: 70 },
+        { phase: 'closing', title: 'Schluss', text: 'Papier entsorgen oder Satz streichen. Zurück in den Raum.', sec: 40 }
+      ]
+    },
+    {
+      id: 'kreis',
+      name: 'Kreis ziehen',
+      ico: '⭕',
+      mins: 11,
+      paths: null,
+      intention: 'Raum halten — Symbol, du bleibst verantwortlich.',
+      journal: 'Hat der Kreis Klarheit gegeben oder nur Theater?',
+      steps: [
+        { phase: 'intention', title: 'Vorbereitung', text: 'Raum lüften. Ethik: kein Schaden, klare Absicht.', sec: 50 },
+        { phase: 'body', title: 'Mittelpunkt', text: 'Mittig stehen oder sitzen. Vier Richtungen oder „rundherum“ spüren.', sec: 50 },
+        { phase: 'body', title: 'Kreis', text: 'Mit Hand oder Blick Kreis ziehen. „Dieser Raum hält.“', sec: 80 },
+        { phase: 'body', title: 'Halten', text: 'Ruhig atmen. Der Kreis ist Symbol — keine Machtfantasie.', sec: 100, breath: true },
+        { phase: 'closing', title: 'Öffnen', text: 'Kreis bewusst auflösen. „Der Raum ist frei.“ Danken.', sec: 50 }
       ]
     },
     {
       id: 'kerze15',
-      name: 'Kerzenwache (15 Min)',
+      name: 'Kerzenwache',
       ico: '🔥',
-      mins: 15,
+      mins: 21,
       paths: null,
       candle: true,
+      intention: 'Wachsamkeit und Stille — kein Schaden, echte Sicherheit.',
+      journal: 'Was ist in der Stille aufgetaucht — ohne es zu jagen?',
       steps: [
-        { title: 'Sicherheit', text: 'Echte Kerze nur unter Aufsicht. Sonst LED. Kein Vorhang in Nähe.', sec: 45 },
-        { title: 'Zünden', text: 'Licht setzen. Absicht: Wachsamkeit und Stille — kein Schaden.', sec: 30 },
-        { title: 'Wache', text: 'Bei der Flamme bleiben. Gedanken kommen und gehen. Atmen.', sec: 720, candle: true },
-        { title: 'Löschen', text: 'Flamme löschen. Danken. Raum verlassen erst wenn sicher.', sec: 45 }
+        { phase: 'intention', title: 'Sicherheit', text: 'Echte Kerze nur unter Aufsicht. Sonst LED. Kein Vorhang in Nähe.', sec: 45 },
+        { phase: 'body', title: 'Zünden', text: 'Licht setzen. Absicht: Wachsamkeit — kein Fluch.', sec: 40 },
+        { phase: 'body', title: 'Wache', text: 'Bei der Flamme bleiben. Gedanken kommen und gehen. Atmen.', sec: 1080, candle: true },
+        { phase: 'closing', title: 'Löschen', text: 'Flamme löschen. Danken. Raum erst verlassen wenn sicher.', sec: 45 }
       ]
     },
     {
       id: '369',
       name: '369-Praxis',
       ico: '3️⃣',
-      mins: 6,
+      mins: 11,
       paths: ['chaosmagie', 'esoterik', 'hermetik'],
       practice369: true,
+      intention: 'Ethischer Satz · laden ohne Willensbeugung · dann loslassen.',
+      journal: 'Welchen Satz hast du gewählt — und hast du ihn wirklich losgelassen?',
       steps: [
-        { title: 'Satz', text: 'Formuliere einen ethischen 369-Satz (kein Schaden, keine Willensbeugung).', sec: 60 },
-        { title: 'Morgen ×3', text: 'Schreibe oder sprich den Satz 3× (morgens gedacht).', sec: 90, slot369: 'morning', count369: 3 },
-        { title: 'Nachmittag ×6', text: '6× — fokussiert, ohne Zwang.', sec: 120, slot369: 'afternoon', count369: 6 },
-        { title: 'Abend ×9', text: '9× — dann loslassen und „vergessen“ wie beim Sigil.', sec: 150, slot369: 'evening', count369: 9 },
-        { title: 'Schließen', text: 'Praxis beenden. Ergebnis nicht jagen. Alltag.', sec: 30 }
+        { phase: 'intention', title: 'Satz', text: 'Formuliere einen ethischen 369-Satz (kein Schaden, keine Willensbeugung).', sec: 60 },
+        { phase: 'body', title: 'Morgen ×3', text: 'Schreibe oder sprich den Satz 3× (morgens gedacht).', sec: 70, slot369: 'morning', count369: 3 },
+        { phase: 'body', title: 'Nachmittag ×6', text: '6× — fokussiert, ohne Zwang.', sec: 100, slot369: 'afternoon', count369: 6 },
+        { phase: 'body', title: 'Abend ×9', text: '9× — dann loslassen wie beim Sigil.', sec: 120, slot369: 'evening', count369: 9 },
+        { phase: 'closing', title: 'Schließen', text: 'Praxis beenden. Ergebnis nicht jagen. Alltag.', sec: 30 }
       ]
     },
 
     /* ——— Path-own: Schamanismus ——— */
     {
       id: 'trommel-atem',
-      name: 'Trommel-Atem',
+      name: 'Trommelpuls',
       ico: '🥁',
-      mins: 8,
+      mins: 11,
       paths: ['schamanismus'],
       own: true,
+      signature: true,
       breath: true,
+      intention: 'Körper zuerst — Puls vor Spektakel. Keine erzwungene Geisterreise.',
+      journal: 'Welche eine Alltagshandlung ehrt den Körper nach dem Puls?',
       steps: [
-        { title: 'Boden', text: 'Setze dich. Füße oder Sitzbein spüren. Keine Geisterreise erzwingen — Körper zuerst.', sec: 45 },
-        { title: 'Puls', text: 'Klopfe sanft auf Oberschenkel oder stelle Trommel vor: gleichmäßiger Puls. Atem folgt dem Puls.', sec: 120, breath: true },
-        { title: 'Reise-Mini', text: 'Augen halb zu. Frage nur: „Was braucht der Alltag heute?“ Kein Spektakel.', sec: 150 },
-        { title: 'Rückkehr', text: 'Puls verlangsamen. Hände, Raum, Wasser. „Ich bin zurück.“', sec: 60 },
-        { title: 'Ankern', text: 'Eine kleine Handlung wählen, die den Körper ehrt — stehen, strecken, trinken.', sec: 45 }
+        { phase: 'intention', title: 'Absicht', text: 'Mit dem Feld gehen, nicht dagegen. Kein Medium, kein Drama.', sec: 40 },
+        { phase: 'body', title: 'Boden', text: 'Setze dich. Füße oder Sitzbein. Körper zuerst.', sec: 45 },
+        { phase: 'body', title: 'Puls', text: 'Sanft auf Oberschenkel klopfen oder Trommel vorstellen. Atem folgt dem Puls.', sec: 120, breath: true },
+        { phase: 'body', title: 'Frage', text: 'Augen halb zu. Nur: „Was braucht der Alltag heute?“', sec: 100 },
+        { phase: 'body', title: 'Rückkehr', text: 'Puls verlangsamen. Hände, Raum, Wasser. „Ich bin zurück.“', sec: 55 },
+        { phase: 'closing', title: 'Ankern', text: 'Eine kleine Handlung: stehen, strecken, trinken. Schließen.', sec: 40 }
       ]
     },
     {
       id: 'ahnenlicht-schaman',
-      name: 'Ahnenlicht (Pfad)',
+      name: 'Knochenlicht',
       ico: '🔥',
-      mins: 9,
+      mins: 11,
       paths: ['schamanismus'],
       own: true,
+      signature: true,
+      intention: 'Ahnen ehren als Kraft der Linie — ohne Geister zu messen oder zu fordern.',
+      journal: 'Welchen Namen oder welche Haltung nimmst du heute mit?',
       steps: [
-        { title: 'Rahmen', text: 'Erinnerung und Kraft der Linie — keine Messung, kein Medium. Handy bleibt Werkzeug, nicht Orakel.', sec: 45 },
-        { title: 'Licht', text: 'Kerze oder digitales Licht. Namen nennen, die tragen — ohne Forderung.', sec: 90 },
-        { title: 'Atem der Trommel', text: 'Drei lange Ausatmen. Mit dem Feld gehen, nicht dagegen.', sec: 90, breath: true },
-        { title: 'Dank', text: 'Dank für Leben und Widerstandskraft. Was du mitnimmst, dient dem Alltag.', sec: 120 },
-        { title: 'Löschen', text: 'Licht aus. Boden spüren. Alltag nimmt Raum.', sec: 45 }
+        { phase: 'intention', title: 'Rahmen', text: 'Erinnerung und Dank. Ein Handy kann keine Geister messen.', sec: 40 },
+        { phase: 'body', title: 'Licht', text: 'Kerze oder digitales Licht. Namen nennen, die tragen — ohne Forderung.', sec: 80 },
+        { phase: 'body', title: 'Atem der Trommel', text: 'Drei lange Ausatmen. Mit dem Feld gehen.', sec: 80, breath: true },
+        { phase: 'body', title: 'Dank', text: 'Dank für Leben und Widerstandskraft. Was du mitnimmst, dient dem Alltag.', sec: 100 },
+        { phase: 'closing', title: 'Löschen', text: 'Licht aus. Boden spüren. Alltag nimmt Raum.', sec: 40 }
       ]
     },
 
     /* ——— Path-own: Nordisch ——— */
     {
       id: 'mass-eid',
-      name: 'Maß und Eid',
+      name: 'Ringwort',
       ico: '⚔️',
-      mins: 8,
+      mins: 11,
       paths: ['nordisch'],
       own: true,
+      signature: true,
+      intention: 'Wort und Tat im selben Ring — Maß, nicht Pathos. Kein Schaden.',
+      journal: 'Welchen kleinen Eid hältst du heute wirklich?',
       steps: [
-        { title: 'Grenze', text: 'Was ist heute Maß — und was Übermaß? Ein klarer Satz genügt.', sec: 60 },
-        { title: 'Eid prüfen', text: 'Welchen Eid hältst du? Wort und Tat sollen denselben Ring tragen. Ohne Pathos.', sec: 120 },
-        { title: 'Setzen', text: 'Formuliere einen kleinen Eid an dich selbst — haltbar heute, ethisch, ohne Schaden.', sec: 90 },
-        { title: 'Siegel', text: 'Hand auf Herz oder Tisch. „Ich halte das Maß.“ Stille.', sec: 90 },
-        { title: 'Alltag', text: 'Eid mitnehmen als Haltung, nicht als Drama. Weiter.', sec: 40 }
+        { phase: 'intention', title: 'Maß', text: 'Was ist heute Maß — und was Übermaß? Ein klarer Satz genügt.', sec: 50 },
+        { phase: 'body', title: 'Eid prüfen', text: 'Welchen Eid hältst du schon? Wort und Tat sollen denselben Ring tragen.', sec: 100 },
+        { phase: 'body', title: 'Setzen', text: 'Kleiner Eid an dich selbst — haltbar heute, ethisch, ohne Schaden.', sec: 80 },
+        { phase: 'body', title: 'Siegel', text: 'Hand auf Herz oder Tisch. „Ich halte das Maß.“ Stille.', sec: 80 },
+        { phase: 'closing', title: 'Alltag', text: 'Eid als Haltung mitnehmen, nicht als Drama. Weiter.', sec: 35 }
       ]
     },
     {
       id: 'gabe',
-      name: 'Gabe',
+      name: 'Gastgabe',
       ico: '🌾',
-      mins: 7,
+      mins: 11,
       paths: ['nordisch'],
       own: true,
+      signature: true,
+      intention: 'Geben ohne Forderung — Ausgleich und Grenze ehren.',
+      journal: 'Was hast du gegeben — und was behältst du mit Maß?',
       steps: [
-        { title: 'Empfangen', text: 'Was hast du schon erhalten — Sippe, Körper, Tag? Nenne drei Dinge.', sec: 60 },
-        { title: 'Wählen', text: 'Eine symbolische Gabe: Brotkrume, Wasser, Zeit, ehrliches Wort — kein Kaufzwang.', sec: 90 },
-        { title: 'Geben', text: 'Gabe hinlegen oder Tat setzen. Ohne Forderung an Götter oder Menschen.', sec: 120 },
-        { title: 'Maß', text: 'Ausgleich: was behältst du, was gibst du weiter? Grenze ehren.', sec: 60 },
-        { title: 'Schließen', text: 'Danken. Raum verlassen in Klarheit.', sec: 40 }
+        { phase: 'intention', title: 'Empfangen', text: 'Was hast du schon erhalten — Sippe, Körper, Tag? Nenne drei Dinge.', sec: 55 },
+        { phase: 'body', title: 'Wählen', text: 'Symbolische Gabe: Brotkrume, Wasser, Zeit, ehrliches Wort — kein Kaufzwang.', sec: 70 },
+        { phase: 'body', title: 'Geben', text: 'Gabe hinlegen oder Tat setzen. Ohne Forderung an Götter oder Menschen.', sec: 100 },
+        { phase: 'body', title: 'Maß', text: 'Ausgleich: was behältst du, was gibst du weiter?', sec: 55 },
+        { phase: 'closing', title: 'Schließen', text: 'Danken. Raum in Klarheit verlassen.', sec: 35 }
       ]
     },
 
     /* ——— Path-own: Voodoo (Haus only) ——— */
     {
       id: 'hausreinigung-voodoo',
-      name: 'Hausreinigung',
+      name: 'Schwellenwasser',
       ico: '🏠',
-      mins: 10,
+      mins: 11,
       paths: ['voodoo'],
       own: true,
+      signature: true,
       houseOnly: true,
+      intention: 'Nur Hauspraxis — Reinheit an der Schwelle. Keine Initiation, kein Medium.',
+      journal: 'Welche Ecke des Hauses fühlt sich klarer an?',
       steps: [
-        { title: 'Disclaimer', text: 'Nur Hauspraxis. Keine Initiation, keine Lwa-Anrufung als Medium. Respekt vor Tradition.', sec: 45 },
-        { title: 'Schwelle', text: 'Eingang oder Raumecke: Staub weg, Fenster Luft. Reinheit beginnt im Haus.', sec: 90 },
-        { title: 'Wasser und Licht', text: 'Schale Wasser und Kerze/LED. Absicht: Klarheit im Alltag — kein Schaden.', sec: 120 },
-        { title: 'Wort', text: '„Was dem Haus nicht dient, darf gehen.“ Kein Fluch auf Personen.', sec: 60 },
-        { title: 'Schließen', text: 'Wasser entsorgen (Waschbecken/Erde wo erlaubt). Licht aus. Alltag.', sec: 50 }
+        { phase: 'intention', title: 'Disclaimer', text: 'Nur Hauspraxis. Keine Lwa-Anrufung als Medium. Respekt vor Tradition.', sec: 40 },
+        { phase: 'body', title: 'Schwelle', text: 'Eingang oder Raumecke: Staub weg, Fenster Luft. Reinheit beginnt im Haus.', sec: 80 },
+        { phase: 'body', title: 'Wasser und Licht', text: 'Schale Wasser und Kerze/LED. Absicht: Klarheit im Alltag — kein Schaden.', sec: 100 },
+        { phase: 'body', title: 'Wort', text: '„Was dem Haus nicht dient, darf gehen.“ Kein Fluch auf Personen.', sec: 55 },
+        { phase: 'closing', title: 'Schließen', text: 'Wasser entsorgen (Waschbecken/Erde wo erlaubt). Licht aus. Alltag.', sec: 45 }
       ]
     },
     {
       id: 'licht-wasser',
-      name: 'Licht und Wasser',
+      name: 'Weißes Licht',
       ico: '💧',
-      mins: 7,
+      mins: 11,
       paths: ['voodoo'],
       own: true,
+      signature: true,
       houseOnly: true,
       candle: true,
+      intention: 'Licht und Wasser im Haus — Dank ohne Forderung an Lwa.',
+      journal: 'Was braucht das Haus heute noch — praktisch, nicht spektakulär?',
       steps: [
-        { title: 'Rahmen', text: 'Öffentliche/Hauspraxis. Kein Ile, keine Einweihung hier. Respekt genügt oft.', sec: 40 },
-        { title: 'Setzen', text: 'Wasser und Licht vor dich. Zweck: Reinheit und Dank — nicht Geistermessen.', sec: 60 },
-        { title: 'Halten', text: 'Bei Licht und Wasser bleiben. Atmen. Was braucht das Haus heute?', sec: 180, candle: true },
-        { title: 'Dank', text: 'Kurzer Dank. Keine Forderungen an Lwa.', sec: 60 },
-        { title: 'Ende', text: 'Licht löschen. Wasser achten. Schwelle zum Alltag.', sec: 40 }
+        { phase: 'intention', title: 'Rahmen', text: 'Öffentliche Hauspraxis. Kein Ile, keine Einweihung hier.', sec: 35 },
+        { phase: 'body', title: 'Setzen', text: 'Wasser und Licht vor dich. Zweck: Reinheit und Dank — nicht Geistermessen.', sec: 55 },
+        { phase: 'body', title: 'Halten', text: 'Bei Licht und Wasser bleiben. Atmen. Was braucht das Haus?', sec: 150, candle: true },
+        { phase: 'body', title: 'Dank', text: 'Kurzer Dank. Keine Forderungen.', sec: 50 },
+        { phase: 'closing', title: 'Ende', text: 'Licht löschen. Wasser achten. Schwelle zum Alltag.', sec: 35 }
       ]
     },
 
     /* ——— Path-own: Santería (Haus only) ——— */
     {
       id: 'reinigung-ache',
-      name: 'Reinigung und Aché',
+      name: 'Haus-Aché',
       ico: '✨',
-      mins: 9,
+      mins: 11,
       paths: ['santeria'],
       own: true,
+      signature: true,
       houseOnly: true,
+      intention: 'Aché im Alltag — Hauspraxis ohne Ile-Anspruch, ohne Initiation.',
+      journal: 'Welche drei Dinge tragen dich schon — bevor du etwas wünschst?',
       steps: [
-        { title: 'Disclaimer', text: 'Nur Hauspraxis. Keine Initiation, kein Orisha-Priestertum hier. Aché im Alltag.', sec: 45 },
-        { title: 'Raum', text: 'Tisch oder Ecke reinigen. Kerze/LED und klares Wasser wenn möglich.', sec: 90 },
-        { title: 'Reinigen', text: 'Hände waschen oder Atem als Abspülen. „Was nicht dient, darf gehen.“', sec: 90, breath: true },
-        { title: 'Dank vor Bitte', text: 'Drei Dinge nennen, die schon tragen — bevor du etwas wünschst.', sec: 120 },
-        { title: 'Schließen', text: 'Licht achten. Alltag mit Aché im Kleinen fortsetzen.', sec: 45 }
+        { phase: 'intention', title: 'Disclaimer', text: 'Nur Hauspraxis. Kein Orisha-Priestertum hier. Respekt genügt.', sec: 40 },
+        { phase: 'body', title: 'Raum', text: 'Tisch oder Ecke reinigen. Kerze/LED und klares Wasser wenn möglich.', sec: 75 },
+        { phase: 'body', title: 'Reinigen', text: 'Hände waschen oder Atem als Abspülen. „Was nicht dient, darf gehen.“', sec: 75, breath: true },
+        { phase: 'body', title: 'Dank vor Bitte', text: 'Drei Dinge nennen, die schon tragen — bevor du etwas wünschst.', sec: 100 },
+        { phase: 'closing', title: 'Schließen', text: 'Licht achten. Alltag mit Aché im Kleinen fortsetzen.', sec: 40 }
       ]
     },
     {
       id: 'dank-ache',
-      name: 'Dank / Aché',
+      name: 'Drei Danke',
       ico: '🙏',
-      mins: 6,
+      mins: 3,
       paths: ['santeria'],
       own: true,
+      signature: true,
       houseOnly: true,
+      intention: 'Dank vor Forderung — kurz, ehrlich, geschlossen.',
+      journal: 'Welches der drei Danke bleibt den Tag über spürbar?',
       steps: [
-        { title: 'Rahmen', text: 'Haus, nicht Ile. Dank vor Forderung. Kein Anspruch auf Weihe.', sec: 40 },
-        { title: 'Nennen', text: 'Was verdient Dank heute — Körper, Menschen, Arbeit, Ruhe?', sec: 90 },
-        { title: 'Kerze der Klarheit', text: 'Licht setzen (oder vorstellen). Wärme ohne Spektakel.', sec: 90 },
-        { title: 'Aché', text: 'Ein Satz: „Aché im Kleinen.“ Keine Willensbeugung anderer.', sec: 90 },
-        { title: 'Ende', text: 'Licht aus. Mit Dank in den Tag.', sec: 35 }
+        { phase: 'intention', title: 'Rahmen', text: 'Haus, nicht Ile. Kein Anspruch auf Weihe.', sec: 25 },
+        { phase: 'body', title: 'Nennen', text: 'Drei Danke: Körper, Menschen oder Arbeit, Ruhe.', sec: 55 },
+        { phase: 'body', title: 'Aché', text: 'Ein Satz: „Aché im Kleinen.“ Keine Willensbeugung anderer.', sec: 45 },
+        { phase: 'closing', title: 'Ende', text: 'Mit Dank in den Tag. Schließen.', sec: 25 }
       ]
     },
 
     /* ——— Path-own: Hermetik ——— */
     {
       id: 'stunden-halten',
-      name: 'Stunden halten',
+      name: 'Operator-Stunde',
       ico: '⏳',
-      mins: 8,
+      mins: 11,
       paths: ['hermetik'],
       own: true,
+      signature: true,
+      intention: 'Kontemplation vor Operation — Maß halten, Operator bleibt Mensch.',
+      journal: 'Passte Absicht und Stunde — oder hast du gestoppt?',
       steps: [
-        { title: 'Maß', text: 'Kontemplation vor Operation. Welche Stunde trägst du — und passt die Absicht?', sec: 60 },
-        { title: 'Proportion', text: 'Oben und unten: ein Symbol wählen, das Maß hält. Kein leerer Glanz.', sec: 90 },
-        { title: 'Halten', text: 'Stille. Der Operator bleibt Mensch. Atem ruhig.', sec: 150, breath: true },
-        { title: 'Prüfen', text: 'Ist die nächste Handlung ethisch und proportioniert? Wenn nein — stoppen.', sec: 60 },
-        { title: 'Schließen', text: 'Symbol ablegen. „Maß gehalten.“ Alltag.', sec: 40 }
+        { phase: 'intention', title: 'Maß', text: 'Welche Stunde trägst du — und passt die Absicht? Ethik zuerst.', sec: 50 },
+        { phase: 'body', title: 'Proportion', text: 'Oben und unten: ein Symbol wählen, das Maß hält. Kein leerer Glanz.', sec: 80 },
+        { phase: 'body', title: 'Halten', text: 'Stille. Atem ruhig. Der Operator bleibt Mensch.', sec: 130, breath: true },
+        { phase: 'body', title: 'Prüfen', text: 'Ist die nächste Handlung ethisch und proportioniert? Wenn nein — stoppen.', sec: 55 },
+        { phase: 'closing', title: 'Schließen', text: 'Symbol ablegen. „Maß gehalten.“ Alltag.', sec: 35 }
       ]
     },
     {
       id: 'weihe-hermetik',
-      name: 'Weihe (Maß)',
+      name: 'Siegel der Proportion',
       ico: '🔮',
-      mins: 10,
+      mins: 11,
       paths: ['hermetik'],
       own: true,
+      signature: true,
+      intention: 'Werkzeug weihen mit Ethik — Symbol, nicht Spektakel.',
+      journal: 'Welchem Zweck dient das Werkzeug jetzt klarer?',
       steps: [
-        { title: 'Ethik', text: 'Zweck des Werkzeugs: klar, ohne Schaden, ohne fremde Willensbeugung.', sec: 60 },
-        { title: 'Kreis-Mini', text: 'Symbolisch Raum halten. „Dieser Raum dient der Klarheit.“', sec: 60 },
-        { title: 'Reinigen', text: 'Gegenstand reinigen (Tuch, Atem, Licht). Kontemplation.', sec: 90 },
-        { title: 'Widmen', text: 'Ein Satz der Widmung. Symbol mit Ethik — nicht Spektakel.', sec: 120 },
-        { title: 'Ablegen', text: 'Platz zuweisen. Kreis öffnen. Wasser trinken.', sec: 50 }
+        { phase: 'intention', title: 'Ethik', text: 'Zweck klar, ohne Schaden, ohne fremde Willensbeugung.', sec: 50 },
+        { phase: 'body', title: 'Raum', text: 'Symbolisch Raum halten. „Dieser Raum dient der Klarheit.“', sec: 50 },
+        { phase: 'body', title: 'Reinigen', text: 'Gegenstand reinigen (Tuch, Atem, Licht). Kontemplation.', sec: 80 },
+        { phase: 'body', title: 'Widmen', text: 'Ein Satz der Widmung. Symbol mit Ethik.', sec: 100 },
+        { phase: 'closing', title: 'Ablegen', text: 'Platz zuweisen. Raum öffnen. Wasser trinken.', sec: 40 }
       ]
     },
 
     /* ——— Path-own: Wicca ——— */
     {
       id: 'elemente',
-      name: 'Elemente',
+      name: 'Vier-Wege',
       ico: '🜃',
-      mins: 9,
+      mins: 11,
       paths: ['wicca'],
       own: true,
+      signature: true,
+      intention: 'An es schadet niemandem — Elemente prüfen, Kreis halten.',
+      journal: 'Welches Element fehlte — und was tust du praktisch dafür?',
       steps: [
-        { title: 'Rede', text: 'An es schadet niemandem. Prüfe Absicht bevor du Elemente rufst.', sec: 45 },
-        { title: 'Erde', text: 'Körper und Boden. Was trägt dich heute?', sec: 60 },
-        { title: 'Luft', text: 'Atem und Klarheit. Ein Gedanke, der dienen darf.', sec: 60, breath: true },
-        { title: 'Feuer', text: 'Absicht als Wärme — nicht als Zorn gegen Personen.', sec: 60 },
-        { title: 'Wasser', text: 'Gefühl anerkennen, ohne es über andere zu gießen.', sec: 60 },
-        { title: 'Kreis schließen', text: 'Elemente danken. Kreis halten und öffnen. Alltag.', sec: 50 }
+        { phase: 'intention', title: 'Rede', text: 'Prüfe Absicht bevor du Elemente rufst. Kein Schaden.', sec: 40 },
+        { phase: 'body', title: 'Erde', text: 'Körper und Boden. Was trägt dich heute?', sec: 50 },
+        { phase: 'body', title: 'Luft', text: 'Atem und Klarheit. Ein Gedanke, der dienen darf.', sec: 50, breath: true },
+        { phase: 'body', title: 'Feuer', text: 'Absicht als Wärme — nicht als Zorn gegen Personen.', sec: 50 },
+        { phase: 'body', title: 'Wasser', text: 'Gefühl anerkennen, ohne es über andere zu gießen.', sec: 50 },
+        { phase: 'closing', title: 'Kreis schließen', text: 'Elemente danken. Kreis öffnen. Alltag.', sec: 45 }
       ]
     },
     {
       id: 'sabbat-segen',
-      name: 'Sabbat-Segen',
+      name: 'Rede und Segen',
       ico: '🌙',
-      mins: 7,
+      mins: 11,
       paths: ['wicca'],
       own: true,
+      signature: true,
+      intention: 'Segen im Jahresatem — nie gegen jemanden. Ausgleich geben.',
+      journal: 'Welchen Segen hast du gesprochen — und welchen Ausgleich setzt du?',
       steps: [
-        { title: 'Rhythmus', text: 'Sabbat ist Atem des Jahres — auch außerhalb des Datums spürbar. Kein Pflichtzwang.', sec: 45 },
-        { title: 'Kreis', text: 'Kleinen Kreis ziehen. „Ich halte den Kreis in Frieden.“', sec: 60 },
-        { title: 'Segen', text: 'Segen für dich, Haus oder Gemeinschaft — nie gegen jemanden.', sec: 120 },
-        { title: 'Ausgleich', text: 'Eine kleine gute Tat oder Dank als Ausgleich.', sec: 60 },
-        { title: 'Öffnen', text: 'Kreis öffnen. „Der Raum ist frei.“', sec: 40 }
+        { phase: 'intention', title: 'Rhythmus', text: 'Sabbat ist Atem des Jahres — auch außerhalb des Datums. Kein Pflichtzwang.', sec: 40 },
+        { phase: 'body', title: 'Kreis', text: 'Kleinen Kreis ziehen. „Ich halte den Kreis in Frieden.“', sec: 55 },
+        { phase: 'body', title: 'Segen', text: 'Segen für dich, Haus oder Gemeinschaft — nie gegen jemanden.', sec: 100 },
+        { phase: 'body', title: 'Ausgleich', text: 'Eine kleine gute Tat oder Dank als Ausgleich.', sec: 55 },
+        { phase: 'closing', title: 'Öffnen', text: 'Kreis öffnen. „Der Raum ist frei.“', sec: 35 }
       ]
     },
 
     /* ——— Path-own: Chaosmagie ——— */
     {
       id: 'sigil-gnosis',
-      name: 'Sigil-Gnosis',
+      name: 'Gnosis-Schnitt',
       ico: '🔯',
-      mins: 10,
+      mins: 11,
       paths: ['chaosmagie'],
       own: true,
+      signature: true,
+      intention: 'Laden, schneiden, vergessen — Ethik vor Gnosis. Kein Schaden.',
+      journal: 'Hast du wirklich vergessen — oder jagst du noch das Ergebnis?',
       steps: [
-        { title: 'Ethik', text: 'Absicht ethisch? Kein Schaden, keine Willensbeugung. Sonst stoppen.', sec: 60 },
-        { title: 'Statement', text: 'Satz positiv formulieren. Dann zu Sigil verdichten (Buchstaben kürzen / zeichnen).', sec: 120 },
-        { title: 'Gnosis-kurz', text: 'Kurzer Fokus: Atem, Starren oder Bewegung — laden, nicht endlos halten.', sec: 150, breath: true },
-        { title: 'Vergessen-Ansatz', text: 'Sigil zur Seite. Ergebnis nicht jagen. Modell ablegen.', sec: 90 },
-        { title: 'Alltag', text: 'Praxis zu. Nichts ist wahr — Ethik bleibt.', sec: 40 }
+        { phase: 'intention', title: 'Ethik', text: 'Absicht ethisch? Kein Schaden, keine Willensbeugung. Sonst stoppen.', sec: 50 },
+        { phase: 'body', title: 'Statement', text: 'Satz positiv. Dann zu Sigil verdichten (kürzen / zeichnen).', sec: 100 },
+        { phase: 'body', title: 'Gnosis-kurz', text: 'Kurzer Fokus: Atem, Starren oder Bewegung — laden, nicht endlos halten.', sec: 120, breath: true },
+        { phase: 'body', title: 'Schnitt', text: 'Sigil zur Seite. „Geladen. Vergessen.“ Ergebnis nicht jagen.', sec: 70 },
+        { phase: 'closing', title: 'Alltag', text: 'Praxis zu. Nichts ist wahr — Ethik bleibt.', sec: 35 }
       ]
     },
     {
       id: 'vergessen',
-      name: 'Vergessen',
+      name: 'Vergiss-Schnitt',
       ico: '🌫️',
-      mins: 6,
+      mins: 3,
       paths: ['chaosmagie'],
       own: true,
+      signature: true,
+      intention: 'Was geladen ist, darf gehen — Modell ablegen.',
+      journal: 'Welches Wort hast du entlassen?',
       steps: [
-        { title: 'Benennen', text: 'Was hast du geladen und darfst jetzt loslassen? Ein Wort genügt.', sec: 45 },
-        { title: 'Ablenken', text: 'Kurze bewusste Ablenkung: zählen, dehnen, Raum ordnen — ohne Drama.', sec: 90 },
-        { title: 'Schnitt', text: '„Geladen. Vergessen.“ Ergebnis-Jagd stoppen.', sec: 60 },
-        { title: 'Ethik-Check', text: 'Hält die Absicht noch ohne Schaden? Wenn nein — korrigieren.', sec: 60 },
-        { title: 'Fertig', text: 'Weiter im Alltag. Modell abgelegt.', sec: 30 }
+        { phase: 'intention', title: 'Benennen', text: 'Was hast du geladen und darfst jetzt loslassen? Ein Wort genügt.', sec: 30 },
+        { phase: 'body', title: 'Ablenken', text: 'Kurze Ablenkung: zählen, dehnen, Raum ordnen — ohne Drama.', sec: 55 },
+        { phase: 'body', title: 'Schnitt', text: '„Geladen. Vergessen.“ Ergebnis-Jagd stoppen. Ethik noch ok?', sec: 45 },
+        { phase: 'closing', title: 'Fertig', text: 'Weiter im Alltag. Modell abgelegt.', sec: 25 }
       ]
     },
 
     /* ——— Path-own: Esoterik ——— */
     {
       id: 'schwelle',
-      name: 'Schwelle',
+      name: 'Feldlicht-Schwelle',
       ico: '🚪',
-      mins: 7,
+      mins: 11,
       paths: ['esoterik'],
       own: true,
+      signature: true,
       breath: true,
+      intention: 'Still üben — Praxiswerkzeug, kein Schaukasten. Daten bleiben bei dir.',
+      journal: 'Welche Schwelle hast du gesetzt — und gehalten?',
       steps: [
-        { title: 'Ankommen', text: 'Still üben. Daten bleiben bei dir. Ein Handy kann keine Geister messen.', sec: 40 },
-        { title: 'Atem', text: '4 ein — 6 aus. Feldlicht begleiten, nicht erzwingen.', sec: 120, breath: true, breathIn: 4, breathOut: 6 },
-        { title: 'Intention', text: 'Ein klarer Satz. Praxiswerkzeug, kein Schaukasten.', sec: 90 },
-        { title: 'Ausgleich', text: 'Was gibst du zurück an den Tag? Ruhe, Ordnung, Dank.', sec: 60 },
-        { title: 'Durchgehen', text: 'Schwelle halten und öffnen. Alltag mit Klarheit.', sec: 40 }
+        { phase: 'intention', title: 'Ankommen', text: 'Still üben. Ein Handy kann keine Geister messen.', sec: 35 },
+        { phase: 'body', title: 'Atem', text: '4 ein — 6 aus. Feldlicht begleiten, nicht erzwingen.', sec: 100, breath: true, breathIn: 4, breathOut: 6 },
+        { phase: 'body', title: 'Intention', text: 'Ein klarer Satz. Grenze und Ausgleich.', sec: 70 },
+        { phase: 'body', title: 'Ausgleich', text: 'Was gibst du zurück an den Tag? Ruhe, Ordnung, Dank.', sec: 50 },
+        { phase: 'closing', title: 'Durchgehen', text: 'Schwelle halten und öffnen. Alltag mit Klarheit.', sec: 35 }
       ]
     },
     {
       id: 'mondarbeit',
-      name: 'Mondarbeit',
+      name: 'Mondfenster',
       ico: '🌕',
-      mins: 8,
+      mins: 11,
       paths: ['esoterik'],
       own: true,
+      signature: true,
+      intention: 'Zum Mond passen: setzen oder lösen — Rhythmus, kein Befehl.',
+      journal: 'Neu/Voll/dazwischen — welche Absicht war ehrlich klein genug?',
       steps: [
-        { title: 'Phase spüren', text: 'Neu: setzen. Voll: klären/lösen. Dazwischen: pflegen. Ohne Astro-Anspruch.', sec: 60 },
-        { title: 'Absicht', text: 'Passende, ethische Absicht wählen — klein und ehrlich.', sec: 90 },
-        { title: 'Licht oder Dunkel', text: 'Kerze oder Stille. Atem. Kein Spektakel.', sec: 150 },
-        { title: 'Notieren', text: 'Ein Satz fürs Tagebuch (mental ok). Daten bleiben lokal.', sec: 60 },
-        { title: 'Schließen', text: 'Danken. Mond ist Rhythmus, nicht Befehl.', sec: 40 }
+        { phase: 'intention', title: 'Phase', text: 'Neu: setzen. Voll: klären/lösen. Dazwischen: pflegen. Ohne Astro-Anspruch.', sec: 50 },
+        { phase: 'body', title: 'Absicht', text: 'Passende, ethische Absicht — klein und ehrlich. Kein Schaden.', sec: 70 },
+        { phase: 'body', title: 'Licht oder Dunkel', text: 'Kerze oder Stille. Atem. Kein Spektakel.', sec: 120 },
+        { phase: 'body', title: 'Notieren', text: 'Ein Satz fürs Tagebuch (mental ok). Daten bleiben lokal.', sec: 50 },
+        { phase: 'closing', title: 'Schließen', text: 'Danken. Mond ist Rhythmus, nicht Befehl.', sec: 35 }
       ]
     },
     {
       id: 'lostag-achtung',
-      name: 'Lostag-Achtung',
+      name: 'Lostag-Stille',
       ico: '📜',
-      mins: 6,
+      mins: 3,
       paths: ['esoterik'],
       own: true,
+      intention: 'Achtung und Probe — kein Orakel-Zwang.',
+      journal: 'Welchen Eindruck behältst du ohne ihn zu verkaufen?',
       steps: [
-        { title: 'Rahmen', text: 'Lostage und Rauhnächte: Achtung, Probe, Stille — kein Orakel-Zwang.', sec: 45 },
-        { title: 'Beobachten', text: 'Was zeigt der Tag ohne Drama? Ein Eindruck genügt.', sec: 90 },
-        { title: 'Halten', text: 'Keine große Operation. Feldlicht still begleiten.', sec: 90, breath: true },
-        { title: 'Merken', text: 'Optional: ein Wort notieren. Keine Vorhersage verkaufen.', sec: 60 },
-        { title: 'Ende', text: 'Achtung wahren. Alltag fortsetzen.', sec: 35 }
+        { phase: 'intention', title: 'Rahmen', text: 'Lostage und Rauhnächte: Achtung, Probe, Stille — kein Vorhersage-Zwang.', sec: 30 },
+        { phase: 'body', title: 'Beobachten', text: 'Was zeigt der Tag ohne Drama? Ein Eindruck genügt.', sec: 50 },
+        { phase: 'body', title: 'Halten', text: 'Keine große Operation. Still begleiten.', sec: 50, breath: true },
+        { phase: 'closing', title: 'Ende', text: 'Achtung wahren. Alltag fortsetzen.', sec: 25 }
       ]
     }
   ];
@@ -464,6 +473,13 @@
     { id: 'noharm', label: 'Kein Schaden: Ich richte diese Arbeit nicht gegen Personen und will niemandem schaden.' },
     { id: 'closing', label: 'Abschluss: Ich werde die Praxis bewusst schließen und in den Alltag zurückkehren.' }
   ];
+
+  function durLabel(mins) {
+    const m = mins || 0;
+    if (m <= 5) return '3 Min';
+    if (m <= 15) return '11 Min';
+    return '21 Min';
+  }
 
   function isOwnForPath(r, pathId) {
     if (!r || !pathId) return false;
@@ -480,15 +496,22 @@
       const aOwn = isOwnForPath(a, pathId) ? 0 : 1;
       const bOwn = isOwnForPath(b, pathId) ? 0 : 1;
       if (aOwn !== bOwn) return aOwn - bOwn;
+      const aSig = a.signature && isOwnForPath(a, pathId) ? 0 : 1;
+      const bSig = b.signature && isOwnForPath(b, pathId) ? 0 : 1;
+      if (aSig !== bSig) return aSig - bSig;
       const aRec = recommended && a.id === recommended ? 0 : 1;
       const bRec = recommended && b.id === recommended ? 0 : 1;
       if (aRec !== bRec) return aRec - bRec;
-      return 0;
+      return (a.mins || 99) - (b.mins || 99);
     });
   }
 
   function getRitual(id) {
     return GUIDED.find(r => r.id === id);
+  }
+
+  function shortForPath(pathId) {
+    return listForPath(pathId).filter(r => (r.mins || 99) <= 5);
   }
 
   function vibrate(pattern) {
@@ -505,6 +528,8 @@
     listForPath,
     getRitual,
     isOwnForPath,
+    durLabel,
+    shortForPath,
     vibrate
   };
 })(typeof window !== 'undefined' ? window : globalThis);
