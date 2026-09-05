@@ -44,6 +44,7 @@
     pathWeekDone: {},
     initiationAck: {},
     pathWerkzeug: {},
+    ritualJournal: [],
     settings: {
       schumannAudio: false,
       ambientTone: false,
@@ -107,6 +108,7 @@
         pathWeekDone: data.pathWeekDone && typeof data.pathWeekDone === 'object' ? data.pathWeekDone : {},
         initiationAck: data.initiationAck && typeof data.initiationAck === 'object' ? data.initiationAck : {},
         pathWerkzeug: data.pathWerkzeug && typeof data.pathWerkzeug === 'object' ? data.pathWerkzeug : {},
+        ritualJournal: Array.isArray(data.ritualJournal) ? data.ritualJournal.slice(0, 80) : [],
         settings: Object.assign({}, DEFAULTS.settings, data.settings || {})
       });
     } catch (e) {
@@ -226,7 +228,7 @@
     });
   }
 
-  const APP_VERSION = '2.8.0';
+  const APP_VERSION = '3.1.0';
 
   function buildExportMeta(data) {
     const pathId = data.path || 'esoterik';
@@ -413,6 +415,7 @@
       sigilGallery: Array.isArray(incoming.sigilGallery) ? incoming.sigilGallery.slice(0, 8) : [],
       intentionHistory: Array.isArray(incoming.intentionHistory) ? incoming.intentionHistory.slice(0, 14) : [],
       practiceLog: Array.isArray(incoming.practiceLog) ? incoming.practiceLog.slice(0, 80) : [],
+      ritualJournal: Array.isArray(incoming.ritualJournal) ? incoming.ritualJournal.slice(0, 80) : [],
       kreisNotes: Array.isArray(incoming.kreisNotes) ? incoming.kreisNotes.slice(0, 40) : [],
       lastSeenDay: incoming.lastSeenDay || null,
       dayBanner: Object.assign({}, DEFAULTS.dayBanner, incoming.dayBanner || {}),
@@ -954,6 +957,33 @@
     });
   }
 
+
+  function addRitualJournalEntry(entry) {
+    return update(d => {
+      const list = Array.isArray(d.ritualJournal) ? d.ritualJournal.slice() : [];
+      list.unshift({
+        id: uid(),
+        at: new Date().toISOString(),
+        ritualId: entry && entry.ritualId || null,
+        ritualName: (entry && entry.ritualName) || 'Praxis',
+        pathId: (entry && entry.pathId) || null,
+        text: String((entry && entry.text) || '').trim().slice(0, 280),
+        mood: (entry && entry.mood) || null
+      });
+      d.ritualJournal = list.filter(x => x.text).slice(0, 60);
+    });
+  }
+
+  function getRitualJournal(limit) {
+    return (load().ritualJournal || []).slice(0, limit || 30);
+  }
+
+  function removeRitualJournalEntry(id) {
+    return update(d => {
+      d.ritualJournal = (d.ritualJournal || []).filter(x => x.id !== id);
+    });
+  }
+
   global.UniversumStorage = {
     STORAGE_KEY,
     DEFAULTS,
@@ -1025,6 +1055,9 @@
     hasInitiationAck,
     setInitiationAck,
     getPathWerkzeugState,
-    setPathWerkzeugState
+    setPathWerkzeugState,
+    addRitualJournalEntry,
+    getRitualJournal,
+    removeRitualJournalEntry
   };
 })(typeof window !== 'undefined' ? window : globalThis);

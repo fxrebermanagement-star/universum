@@ -38,14 +38,18 @@
     <a class="btn primary enter" href="cockpit.html">Üben öffnen</a>
 
     <div class="landing-recommend" id="landing-recommend">
-      <button type="button" class="ghost tiny" id="landing-copy-link">Empfehlen · Link kopieren</button>
+      <div class="btn-row" style="justify-content:center;flex-wrap:wrap;gap:0.5rem">
+        <button type="button" class="ghost tiny" id="landing-share">Empfehlen · Teilen</button>
+        <button type="button" class="ghost tiny" id="landing-copy-link">Link kopieren</button>
+      </div>
       <p class="hint-sm landing-url">https://fxrebermanagement-star.github.io/universum/</p>
+      <p class="hint-sm">Lokal auf dem Gerät · kein Konto · kein Tracking</p>
     </div>
 
-    <p class="splash-install-hint">Auf dem Handy: „Zum Home-Bildschirm“ — offline-fähig, ohne Store.</p>
+    <p class="splash-install-hint">PWA: „Zum Home-Bildschirm“ / App installieren — offline-fähig, ohne Store.</p>
     <p class="splash-foot">
       Früher: Feldlicht Ritualbegleiter · Daten: localStorage <code>feldlicht-v15</code><br />
-      Offline-Shell via Service Worker · v2.8 · klareres Cockpit · Pfad-Symbole · Live-Station Schumann
+      Offline-Shell via Service Worker · v3.1 · Heute-Tip · Hexerei-Tiefe · Teilen & PWA
     </p>
   </main>
   <script>
@@ -53,13 +57,14 @@
       navigator.serviceWorker.register('./sw.js', { scope: './' }).catch(function () {});
     }
     (function () {
-      var btn = document.getElementById('landing-copy-link');
       var url = 'https://fxrebermanagement-star.github.io/universum/';
-      if (!btn) return;
-      btn.addEventListener('click', function () {
+      var copyBtn = document.getElementById('landing-copy-link');
+      var shareBtn = document.getElementById('landing-share');
+      function copyLink(btn, label) {
         var done = function () {
+          if (!btn) return;
           btn.textContent = 'Link kopiert';
-          setTimeout(function () { btn.textContent = 'Empfehlen · Link kopieren'; }, 1800);
+          setTimeout(function () { btn.textContent = label; }, 1800);
         };
         if (navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText(url).then(done).catch(function () {
@@ -67,6 +72,21 @@
           });
         } else {
           window.prompt('Link kopieren:', url);
+        }
+      }
+      if (copyBtn) copyBtn.addEventListener('click', function () {
+        copyLink(copyBtn, 'Link kopieren');
+      });
+      if (shareBtn) shareBtn.addEventListener('click', function () {
+        var payload = {
+          title: 'UNIVERSUM · Praxiswerkzeug',
+          text: 'Lokal üben — Magie und Hexerei ohne Konto. Daten bleiben auf dem Gerät.',
+          url: url
+        };
+        if (navigator.share) {
+          navigator.share(payload).catch(function () { copyLink(shareBtn, 'Empfehlen · Teilen'); });
+        } else {
+          copyLink(shareBtn, 'Empfehlen · Teilen');
         }
       });
     })();

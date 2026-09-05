@@ -4198,3 +4198,79 @@ body.quiet-mode .privacy-line-slim { display: none; }
   .path-grid { gap: 0.7rem; }
   .jetzt-card, .path-week-card { padding: 1.45rem 1.4rem; }
 }
+
+
+/* ——— v3.1 Heute-Tip · Korrespondenzen · Mondfenster · Empfehlen · Journal ——— */
+.heute-tip-card .jetzt-kind {
+  display: inline-block;
+  margin: 0 0 0.45rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+.empfehlen-card {
+  margin-top: 0.75rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+  background: color-mix(in srgb, var(--panel) 92%, var(--accent) 8%);
+}
+.empfehlen-card .empfehlen-actions { flex-wrap: wrap; gap: 0.45rem; }
+.empfehlen-card #empfehlen-install.has-prompt {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.offline-honesty {
+  margin: 0.55rem 0 0.85rem;
+  opacity: 0.78;
+}
+.offline-honesty[data-state="offline"] {
+  color: var(--maya, #3ed4c4);
+  opacity: 1;
+}
+.korrespondenz-list {
+  list-style: none;
+  margin: 0.55rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.55rem;
+}
+.korrespondenz-list li {
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.55rem 0.65rem;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--panel-2, var(--panel)) 88%, transparent);
+  border: 1px solid color-mix(in srgb, var(--border, #ffffff22) 80%, transparent);
+}
+.korrespondenz-list strong {
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.korrespondenz-list span { font-size: 0.9rem; line-height: 1.35; }
+.mondfenster-card .mondfenster-lead {
+  font-size: 1.02rem;
+  line-height: 1.45;
+  margin: 0.35rem 0 0.4rem;
+}
+.ritual-journal-list { display: grid; gap: 0.65rem; margin-top: 0.55rem; }
+.ritual-journal-item {
+  padding: 0.65rem 0.75rem;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--border, #ffffff22) 85%, transparent);
+  background: color-mix(in srgb, var(--panel) 94%, transparent);
+}
+.ritual-journal-item .rj-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  align-items: baseline;
+  margin-bottom: 0.25rem;
+}
+.ritual-journal-item .rj-when { font-size: 0.75rem; color: var(--muted); }
+.ritual-journal-item .rj-text { margin: 0 0 0.4rem; font-size: 0.92rem; line-height: 1.4; }
+#ritual-journal-empty[hidden] { display: none !important; }
+#ritual-journal-empty { margin-top: 0.5rem; color: var(--muted); font-size: 0.85rem; }
+

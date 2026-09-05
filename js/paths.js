@@ -1,6 +1,6 @@
 /**
  * UNIVERSUM — 8 practice paths (path-aware rituals/sayings/calendar/diary)
- * v2.8: Pfad-Symbole · UX-Klarheit · v2.7 Kalender pfadfokussiert (pathOnly) · Pfad-Woche · Werkzeug · Initiations-Grenze
+ * v3.1: Heute-Tip · Korrespondenzen · Mondfenster · Ritual-Journal · Teilen/PWA
  */
 (function (global) {
   'use strict';
@@ -746,11 +746,233 @@
     return pathId === 'voodoo' || pathId === 'santeria';
   }
 
+
+  /* ——— Seed helper (stable by date + path) ——— */
+  function seedIndex(dateStr, pathId, salt, len) {
+    const s = String(dateStr || '') + '|' + String(pathId || '') + '|' + String(salt || '');
+    let h = 2166136261;
+    for (let i = 0; i < s.length; i++) {
+      h ^= s.charCodeAt(i);
+      h = Math.imul(h, 16777619);
+    }
+    return Math.abs(h) % Math.max(1, len);
+  }
+
+  /**
+   * Path-specific daily invitations (ritual OR Haltung). Seeded by date+path.
+   * kind: 'ritual' | 'haltung'
+   */
+  const DAILY_TIPS = {
+    schamanismus: [
+      { kind: 'ritual', title: 'Trommel-Atem', text: 'Drei ruhige Züge auf dem Boden — Körper zuerst, dann Feld.', ritualId: 'trommel-atem', cta: 'Trommel-Atem starten' },
+      { kind: 'haltung', title: 'Haltung · Körper', text: 'Heute: Füße spüren, Schultern sinken. Mit dem Feld gehen, nicht dagegen.', cta: 'Erdung öffnen', ritualId: 'erdung' },
+      { kind: 'ritual', title: 'Ahnenlicht', text: 'Ein Licht der Achtung — ohne Geister zu messen oder zu fordern.', ritualId: 'ahnenlicht-schaman', cta: 'Ahnenlicht starten' },
+      { kind: 'haltung', title: 'Haltung · Alltag', text: 'Die Reise dient dem Alltag. Ein klarer Atemzug genügt als Übung.', cta: 'Atembrücke', ritualId: 'atem46' }
+    ],
+    nordisch: [
+      { kind: 'ritual', title: 'Maß / Eid', text: 'Ein Wort, das du hältst — Maß prüfen, Eid prüfen, ohne Pathos.', ritualId: 'mass-eid', cta: 'Maß/Eid starten' },
+      { kind: 'haltung', title: 'Haltung · Grenze', text: 'Ehre die Grenze. Sippe und Selbst brauchen dasselbe Maß.', cta: 'Erdung öffnen', ritualId: 'erdung' },
+      { kind: 'ritual', title: 'Gabe', text: 'Eine ehrliche Gabe an den Alltag — klein, haltbar, ohne Spektakel.', ritualId: 'gabe', cta: 'Gabe starten' },
+      { kind: 'haltung', title: 'Haltung · Ring', text: 'Wort und Tat im selben Ring. Heute reicht ein klarer Satz.', cta: 'Intention setzen', ritualId: 'intention' }
+    ],
+    voodoo: [
+      { kind: 'ritual', title: 'Hausreinigung', text: 'Raum, Wasser, Licht — Hauspraxis mit Respekt, kein Medium.', ritualId: 'hausreinigung-voodoo', cta: 'Hausreinigung starten' },
+      { kind: 'haltung', title: 'Haltung · Grenze', text: 'Nur öffentliche Hauspraxis. Keine Initiation, kein Anspruch auf Lwa.', cta: 'Erdung öffnen', ritualId: 'erdung' },
+      { kind: 'ritual', title: 'Licht / Wasser', text: 'Klarheit im Haus — danken, reinigen, schließen.', ritualId: 'licht-wasser', cta: 'Licht/Wasser starten' },
+      { kind: 'haltung', title: 'Haltung · Respekt', text: 'Respekt vor dem Haus und der Grenze. Üben ohne Spektakel.', cta: 'Atembrücke', ritualId: 'atem46' }
+    ],
+    santeria: [
+      { kind: 'ritual', title: 'Reinigung & Aché', text: 'Hausdank und Reinheit — ohne Initiation, ohne Ile-Anspruch.', ritualId: 'reinigung-ache', cta: 'Reinigung starten' },
+      { kind: 'haltung', title: 'Haltung · Hauspraxis', text: 'Nur Hauspraxis. Keine Einweihung, kein Medium.', cta: 'Erdung öffnen', ritualId: 'erdung' },
+      { kind: 'ritual', title: 'Dank', text: 'Kurzer Dank an den Alltag — klar, ehrlich, geschlossen.', ritualId: 'dank-ache', cta: 'Dank starten' },
+      { kind: 'haltung', title: 'Haltung · Maß', text: 'Aché im Alltag heißt: reinigen, danken, Grenze halten.', cta: 'Intention setzen', ritualId: 'intention' }
+    ],
+    hermetik: [
+      { kind: 'ritual', title: 'Stunden halten', text: 'Die aktuelle Stunde bewusst halten — Beobachtung mit Maß.', ritualId: 'stunden-halten', cta: 'Stunden halten' },
+      { kind: 'haltung', title: 'Haltung · Maß', text: 'Wie oben, so unten — aber mit Ethik und ohne Größenwahn.', cta: 'Erdung öffnen', ritualId: 'erdung' },
+      { kind: 'ritual', title: 'Weihe mit Maß', text: 'Ein Werkzeug oder Satz weihen — klar, zeitlich begrenzt.', ritualId: 'weihe-hermetik', cta: 'Weihe starten' },
+      { kind: 'haltung', title: 'Haltung · Klarheit', text: 'Heute: ein Gedanke ordnen, dann loslassen. Labor, nicht Drama.', cta: 'Atembrücke', ritualId: 'atem46' }
+    ],
+    wicca: [
+      { kind: 'ritual', title: 'Elemente', text: 'Erde, Luft, Feuer, Wasser — kurz prüfen, was fehlt und was hält.', ritualId: 'elemente', cta: 'Elemente starten' },
+      { kind: 'haltung', title: 'Haltung · Rede', text: 'An niemandem Schaden. Das Rede trägt die Praxis.', cta: 'Erdung öffnen', ritualId: 'erdung' },
+      { kind: 'ritual', title: 'Sabbat-Segen', text: 'Ein stiller Segen für den Kreis des Jahres — ohne Show.', ritualId: 'sabbat-segen', cta: 'Segen starten' },
+      { kind: 'haltung', title: 'Haltung · Kreis', text: 'Kreis öffnen heißt auch: Kreis schließen. Heute Maß halten.', cta: 'Intention setzen', ritualId: 'intention' }
+    ],
+    chaosmagie: [
+      { kind: 'ritual', title: 'Sigil-Gnosis', text: 'Laden, dann vergessen. Gnosis kurz und ehrlich.', ritualId: 'sigil-gnosis', cta: 'Sigil-Gnosis starten' },
+      { kind: 'haltung', title: 'Haltung · Vergessen', text: 'Was geladen ist, darf gehen. Kein Festhalten am Ergebnis.', cta: 'Loslassen', ritualId: 'loslassen' },
+      { kind: 'ritual', title: '369', text: 'Ethischer Satz · 3 / 6 / 9 — lokal, ohne Hype.', ritualId: '369', cta: '369 öffnen' },
+      { kind: 'haltung', title: 'Haltung · Labor', text: 'Heute: ein Experiment, kein Identitätsdrama. Ergebnis beobachten.', cta: 'Atembrücke', ritualId: 'atem46' }
+    ],
+    esoterik: [
+      { kind: 'ritual', title: 'Schwelle', text: 'Eine klare Schwelle setzen — still, ohne Spektakel.', ritualId: 'schwelle', cta: 'Schwelle starten' },
+      { kind: 'haltung', title: 'Haltung · Klarheit', text: 'Still üben. Daten bleiben bei dir. Ein Tip genügt.', cta: 'Erdung öffnen', ritualId: 'erdung' },
+      { kind: 'ritual', title: 'Mondarbeit', text: 'Zum Mond passen: setzen oder lösen — mit Grenze und Ausgleich.', ritualId: 'intention', cta: 'Intention setzen' },
+      { kind: 'haltung', title: 'Haltung · Alltag', text: 'Lostage und Schwellen achten — ohne Drama, mit Maß.', cta: 'Atembrücke', ritualId: 'atem46' }
+    ]
+  };
+
+  function dayKeyLocal(d) {
+    const x = d || new Date();
+    return x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0') + '-' + String(x.getDate()).padStart(2, '0');
+  }
+
+  function getDailyTip(pathId, date) {
+    const pid = pathId || 'esoterik';
+    const list = DAILY_TIPS[pid] || DAILY_TIPS.esoterik;
+    const idx = seedIndex(dayKeyLocal(date), pid, 'heute-tip', list.length);
+    const tip = list[idx];
+    const path = getPath(pid);
+    return Object.assign({}, tip, {
+      pathId: pid,
+      pathName: path.name,
+      symbol: path.symbol || '✦',
+      dateKey: dayKeyLocal(date)
+    });
+  }
+
+  /** Hauspraxis-Korrespondenzen — keine Heilversprechen, keine medizinischen Claims. */
+  const CORRESPONDENCES = {
+    schamanismus: {
+      herbs: ['Beifuß (Räucherung)', 'Wacholder (Raum)', 'Birke (Neubeginn)'],
+      stones: ['Obsidian (Schutz-Symbol)', 'Rauchquarz (Klarheit)', 'Hämatit (Erdung-Symbol)'],
+      colors: ['Erdbraun', 'Waldgrün', 'Knochenweiß'],
+      note: 'Hauspraxis und Symbolik — kein medizinischer Rat, kein Heilversprechen.'
+    },
+    nordisch: {
+      herbs: ['Eichenblatt (Maß)', 'Wermut (Grenze)', 'Thymian (Haus)'],
+      stones: ['Bernstein (Wärme-Symbol)', 'Flint (Funke)', 'Granit (Stand)'],
+      colors: ['Nordblau', 'Eisengrau', 'Honiggold'],
+      note: 'Symbole für Haltung und Haus — keine medizinischen Aussagen.'
+    },
+    voodoo: {
+      herbs: ['Basilikum (Haus)', 'Lorbeer (Klarheit)', 'Minze (Frisch)'],
+      stones: ['Muschel (Wasser-Symbol)', 'Quarz (Licht)', 'Lava (Boden)'],
+      colors: ['Weiß (Reinheit-Symbol)', 'Blau (Ruhe)', 'Rot (Kraft-Symbol — mit Maß)'],
+      note: 'Nur öffentliche Hauspraxis. Keine Initiation, keine medizinischen Claims.'
+    },
+    santeria: {
+      herbs: ['Rosmarin (Haus)', 'Orange (Dank)', 'Lavendel (Ruhe-Symbol)'],
+      stones: ['Koralle (Meer-Symbol)', 'Citrin (Licht)', 'Mondstein (Zyklus-Symbol)'],
+      colors: ['Weiß', 'Gelb (Dank)', 'Grün (Wachstum-Symbol)'],
+      note: 'Hauspraxis ohne Ile-Anspruch. Symbolik, kein Heilversprechen.'
+    },
+    hermetik: {
+      herbs: ['Salbei (Klarheit-Symbol)', 'Rosmarin (Gedächtnis-Symbol)', 'Myrte (Maß)'],
+      stones: ['Lapis (Denken-Symbol)', 'Bergkristall (Fokus)', 'Zinnober-Ton (Labor-Symbol)'],
+      colors: ['Königsblau', 'Gold', 'Schwarz (Grenze)'],
+      note: 'Labor- und Haltungssymbole — keine alchemistischen Heilsversprechen.'
+    },
+    wicca: {
+      herbs: ['Lavendel (Ruhe)', 'Mugwort / Beifuß (Mond-Symbol)', 'Rosmarin (Schutz-Symbol)'],
+      stones: ['Mondstein', 'Amethyst (Ruhe-Symbol)', 'Moosachat (Erde)'],
+      colors: ['Silber', 'Grün', 'Violett'],
+      note: 'Elemente und Hausaltar-Symbolik. Kein medizinischer Rat. An niemandem Schaden.'
+    },
+    chaosmagie: {
+      herbs: ['Kaffee (Wachheit-Symbol)', 'Pfeffer (Scharf / Fokus)', 'Minze (Reset)'],
+      stones: ['Obsidian (Schnitt)', 'Pyrit (Funke-Symbol)', 'Klarer Quarz (Leinwand)'],
+      colors: ['Schwarz', 'Neon-Akzent (Labor)', 'Grau (Neutral)'],
+      note: 'Werkzeug-Metaphern für Gnosis und Labor — keine medizinischen Claims.'
+    },
+    esoterik: {
+      herbs: ['Lavendel', 'Kamille (Ruhe-Symbol)', 'Rosmarin'],
+      stones: ['Rosenquarz (Sanft-Symbol)', 'Amethyst', 'Bergkristall'],
+      colors: ['Violett', 'Silber', 'Nachtblau'],
+      note: 'Sanfte Hauspraxis-Symbolik. Kein Heilversprechen, kein Medium.'
+    }
+  };
+
+  function getCorrespondences(pathId) {
+    const c = CORRESPONDENCES[pathId] || CORRESPONDENCES.esoterik;
+    return Object.assign({}, c);
+  }
+
+  /** Mondfenster: actionable "gut für …" by coarse phase × path */
+  function moonBucket(moonName) {
+    const n = String(moonName || '');
+    if (n === 'Neumond') return 'neu';
+    if (n === 'Vollmond') return 'voll';
+    if (n.indexOf('Zunehmend') === 0) return 'zunehmend';
+    if (n.indexOf('Abnehmend') === 0) return 'abnehmend';
+    return 'zunehmend';
+  }
+
+  const MOND_FENSTER = {
+    schamanismus: {
+      neu: 'Gut für: Keim setzen im Körper — kurze Erdung, keine weite Reise.',
+      zunehmend: 'Gut für: Atem und Trommel-Rhythmus aufbauen — Maß halten.',
+      voll: 'Gut für: Danken und Ahnenlicht — ohne Geister zu fordern.',
+      abnehmend: 'Gut für: Loslassen von Unruhe, Körper zurückholen, schließen.'
+    },
+    nordisch: {
+      neu: 'Gut für: einen haltbaren Eid oder eine kleine Gabe formulieren.',
+      zunehmend: 'Gut für: Wort und Tat im Ring prüfen — Maß, nicht Pathos.',
+      voll: 'Gut für: Ehre zeigen, Sippe/Selbst achten, Kreis klar halten.',
+      abnehmend: 'Gut für: unhaltbare Vorsätze lösen, Grenze neu setzen.'
+    },
+    voodoo: {
+      neu: 'Gut für: Haus reinigen, Absicht klein und respektvoll setzen.',
+      zunehmend: 'Gut für: Licht/Wasser im Haus — Ordnung ohne Medium.',
+      voll: 'Gut für: danken und Raum ehren — öffentliche Hauspraxis.',
+      abnehmend: 'Gut für: Altes aus dem Haus bringen, Schwelle schließen.'
+    },
+    santeria: {
+      neu: 'Gut für: Reinheit und Dank vorbereiten — ohne Initiation.',
+      zunehmend: 'Gut für: Haus-Aché im Alltag (Ordnung, Wasser, Licht).',
+      voll: 'Gut für: Dank aussprechen und den Alltag segnen (Hauspraxis).',
+      abnehmend: 'Gut für: Reinigung abschließen, was nicht dient entlassen.'
+    },
+    hermetik: {
+      neu: 'Gut für: eine Frage präzise stellen und die Stunde notieren.',
+      zunehmend: 'Gut für: Studium und Stunden halten — Beobachten mit Maß.',
+      voll: 'Gut für: Klarheit prüfen, Weihe zeitlich begrenzen.',
+      abnehmend: 'Gut für: Labor aufräumen, Hypothesen verwerfen, siegeln.'
+    },
+    wicca: {
+      neu: 'Gut für: Absicht im Kreis setzen — an niemandem Schaden.',
+      zunehmend: 'Gut für: Elemente stärken, Kräuter/Steine als Symbol wählen.',
+      voll: 'Gut für: Segen, Dank, Lichtarbeit — Kreis bewusst schließen.',
+      abnehmend: 'Gut für: Loslassen, Reinigen, was nicht dient entlassen.'
+    },
+    chaosmagie: {
+      neu: 'Gut für: Sigil laden und Absicht knapper formulieren.',
+      zunehmend: 'Gut für: Gnosis-Übungen, 369, Labor-Notizen.',
+      voll: 'Gut für: Ergebnis beobachten — ohne Identitätsdrama.',
+      abnehmend: 'Gut für: Vergessen, Reset, unbrauchbare Sigils entsorgen.'
+    },
+    esoterik: {
+      neu: 'Gut für: Intention setzen, Schwelle markieren, still starten.',
+      zunehmend: 'Gut für: Klarheit üben, Mondarbeit vorbereiten.',
+      voll: 'Gut für: Danken, Licht halten, Tagebuch-Satz.',
+      abnehmend: 'Gut für: Loslassen, Lostage achten, Ruhe gönnen.'
+    }
+  };
+
+  function getMondFenster(pathId, moonName) {
+    const bucket = moonBucket(moonName);
+    const block = MOND_FENSTER[pathId] || MOND_FENSTER.esoterik;
+    return {
+      bucket: bucket,
+      moonName: moonName || '—',
+      text: block[bucket] || block.zunehmend,
+      label: bucket === 'neu' ? 'Neumond-Fenster'
+        : bucket === 'voll' ? 'Vollmond-Fenster'
+        : bucket === 'zunehmend' ? 'Zunehmendes Fenster'
+        : 'Abnehmendes Fenster'
+    };
+  }
+
+
   global.UniversumPaths = {
     PATHS,
     PATH_FESTIVALS,
     PATH_WEEKS,
     PATH_WERKZEUG,
+    DAILY_TIPS,
+    CORRESPONDENCES,
+    MOND_FENSTER,
     getPath,
     isEmphasized,
     festivalsForPath,
@@ -768,6 +990,11 @@
     weekdayMon1,
     isoWeekKey,
     getPathWerkzeug,
-    needsInitiationGate
+    needsInitiationGate,
+    seedIndex,
+    getDailyTip,
+    getCorrespondences,
+    moonBucket,
+    getMondFenster
   };
 })(typeof window !== 'undefined' ? window : globalThis);

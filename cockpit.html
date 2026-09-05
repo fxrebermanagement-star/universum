@@ -42,7 +42,7 @@
       <h1 class="section-title">Cockpit</h1>
       <p class="section-sub" id="cockpit-greeting">Praxis vor Spektakel.</p>
       <p class="path-haltung" id="path-haltung" aria-live="polite"><span class="path-sym" aria-hidden="true">✦</span> <span class="path-haltung-text">Still üben — Daten bleiben bei dir.</span></p>
-      <p class="privacy-line privacy-line-slim" id="privacy-line">Lokal in <code>feldlicht-v15</code> · kein Tracking</p>
+      <p class="privacy-line privacy-line-slim" id="privacy-line">Lokal in <code>feldlicht-v15</code> · kein Konto · kein Tracking</p>
 
       <div class="install-banner" id="install-banner" hidden role="region" aria-label="App installieren">
         <div class="install-banner-inner">
@@ -50,6 +50,7 @@
           <p id="install-banner-text">Öffne schneller, offline-fähig — wie eine App, ohne Store.</p>
           <ol class="install-steps" id="install-steps"></ol>
           <div class="btn-row">
+            <button type="button" class="primary tiny" id="install-banner-prompt" hidden>Jetzt installieren</button>
             <button type="button" class="primary tiny" id="install-banner-ok">Verstanden</button>
             <button type="button" class="ghost tiny" id="install-banner-later">Später</button>
           </div>
@@ -66,33 +67,36 @@
 
       <button type="button" class="fest-countdown-chip" id="fest-countdown-chip" hidden aria-live="polite"></button>
 
-      <!-- Above the fold: ONE clear "jetzt" invitation -->
-      <article class="card jetzt-card" id="jetzt-card" aria-labelledby="jetzt-title">
+      <!-- Above the fold: ONE daily tip (ritual or Haltung) + one CTA -->
+      <article class="card jetzt-card heute-tip-card" id="jetzt-card" aria-labelledby="jetzt-title">
         <div class="intention-top">
-          <h3 id="jetzt-title">Jetzt</h3>
-          <span class="chip-quiet" id="jetzt-chip">Praxis</span>
+          <h3 id="jetzt-title">Heute</h3>
+          <span class="chip-quiet" id="jetzt-chip">Ein Tip</span>
         </div>
-        <p class="jetzt-lead" id="jetzt-lead">Eine Praxis für heute.</p>
+        <p class="jetzt-kind chip-quiet" id="jetzt-kind">Praxis</p>
+        <p class="jetzt-lead" id="jetzt-lead">Eine Einladung für heute.</p>
         <p class="jetzt-meta hint-sm" id="jetzt-meta"></p>
         <div class="btn-row">
-          <button type="button" class="primary" id="jetzt-start">Empfohlene Praxis</button>
+          <button type="button" class="primary" id="jetzt-start">Üben</button>
           <button type="button" class="ghost tiny" id="jetzt-starter" hidden>3-Min-Starter</button>
         </div>
       </article>
 
-      <article class="card path-week-card" id="path-week-card" aria-labelledby="path-week-title">
+      <article class="card empfehlen-card" id="empfehlen-card" aria-labelledby="empfehlen-title">
         <div class="intention-top">
-          <h3 id="path-week-title">Pfad-Woche</h3>
-          <span class="chip-quiet" id="path-week-chip">Tag —</span>
+          <h3 id="empfehlen-title">Empfehlen</h3>
+          <span class="chip-quiet">lokal · kein Konto</span>
         </div>
-        <p class="path-week-lead" id="path-week-lead">Mikro-Praxis für heute.</p>
-        <p class="hint-sm" id="path-week-hint">Heute · Mo–So</p>
-        <div class="btn-row">
-          <button type="button" class="primary" id="path-week-done">Erledigt</button>
-          <button type="button" class="ghost tiny" id="path-week-undo" hidden>Zurücknehmen</button>
+        <p class="hint-sm" id="empfehlen-lead">UNIVERSUM bleibt auf dem Gerät. Kein Login, kein Tracking — zum Home-Bildschirm oder Link teilen.</p>
+        <div class="btn-row empfehlen-actions">
+          <button type="button" class="primary tiny" id="empfehlen-share">Teilen</button>
+          <button type="button" class="ghost tiny" id="empfehlen-copy">Link kopieren</button>
+          <button type="button" class="ghost tiny" id="empfehlen-install">App installieren</button>
         </div>
-        <p class="meta-line" id="path-week-status" aria-live="polite"></p>
+        <p class="meta-line" id="empfehlen-status" aria-live="polite"></p>
       </article>
+
+      <p class="offline-honesty hint-sm" id="offline-honesty" role="status">Lokal auf diesem Gerät · Offline-Shell bereit, wenn einmal geladen.</p>
 
       <article class="card starter-card" id="starter-card" hidden aria-labelledby="starter-title">
         <div class="intention-top">
@@ -110,9 +114,51 @@
       <details class="card mehr-accordion" id="mehr-accordion">
         <summary class="mehr-summary">
           <span>Mehr</span>
-          <span class="mehr-hint">Heute · Mond · Astronomie · Werkzeug · Intention</span>
+          <span class="mehr-hint">Pfad-Woche · Korrespondenzen · Mondfenster · Journal · Astronomie</span>
         </summary>
         <div class="mehr-body">
+
+      <article class="card path-week-card nested-card" id="path-week-card" aria-labelledby="path-week-title">
+        <div class="intention-top">
+          <h3 id="path-week-title">Pfad-Woche</h3>
+          <span class="chip-quiet" id="path-week-chip">Tag —</span>
+        </div>
+        <p class="path-week-lead" id="path-week-lead">Mikro-Praxis für heute.</p>
+        <p class="hint-sm" id="path-week-hint">Heute · Mo–So</p>
+        <div class="btn-row">
+          <button type="button" class="primary" id="path-week-done">Erledigt</button>
+          <button type="button" class="ghost tiny" id="path-week-undo" hidden>Zurücknehmen</button>
+        </div>
+        <p class="meta-line" id="path-week-status" aria-live="polite"></p>
+      </article>
+
+      <article class="card korrespondenz-card nested-card" id="korrespondenz-card" aria-labelledby="korrespondenz-title">
+        <div class="intention-top">
+          <h3 id="korrespondenz-title">Korrespondenzen</h3>
+          <span class="chip-quiet" id="korrespondenz-chip">Hauspraxis</span>
+        </div>
+        <p class="hint-sm" id="korrespondenz-note">Kräuter, Steine, Farben als Symbol — kein medizinischer Rat.</p>
+        <ul class="korrespondenz-list" id="korrespondenz-list"></ul>
+      </article>
+
+      <article class="card mondfenster-card nested-card" id="mondfenster-card" aria-labelledby="mondfenster-title">
+        <div class="intention-top">
+          <h3 id="mondfenster-title">Mondfenster</h3>
+          <span class="chip-quiet" id="mondfenster-chip">—</span>
+        </div>
+        <p class="mondfenster-lead" id="mondfenster-lead">Gut für …</p>
+        <p class="hint-sm" id="mondfenster-meta"></p>
+      </article>
+
+      <article class="card ritual-journal-card nested-card" id="ritual-journal-card" aria-labelledby="ritual-journal-title">
+        <div class="intention-top">
+          <h3 id="ritual-journal-title">Ritual-Journal</h3>
+          <span class="chip-quiet">lokal</span>
+        </div>
+        <p class="hint-sm">Kurze Reflexionen nach Ritual-Abschluss — nur auf diesem Gerät.</p>
+        <div id="ritual-journal-list" class="ritual-journal-list" aria-live="polite"></div>
+        <p class="empty-hint" id="ritual-journal-empty">Noch keine Einträge. Nach einem Ritual kannst du optional kurz reflektieren.</p>
+      </article>
 
       <article class="card briefing-card briefing-card-slim nested-card" id="tagesbriefing" aria-labelledby="briefing-title">
         <div class="briefing-top">
@@ -817,7 +863,7 @@
       </div>
 
       <div class="onboard-step hidden" data-onboard-step="1">
-        <p class="hint">Im Cockpit wartet <em>Jetzt</em> — eine Praxis für heute.</p>
+        <p class="hint">Im Cockpit wartet <em>Heute</em> — ein Tip für deinen Pfad.</p>
         <div class="notice ethics-line onboard-invite-box">
           «Üben» öffnet das Cockpit. Keine Tour.
         </div>
@@ -870,6 +916,13 @@
         </div>
         <div class="global-search-results" id="global-search-results-settings" hidden role="listbox" aria-label="Suchergebnisse"></div>
 
+        <h3 class="mt-2">App &amp; Teilen</h3>
+        <p class="hint-sm">PWA auf den Home-Bildschirm · offline-fähig · Daten nur lokal (<code>feldlicht-v15</code>), kein Konto.</p>
+        <div class="btn-row">
+          <button type="button" class="ghost" id="set-install-app">App installieren / Hinweis</button>
+          <button type="button" class="ghost" id="set-share-app">Empfehlen</button>
+        </div>
+
         <h3 class="mt-2">Tipp des Tages</h3>
         <p class="tip-text" id="settings-tip-of-day">…</p>
 
@@ -881,7 +934,7 @@
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
         <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">2.8.0</span></p>
+        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">3.1.0</span></p>
       </div>
     </div>
   </div>

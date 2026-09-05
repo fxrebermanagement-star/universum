@@ -31,7 +31,7 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 
 ## Funktionen
 
-1. **Cockpit** — **Tagesbriefing** (Mond + Stunde + Unruhe + empfohlene Praxis + nächstes Fest), Mond, **Mond-Arbeit** (Neu/Voll), Planetenstunde (Zürich-Standard), Unruhe, VoC-Banner, Empfehlungen, Schumann, **369-Tracker**, globale Suche, Pfad-Chip, Streak-Hinweis
+1. **Cockpit** — **Heute in einem Tip** (pfad- + datumsstabil), Empfehlen/PWA, **Korrespondenzen**, **Mondfenster**, Ritual-Journal; Briefing/Astronomie unter Mehr; Schumann Live + Tomsk; Pfad-Chip, Streak
 2. **Kalender** — Monatsnavigation, Tagesdetails (Mond/Sonne/Feste), **standardmäßig nur Pfad-Feste** (Umschalter Alle Feste), Betonung und Kalender-Notizen
 3. **Kosmos** — Planeten-Radar mit klareren Labels, **Legende**, aktuelle **Planetenstunde hervorgehoben**, Tap/Klick für Detail, Schumann Live-Station + Tomsk-Spektrogramm
 4. **Rituale** — Sicherheitscheck, geführte Timed-Rituale (Atembrücke, Kerzenwache), **Praxis-Helfer** (Fokus-Timer), sanfte Streak, Sigil, 22 Feldkarten + Dreierlege, eigene Rituale + **3 Vorlagen**, pfadbezogene Ritual-Auswahl/Flavor
@@ -156,6 +156,26 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 
 
 
+**Zusätzlich (v3.1 · Vertrauen / Teilen)**
+
+- **PWA entdecken** — Install-Hinweis, `beforeinstallprompt`, Einstellungen «App installieren», Empfehlen-Karte
+- **Offline ehrlich** — SW-Cache `universum-shell-v23`, Statuszeile online/offline (Live-Schumann pausiert offline)
+- **Empfehlen** — Web Share + Link kopieren; Vertrauen: lokal, kein Konto, `feldlicht-v15`
+- App `3.1.0`, SW-Cache `universum-shell-v23`
+
+**Zusätzlich (v3.0 · Hexerei-Tiefe)**
+
+- **Korrespondenzen** — pfadbezogene Kräuter / Steine / Farben (Hauspraxis-Symbolik, keine medizinischen Claims)
+- **Mondfenster** — actionable «gut für …» für aktuelle Phase × Pfad
+- **Ritual-Journal** — optionale Kurzreflexion nach Ritual-Abschluss; Liste unter Mehr; `ritualJournal` in `feldlicht-v15`
+- App `3.0.0` (Zwischenstand), aufgegangen in `3.1.0`
+
+**Zusätzlich (v2.9 · Heute in einem Tip)**
+
+- **Ein Tip oben** — eine tägliche, pfadspezifische Einladung (Ritual oder Haltung) + ein CTA; Seed aus Datum+Pfad (stabil über den Tag)
+- **Weniger Chrome** — Pfad-Woche und dichte Panels unter Mehr; Cockpit bleibt klar
+- App `2.9.0` (Zwischenstand), aufgegangen in `3.1.0`
+
 **Zusätzlich (v2.8 · UX Klarheit & Pfad-Symbole)**
 
 - **Modernes Cockpit** — klarere Typografie, mehr Luft, weichere Elevation, weniger gestapelte Karten
@@ -226,7 +246,7 @@ Kein Ersatz für Ephemeriden oder traditionelle Einweihung.
 
 - Schriften: **Syne** (Titel/Zahlen) + **Manrope** (Fließtext) via Google Fonts
 - Dark-Violet Mystik-Cockpit, mobile-first, Micro-Interactions
-- Service Worker: Offline-Shell (`universum-shell-v20`), Scope relativ für GitHub Pages `/universum/`
+- Service Worker: Offline-Shell (`universum-shell-v23`), Scope relativ für GitHub Pages `/universum/`
 - Kein React, kein Bundler, kein Backend
 
 ## Dateien

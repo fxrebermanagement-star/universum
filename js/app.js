@@ -186,6 +186,11 @@
     'Pfad-Woche: sieben kurze Schritte Mo–So — erledigt speichert lokal.',
     'Werkzeug-Set: Mini-Modul pro Pfad (Eid, Sigil, Elemente, Haus-Reinheit).',
     'Pfad-Symbole: jedes Symbol steht für eine Haltung — Chip, Rituale, Kalender.',
+    'Heute: ein Tip genügt — Ritual oder Haltung, stabil für Datum und Pfad.',
+    'Korrespondenzen sind Hauspraxis-Symbolik — kein medizinischer Rat.',
+    'Mondfenster: «gut für …» zur Phase, angepasst an deinen Pfad.',
+    'Ritual-Journal: nach dem Schließen optional einen Satz speichern (Mehr).',
+    'Empfehlen: teilen oder Link kopieren — lokal, ohne Konto.',
   ];
 
   function tipOfDay(date) {
@@ -1013,40 +1018,139 @@
     const jetztStarter = $('#jetzt-starter');
     const title = $('#jetzt-title');
     const chip = $('#jetzt-chip');
+    const kindEl = $('#jetzt-kind');
     const lead = $('#jetzt-lead');
     const meta = $('#jetzt-meta');
 
-    // Prefer ONE invitation above the fold: starter OR recommended practice
+    // Prefer ONE invitation above the fold: starter OR seeded daily tip
     if (showStarter) {
       card.hidden = true;
       if (starterCard) starterCard.hidden = false;
       renderPathWeek();
+      renderKorrespondenzen();
+      renderMondfenster();
+      renderRitualJournal();
       return;
     }
     if (starterCard) starterCard.hidden = true;
     card.hidden = false;
 
-    const ritualId = (path && path.recommendedRitual) || 'erdung';
-    const ritual = Rituals.getRitual(ritualId);
-    if (title) title.textContent = 'Jetzt';
-    if (chip) chip.innerHTML = '<span class="path-sym" aria-hidden="true">' + escapeHtml(pathSymbol(path)) + '</span> ' + escapeHtml((path && path.name) || 'Praxis');
+    const tip = (Paths.getDailyTip && Paths.getDailyTip(state.path, new Date())) || null;
+    let ritualId = (tip && tip.ritualId) || (path && path.recommendedRitual) || 'erdung';
+    let ritual = Rituals.getRitual(ritualId);
+    if (!ritual) {
+      ritualId = (path && path.recommendedRitual) || 'erdung';
+      ritual = Rituals.getRitual(ritualId);
+    }
+    if (title) title.textContent = 'Heute';
+    if (chip) {
+      chip.innerHTML = '<span class="path-sym" aria-hidden="true">' + escapeHtml(pathSymbol(path)) + '</span> ' +
+        escapeHtml((path && path.name) || 'Praxis');
+    }
+    if (kindEl) {
+      kindEl.textContent = tip && tip.kind === 'haltung' ? 'Haltung' : 'Ritual';
+    }
     if (lead) {
-      lead.textContent = (path && path.practiceHint) || 'Eine ruhige Praxis reicht.';
+      lead.textContent = (tip && tip.text) || (path && path.practiceHint) || 'Eine ruhige Praxis reicht.';
     }
     if (meta) {
-      meta.textContent = ritual
-        ? ('Empfohlen: ' + ritual.name + (ritual.mins ? ' · ≈ ' + ritual.mins + ' Min' : ''))
-        : 'Wähle eine Praxis, die du halten kannst.';
+      const tipTitle = tip && tip.title ? tip.title : (ritual ? ritual.name : 'Praxis');
+      meta.textContent = tipTitle +
+        (ritual && ritual.mins ? ' · ≈ ' + ritual.mins + ' Min' : '') +
+        ' · stabil für heute';
     }
     if (jetztStart) {
-      jetztStart.textContent = ritual ? ('Start · ' + ritual.name) : 'Empfohlene Praxis';
+      jetztStart.textContent = (tip && tip.cta) || (ritual ? ('Start · ' + ritual.name) : 'Üben');
       jetztStart.dataset.ritual = ritualId;
     }
-    if (jetztStarter) {
-      // Soft re-entry only via starter card / settings reset
-      jetztStarter.hidden = true;
-    }
+    if (jetztStarter) jetztStarter.hidden = true;
     renderPathWeek();
+    renderKorrespondenzen();
+    renderMondfenster();
+    renderRitualJournal();
+    updateOfflineHonesty();
+  }
+
+  function renderKorrespondenzen() {
+    const list = $('#korrespondenz-list');
+    const note = $('#korrespondenz-note');
+    const chip = $('#korrespondenz-chip');
+    if (!list || !Paths.getCorrespondences) return;
+    const path = currentPath();
+    const c = Paths.getCorrespondences(state.path);
+    if (chip) chip.textContent = (path && path.name) || 'Pfad';
+    if (note) note.textContent = c.note || 'Hauspraxis — kein medizinischer Rat.';
+    const rows = [
+      ['Kräuter', (c.herbs || []).join(' · ')],
+      ['Steine', (c.stones || []).join(' · ')],
+      ['Farben', (c.colors || []).join(' · ')]
+    ];
+    list.innerHTML = rows.map(function (r) {
+      return '<li><strong>' + escapeHtml(r[0]) + '</strong><span>' + escapeHtml(r[1]) + '</span></li>';
+    }).join('');
+  }
+
+  function renderMondfenster(moon) {
+    const lead = $('#mondfenster-lead');
+    const chip = $('#mondfenster-chip');
+    const meta = $('#mondfenster-meta');
+    if (!lead || !Paths.getMondFenster) return;
+    const m = moon || (Astro.moonPhase && Astro.moonPhase(new Date())) || {};
+    const fen = Paths.getMondFenster(state.path, m.name);
+    if (chip) chip.textContent = fen.label || m.name || 'Mond';
+    lead.textContent = fen.text || 'Gut für ruhige Praxis mit Maß.';
+    if (meta) {
+      meta.textContent = (m.emoji || '☾') + ' ' + (m.name || '—') +
+        (m.percent != null ? ' · ' + m.percent + ' %' : '') +
+        ' · Näherung · pfadbezogen';
+    }
+  }
+
+  function renderRitualJournal() {
+    const host = $('#ritual-journal-list');
+    const empty = $('#ritual-journal-empty');
+    if (!host || !Store.getRitualJournal) return;
+    const items = Store.getRitualJournal(12);
+    if (!items.length) {
+      host.innerHTML = '';
+      if (empty) empty.hidden = false;
+      return;
+    }
+    if (empty) empty.hidden = true;
+    host.innerHTML = items.map(function (it) {
+      const when = it.at ? new Date(it.at).toLocaleString('de-CH', {
+        day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
+      }) : '';
+      return '<div class="ritual-journal-item" data-rj-id="' + escapeHtml(it.id) + '">' +
+        '<div class="rj-top"><strong>' + escapeHtml(it.ritualName || 'Praxis') + '</strong>' +
+        '<span class="rj-when">' + escapeHtml(when) + '</span></div>' +
+        '<p class="rj-text">' + escapeHtml(it.text || '') + '</p>' +
+        '<button type="button" class="ghost tiny rj-del" data-rj-del="' + escapeHtml(it.id) + '">Löschen</button>' +
+        '</div>';
+    }).join('');
+    host.querySelectorAll('[data-rj-del]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        const id = btn.getAttribute('data-rj-del');
+        if (id && Store.removeRitualJournalEntry) {
+          Store.removeRitualJournalEntry(id);
+          renderRitualJournal();
+          toast('Journal-Eintrag entfernt');
+        }
+      });
+    });
+  }
+
+  function updateOfflineHonesty() {
+    const el = $('#offline-honesty');
+    if (!el) return;
+    const online = typeof navigator.onLine === 'boolean' ? navigator.onLine : true;
+    if (online) {
+      el.textContent = 'Lokal auf diesem Gerät · kein Konto · Offline-Shell bereit, wenn einmal geladen.';
+      el.dataset.state = 'online';
+    } else {
+      el.textContent = 'Offline · du übst lokal aus dem Cache. Live-Schumann/Tomsk pausiert bis Verbindung.';
+      el.dataset.state = 'offline';
+    }
   }
 
   function updateClock() {
@@ -1477,6 +1581,7 @@
     renderQuickPraxis();
     renderDayBanner();
     renderMondArbeit(moon);
+    renderMondfenster(moon);
     renderFestCountdown();
     renderStarterCard();
     checkPlanetaryHourAlert(false);
@@ -2717,8 +2822,8 @@
       },
       {
         id: 'seed',
-        title: 'Keim (optional)',
-        text: 'Ein Satz fürs Magie-Tagebuch — oder weitergehen. Kein Zwang, nur ein möglicher Keim.',
+        title: 'Reflexion (optional)',
+        text: 'Ein kurzer Satz fürs Ritual-Journal — oder weitergehen. Kein Zwang.',
         ico: '✧',
         diary: true
       }
@@ -2744,8 +2849,9 @@
       }
       if (step.diary) {
         extra = '<div class="form-row closing-seed-row">' +
-          '<label class="sr-only" for="rr-closing-seed">Tagebuch-Keim</label>' +
-          '<textarea id="rr-closing-seed" maxlength="280" rows="3" placeholder="z. B. Was bleibt im Körper nach der Praxis…"></textarea></div>';
+          '<label class="sr-only" for="rr-closing-seed">Ritual-Reflexion (optional)</label>' +
+          '<textarea id="rr-closing-seed" maxlength="280" rows="3" placeholder="Kurze Reflexion: Was bleibt nach der Praxis…"></textarea>' +
+          '<p class="hint-sm">Optional · speichert im Ritual-Journal (Mehr) und als Tagebuch-Keim.</p></div>';
       }
       const isLast = ci >= CLOSING.length - 1;
       $('#rr-content').innerHTML =
@@ -2759,8 +2865,8 @@
         '<p class="notice ethics-line">Nach ' + escapeHtml(label) + '</p>' +
         '<div class="rr-actions">' +
         (step.diary
-          ? '<button type="button" class="primary" id="rr-close-seed-save">Keim speichern · Alltag</button>' +
-            '<button type="button" class="ghost" id="rr-done">Ohne Keim · Alltag</button>'
+          ? '<button type="button" class="primary" id="rr-close-seed-save">Reflexion speichern · Alltag</button>' +
+            '<button type="button" class="ghost" id="rr-done">Ohne Reflexion · Alltag</button>'
           : (isLast
             ? '<button type="button" class="primary" id="rr-done">Fertig · Alltag</button>'
             : '<button type="button" class="primary" id="rr-close-next">Weiter</button>')) +
@@ -2797,23 +2903,32 @@
         const seed = ta ? String(ta.value || '').trim() : '';
         if (seed) {
           try {
+            if (Store.addRitualJournalEntry) {
+              Store.addRitualJournalEntry({
+                ritualId: ritual && ritual.id || null,
+                ritualName: label,
+                pathId: state.path,
+                text: seed
+              });
+            }
             Store.update(d => {
               d.diary = d.diary || [];
               d.diary.push({
                 id: Store.uid(),
-                title: 'Keim nach ' + label,
+                title: 'Reflexion nach ' + label,
                 body: seed,
-                tags: ['abschluss', 'keim'],
+                tags: ['abschluss', 'ritual-journal'],
                 mood: null,
                 created: new Date().toISOString()
               });
             });
-            toast('Keim im Tagebuch');
+            toast('Im Ritual-Journal');
+            if (typeof renderRitualJournal === 'function') renderRitualJournal();
           } catch (_) {
-            toast('Keim konnte nicht gespeichert werden', 3200, 'warn');
+            toast('Reflexion konnte nicht gespeichert werden', 3200, 'warn');
           }
         }
-        finishClosing(seed ? 'Keim gesät · Schwelle gehalten.' : 'Schwelle gehalten — gut geübt.');
+        finishClosing(seed ? 'Reflexion gespeichert · Schwelle gehalten.' : 'Schwelle gehalten — gut geübt.');
       });
       const skip = $('#rr-close-skip');
       if (skip) skip.addEventListener('click', () => {
@@ -3344,7 +3459,82 @@
       '<p class="week-tone">' + escapeHtml(tone) + '</p>';
   }
 
-  function isStandaloneDisplay() {
+  let deferredInstallPrompt = null;
+
+  function appShareUrl() {
+    try {
+      return new URL('./', location.href).href;
+    } catch (_) {
+      return 'https://fxrebermanagement-star.github.io/universum/';
+    }
+  }
+
+  async function shareAppRecommend() {
+    const url = appShareUrl();
+    const title = 'UNIVERSUM · Praxiswerkzeug';
+    const text = 'Lokal üben — Magie und Hexerei ohne Konto. Daten bleiben auf dem Gerät.';
+    const status = $('#empfehlen-status');
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: title, text: text, url: url });
+        if (status) status.textContent = 'Geteilt — danke.';
+        toast('Empfehlung geteilt');
+        return;
+      }
+    } catch (e) {
+      if (e && e.name === 'AbortError') return;
+    }
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(url);
+        if (status) status.textContent = 'Link kopiert.';
+        toast('Link kopiert');
+        return;
+      }
+    } catch (_) {}
+    window.prompt('Link kopieren:', url);
+  }
+
+  async function copyAppLink() {
+    const url = appShareUrl();
+    const status = $('#empfehlen-status');
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(url);
+        if (status) status.textContent = 'Link kopiert.';
+        toast('Link kopiert');
+        return;
+      }
+    } catch (_) {}
+    window.prompt('Link kopieren:', url);
+  }
+
+  async function promptPwaInstall() {
+    const status = $('#empfehlen-status');
+    if (deferredInstallPrompt) {
+      try {
+        deferredInstallPrompt.prompt();
+        const choice = await deferredInstallPrompt.userChoice;
+        if (choice && choice.outcome === 'accepted') {
+          toast('App wird installiert');
+          if (status) status.textContent = 'Installiert — lokal auf dem Gerät.';
+          dismissInstallBanner(true);
+        } else if (status) {
+          status.textContent = 'Installation abgebrochen — jederzeit über Browser-Menü.';
+        }
+      } catch (_) {
+        showInstallBanner(true);
+      }
+      deferredInstallPrompt = null;
+      const bp = $('#install-banner-prompt');
+      if (bp) bp.hidden = true;
+      return;
+    }
+    showInstallBanner(true);
+    if (status) status.textContent = 'Siehe Installationshinweis — oder Browser-Menü „App installieren“.';
+  }
+
+    function isStandaloneDisplay() {
     try {
       if (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) return true;
       if (window.matchMedia && window.matchMedia('(display-mode: minimal-ui)').matches) return true;
@@ -3411,6 +3601,8 @@
           '<li>„Installieren“ oder „Zum Home-Bildschirm“ wählen.</li>';
       }
     }
+    const promptBtn = $('#install-banner-prompt');
+    if (promptBtn) promptBtn.hidden = !deferredInstallPrompt;
     ban.hidden = false;
   }
 
@@ -4396,11 +4588,46 @@
     }
 
 
-    // Install hint (mobile Pages / PWA coach)
+    // Install hint (mobile Pages / PWA coach) + Empfehlen
     const instOk = $('#install-banner-ok');
     if (instOk) instOk.addEventListener('click', () => dismissInstallBanner(true));
     const instLater = $('#install-banner-later');
     if (instLater) instLater.addEventListener('click', () => dismissInstallBanner(false));
+    const instPrompt = $('#install-banner-prompt');
+    if (instPrompt) instPrompt.addEventListener('click', () => { promptPwaInstall(); });
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredInstallPrompt = e;
+      const bp = $('#install-banner-prompt');
+      if (bp) bp.hidden = false;
+      const empInst = $('#empfehlen-install');
+      if (empInst) empInst.classList.add('has-prompt');
+      setTimeout(() => { try { showInstallBanner(false); } catch (_) {} }, 400);
+    });
+    window.addEventListener('appinstalled', () => {
+      deferredInstallPrompt = null;
+      dismissInstallBanner(true);
+      const st = $('#empfehlen-status');
+      if (st) st.textContent = 'Installiert — öffnet wie eine App, Daten bleiben lokal.';
+      toast('UNIVERSUM installiert');
+    });
+
+    const empShare = $('#empfehlen-share');
+    if (empShare) empShare.addEventListener('click', () => { shareAppRecommend(); });
+    const empCopy = $('#empfehlen-copy');
+    if (empCopy) empCopy.addEventListener('click', () => { copyAppLink(); });
+    const empInstBtn = $('#empfehlen-install');
+    if (empInstBtn) empInstBtn.addEventListener('click', () => { promptPwaInstall(); });
+
+    window.addEventListener('online', updateOfflineHonesty);
+    window.addEventListener('offline', updateOfflineHonesty);
+    updateOfflineHonesty();
+
+    const setInst = $('#set-install-app');
+    if (setInst) setInst.addEventListener('click', () => { promptPwaInstall(); });
+    const setShare = $('#set-share-app');
+    if (setShare) setShare.addEventListener('click', () => { shareAppRecommend(); });
 
     // Diary mood
     $$('#diary-mood-row [data-mood]').forEach(btn => {
