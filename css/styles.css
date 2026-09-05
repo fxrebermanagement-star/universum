@@ -7209,3 +7209,442 @@ body.stille-modus #sec-cockpit #glance-resonanz-card {
   color: #062824;
   background: linear-gradient(180deg, #9ef0e4, #3ed4c4);
 }
+
+/* ——— v5.12.0 Großer Feinschliff — visual rhythm · type · touch · 375px ——— */
+
+/* Soften card borders globally a touch; keep mystik intact */
+.card {
+  border-color: color-mix(in srgb, var(--border, #32284a) 78%, transparent);
+}
+.nested-card {
+  border-color: rgba(155, 126, 217, 0.16);
+}
+
+/* Altar home: one phone-home rhythm Messpult → Heute → bento */
+#sec-cockpit.altar-sacred {
+  padding-bottom: 0.35rem;
+}
+#sec-cockpit > .section-sub {
+  margin-bottom: 0.45rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+  letter-spacing: 0.01em;
+}
+.messpult-home {
+  margin: 0.05rem 0 0.7rem;
+  padding: 0.75rem 0.7rem 0.85rem;
+  border-color: rgba(155, 126, 217, 0.2);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.03),
+    0 10px 28px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+.messpult-home .messpult-head {
+  margin: 0 0 0.55rem;
+}
+.messpult-home .messpult-eyebrow {
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  color: rgba(232, 197, 71, 0.72);
+}
+.messpult-home .messpult-grid {
+  margin: 0 0 0.6rem;
+  gap: 0.55rem;
+}
+.messpult-home .mess-tile {
+  min-height: 108px;
+  padding: 0.8rem 0.75rem 0.7rem;
+  border-color: rgba(155, 126, 217, 0.18);
+  border-radius: var(--radius-sm, 13px);
+}
+.messpult-home .mess-unruhe-wide,
+.messpult-home .dash-panel.unrest {
+  min-height: 88px;
+  padding-top: 0.75rem;
+  padding-bottom: 0.65rem;
+}
+.messpult-home .dash-panel .label {
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin-bottom: 0.25rem;
+}
+.messpult-home .dash-panel .value {
+  font-size: 1.05rem;
+  line-height: 1.25;
+  font-weight: 700;
+}
+.messpult-home .mess-readout {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: rgba(230, 220, 250, 0.88);
+}
+.messpult-home .dash-panel .meta,
+.messpult-home .mess-sign {
+  font-size: 0.72rem;
+  line-height: 1.35;
+  color: var(--muted);
+  margin-top: 0.28rem;
+}
+.messpult-home .mess-tile.mess-tap {
+  min-height: 108px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.15s ease;
+}
+.messpult-home .mess-tile.mess-tap:active,
+.messpult-home .mess-tile.mess-tap:focus-visible {
+  border-color: rgba(252, 211, 77, 0.4);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(252, 211, 77, 0.18);
+}
+.mess-schumann-home {
+  padding: 0.75rem 0.8rem 0.8rem !important;
+  border-color: rgba(62, 207, 191, 0.22);
+}
+.mess-schumann-home .schumann-head h3 {
+  font-size: 0.92rem;
+}
+.mess-schumann-home .schumann-spectrogram-figure,
+.mess-schumann-home .schumann-spectrogram-figure img {
+  max-height: 120px !important;
+  min-height: 96px;
+}
+.mess-schumann-home .schumann-wrap {
+  height: 64px !important;
+}
+.mess-schumann-home .hint-sm,
+.messpult-home .approx-note {
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: rgba(180, 170, 200, 0.78);
+}
+.messpult-home .approx-note {
+  margin-top: 0.5rem;
+}
+
+/* Heute hero — aligned with messpult/bento spacing */
+.heute-starter-hero {
+  margin: 0 0 0.65rem;
+  padding: 0.9rem 0.95rem 0.95rem;
+  border-color: rgba(252, 211, 77, 0.28);
+}
+.heute-starter-meta {
+  font-size: 0.9rem !important;
+  line-height: 1.4 !important;
+  color: rgba(245, 240, 255, 0.88) !important;
+  margin: 0 0 0.65rem !important;
+}
+.heute-starter-actions .primary {
+  min-height: 44px;
+  min-width: 44px;
+  font-size: 0.98rem;
+}
+.heute-starter-actions #jetzt-starter:not([hidden]) {
+  min-height: 44px;
+  padding: 0.5rem 1rem;
+}
+
+/* Bento glance: equal height widgets, softer edges, no overflow @375 */
+.altar-bento {
+  margin: 0 0 0.65rem;
+}
+.altar-bento .glance-apps {
+  gap: 0.5rem;
+  align-items: stretch;
+}
+.altar-bento .glance-widget,
+.glance-apps .glance-widget {
+  display: flex;
+  flex-direction: column;
+  min-height: 7.25rem !important;
+  height: 100%;
+  padding: 0.75rem 0.7rem 0.7rem !important;
+  border-radius: var(--radius-sm, 13px);
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(155, 126, 217, 0.16);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.03),
+    0 6px 18px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+}
+.altar-bento .glance-widget h3,
+.glance-widget h3 {
+  font-size: 0.8rem !important;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: rgba(248, 242, 255, 0.94);
+  line-height: 1.25;
+}
+.altar-bento .glance-lead,
+.glance-widget .glance-lead {
+  flex: 1 1 auto;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  font-weight: 520;
+  color: rgba(235, 228, 250, 0.9);
+  margin: 0.3rem 0 0.2rem;
+  -webkit-line-clamp: 2;
+}
+.altar-bento .glance-widget .hint-sm,
+.glance-widget .hint-sm {
+  margin-top: auto;
+  font-size: 0.68rem;
+  line-height: 1.3;
+  color: rgba(180, 170, 200, 0.7);
+}
+.altar-bento .glance-widget .chip-quiet {
+  font-size: 0.64rem;
+  max-width: 5.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.altar-bento .glance-ico {
+  font-size: 0.95rem;
+  opacity: 0.5;
+  top: 0.5rem;
+  right: 0.5rem;
+}
+button.glance-widget:active,
+button.glance-widget:focus-visible {
+  border-color: rgba(252, 211, 77, 0.36);
+  outline: none;
+  box-shadow:
+    0 0 0 2px rgba(252, 211, 77, 0.16),
+    0 8px 22px rgba(0, 0, 0, 0.24);
+}
+button.glance-widget {
+  min-height: 7.25rem;
+}
+
+/* Offline bar — quieter, less cramped */
+.altar-offline-bar {
+  margin: 0.25rem 0 0.75rem;
+  padding: 0.65rem 0.8rem 0.7rem;
+  border-radius: var(--radius-sm, 13px);
+}
+.altar-offline-bar .privacy-line-slim code {
+  font-size: 0.7rem;
+  opacity: 0.85;
+}
+
+/* Typography hierarchy: titles / body / meta */
+.section-view > .section-title {
+  font-family: var(--font-title);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--text);
+}
+.section-view > .section-sub {
+  color: var(--muted);
+  font-weight: 450;
+}
+.hint-sm,
+.meta-line,
+.empty-hint,
+.empty-state {
+  color: var(--muted);
+  line-height: 1.4;
+}
+.card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: rgba(248, 242, 255, 0.95);
+  line-height: 1.3;
+}
+
+/* Tap targets ≥44px where cheap */
+.bottom-nav button {
+  min-height: 48px;
+  min-width: 44px;
+}
+.tabs button {
+  min-height: 44px;
+  padding: 0.55rem 0.85rem;
+}
+button.ghost.tiny,
+.btn.ghost.tiny {
+  min-height: 40px;
+  min-width: 40px;
+  padding: 0.45rem 0.75rem;
+}
+button.primary.tiny {
+  min-height: 40px;
+  padding: 0.45rem 0.85rem;
+}
+.werkzeug-jump button,
+.mess-tap {
+  min-height: 44px;
+}
+
+/* Active states — clearer press feedback */
+.bottom-nav button:active {
+  opacity: 0.88;
+}
+.tabs button.active {
+  box-shadow: inset 0 -2px 0 var(--accent, #8b6fd0);
+}
+button.primary:active:not(:disabled),
+.btn.primary:active:not(:disabled) {
+  transform: translateY(1px);
+  filter: brightness(0.96);
+}
+
+/* Reduce layout jump on tab / section switch */
+.section-view {
+  min-height: calc(100dvh - 7.5rem);
+}
+.section-view:not(.active) {
+  display: none;
+}
+#sec-rituale .tabs {
+  margin-bottom: 0.65rem;
+  min-height: 48px;
+}
+#sec-rituale [data-rpanel] {
+  min-height: 12rem;
+}
+
+/* 375px: no cramped overflow */
+@media (max-width: 390px) {
+  .messpult-home {
+    padding: 0.65rem 0.55rem 0.75rem;
+    margin-bottom: 0.55rem;
+  }
+  .messpult-home .messpult-grid {
+    gap: 0.45rem;
+  }
+  .messpult-home .mess-tile {
+    min-height: 100px;
+    padding: 0.7rem 0.6rem 0.6rem;
+  }
+  .messpult-home .dash-panel .value {
+    font-size: 0.98rem;
+  }
+  .messpult-home .mess-readout {
+    font-size: 0.76rem;
+  }
+  .heute-starter-hero {
+    padding: 0.8rem 0.8rem 0.85rem;
+  }
+  .altar-bento .glance-apps {
+    gap: 0.42rem;
+  }
+  .altar-bento .glance-widget,
+  .glance-apps .glance-widget {
+    min-height: 6.85rem !important;
+    padding: 0.65rem 0.58rem 0.6rem !important;
+  }
+  .altar-bento .glance-lead,
+  .glance-widget .glance-lead {
+    font-size: 0.78rem;
+  }
+  .section-view {
+    padding-left: 0.85rem;
+    padding-right: 0.85rem;
+  }
+  .dashboard-grid {
+    gap: 0.45rem;
+  }
+}
+
+/* Landing / onboarding — match Altar warmth */
+.landing-v22 {
+  padding: 1.75rem 1.15rem 2.5rem;
+}
+.landing-v22 .splash-eyebrow {
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  color: rgba(232, 197, 71, 0.75);
+  margin-bottom: 0.65rem;
+}
+.landing-v22 .brand-title {
+  font-size: clamp(2rem, 8vw, 2.6rem);
+  letter-spacing: -0.03em;
+  margin: 0.15rem 0;
+}
+.landing-v22 .tagline {
+  font-size: 1.02rem;
+  color: rgba(235, 228, 250, 0.92);
+  margin: 0.35rem auto 0.55rem;
+}
+.landing-v22 .splash-value {
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: var(--muted);
+  max-width: 21rem;
+}
+.landing-v22 .trust-strip {
+  gap: 0.45rem;
+  margin: 1rem auto 0.35rem;
+}
+.landing-v22 .trust-strip li {
+  padding: 0.65rem 0.75rem;
+  border-radius: var(--radius-sm, 13px);
+  border: 1px solid rgba(155, 126, 217, 0.16);
+  background: color-mix(in srgb, var(--bg-card, #1a1428) 90%, transparent);
+}
+.landing-v22 .enter {
+  min-height: 48px;
+  border-radius: 999px;
+  margin-top: 0.35rem;
+  box-shadow: 0 0 24px rgba(139, 111, 208, 0.32);
+}
+.landing-v22 .splash-install-hint,
+.landing-v22 .splash-foot {
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: rgba(160, 150, 180, 0.72);
+  max-width: 22rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+.landing-v22 .landing-ethics-line {
+  font-size: 0.82rem;
+  margin: 0.75rem auto 1.1rem;
+}
+.onboard-card {
+  border-color: rgba(155, 126, 217, 0.22);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4), 0 0 40px rgba(139, 111, 208, 0.08);
+}
+.onboard-card h2 {
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
+}
+.onboard-copy {
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: var(--text-soft);
+}
+.onboard-nav .primary,
+.onboard-nav button.primary {
+  min-height: 44px;
+}
+
+/* Empty states — inviting, not blank blocks */
+.empty-state,
+.empty-hint {
+  padding: 0.85rem 0.25rem;
+  text-align: center;
+  font-size: 0.88rem;
+}
+.empty-state.convert {
+  padding: 1.1rem 0.85rem;
+  border-radius: var(--radius-sm, 13px);
+  border: 1px dashed rgba(155, 126, 217, 0.22);
+  background: rgba(20, 14, 32, 0.35);
+}
+
+/* Prefer-reduced-motion: no press transform jump */
+@media (prefers-reduced-motion: reduce) {
+  button.primary:active:not(:disabled),
+  .btn.primary:active:not(:disabled),
+  .messpult-home .mess-tile.mess-tap {
+    transition: none;
+    transform: none;
+  }
+}

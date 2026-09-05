@@ -957,7 +957,7 @@
           if (lead) lead.textContent = 'Zuletzt · ' + label;
           if (meta) meta.textContent = (act.lastCalendarAt
             ? new Date(act.lastCalendarAt).toLocaleString('de-CH', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) + ' · '
-            : '') + 'Tippen → Kalender';
+            : '') + 'Tippen · Kalender';
           if (gChip) gChip.textContent = 'Tag';
           usedLastDay = true;
         }
@@ -966,15 +966,15 @@
 
     if (!usedLastDay) {
       if (!next) {
-        if (lead) lead.textContent = 'Kein baldiges Fest im Kalender.';
-        if (meta) meta.textContent = 'Tippen → Kalender';
+        if (lead) lead.textContent = 'Feste und Tage — bereit zum Blättern.';
+        if (meta) meta.textContent = 'Tippen · Kalender';
         if (gChip) gChip.textContent = 'Kalender';
       } else {
         const when = next.days <= 0 ? 'heute' : next.days === 1 ? 'morgen' : 'in ' + next.days + ' Tagen';
         if (lead) lead.textContent = (next.ico || '✦') + ' ' + next.name + ' · ' + when;
         if (meta) {
           meta.textContent = (pathOnly ? 'Pfad-Fest' : 'Fest') + ' · ' +
-            (next.date ? fmtDate(next.date) : '') + ' · Tippen → Kalender';
+            (next.date ? fmtDate(next.date) : '') + ' · Tippen · Kalender';
         }
         if (gChip) gChip.textContent = next.days <= 14 ? when : 'Fest';
       }
@@ -1024,8 +1024,8 @@
     });
     const last = log[0];
     if (!last) {
-      lead.textContent = 'Nach einem Ritual erscheint es hier';
-      if (meta) meta.textContent = 'Tippen → Rituale';
+      lead.textContent = 'Noch still — öffne ein Ritual';
+      if (meta) meta.textContent = 'Tippen · Rituale';
       if (chip) chip.textContent = '—';
       if (card) { card.dataset.ritualId = ''; card.dataset.logKind = ''; }
       return;
@@ -1034,7 +1034,7 @@
     const when = last.at ? new Date(last.at).toLocaleString('de-CH', {
       day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
     }) : '';
-    if (meta) meta.textContent = (when ? when + ' · ' : '') + 'Tippen zum Fortsetzen';
+    if (meta) meta.textContent = (when ? when + ' · ' : '') + 'Tippen · fortsetzen';
     if (chip) chip.textContent = last.kind === 'ritual' ? 'Ritual' : (last.kind || 'Praxis');
     const r = resolveRitualFromLog(last);
     if (card) {
@@ -1056,8 +1056,8 @@
     });
     const e = entries[0];
     if (!e) {
-      lead.textContent = 'Noch kein Eintrag im Magie-Buch.';
-      if (meta) meta.textContent = 'Tippen → Magie-Buch';
+      lead.textContent = 'Dein Magie-Buch wartet auf den ersten Eintrag.';
+      if (meta) meta.textContent = 'Tippen · Magie-Buch';
       if (chip) chip.textContent = 'Buch';
       if (thumb) { thumb.hidden = true; thumb.innerHTML = ''; }
       if (card) card.dataset.entryId = '';
@@ -1068,7 +1068,7 @@
     const when = e.created ? new Date(e.created).toLocaleString('de-CH', {
       day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
     }) : '';
-    if (meta) meta.textContent = (when ? when + ' · ' : '') + 'Tippen → Magie-Buch';
+    if (meta) meta.textContent = (when ? when + ' · ' : '') + 'Tippen · Magie-Buch';
     if (chip) chip.textContent = e.mood ? String(e.mood) : 'Buch';
     if (card) card.dataset.entryId = e.id || '';
     if (thumb) {
@@ -1124,7 +1124,7 @@
       const when = act.lastResonanzAt ? new Date(act.lastResonanzAt).toLocaleString('de-CH', {
         day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
       }) : '';
-      if (meta) meta.textContent = (when ? when + ' · ' : '') + 'Tippen → Resonanzen';
+      if (meta) meta.textContent = (when ? when + ' · ' : '') + 'Tippen · Resonanzen';
       if (chip) chip.textContent = act.lastResonanzId === 'heute' ? 'heute passt' : 'Resonanz';
       if (card) {
         card.dataset.resonanzId = act.lastResonanzId || '';
@@ -1141,8 +1141,8 @@
       if (meta) meta.textContent = (heute.why || 'Symbolik für die Haltung') + ' · Tippen';
       if (chip) chip.textContent = 'heute passt';
     } else {
-      lead.textContent = 'Noch nichts geöffnet — «heute passt» wartet.';
-      if (meta) meta.textContent = 'Tippen → Resonanzen';
+      lead.textContent = 'Heute passt … — tippe und sieh nach.';
+      if (meta) meta.textContent = 'Tippen · Resonanzen';
       if (chip) chip.textContent = 'Resonanz';
     }
     if (card) { card.dataset.resonanzId = 'heute'; card.dataset.resonanzPath = ''; }
@@ -1159,7 +1159,7 @@
       const when = act.lastKosmosAt ? new Date(act.lastKosmosAt).toLocaleString('de-CH', {
         day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
       }) : '';
-      if (meta) meta.textContent = (when ? when + ' · ' : '') + 'Tippen → Kosmos';
+      if (meta) meta.textContent = (when ? when + ' · ' : '') + 'Tippen · Kosmos';
       if (chip) chip.textContent = act.lastKosmosKind === 'planet' ? 'Planet' : 'Stunde';
       return;
     }
@@ -1170,15 +1170,15 @@
       lead.textContent = 'Stunde · ' + name;
       if (meta) {
         if (hour && hour.start && hour.end) {
-          meta.textContent = fmtHourClock(hour.start) + '–' + fmtHourClock(hour.end) + ' · Tippen → Kosmos';
+          meta.textContent = fmtHourClock(hour.start) + '–' + fmtHourClock(hour.end) + ' · Tippen · Kosmos';
         } else {
-          meta.textContent = 'Tippen → Kosmos';
+          meta.textContent = 'Tippen · Kosmos';
         }
       }
       if (chip) chip.textContent = 'Stunde';
     } catch (_) {
-      lead.textContent = 'Planetenstunde und Radar.';
-      if (meta) meta.textContent = 'Tippen → Kosmos';
+      lead.textContent = 'Stunde und Radar — ein Blick genügt.';
+      if (meta) meta.textContent = 'Tippen · Kosmos';
       if (chip) chip.textContent = 'Kosmos';
     }
   }
@@ -2568,7 +2568,7 @@
     if (status) {
       status.textContent = di.text
         ? 'Heute aktiv' + (di.link369 ? ' · mit 369 verknüpft' : '')
-        : 'Noch keine Intention für heute.';
+        : 'Heute noch keine Intention — ein Satz genügt.';
     }
     renderIntentionHistory();
   }

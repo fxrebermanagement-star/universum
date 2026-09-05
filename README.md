@@ -343,6 +343,16 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 
 
 
+## Craft-Pass (v5.12.0) · Großer Feinschliff
+
+- **Visueller Rhythmus** — einheitliche Karten-Abstände Messpult → Heute → Bento; weichere Kanten; Widget-Höhen ausgerichtet; 375px ohne Enge/Overflow
+- **Typografie** — klarere Hierarchie Titel / Fließtext / Meta; lesbarer Kontrast
+- **Copy** — kürzere Hinweise, warmer Praxis-Ton; weniger Technik-Jargon in der UI
+- **Leere Zustände** — Glance-Widgets mit einladenden Einzeilern statt Leerstellen
+- **Interaktion** — Tap-Ziele ≥44px wo günstig; klarere Active-States; weniger Layout-Sprung bei Tab-Wechsel
+- **Altar-Home** — Messpult/Heute/Bento als ein poliertes Phone-Home; Landing/Onboarding leicht angeglichen
+- App `5.12.0`, SW-Cache `universum-shell-v51`
+
 ## Craft-Pass (v5.11.0) · Altar Messpult + Start = ein Home
 
 - **Ein Altar-Scroll** — Session-Banner → **Messpult** (Mond|Planetenstunde, Unruhe·Impuls, Schumann Spektrogramm+Metriken) → **Heute/Starter**-Hero (eine CTA, 3-Min wenn offen) → **Bento Glance-Apps** 2-spaltig → Offline-Leiste → Mehr am Altar

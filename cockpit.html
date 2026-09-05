@@ -42,10 +42,10 @@
     <div id="main-content" tabindex="-1">
     <!-- 1. Altar (route id: cockpit) -->
     <section id="sec-cockpit" class="section-view active cockpit-lovely-page altar-sacred" aria-label="Altar">
-      <!-- v5.11.1 Altar: title + Messpult + Heute/Starter + bento glance (one scroll) -->
+      <!-- v5.12.0 Altar: polish Messpult + Heute + bento (one scroll) -->
       <h1 class="section-title"><span class="sec-ico" aria-hidden="true">🪔</span> Altar</h1>
       <span class="section-motif" aria-hidden="true"></span>
-      <p class="section-sub">Messpult · Heute · Apps — dein Home am Altar.</p>
+      <p class="section-sub">Messpult · Heute · Apps — dein stilles Home.</p>
       <div class="altar-welcome altar-welcome-compact" id="altar-welcome" hidden aria-hidden="true">
         <div class="altar-welcome-glow" aria-hidden="true">
           <div class="candle-flame altar-candle"><div class="flame"></div><div class="wick"></div></div>
@@ -97,7 +97,7 @@
       <!-- legacy chip kept for JS; visually replaced by Kalender glance card -->
       <button type="button" class="fest-countdown-chip" id="fest-countdown-chip" hidden aria-live="polite"></button>
 
-      <!-- v5.11.1 Single Altar scroll: title → Messpult → Heute/Starter → glance apps -->
+      <!-- v5.12.0 Single Altar scroll: title → Messpult → Heute/Starter → glance apps -->
 
       <!-- 1) MESSPULT: instruments (Mond|Stunde, Unruhe, Schumann) -->
       <div class="altar-messpult cockpit-top messpult-home" id="cockpit-top" aria-label="Messpult">
@@ -180,8 +180,8 @@
               <h3 id="glance-ritual-title">Letztes Ritual</h3>
               <span class="chip-quiet" id="glance-ritual-chip">—</span>
             </div>
-            <p class="glance-lead" id="glance-ritual-lead">Nach einem Ritual erscheint es hier.</p>
-            <p class="hint-sm" id="glance-ritual-meta">Tippen zum Fortsetzen</p>
+            <p class="glance-lead" id="glance-ritual-lead">Noch still — öffne ein Ritual.</p>
+            <p class="hint-sm" id="glance-ritual-meta">Tippen · fortsetzen</p>
           </button>
 
           <button type="button" class="card glance-card glance-buch nested-card cockpit-lovely glance-widget" id="glance-buch-card" aria-labelledby="glance-buch-title">
@@ -193,8 +193,8 @@
             <div class="glance-buch-body">
               <div class="glance-buch-thumb" id="glance-buch-thumb" hidden></div>
               <div>
-                <p class="glance-lead" id="glance-buch-lead">Noch kein Eintrag im Magie-Buch.</p>
-                <p class="hint-sm" id="glance-buch-meta">Tippen → Magie-Buch</p>
+                <p class="glance-lead" id="glance-buch-lead">Dein Magie-Buch wartet auf den ersten Eintrag.</p>
+                <p class="hint-sm" id="glance-buch-meta">Tippen · Magie-Buch</p>
               </div>
             </div>
           </button>
@@ -205,8 +205,8 @@
               <h3 id="glance-resonanz-title">Letzte Resonanz</h3>
               <span class="chip-quiet" id="glance-resonanz-chip">Resonanz</span>
             </div>
-            <p class="glance-lead" id="glance-resonanz-lead">Noch nichts geöffnet — «heute passt» wartet.</p>
-            <p class="hint-sm" id="glance-resonanz-meta">Tippen → Resonanzen</p>
+            <p class="glance-lead" id="glance-resonanz-lead">Heute passt … — tippe und sieh nach.</p>
+            <p class="hint-sm" id="glance-resonanz-meta">Tippen · Resonanzen</p>
           </button>
 
           <button type="button" class="card glance-card glance-kalender nested-card cockpit-lovely glance-widget" id="glance-kalender-card" aria-labelledby="glance-kalender-title">
@@ -215,8 +215,8 @@
               <h3 id="glance-kalender-title">Kalender</h3>
               <span class="chip-quiet" id="glance-kalender-chip">Fest</span>
             </div>
-            <p class="glance-lead" id="glance-kalender-lead">Nächstes Pfad-Fest erscheint hier.</p>
-            <p class="hint-sm" id="glance-kalender-meta">Tippen → Kalender</p>
+            <p class="glance-lead" id="glance-kalender-lead">Feste und Tage — bereit zum Blättern.</p>
+            <p class="hint-sm" id="glance-kalender-meta">Tippen · Kalender</p>
           </button>
 
           <button type="button" class="card glance-card glance-kosmos nested-card cockpit-lovely glance-widget" id="glance-kosmos-card" aria-labelledby="glance-kosmos-title">
@@ -225,8 +225,8 @@
               <h3 id="glance-kosmos-title">Kosmos</h3>
               <span class="chip-quiet" id="glance-kosmos-chip">Stunde</span>
             </div>
-            <p class="glance-lead" id="glance-kosmos-lead">Planetenstunde und Radar.</p>
-            <p class="hint-sm" id="glance-kosmos-meta">Tippen → Kosmos</p>
+            <p class="glance-lead" id="glance-kosmos-lead">Stunde und Radar — ein Blick genügt.</p>
+            <p class="hint-sm" id="glance-kosmos-meta">Tippen · Kosmos</p>
           </button>
 
           <button type="button" class="card glance-card glance-werkzeug nested-card cockpit-lovely craft-peek glance-widget" id="craft-peek-card" aria-labelledby="craft-peek-title">
@@ -235,7 +235,7 @@
               <h3 id="craft-peek-title">Werkzeug</h3>
               <span class="chip-quiet" id="craft-peek-chip">kurz</span>
             </div>
-            <p class="hint-sm" id="craft-peek-text">Ein kleines Werk für heute — mit Grenze und Ausgleich.</p>
+            <p class="hint-sm" id="craft-peek-text">Ein kleines Werk für heute.</p>
             <p class="path-chip-line hint-sm" id="glance-path-chip"><span class="path-sym" aria-hidden="true">✦</span> <span id="glance-path-name">Pfad</span></p>
           </button>
         </div>
@@ -284,8 +284,8 @@
       <!-- 4) Offline bar -->
       <div class="altar-offline-bar" id="altar-offline-bar" role="status">
         <span class="offline-chip offline-chip-bar" id="offline-chip">💾 Offline · lokale Praxis</span>
-        <p class="offline-honesty hint-sm" id="offline-honesty">Lokal auf diesem Gerät · Offline-Shell bereit, wenn einmal geladen.</p>
-        <p class="privacy-line privacy-line-slim" id="privacy-line">Lokal in <code>feldlicht-v15</code> · kein Konto · kein Tracking</p>
+        <p class="offline-honesty hint-sm" id="offline-honesty">Einmal laden — dann Praxis ohne Netz.</p>
+        <p class="privacy-line privacy-line-slim" id="privacy-line">Lokal auf diesem Gerät · kein Konto · kein Tracking</p>
       </div>
 
       <div class="cockpit-stardust" id="cockpit-stardust" aria-hidden="true"></div>
@@ -318,7 +318,7 @@
         </div>
         <p class="hint-sm">Kurze Reflexionen nach Ritual-Abschluss — nur auf diesem Gerät.</p>
         <div id="ritual-journal-list" class="ritual-journal-list" aria-live="polite"></div>
-        <p class="empty-hint" id="ritual-journal-empty">Noch keine Einträge. Nach einem Ritual kannst du optional kurz reflektieren.</p>
+        <p class="empty-hint" id="ritual-journal-empty">Noch still hier — nach einem Ritual kannst du kurz reflektieren.</p>
       </article>
 
       <article class="card briefing-card briefing-card-slim nested-card" id="tagesbriefing" aria-labelledby="briefing-title">
@@ -413,7 +413,7 @@
         </div>
         <p class="meta-line" id="intention-status" aria-live="polite"></p>
         <div class="intention-history" id="intention-history" aria-label="Intentionen der letzten Tage"></div>
-        <p class="empty-state compact" id="intention-history-empty" hidden>Noch keine Intentionen in den letzten 7 Tagen.</p>
+        <p class="empty-state compact" id="intention-history-empty" hidden>Noch keine Intentionen diese Woche — ein Satz genügt.</p>
       </article>
 
       <article class="card quick-praxis-card nested-card" id="quick-praxis-card" aria-labelledby="quick-praxis-title">
@@ -506,8 +506,8 @@
           <h3 id="empfehlen-title">Empfehlen</h3>
           <span class="chip-quiet">lokal · kein Konto</span>
         </div>
-        <p class="hint-sm" id="empfehlen-lead">UNIVERSUM bleibt auf dem Gerät. Kein Login, kein Tracking, <strong>kein Sync</strong> — zum Home-Bildschirm oder Link teilen.</p>
-        <p class="hint-sm" id="empfehlen-trust">Vertrauen: lokal in <code>feldlicht-v15</code>, ohne Konto und ohne Online-Kreis.</p>
+        <p class="hint-sm" id="empfehlen-lead">UNIVERSUM bleibt auf dem Gerät. Kein Login, kein Tracking — zum Home-Bildschirm oder Link teilen.</p>
+        <p class="hint-sm" id="empfehlen-trust">Vertrauen: lokal auf diesem Gerät, ohne Konto und ohne Online-Kreis.</p>
         <div class="btn-row empfehlen-actions">
           <button type="button" class="primary tiny" id="empfehlen-share">Teilen</button>
           <button type="button" class="ghost tiny" id="empfehlen-copy">Link kopieren</button>
@@ -596,7 +596,7 @@
 
       <article class="card kosmos-loc-card" aria-labelledby="kosmos-loc-title">
         <h3 id="kosmos-loc-title">Standort</h3>
-        <p class="hint-sm">Lokal für Sonnenzeiten und Stunden — ohne Konto, in <code>feldlicht-v15</code></p>
+        <p class="hint-sm">Lokal für Sonnenzeiten und Stunden — ohne Konto, nur auf diesem Gerät</p>
         <div class="loc-grid kosmos-loc-grid">
           <div class="form-row" style="margin:0"><label for="kosmos-lat">Breite</label><input id="kosmos-lat" type="number" step="0.01" inputmode="decimal" /></div>
           <div class="form-row" style="margin:0"><label for="kosmos-lon">Länge</label><input id="kosmos-lon" type="number" step="0.01" inputmode="decimal" /></div>
@@ -675,7 +675,7 @@
             <h3 id="path-werkzeug-title-r">🛠️ Pfad-Modul</h3>
             <span class="chip-quiet" id="path-werkzeug-chip-r">Pfad</span>
           </div>
-          <p class="hint-sm" id="path-werkzeug-hint-r">Mini-Modul für deinen Pfad — lokal, kein Sync.</p>
+          <p class="hint-sm" id="path-werkzeug-hint-r">Mini-Modul für deinen Pfad — lokal auf dem Gerät.</p>
           <div id="path-werkzeug-body-r" class="path-werkzeug-body"></div>
         </div>
         <div id="werkzeug-path" class="sr-only" aria-hidden="true"></div>
@@ -705,7 +705,7 @@
           </div>
           <p class="hint-sm">Tippe <strong>Ansehen</strong>, um den Glyph aufs Canvas zu legen — optional stiller Atem, nur Lesen.</p>
           <div class="sigil-gallery" id="sigil-gallery" aria-live="polite"></div>
-          <p class="empty-state compact" id="sigil-gallery-empty">Noch keine Glyphs — nach dem Laden kannst du speichern.</p>
+          <p class="empty-state compact" id="sigil-gallery-empty">Noch keine Glyphs — zeichne eines und lege es ab.</p>
           <div class="sigil-review-bar" id="sigil-review-bar" hidden>
             <p class="meta-line" id="sigil-review-label">Glyph zur Ansicht</p>
             <div class="btn-row">
@@ -718,7 +718,7 @@
 
         <div id="werkzeug-karten">
         <p class="ritual-section-label">🃏 Feldkarten</p>
-        <div class="notice">22 originale Feldkarten mit eigener Bildsprache — kein Tarot-Klon. Ziehe mit Absicht, ohne Schaden. Bei leeren Motiven: Hard-Refresh oder Site-Daten löschen (neuer Offline-Cache).</div>
+        <div class="notice">22 originale Feldkarten — eigene Bildsprache, kein Tarot-Klon. Ziehe mit Absicht, ohne Schaden.</div>
         <div class="card daily-card-panel" id="daily-card-panel" aria-labelledby="daily-card-title">
           <div class="intention-top">
             <h3 id="daily-card-title">Tageskarte</h3>
@@ -771,7 +771,7 @@
               <button type="button" class="primary" id="focus-start">Stille öffnen</button>
               <button type="button" class="ghost" id="focus-stop" hidden>Stille beenden</button>
             </div>
-            <p class="meta-line" id="streak-line">Streak: noch keine Praxis heute.</p>
+            <p class="meta-line" id="streak-line">Heute noch still — ein kurzer Kreis zählt.</p>
           </div>
 
           <div class="breath-standalone" id="breath-standalone" aria-labelledby="breath-title">
@@ -872,7 +872,7 @@
     <section id="sec-buch" class="section-view">
       <h1 class="section-title"><span class="sec-ico" aria-hidden="true">📖</span> Magie-Buch</h1>
       <span class="section-motif" aria-hidden="true"></span>
-      <p class="section-sub">Lokal · <code>feldlicht-v15</code> · Notiz &amp; Eintrag · Fotos in IndexedDB · Export</p>
+      <p class="section-sub">Lokal · Notiz &amp; Eintrag · Fotos bleiben auf dem Gerät · Export</p>
       <div class="toolbar export-pack" role="group" aria-label="Export-Paket">
         <button type="button" class="primary" id="diary-export">Buch JSON</button>
         <button type="button" class="ghost" id="diary-export-summary" title="Kurztext für Coach / Supervision">Praxis-Zusammenfassung</button>
@@ -893,7 +893,7 @@
         </div>
         <p class="hint-sm">Ein stiller Blick auf deine Praxis — nur lokal, ohne Vergleich.</p>
         <div id="week-review-body" class="week-review-body" aria-live="polite"></div>
-        <p class="empty-state compact" id="week-review-empty" hidden>Noch keine Praxis in den letzten 7 Tagen — ein Atem oder Ritual genügt.</p>
+        <p class="empty-state compact" id="week-review-empty" hidden>Diese Woche noch still — ein Atem oder Ritual genügt.</p>
       </div>
       <div class="card practice-log-card" id="practice-log-card" aria-labelledby="practice-log-title">
         <div class="intention-top">
@@ -902,7 +902,7 @@
         </div>
         <p class="hint-sm">Dezente Einträge, wenn Ritual, 369 oder Atem abgeschlossen — jederzeit löschbar.</p>
         <div class="practice-log-timeline" id="practice-log-timeline" aria-live="polite"></div>
-        <p class="empty-state compact" id="practice-log-empty">Noch keine Praxis-Einträge.</p>
+        <p class="empty-state compact" id="practice-log-empty">Noch still — Praxis erscheint hier nach dem ersten Mal.</p>
       </div>
 
       <div class="buch-mode-row" role="tablist" aria-label="Magie-Buch Modus">
@@ -982,7 +982,7 @@
         <button type="button" class="ghost" id="diary-export-zip" title="ZIP mit Fotos — nur lokal">📦 ZIP-Backup</button>
         <button type="button" class="ghost" id="diary-export-print" title="Drucken / als PDF speichern — nur lokal">🖨️ Drucken / PDF</button>
       </div>
-      <p class="hint-sm">📦 ZIP und 🖨️ PDF bleiben auf dem Gerät — kein Cloud-Upload. Buch-JSON kann komprimierte Fotos einbetten.</p>
+      <p class="hint-sm">📦 ZIP und 🖨️ PDF bleiben auf dem Gerät — kein Cloud-Upload.</p>
       <div class="entry-list" id="diary-list" aria-label="Magie-Buch Timeline"></div>
       <!-- Legacy id kept for notes form handlers; list unified in diary-list -->
       <div id="notes-list" hidden aria-hidden="true"></div>
@@ -1092,7 +1092,7 @@
         </ol>
         <div class="notice ethics-line onboard-invite-box">
           <span class="onboard-invite-illu" aria-hidden="true">🕯️</span>
-          Praxis vor Spektakel. Kein Feed. Daten in <code>feldlicht-v15</code>.
+          Praxis vor Spektakel. Kein Feed. Daten bleiben lokal.
         </div>
       </div>
 
@@ -1159,7 +1159,7 @@
         <div class="global-search-results" id="global-search-results-settings" hidden role="listbox" aria-label="Suchergebnisse"></div>
 
         <h3 class="mt-2">App &amp; Teilen</h3>
-        <p class="hint-sm">PWA auf den Home-Bildschirm · offline-fähig · Daten nur lokal (<code>feldlicht-v15</code>), kein Konto.</p>
+        <p class="hint-sm">PWA auf den Home-Bildschirm · offline-fähig · Daten nur lokal, kein Konto.</p>
         <div class="card nested-card" style="margin:0.65rem 0;padding:0.75rem 0.85rem">
           <p class="hint-sm" style="margin:0"><strong>Vertrauen · lokal · kein Sync</strong><br />
           Kein Login, kein Online-Kreis, kein Backend. Praxis und Magie-Buch bleiben auf diesem Gerät.</p>
@@ -1180,7 +1180,7 @@
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
         <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">5.11.1</span></p>
+        <p class="footer-ethics" style="padding-top:1rem">Daten bleiben lokal auf diesem Gerät · App v<span id="settings-app-version">5.12.0</span></p>
       </div>
     </div>
   </div>
