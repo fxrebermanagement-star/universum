@@ -34,7 +34,7 @@
       </a>
       <span class="live-clock" id="live-clock" aria-live="polite"></span>
       <button type="button" class="path-chip" id="path-chip" title="Pfad wählen" aria-label="Pfad wählen" aria-haspopup="dialog">Esoterik</button>
-      <button type="button" class="icon-btn" id="quiet-mode-toggle" title="Stiller Modus" aria-label="Stiller Modus umschalten" aria-pressed="false">◉</button>
+      <button type="button" class="icon-btn" id="quiet-mode-toggle" title="Stille-Modus" aria-label="Stille-Modus umschalten" aria-pressed="false">◉</button>
       <button type="button" class="icon-btn" id="global-search-open" title="Suche" aria-label="Globale Suche öffnen" aria-haspopup="dialog">⌕</button>
       <button type="button" class="icon-btn" id="settings-open" title="Einstellungen" aria-label="Einstellungen öffnen" aria-haspopup="dialog">⚙</button>
     </header>
@@ -166,10 +166,20 @@
         <p class="jetzt-lead" id="jetzt-lead">Eine Einladung für heute.</p>
         <p class="jetzt-meta hint-sm" id="jetzt-meta"></p>
         <div class="btn-row">
-          <button type="button" class="primary" id="jetzt-start">Üben</button>
+          <button type="button" class="primary" id="jetzt-start">Kreis öffnen</button>
           <button type="button" class="ghost tiny" id="jetzt-starter" hidden>3-Min-Starter</button>
         </div>
       </article>
+
+
+      <div class="stille-ritual-slot" id="stille-ritual-slot" hidden>
+        <article class="card" aria-labelledby="stille-ritual-title">
+          <span class="stille-ritual-sym path-sym" id="stille-ritual-sym" aria-hidden="true">✦</span>
+          <h3 id="stille-ritual-title">Ein Ritual</h3>
+          <p class="hint-sm" id="stille-ritual-text">In der Stille genügt eines.</p>
+          <button type="button" class="primary" id="stille-ritual-go">Kreis öffnen</button>
+        </article>
+      </div>
 
       <span class="offline-chip" id="offline-chip" hidden>📴 Offline · lokal üben</span>
       <p class="offline-honesty hint-sm" id="offline-honesty" role="status">Lokal auf diesem Gerät · Offline-Shell bereit, wenn einmal geladen.</p>
@@ -181,7 +191,7 @@
         </div>
         <p class="starter-lead">Intention, Atem, Erdung — ein klarer Einstieg, ohne Hektik.</p>
         <div class="btn-row">
-          <button type="button" class="primary" id="starter-start">Starten</button>
+          <button type="button" class="primary" id="starter-start">Kreis öffnen</button>
           <button type="button" class="ghost tiny" id="starter-dismiss">Später</button>
         </div>
       </article>
@@ -198,7 +208,7 @@
         <p class="path-week-lead" id="path-week-lead">Mikro-Praxis für heute.</p>
         <p class="hint-sm" id="path-week-hint">Heute · Mo–So</p>
         <div class="btn-row">
-          <button type="button" class="primary" id="path-week-done">Erledigt</button>
+          <button type="button" class="primary" id="path-week-done">Geübt</button>
           <button type="button" class="ghost tiny" id="path-week-undo" hidden>Zurücknehmen</button>
         </div>
         <p class="meta-line" id="path-week-status" aria-live="polite"></p>
@@ -330,7 +340,7 @@
         </div>
         <div class="intention-row">
           <label class="inline-check"><input type="checkbox" id="intention-link369" /> In 369 übernehmen</label>
-          <button type="button" class="primary" id="intention-save">Speichern</button>
+          <button type="button" class="primary" id="intention-save">Ins Buch legen</button>
         </div>
         <p class="meta-line" id="intention-status" aria-live="polite"></p>
         <div class="intention-history" id="intention-history" aria-label="Intentionen der letzten Tage"></div>
@@ -418,7 +428,7 @@
         <div class="hidden" aria-hidden="true">
           <input id="loc-lat" type="number" step="0.01" value="47.37" />
           <input id="loc-lon" type="number" step="0.01" value="8.54" />
-          <button type="button" id="loc-save">Speichern</button>
+          <button type="button" id="loc-save">Am Altar merken</button>
           <input type="checkbox" id="haptics-toggle" checked />
           <input type="checkbox" id="schumann-audio" />
         </div>
@@ -514,7 +524,7 @@
       <div class="card kosmos-detail" id="kosmos-detail" hidden>
         <h3 id="kosmos-detail-title">Planet</h3>
         <p id="kosmos-detail-body" class="netz-copy"></p>
-        <button type="button" class="ghost" id="kosmos-detail-close">Schließen</button>
+        <button type="button" class="ghost" id="kosmos-detail-close">Zurück</button>
       </div>
 
       <article class="card kosmos-loc-card" aria-labelledby="kosmos-loc-title">
@@ -525,7 +535,7 @@
           <div class="form-row" style="margin:0"><label for="kosmos-lon">Länge</label><input id="kosmos-lon" type="number" step="0.01" inputmode="decimal" /></div>
         </div>
         <div class="btn-row mt-1">
-          <button type="button" class="primary" id="kosmos-loc-save">Speichern</button>
+          <button type="button" class="primary" id="kosmos-loc-save">Am Altar merken</button>
           <button type="button" class="ghost" id="kosmos-loc-zurich">Zürich</button>
           <button type="button" class="ghost" id="kosmos-open-settings">Einstellungen</button>
         </div>
@@ -583,8 +593,8 @@
           </div>
         </div>
         <div class="btn-row">
-          <button type="button" class="primary" id="focus-start">Stille starten</button>
-          <button type="button" class="ghost" id="focus-stop" hidden>Stoppen</button>
+          <button type="button" class="primary" id="focus-start">Stille öffnen</button>
+          <button type="button" class="ghost" id="focus-stop" hidden>Stille beenden</button>
         </div>
         <p class="meta-line" id="streak-line">Streak: noch keine Praxis heute.</p>
       </div>
@@ -599,8 +609,8 @@
         <div class="breath-circle breath-standalone-circle" id="breath-circle-solo" aria-live="polite" role="status">Bereit</div>
         <p class="meta-line" id="breath-phase-label">Wähle einen Modus und starte.</p>
         <div class="btn-row">
-          <button type="button" class="primary" id="breath-start">Atem starten</button>
-          <button type="button" class="ghost" id="breath-stop" hidden>Stoppen</button>
+          <button type="button" class="primary" id="breath-start">Atem öffnen</button>
+          <button type="button" class="ghost" id="breath-stop" hidden>Atem schließen</button>
         </div>
       </div>
 
@@ -615,7 +625,7 @@
           </div>
           <p class="path-week-lead" id="path-week-lead-r"></p>
           <div class="btn-row">
-            <button type="button" class="primary" id="path-week-done-r">Erledigt</button>
+            <button type="button" class="primary" id="path-week-done-r">Geübt</button>
             <button type="button" class="ghost tiny" id="path-week-undo-r" hidden>Zurücknehmen</button>
           </div>
           <p class="meta-line" id="path-week-status-r" aria-live="polite"></p>
@@ -672,7 +682,7 @@
             <textarea id="custom-ritual-steps" placeholder="Öffnen|Raum atmen|60&#10;Kern|Absicht sprechen|90&#10;Schließen|Danken|45"></textarea>
           </div>
           <div class="btn-row">
-            <button type="button" class="primary" id="custom-ritual-save">Als Ritual speichern</button>
+            <button type="button" class="primary" id="custom-ritual-save">Ins Ritual-Buch legen</button>
             <button type="button" class="ghost" id="custom-ritual-save-template">Als Vorlage (max. 3)</button>
           </div>
         </div>
@@ -721,13 +731,13 @@
             <input id="sigil-input" placeholder="z. B. Ich übe klare Grenzen im Alltag" />
           </div>
           <div class="sigil-warn" id="sigil-warn"></div>
-          <button type="button" class="primary" id="sigil-make">Sigil erzeugen</button>
+          <button type="button" class="primary" id="sigil-make">Sigil wirken</button>
           <p id="sigil-reduced" class="sigil-reduced"></p>
           <canvas id="sigil-canvas" width="300" height="300" aria-label="Sigil-Canvas"></canvas>
           <div class="btn-row">
             <button type="button" id="sigil-charge" class="hidden primary">Atem-Aufladung</button>
             <button type="button" id="sigil-forget" class="hidden">Absicht vergessen</button>
-            <button type="button" id="sigil-save-gallery" class="hidden ghost">In Galerie</button>
+            <button type="button" id="sigil-save-gallery" class="hidden ghost">Ins Buch legen</button>
           </div>
           <p class="hint-sm">Galerie speichert nur Hash + Glyph — nie schädliche Absichten, nie Klartext der Intention.</p>
         </div>
@@ -758,14 +768,14 @@
             <span class="chip-quiet">1× / Tag</span>
           </div>
           <p class="hint-sm">Optional eine Karte für heute — danach bis Mitternacht (Lokalzeit) gesperrt. Daten bleiben.</p>
-          <button type="button" class="primary" id="draw-daily">Tageskarte ziehen</button>
+          <button type="button" class="primary" id="draw-daily">Feldkarte des Tages</button>
           <div id="daily-card-result" class="daily-card-result" hidden aria-live="polite"></div>
           <p class="meta-line" id="daily-card-lock" hidden>Gesiegelt bis morgen · weiterziehen entsperrt nach Mitternacht.</p>
         </div>
         <div class="toolbar">
-          <button type="button" class="primary" id="draw-card">Eine ziehen</button>
-          <button type="button" id="draw-three">Dreierlege</button>
-          <button type="button" class="ghost" id="draw-clear">Zurücksetzen</button>
+          <button type="button" class="primary" id="draw-card">Feldkarte ziehen</button>
+          <button type="button" id="draw-three">Dreier-Schwelle</button>
+          <button type="button" class="ghost" id="draw-clear">Feld leeren</button>
         </div>
         <div class="draw-stage" id="draw-stage" hidden aria-live="polite"></div>
         <div class="spread-area" id="spread-area"></div>
@@ -958,7 +968,9 @@
   </div>
 
   <!-- Quiet mode exit (visible when chrome hidden) -->
-  <button type="button" class="quiet-exit-chip" id="quiet-exit-chip" hidden aria-label="Stillen Modus beenden">Chrome wieder · Esc</button>
+  <div class="threshold-veil" id="threshold-veil" aria-hidden="true"></div>
+  <button type="button" class="stille-exit-chip" id="stille-exit-chip" hidden aria-label="Stille-Modus beenden">Stille verlassen</button>
+  <button type="button" class="quiet-exit-chip" id="quiet-exit-chip" hidden aria-label="Chrome wieder zeigen">Chrome wieder · Esc</button>
 
   <!-- Toast -->
   <div class="toast-host" id="toast-host" aria-live="polite" aria-atomic="true"></div>
@@ -1049,7 +1061,7 @@
           <div class="form-row" style="margin:0"><label for="set-lon">Länge</label><input id="set-lon" type="number" step="0.01" value="8.54" /></div>
         </div>
         <div class="btn-row mt-1">
-          <button type="button" id="set-loc-save" class="primary">Standort speichern</button>
+          <button type="button" id="set-loc-save" class="primary">Ort am Altar merken</button>
           <button type="button" class="ghost" id="set-loc-zurich">Zürich</button>
         </div>
 
@@ -1058,10 +1070,13 @@
         <label class="inline-check"><input type="checkbox" id="set-schumann-live" checked /> Live-Stationsdaten laden (Tomsk / NOAA via ResonanceOne)</label>
         <label class="inline-check"><input type="checkbox" id="set-schumann-audio" /> Schumann-Audio (leiser 136-Hz-Träger)</label>
         <label class="inline-check"><input type="checkbox" id="set-ambient-tone" /> Sanfter Ambient-Ton (sehr leise, getrennt von Schumann)</label>
+        <label class="inline-check"><input type="checkbox" id="set-ritual-klang" /> Ritual-Klang (leiser Ton beim Öffnen und Schließen, Standard aus)</label>
         <label class="inline-check"><input type="checkbox" id="set-reduced-motion" /> Reduzierte Bewegung</label>
-        <label class="inline-check"><input type="checkbox" id="set-mondnacht" /> Mondnacht-Modus (sanfter Abend-Dimm)</label>
+        <label class="inline-check"><input type="checkbox" id="set-mondnacht" /> Mondnacht (sanftes Abendlicht)</label>
+        <label class="inline-check"><input type="checkbox" id="set-mondnacht-auto" /> Mondnacht abends automatisch (ca. 19–6 Uhr)</label>
         <label class="inline-check"><input type="checkbox" id="set-hour-alert" /> Planetenstunde-Wecker (sanfte Vibration/Toast, Standard aus)</label>
-        <label class="inline-check"><input type="checkbox" id="set-quiet-ritual" checked /> Stiller Modus während Ritual (Chrome ausblenden)</label>
+        <label class="inline-check"><input type="checkbox" id="set-quiet-ritual" checked /> Chrome während Ritual ausblenden</label>
+        <label class="inline-check"><input type="checkbox" id="set-stille-modus" /> Stille-Modus (nur Heute und ein Ritual)</label>
         <label class="inline-check"><input type="checkbox" id="set-calendar-path-only" checked /> Kalender: nur mein Pfad (Feste)</label>
 
         <h3 class="mt-2">Suche</h3>
@@ -1095,7 +1110,7 @@
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
         <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">5.1.1</span></p>
+        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">5.6.0</span></p>
       </div>
     </div>
   </div>
@@ -1125,7 +1140,7 @@
       <h2 id="photo-lightbox-title" class="sr-only">Foto</h2>
       <img id="photo-lightbox-img" alt="Magie-Buch-Foto" />
       <p class="hint-sm honesty-photo">Nur auf diesem Gerät · kein Upload</p>
-      <button type="button" class="primary w-full mt-2" id="photo-lightbox-close">Schließen</button>
+      <button type="button" class="primary w-full mt-2" id="photo-lightbox-close">Zurück</button>
     </div>
   </div>
 
@@ -1135,7 +1150,7 @@
       <h2 id="path-modal-title">Pfad wählen</h2>
       <p class="modal-sub">Symbol · Haltung · Farbe. Voodoo/Santería = nur Hauspraxis.</p>
       <div class="path-grid" id="path-grid"></div>
-      <button type="button" id="path-modal-close" class="w-full mt-2">Schließen</button>
+      <button type="button" id="path-modal-close" class="w-full mt-2">Kreis lassen</button>
     </div>
   </div>
 
@@ -1160,8 +1175,8 @@
   <div class="ritual-runner" id="ritual-runner" role="dialog" aria-modal="true" aria-labelledby="rr-title" aria-describedby="rr-quiet-hint">
     <div class="rr-header">
       <strong id="rr-title">Ritual</strong>
-      <span class="rr-quiet-hint chip-quiet" id="rr-quiet-hint" hidden>Stiller Modus</span>
-      <button type="button" id="rr-close" aria-label="Ritual schließen">✕</button>
+      <span class="rr-quiet-hint chip-quiet" id="rr-quiet-hint" hidden>Schwelle</span>
+      <button type="button" id="rr-close" aria-label="Kreis schließen">✕</button>
     </div>
     <div id="rr-content"></div>
   </div>

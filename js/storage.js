@@ -48,11 +48,14 @@
     settings: {
       schumannAudio: false,
       ambientTone: false,
+      ritualKlang: false,
       haptics: true,
       reducedMotion: false,
       mondnacht: false,
+      mondnachtAuto: false,
       hourAlert: false,
       quietDuringRitual: true,
+      stilleModus: false,
       schumannLiveEnabled: true,
       schumannLive: null,
       calendarPathOnly: true
@@ -228,7 +231,7 @@
     });
   }
 
-  const APP_VERSION = '5.1.1';
+  const APP_VERSION = '5.6.0';
 
   function buildExportMeta(data) {
     const pathId = data.path || 'esoterik';

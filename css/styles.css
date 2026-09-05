@@ -5762,3 +5762,374 @@ html {
     padding-top: 0.65rem;
   }
 }
+
+/* ——— v5.2 Licht & Schwellen · softer candle/moon · gentler edges ——— */
+:root {
+  --radius: 18px;
+  --radius-sm: 13px;
+  --shadow-card: 0 2px 22px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  --glow-candle: 0 0 28px rgba(255, 176, 96, 0.28);
+  --glow-moon: 0 0 32px rgba(126, 192, 255, 0.16);
+  --edge-soft: rgba(155, 126, 217, 0.14);
+}
+
+body {
+  background:
+    radial-gradient(ellipse at 50% -6%, rgba(88, 48, 150, 0.32) 0%, transparent 54%),
+    radial-gradient(ellipse at 88% 28%, rgba(126, 192, 255, 0.07) 0%, transparent 40%),
+    radial-gradient(ellipse at 8% 72%, rgba(255, 160, 80, 0.04) 0%, transparent 36%),
+    var(--bg);
+}
+
+.card {
+  border-color: var(--edge-soft);
+  border-radius: calc(var(--radius) + 4px);
+  box-shadow: var(--shadow-card);
+}
+.card:hover {
+  border-color: rgba(155, 126, 217, 0.22);
+  box-shadow: var(--shadow-card), 0 0 24px rgba(100, 80, 160, 0.08);
+}
+.dash-panel {
+  border-radius: calc(var(--radius) + 2px);
+  border-color: rgba(50, 40, 74, 0.55);
+}
+
+/* Softer candle */
+.candle-flame {
+  width: 52px;
+  height: 78px;
+  filter: drop-shadow(0 0 14px rgba(255, 170, 80, 0.35));
+}
+.candle-flame .flame {
+  width: 26px;
+  height: 46px;
+  background: radial-gradient(ellipse at 50% 78%, #fff8d0 0%, #ffc078 38%, #e87840 68%, transparent 100%);
+  box-shadow: var(--glow-candle);
+  animation: flickerSoft 2.4s ease-in-out infinite alternate;
+  filter: blur(0.45px);
+}
+.candle-flame .wick {
+  width: 2px;
+  height: 12px;
+  background: #4a4030;
+  opacity: 0.85;
+}
+@keyframes flickerSoft {
+  from { transform: scale(1) rotate(-0.6deg); opacity: 0.88; }
+  to { transform: scale(1.04) rotate(0.9deg); opacity: 0.98; }
+}
+
+.moon-orb,
+.cockpit-dash .dash-panel.moon .value,
+.cockpit-dash .moon-emoji {
+  text-shadow: var(--glow-moon);
+}
+.cockpit-dash .dash-panel.moon {
+  box-shadow: inset 0 0 28px rgba(126, 192, 255, 0.06);
+}
+
+/* Threshold veil — ritual open / Feldkarte draw */
+.threshold-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 40%, rgba(20, 12, 36, 0.15) 0%, rgba(6, 4, 12, 0.72) 72%),
+    rgba(4, 2, 10, 0.45);
+  opacity: 0;
+  transition: opacity 0.55s var(--ease-out);
+}
+.threshold-veil.on { opacity: 1; }
+.threshold-veil.reveal-soft {
+  background:
+    radial-gradient(ellipse at 50% 45%, rgba(40, 28, 70, 0.2) 0%, rgba(8, 6, 16, 0.55) 70%);
+}
+
+body.threshold-open .app-shell,
+body.threshold-draw .app-shell {
+  filter: brightness(0.72) saturate(0.92);
+  transition: filter 0.55s var(--ease-out);
+}
+body.threshold-open .ritual-runner,
+body.threshold-draw .draw-stage {
+  filter: none;
+}
+
+.ritual-runner {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(255, 170, 90, 0.06) 0%, transparent 42%),
+    radial-gradient(ellipse at 50% 100%, rgba(100, 70, 160, 0.12) 0%, transparent 50%),
+    rgba(10, 8, 18, 0.96);
+  animation: thresholdIn 0.55s var(--ease-out) both;
+}
+@keyframes thresholdIn {
+  from { opacity: 0; transform: translateY(10px) scale(0.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.draw-stage.threshold-reveal .draw-flip-back {
+  box-shadow: 0 0 36px rgba(155, 126, 217, 0.28), 0 12px 32px rgba(0,0,0,0.4);
+}
+.draw-stage.threshold-reveal .draw-flip.revealed .draw-flip-front {
+  box-shadow: 0 0 40px rgba(62, 212, 196, 0.22), var(--glow-moon);
+}
+
+body.reduced-motion .ritual-runner,
+body.reduced-motion .threshold-veil {
+  animation: none !important;
+  transition: none !important;
+}
+body.reduced-motion.threshold-open .app-shell,
+body.reduced-motion.threshold-draw .app-shell {
+  transition: none;
+  filter: brightness(0.85);
+}
+body.reduced-motion .candle-flame .flame { animation: none; }
+@media (prefers-reduced-motion: reduce) {
+  .ritual-runner { animation: none; }
+  .threshold-veil { transition: none; }
+  body.threshold-open .app-shell,
+  body.threshold-draw .app-shell { transition: none; filter: brightness(0.85); }
+  .candle-flame .flame { animation: none; }
+}
+
+/* Mondnacht — easier evening (auto class + softer) */
+body.mondnacht {
+  --edge-soft: rgba(120, 110, 150, 0.12);
+  --glow-candle: 0 0 22px rgba(200, 150, 90, 0.2);
+  --glow-moon: 0 0 28px rgba(155, 184, 216, 0.14);
+}
+body.mondnacht .candle-flame .flame {
+  background: radial-gradient(ellipse at 50% 78%, #f5edd0 0%, #c8a070 42%, #8a6040 72%, transparent 100%);
+  box-shadow: var(--glow-candle);
+  opacity: 0.9;
+}
+body.mondnacht.mondnacht-auto::after {
+  content: none;
+}
+
+/* ——— v5.3 Mystische Sprache helpers (visual only) ——— */
+.btn-mystic.primary,
+button.primary.mystic-label { letter-spacing: 0.01em; }
+
+/* ——— v5.5 Sigille & Symbole · larger living motifs ——— */
+.path-sym {
+  font-size: 1.28em;
+  color: var(--violet);
+  filter: drop-shadow(0 0 6px rgba(176, 148, 232, 0.35));
+}
+.path-chip .path-sym { font-size: 1.15rem; }
+.path-haltung .path-sym { font-size: 1.35rem; margin-right: 0.2rem; }
+.ritual-section-label .path-sym { font-size: 1.25rem; }
+.ritual-item .r-path-sym {
+  font-size: 1.35rem;
+  margin-right: 0.35rem;
+  filter: drop-shadow(0 0 8px rgba(176, 148, 232, 0.4));
+}
+.section-motif {
+  height: 3px;
+  width: min(7rem, 40%);
+  background: linear-gradient(90deg, transparent, var(--violet), var(--moon), transparent);
+  opacity: 0.7;
+  border-radius: 99px;
+  box-shadow: 0 0 12px rgba(126, 192, 255, 0.25);
+}
+
+/* Living Resonanzen motifs — not list-feel */
+.korrespondenz-list,
+.craft-works-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.65rem;
+  margin: 0.85rem 0;
+  padding: 0;
+}
+@media (min-width: 520px) {
+  .korrespondenz-list,
+  .craft-works-list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.korrespondenz-list li,
+.craft-works-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.85rem 0.95rem;
+  border-radius: calc(var(--radius) - 2px);
+  border: 1px solid rgba(155, 126, 217, 0.18);
+  background:
+    radial-gradient(ellipse at 12% 0%, rgba(176, 148, 232, 0.12) 0%, transparent 55%),
+    radial-gradient(ellipse at 90% 100%, rgba(62, 212, 196, 0.06) 0%, transparent 50%),
+    rgba(255, 255, 255, 0.02);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  transition: border-color .2s, transform .2s, box-shadow .2s;
+}
+.korrespondenz-list li:hover,
+.craft-works-list li:hover {
+  border-color: rgba(155, 126, 217, 0.35);
+  box-shadow: 0 0 20px rgba(100, 80, 160, 0.12);
+  transform: translateY(-1px);
+}
+.korrespondenz-list li strong,
+.craft-works-list li strong {
+  font-family: var(--font-title);
+  font-size: 0.88rem;
+  color: var(--violet);
+  letter-spacing: 0.01em;
+}
+.korrespondenz-list li span,
+.craft-works-list li span {
+  font-size: 0.86rem;
+  line-height: 1.45;
+  color: var(--text-soft);
+}
+.heute-passt-lead {
+  font-family: var(--font-title);
+  font-size: 1.05rem;
+  line-height: 1.45;
+  color: var(--text);
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius);
+  border: 1px solid rgba(126, 192, 255, 0.22);
+  background:
+    radial-gradient(ellipse at 30% 0%, rgba(126, 192, 255, 0.12) 0%, transparent 60%),
+    rgba(20, 16, 36, 0.5);
+  box-shadow: var(--glow-moon);
+}
+
+/* Feldkarten living motif */
+.feldkarte {
+  border-radius: calc(var(--radius) + 2px);
+  border-color: rgba(155, 126, 217, 0.2);
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(176, 148, 232, 0.1) 0%, transparent 55%),
+    var(--bg-card);
+  box-shadow: var(--shadow-card);
+}
+.feldkarte .fk-name {
+  font-size: 1.02rem;
+  letter-spacing: -0.01em;
+}
+.feldkarte .fk-theme {
+  font-size: 0.78rem;
+  opacity: 0.9;
+}
+.draw-flip-back span {
+  font-size: 2.2rem;
+  filter: drop-shadow(0 0 10px rgba(232, 197, 71, 0.45));
+}
+
+body.reduced-motion .korrespondenz-list li:hover,
+body.reduced-motion .craft-works-list li:hover,
+body.reduced-motion .feldkarte:hover {
+  transform: none;
+}
+
+/* ——— v5.6 Stille-Modus · only Heute + one ritual ——— */
+body.stille-modus #sec-cockpit > *:not(#jetzt-card):not(.stille-ritual-slot):not(.cockpit-top):not(.sitzung-bar) {
+  display: none !important;
+}
+body.stille-modus #sec-cockpit .cockpit-top,
+body.stille-modus #sec-cockpit .sitzung-bar {
+  display: none !important;
+}
+body.stille-modus #sec-cockpit #jetzt-card {
+  display: block !important;
+  margin-top: 1.25rem;
+  border-color: rgba(232, 197, 71, 0.28);
+  box-shadow: var(--shadow-card), 0 0 28px rgba(232, 197, 71, 0.08);
+}
+body.stille-modus #sec-cockpit .stille-ritual-slot {
+  display: block !important;
+  margin: 0.85rem 0 1.5rem;
+}
+body.stille-modus .bottom-nav,
+body.stille-modus .path-chip,
+body.stille-modus #global-search-open,
+body.stille-modus #settings-open {
+  opacity: 0.35;
+  pointer-events: none;
+}
+body.stille-modus #quiet-mode-toggle,
+body.stille-modus #stille-exit-chip {
+  opacity: 1;
+  pointer-events: auto;
+}
+body.stille-modus .section-view:not(#sec-cockpit):not(#sec-rituale) {
+  display: none !important;
+}
+body.stille-modus #sec-rituale .praxis-helper,
+body.stille-modus #sec-rituale .breath-standalone,
+body.stille-modus #sec-rituale .ritual-filters,
+body.stille-modus #sec-rituale .shared-rituals-accordion,
+body.stille-modus #sec-rituale .path-week-card,
+body.stille-modus #sec-rituale [data-rpanel="custom"],
+body.stille-modus #sec-rituale [data-rpanel="werkzeug"],
+body.stille-modus #sec-rituale .tabs,
+body.stille-modus #sec-rituale .ritual-section-label,
+body.stille-modus #sec-rituale #ritual-list-shared,
+body.stille-modus #sec-rituale .path-flavor,
+body.stille-modus #sec-rituale .notice {
+  display: none !important;
+}
+body.stille-modus #sec-rituale #ritual-list-own .ritual-item:not(:first-child) {
+  display: none !important;
+}
+body.stille-modus #sec-rituale #ritual-list-own .ritual-item:first-child {
+  border-color: rgba(232, 197, 71, 0.3);
+  box-shadow: 0 0 24px rgba(232, 197, 71, 0.1);
+}
+
+.stille-exit-chip {
+  position: fixed;
+  top: calc(0.55rem + env(safe-area-inset-top, 0px));
+  left: 0.65rem;
+  z-index: 90;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(232, 197, 71, 0.4);
+  background: rgba(20, 14, 32, 0.92);
+  color: #efeaf8;
+  font: inherit;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+}
+.stille-exit-chip:hover,
+.stille-exit-chip:focus-visible {
+  border-color: var(--gold);
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+.stille-exit-chip[hidden] { display: none !important; }
+
+#quiet-mode-toggle.active,
+body.stille-modus #quiet-mode-toggle {
+  color: var(--gold);
+  box-shadow: 0 0 0 1px rgba(212, 175, 106, 0.45);
+}
+
+.stille-ritual-slot {
+  display: none;
+}
+.stille-ritual-slot .card {
+  text-align: center;
+}
+.stille-ritual-slot .stille-ritual-sym {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 0.35rem;
+  filter: drop-shadow(0 0 10px rgba(176, 148, 232, 0.45));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.threshold-open .app-shell,
+  body.threshold-draw .app-shell { filter: brightness(0.85); }
+  .korrespondenz-list li,
+  .craft-works-list li { transition: none; }
+}

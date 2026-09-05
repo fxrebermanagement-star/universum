@@ -343,6 +343,15 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 
 
 
+## Craft-Pass (v5.6.0) · Mystische Atmosphäre
+
+- **5.2 Licht & Schwellen** — weicheres Kerzen-/Mondlicht, sanftere Kartenkanten; Schwellen-Übergänge beim Ritual öffnen und Feldkarte enthüllen (dim/reveal); respektiert reduzierte Bewegung; Mondnacht leichter + abends automatisch (19–6)
+- **5.3 Mystische Sprache** — Praxis statt Tech: Ins Buch legen, Kreis öffnen/schließen, Schwelle betreten; Altar / Rituale / Buch / Resonanzen; Deutsch ohne Gendersprache
+- **5.4 Optional Klang** — sehr leiser Web-Audio-Chime/Drone beim Ritual-Start und -Schluss; Standard aus; Einstellung «Ritual-Klang»; respektiert stumm/versteckt
+- **5.5 Sigille & Symbole** — größere Pfad-Symbole; Resonanzen und Feldkarten als lebendige Motive statt Listen-Gefühl
+- **5.6 Stille-Modus** — ein Tipp (◉): nur Heute + ein Ritual; Rest ausgeblendet; leichter Exit (Chip / Esc / Einstellung); persistiert in `feldlicht-v15` → `settings.stilleModus`
+- Ethik und Lokal-first unverändert; App `5.6.0`, SW-Cache `universum-shell-v43`
+
 ## Craft-Pass (v5.1.1) · Nav zeigt Inhalt sofort
 
 - Beim Tippen der Bottom-Nav: Scroll zum **ersten nutzbaren Inhalt** unter dem Sticky-Header (nicht nur Titelblock)

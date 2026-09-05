@@ -265,6 +265,89 @@
     else stopAmbient();
   }
 
+  /* ——— Optional ritual chime / soft close (v5.4) ——— */
+  let chimeCtx = null;
+
+  function prefersSilentAudio() {
+    try {
+      if (typeof document !== 'undefined' && document.hidden) return true;
+      if (typeof navigator !== 'undefined' && navigator.userAgentData && false) return false;
+      // Respect OS-level reduced motion as a soft preference for optional sound
+      if (typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return false; // still allow if user explicitly enabled ritualKlang; caller gates
+      }
+    } catch (_) { /* ignore */ }
+    return false;
+  }
+
+  function ensureChimeCtx() {
+    if (!chimeCtx || chimeCtx.state === 'closed') {
+      chimeCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (chimeCtx.state === 'suspended') {
+      try { chimeCtx.resume(); } catch (_) { /* ignore */ }
+    }
+    return chimeCtx;
+  }
+
+  /** Very quiet start chime (ascending soft fifth) */
+  function playRitualOpenChime() {
+    if (prefersSilentAudio() && document.hidden) return;
+    try {
+      const ctx = ensureChimeCtx();
+      const now = ctx.currentTime;
+      const g = ctx.createGain();
+      g.gain.value = 0.0001;
+      g.connect(ctx.destination);
+      const freqs = [392, 588]; // G4 · D5 soft
+      freqs.forEach(function (f, i) {
+        const o = ctx.createOscillator();
+        o.type = 'sine';
+        o.frequency.value = f;
+        const filt = ctx.createBiquadFilter();
+        filt.type = 'lowpass';
+        filt.frequency.value = 1200;
+        o.connect(filt);
+        filt.connect(g);
+        const t0 = now + i * 0.12;
+        o.start(t0);
+        o.stop(t0 + 0.55);
+      });
+      g.gain.linearRampToValueAtTime(0.018, now + 0.05);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + 0.9);
+    } catch (e) {
+      console.warn('Ritual open chime unavailable', e);
+    }
+  }
+
+  /** Soft close drone fade (descending whisper) */
+  function playRitualCloseChime() {
+    if (document.hidden) return;
+    try {
+      const ctx = ensureChimeCtx();
+      const now = ctx.currentTime;
+      const g = ctx.createGain();
+      g.gain.value = 0.0001;
+      g.connect(ctx.destination);
+      const o = ctx.createOscillator();
+      o.type = 'sine';
+      o.frequency.setValueAtTime(220, now);
+      o.frequency.exponentialRampToValueAtTime(110, now + 1.1);
+      const filt = ctx.createBiquadFilter();
+      filt.type = 'lowpass';
+      filt.frequency.value = 600;
+      o.connect(filt);
+      filt.connect(g);
+      o.start(now);
+      o.stop(now + 1.25);
+      g.gain.linearRampToValueAtTime(0.014, now + 0.08);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + 1.2);
+    } catch (e) {
+      console.warn('Ritual close chime unavailable', e);
+    }
+  }
+
+
   function normalizeReading(raw) {
     if (!raw || typeof raw !== 'object') return null;
     const hz = Number(raw.schumann_frequency_hz);
@@ -523,6 +606,8 @@
     isAudioRunning: () => runningAudio,
     toggleAmbient,
     isAmbientRunning: () => ambientRunning,
+    playRitualOpenChime,
+    playRitualCloseChime,
     startLive,
     stopLive,
     setLiveEnabled,

@@ -745,9 +745,18 @@
     document.body.classList.toggle('reduced-motion', reduced);
   }
 
+  function isEveningHours(d) {
+    const h = (d || new Date()).getHours();
+    return h >= 19 || h < 6;
+  }
+
   function applyMondnachtPref() {
-    const on = !!(state.settings && state.settings.mondnacht);
+    const manual = !!(state.settings && state.settings.mondnacht);
+    const auto = !!(state.settings && state.settings.mondnachtAuto);
+    const evening = auto && isEveningHours();
+    const on = manual || evening;
     document.body.classList.toggle('mondnacht', on);
+    document.body.classList.toggle('mondnacht-auto', !manual && evening);
     try {
       const meta = document.querySelector('meta[name="theme-color"]');
       if (meta) meta.setAttribute('content', on ? '#07060c' : '#0c0814');
@@ -760,12 +769,6 @@
   function syncQuietUi() {
     const on = quietManual || quietRitual;
     document.body.classList.toggle('quiet-mode', on);
-    const btn = $('#quiet-mode-toggle');
-    if (btn) {
-      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-      btn.classList.toggle('active', on);
-      btn.title = on ? 'Stillen Modus beenden' : 'Stiller Modus';
-    }
     const exit = $('#quiet-exit-chip');
     if (exit) exit.hidden = !on;
     const hint = $('#rr-quiet-hint');
@@ -783,10 +786,116 @@
     syncQuietUi();
   }
 
-  function toggleQuietManual() {
-    setQuietManual(!quietManual);
-    toast(quietManual ? 'Stiller Modus — Chrome ausgeblendet' : 'Chrome wieder sichtbar');
+  function applyStilleModus() {
+    const on = !!(state.settings && state.settings.stilleModus);
+    document.body.classList.toggle('stille-modus', on);
+    const btn = $('#quiet-mode-toggle');
+    if (btn) {
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      btn.classList.toggle('active', on);
+      btn.title = on ? 'Stille-Modus beenden' : 'Stille-Modus';
+    }
+    const exit = $('#stille-exit-chip');
+    if (exit) exit.hidden = !on;
+    const slot = $('#stille-ritual-slot');
+    if (slot) slot.hidden = !on;
+    if (on) {
+      navigate('cockpit', { force: true, keepScroll: true });
+      renderStilleRitualSlot();
+    }
+  }
+
+  function setStilleModus(on) {
+    Store.update(d => { d.settings.stilleModus = !!on; });
+    refreshState();
+    applyStilleModus();
+    const setEl = $('#set-stille-modus');
+    if (setEl) setEl.checked = !!on;
+  }
+
+  function toggleStilleModus() {
+    const next = !(state.settings && state.settings.stilleModus);
+    setStilleModus(next);
+    toast(next ? 'Stille — nur Heute und ein Ritual' : 'Stille verlassen — alles wieder da');
     Rituals.vibrate(12);
+  }
+
+  function toggleQuietManual() {
+    // Header ◉ is Stille-Modus (persisted); ritual chrome quiet stays automatic
+    toggleStilleModus();
+  }
+
+  /* ——— v5.2 Threshold veil ——— */
+  function setThreshold(mode) {
+    // mode: null | 'open' | 'draw'
+    const veil = $('#threshold-veil');
+    document.body.classList.toggle('threshold-open', mode === 'open');
+    document.body.classList.toggle('threshold-draw', mode === 'draw');
+    if (!veil) return;
+    veil.classList.toggle('on', !!mode);
+    veil.classList.toggle('reveal-soft', mode === 'draw');
+    veil.setAttribute('aria-hidden', mode ? 'false' : 'true');
+  }
+
+  function prefersReducedMotionNow() {
+    if (state.settings && state.settings.reducedMotion) return true;
+    try {
+      return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    } catch (_) { return false; }
+  }
+
+  /* ——— v5.4 Ritual Klang ——— */
+  function ritualKlangEnabled() {
+    if (!(state.settings && state.settings.ritualKlang)) return false;
+    try {
+      if (document.hidden) return false;
+    } catch (_) { /* ignore */ }
+    return true;
+  }
+
+  function playRitualKlang(kind) {
+    if (!ritualKlangEnabled() || !Schumann) return;
+    try {
+      if (kind === 'open' && Schumann.playRitualOpenChime) Schumann.playRitualOpenChime();
+      if (kind === 'close' && Schumann.playRitualCloseChime) Schumann.playRitualCloseChime();
+    } catch (_) { /* ignore */ }
+  }
+
+  function renderStilleRitualSlot() {
+    const title = $('#stille-ritual-title');
+    const text = $('#stille-ritual-text');
+    const sym = $('#stille-ritual-sym');
+    const go = $('#stille-ritual-go');
+    const path = currentPath();
+    if (sym) sym.textContent = pathSymbol(path);
+    // Prefer today's tip ritual if any
+    let ritual = null;
+    try {
+      const tipBtn = $('#jetzt-start');
+      if (tipBtn && tipBtn.dataset && tipBtn.dataset.ritual) {
+        ritual = Rituals.getRitual(tipBtn.dataset.ritual) || null;
+      }
+      if (!ritual && Rituals.listOwnForPath) {
+        const own = Rituals.listOwnForPath(state.path) || [];
+        ritual = own[0] || null;
+      }
+      if (!ritual && Rituals.listForPath) {
+        const all = Rituals.listForPath(state.path) || [];
+        ritual = all[0] || null;
+      }
+    } catch (_) { /* ignore */ }
+    if (title) title.textContent = (ritual && ritual.name) || 'Ein Ritual';
+    if (text) {
+      text.textContent = ritual
+        ? ((ritual.mins ? '≈ ' + ritual.mins + ' Min · ' : '') + 'In der Stille genügt eines.')
+        : 'Wähle am Altar ein Ritual — oder verlasse die Stille.';
+    }
+    if (go) {
+      go.onclick = () => {
+        if (ritual) openRitual(ritual);
+        else { navigate('rituale', { force: true }); toast('Wähle ein Ritual'); }
+      };
+    }
   }
 
   function nextSabbatInfo(fromDate) {
@@ -1211,13 +1320,13 @@
     const cta = $('#sitzung-cta');
     const copy = {
       heute: {
-        lead: 'Heute gewählt — starte das Ritual ohne Menü-Wechsel.',
-        cta: '② Ritual starten',
+        lead: 'Heute gewählt — öffne den Kreis ohne Menü-Hopping.',
+        cta: '② Kreis öffnen',
         action: 'ritual'
       },
       ritual: {
         lead: (sitzung.ritualName ? ('Ritual «' + sitzung.ritualName + '» läuft.') : 'Ritual läuft.') + ' Danach kommt das Schließen.',
-        cta: 'Zum Ritual',
+        cta: 'Zur Schwelle',
         action: 'open-ritual'
       },
       schliessen: {
@@ -1322,7 +1431,7 @@
         ' · stabil für heute';
     }
     if (jetztStart) {
-      jetztStart.textContent = (tip && tip.cta) || (ritual ? ('Start · ' + ritual.name) : 'Üben');
+      jetztStart.textContent = (tip && tip.cta) || (ritual ? ('Kreis öffnen · ' + ritual.name) : 'Kreis öffnen');
       jetztStart.dataset.ritual = ritualId;
     }
     if (jetztStarter) jetztStarter.hidden = true;
@@ -1331,6 +1440,7 @@
     renderMondfenster();
     renderRitualJournal();
     updateOfflineHonesty();
+    if (state.settings && state.settings.stilleModus) renderStilleRitualSlot();
   }
 
   function correspondenceRows(c) {
@@ -1367,7 +1477,7 @@
     if (list) {
       if (note) note.textContent = c.note || 'Hauspraxis — kein medizinischer Rat.';
       list.innerHTML = correspondenceRows(c).map(function (r) {
-        return '<li><strong>' + escapeHtml(r[0]) + '</strong><span>' + escapeHtml(r[1]) + '</span></li>';
+        return '<li class="resonanz-motif"><strong>' + escapeHtml(r[0]) + '</strong><span>' + escapeHtml(r[1]) + '</span></li>';
       }).join('');
     }
   }
@@ -1406,7 +1516,7 @@
     if (note) note.textContent = c.note || 'Hauspraxis — kein medizinischer Rat.';
     if (list) {
       list.innerHTML = correspondenceRows(c).map(function (r) {
-        return '<li><strong>' + escapeHtml(r[0]) + '</strong><span>' + escapeHtml(r[1]) + '</span></li>';
+        return '<li class="resonanz-motif"><strong>' + escapeHtml(r[0]) + '</strong><span>' + escapeHtml(r[1]) + '</span></li>';
       }).join('');
     }
     const craftList = $('#craft-works-list');
@@ -1418,7 +1528,7 @@
           ((path && path.name) || 'diesen Pfad') + ' — ethisch, ohne Spektakel.';
       }
       craftList.innerHTML = works.map(function (w) {
-        return '<li><strong>' + escapeHtml(w.kind) + '</strong><span>' + escapeHtml(w.text) + '</span></li>';
+        return '<li class="resonanz-motif craft-motif"><strong>' + escapeHtml(w.kind) + '</strong><span>' + escapeHtml(w.text) + '</span></li>';
       }).join('');
     }
     renderKorrespondenzen();
@@ -2607,7 +2717,7 @@
     syncKosmosLocFields();
     renderKosmos();
     renderCockpit();
-    toast('Standort gespeichert');
+    toast('Ort am Altar gemerkt');
   }
 
   function renderKosmos() {
@@ -3261,6 +3371,8 @@
     if (!ritual) return;
     const runner = $('#ritual-runner');
     runner.classList.add('open');
+    setThreshold(prefersReducedMotionNow() ? null : 'open');
+    playRitualKlang('open');
     setQuietRitual(true);
     let stepIdx = 0;
     let remaining = 0;
@@ -3281,8 +3393,8 @@
         (pathNow && pathNow.haltung ? '<p class="notice ethics-line">' + escapeHtml(pathNow.haltung) + '</p>' : '') +
         houseNote +
         '<div class="safety-check" style="text-align:left;width:100%">' + items + '</div>' +
-        '<div class="rr-actions"><button type="button" class="primary" id="rr-safety-go" disabled>Weiter</button>' +
-        '<button type="button" id="rr-cancel">Abbrechen</button></div></div>';
+        '<div class="rr-actions"><button type="button" class="primary" id="rr-safety-go" disabled>Schwelle betreten</button>' +
+        '<button type="button" id="rr-cancel">Verlassen</button></div></div>';
       const boxes = $$('#rr-content [data-safe]');
       const go = $('#rr-safety-go');
       function sync() { go.disabled = !boxes.every(b => b.checked); }
@@ -3362,9 +3474,9 @@
         '<div class="rr-timer" id="rr-timer">' + formatSec(remaining) + '</div>' +
         '<p class="rr-text">' + escapeHtml(step.text) + '</p>' +
         '<div class="rr-actions">' +
-        '<button type="button" class="primary" id="rr-next">Weiter</button>' +
-        '<button type="button" id="rr-skip-timer">Timer überspringen</button>' +
-        '<button type="button" id="rr-cancel2">Abbrechen</button></div></div>';
+        '<button type="button" class="primary" id="rr-next">Weiter im Kreis</button>' +
+        '<button type="button" id="rr-skip-timer">Zeit lassen</button>' +
+        '<button type="button" id="rr-cancel2">Verlassen</button></div></div>';
 
       if (step.breath || (ritual.breath && step.breath !== false && (step.breathIn || i === 0 || step.breath))) {
         const br = $('#rr-breath');
@@ -3425,6 +3537,7 @@
     const runner = $('#ritual-runner');
     if (runner && !runner.classList.contains('open')) {
       runner.classList.add('open');
+      setThreshold(prefersReducedMotionNow() ? null : 'open');
       setQuietRitual(true);
     }
     const titleEl = $('#rr-title');
@@ -3522,12 +3635,12 @@
         '<p class="notice ethics-line">Nach ' + escapeHtml(label) + '</p>' +
         '<div class="rr-actions">' +
         (step.diary
-          ? '<button type="button" class="primary" id="rr-close-seed-save">📖 Ins Buch · Alltag</button>' +
-            '<button type="button" class="ghost" id="rr-done">Ohne Eintrag · Alltag</button>'
+          ? '<button type="button" class="primary" id="rr-close-seed-save">📖 Ins Buch legen</button>' +
+            '<button type="button" class="ghost" id="rr-done">Kreis schließen</button>'
           : (isLast
-            ? '<button type="button" class="primary" id="rr-done">Fertig · Alltag</button>'
-            : '<button type="button" class="primary" id="rr-close-next">Weiter</button>')) +
-        '<button type="button" class="ghost" id="rr-close-skip">Überspringen</button></div></div>';
+            ? '<button type="button" class="primary" id="rr-done">Kreis schließen</button>'
+            : '<button type="button" class="primary" id="rr-close-next">Weiter im Kreis</button>')) +
+        '<button type="button" class="ghost" id="rr-close-skip">Schwelle lassen</button></div></div>';
 
       Rituals.vibrate(ci === 0 ? [40, 40, 80] : 25);
 
@@ -3645,7 +3758,7 @@
             });
           });
           closingPendingPhoto = null;
-          toast('📖 Ins Magie-Buch');
+          toast('📖 Ins Buch gelegt');
           if (typeof renderRitualJournal === 'function') renderRitualJournal();
           finishClosing('Im Buch · Schwelle gehalten.', { goBuch: true, savedToBuch: true });
         } catch (_) {
@@ -3666,6 +3779,8 @@
     clearBreath();
     clearClosingBreath();
     $('#ritual-runner').classList.remove('open');
+    playRitualKlang('close');
+    setThreshold(null);
     setQuietRitual(false);
   }
 
@@ -4032,13 +4147,15 @@
 
   function playDrawReveal(cards, skipSave) {
     const stage = $('#draw-stage');
-    const reduced = !!(state.settings && state.settings.reducedMotion);
+    const reduced = prefersReducedMotionNow();
     if (!stage) {
       finishReveal(cards, skipSave);
       return;
     }
     drawAnimating = true;
+    if (!reduced) setThreshold('draw');
     stage.hidden = false;
+    stage.classList.add('threshold-reveal');
     stage.innerHTML = cards.map((c, i) =>
       '<div class="draw-flip' + (reduced ? ' revealed' : '') + '" style="animation-delay:' + (i * 0.18) + 's">' +
       '<div class="draw-flip-inner">' +
@@ -4052,6 +4169,10 @@
       $$('#draw-stage .draw-flip').forEach(el => el.classList.add('revealed'));
       finishReveal(cards, skipSave);
       drawAnimating = false;
+      setTimeout(() => {
+        setThreshold(null);
+        if (stage) stage.classList.remove('threshold-reveal');
+      }, reduced ? 40 : 900);
     }, delay);
   }
 
@@ -4063,7 +4184,7 @@
       $('#spread-area').classList.remove('show');
       $('#spread-area').innerHTML = '';
       const card = cards[0];
-      $('#drawn-result').textContent = 'Gezogen: ' + card.name + ' — ' + card.theme +
+      $('#drawn-result').textContent = 'Enthüllt: ' + card.name + ' — ' + card.theme +
         (card.prompt ? '\n' + card.prompt : '');
       const el = $('[data-card="' + card.n + '"]');
       if (el) el.scrollIntoView({ behavior: (state.settings && state.settings.reducedMotion) ? 'auto' : 'smooth', block: 'nearest' });
@@ -4997,14 +5118,20 @@
     if (aud) aud.checked = !!(state.settings && state.settings.schumannAudio);
     const amb = $('#set-ambient-tone');
     if (amb) amb.checked = !!(state.settings && state.settings.ambientTone);
+    const klang = $('#set-ritual-klang');
+    if (klang) klang.checked = !!(state.settings && state.settings.ritualKlang);
     const mot = $('#set-reduced-motion');
     if (mot) mot.checked = !!(state.settings && state.settings.reducedMotion);
     const moon = $('#set-mondnacht');
     if (moon) moon.checked = !!(state.settings && state.settings.mondnacht);
+    const moonAuto = $('#set-mondnacht-auto');
+    if (moonAuto) moonAuto.checked = !!(state.settings && state.settings.mondnachtAuto);
     const hourAl = $('#set-hour-alert');
     if (hourAl) hourAl.checked = !!(state.settings && state.settings.hourAlert);
     const quietR = $('#set-quiet-ritual');
     if (quietR) quietR.checked = !(state.settings && state.settings.quietDuringRitual === false);
+    const stille = $('#set-stille-modus');
+    if (stille) stille.checked = !!(state.settings && state.settings.stilleModus);
     const calPath = $('#set-calendar-path-only');
     if (calPath) calPath.checked = isCalendarPathOnly();
   }
@@ -5142,6 +5269,11 @@
     setInterval(updateClock, 15000);
     applyMotionPref();
     applyMondnachtPref();
+    applyStilleModus();
+    // Re-check evening Mondnacht occasionally (local clock)
+    setInterval(function () {
+      try { applyMondnachtPref(); } catch (_) { /* ignore */ }
+    }, 15 * 60 * 1000);
     applyPathTheme();
     syncQuietUi();
     setFocusDisplay();
@@ -5396,6 +5528,17 @@
         Rituals.vibrate(12);
       });
     }
+    const setMoonAuto = $('#set-mondnacht-auto');
+    if (setMoonAuto) {
+      setMoonAuto.checked = !!(state.settings && state.settings.mondnachtAuto);
+      setMoonAuto.addEventListener('change', () => {
+        Store.update(d => { d.settings.mondnachtAuto = !!setMoonAuto.checked; });
+        refreshState();
+        applyMondnachtPref();
+        toast(setMoonAuto.checked ? 'Mondnacht abends automatisch' : 'Mondnacht-Auto aus');
+        Rituals.vibrate(12);
+      });
+    }
     const setHourAlert = $('#set-hour-alert');
     if (setHourAlert) {
       setHourAlert.checked = !!(state.settings && state.settings.hourAlert);
@@ -5428,6 +5571,16 @@
         toast(setAmb.checked ? 'Ambient-Ton an (sehr leise)' : 'Ambient-Ton aus');
       });
       if (setAmb.checked) Schumann.toggleAmbient(true);
+    }
+    const setKlang = $('#set-ritual-klang');
+    if (setKlang) {
+      setKlang.checked = !!(state.settings && state.settings.ritualKlang);
+      setKlang.addEventListener('change', () => {
+        Store.update(d => { d.settings.ritualKlang = !!setKlang.checked; });
+        refreshState();
+        toast(setKlang.checked ? 'Ritual-Klang an (sehr leise)' : 'Ritual-Klang aus');
+        if (setKlang.checked) playRitualKlang('open');
+      });
     }
 
     bootSchumannLive();
@@ -5465,7 +5618,7 @@
         syncHiddenLocControls();
         renderCockpit();
         if ($('#sec-kosmos') && !$('#sec-kosmos').hidden) renderKosmos();
-        toast('Standort gespeichert');
+        toast('Ort am Altar gemerkt');
       });
     }
     const setZurich = $('#set-loc-zurich');
@@ -5503,7 +5656,15 @@
         Store.update(d => { d.settings.quietDuringRitual = !!setQuietRitualEl.checked; });
         refreshState();
         if (!setQuietRitualEl.checked) setQuietRitual(false);
-        toast(setQuietRitualEl.checked ? 'Stiller Modus bei Ritual an' : 'Stiller Modus bei Ritual aus');
+        toast(setQuietRitualEl.checked ? 'Chrome bei Ritual aus' : 'Chrome bei Ritual bleibt');
+      });
+    }
+    const setStilleEl = $('#set-stille-modus');
+    if (setStilleEl) {
+      setStilleEl.checked = !!(state.settings && state.settings.stilleModus);
+      setStilleEl.addEventListener('change', () => {
+        setStilleModus(!!setStilleEl.checked);
+        toast(setStilleEl.checked ? 'Stille — nur Heute und ein Ritual' : 'Stille verlassen');
       });
     }
     const setCalPathOnly = $('#set-calendar-path-only');
@@ -5525,6 +5686,11 @@
       quietRitual = false;
       syncQuietUi();
       toast('Chrome wieder sichtbar');
+    });
+    const stilleExit = $('#stille-exit-chip');
+    if (stilleExit) stilleExit.addEventListener('click', () => {
+      setStilleModus(false);
+      toast('Stille verlassen — alles wieder da');
     });
     const festChip = $('#fest-countdown-chip');
     if (festChip) {
@@ -5892,6 +6058,7 @@
         refreshState();
         applyMotionPref();
         applyMondnachtPref();
+        applyStilleModus();
         if (state.settings && state.settings.ambientTone) Schumann.toggleAmbient(true);
         else Schumann.toggleAmbient(false);
         renderBuch();
@@ -5993,7 +6160,7 @@
       Store.update(d => { d.lat = lat; d.lon = lon; });
       refreshState();
       renderCockpit();
-      toast('Standort gespeichert');
+      toast('Ort am Altar gemerkt');
     });
 
     // Intention des Tages
@@ -6219,6 +6386,10 @@
         if (quietManual) {
           quietManual = false;
           syncQuietUi();
+        }
+        if (state.settings && state.settings.stilleModus) {
+          setStilleModus(false);
+          toast('Stille verlassen');
         }
       }
     });
