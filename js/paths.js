@@ -843,144 +843,542 @@
     });
   }
 
-  /** Hauspraxis-Korrespondenzen — keine Heilversprechen, keine medizinischen Claims.
-   * herbs: { name, description } — Symbolik/Hauspraxis, nicht Medizin.
+  /** Hauspraxis-Korrespondenzen — Lexikon für Magier.
+   * Kategorien: herbs, kitchen, stones, colors, tools, links (Bezüge/Hilfsmittel).
+   * Jeder Eintrag: { name, description } — Symbolik/Hauspraxis, kein Heilversprechen,
+   * keine Anleitung zu Schaden oder illegalem Handeln.
    */
   const CORRESPONDENCES = {
     schamanismus: {
       herbs: [
-        { name: 'Beifuß', description: 'Klassisches Räucher-Symbol für Schwelle und Reise — Raum klären, ohne Geister zu fordern.' },
-        { name: 'Wacholder', description: 'Harziger Duft als Raum- und Grenzzeichen. Hauspraxis: frische Luft und Maß statt Spektakel.' },
-        { name: 'Birke', description: 'Neubeginn und weiches Licht nach der Dunkelheit — Blatt oder Zweig als Gabe an den Alltag.' },
-        { name: 'Weide', description: 'Biegsamkeit und Fluss: was weicht, bricht nicht. Symbol für Loslassen ohne Drama.' },
-        { name: 'Fichte', description: 'Harz und Nadel als Wald-Anker — Stand spüren, Körper zuerst, bevor die Reise beginnt.' },
-        { name: 'Salbei', description: 'Klarheit im Raum als Haltung — Duft und Absicht, kein Reinigungsversprechen am Körper.' },
-        { name: 'Tabak (symbolisch)', description: 'Gabe und Respekt in manchen Linien — hier nur als Symbol, nie als Rauchzwang oder Initiation.' }
+        { name: "Beifuß", description: "Klassisches Räucher-Symbol für Schwelle und Reise — Raum klären, ohne Geister zu fordern." },
+        { name: "Wacholder", description: "Harziger Duft als Raum- und Grenzzeichen. Hauspraxis: frische Luft und Maß statt Spektakel." },
+        { name: "Birke", description: "Neubeginn und weiches Licht nach der Dunkelheit — Blatt oder Zweig als Gabe an den Alltag." },
+        { name: "Weide", description: "Biegsamkeit und Fluss: was weicht, bricht nicht. Symbol für Loslassen ohne Drama." },
+        { name: "Fichte", description: "Harz und Nadel als Wald-Anker — Stand spüren, Körper zuerst, bevor die Reise beginnt." },
+        { name: "Salbei", description: "Klarheit im Raum als Haltung — Duft und Absicht, kein Reinigungsversprechen am Körper." },
+        { name: "Tabak (symbolisch)", description: "Gabe und Respekt in manchen Linien — hier nur als Symbol, nie als Rauchzwang oder Initiation." },
       ],
-      stones: ['Obsidian (Schutz-Symbol)', 'Rauchquarz (Klarheit)', 'Hämatit (Erdung-Symbol)'],
-      colors: ['Erdbraun', 'Waldgrün', 'Knochenweiß'],
-      elements: ['Erde (Stand)', 'Luft (Atem)', 'Feuer (Herd)', 'Wasser (Fluss)'],
-      note: 'Hauspraxis und Symbolik — kein medizinischer Rat, kein Heilversprechen.'
+      kitchen: [
+        { name: "Salz", description: "Küche / Hausmittel: Kreis und Grenze am Herd — Prise als Merkzeichen, kein Reinigungsversprechen." },
+        { name: "Honig", description: "Küche: süße Gabe an den Alltag — teilen statt fordern, Symbol für Wärme ohne Spektakel." },
+        { name: "Öl", description: "Küche / Hausmittel: Salbung als Haltung — Tropfen am Blickfang, nicht als Heilsalbe." },
+        { name: "Pfeffer", description: "Küche: Schärfe und Wachheit am Tisch — Fokus-Symbol, kein Rezept und kein Heilversprechen." },
+        { name: "Zucker", description: "Küche: süße Gabe und Anziehen mit Maß — teilen statt binden, Symbolik ohne Heilversprechen." },
+        { name: "Knoblauch", description: "Küche: scharfe Hausgrenze am Eingang — Symbol, kein Heilversprechen und kein Zwang." },
+        { name: "Nelke", description: "Küche / Würze: Schutz-Ton und Wärme — Maß halten, keinen fremden Willen binden." },
+        { name: "Zimt", description: "Küche: Willkommen und Wärme — Duft-Symbol, kein Spektakel." },
+        { name: "Anis", description: "Küche: würzige Klarheit — Hausmittel-Symbol für Atem und Maß, nicht als Medizin." },
+      ],
+      stones: [
+        { name: "Obsidian", description: "Blickfang für Schutz-Grenze — dunkler Schnitt als Symbol, keine Kristallheilung." },
+        { name: "Rauchquarz", description: "Altarstein für Klarheit im Raum — Haltung und Atem, kein Messversprechen." },
+        { name: "Hämatit", description: "Erdungs-Blickfang: schwer und nah am Boden — Körper zuerst, bevor die Reise beginnt." },
+        { name: "Flint", description: "Funke und Feuerstein-Symbol — Herd und Stand, ohne Spektakel." },
+        { name: "Holzperle", description: "Wald-Anker aus dem Alltag — Gabe, die man berühren kann, kein Amulettzwang." },
+        { name: "Knochenweiß-Stein", description: "Schlichtes Merkzeichen für Ahnenachtung — Symbolik, keine Geisterforderung." },
+      ],
+      colors: [
+        { name: "Erdbraun", description: "Altarfarbe / Tuch: Stand und Boden — Alltag ehren statt Pathos." },
+        { name: "Waldgrün", description: "Altarfarbe: Wachstum mit Maß — Blickfang für den Kreis, kein Heilversprechen." },
+        { name: "Knochenweiß", description: "Altarfarbe / Kerze: Schlichtheit und Gabe — rein als Symbol." },
+        { name: "Rauchgrau", description: "Altarfarbe: Schwelle und Atem — Raum klären als Haltung." },
+        { name: "Herbstrot", description: "Kerze oder Tuch: Wärme am Herd — teilen, nicht greifen." },
+        { name: "Nachtblau", description: "Altarfarbe für stille Reise — nur geerdet, ohne Drama." },
+      ],
+      tools: [
+        { name: "Kerze", description: "Werkzeug: kleines Herdlicht — Schwelle markieren, ohne Geister zu fordern." },
+        { name: "Trommel (Symbol)", description: "Werkzeug: Rhythmus und Atem — Körper zuerst, Reise nur geerdet." },
+        { name: "Becher", description: "Werkzeug: Gabe und Wasser — teilen, nicht spekulieren." },
+        { name: "Faden", description: "Werkzeug: Verbindung und Maß — knüpfen als Haltung, nicht als Fesselung anderer." },
+        { name: "Spiegel", description: "Werkzeug: Blick zurück auf den eigenen Stand — kein Orakelzwang." },
+        { name: "Besen", description: "Werkzeug: Raum kehren als Ordnung — Alltag ehren, kein Reinigungsversprechen am Körper." },
+        { name: "Kreide", description: "Werkzeug: Kreis und Grenze zeichnen — Symbolik, kein Bann gegen Personen." },
+        { name: "Räucherschale", description: "Werkzeug: Duft und Atem im Raum — Maß statt Spektakel." },
+      ],
+      links: [
+        { name: "Nagel (Eisen)", description: "Bezug / Hilfsmittel: Eisen-Nagel als Grenz- und Festigungs-Symbol in der Hauspraxis — fixieren von Absicht am Ort, nie gegen Personen und nie illegal. Wald- und Schwellen-Ton: Körper zuerst, keine Geister fordern." },
+        { name: "Nadel", description: "Bezug / Hilfsmittel: Nadel und Stich als Merkzeichen für Fokus und Naht — Symbolarbeit am Tuch/Faden, keine Verletzung, kein Schaden an anderen. Wald- und Schwellen-Ton: Körper zuerst, keine Geister fordern." },
+        { name: "Haare (eigene)", description: "Bezug / Hilfsmittel: eigenes Haar als persönlicher Bezug in manchen Traditionen — nur mit Einwilligung und Maß; fremdes Haar ohne Zustimmung ist tabu. Wald- und Schwellen-Ton: Körper zuerst, keine Geister fordern." },
+        { name: "Faden / Knoten", description: "Bezug / Hilfsmittel: knüpfen und lösen als klassische Symbolik — Absicht binden oder freigeben; nie fremden Willen fesseln. Wald- und Schwellen-Ton: Körper zuerst, keine Geister fordern." },
+        { name: "Tuch / Fetzen", description: "Bezug / Hilfsmittel: Tuch als Träger von Farbe und Absicht — einwickeln, ablegen, waschen; Symbolik, kein Zwang. Wald- und Schwellen-Ton: Körper zuerst, keine Geister fordern." },
+        { name: "Erde / Staub", description: "Bezug / Hilfsmittel: Erde vom eigenen Ort als Anker — Stand und Zugehörigkeit; fremde Erde nicht stehlen, Respekt vor Ort. Wald- und Schwellen-Ton: Körper zuerst, keine Geister fordern." },
+        { name: "Wachs", description: "Bezug / Hilfsmittel: Kerzenwachs formen oder versiegeln — Absicht sichtbar machen, ohne Schaden zu wollen. Wald- und Schwellen-Ton: Körper zuerst, keine Geister fordern." },
+        { name: "Asche", description: "Bezug / Hilfsmittel: Asche als Rest und Abschluss — was verbrannt/beendet ist; Symbol für Loslassen, kein Angriff. Wald- und Schwellen-Ton: Körper zuerst, keine Geister fordern." },
+        { name: "Knochen (Symbol)", description: "Bezug / Hilfsmittel: nur ethisches Symbol (Nachbildung/Fund mit Respekt) — Ahnen- und Stand-Ton, kein Wildfang, kein illegaler Besitz. Wald- und Schwellen-Ton: Körper zuerst, keine Geister fordern." },
+        { name: "Foto / Name-Zettel", description: "Bezug / Hilfsmittel: Name oder Bild als Bezug auf eine Person — nur mit Einwilligung oder für das eigene Selbst; nie heimlich gegen jemanden. Wald- und Schwellen-Ton: Körper zuerst, keine Geister fordern." },
+        { name: "Schlüssel", description: "Bezug / Hilfsmittel: öffnen und schließen von Schwellen — Haus, Kapitel, Thema; Symbolik der Entscheidung. Wald- und Schwellen-Ton: Körper zuerst, keine Geister fordern." },
+        { name: "Münze", description: "Bezug / Hilfsmittel: Gabe, Ausgleich und Tausch-Symbol — opfern/teilen mit Maß, kein Kauf von Willen. Wald- und Schwellen-Ton: Körper zuerst, keine Geister fordern." },
+      ],
+      elements: ["Erde (Stand)", "Luft (Atem)", "Feuer (Herd)", "Wasser (Fluss)"],
+      note: "Hauspraxis und Symbolik — kein medizinischer Rat, kein Heilversprechen."
     },
     nordisch: {
       herbs: [
-        { name: 'Eichenblatt', description: 'Maß und Stand im Ring — Stärke ohne Prahlerei, Wort und Tat im selben Kreis.' },
-        { name: 'Wermut', description: 'Bittere Grenze: was nicht dient, bleibt draußen. Symbol für Frith und klare Haltung.' },
-        { name: 'Thymian', description: 'Haus und Herd — kleine Gabe auf dem Tisch, Alltag ehren statt Pathos.' },
-        { name: 'Wacholder', description: 'Nordischer Raumduft: Reinigung als Ordnung im Haus, nicht als Heilmittel.' },
-        { name: 'Birke', description: 'Frühlicht und Neubeginn — Yule-/Ostara-Ton: Keim mit Maß setzen.' },
-        { name: 'Beifuß', description: 'Räucher- und Traum-Symbol mit Vorsicht — Reise nur geerdet, Eid vor Spektakel.' },
-        { name: 'Angelika', description: 'Schutz- und Wege-Kraut in der Volkspraxis — hier als Haltung: klar gehen, nichts erzwingen.' }
+        { name: "Eichenblatt", description: "Maß und Stand im Ring — Stärke ohne Prahlerei, Wort und Tat im selben Kreis." },
+        { name: "Wermut", description: "Bittere Grenze: was nicht dient, bleibt draußen. Symbol für Frith und klare Haltung." },
+        { name: "Thymian", description: "Haus und Herd — kleine Gabe auf dem Tisch, Alltag ehren statt Pathos." },
+        { name: "Wacholder", description: "Nordischer Raumduft: Reinigung als Ordnung im Haus, nicht als Heilmittel." },
+        { name: "Birke", description: "Frühlicht und Neubeginn — Yule-/Ostara-Ton: Keim mit Maß setzen." },
+        { name: "Beifuß", description: "Räucher- und Traum-Symbol mit Vorsicht — Reise nur geerdet, Eid vor Spektakel." },
+        { name: "Angelika", description: "Schutz- und Wege-Kraut in der Volkspraxis — hier als Haltung: klar gehen, nichts erzwingen." },
       ],
-      stones: ['Bernstein (Wärme-Symbol)', 'Flint (Funke)', 'Granit (Stand)'],
-      colors: ['Nordblau', 'Eisengrau', 'Honiggold'],
-      elements: ['Erde (Ring)', 'Eis (Klarheit)', 'Feuer (Herd)', 'Luft (Wort)'],
-      note: 'Symbole für Haltung und Haus — keine medizinischen Aussagen.'
+      kitchen: [
+        { name: "Salz", description: "Küche / Hausmittel: Frith und Grenze am Tisch — Prise als Eid-Symbol, kein Reinigungsversprechen." },
+        { name: "Honig", description: "Küche: süße Gabe im Ring — teilen, Wort halten, kein Heilversprechen." },
+        { name: "Anis", description: "Küche: würzige Klarheit — Hausmittel-Symbol für Maß und Atem, nicht als Medizin." },
+        { name: "Öl", description: "Küche: Tropfen am Blickfang oder Brot — Haltung der Versorgung, keine Salbung als Heilspruch." },
+        { name: "Zucker", description: "Küche: süße Gabe und Anziehen mit Maß — teilen statt binden, Symbolik ohne Heilversprechen." },
+        { name: "Pfeffer", description: "Küche: Schärfe und Wachheit — Fokus-Symbol am Tisch, kein Rezept." },
+        { name: "Knoblauch", description: "Küche: scharfe Hausgrenze am Eingang — Symbol, kein Heilversprechen und kein Zwang." },
+        { name: "Nelke", description: "Küche / Würze: Schutz-Ton und Wärme — Maß halten, keinen fremden Willen binden." },
+        { name: "Zimt", description: "Küche: Willkommen und Wärme — Duft-Symbol, kein Spektakel." },
+      ],
+      stones: [
+        { name: "Bernstein", description: "Wärme-Blickfang — Honigton am Altar, Symbol nicht Therapie." },
+        { name: "Flint", description: "Funke und Feuerstein — Herd und Stand im Ring." },
+        { name: "Granit", description: "Schwerer Stand-Stein — Maß ohne Prahlerei." },
+        { name: "Kiesel vom Weg", description: "Alltags-Blickfang: klar gehen, nichts erzwingen." },
+        { name: "Eisengrau-Stein", description: "Grenze und Frith — kühler Merkstein, kein Amulettzwang." },
+        { name: "Quarzader", description: "Heller Schnitt im Gestein — Klarheit des Worts als Symbol." },
+      ],
+      colors: [
+        { name: "Nordblau", description: "Altarfarbe: Weite und kühle Klarheit — Tuch oder Kerze." },
+        { name: "Eisengrau", description: "Altarfarbe: Stand und Werkzeugton — Alltag ehren." },
+        { name: "Honiggold", description: "Altarfarbe / Kerze: Wärme und Gabe im Ring." },
+        { name: "Tannengrün", description: "Altarfarbe: Yule- und Waldton — Keim mit Maß." },
+        { name: "Knochenweiß", description: "Altarfarbe: schlichte Reinheit als Symbol, kein Reinigungsversprechen." },
+        { name: "Blutrot (mit Maß)", description: "Kerze nur mit Ethik — Kraft-Symbol, nie gegen den Willen anderer." },
+      ],
+      tools: [
+        { name: "Kerze", description: "Werkzeug: Herdlicht im Ring — Wort und Tat im selben Kreis." },
+        { name: "Horn / Becher", description: "Werkzeug: Gabe und Eid-Symbol — teilen, Frith halten." },
+        { name: "Kreide", description: "Werkzeug: Grenze markieren — was nicht dient, bleibt draußen." },
+        { name: "Faden", description: "Werkzeug: Band und Maß — knüpfen ohne fremden Willen zu binden." },
+        { name: "Besen", description: "Werkzeug: Haus kehren vor dem Blót-Ton — Ordnung, kein Spektakel." },
+        { name: "Spiegel", description: "Werkzeug: Klarheit des Worts — sich selbst prüfen." },
+        { name: "Messer (Küche)", description: "Werkzeug: Schnitt und Versorgung — ethisch, nie gegen Personen gerichtet." },
+        { name: "Schlüssel", description: "Werkzeug: Hof und Schwelle — öffnen und schließen mit Maß." },
+      ],
+      links: [
+        { name: "Nagel (Eisen)", description: "Bezug / Hilfsmittel: Eisen-Nagel als Grenz- und Festigungs-Symbol in der Hauspraxis — fixieren von Absicht am Ort, nie gegen Personen und nie illegal. Ring- und Frith-Ton: Wort halten, Maß im Kreis." },
+        { name: "Nadel", description: "Bezug / Hilfsmittel: Nadel und Stich als Merkzeichen für Fokus und Naht — Symbolarbeit am Tuch/Faden, keine Verletzung, kein Schaden an anderen. Ring- und Frith-Ton: Wort halten, Maß im Kreis." },
+        { name: "Haare (eigene)", description: "Bezug / Hilfsmittel: eigenes Haar als persönlicher Bezug in manchen Traditionen — nur mit Einwilligung und Maß; fremdes Haar ohne Zustimmung ist tabu. Ring- und Frith-Ton: Wort halten, Maß im Kreis." },
+        { name: "Faden / Knoten", description: "Bezug / Hilfsmittel: knüpfen und lösen als klassische Symbolik — Absicht binden oder freigeben; nie fremden Willen fesseln. Ring- und Frith-Ton: Wort halten, Maß im Kreis." },
+        { name: "Tuch / Fetzen", description: "Bezug / Hilfsmittel: Tuch als Träger von Farbe und Absicht — einwickeln, ablegen, waschen; Symbolik, kein Zwang. Ring- und Frith-Ton: Wort halten, Maß im Kreis." },
+        { name: "Erde / Staub", description: "Bezug / Hilfsmittel: Erde vom eigenen Ort als Anker — Stand und Zugehörigkeit; fremde Erde nicht stehlen, Respekt vor Ort. Ring- und Frith-Ton: Wort halten, Maß im Kreis." },
+        { name: "Wachs", description: "Bezug / Hilfsmittel: Kerzenwachs formen oder versiegeln — Absicht sichtbar machen, ohne Schaden zu wollen. Ring- und Frith-Ton: Wort halten, Maß im Kreis." },
+        { name: "Asche", description: "Bezug / Hilfsmittel: Asche als Rest und Abschluss — was verbrannt/beendet ist; Symbol für Loslassen, kein Angriff. Ring- und Frith-Ton: Wort halten, Maß im Kreis." },
+        { name: "Knochen (Symbol)", description: "Bezug / Hilfsmittel: nur ethisches Symbol (Nachbildung/Fund mit Respekt) — Ahnen- und Stand-Ton, kein Wildfang, kein illegaler Besitz. Ring- und Frith-Ton: Wort halten, Maß im Kreis." },
+        { name: "Foto / Name-Zettel", description: "Bezug / Hilfsmittel: Name oder Bild als Bezug auf eine Person — nur mit Einwilligung oder für das eigene Selbst; nie heimlich gegen jemanden. Ring- und Frith-Ton: Wort halten, Maß im Kreis." },
+        { name: "Schlüssel", description: "Bezug / Hilfsmittel: öffnen und schließen von Schwellen — Haus, Kapitel, Thema; Symbolik der Entscheidung. Ring- und Frith-Ton: Wort halten, Maß im Kreis." },
+        { name: "Münze", description: "Bezug / Hilfsmittel: Gabe, Ausgleich und Tausch-Symbol — opfern/teilen mit Maß, kein Kauf von Willen. Ring- und Frith-Ton: Wort halten, Maß im Kreis." },
+      ],
+      elements: ["Erde (Ring)", "Eis (Klarheit)", "Feuer (Herd)", "Luft (Wort)"],
+      note: "Symbole für Haltung und Haus — keine medizinischen Aussagen."
     },
     voodoo: {
       herbs: [
-        { name: 'Basilikum', description: 'Hausfrieden und Frische — Topfpflanze oder Blatt als Zeichen von Ordnung, keine Initiation.' },
-        { name: 'Lorbeer', description: 'Klarheit und Würde im Haus — Blatt als Merkzeichen, nicht als Orakelzwang.' },
-        { name: 'Minze', description: 'Frisch und hell: Schwelle und Atem. Wasser und Duft reichen oft für den Alltag.' },
-        { name: 'Petersilie', description: 'Einfache Gabe und Grün am Tisch — Respekt im Haus, ohne Medium zu spielen.' },
-        { name: 'Nelke', description: 'Würze und Schutz-Symbol am Eingang — Maß halten, keinen fremden Willen binden.' },
-        { name: 'Zimt', description: 'Wärme und Willkommen — Duft für den Hof, nicht für Spektakel oder Heilversprechen.' },
-        { name: 'Rosmarin', description: 'Erinnerung und Hausgrenze — Räucher- oder Küchensymbol mit klarer Ethik.' }
+        { name: "Basilikum", description: "Hausfrieden und Frische — Topfpflanze oder Blatt als Zeichen von Ordnung, keine Initiation." },
+        { name: "Lorbeer", description: "Klarheit und Würde im Haus — Blatt als Merkzeichen, nicht als Orakelzwang." },
+        { name: "Minze", description: "Frisch und hell: Schwelle und Atem. Wasser und Duft reichen oft für den Alltag." },
+        { name: "Petersilie", description: "Einfache Gabe und Grün am Tisch — Respekt im Haus, ohne Medium zu spielen." },
+        { name: "Rosmarin", description: "Erinnerung und Hausgrenze — Räucher- oder Küchensymbol mit klarer Ethik." },
+        { name: "Salbei", description: "Raumklarheit am Hof — Duft und Ordnung, keine Initiation." },
+        { name: "Thymian", description: "Hauskraft am Tisch — Alltag ehren, kein Medium spielen." },
       ],
-      stones: ['Muschel (Wasser-Symbol)', 'Quarz (Licht)', 'Lava (Boden)'],
-      colors: ['Weiß (Reinheit-Symbol)', 'Blau (Ruhe)', 'Rot (Kraft-Symbol — mit Maß)'],
-      elements: ['Wasser (Schwelle)', 'Erde (Hof)', 'Feuer (Licht)', 'Luft (Atem)'],
-      note: 'Nur öffentliche Hauspraxis. Keine Initiation, keine medizinischen Claims.'
+      kitchen: [
+        { name: "Nelke", description: "Küche / Würze: Schutz-Symbol am Eingang — Maß halten, keinen fremden Willen binden." },
+        { name: "Zimt", description: "Küche: Wärme und Willkommen — Duft für den Hof, nicht für Spektakel oder Heilversprechen." },
+        { name: "Salz", description: "Küche / Hausmittel: Schwelle und Ordnung — Prise als Merkzeichen, keine Initiation." },
+        { name: "Zucker", description: "Küche: süße Gabe und Willkommen — teilen statt binden, Symbolik ohne Heilversprechen." },
+        { name: "Öl", description: "Küche / Hausmittel: Licht und Pflege am Blickfang — Tropfen als Haltung, nicht als Heilsalbe." },
+        { name: "Knoblauch", description: "Küche: scharfe Hausgrenze — Symbol am Eingang, kein medizinischer Claim und kein Zwang." },
+        { name: "Honig", description: "Küche: Wärme und Gabe — Tropfen oder Schälchen als Symbol, kein medizinischer Claim." },
+        { name: "Pfeffer", description: "Küche: Schärfe und Wachheit — Fokus-Symbol am Tisch, kein Rezept." },
+        { name: "Anis", description: "Küche: würzige Klarheit — Hausmittel-Symbol für Atem und Maß, nicht als Medizin." },
+      ],
+      stones: [
+        { name: "Muschel", description: "Wasser-Blickfang — Schwelle und Atem, öffentliche Hauspraxis nur." },
+        { name: "Quarz", description: "Licht-Stein am Altar — Klarheit ohne Medium zu spielen." },
+        { name: "Lava", description: "Boden und Wärme — Stand im Hof, kein Spektakel." },
+        { name: "Korallenstück (Symbol)", description: "Meer-Ton als Blickfang — Respekt, keine Initiation." },
+        { name: "Flusskiesel", description: "Schlichtes Merkzeichen für Fluss und Maß." },
+        { name: "Tonperle", description: "Hausgemachter Blickfang — Ordnung und Gabe, nicht Orakelzwang." },
+      ],
+      colors: [
+        { name: "Weiß", description: "Altarfarbe / Kerze: Reinheit-Symbol — Haltung, kein Reinigungsversprechen." },
+        { name: "Blau", description: "Altarfarbe: Ruhe und Wasser-Ton am Hof." },
+        { name: "Rot (mit Maß)", description: "Kerze: Kraft-Symbol — Ethik zuerst, nie fremden Willen binden." },
+        { name: "Grün", description: "Altarfarbe: Wachstum und Hausfrieden." },
+        { name: "Gelb", description: "Altarfarbe: Willkommen und Licht — teilen statt fordern." },
+        { name: "Schwarz", description: "Altarfarbe: Grenze und Schweigen — öffentliche Praxis nur." },
+      ],
+      tools: [
+        { name: "Kerze", description: "Werkzeug: Licht am Hof — öffentliche Hauspraxis, keine Initiation." },
+        { name: "Becher", description: "Werkzeug: Wasser und Gabe — Respekt im Haus." },
+        { name: "Kreide", description: "Werkzeug: Markierung am Boden als Symbol — kein Medium spielen." },
+        { name: "Faden", description: "Werkzeug: Verbindung knüpfen — Ethik: keinen fremden Willen binden." },
+        { name: "Spiegel", description: "Werkzeug: Klarheit und Grenze — Blickfang, kein Orakelzwang." },
+        { name: "Besen", description: "Werkzeug: Schwelle kehren — Ordnung und Willkommen." },
+        { name: "Glocke", description: "Werkzeug: Ruf und Maß — Ton setzen, nicht zwingen." },
+        { name: "Schale", description: "Werkzeug: Opfergabe teilen — öffentliche Praxis nur." },
+      ],
+      links: [
+        { name: "Nagel (Eisen)", description: "Bezug / Hilfsmittel: Eisen-Nagel als Grenz- und Festigungs-Symbol in der Hauspraxis — fixieren von Absicht am Ort, nie gegen Personen und nie illegal. Hof-Ton: nur öffentliche Praxis, keine Initiation." },
+        { name: "Nadel", description: "Bezug / Hilfsmittel: Nadel und Stich als Merkzeichen für Fokus und Naht — Symbolarbeit am Tuch/Faden, keine Verletzung, kein Schaden an anderen. Hof-Ton: nur öffentliche Praxis, keine Initiation." },
+        { name: "Haare (eigene)", description: "Bezug / Hilfsmittel: eigenes Haar als persönlicher Bezug in manchen Traditionen — nur mit Einwilligung und Maß; fremdes Haar ohne Zustimmung ist tabu. Hof-Ton: nur öffentliche Praxis, keine Initiation." },
+        { name: "Faden / Knoten", description: "Bezug / Hilfsmittel: knüpfen und lösen als klassische Symbolik — Absicht binden oder freigeben; nie fremden Willen fesseln. Hof-Ton: nur öffentliche Praxis, keine Initiation." },
+        { name: "Tuch / Fetzen", description: "Bezug / Hilfsmittel: Tuch als Träger von Farbe und Absicht — einwickeln, ablegen, waschen; Symbolik, kein Zwang. Hof-Ton: nur öffentliche Praxis, keine Initiation." },
+        { name: "Erde / Staub", description: "Bezug / Hilfsmittel: Erde vom eigenen Ort als Anker — Stand und Zugehörigkeit; fremde Erde nicht stehlen, Respekt vor Ort. Hof-Ton: nur öffentliche Praxis, keine Initiation." },
+        { name: "Wachs", description: "Bezug / Hilfsmittel: Kerzenwachs formen oder versiegeln — Absicht sichtbar machen, ohne Schaden zu wollen. Hof-Ton: nur öffentliche Praxis, keine Initiation." },
+        { name: "Asche", description: "Bezug / Hilfsmittel: Asche als Rest und Abschluss — was verbrannt/beendet ist; Symbol für Loslassen, kein Angriff. Hof-Ton: nur öffentliche Praxis, keine Initiation." },
+        { name: "Knochen (Symbol)", description: "Bezug / Hilfsmittel: nur ethisches Symbol (Nachbildung/Fund mit Respekt) — Ahnen- und Stand-Ton, kein Wildfang, kein illegaler Besitz. Hof-Ton: nur öffentliche Praxis, keine Initiation." },
+        { name: "Foto / Name-Zettel", description: "Bezug / Hilfsmittel: Name oder Bild als Bezug auf eine Person — nur mit Einwilligung oder für das eigene Selbst; nie heimlich gegen jemanden. Hof-Ton: nur öffentliche Praxis, keine Initiation." },
+        { name: "Schlüssel", description: "Bezug / Hilfsmittel: öffnen und schließen von Schwellen — Haus, Kapitel, Thema; Symbolik der Entscheidung. Hof-Ton: nur öffentliche Praxis, keine Initiation." },
+        { name: "Münze", description: "Bezug / Hilfsmittel: Gabe, Ausgleich und Tausch-Symbol — opfern/teilen mit Maß, kein Kauf von Willen. Hof-Ton: nur öffentliche Praxis, keine Initiation." },
+      ],
+      elements: ["Wasser (Schwelle)", "Erde (Hof)", "Feuer (Licht)", "Luft (Atem)"],
+      note: "Nur öffentliche Hauspraxis. Keine Initiation, keine medizinischen Claims."
     },
     santeria: {
       herbs: [
-        { name: 'Rosmarin', description: 'Hausklarheit und Schutz-Ton — Duft und Ordnung, ohne Ile-Anspruch.' },
-        { name: 'Orange', description: 'Dank und Frische — Schale oder Duft als Gabe, teilen statt fordern.' },
-        { name: 'Lavendel', description: 'Ruhe-Symbol für den Raum — sanft, ethisch, kein Heilversprechen.' },
-        { name: 'Basilikum', description: 'Grünes Haus-Aché im Alltag — Topf am Fenster als Haltung, nicht als Ritus der Einweihung.' },
-        { name: 'Nelke', description: 'Würzige Grenze und Wärme — Symbol am Altarlicht, mit Respekt und Maß.' },
-        { name: 'Minze', description: 'Reinheit und Frische — Wasser und Blatt als Alltagspraxis.' },
-        { name: 'Lorbeer', description: 'Klarheit und Würde — Blatt als Merkzeichen für Dank und Haltung.' }
+        { name: "Rosmarin", description: "Hausklarheit und Schutz-Ton — Duft und Ordnung, ohne Ile-Anspruch." },
+        { name: "Orange", description: "Dank und Frische — Schale oder Duft als Gabe, teilen statt fordern." },
+        { name: "Lavendel", description: "Ruhe-Symbol für den Raum — sanft, ethisch, kein Heilversprechen." },
+        { name: "Basilikum", description: "Grünes Haus-Aché im Alltag — Topf am Fenster als Haltung, nicht als Ritus der Einweihung." },
+        { name: "Minze", description: "Reinheit und Frische — Wasser und Blatt als Alltagspraxis." },
+        { name: "Lorbeer", description: "Klarheit und Würde — Blatt als Merkzeichen für Dank und Haltung." },
       ],
-      stones: ['Koralle (Meer-Symbol)', 'Citrin (Licht)', 'Mondstein (Zyklus-Symbol)'],
-      colors: ['Weiß', 'Gelb (Dank)', 'Grün (Wachstum-Symbol)'],
-      elements: ['Wasser (Reinheit-Symbol)', 'Erde (Haus)', 'Feuer (Kerze)', 'Luft (Gebet-Symbol)'],
-      note: 'Hauspraxis ohne Ile-Anspruch. Symbolik, kein Heilversprechen.'
+      kitchen: [
+        { name: "Nelke", description: "Küche / Würze: würzige Grenze und Wärme — Symbol am Altarlicht, mit Respekt und Maß." },
+        { name: "Salz", description: "Küche / Hausmittel: Reinheit-Symbol am Haus — Prise als Haltung, ohne Ile-Anspruch." },
+        { name: "Zucker", description: "Küche: süße Gabe und Dank — teilen, nicht fordern." },
+        { name: "Honig", description: "Küche: Wärme und Willkommen — Tropfen oder Schälchen als Symbol, kein Heilversprechen." },
+        { name: "Öl", description: "Küche / Hausmittel: Lichtpflege und Gabe — Tropfen am Blickfang, keine Heilsalbung." },
+        { name: "Pfeffer", description: "Küche: Schärfe und Wachheit — Fokus-Symbol am Tisch, kein Rezept." },
+        { name: "Knoblauch", description: "Küche: scharfe Hausgrenze am Eingang — Symbol, kein Heilversprechen und kein Zwang." },
+        { name: "Zimt", description: "Küche: Willkommen und Wärme — Duft-Symbol, kein Spektakel." },
+        { name: "Anis", description: "Küche: würzige Klarheit — Hausmittel-Symbol für Atem und Maß, nicht als Medizin." },
+      ],
+      stones: [
+        { name: "Koralle", description: "Meer-Blickfang — Symbol für Fluss und Haus, kein Ile-Anspruch." },
+        { name: "Citrin", description: "Licht-Stein am Altar — Dank und Frische als Haltung." },
+        { name: "Mondstein", description: "Zyklus-Blickfang — Phase achten, nichts erzwingen." },
+        { name: "Muschelweiß", description: "Schlichter Wasser-Ton — Reinheit als Symbol, kein Reinigungsversprechen." },
+        { name: "Bergkristall", description: "Klarer Fokus-Stein — Haltung, nicht Messung." },
+        { name: "Grüner Achat", description: "Wachstums-Blickfang — Alltag und Haus ehren." },
+      ],
+      colors: [
+        { name: "Weiß", description: "Altarfarbe / Kerze: Reinheit-Symbol und Dank." },
+        { name: "Gelb", description: "Altarfarbe: Dank und Licht — teilen statt fordern." },
+        { name: "Grün", description: "Altarfarbe: Wachstum-Symbol mit Maß." },
+        { name: "Blau", description: "Altarfarbe: Ruhe und Wasser-Ton." },
+        { name: "Rosa", description: "Altarfarbe: sanfte Nähe ohne Besitzanspruch." },
+        { name: "Goldton", description: "Kerze oder Tuch: Würde und Gabe am Hausaltar." },
+      ],
+      tools: [
+        { name: "Kerze", description: "Werkzeug: Altarlicht und Dank — ohne Ile-Anspruch." },
+        { name: "Becher", description: "Werkzeug: Wasser und Reinheit-Symbol — Haltung, kein Reinigungsversprechen." },
+        { name: "Kreide", description: "Werkzeug: Markierung als Merkzeichen — Respekt und Maß." },
+        { name: "Faden", description: "Werkzeug: Band der Absicht — knüpfen ohne Besitzanspruch." },
+        { name: "Spiegel", description: "Werkzeug: Klarheit und Würde — Blickfang am Hausaltar." },
+        { name: "Besen", description: "Werkzeug: Haus kehren vor der Gabe — Ordnung ehren." },
+        { name: "Schale", description: "Werkzeug: Früchte und Dank ablegen — teilen statt fordern." },
+        { name: "Schlüssel", description: "Werkzeug: Haus und Schwelle — öffnen mit Respekt." },
+      ],
+      links: [
+        { name: "Nagel (Eisen)", description: "Bezug / Hilfsmittel: Eisen-Nagel als Grenz- und Festigungs-Symbol in der Hauspraxis — fixieren von Absicht am Ort, nie gegen Personen und nie illegal. Hausaltar-Ton: ohne Ile-Anspruch, Dank vor Forderung." },
+        { name: "Nadel", description: "Bezug / Hilfsmittel: Nadel und Stich als Merkzeichen für Fokus und Naht — Symbolarbeit am Tuch/Faden, keine Verletzung, kein Schaden an anderen. Hausaltar-Ton: ohne Ile-Anspruch, Dank vor Forderung." },
+        { name: "Haare (eigene)", description: "Bezug / Hilfsmittel: eigenes Haar als persönlicher Bezug in manchen Traditionen — nur mit Einwilligung und Maß; fremdes Haar ohne Zustimmung ist tabu. Hausaltar-Ton: ohne Ile-Anspruch, Dank vor Forderung." },
+        { name: "Faden / Knoten", description: "Bezug / Hilfsmittel: knüpfen und lösen als klassische Symbolik — Absicht binden oder freigeben; nie fremden Willen fesseln. Hausaltar-Ton: ohne Ile-Anspruch, Dank vor Forderung." },
+        { name: "Tuch / Fetzen", description: "Bezug / Hilfsmittel: Tuch als Träger von Farbe und Absicht — einwickeln, ablegen, waschen; Symbolik, kein Zwang. Hausaltar-Ton: ohne Ile-Anspruch, Dank vor Forderung." },
+        { name: "Erde / Staub", description: "Bezug / Hilfsmittel: Erde vom eigenen Ort als Anker — Stand und Zugehörigkeit; fremde Erde nicht stehlen, Respekt vor Ort. Hausaltar-Ton: ohne Ile-Anspruch, Dank vor Forderung." },
+        { name: "Wachs", description: "Bezug / Hilfsmittel: Kerzenwachs formen oder versiegeln — Absicht sichtbar machen, ohne Schaden zu wollen. Hausaltar-Ton: ohne Ile-Anspruch, Dank vor Forderung." },
+        { name: "Asche", description: "Bezug / Hilfsmittel: Asche als Rest und Abschluss — was verbrannt/beendet ist; Symbol für Loslassen, kein Angriff. Hausaltar-Ton: ohne Ile-Anspruch, Dank vor Forderung." },
+        { name: "Knochen (Symbol)", description: "Bezug / Hilfsmittel: nur ethisches Symbol (Nachbildung/Fund mit Respekt) — Ahnen- und Stand-Ton, kein Wildfang, kein illegaler Besitz. Hausaltar-Ton: ohne Ile-Anspruch, Dank vor Forderung." },
+        { name: "Foto / Name-Zettel", description: "Bezug / Hilfsmittel: Name oder Bild als Bezug auf eine Person — nur mit Einwilligung oder für das eigene Selbst; nie heimlich gegen jemanden. Hausaltar-Ton: ohne Ile-Anspruch, Dank vor Forderung." },
+        { name: "Schlüssel", description: "Bezug / Hilfsmittel: öffnen und schließen von Schwellen — Haus, Kapitel, Thema; Symbolik der Entscheidung. Hausaltar-Ton: ohne Ile-Anspruch, Dank vor Forderung." },
+        { name: "Münze", description: "Bezug / Hilfsmittel: Gabe, Ausgleich und Tausch-Symbol — opfern/teilen mit Maß, kein Kauf von Willen. Hausaltar-Ton: ohne Ile-Anspruch, Dank vor Forderung." },
+      ],
+      elements: ["Wasser (Reinheit-Symbol)", "Erde (Haus)", "Feuer (Kerze)", "Luft (Gebet-Symbol)"],
+      note: "Hauspraxis ohne Ile-Anspruch. Symbolik, kein Heilversprechen."
     },
     hermetik: {
       herbs: [
-        { name: 'Salbei', description: 'Klarheit und Labor-Haltung — Duft als Fokus, keine alchemistischen Heilsversprechen.' },
-        { name: 'Rosmarin', description: 'Gedächtnis und Maß — Notiz und Absicht knapper halten.' },
-        { name: 'Myrte', description: 'Grenze und Bund — Symbol für Operationen mit klarem Anfang und Ende.' },
-        { name: 'Lorbeer', description: 'Sieg nur als Klarheit der Frage — Beobachtung vor Eingriff.' },
-        { name: 'Wermut', description: 'Bittere Prüfung: Hypothesen verwerfen, Ballast lösen.' },
-        { name: 'Minze', description: 'Frisch starten — Tisch aufräumen, Atem, dann die Stunde notieren.' },
-        { name: 'Lavendel', description: 'Ruhe im Denken — Pause zwischen Operationen, kein Spektakel.' }
+        { name: "Salbei", description: "Klarheit und Labor-Haltung — Duft als Fokus, keine alchemistischen Heilsversprechen." },
+        { name: "Rosmarin", description: "Gedächtnis und Maß — Notiz und Absicht knapper halten." },
+        { name: "Myrte", description: "Grenze und Bund — Symbol für Operationen mit klarem Anfang und Ende." },
+        { name: "Lorbeer", description: "Sieg nur als Klarheit der Frage — Beobachtung vor Eingriff." },
+        { name: "Wermut", description: "Bittere Prüfung: Hypothesen verwerfen, Ballast lösen." },
+        { name: "Minze", description: "Frisch starten — Tisch aufräumen, Atem, dann die Stunde notieren." },
+        { name: "Lavendel", description: "Ruhe im Denken — Pause zwischen Operationen, kein Spektakel." },
       ],
-      stones: ['Lapis (Denken-Symbol)', 'Bergkristall (Fokus)', 'Zinnober-Ton (Labor-Symbol)'],
-      colors: ['Königsblau', 'Gold', 'Schwarz (Grenze)'],
-      elements: ['Feuer (Schwefel-Symbol)', 'Wasser (Lösung)', 'Luft (Merkur-Symbol)', 'Erde (Salz-Symbol)'],
-      note: 'Labor- und Haltungssymbole — keine alchemistischen Heilsversprechen.'
+      kitchen: [
+        { name: "Salz", description: "Küche / Labor-Symbol: Fixierung und Maß — Prise als Merkzeichen (Salz-Prinzip), kein Heilversprechen." },
+        { name: "Pfeffer", description: "Küche: Schärfe der Frage — Fokus-Symbol vor dem Eingriff." },
+        { name: "Öl", description: "Küche / Labor: Lösung und Träger — Tropfen als Metapher, keine alchemistische Heilsalbe." },
+        { name: "Zucker", description: "Küche: lösliche Klarheit — Ballast süß lösen, Hypothese prüfen, nicht spekulieren." },
+        { name: "Honig", description: "Küche: Wärme und Gabe — Tropfen oder Schälchen als Symbol, kein medizinischer Claim." },
+        { name: "Knoblauch", description: "Küche: scharfe Hausgrenze am Eingang — Symbol, kein Heilversprechen und kein Zwang." },
+        { name: "Nelke", description: "Küche / Würze: Schutz-Ton und Wärme — Maß halten, keinen fremden Willen binden." },
+        { name: "Zimt", description: "Küche: Willkommen und Wärme — Duft-Symbol, kein Spektakel." },
+        { name: "Anis", description: "Küche: würzige Klarheit — Hausmittel-Symbol für Atem und Maß, nicht als Medizin." },
+      ],
+      stones: [
+        { name: "Lapis", description: "Denken-Blickfang — Königsblau am Labor-Tisch, Symbol nicht Orakel." },
+        { name: "Bergkristall", description: "Fokus-Stein — Beobachtung vor Eingriff." },
+        { name: "Zinnober-Ton", description: "Labor-Symbol (Farbe/Ton) — Operation mit Anfang und Ende, keine Heilsversprechen." },
+        { name: "Hämatit", description: "Erdungs-Blickfang nach der Stunde — Körper zurückholen." },
+        { name: "Schiefer", description: "Schreib- und Grenzstein — Notiz knapper halten." },
+        { name: "Pyrit", description: "Funke und Prüfung — Hypothesen schärfen, nicht glänzen wollen." },
+      ],
+      colors: [
+        { name: "Königsblau", description: "Altarfarbe / Tuch: Denken und Maß." },
+        { name: "Gold", description: "Altarfarbe / Kerze: Klarheit der Frage — Sieg nur als Erkenntnis." },
+        { name: "Schwarz", description: "Altarfarbe: Grenze der Operation — Anfang und Ende markieren." },
+        { name: "Weiß", description: "Altarfarbe: leere Tafel — frisch starten." },
+        { name: "Zinnoberrot", description: "Akzentfarbe: Labor-Ton mit Vorsicht und Ethik." },
+        { name: "Grau", description: "Altarfarbe: Neutralität — Beobachtung vor Spektakel." },
+      ],
+      tools: [
+        { name: "Kerze", description: "Werkzeug: Laborlicht — Stunde notieren, Beobachtung vor Eingriff." },
+        { name: "Kreide", description: "Werkzeug: Diagramm und Grenze der Operation — Anfang und Ende markieren." },
+        { name: "Becher", description: "Werkzeug: Lösung und Maß — Metapher, keine alchemistische Heilsalbe." },
+        { name: "Faden", description: "Werkzeug: Verbindung der Faktoren — knüpfen als Denkhilfe." },
+        { name: "Spiegel", description: "Werkzeug: Reflexion der Hypothese — sich selbst prüfen." },
+        { name: "Feder / Stift", description: "Werkzeug: Protokoll — Absicht knapper halten." },
+        { name: "Waage (Symbol)", description: "Werkzeug: Ausgleich prüfen — Ethik vor Spektakel." },
+        { name: "Schale", description: "Werkzeug: Stoffe trennen und ordnen — Laborhaltung." },
+      ],
+      links: [
+        { name: "Nagel (Eisen)", description: "Bezug / Hilfsmittel: Eisen-Nagel als Grenz- und Festigungs-Symbol in der Hauspraxis — fixieren von Absicht am Ort, nie gegen Personen und nie illegal. Labor-Ton: beobachten, protokollieren, Ethik vor Eingriff." },
+        { name: "Nadel", description: "Bezug / Hilfsmittel: Nadel und Stich als Merkzeichen für Fokus und Naht — Symbolarbeit am Tuch/Faden, keine Verletzung, kein Schaden an anderen. Labor-Ton: beobachten, protokollieren, Ethik vor Eingriff." },
+        { name: "Haare (eigene)", description: "Bezug / Hilfsmittel: eigenes Haar als persönlicher Bezug in manchen Traditionen — nur mit Einwilligung und Maß; fremdes Haar ohne Zustimmung ist tabu. Labor-Ton: beobachten, protokollieren, Ethik vor Eingriff." },
+        { name: "Faden / Knoten", description: "Bezug / Hilfsmittel: knüpfen und lösen als klassische Symbolik — Absicht binden oder freigeben; nie fremden Willen fesseln. Labor-Ton: beobachten, protokollieren, Ethik vor Eingriff." },
+        { name: "Tuch / Fetzen", description: "Bezug / Hilfsmittel: Tuch als Träger von Farbe und Absicht — einwickeln, ablegen, waschen; Symbolik, kein Zwang. Labor-Ton: beobachten, protokollieren, Ethik vor Eingriff." },
+        { name: "Erde / Staub", description: "Bezug / Hilfsmittel: Erde vom eigenen Ort als Anker — Stand und Zugehörigkeit; fremde Erde nicht stehlen, Respekt vor Ort. Labor-Ton: beobachten, protokollieren, Ethik vor Eingriff." },
+        { name: "Wachs", description: "Bezug / Hilfsmittel: Kerzenwachs formen oder versiegeln — Absicht sichtbar machen, ohne Schaden zu wollen. Labor-Ton: beobachten, protokollieren, Ethik vor Eingriff." },
+        { name: "Asche", description: "Bezug / Hilfsmittel: Asche als Rest und Abschluss — was verbrannt/beendet ist; Symbol für Loslassen, kein Angriff. Labor-Ton: beobachten, protokollieren, Ethik vor Eingriff." },
+        { name: "Knochen (Symbol)", description: "Bezug / Hilfsmittel: nur ethisches Symbol (Nachbildung/Fund mit Respekt) — Ahnen- und Stand-Ton, kein Wildfang, kein illegaler Besitz. Labor-Ton: beobachten, protokollieren, Ethik vor Eingriff." },
+        { name: "Foto / Name-Zettel", description: "Bezug / Hilfsmittel: Name oder Bild als Bezug auf eine Person — nur mit Einwilligung oder für das eigene Selbst; nie heimlich gegen jemanden. Labor-Ton: beobachten, protokollieren, Ethik vor Eingriff." },
+        { name: "Schlüssel", description: "Bezug / Hilfsmittel: öffnen und schließen von Schwellen — Haus, Kapitel, Thema; Symbolik der Entscheidung. Labor-Ton: beobachten, protokollieren, Ethik vor Eingriff." },
+        { name: "Münze", description: "Bezug / Hilfsmittel: Gabe, Ausgleich und Tausch-Symbol — opfern/teilen mit Maß, kein Kauf von Willen. Labor-Ton: beobachten, protokollieren, Ethik vor Eingriff." },
+      ],
+      elements: ["Feuer (Schwefel-Symbol)", "Wasser (Lösung)", "Luft (Merkur-Symbol)", "Erde (Salz-Symbol)"],
+      note: "Labor- und Haltungssymbole — keine alchemistischen Heilsversprechen."
     },
     wicca: {
       herbs: [
-        { name: 'Rosmarin', description: 'Schutz-Symbol am Eingang oder Altar — Grenze ohne Angriff, an niemandem Schaden.' },
-        { name: 'Lavendel', description: 'Sanfte Reinigung und Ruhe im Raum — Duft und Absicht, kein Heilversprechen.' },
-        { name: 'Beifuß', description: 'Mond- und Traum-Symbol — mit Maß; Reise nur ethisch und geerdet.' },
-        { name: 'Salbei', description: 'Klarheit im Kreis — Raum achten, nicht Personen „reinigen“.' },
-        { name: 'Thymian', description: 'Mut und Hauskraft als Symbol — kleine Gabe, Alltag ehren.' },
-        { name: 'Eisenkraut', description: 'Klassisches Schutz- und Schwellenkraut in der Hexerei — Haltung, nicht Rezept.' },
-        { name: 'Kamille', description: 'Sanfter Frieden im Raum — Tee oder Duft als Symbol, keine medizinischen Claims.' },
-        { name: 'Rose', description: 'Anziehen mit Maß — Liebe und Dank ohne Besitzanspruch.' }
+        { name: "Rosmarin", description: "Schutz-Symbol am Eingang oder Altar — Grenze ohne Angriff, an niemandem Schaden." },
+        { name: "Lavendel", description: "Sanfte Reinigung und Ruhe im Raum — Duft und Absicht, kein Heilversprechen." },
+        { name: "Beifuß", description: "Mond- und Traum-Symbol — mit Maß; Reise nur ethisch und geerdet." },
+        { name: "Salbei", description: "Klarheit im Kreis — Raum achten, nicht Personen „reinigen“." },
+        { name: "Thymian", description: "Mut und Hauskraft als Symbol — kleine Gabe, Alltag ehren." },
+        { name: "Eisenkraut", description: "Klassisches Schutz- und Schwellenkraut in der Hexerei — Haltung, nicht Rezept." },
+        { name: "Kamille", description: "Sanfter Frieden im Raum — Tee oder Duft als Symbol, keine medizinischen Claims." },
+        { name: "Rose", description: "Anziehen mit Maß — Liebe und Dank ohne Besitzanspruch." },
       ],
-      stones: ['Obsidian (Grenze-Symbol)', 'Mondstein (Zyklus)', 'Moosachat (Erde / Ankern)'],
-      colors: ['Schwarz (Schutz-Grenze)', 'Silber (Mond)', 'Grün (Wachstum mit Maß)'],
-      elements: ['Erde (Stand)', 'Luft (Rede)', 'Feuer (Absicht)', 'Wasser (Loslassen)'],
-      note: 'Hausaltar-Symbolik für Schutz, Reinigung, Anziehen, Loslassen. Kein medizinischer Rat. An niemandem Schaden.',
+      kitchen: [
+        { name: "Salz", description: "Küche / Hausmittel: Kreis und Schutz-Grenze — Prise als Symbol, an niemandem Schaden." },
+        { name: "Honig", description: "Küche: süße Gabe und Anziehen mit Maß — teilen, kein Besitzanspruch." },
+        { name: "Zimt", description: "Küche: Wärme und Willkommen am Altar — Duft-Symbol, kein Heilversprechen." },
+        { name: "Öl", description: "Küche / Hausmittel: Salbung als Haltung — Tropfen am Blickfang, keine Heilsalbe." },
+        { name: "Nelke", description: "Küche: würzige Grenze — Schutz-Ton ohne Angriff." },
+        { name: "Zucker", description: "Küche: süße Gabe und Anziehen mit Maß — teilen statt binden, Symbolik ohne Heilversprechen." },
+        { name: "Pfeffer", description: "Küche: Schärfe und Wachheit — Fokus-Symbol am Tisch, kein Rezept." },
+        { name: "Knoblauch", description: "Küche: scharfe Hausgrenze am Eingang — Symbol, kein Heilversprechen und kein Zwang." },
+        { name: "Anis", description: "Küche: würzige Klarheit — Hausmittel-Symbol für Atem und Maß, nicht als Medizin." },
+      ],
+      stones: [
+        { name: "Obsidian", description: "Grenze-Blickfang — Schutz ohne Angriff, an niemandem Schaden." },
+        { name: "Mondstein", description: "Zyklus-Stein — Phase als Arbeitsfenster achten." },
+        { name: "Moosachat", description: "Erde / Ankern — Stand nach dem Kreis." },
+        { name: "Bergkristall", description: "Klarer Fokus am Altar — Haltung, nicht Messung." },
+        { name: "Rosenquarz", description: "Sanftes Anziehen-Symbol — Dank ohne Besitzanspruch." },
+        { name: "Schwarzer Turmalin (Symbol)", description: "Schutz-Blickfang — Grenze ehren, kein Angriff." },
+      ],
+      colors: [
+        { name: "Schwarz", description: "Altarfarbe: Schutz-Grenze — Kerze oder Tuch ohne Angriff." },
+        { name: "Silber", description: "Altarfarbe: Mond-Ton — Phase achten, nichts erzwingen." },
+        { name: "Grün", description: "Altarfarbe: Wachstum mit Maß." },
+        { name: "Weiß", description: "Altarfarbe / Kerze: Klarheit im Kreis." },
+        { name: "Violett", description: "Altarfarbe: stille Absicht — Ethik vor Spektakel." },
+        { name: "Rosa", description: "Altarfarbe: Anziehen mit Maß — Liebe ohne Besitz." },
+        { name: "Goldton", description: "Kerze: Sonne und Dank im Jahresrad." },
+      ],
+      tools: [
+        { name: "Kerze", description: "Werkzeug: Absicht und Element Feuer — an niemandem Schaden." },
+        { name: "Kreide", description: "Werkzeug: Kreis ziehen als Symbol — Grenze ohne Angriff." },
+        { name: "Besen", description: "Werkzeug: Raum kehren vor dem Kreis — Ordnung, kein Reinigungsversprechen an Personen." },
+        { name: "Becher", description: "Werkzeug: Wasser und Loslassen — Absicht entlassen." },
+        { name: "Faden", description: "Werkzeug: Knoten-Arbeit mit Maß — binden nur ethisch, nie gegen Willen." },
+        { name: "Spiegel", description: "Werkzeug: Mond- und Selbstblick — Phase achten." },
+        { name: "Athame (Symbol)", description: "Werkzeug: Schnitt der Absicht — Symbolklinge, nie gegen Personen." },
+        { name: "Räucherschale", description: "Werkzeug: Duft im Kreis — Haltung, kein Heilversprechen." },
+      ],
+      links: [
+        { name: "Nagel (Eisen)", description: "Bezug / Hilfsmittel: Eisen-Nagel als Grenz- und Festigungs-Symbol in der Hauspraxis — fixieren von Absicht am Ort, nie gegen Personen und nie illegal. Kreis-Ton: an niemandem Schaden, Einwilligung achten." },
+        { name: "Nadel", description: "Bezug / Hilfsmittel: Nadel und Stich als Merkzeichen für Fokus und Naht — Symbolarbeit am Tuch/Faden, keine Verletzung, kein Schaden an anderen. Kreis-Ton: an niemandem Schaden, Einwilligung achten." },
+        { name: "Haare (eigene)", description: "Bezug / Hilfsmittel: eigenes Haar als persönlicher Bezug in manchen Traditionen — nur mit Einwilligung und Maß; fremdes Haar ohne Zustimmung ist tabu. Kreis-Ton: an niemandem Schaden, Einwilligung achten." },
+        { name: "Faden / Knoten", description: "Bezug / Hilfsmittel: knüpfen und lösen als klassische Symbolik — Absicht binden oder freigeben; nie fremden Willen fesseln. Kreis-Ton: an niemandem Schaden, Einwilligung achten." },
+        { name: "Tuch / Fetzen", description: "Bezug / Hilfsmittel: Tuch als Träger von Farbe und Absicht — einwickeln, ablegen, waschen; Symbolik, kein Zwang. Kreis-Ton: an niemandem Schaden, Einwilligung achten." },
+        { name: "Erde / Staub", description: "Bezug / Hilfsmittel: Erde vom eigenen Ort als Anker — Stand und Zugehörigkeit; fremde Erde nicht stehlen, Respekt vor Ort. Kreis-Ton: an niemandem Schaden, Einwilligung achten." },
+        { name: "Wachs", description: "Bezug / Hilfsmittel: Kerzenwachs formen oder versiegeln — Absicht sichtbar machen, ohne Schaden zu wollen. Kreis-Ton: an niemandem Schaden, Einwilligung achten." },
+        { name: "Asche", description: "Bezug / Hilfsmittel: Asche als Rest und Abschluss — was verbrannt/beendet ist; Symbol für Loslassen, kein Angriff. Kreis-Ton: an niemandem Schaden, Einwilligung achten." },
+        { name: "Knochen (Symbol)", description: "Bezug / Hilfsmittel: nur ethisches Symbol (Nachbildung/Fund mit Respekt) — Ahnen- und Stand-Ton, kein Wildfang, kein illegaler Besitz. Kreis-Ton: an niemandem Schaden, Einwilligung achten." },
+        { name: "Foto / Name-Zettel", description: "Bezug / Hilfsmittel: Name oder Bild als Bezug auf eine Person — nur mit Einwilligung oder für das eigene Selbst; nie heimlich gegen jemanden. Kreis-Ton: an niemandem Schaden, Einwilligung achten." },
+        { name: "Schlüssel", description: "Bezug / Hilfsmittel: öffnen und schließen von Schwellen — Haus, Kapitel, Thema; Symbolik der Entscheidung. Kreis-Ton: an niemandem Schaden, Einwilligung achten." },
+        { name: "Münze", description: "Bezug / Hilfsmittel: Gabe, Ausgleich und Tausch-Symbol — opfern/teilen mit Maß, kein Kauf von Willen. Kreis-Ton: an niemandem Schaden, Einwilligung achten." },
+      ],
+      elements: ["Erde (Stand)", "Luft (Rede)", "Feuer (Absicht)", "Wasser (Loslassen)"],
+      note: "Hausaltar-Symbolik für Schutz, Reinigung, Anziehen, Loslassen. Kein medizinischer Rat. An niemandem Schaden.",
       heute: [
-        { item: 'Rosmarin', why: 'als Schutz-Symbol am Eingang oder Altar — Grenze ohne Angriff.' },
-        { item: 'Lavendel', why: 'für sanfte Reinigung und Ruhe im Raum — Duft, kein Heilversprechen.' },
-        { item: 'Silber / Mondlicht', why: 'um die Phase als Arbeitsfenster zu achten, nicht zu erzwingen.' },
-        { item: 'Wasser', why: 'zum Loslassen: Hände waschen, Absicht entlassen, schweigen.' }
+        { item: "Rosmarin", why: "als Schutz-Symbol am Eingang oder Altar — Grenze ohne Angriff." },
+        { item: "Lavendel", why: "für sanfte Reinigung und Ruhe im Raum — Duft, kein Heilversprechen." },
+        { item: "Silber / Mondlicht", why: "um die Phase als Arbeitsfenster zu achten, nicht zu erzwingen." },
+        { item: "Wasser", why: "zum Loslassen: Hände waschen, Absicht entlassen, schweigen." },
       ]
     },
     chaosmagie: {
       herbs: [
-        { name: 'Kaffee', description: 'Wachheit als Gnosis-Werkzeug — scharf starten, Ethik behalten, Ergebnis nicht jagen.' },
-        { name: 'Pfeffer', description: 'Schnitt und Fokus — Schärfe als Metapher für knappe Absicht.' },
-        { name: 'Minze', description: 'Reset und Frische — Banishing-Punkt: altes Modell ablegen.' },
-        { name: 'Ingwer', description: 'Funke und Wärme — Labor-Energie ohne Identitätsdrama.' },
-        { name: 'Zitrone', description: 'Säure als Klarheit — unbrauchbare Sigils entsorgen, neu formulieren.' },
-        { name: 'Rosmarin', description: 'Anker im Alltag — nach dem Labor zurück in den Körper.' },
-        { name: 'Salbei', description: 'Raum klären als mentaler Reset — Theater optional, Ethik Pflicht.' }
+        { name: "Minze", description: "Reset und Frische — Banishing-Punkt: altes Modell ablegen." },
+        { name: "Rosmarin", description: "Anker im Alltag — nach dem Labor zurück in den Körper." },
+        { name: "Salbei", description: "Raum klären als mentaler Reset — Theater optional, Ethik Pflicht." },
+        { name: "Beifuß", description: "Räucher- und Reset-Symbol — Banishing-Ton mit Maß, Ethik Pflicht." },
+        { name: "Thymian", description: "Alltags-Anker nach dem Labor — kleine Praxis statt Identitätsdrama." },
+        { name: "Lavendel", description: "Ruhe zwischen Operationen — Pause, kein Spektakel." },
+        { name: "Wacholder", description: "Raumduft als mentaler Schnitt — Theater optional." },
       ],
-      stones: ['Obsidian (Schnitt)', 'Pyrit (Funke-Symbol)', 'Klarer Quarz (Leinwand)'],
-      colors: ['Schwarz', 'Neon-Akzent (Labor)', 'Grau (Neutral)'],
-      elements: ['Beliebig (Paradigma)', 'Leer (Reset)', 'Funke (Gnosis)', 'Alltag (Anker)'],
-      note: 'Werkzeug-Metaphern für Gnosis und Labor — keine medizinischen Claims.'
+      kitchen: [
+        { name: "Kaffee", description: "Küche / Wachheit als Gnosis-Werkzeug — scharf starten, Ethik behalten, Ergebnis nicht jagen." },
+        { name: "Pfeffer", description: "Küche: Schnitt und Fokus — Schärfe als Metapher für knappe Absicht." },
+        { name: "Ingwer", description: "Küche: Funke und Wärme — Labor-Energie ohne Identitätsdrama." },
+        { name: "Zitrone", description: "Küche: Säure als Klarheit — unbrauchbare Sigils entsorgen, neu formulieren." },
+        { name: "Salz", description: "Küche / Hausmittel: Banishing und Schnitt — Prise als Reset-Symbol, kein Heilversprechen." },
+        { name: "Zucker", description: "Küche: schnelle Gnosis-Metapher — kurz süß, dann Modell wechseln." },
+        { name: "Öl", description: "Küche: Träger und Labor-Tropfen — Werkzeug, keine Heilsalbung." },
+        { name: "Knoblauch", description: "Küche: scharfer Schnitt am Eingang — Symbol für Banishing, nicht Medizin." },
+        { name: "Honig", description: "Küche: Wärme und Gabe — Tropfen oder Schälchen als Symbol, kein medizinischer Claim." },
+        { name: "Nelke", description: "Küche / Würze: Schutz-Ton und Wärme — Maß halten, keinen fremden Willen binden." },
+        { name: "Zimt", description: "Küche: Willkommen und Wärme — Duft-Symbol, kein Spektakel." },
+        { name: "Anis", description: "Küche: würzige Klarheit — Hausmittel-Symbol für Atem und Maß, nicht als Medizin." },
+      ],
+      stones: [
+        { name: "Obsidian", description: "Schnitt-Blickfang — altes Modell ablegen, Ethik behalten." },
+        { name: "Pyrit", description: "Funke-Symbol — Labor-Start ohne Identitätsdrama." },
+        { name: "Klarer Quarz", description: "Leinwand-Stein — Absicht knapper halten." },
+        { name: "Schiefer", description: "Neutrale Schreibfläche — Sigil notieren und entsorgen." },
+        { name: "Glasbruch (sicher)", description: "Metapher für Schnitt — nur als Symbol, vorsichtig handhaben." },
+        { name: "Betonstück", description: "Alltags-Anker — nach dem Labor zurück in den Körper." },
+      ],
+      colors: [
+        { name: "Schwarz", description: "Altarfarbe: Reset und Leere — Banishing-Ton." },
+        { name: "Neon-Akzent", description: "Labor-Farbe: knapper Funke, kein Spektakelzwang." },
+        { name: "Grau", description: "Altarfarbe: Neutral — Paradigma beliebig, Ethik Pflicht." },
+        { name: "Weiß", description: "Altarfarbe: leere Tafel nach dem Schnitt." },
+        { name: "Blutrot (Akzent)", description: "Kurzer Fokus-Akzent — Absicht scharf, Ergebnis nicht jagen." },
+        { name: "Elektrisches Blau", description: "Labor-Akzent: Wachheit ohne Drama." },
+      ],
+      tools: [
+        { name: "Kerze", description: "Werkzeug: kurzer Fokus — Gnosis starten, Ethik behalten." },
+        { name: "Kreide", description: "Werkzeug: Sigil-Fläche und Banishing-Markierung — Modell wechseln." },
+        { name: "Stift", description: "Werkzeug: Sigil zeichnen und entsorgen — Ergebnis nicht jagen." },
+        { name: "Faden", description: "Werkzeug: knüpfen und lösen — Metapher für Absicht, nicht Fesselung." },
+        { name: "Spiegel", description: "Werkzeug: Feedback auf das eigene Modell — kein Orakelzwang." },
+        { name: "Becher", description: "Werkzeug: Kaffee oder Wasser als Anker — zurück in den Körper." },
+        { name: "Würfel / Münze", description: "Werkzeug: Zufall als Orakel-Metapher — Entscheidungshilfe, kein Zwang." },
+        { name: "Besen", description: "Werkzeug: Banishing kehren — altes Modell ablegen." },
+      ],
+      links: [
+        { name: "Nagel (Eisen)", description: "Bezug / Hilfsmittel: Eisen-Nagel als Grenz- und Festigungs-Symbol in der Hauspraxis — fixieren von Absicht am Ort, nie gegen Personen und nie illegal. Labor/Banishing-Ton: Modell wählen, Ergebnis nicht jagen, Ethik Pflicht." },
+        { name: "Nadel", description: "Bezug / Hilfsmittel: Nadel und Stich als Merkzeichen für Fokus und Naht — Symbolarbeit am Tuch/Faden, keine Verletzung, kein Schaden an anderen. Labor/Banishing-Ton: Modell wählen, Ergebnis nicht jagen, Ethik Pflicht." },
+        { name: "Haare (eigene)", description: "Bezug / Hilfsmittel: eigenes Haar als persönlicher Bezug in manchen Traditionen — nur mit Einwilligung und Maß; fremdes Haar ohne Zustimmung ist tabu. Labor/Banishing-Ton: Modell wählen, Ergebnis nicht jagen, Ethik Pflicht." },
+        { name: "Faden / Knoten", description: "Bezug / Hilfsmittel: knüpfen und lösen als klassische Symbolik — Absicht binden oder freigeben; nie fremden Willen fesseln. Labor/Banishing-Ton: Modell wählen, Ergebnis nicht jagen, Ethik Pflicht." },
+        { name: "Tuch / Fetzen", description: "Bezug / Hilfsmittel: Tuch als Träger von Farbe und Absicht — einwickeln, ablegen, waschen; Symbolik, kein Zwang. Labor/Banishing-Ton: Modell wählen, Ergebnis nicht jagen, Ethik Pflicht." },
+        { name: "Erde / Staub", description: "Bezug / Hilfsmittel: Erde vom eigenen Ort als Anker — Stand und Zugehörigkeit; fremde Erde nicht stehlen, Respekt vor Ort. Labor/Banishing-Ton: Modell wählen, Ergebnis nicht jagen, Ethik Pflicht." },
+        { name: "Wachs", description: "Bezug / Hilfsmittel: Kerzenwachs formen oder versiegeln — Absicht sichtbar machen, ohne Schaden zu wollen. Labor/Banishing-Ton: Modell wählen, Ergebnis nicht jagen, Ethik Pflicht." },
+        { name: "Asche", description: "Bezug / Hilfsmittel: Asche als Rest und Abschluss — was verbrannt/beendet ist; Symbol für Loslassen, kein Angriff. Labor/Banishing-Ton: Modell wählen, Ergebnis nicht jagen, Ethik Pflicht." },
+        { name: "Knochen (Symbol)", description: "Bezug / Hilfsmittel: nur ethisches Symbol (Nachbildung/Fund mit Respekt) — Ahnen- und Stand-Ton, kein Wildfang, kein illegaler Besitz. Labor/Banishing-Ton: Modell wählen, Ergebnis nicht jagen, Ethik Pflicht." },
+        { name: "Foto / Name-Zettel", description: "Bezug / Hilfsmittel: Name oder Bild als Bezug auf eine Person — nur mit Einwilligung oder für das eigene Selbst; nie heimlich gegen jemanden. Labor/Banishing-Ton: Modell wählen, Ergebnis nicht jagen, Ethik Pflicht." },
+        { name: "Schlüssel", description: "Bezug / Hilfsmittel: öffnen und schließen von Schwellen — Haus, Kapitel, Thema; Symbolik der Entscheidung. Labor/Banishing-Ton: Modell wählen, Ergebnis nicht jagen, Ethik Pflicht." },
+        { name: "Münze", description: "Bezug / Hilfsmittel: Gabe, Ausgleich und Tausch-Symbol — opfern/teilen mit Maß, kein Kauf von Willen. Labor/Banishing-Ton: Modell wählen, Ergebnis nicht jagen, Ethik Pflicht." },
+      ],
+      elements: ["Beliebig (Paradigma)", "Leer (Reset)", "Funke (Gnosis)", "Alltag (Anker)"],
+      note: "Werkzeug-Metaphern für Gnosis und Labor — keine medizinischen Claims."
     },
     esoterik: {
       herbs: [
-        { name: 'Lavendel', description: 'Ruhe und sanfte Reinigung — Duft für den Raum, kein Heilversprechen.' },
-        { name: 'Kamille', description: 'Weiches Friedens-Symbol — Tee oder Blüte als Haltung, nicht als Therapie.' },
-        { name: 'Rosmarin', description: 'Klarheit und Schutz-Ton am Alltagstisch — Absicht klein halten.' },
-        { name: 'Salbei', description: 'Raum klären als Symbol — Fenster auf, Atem, Schweigen.' },
-        { name: 'Rose', description: 'Sanftes Anziehen — Dank und Nähe ohne Besitzanspruch.' },
-        { name: 'Minze', description: 'Frisch starten — drei bewusste Züge oft die beste Schwelle.' },
-        { name: 'Thymian', description: 'Hauskraft und Mut-Symbol — kleine Praxis statt großem Spektakel.' }
+        { name: "Lavendel", description: "Ruhe und sanfte Reinigung — Duft für den Raum, kein Heilversprechen." },
+        { name: "Kamille", description: "Weiches Friedens-Symbol — Tee oder Blüte als Haltung, nicht als Therapie." },
+        { name: "Rosmarin", description: "Klarheit und Schutz-Ton am Alltagstisch — Absicht klein halten." },
+        { name: "Salbei", description: "Raum klären als Symbol — Fenster auf, Atem, Schweigen." },
+        { name: "Rose", description: "Sanftes Anziehen — Dank und Nähe ohne Besitzanspruch." },
+        { name: "Minze", description: "Frisch starten — drei bewusste Züge oft die beste Schwelle." },
+        { name: "Thymian", description: "Hauskraft und Mut-Symbol — kleine Praxis statt großem Spektakel." },
       ],
-      stones: ['Rosenquarz (Sanft-Symbol)', 'Amethyst', 'Bergkristall'],
-      colors: ['Violett', 'Silber', 'Nachtblau'],
-      elements: ['Erde (Stand)', 'Luft (Atem)', 'Feuer (Licht)', 'Wasser (Ruhe)'],
-      note: 'Sanfte Hauspraxis-Symbolik. Kein Heilversprechen, kein Medium.',
+      kitchen: [
+        { name: "Salz", description: "Küche / Hausmittel: schlichte Grenze am Tisch — Prise als Merkzeichen, kein Reinigungsversprechen." },
+        { name: "Honig", description: "Küche: süße Gabe und Sanftheit — teilen, kein Heilversprechen." },
+        { name: "Zimt", description: "Küche: Wärme und Willkommen — Duft-Symbol für den Alltagstisch." },
+        { name: "Öl", description: "Küche / Hausmittel: Tropfen am Blickfang — Haltung der Pflege, keine Heilsalbe." },
+        { name: "Anis", description: "Küche: würzige Ruhe — Hausmittel-Symbol für Atem und Maß." },
+        { name: "Zucker", description: "Küche: süße Gabe und Anziehen mit Maß — teilen statt binden, Symbolik ohne Heilversprechen." },
+        { name: "Pfeffer", description: "Küche: Schärfe und Wachheit — Fokus-Symbol am Tisch, kein Rezept." },
+        { name: "Knoblauch", description: "Küche: scharfe Hausgrenze am Eingang — Symbol, kein Heilversprechen und kein Zwang." },
+        { name: "Nelke", description: "Küche / Würze: Schutz-Ton und Wärme — Maß halten, keinen fremden Willen binden." },
+      ],
+      stones: [
+        { name: "Rosenquarz", description: "Sanft-Blickfang — Nähe ohne Besitzanspruch, keine Kristallheilung." },
+        { name: "Amethyst", description: "Stille und Schweigen am Altar — Haltung, nicht Messung." },
+        { name: "Bergkristall", description: "Klarer Fokus — drei bewusste Züge oft die beste Schwelle." },
+        { name: "Mondstein", description: "Zyklus-Symbol — Mond ehren ohne Orakel-Zwang." },
+        { name: "Raucherquarz", description: "Weiches Klarheits-Symbol — Raum und Atem." },
+        { name: "Flusskiesel", description: "Schlichter Alltags-Blickfang — kleine Praxis statt Spektakel." },
+      ],
+      colors: [
+        { name: "Violett", description: "Altarfarbe: stille Absicht und Sanftheit." },
+        { name: "Silber", description: "Altarfarbe: Mond und Schweigen — ohne Orakel-Zwang." },
+        { name: "Nachtblau", description: "Altarfarbe: Ruhe und Tiefe als Tuch oder Kerze." },
+        { name: "Weiß", description: "Altarfarbe / Kerze: schlichte Klarheit." },
+        { name: "Rosa", description: "Altarfarbe: sanftes Anziehen ohne Besitz." },
+        { name: "Mintgrün", description: "Altarfarbe: frischer Start und Atem." },
+      ],
+      tools: [
+        { name: "Kerze", description: "Werkzeug: sanftes Licht — Absicht klein halten." },
+        { name: "Kreide", description: "Werkzeug: schlichte Markierung — Symbolik ohne Spektakel." },
+        { name: "Becher", description: "Werkzeug: Wasser und Atem — drei bewusste Züge." },
+        { name: "Faden", description: "Werkzeug: weiches Band — Verbindung mit Maß." },
+        { name: "Spiegel", description: "Werkzeug: stille Selbstschau — kein Medium." },
+        { name: "Besen", description: "Werkzeug: Raum kehren — Alltagspraxis." },
+        { name: "Schale", description: "Werkzeug: Gabe ablegen — teilen statt fordern." },
+        { name: "Räucherschale", description: "Werkzeug: Duft für den Raum — kein Heilversprechen." },
+      ],
+      links: [
+        { name: "Nagel (Eisen)", description: "Bezug / Hilfsmittel: Eisen-Nagel als Grenz- und Festigungs-Symbol in der Hauspraxis — fixieren von Absicht am Ort, nie gegen Personen und nie illegal. Sanfter Alltagston: Absicht klein, kein Medium." },
+        { name: "Nadel", description: "Bezug / Hilfsmittel: Nadel und Stich als Merkzeichen für Fokus und Naht — Symbolarbeit am Tuch/Faden, keine Verletzung, kein Schaden an anderen. Sanfter Alltagston: Absicht klein, kein Medium." },
+        { name: "Haare (eigene)", description: "Bezug / Hilfsmittel: eigenes Haar als persönlicher Bezug in manchen Traditionen — nur mit Einwilligung und Maß; fremdes Haar ohne Zustimmung ist tabu. Sanfter Alltagston: Absicht klein, kein Medium." },
+        { name: "Faden / Knoten", description: "Bezug / Hilfsmittel: knüpfen und lösen als klassische Symbolik — Absicht binden oder freigeben; nie fremden Willen fesseln. Sanfter Alltagston: Absicht klein, kein Medium." },
+        { name: "Tuch / Fetzen", description: "Bezug / Hilfsmittel: Tuch als Träger von Farbe und Absicht — einwickeln, ablegen, waschen; Symbolik, kein Zwang. Sanfter Alltagston: Absicht klein, kein Medium." },
+        { name: "Erde / Staub", description: "Bezug / Hilfsmittel: Erde vom eigenen Ort als Anker — Stand und Zugehörigkeit; fremde Erde nicht stehlen, Respekt vor Ort. Sanfter Alltagston: Absicht klein, kein Medium." },
+        { name: "Wachs", description: "Bezug / Hilfsmittel: Kerzenwachs formen oder versiegeln — Absicht sichtbar machen, ohne Schaden zu wollen. Sanfter Alltagston: Absicht klein, kein Medium." },
+        { name: "Asche", description: "Bezug / Hilfsmittel: Asche als Rest und Abschluss — was verbrannt/beendet ist; Symbol für Loslassen, kein Angriff. Sanfter Alltagston: Absicht klein, kein Medium." },
+        { name: "Knochen (Symbol)", description: "Bezug / Hilfsmittel: nur ethisches Symbol (Nachbildung/Fund mit Respekt) — Ahnen- und Stand-Ton, kein Wildfang, kein illegaler Besitz. Sanfter Alltagston: Absicht klein, kein Medium." },
+        { name: "Foto / Name-Zettel", description: "Bezug / Hilfsmittel: Name oder Bild als Bezug auf eine Person — nur mit Einwilligung oder für das eigene Selbst; nie heimlich gegen jemanden. Sanfter Alltagston: Absicht klein, kein Medium." },
+        { name: "Schlüssel", description: "Bezug / Hilfsmittel: öffnen und schließen von Schwellen — Haus, Kapitel, Thema; Symbolik der Entscheidung. Sanfter Alltagston: Absicht klein, kein Medium." },
+        { name: "Münze", description: "Bezug / Hilfsmittel: Gabe, Ausgleich und Tausch-Symbol — opfern/teilen mit Maß, kein Kauf von Willen. Sanfter Alltagston: Absicht klein, kein Medium." },
+      ],
+      elements: ["Erde (Stand)", "Luft (Atem)", "Feuer (Licht)", "Wasser (Ruhe)"],
+      note: "Sanfte Hauspraxis-Symbolik. Kein Heilversprechen, kein Medium.",
       heute: [
-        { item: 'Lavendel', why: 'für Ruhe und sanfte Reinigung — Duft, kein Heilversprechen.' },
-        { item: 'Silber', why: 'um Mond und Schweigen zu ehren, ohne Orakel-Zwang.' },
-        { item: 'Bergkristall', why: 'als klarer Fokus — Haltung, nicht Messung.' },
-        { item: 'Atem', why: 'weil drei bewusste Züge oft die beste Schwelle sind.' }
+        { item: "Lavendel", why: "für Ruhe und sanfte Reinigung — Duft, kein Heilversprechen." },
+        { item: "Silber", why: "um Mond und Schweigen zu ehren, ohne Orakel-Zwang." },
+        { item: "Bergkristall", why: "als klarer Fokus — Haltung, nicht Messung." },
+        { item: "Atem", why: "weil drei bewusste Züge oft die beste Schwelle sind." },
       ]
     }
   };
+
 
   function normalizeHerb(h) {
     if (h && typeof h === 'object') {
@@ -998,23 +1396,76 @@
     return { name: raw, description: 'Hauspraxis-Symbolik — Haltung und Gabe, kein medizinischer Rat.' };
   }
 
+  /** Steine/Farben/Küche/Werkzeuge/Bezüge: gleiche Form; Fallback aus Alt-Strings. */
+  function normalizeNamedItem(item, kind) {
+    const fallbacks = {
+      color: 'Altarfarbe / Blickfang — Symbolik, kein Heilversprechen.',
+      stone: 'Altarstein / Blickfang — Symbolik, keine Kristallheilung.',
+      kitchen: 'Küche / Hausmittel — Symbolik der Hauspraxis, kein Heilversprechen.',
+      tool: 'Werkzeug der Hauspraxis — Symbolik und Maß, kein Zwang.',
+      link: 'Bezug / Hilfsmittel — traditionelle Symbolik mit Ethik und Einwilligung; kein Schaden.'
+    };
+    const fallback = fallbacks[kind] || 'Hauspraxis-Symbolik — Haltung und Gabe, kein medizinischer Rat.';
+    if (item && typeof item === 'object') {
+      return {
+        name: String(item.name || '').trim(),
+        description: String(item.description || item.desc || '').trim() || fallback
+      };
+    }
+    const raw = String(item || '').trim();
+    if (!raw) return { name: '', description: '' };
+    const m = raw.match(/^(.+?)\s*\((.+)\)\s*$/);
+    if (m) {
+      return { name: m[1].trim(), description: m[2].trim() + ' — Symbolik, kein Heilversprechen.' };
+    }
+    return { name: raw, description: fallback };
+  }
+
+  function normalizeStone(s) { return normalizeNamedItem(s, 'stone'); }
+  function normalizeColor(c) { return normalizeNamedItem(c, 'color'); }
+  function normalizeKitchen(k) { return normalizeNamedItem(k, 'kitchen'); }
+  function normalizeTool(t) { return normalizeNamedItem(t, 'tool'); }
+  function normalizeLink(l) { return normalizeNamedItem(l, 'link'); }
+
   function herbDisplayName(h) {
     return normalizeHerb(h).name;
   }
+
+  function itemDisplayName(item, kind) {
+    if (kind === 'stone') return normalizeStone(item).name;
+    if (kind === 'color') return normalizeColor(item).name;
+    if (kind === 'kitchen') return normalizeKitchen(item).name;
+    if (kind === 'tool') return normalizeTool(item).name;
+    if (kind === 'link') return normalizeLink(item).name;
+    return normalizeHerb(item).name;
+  }
+
+  var LEXIKON_KINDS = ['herb', 'kitchen', 'stone', 'color', 'tool', 'link'];
 
   function getCorrespondences(pathId) {
     const c = CORRESPONDENCES[pathId] || CORRESPONDENCES.esoterik;
     const out = Object.assign({}, c);
     out.herbs = (c.herbs || []).map(normalizeHerb).filter(function (h) { return h.name; });
+    out.kitchen = (c.kitchen || []).map(normalizeKitchen).filter(function (h) { return h.name; });
+    out.stones = (c.stones || []).map(normalizeStone).filter(function (s) { return s.name; });
+    out.colors = (c.colors || []).map(normalizeColor).filter(function (col) { return col.name; });
+    out.tools = (c.tools || []).map(normalizeTool).filter(function (t) { return t.name; });
+    out.links = (c.links || []).map(normalizeLink).filter(function (l) { return l.name; });
     return out;
   }
 
-  /** Kräuter eines Pfads als Referenzliste { name, description, pathId, pathName, paths[] }. */
-  function getHerbsForPath(pathId) {
+  function mapPathItems(pathId, kind) {
     const pid = pathId || 'esoterik';
     const path = getPath(pid);
     const c = getCorrespondences(pid);
-    return (c.herbs || []).map(function (h) {
+    const key = kind === 'stone' ? 'stones'
+      : kind === 'color' ? 'colors'
+      : kind === 'kitchen' ? 'kitchen'
+      : kind === 'tool' ? 'tools'
+      : kind === 'link' ? 'links'
+      : 'herbs';
+    const list = c[key] || [];
+    return list.map(function (h) {
       return {
         name: h.name,
         description: h.description,
@@ -1022,17 +1473,24 @@
         pathName: path.name,
         paths: [pid],
         pathNames: [path.name],
-        symbol: path.symbol || '✦'
+        symbol: path.symbol || '✦',
+        kind: kind || 'herb'
       };
     });
   }
 
-  /** Alle Pfad-Kräuter: dedupliziert nach Name (case-insensitive), paths[] gesammelt. */
-  function getAllHerbsDeduped() {
+  function getHerbsForPath(pathId) { return mapPathItems(pathId, 'herb'); }
+  function getKitchenForPath(pathId) { return mapPathItems(pathId, 'kitchen'); }
+  function getStonesForPath(pathId) { return mapPathItems(pathId, 'stone'); }
+  function getColorsForPath(pathId) { return mapPathItems(pathId, 'color'); }
+  function getToolsForPath(pathId) { return mapPathItems(pathId, 'tool'); }
+  function getLinksForPath(pathId) { return mapPathItems(pathId, 'link'); }
+
+  function dedupeNamedItems(getter) {
     const map = Object.create(null);
     const order = [];
     PATHS.forEach(function (p) {
-      getHerbsForPath(p.id).forEach(function (h) {
+      getter(p.id).forEach(function (h) {
         const key = h.name.toLowerCase();
         if (!map[key]) {
           map[key] = {
@@ -1042,7 +1500,8 @@
             pathName: h.pathName,
             paths: [h.pathId],
             pathNames: [h.pathName],
-            symbol: h.symbol
+            symbol: h.symbol,
+            kind: h.kind
           };
           order.push(key);
         } else {
@@ -1051,7 +1510,6 @@
             cur.paths.push(h.pathId);
             cur.pathNames.push(h.pathName);
           }
-          // Prefer longer Hauspraxis description
           if ((h.description || '').length > (cur.description || '').length) {
             cur.description = h.description;
           }
@@ -1059,6 +1517,33 @@
       });
     });
     return order.map(function (k) { return map[k]; });
+  }
+
+  function getAllHerbsDeduped() { return dedupeNamedItems(getHerbsForPath); }
+  function getAllKitchenDeduped() { return dedupeNamedItems(getKitchenForPath); }
+  function getAllStonesDeduped() { return dedupeNamedItems(getStonesForPath); }
+  function getAllColorsDeduped() { return dedupeNamedItems(getColorsForPath); }
+  function getAllToolsDeduped() { return dedupeNamedItems(getToolsForPath); }
+  function getAllLinksDeduped() { return dedupeNamedItems(getLinksForPath); }
+
+  function getLexikonForPath(pathId, kind) {
+    const k = kind || 'herb';
+    if (k === 'kitchen') return getKitchenForPath(pathId);
+    if (k === 'stone') return getStonesForPath(pathId);
+    if (k === 'color') return getColorsForPath(pathId);
+    if (k === 'tool') return getToolsForPath(pathId);
+    if (k === 'link') return getLinksForPath(pathId);
+    return getHerbsForPath(pathId);
+  }
+
+  function getAllLexikonDeduped(kind) {
+    const k = kind || 'herb';
+    if (k === 'kitchen') return getAllKitchenDeduped();
+    if (k === 'stone') return getAllStonesDeduped();
+    if (k === 'color') return getAllColorsDeduped();
+    if (k === 'tool') return getAllToolsDeduped();
+    if (k === 'link') return getAllLinksDeduped();
+    return getAllHerbsDeduped();
   }
 
   /** Alle Kräuter gruppiert nach Pfad (für Listen-Darstellung). */
@@ -1301,9 +1786,29 @@
     getDailyTip,
     getCorrespondences,
     normalizeHerb,
+    normalizeStone,
+    normalizeColor,
+    normalizeKitchen,
+    normalizeTool,
+    normalizeLink,
+    normalizeNamedItem,
     herbDisplayName,
+    itemDisplayName,
+    LEXIKON_KINDS,
     getHerbsForPath,
+    getKitchenForPath,
+    getStonesForPath,
+    getColorsForPath,
+    getToolsForPath,
+    getLinksForPath,
     getAllHerbsDeduped,
+    getAllKitchenDeduped,
+    getAllStonesDeduped,
+    getAllColorsDeduped,
+    getAllToolsDeduped,
+    getAllLinksDeduped,
+    getLexikonForPath,
+    getAllLexikonDeduped,
     getAllHerbsGrouped,
     moonBucket,
     getMondFenster,

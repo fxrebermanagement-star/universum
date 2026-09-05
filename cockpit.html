@@ -521,7 +521,7 @@
         <button type="button" class="tile" data-tile="kalender"><div class="tile-ico" aria-hidden="true">📅</div><div class="tile-name">Kalender</div><div class="tile-desc">Mond &amp; Feste</div></button>
         <button type="button" class="tile" data-tile="kosmos"><div class="tile-ico" aria-hidden="true">🪐</div><div class="tile-name">Kosmos</div><div class="tile-desc">Stunde · Kreis · Fokus</div></button>
         <button type="button" class="tile" data-tile="rituale"><div class="tile-ico" aria-hidden="true">🕯️</div><div class="tile-name">Rituale</div><div class="tile-desc">Werkzeug · Eigene · Sigil</div></button>
-        <button type="button" class="tile" data-tile="korrespondenzen"><div class="tile-ico" aria-hidden="true">🌿</div><div class="tile-name">Resonanzen</div><div class="tile-desc">Kräuter · Steine · Farben</div></button>
+        <button type="button" class="tile" data-tile="korrespondenzen"><div class="tile-ico" aria-hidden="true">🌿</div><div class="tile-name">Resonanzen</div><div class="tile-desc">Lexikon · Kräuter · Küche · Steine</div></button>
         <button type="button" class="tile" data-tile="buch"><div class="tile-ico" aria-hidden="true">📖</div><div class="tile-name">Magie-Buch</div><div class="tile-desc">Notiz · Eintrag · lokal</div></button>
       </div>
 
@@ -988,11 +988,11 @@
       <div id="notes-list" hidden aria-hidden="true"></div>
     </section>
 
-    <!-- 6. Resonanzen / korrespondenzen (pfadbezogen) — Kräuter-Referenz -->
+    <!-- 6. Resonanzen / korrespondenzen — Lexikon (Kräuter · Küche · Steine · Farben · Werkzeuge · Bezüge) -->
     <section id="sec-korrespondenzen" class="section-view">
       <h1 class="section-title"><span class="sec-ico" aria-hidden="true">🌿</span> Resonanzen</h1>
       <span class="section-motif" aria-hidden="true"></span>
-      <p class="section-sub" id="korresp-section-sub">Kräuter · Hauspraxis-Symbolik · <span id="korresp-path-name">Pfad</span></p>
+      <p class="section-sub" id="korresp-section-sub">Lexikon · Hauspraxis-Symbolik · <span id="korresp-path-name">Pfad</span></p>
 
       <div class="card korrespondenz-full-card heute-passt-card" aria-labelledby="korresp-full-title">
         <div class="intention-top">
@@ -1002,35 +1002,32 @@
         <p class="hint" id="korresp-lead">Kurze Einladung mit Warum — Symbolik für die Haltung, kein medizinischer Rat.</p>
         <p class="heute-passt-lead" id="korresp-heute-passt" aria-live="polite" role="button" tabindex="0"></p>
         <p class="hint-sm" id="korresp-note">Hauspraxis — kein Heilversprechen.</p>
-        <p class="notice ethics-line">Ein Handy kann keine Geister messen. Symbolik dient der Haltung, nicht der Diagnose.</p>
+        <p class="notice ethics-line">Ein Handy kann keine Geister messen. Symbolik dient der Haltung, nicht der Diagnose. Bezüge nur mit Einwilligung — kein Schaden, nichts Illegales.</p>
       </div>
 
-      <div class="cal-path-toggle resonanz-path-toggle" role="group" aria-label="Kräuterfilter">
+      <div class="cal-path-toggle resonanz-path-toggle" role="group" aria-label="Lexikon-Pfadfilter">
         <button type="button" class="cal-filter-btn active" id="herb-filter-path" aria-pressed="true">Nur mein Pfad</button>
         <button type="button" class="cal-filter-btn" id="herb-filter-all" aria-pressed="false">Alle Pfade</button>
       </div>
 
-      <div class="card herb-ref-card" aria-labelledby="herb-list-title">
+      <div class="card herb-ref-card lexikon-card" aria-labelledby="herb-list-title">
         <div class="intention-top">
-          <h3 id="herb-list-title">Kräuter</h3>
-          <span class="chip-quiet" id="herb-list-chip">Referenz</span>
+          <h3 id="herb-list-title">Lexikon</h3>
+          <span class="chip-quiet" id="herb-list-chip">Nachschlagen</span>
         </div>
-        <p class="hint-sm" id="herb-list-lead">Name und Beschreibung — Symbolik der Hauspraxis, kein Heilversprechen.</p>
-        <ul class="herb-ref-list" id="herb-list"></ul>
+        <p class="hint-sm" id="herb-list-lead">Name und Erklärung — Symbolik der Hauspraxis, kein Heilversprechen.</p>
+        <div class="resonanz-sec-tabs lexikon-tabs" role="tablist" aria-label="Lexikon-Kategorien">
+          <button type="button" class="cal-filter-btn active" role="tab" data-lexikon-tab="herb" aria-selected="true">Kräuter</button>
+          <button type="button" class="cal-filter-btn" role="tab" data-lexikon-tab="kitchen" aria-selected="false">Küche</button>
+          <button type="button" class="cal-filter-btn" role="tab" data-lexikon-tab="stone" aria-selected="false">Steine</button>
+          <button type="button" class="cal-filter-btn" role="tab" data-lexikon-tab="color" aria-selected="false">Farben</button>
+          <button type="button" class="cal-filter-btn" role="tab" data-lexikon-tab="tool" aria-selected="false">Werkzeuge</button>
+          <button type="button" class="cal-filter-btn" role="tab" data-lexikon-tab="link" aria-selected="false">Bezüge</button>
+        </div>
+        <ul class="herb-ref-list" id="herb-list" data-lexikon-tab="herb"></ul>
         <p class="hint-sm" id="herb-list-count" aria-live="polite"></p>
-      </div>
-
-      <div class="card resonanz-secondary-card" aria-labelledby="resonanz-sec-title">
-        <div class="intention-top">
-          <h3 id="resonanz-sec-title">Steine &amp; Farben</h3>
-          <span class="chip-quiet">sekundär</span>
-        </div>
-        <div class="resonanz-sec-tabs" role="tablist" aria-label="Steine und Farben">
-          <button type="button" class="cal-filter-btn active" role="tab" id="resonanz-tab-stones" aria-selected="true" data-resonanz-tab="stones">Steine</button>
-          <button type="button" class="cal-filter-btn" role="tab" id="resonanz-tab-colors" aria-selected="false" data-resonanz-tab="colors">Farben</button>
-        </div>
-        <ul class="korrespondenz-list resonanz-sec-list" id="resonanz-sec-list"></ul>
-        <!-- legacy id kept for older peek code -->
+        <!-- legacy ids -->
+        <ul class="korrespondenz-list resonanz-sec-list" id="resonanz-sec-list" hidden></ul>
         <ul class="korrespondenz-list" id="korresp-list" hidden></ul>
       </div>
 

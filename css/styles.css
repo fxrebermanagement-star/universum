@@ -7650,7 +7650,7 @@ button.primary:active:not(:disabled),
 }
 
 
-/* ——— v5.13.0 Resonanzen · Kräuter-Referenzliste ——— */
+/* ——— v5.14.0 Resonanzen · Lexikon-Listen ——— */
 .resonanz-path-toggle {
   margin: 0.65rem 0 0.85rem;
 }
@@ -7738,4 +7738,14 @@ button.primary:active:not(:disabled),
 body.reduced-motion .herb-ref-item:hover,
 body.reduced-motion .herb-ref-item:focus-visible {
   transform: none;
+}
+
+.lexikon-tabs {
+  margin: 0.65rem 0 0.75rem;
+}
+.lexikon-card .herb-ref-list {
+  max-height: min(68vh, 38rem);
+}
+.lexikon-tabs .cal-filter-btn {
+  font-size: 0.82rem;
 }

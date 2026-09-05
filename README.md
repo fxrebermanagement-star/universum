@@ -430,6 +430,15 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.14.0 — Resonanzen als Lexikon
+
+- Lexikon-Tabs: **Kräuter · Küche · Steine · Farben · Werkzeuge · Bezüge**
+- Jeder Eintrag mit Name + Erklärung (Hauspraxis/Symbolik, kein Heilversprechen)
+- Küchen-Staples (Salz, Zucker, Honig, Öl, Pfeffer, Knoblauch, Nelke, Zimt, Anis …)
+- Bezüge/Hilfsmittel (Nagel, Nadel, Haare, Faden/Knoten, Tuch, Erde, Wachs, Asche, Knochen-Symbol, Foto/Name-Zettel, Schlüssel, Münze) — Ethik & Einwilligung
+- Pfadfilter «Nur mein Pfad / Alle Pfade» für alle Kategorien (dedupe + Pfad-Chips)
+- Tippen → Altar-Glance (`touchResonanzActivity`)
+
 ## 5.13.0 — Resonanzen als Kräuter-Liste
 
 - Primär: scrollbare **Kräuter-Referenz** mit Name + Hauspraxis-Beschreibung (kein Heilversprechen)

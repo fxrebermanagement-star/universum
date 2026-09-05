@@ -1692,11 +1692,21 @@
     }).filter(Boolean);
   }
 
+  function namedItemList(items) {
+    return (items || []).map(function (h) {
+      if (h && typeof h === 'object') return h.name || '';
+      return String(h || '').split('(')[0].trim();
+    }).filter(Boolean);
+  }
+
   function correspondenceRows(c) {
     const rows = [
       ['🌿 Kräuter', herbNameList(c.herbs).join(' · ')],
-      ['💎 Steine', (c.stones || []).join(' · ')],
-      ['🎨 Farben', (c.colors || []).join(' · ')]
+      ['🧂 Küche', namedItemList(c.kitchen).join(' · ')],
+      ['💎 Steine', namedItemList(c.stones).join(' · ')],
+      ['🎨 Farben', namedItemList(c.colors).join(' · ')],
+      ['🔧 Werkzeuge', namedItemList(c.tools).join(' · ')],
+      ['📎 Bezüge', namedItemList(c.links).join(' · ')]
     ];
     if (c.elements && c.elements.length) {
       rows.push(['🜃 Elemente', (c.elements || []).join(' · ')]);
@@ -1717,6 +1727,32 @@
     refreshState();
   }
 
+  const LEXIKON_TAB_META = {
+    herb: { title: 'Kräuter', singular: 'Kraut', toast: 'Kraut gemerkt', empty: 'Keine Kräuter hinterlegt.', leadPath: 'Pfadbezogene Kräuter', leadAll: 'Alle Pfade · gleiche Namen zusammengefasst. Tippen merkt den Eintrag für den Altar-Glance.' },
+    kitchen: { title: 'Küche & Hausmittel', singular: 'Hausmittel', toast: 'Hausmittel gemerkt', empty: 'Keine Küchen-Einträge hinterlegt.', leadPath: 'Küche und Hausmittel für', leadAll: 'Alle Pfade · Küche & Hausmittel dedupliziert. Symbolik, kein Heilversprechen.' },
+    stone: { title: 'Steine', singular: 'Stein', toast: 'Stein gemerkt', empty: 'Keine Steine hinterlegt.', leadPath: 'Altarsteine und Blickfänge für', leadAll: 'Alle Pfade · Steine dedupliziert. Symbolik, keine Kristallheilung.' },
+    color: { title: 'Farben', singular: 'Farbe', toast: 'Farbe gemerkt', empty: 'Keine Farben hinterlegt.', leadPath: 'Altarfarben und Tücher für', leadAll: 'Alle Pfade · Farben dedupliziert. Altarfarbe / Blickfang.' },
+    tool: { title: 'Werkzeuge', singular: 'Werkzeug', toast: 'Werkzeug gemerkt', empty: 'Keine Werkzeuge hinterlegt.', leadPath: 'Werkzeuge der Hauspraxis für', leadAll: 'Alle Pfade · Werkzeuge dedupliziert. Symbolik und Maß.' },
+    link: { title: 'Bezüge & Hilfsmittel', singular: 'Bezug', toast: 'Bezug gemerkt', empty: 'Keine Bezüge hinterlegt.', leadPath: 'Klassische Bezüge für', leadAll: 'Alle Pfade · Bezüge dedupliziert. Nur mit Einwilligung — kein Schaden.' }
+  };
+
+  function currentLexikonTab() {
+    const list = $('#herb-list');
+    const tab = (list && list.dataset.lexikonTab) || 'herb';
+    return LEXIKON_TAB_META[tab] ? tab : 'herb';
+  }
+
+  function setLexikonTab(tab) {
+    const t = LEXIKON_TAB_META[tab] ? tab : 'herb';
+    const list = $('#herb-list');
+    if (list) list.dataset.lexikonTab = t;
+    $$('[data-lexikon-tab]').forEach(function (b) {
+      const on = b.getAttribute('data-lexikon-tab') === t;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+  }
+
   function syncHerbFilterUi() {
     const pathOnly = isResonanzPathOnly();
     const path = currentPath();
@@ -1733,18 +1769,19 @@
       btnAll.setAttribute('aria-pressed', !pathOnly ? 'true' : 'false');
     }
     const sub = $('#korresp-section-sub');
+    const meta = LEXIKON_TAB_META[currentLexikonTab()] || LEXIKON_TAB_META.herb;
     if (sub) {
       const pname = (path && path.name) || 'Pfad';
       sub.innerHTML = pathOnly
-        ? ('Kräuter · ' + escapeHtml(sym) + ' ' + escapeHtml(pname) + ' · <span id="korresp-path-name">' + escapeHtml(pname) + '</span>')
-        : ('Kräuter · alle Pfade · Symbolik · <span id="korresp-path-name">' + escapeHtml(pname) + '</span>');
+        ? ('Lexikon · ' + escapeHtml(meta.title) + ' · ' + escapeHtml(sym) + ' ' + escapeHtml(pname) + ' · <span id="korresp-path-name">' + escapeHtml(pname) + '</span>')
+        : ('Lexikon · ' + escapeHtml(meta.title) + ' · alle Pfade · <span id="korresp-path-name">' + escapeHtml(pname) + '</span>');
     }
   }
 
-  function bindHerbOpen(el) {
+  function bindLexikonOpen(el, toastMsg) {
     function openIt() {
-      touchResonanzActivity(el.dataset.resonanzId, el.dataset.resonanzLabel, el.dataset.resonanzPath || 'herb');
-      toast('Kraut gemerkt');
+      touchResonanzActivity(el.dataset.resonanzId, el.dataset.resonanzLabel, el.dataset.resonanzPath || 'lexikon');
+      toast(toastMsg || 'Eintrag gemerkt');
       if (typeof renderLastResonanzCard === 'function') renderLastResonanzCard();
     }
     el.addEventListener('click', openIt);
@@ -1753,32 +1790,45 @@
     });
   }
 
+  function bindHerbOpen(el) {
+    bindLexikonOpen(el, 'Kraut gemerkt');
+  }
+
   function renderHerbList() {
     const list = $('#herb-list');
     const chip = $('#herb-list-chip');
     const lead = $('#herb-list-lead');
     const countEl = $('#herb-list-count');
-    if (!list || !Paths.getHerbsForPath) return;
+    const titleEl = $('#herb-list-title');
+    if (!list || !Paths.getLexikonForPath) {
+      // fallback older API
+      if (!list || !Paths.getHerbsForPath) return;
+    }
+    const tab = currentLexikonTab();
+    const meta = LEXIKON_TAB_META[tab] || LEXIKON_TAB_META.herb;
     const pathOnly = isResonanzPathOnly();
     const path = currentPath();
-    let herbs = [];
+    let items = [];
     if (pathOnly) {
-      herbs = Paths.getHerbsForPath(state.path) || [];
+      items = Paths.getLexikonForPath
+        ? (Paths.getLexikonForPath(state.path, tab) || [])
+        : (Paths.getHerbsForPath(state.path) || []);
       if (chip) chip.textContent = ((path && path.name) || 'Pfad');
       if (lead) {
-        lead.textContent = 'Pfadbezogene Kräuter für ' + ((path && path.name) || 'diesen Pfad') +
+        lead.textContent = meta.leadPath + ' ' + ((path && path.name) || 'diesen Pfad') +
           ' — Symbolik der Hauspraxis, kein Heilversprechen.';
       }
     } else {
-      herbs = Paths.getAllHerbsDeduped ? (Paths.getAllHerbsDeduped() || []) : [];
+      items = Paths.getAllLexikonDeduped
+        ? (Paths.getAllLexikonDeduped(tab) || [])
+        : (Paths.getAllHerbsDeduped ? (Paths.getAllHerbsDeduped() || []) : []);
       if (chip) chip.textContent = 'Alle Pfade';
-      if (lead) {
-        lead.textContent = 'Alle Pfade · gleiche Namen zusammengefasst. Tippen merkt das Kraut für den Altar-Glance.';
-      }
+      if (lead) lead.textContent = meta.leadAll;
     }
-    list.innerHTML = herbs.map(function (h, idx) {
-      const rid = 'herb-' + (h.pathId || 'all') + '-' + idx + '-' + String(h.name || '').toLowerCase().replace(/\s+/g, '-');
-      const label = h.name || 'Kraut';
+    if (titleEl) titleEl.textContent = meta.title;
+    list.innerHTML = items.map(function (h, idx) {
+      const rid = 'lex-' + tab + '-' + (h.pathId || 'all') + '-' + idx + '-' + String(h.name || '').toLowerCase().replace(/\s+/g, '-');
+      const label = h.name || meta.singular;
       const pathHint = pathOnly
         ? ''
         : ((h.pathNames || []).slice(0, 4).join(' · ') || '');
@@ -1793,42 +1843,23 @@
         '<div class="herb-ref-top"><strong>' + escapeHtml(h.name) + '</strong>' + pathChip + '</div>' +
         '<span class="herb-ref-desc">' + escapeHtml(h.description || '') + '</span></li>';
     }).join('');
-    list.querySelectorAll('.resonanz-open').forEach(bindHerbOpen);
+    list.querySelectorAll('.resonanz-open').forEach(function (el) {
+      bindLexikonOpen(el, meta.toast);
+    });
     if (countEl) {
-      countEl.textContent = herbs.length
-        ? (herbs.length + (pathOnly ? ' Kräuter auf diesem Pfad' : ' Kräuter (dedupliziert)'))
-        : 'Keine Kräuter hinterlegt.';
+      const n = items.length;
+      countEl.textContent = n
+        ? (n + (pathOnly
+          ? (' ' + meta.title + ' auf diesem Pfad')
+          : (' ' + meta.title + ' (dedupliziert)')))
+        : meta.empty;
     }
   }
 
   function renderResonanzSecondary() {
-    const list = $('#resonanz-sec-list');
-    if (!list || !Paths.getCorrespondences) return;
-    const tab = list.dataset.tab || 'stones';
+    // Lexikon uses renderHerbList for all tabs; keep legacy korresp-list in sync
+    if (!Paths.getCorrespondences) return;
     const c = Paths.getCorrespondences(state.path);
-    const items = tab === 'colors' ? (c.colors || []) : (c.stones || []);
-    const ico = tab === 'colors' ? '🎨' : '💎';
-    list.innerHTML = items.map(function (raw, idx) {
-      const label = String(raw);
-      const rid = 'sec-' + tab + '-' + idx;
-      return '<li class="resonanz-motif resonanz-open" role="button" tabindex="0" data-resonanz-id="' + rid +
-        '" data-resonanz-label="' + escapeHtml(ico + ' ' + label.slice(0, 48)) +
-        '" data-resonanz-path="sec">' +
-        '<strong>' + escapeHtml(ico + ' ' + (tab === 'colors' ? 'Farbe' : 'Stein')) + '</strong>' +
-        '<span>' + escapeHtml(label) + '</span></li>';
-    }).join('');
-    list.querySelectorAll('.resonanz-open').forEach(function (el) {
-      function openIt() {
-        touchResonanzActivity(el.dataset.resonanzId, el.dataset.resonanzLabel, 'sec');
-        toast('Resonanz gemerkt');
-        if (typeof renderLastResonanzCard === 'function') renderLastResonanzCard();
-      }
-      el.addEventListener('click', openIt);
-      el.addEventListener('keydown', function (ev) {
-        if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); openIt(); }
-      });
-    });
-    // keep legacy korresp-list in sync for any peek helpers
     const legacy = $('#korresp-list');
     if (legacy) {
       legacy.innerHTML = correspondenceRows(c).map(function (r) {
@@ -1892,7 +1923,7 @@
     if (chip) chip.textContent = (path && path.name) || 'Pfad';
     if (lead) {
       lead.textContent = 'Heute passt … — kurze Einladung mit Warum für ' +
-        ((path && path.name) || 'diesen Pfad') + '. Darunter die Kräuter-Liste. Kein medizinischer Rat.';
+        ((path && path.name) || 'diesen Pfad') + '. Darunter das Lexikon (Kräuter, Küche, Steine, Farben, Werkzeuge, Bezüge). Kein medizinischer Rat.';
     }
     if (heuteEl) heuteEl.textContent = (heute && heute.line) || 'Heute passt eine stille Haltung — Grenze und Gabe.';
     if (note) note.textContent = c.note || 'Hauspraxis — kein medizinischer Rat.';
@@ -2187,11 +2218,19 @@
       const c = Paths.getCorrespondences(state.path);
       const path = currentPath();
       const blob = [
-        'resonanzen resonanz korrespondenzen korrespondenz entsprechungen kräuter steine farben elemente hauspraxis',
+        'resonanzen resonanz korrespondenzen korrespondenz entsprechungen lexikon kräuter küche hausmittel steine farben werkzeuge bezüge hilfsmittel elemente hauspraxis',
         herbNameList(c.herbs).join(' '),
         (c.herbs || []).map(function (h) { return (h && h.description) || ''; }).join(' '),
-        (c.stones || []).join(' '),
-        (c.colors || []).join(' '),
+        namedItemList(c.kitchen).join(' '),
+        (c.kitchen || []).map(function (h) { return (h && h.description) || ''; }).join(' '),
+        namedItemList(c.stones).join(' '),
+        (c.stones || []).map(function (h) { return (h && h.description) || ''; }).join(' '),
+        namedItemList(c.colors).join(' '),
+        (c.colors || []).map(function (h) { return (h && h.description) || ''; }).join(' '),
+        namedItemList(c.tools).join(' '),
+        (c.tools || []).map(function (h) { return (h && h.description) || ''; }).join(' '),
+        namedItemList(c.links).join(' '),
+        (c.links || []).map(function (h) { return (h && h.description) || ''; }).join(' '),
         (c.elements || []).join(' '),
         c.note || ''
       ].join(' ').toLowerCase();
@@ -5929,8 +5968,9 @@
       herbFilterPath.addEventListener('click', () => {
         setResonanzPathOnly(true);
         renderHerbList();
+        renderResonanzSecondary();
         syncHerbFilterUi();
-        toast('Resonanzen: nur mein Pfad');
+        toast('Lexikon: nur mein Pfad');
         Rituals.vibrate(12);
       });
     }
@@ -5938,22 +5978,29 @@
       herbFilterAll.addEventListener('click', () => {
         setResonanzPathOnly(false);
         renderHerbList();
+        renderResonanzSecondary();
         syncHerbFilterUi();
-        toast('Resonanzen: alle Pfade');
+        toast('Lexikon: alle Pfade');
         Rituals.vibrate(12);
       });
     }
+    $$('[data-lexikon-tab]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        const tab = btn.getAttribute('data-lexikon-tab') || 'herb';
+        setLexikonTab(tab);
+        renderHerbList();
+        syncHerbFilterUi();
+        Rituals.vibrate(10);
+      });
+    });
+    // legacy stones|colors tabs if still present
     $$('[data-resonanz-tab]').forEach(function (btn) {
       btn.addEventListener('click', function () {
-        const tab = btn.getAttribute('data-resonanz-tab') || 'stones';
-        const list = $('#resonanz-sec-list');
-        if (list) list.dataset.tab = tab;
-        $$('[data-resonanz-tab]').forEach(function (b) {
-          const on = b === btn;
-          b.classList.toggle('active', on);
-          b.setAttribute('aria-selected', on ? 'true' : 'false');
-        });
-        renderResonanzSecondary();
+        const raw = btn.getAttribute('data-resonanz-tab') || 'stones';
+        const map = { stones: 'stone', colors: 'color', herbs: 'herb', kitchen: 'kitchen', tools: 'tool', links: 'link' };
+        setLexikonTab(map[raw] || raw);
+        renderHerbList();
+        syncHerbFilterUi();
       });
     });
 
