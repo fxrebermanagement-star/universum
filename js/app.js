@@ -241,6 +241,9 @@
   /** Magie-Buch compose mode: notiz | eintrag */
   let buchMode = 'notiz';
   const BUCH_ALIASES = { tagebuch: 'buch', notizen: 'buch', diary: 'buch', notes: 'buch' };
+  /** Sitzung A–Z: heute → ritual → schliessen → buch */
+  let sitzung = { phase: 'idle', ritualId: null, ritualName: null, savedToBuch: false, visible: false };
+
 
   function $(sel, root) { return (root || document).querySelector(sel); }
   function $$(sel, root) { return Array.from((root || document).querySelectorAll(sel)); }
@@ -1033,6 +1036,88 @@
       chip.innerHTML = '<span class="path-sym" aria-hidden="true">' + escapeHtml(pathSymbol(path)) + '</span> ' +
         '<span class="path-chip-name">' + escapeHtml(path.name) + '</span>';
       chip.setAttribute('aria-label', 'Pfad: ' + path.name);
+    }
+  }
+
+
+  function setSitzungPhase(phase, extra) {
+    extra = extra || {};
+    sitzung.phase = phase || 'idle';
+    if (extra.ritualId != null) sitzung.ritualId = extra.ritualId;
+    if (extra.ritualName != null) sitzung.ritualName = extra.ritualName;
+    if (extra.savedToBuch != null) sitzung.savedToBuch = !!extra.savedToBuch;
+    if (phase && phase !== 'idle') sitzung.visible = true;
+    renderSitzungBar();
+  }
+
+  function renderSitzungBar() {
+    const bar = $('#sitzung-bar');
+    if (!bar) return;
+    const order = ['heute', 'ritual', 'schliessen', 'buch'];
+    const phase = sitzung.phase;
+    const show = sitzung.visible && phase && phase !== 'idle';
+    bar.hidden = !show;
+    if (!show) return;
+    $$('#sitzung-bar [data-sitzung]').forEach(el => {
+      const p = el.dataset.sitzung;
+      const idx = order.indexOf(p);
+      const cur = order.indexOf(phase);
+      el.classList.toggle('active', p === phase);
+      el.classList.toggle('done', idx >= 0 && cur >= 0 && idx < cur);
+    });
+    const lead = $('#sitzung-lead');
+    const cta = $('#sitzung-cta');
+    const copy = {
+      heute: {
+        lead: 'Heute gewählt — starte das Ritual ohne Menü-Wechsel.',
+        cta: '② Ritual starten',
+        action: 'ritual'
+      },
+      ritual: {
+        lead: (sitzung.ritualName ? ('Ritual «' + sitzung.ritualName + '» läuft.') : 'Ritual läuft.') + ' Danach kommt das Schließen.',
+        cta: 'Zum Ritual',
+        action: 'open-ritual'
+      },
+      schliessen: {
+        lead: 'Schwelle: Danken → Atmen → Erden → Siegeln → optional Buch + Foto.',
+        cta: 'Weiter im Abschluss',
+        action: 'noop'
+      },
+      buch: {
+        lead: sitzung.savedToBuch
+          ? 'Eintrag liegt im Magie-Buch — Sitzung A–Z geschlossen.'
+          : 'Optional: Satz oder Foto ins Magie-Buch — Sitzung abrunden.',
+        cta: sitzung.savedToBuch ? '📖 Magie-Buch öffnen' : '📖 Ins Magie-Buch',
+        action: 'buch'
+      }
+    };
+    const c = copy[phase] || copy.heute;
+    if (lead) lead.textContent = c.lead;
+    if (cta) {
+      cta.textContent = c.cta;
+      cta.dataset.sitzungAction = c.action;
+      cta.hidden = c.action === 'noop';
+    }
+  }
+
+  function sitzungCtaAction() {
+    const cta = $('#sitzung-cta');
+    const action = (cta && cta.dataset.sitzungAction) || '';
+    if (action === 'ritual' || action === 'open-ritual') {
+      const id = sitzung.ritualId || ($('#jetzt-start') && $('#jetzt-start').dataset.ritual);
+      const r = id ? Rituals.getRitual(id) : null;
+      if (r) {
+        setSitzungPhase('ritual', { ritualId: r.id, ritualName: r.name });
+        openRitual(r);
+      } else {
+        navigate('rituale', { force: true });
+        toast('Ritual wählen');
+      }
+      return;
+    }
+    if (action === 'buch') {
+      navigate('buch', { force: true, buchMode: 'eintrag' });
+      setSitzungPhase('buch');
     }
   }
 
@@ -2878,6 +2963,7 @@
   }
 
   function openRitualDirect(ritual) {
+    if (ritual) setSitzungPhase('ritual', { ritualId: ritual.id, ritualName: ritual.name });
     if (!ritual) return;
     const runner = $('#ritual-runner');
     runner.classList.add('open');
@@ -3033,6 +3119,10 @@
     clearBreath();
     clearClosingBreath();
     const label = (ritual && ritual.name) || opts.label || 'Praxis';
+    setSitzungPhase('schliessen', {
+      ritualId: ritual && ritual.id || sitzung.ritualId,
+      ritualName: label
+    });
     const path = currentPath();
     const embodied = (path && path.haltung)
       ? ('Spüre: ' + path.haltung)
@@ -3083,12 +3173,21 @@
     ];
     let ci = 0;
 
-    function finishClosing(msg) {
+    function finishClosing(msg, optsFinish) {
+      optsFinish = optsFinish || {};
       clearClosingBreath();
       toast(msg || 'Schwelle gehalten — gut geübt.');
       closeRunner();
       renderStreakLine();
       if (typeof renderJetztCard === 'function') renderJetztCard();
+      const wentToBuch = !!optsFinish.goBuch;
+      setSitzungPhase('buch', { savedToBuch: !!optsFinish.savedToBuch || wentToBuch });
+      if (wentToBuch) {
+        navigate('buch', { force: true, buchMode: 'eintrag' });
+      } else {
+        navigate('cockpit', { force: true, keepScroll: true });
+        renderSitzungBar();
+      }
     }
 
     function paint() {
@@ -3254,7 +3353,7 @@
           closingPendingPhoto = null;
           toast('📖 Ins Magie-Buch');
           if (typeof renderRitualJournal === 'function') renderRitualJournal();
-          finishClosing('Im Buch · Schwelle gehalten.');
+          finishClosing('Im Buch · Schwelle gehalten.', { goBuch: true, savedToBuch: true });
         } catch (_) {
           toast('Eintrag konnte nicht gespeichert werden', 3200, 'warn');
           finishClosing('Schwelle gehalten — gut geübt.');
@@ -5190,10 +5289,25 @@
       jetztStart.addEventListener('click', () => {
         const id = jetztStart.dataset.ritual || ($('#briefing-practice') && $('#briefing-practice').dataset.ritual) || pathOwnRitualId() || currentPath().recommendedRitual;
         const r = Rituals.getRitual(id);
-        if (r) { navigate('rituale'); openRitual(r); }
-        else navigate('rituale');
+        setSitzungPhase('heute', { ritualId: id || null, ritualName: r ? r.name : null, savedToBuch: false });
+        if (r) {
+          setSitzungPhase('ritual', { ritualId: r.id, ritualName: r.name });
+          navigate('rituale');
+          openRitual(r);
+        } else {
+          navigate('rituale');
+          toast('Ritual wählen — Sitzung wartet');
+        }
       });
     }
+    const sitzungCta = $('#sitzung-cta');
+    if (sitzungCta) sitzungCta.addEventListener('click', () => sitzungCtaAction());
+    const sitzungDismiss = $('#sitzung-dismiss');
+    if (sitzungDismiss) sitzungDismiss.addEventListener('click', () => {
+      sitzung.visible = false;
+      sitzung.phase = 'idle';
+      renderSitzungBar();
+    });
     const jetztStarter = $('#jetzt-starter');
     if (jetztStarter) jetztStarter.addEventListener('click', openStarterFlow);
     const starterNext = $('#starter-flow-next');

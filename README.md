@@ -340,6 +340,16 @@ universum/
 Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine Verantwortung — mit Grenze und Ausgleich.
 
 
+## Craft-Pass (v4.2.0) · Sitzung A–Z
+
+Nahtlose Praxis-Kette ohne Menü-Hopping:
+
+- **Sticky Sitzungsleiste** — ① Heute → ② Ritual → ③ Schließen → ④ Buch
+- **Heute-CTA** startet die Sitzung und öffnet das Pfad-Ritual direkt
+- **Abschluss** führt optional mit Foto ins Magie-Buch; sonst bleibt die Leiste mit «Ins Magie-Buch»
+- App `4.2.0`, SW-Cache `universum-shell-v33`
+
+
 ## Craft-Pass (v4.1.0) · Magie-Buch vereint
 
 Notizen und Tagebuch sind ein **Magie-Buch** mit zwei Modi:

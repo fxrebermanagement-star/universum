@@ -42,7 +42,7 @@
     <div id="main-content" tabindex="-1">
     <!-- 1. Cockpit -->
     <section id="sec-cockpit" class="section-view active cockpit-lovely-page" aria-label="Cockpit">
-      <!-- v4.1.0 Cockpit above-the-fold: Suche · Astro-Tiles · Schumann -->
+      <!-- v4.2.0 Cockpit above-the-fold: Suche · Astro-Tiles · Schumann -->
       <div class="cockpit-top" id="cockpit-top">
         <div class="cockpit-search-pill" id="cockpit-search-bar">
           <label class="sr-only" for="global-search-input-cockpit">Suche</label>
@@ -106,6 +106,24 @@
         <div class="cockpit-path-art" id="cockpit-path-art" aria-hidden="true"><span class="path-art-orb" id="path-art-orb">✦</span></div>
         <p class="path-haltung" id="path-haltung" aria-live="polite"><span class="path-sym" aria-hidden="true">✦</span> <span class="path-haltung-text">Still üben — Daten bleiben bei dir.</span></p>
         <p class="privacy-line privacy-line-slim" id="privacy-line">Lokal in <code>feldlicht-v15</code> · kein Konto · kein Tracking</p>
+
+      <div class="sitzung-bar" id="sitzung-bar" role="region" aria-label="Sitzung A bis Z" hidden>
+        <div class="sitzung-steps" aria-hidden="true">
+          <span class="sitzung-step" data-sitzung="heute">① Heute</span>
+          <span class="sitzung-arrow" aria-hidden="true">→</span>
+          <span class="sitzung-step" data-sitzung="ritual">② Ritual</span>
+          <span class="sitzung-arrow" aria-hidden="true">→</span>
+          <span class="sitzung-step" data-sitzung="schliessen">③ Schließen</span>
+          <span class="sitzung-arrow" aria-hidden="true">→</span>
+          <span class="sitzung-step" data-sitzung="buch">④ Buch</span>
+        </div>
+        <p class="sitzung-lead" id="sitzung-lead">Sitzung: von Heute bis Magie-Buch — ohne Menü-Hopping.</p>
+        <div class="btn-row sitzung-actions">
+          <button type="button" class="primary tiny" id="sitzung-cta">Weiter</button>
+          <button type="button" class="ghost tiny" id="sitzung-dismiss">Ausblenden</button>
+        </div>
+      </div>
+
       </div>
 
       <div class="install-banner" id="install-banner" hidden role="region" aria-label="App installieren">
@@ -1027,7 +1045,7 @@
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
         <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">4.1.0</span></p>
+        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">4.2.0</span></p>
       </div>
     </div>
   </div>
