@@ -79,6 +79,16 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 - **Globale Suche** — Rituale, Feldkarten-Namen, Tagebuch-Titel (Cockpit / ⚙ / ⌕)
 - App `1.6.0`, SW-Cache `universum-shell-v8`
 
+**Zusätzlich (v1.7)**
+
+- **Produkt-Splash & Onboarding** — klare Positionierung als Praxis-Cockpit für Magier:innen; 4 Schritte mit Nutzen, Pfad, Standort, Ethik
+- **Warum UNIVERSUM** — Trust-Strip (lokal · ethisch · pfadstark) + Privacy-Zeile
+- **Install-Coach** — Home-Bildschirm-Tipps für iOS/Android (erste Mobile-Besuche unter Pages)
+- **Wochenrückblick** — 7-Tage-Zusammenfassung aus dem Praxis-Log im Tagebuch
+- **Mobile / GitHub Pages** — relative Pfade, SW-Scope `./`, Cache `universum-shell-v9`, Navigation-Fallback
+- Schnelleres First Paint (Font non-blocking, kritische Shell-CSS, Suche unter dem Fold)
+- App `1.7.0`, SW-Cache `universum-shell-v9`
+
 **Zusätzlich**
 
 - **First-run Onboarding** — Willkommen, Pfadwahl, Standort (Zürich-Default), Ethik-Bestätigung
@@ -115,12 +125,13 @@ Kein Ersatz für Ephemeriden oder traditionelle Einweihung.
 - Export-Format: `universum-buch-v2` (inkl. `appVersion`, `meta.path` / `pathName`)
 - Weitere Felder (v1.5): `lastSeenDay`, `dayBanner`, `dailyCard`, `backupReminder`
 - Weitere Felder (v1.6): `ritualTemplates`, `settings.hourAlert`
+- Weitere Felder (v1.7): `installHint`
 
 ## Technik
 
 - Schriften: **Syne** (Titel/Zahlen) + **Manrope** (Fließtext) via Google Fonts
 - Dark-Violet Mystik-Cockpit, mobile-first, Micro-Interactions
-- Service Worker: Offline-Shell (`universum-shell-v8`)
+- Service Worker: Offline-Shell (`universum-shell-v9`), Scope relativ für GitHub Pages `/universum/`
 - Kein React, kein Bundler, kein Backend
 
 ## Dateien
@@ -160,3 +171,8 @@ Fünfte Runde: Soft-Daily-Reset-Banner (Mitternacht lokal, ohne Wipe), Cockpit-S
 ## Craft-Pass (v1.6)
 
 Sechste Runde: **Mond-Arbeit** (Neu/Voll), optionaler **Planetenstunde-Wecker**, Notiz→Tagebuch, **3 Ritual-Vorlagen**, Kosmos-Highlight der Stundenplanet, **globale Suche**, CSS-Politur. App `1.6.0`, SW-Cache `universum-shell-v8`. Server Port **8765**.
+
+## Craft-Pass (v1.7)
+
+Siebte Runde — **Produktqualität**: Splash & Onboarding verkaufen den Ritualbegleiter klar; Trust-Strip und Privacy-Messaging für Fremde; Install-Coach für Mobile/Pages; Wochenrückblick; Pages/SW-Subpath-Härte; First-Paint-Politur. App `1.7.0`, SW-Cache `universum-shell-v9`. Server Port **8765**.
+

@@ -87,7 +87,10 @@
     'Ritual-Vorlagen: bis zu drei eigene Schablonen unter Eigene Rituale.',
     'Globale Suche findet Rituale, Feldkarten und Tagebuch-Titel.',
     'Exportiere dein Buch alle paar Einträge — Quota-Fehler vermeiden.',
-    'Schnellzugriff zeigt Favoriten und letzte Praxis auf dem Cockpit.'
+    'Schnellzugriff zeigt Favoriten und letzte Praxis auf dem Cockpit.',
+    'Wochenrückblick im Tagebuch: sieben Tage Praxis auf einen Blick — ohne Vergleich.',
+    'Zum Home-Bildschirm hinzufügen: UNIVERSUM fühlt sich an wie eine App, bleibt aber lokal.',
+    'Warum UNIVERSUM: lokal, ethisch, pfadstark — Praxiswerkzeug, kein Feed.'
   ];
 
   function tipOfDay(date) {
@@ -2242,8 +2245,122 @@
   }
 
   function kindLabel(kind) {
-    const map = { ritual: 'Ritual', '369': '369', atem: 'Atem', fokus: 'Fokus', praxis: 'Praxis' };
+    const map = { ritual: 'Ritual', '369': '369', atem: 'Atem', fokus: 'Fokus', praxis: 'Praxis', mond: 'Mond', sigil: 'Sigil', karte: 'Karte' };
     return map[kind] || (kind || 'Praxis');
+  }
+
+
+  function renderWeekReview() {
+    const body = $('#week-review-body');
+    const empty = $('#week-review-empty');
+    if (!body || !Store.getWeeklyPracticeSummary) return;
+    const sum = Store.getWeeklyPracticeSummary(7);
+    if (!sum || sum.empty) {
+      body.innerHTML = '';
+      if (empty) empty.hidden = false;
+      return;
+    }
+    if (empty) empty.hidden = true;
+    const kindOrder = ['ritual', '369', 'atem', 'fokus', 'mond', 'sigil', 'karte', 'praxis'];
+    const chips = kindOrder
+      .filter(k => sum.byKind[k])
+      .map(k => '<span class="week-chip"><em>' + escapeHtml(kindLabel(k)) + '</em> ' + sum.byKind[k] + '</span>')
+      .join('');
+    const extra = Object.keys(sum.byKind).filter(k => kindOrder.indexOf(k) < 0);
+    const extraChips = extra.map(k => '<span class="week-chip"><em>' + escapeHtml(kindLabel(k)) + '</em> ' + sum.byKind[k] + '</span>').join('');
+    const hi = (sum.highlights || []).slice(0, 3).map(h => '<li>' + escapeHtml(h) + '</li>').join('');
+    const tone = sum.total >= 7
+      ? 'Stetige Praxis — die Woche trägt dich.'
+      : sum.total >= 3
+        ? 'Guter Rhythmus — weiter in Ruhe.'
+        : 'Ein Anfang zählt — Qualität vor Menge.';
+    body.innerHTML =
+      '<div class="week-stats">' +
+      '<div class="week-stat"><span class="week-n">' + sum.total + '</span><span class="week-l">Praxis</span></div>' +
+      '<div class="week-stat"><span class="week-n">' + sum.activeDays + '</span><span class="week-l">Tage aktiv</span></div>' +
+      '</div>' +
+      '<div class="week-chips">' + chips + extraChips + '</div>' +
+      (hi ? '<ul class="week-highlights">' + hi + '</ul>' : '') +
+      '<p class="week-tone">' + escapeHtml(tone) + '</p>';
+  }
+
+  function isStandaloneDisplay() {
+    try {
+      if (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) return true;
+      if (window.matchMedia && window.matchMedia('(display-mode: minimal-ui)').matches) return true;
+      if (navigator.standalone === true) return true;
+    } catch (_) {}
+    return false;
+  }
+
+  function detectMobileInstallPlatform() {
+    const ua = navigator.userAgent || '';
+    const isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    const isAndroid = /Android/i.test(ua);
+    const isMobile = isIOS || isAndroid || /Mobile/i.test(ua);
+    return { isIOS, isAndroid, isMobile };
+  }
+
+  function showInstallBanner(force) {
+    const ban = $('#install-banner');
+    if (!ban) return;
+    if (isStandaloneDisplay()) {
+      ban.hidden = true;
+      return;
+    }
+    const plat = detectMobileInstallPlatform();
+    if (!plat.isMobile && !force) {
+      ban.hidden = true;
+      return;
+    }
+    if (!force && Store.shouldShowInstallHint && !Store.shouldShowInstallHint()) {
+      ban.hidden = true;
+      return;
+    }
+    if (!force && !(state.onboarding && state.onboarding.done)) {
+      ban.hidden = true;
+      return;
+    }
+    const steps = $('#install-steps');
+    const title = $('#install-banner-title');
+    const text = $('#install-banner-text');
+    if (plat.isIOS) {
+      if (title) title.textContent = 'Auf dem iPhone / iPad';
+      if (text) text.textContent = 'Safari → Teilen → „Zum Home-Bildschirm“. Dann öffnet UNIVERSUM wie eine App — offline-fähig, lokal.';
+      if (steps) {
+        steps.innerHTML =
+          '<li>Tippe auf <strong>Teilen</strong> (Quadrat mit Pfeil).</li>' +
+          '<li>Wähle <strong>Zum Home-Bildschirm</strong>.</li>' +
+          '<li>Bestätige „Hinzufügen“ — fertig.</li>';
+      }
+    } else if (plat.isAndroid) {
+      if (title) title.textContent = 'Auf dem Android-Handy';
+      if (text) text.textContent = 'Chrome-Menü → „App installieren“ oder „Zum Startbildschirm“. UNIVERSUM bleibt lokal auf dem Gerät.';
+      if (steps) {
+        steps.innerHTML =
+          '<li>Öffne das <strong>Menü</strong> (⋮) im Browser.</li>' +
+          '<li>Tippe <strong>App installieren</strong> / Zum Startbildschirm.</li>' +
+          '<li>Bestätigen — Icon erscheint neben deinen Apps.</li>';
+      }
+    } else {
+      if (title) title.textContent = 'Als App nutzen';
+      if (text) text.textContent = 'Über das Browser-Menü „Zum Home-Bildschirm“ / Installieren — ideal auf dem Handy.';
+      if (steps) {
+        steps.innerHTML =
+          '<li>Browser-Menü öffnen.</li>' +
+          '<li>„Installieren“ oder „Zum Home-Bildschirm“ wählen.</li>';
+      }
+    }
+    ban.hidden = false;
+  }
+
+  function dismissInstallBanner(persist) {
+    const ban = $('#install-banner');
+    if (ban) ban.hidden = true;
+    if (persist && Store.dismissInstallHint) {
+      Store.dismissInstallHint();
+      refreshState();
+    }
   }
 
   function renderPracticeLog() {
@@ -2284,6 +2401,7 @@
   function renderTagebuch() {
     refreshState();
     renderDiaryPrompts();
+    renderWeekReview();
     renderPracticeLog();
     const list = $('#diary-list');
     const entries = (state.diary || []).slice().sort((a, b) => (b.created || '').localeCompare(a.created || ''));
@@ -2547,7 +2665,28 @@
     const back = $('#onboard-back');
     const next = $('#onboard-next');
     if (back) back.hidden = n === 0;
-    if (next) next.textContent = n >= 2 ? 'Beginnen' : 'Weiter';
+    if (next) next.textContent = n >= 3 ? 'Beginnen' : 'Weiter';
+    $$('#onboard-progress [data-op]').forEach(dot => {
+      const i = Number(dot.getAttribute('data-op'));
+      dot.classList.toggle('on', i === n);
+      dot.classList.toggle('done', i < n);
+    });
+    const lead = $('#onboard-lead');
+    const titles = [
+      'Dein Praxis-Cockpit',
+      'Dein Pfad',
+      'Dein Standort',
+      'Ethik & Vertrauen'
+    ];
+    const leads = [
+      'Der stille Ritualbegleiter für den Tag — lokal, ethisch, pfadstark. Kein Konto, kein Backend.',
+      'Rituale, Impulse und Kalender-Betonung folgen deinem Weg.',
+      'Nur für Sonnenzeiten und Planetenstunden — bleibt auf diesem Gerät.',
+      'Klarheit vor Start: Grenze, Ausgleich, Privatsphäre.'
+    ];
+    const title = $('#onboard-title');
+    if (title && titles[n]) title.textContent = titles[n];
+    if (lead && leads[n]) lead.textContent = leads[n];
   }
 
   function openOnboarding() {
@@ -2602,6 +2741,7 @@
     closeOnboarding();
     toast('Willkommen — Feldlicht begleitet still.');
     navigate('cockpit');
+    setTimeout(() => { try { showInstallBanner(true); } catch (_) {} }, 900);
     return true;
   }
 
@@ -2981,8 +3121,7 @@
     const onbNext = $('#onboard-next');
     if (onbNext) {
       onbNext.addEventListener('click', () => {
-        if (onboardStep === 0) showOnboardStep(1);
-        else if (onboardStep === 1) showOnboardStep(2);
+        if (onboardStep < 3) showOnboardStep(onboardStep + 1);
         else finishOnboarding();
       });
     }
@@ -3000,6 +3139,13 @@
         toast('Zürich gesetzt');
       });
     }
+
+
+    // Install hint (mobile Pages / PWA coach)
+    const instOk = $('#install-banner-ok');
+    if (instOk) instOk.addEventListener('click', () => dismissInstallBanner(true));
+    const instLater = $('#install-banner-later');
+    if (instLater) instLater.addEventListener('click', () => dismissInstallBanner(false));
 
     // Diary mood
     $$('#diary-mood-row [data-mood]').forEach(btn => {
@@ -3281,6 +3427,8 @@
 
     if (!(state.onboarding && state.onboarding.done)) {
       openOnboarding();
+    } else {
+      setTimeout(() => showInstallBanner(false), 600);
     }
 
     document.addEventListener('keydown', (e) => {

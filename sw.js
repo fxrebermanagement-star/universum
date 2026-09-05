@@ -1,8 +1,9 @@
 /**
  * UNIVERSUM · Service Worker — offline shell caching
- * Cache-first for app shell; network fallback.
+ * Relative URLs so GitHub Pages /universum/ subpath works.
+ * Cache-first for app shell; network fallback + update.
  */
-const CACHE = 'universum-shell-v8';
+const CACHE = 'universum-shell-v9';
 const SHELL = [
   './',
   './index.html',
@@ -36,6 +37,19 @@ self.addEventListener('activate', (event) => {
   );
 });
 
+function isShellPath(pathname) {
+  return (
+    pathname.endsWith('.html') ||
+    pathname.endsWith('.css') ||
+    pathname.endsWith('.js') ||
+    pathname.endsWith('.svg') ||
+    pathname.endsWith('.png') ||
+    pathname.endsWith('.webmanifest') ||
+    pathname.endsWith('/') ||
+    pathname.endsWith('/universum')
+  );
+}
+
 self.addEventListener('fetch', (event) => {
   const req = event.request;
   if (req.method !== 'GET') return;
@@ -43,18 +57,40 @@ self.addEventListener('fetch', (event) => {
   // Only same-origin; skip Google Fonts (network)
   if (url.origin !== self.location.origin) return;
 
+  // Navigations: prefer network, fall back to cached cockpit/index under subpath
+  if (req.mode === 'navigate') {
+    event.respondWith(
+      fetch(req)
+        .then((res) => {
+          if (res && res.ok) {
+            const clone = res.clone();
+            caches.open(CACHE).then((c) => c.put(req, clone));
+          }
+          return res;
+        })
+        .catch(() =>
+          caches.match(req).then((cached) =>
+            cached ||
+            caches.match('./cockpit.html') ||
+            caches.match('./index.html') ||
+            caches.match('./')
+          )
+        )
+    );
+    return;
+  }
+
   event.respondWith(
     caches.match(req).then((cached) => {
-      const fetched = fetch(req).then((res) => {
-        if (res && res.ok && (url.pathname.endsWith('.html') || url.pathname.endsWith('.css') ||
-            url.pathname.endsWith('.js') || url.pathname.endsWith('.svg') ||
-            url.pathname.endsWith('.png') || url.pathname.endsWith('.webmanifest') ||
-            url.pathname.endsWith('/'))) {
-          const clone = res.clone();
-          caches.open(CACHE).then((c) => c.put(req, clone));
-        }
-        return res;
-      }).catch(() => cached);
+      const fetched = fetch(req)
+        .then((res) => {
+          if (res && res.ok && isShellPath(url.pathname)) {
+            const clone = res.clone();
+            caches.open(CACHE).then((c) => c.put(req, clone));
+          }
+          return res;
+        })
+        .catch(() => cached);
       return cached || fetched;
     })
   );

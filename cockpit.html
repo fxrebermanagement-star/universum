@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#0c0814" />
-  <meta name="description" content="UNIVERSUM · COCKPIT — Premium Ritualbegleiter für die Praxis" />
+  <meta name="description" content="UNIVERSUM · COCKPIT — stiller Ritualbegleiter für Magier:innen. Lokal, ethisch, pfadstark." />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>UNIVERSUM · COCKPIT</title>
@@ -13,8 +13,16 @@
   <link rel="apple-touch-icon" href="icons/icon-192.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="preload" href="css/styles.css" as="style" />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" /></noscript>
   <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    /* Critical above-the-fold shell — reduces FOUC before styles.css */
+    body{margin:0;background:#0c0814;color:#efeaf8;font-family:system-ui,sans-serif}
+    .app-header{display:flex;align-items:center;gap:.5rem;padding:.65rem .85rem;padding-top:calc(.65rem + env(safe-area-inset-top,0px))}
+    .section-view:not(.active){display:none}
+  </style>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Zum Inhalt springen</a>
@@ -32,14 +40,25 @@
     <section id="sec-cockpit" class="section-view active" aria-label="Cockpit">
       <h1 class="section-title">Cockpit</h1>
       <p class="section-sub" id="cockpit-greeting">Feldlicht ist da — still begleiten.</p>
-      <div class="notice ethics-line">Grenze und Ausgleich. Kein Schaden an Personen. Ein Handy kann keine Geister messen.</div>
 
-      <div class="global-search-bar card compact-search" id="cockpit-search-bar">
-        <label class="sr-only" for="global-search-input-cockpit">Suche</label>
-        <input type="search" id="global-search-input-cockpit" placeholder="Suche · Rituale, Karten, Tagebuch…" autocomplete="off" />
-        <button type="button" class="ghost tiny" id="global-search-go-cockpit">Suchen</button>
+      <ul class="trust-strip trust-strip-inline" aria-label="Warum UNIVERSUM">
+        <li><strong>Lokal</strong><span>Kein Konto · Gerät only</span></li>
+        <li><strong>Ethisch</strong><span>Grenze &amp; Ausgleich</span></li>
+        <li><strong>Pfadstark</strong><span>Praxis statt Show</span></li>
+      </ul>
+      <p class="privacy-line" id="privacy-line">Alles bleibt in <code>feldlicht-v15</code> auf diesem Gerät — kein Server, kein Tracking.</p>
+
+      <div class="install-banner" id="install-banner" hidden role="region" aria-label="App installieren">
+        <div class="install-banner-inner">
+          <strong id="install-banner-title">UNIVERSUM auf den Home-Bildschirm</strong>
+          <p id="install-banner-text">Öffne schneller, offline-fähig — wie eine App, ohne Store.</p>
+          <ol class="install-steps" id="install-steps"></ol>
+          <div class="btn-row">
+            <button type="button" class="primary tiny" id="install-banner-ok">Verstanden</button>
+            <button type="button" class="ghost tiny" id="install-banner-later">Später</button>
+          </div>
+        </div>
       </div>
-      <div class="global-search-results" id="global-search-results-cockpit" hidden role="listbox" aria-label="Suchergebnisse"></div>
 
       <div class="day-banner" id="day-banner" hidden role="status" aria-live="polite">
         <div class="day-banner-inner">
@@ -116,6 +135,17 @@
         <div class="quick-praxis-row" id="quick-praxis-row" role="list"></div>
         <p class="empty-state compact" id="quick-praxis-empty">Sterne Rituale oder übe einmal — dann erscheinen sie hier.</p>
       </article>
+
+
+      <details class="card compact-search-details" id="cockpit-search-bar">
+        <summary>Suche · Rituale, Karten, Tagebuch</summary>
+        <div class="global-search-bar compact-search">
+          <label class="sr-only" for="global-search-input-cockpit">Suche</label>
+          <input type="search" id="global-search-input-cockpit" placeholder="Begriff…" autocomplete="off" />
+          <button type="button" class="ghost tiny" id="global-search-go-cockpit">Suchen</button>
+        </div>
+        <div class="global-search-results" id="global-search-results-cockpit" hidden role="listbox" aria-label="Suchergebnisse"></div>
+      </details>
 
       <div class="dashboard-grid">
         <div class="dash-panel moon">
@@ -429,7 +459,7 @@
     <!-- 5. Magie-Tagebuch -->
     <section id="sec-tagebuch" class="section-view">
       <h1 class="section-title">Magie-Tagebuch</h1>
-      <p class="section-sub">Lokal in <code>feldlicht-v15</code> · Export als universum-buch.json</p>
+      <p class="section-sub">Dein Buch · lokal in <code>feldlicht-v15</code> · Export als universum-buch.json — du besitzt die Daten</p>
       <div class="toolbar">
         <button type="button" class="primary" id="diary-export">Export JSON</button>
         <label class="btn" style="display:inline-block;cursor:pointer;margin:0">
@@ -442,6 +472,15 @@
       </div>
       <p class="hint-sm">Export enthält App-Version und Pfad-Metadaten. Zusammenführen behält lokale Einträge.</p>
       <p class="import-status" id="import-status"></p>
+      <div class="card week-review-card" id="week-review-card" aria-labelledby="week-review-title">
+        <div class="intention-top">
+          <h3 id="week-review-title">Wochenrückblick</h3>
+          <span class="chip-quiet">7 Tage · aus Praxis-Log</span>
+        </div>
+        <p class="hint-sm">Ein stiller Blick auf deine Übung — nur lokal, ohne Vergleich.</p>
+        <div id="week-review-body" class="week-review-body" aria-live="polite"></div>
+        <p class="empty-state compact" id="week-review-empty" hidden>Noch keine Praxis in den letzten 7 Tagen — ein Atem oder Ritual genügt.</p>
+      </div>
       <div class="card practice-log-card" id="practice-log-card" aria-labelledby="practice-log-title">
         <div class="intention-top">
           <h3 id="practice-log-title">Praxis-Log</h3>
@@ -562,17 +601,32 @@
   <!-- First-run onboarding -->
   <div class="onboard-overlay" id="onboard-overlay" hidden>
     <div class="onboard-card" role="dialog" aria-modal="true" aria-labelledby="onboard-title">
-      <p class="splash-eyebrow">WILLKOMMEN</p>
-      <h2 id="onboard-title">Feldlicht ist da</h2>
-      <p class="onboard-copy">Ein stiller Ritualbegleiter — lokal auf diesem Gerät. Kein Konto, kein Backend.</p>
+      <p class="splash-eyebrow">WILLKOMMEN · UNIVERSUM</p>
+      <h2 id="onboard-title">Dein Praxis-Cockpit</h2>
+      <p class="onboard-copy" id="onboard-lead">Der stille Ritualbegleiter für den Tag — lokal, ethisch, pfadstark. Kein Konto, kein Backend.</p>
+      <div class="onboard-progress" id="onboard-progress" aria-hidden="true"><i data-op="0"></i><i data-op="1"></i><i data-op="2"></i><i data-op="3"></i></div>
 
       <div class="onboard-step" data-onboard-step="0">
-        <p class="hint">Kurz und ruhig: Wähle deinen Pfad. Du kannst später wechseln.</p>
-        <div class="path-grid" id="onboard-paths"></div>
+        <p class="hint"><strong>Warum UNIVERSUM?</strong> Für Magier:innen und Praktizierende, die ein ruhiges Werkzeug wollen — nicht einen Feed.</p>
+        <ul class="trust-strip trust-strip-onboard" aria-label="Warum UNIVERSUM">
+          <li><strong>Lokal zuerst</strong><span>Tagebuch &amp; Rituale bleiben auf dem Gerät</span></li>
+          <li><strong>Ethisch klar</strong><span>Grenze &amp; Ausgleich · kein Schaden</span></li>
+          <li><strong>Pfadstark</strong><span>8 Traditionen · Hauspraxis mit Respekt</span></li>
+        </ul>
+        <ul class="onboard-value-list">
+          <li>Tagesbriefing mit Mond, Stunde &amp; Empfehlung</li>
+          <li>Geführte Rituale, Atem, Sigil, Feldkarten</li>
+          <li>Magie-Tagebuch mit Export — du besitzt die Daten</li>
+        </ul>
       </div>
 
       <div class="onboard-step hidden" data-onboard-step="1">
-        <p class="hint">Standort für Planetenstunden (Standard: Zürich).</p>
+        <p class="hint">Wähle deinen Pfad. Du kannst später wechseln — Rituale und Impulse passen sich an.</p>
+        <div class="path-grid" id="onboard-paths"></div>
+      </div>
+
+      <div class="onboard-step hidden" data-onboard-step="2">
+        <p class="hint">Standort für Planetenstunden (Standard: Zürich). Nur lokal gespeichert.</p>
         <div class="loc-grid">
           <div class="form-row" style="margin:0"><label for="onboard-lat">Breite</label><input id="onboard-lat" type="number" step="0.01" value="47.37" /></div>
           <div class="form-row" style="margin:0"><label for="onboard-lon">Länge</label><input id="onboard-lon" type="number" step="0.01" value="8.54" /></div>
@@ -580,11 +634,12 @@
         <button type="button" class="ghost w-full mt-1" id="onboard-zurich">Zürich übernehmen</button>
       </div>
 
-      <div class="onboard-step hidden" data-onboard-step="2">
-        <p class="hint">Ethik — bitte bewusst bestätigen.</p>
+      <div class="onboard-step hidden" data-onboard-step="3">
+        <p class="hint">Ethik &amp; Vertrauen — bitte bewusst bestätigen.</p>
         <div class="notice ethics-line">
           Grenze und Ausgleich. Kein Schaden an Personen.<br />
           Voodoo/Santería nur Hauspraxis, keine Initiation.<br />
+          Privatsphäre: alles in <code>feldlicht-v15</code> auf diesem Gerät.<br />
           <em>Ein Handy kann keine Geister messen.</em>
         </div>
         <label class="inline-check onboard-ethics">
@@ -643,7 +698,7 @@
         <p class="hint-sm">Willkommen, Pfad und Ethik erneut durchlaufen</p>
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
 
-        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">1.6.0</span></p>
+        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">1.7.0</span></p>
       </div>
     </div>
   </div>
@@ -685,17 +740,17 @@
     <div id="rr-content"></div>
   </div>
 
-  <script src="js/astronomy.js"></script>
-  <script src="js/storage.js"></script>
-  <script src="js/paths.js"></script>
-  <script src="js/rituals.js"></script>
-  <script src="js/sigil.js"></script>
-  <script src="js/cards.js"></script>
-  <script src="js/schumann.js"></script>
-  <script src="js/app.js"></script>
+  <script defer src="js/astronomy.js"></script>
+  <script defer src="js/storage.js"></script>
+  <script defer src="js/paths.js"></script>
+  <script defer src="js/rituals.js"></script>
+  <script defer src="js/sigil.js"></script>
+  <script defer src="js/cards.js"></script>
+  <script defer src="js/schumann.js"></script>
+  <script defer src="js/app.js"></script>
   <script>
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js').catch(function () {});
+      navigator.serviceWorker.register('./sw.js', { scope: './' }).catch(function () {});
     }
   </script>
 </body>

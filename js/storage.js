@@ -28,6 +28,7 @@
     dailyCard: { date: null, n: null, name: '', theme: '', prompt: '' },
     backupReminder: { lastRemindCount: 0, lastExportAt: null },
     ritualTemplates: [],
+    installHint: { dismissed: false, seenAt: null },
     onboarding: {
       done: false,
       ethicsAck: false,
@@ -91,6 +92,7 @@
         dailyCard: Object.assign({}, DEFAULTS.dailyCard, data.dailyCard || {}),
         backupReminder: Object.assign({}, DEFAULTS.backupReminder, data.backupReminder || {}),
         ritualTemplates: normalizeTemplates(data.ritualTemplates),
+        installHint: Object.assign({}, DEFAULTS.installHint, data.installHint || {}),
         onboarding: Object.assign({}, DEFAULTS.onboarding, data.onboarding || {}),
         streaks: Object.assign({}, DEFAULTS.streaks, data.streaks || {}),
         cardDrawHistory: Array.isArray(data.cardDrawHistory) ? data.cardDrawHistory : [],
@@ -213,7 +215,7 @@
     });
   }
 
-  const APP_VERSION = '1.6.0';
+  const APP_VERSION = '1.7.0';
 
   function exportBuch() {
     const data = load();
@@ -296,6 +298,7 @@
       dailyCard: Object.assign({}, DEFAULTS.dailyCard, incoming.dailyCard || {}),
       backupReminder: Object.assign({}, DEFAULTS.backupReminder, incoming.backupReminder || {}),
       ritualTemplates: normalizeTemplates(incoming.ritualTemplates),
+      installHint: Object.assign({}, DEFAULTS.installHint, incoming.installHint || {}),
       cardDrawHistory: Array.isArray(incoming.cardDrawHistory) ? incoming.cardDrawHistory : [],
       onboarding: Object.assign({}, DEFAULTS.onboarding, incoming.onboarding || {}),
       streaks: Object.assign({}, DEFAULTS.streaks, incoming.streaks || {}),
@@ -712,6 +715,51 @@
     });
   }
 
+
+  function getWeeklyPracticeSummary(days) {
+    const n = days || 7;
+    const log = load().practiceLog || [];
+    const cutoff = Date.now() - n * 86400000;
+    const week = log.filter(e => {
+      if (!e || !e.at) return false;
+      const t = Date.parse(e.at);
+      return !isNaN(t) && t >= cutoff;
+    });
+    const byKind = {};
+    week.forEach(e => {
+      const k = e.kind || 'praxis';
+      byKind[k] = (byKind[k] || 0) + 1;
+    });
+    const daySet = new Set();
+    week.forEach(e => {
+      try {
+        const d = new Date(e.at);
+        daySet.add(d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'));
+      } catch (_) {}
+    });
+    const labels = week.slice(0, 5).map(e => e.label || 'Praxis');
+    return {
+      days: n,
+      total: week.length,
+      activeDays: daySet.size,
+      byKind,
+      highlights: labels,
+      empty: week.length === 0
+    };
+  }
+
+  function shouldShowInstallHint() {
+    const d = load();
+    if (d.installHint && d.installHint.dismissed) return false;
+    return !!(d.onboarding && d.onboarding.done);
+  }
+
+  function dismissInstallHint() {
+    return update(d => {
+      d.installHint = { dismissed: true, seenAt: new Date().toISOString() };
+    });
+  }
+
   global.UniversumStorage = {
     STORAGE_KEY,
     DEFAULTS,
@@ -748,6 +796,9 @@
     addPracticeLog,
     removePracticeLog,
     getPracticeLog,
+    getWeeklyPracticeSummary,
+    shouldShowInstallHint,
+    dismissInstallHint,
     addKreisNote,
     removeKreisNote,
     getKreisNotes,
