@@ -844,7 +844,7 @@
   }
 
   /** Hauspraxis-Korrespondenzen — Lexikon für Magier.
-   * Kategorien: herbs, kitchen, stones, colors, tools, links (Bezüge/Hilfsmittel).
+   * Kategorien: herbs, kitchen, offerings (Opfergaben), stones, colors, tools, links (Bezüge/Hilfsmittel).
    * Jeder Eintrag: { name, description } — Symbolik/Hauspraxis, kein Heilversprechen,
    * keine Anleitung zu Schaden oder illegalem Handeln.
    */
@@ -869,6 +869,14 @@
         { name: "Nelke", description: "Hausmittel / Würze: Schutz-Ton und Wärme — Maß halten, keinen fremden Willen binden.", ico: "🌺" },
         { name: "Zimt", description: "Hausmittel: Willkommen und Wärme — Duft-Symbol, kein Spektakel.", ico: "🟤" },
         { name: "Anis", description: "Hausmittel: würzige Klarheit — Hausmittel-Symbol für Atem und Maß, nicht als Medizin.", ico: "✨" },
+      ],
+      offerings: [
+        { name: "Tabak (Symbol)", description: "Opfergabe: Respekt-Gabe in manchen Linien — hier nur Symbol; Körper zuerst, nie Rauchzwang, nie Geister fordern, keine Initiation.", ico: "🍂" },
+        { name: "Wasser", description: "Opfergabe: Fluss und Atem — Schale ablegen; Haltung vor Spektakel.", ico: "💧" },
+        { name: "Rauch", description: "Opfergabe: sichtbare Schwelle — Räucherwerk mit Maß und frischer Luft.", ico: "🌫️" },
+        { name: "Obst", description: "Opfergabe: Frucht an den Alltag — ablegen, später teilen oder zurückgeben.", ico: "🍎" },
+        { name: "Dankgabe", description: "Opfergabe: Wort und Atem als Dank — ohne Geister zu fordern.", ico: "🙏" },
+        { name: "Alkohol", description: "Opfergabe: Tropfen oder Becher nur als Symbol — Körper zuerst; Maß und Ethik, kein Trinkzwang, kein Missbrauch.", ico: "🥂" },
       ],
       stones: [
         { name: "Obsidian", description: "Blickfang für Schutz-Grenze — dunkler Schnitt als Symbol, keine Kristallheilung.", ico: "🖤" },
@@ -934,6 +942,14 @@
         { name: "Nelke", description: "Hausmittel / Würze: Schutz-Ton und Wärme — Maß halten, keinen fremden Willen binden.", ico: "🌺" },
         { name: "Zimt", description: "Hausmittel: Willkommen und Wärme — Duft-Symbol, kein Spektakel.", ico: "🟤" },
       ],
+      offerings: [
+        { name: "Met", description: "Opfergabe: Honigwein als Gabe und Eid im Ring — teilen, Wort halten; Maß und Ethik, kein Trinkzwang, kein Missbrauch.", ico: "🍯" },
+        { name: "Bier", description: "Opfergabe: Herd und Gemeinschaft — Becher als Alltagseid; Maß vor Pathos, kein Rauschzwang.", ico: "🍺" },
+        { name: "Brot", description: "Opfergabe: Versorgung im Ring — Stück teilen, Wort halten.", ico: "🍞" },
+        { name: "Honig", description: "Opfergabe: süße Gabe — teilen statt fordern.", ico: "🍯" },
+        { name: "Dankgabe", description: "Opfergabe: Ehre und schlichter Dank — Frith vor Pathos.", ico: "🙏" },
+        { name: "Münze", description: "Opfergabe: Ausgleich und Gabe — kein Kauf von Willen.", ico: "🪙" },
+      ],
       stones: [
         { name: "Bernstein", description: "Wärme-Blickfang — Honigton am Altar, Symbol nicht Therapie.", ico: "🟠" },
         { name: "Flint", description: "Funke und Feuerstein — Herd und Stand im Ring.", ico: "🪨" },
@@ -998,6 +1014,16 @@
         { name: "Pfeffer", description: "Hausmittel: Schärfe und Wachheit — Fokus-Symbol am Tisch, kein Rezept.", ico: "🌶️" },
         { name: "Anis", description: "Hausmittel: würzige Klarheit — Hausmittel-Symbol für Atem und Maß, nicht als Medizin.", ico: "✨" },
       ],
+      offerings: [
+        { name: "Rum", description: "Opfergabe: klassische Willkommens-Gabe am Hof — Schälchen oder Tropfen; öffentliche Hauspraxis nur, Maß und Ethik, kein Trinkzwang, kein Missbrauch, keine Initiation.", ico: "🍾" },
+        { name: "Wasser", description: "Opfergabe: Reinheit und Schwelle am Hof — Schale ablegen, Ordnung ohne Medium.", ico: "💧" },
+        { name: "Obst", description: "Opfergabe: frische Frucht ablegen — teilen oder später ehren; öffentliche Praxis nur.", ico: "🍎" },
+        { name: "Süßes", description: "Opfergabe: Willkommen und Wärme — Schälchen ablegen, teilen statt binden.", ico: "🍬" },
+        { name: "Kerze", description: "Opfergabe: Licht am Hof — zünden und löschen; keine Initiation.", ico: "🕯️" },
+        { name: "Blumen", description: "Opfergabe: Farbe und Respekt — ethisch gewählt, öffentliche Praxis.", ico: "🌸" },
+        { name: "Wein", description: "Opfergabe: Gabe und Respekt — Tropfen oder Becher; Maß, kein Medium, kein Missbrauch.", ico: "🍷" },
+        { name: "Tabak (Symbol)", description: "Opfergabe: Respekt-Symbol — nie Rauchzwang, nie Initiation.", ico: "🍂" },
+      ],
       stones: [
         { name: "Muschel", description: "Wasser-Blickfang — Schwelle und Atem, öffentliche Hauspraxis nur.", ico: "🐚" },
         { name: "Quarz", description: "Licht-Stein am Altar — Klarheit ohne Medium zu spielen.", ico: "💎" },
@@ -1060,6 +1086,16 @@
         { name: "Knoblauch", description: "Hausmittel: scharfe Hausgrenze am Eingang — Symbol, kein Heilversprechen und kein Zwang.", ico: "🧄" },
         { name: "Zimt", description: "Hausmittel: Willkommen und Wärme — Duft-Symbol, kein Spektakel.", ico: "🟤" },
         { name: "Anis", description: "Hausmittel: würzige Klarheit — Hausmittel-Symbol für Atem und Maß, nicht als Medizin.", ico: "✨" },
+      ],
+      offerings: [
+        { name: "Rum", description: "Opfergabe: warme Gabe und Dank am Hausaltar — Schälchen ablegen; ohne Ile-Anspruch, Maß und Ethik, kein Trinkzwang, kein Missbrauch.", ico: "🍾" },
+        { name: "Wasser", description: "Opfergabe: Reinheit und Fluss — Schale als Haltung, keine Initiation.", ico: "💧" },
+        { name: "Obst", description: "Opfergabe: frische Frucht und Dank — ablegen und teilen; Respekt ohne Ile-Anspruch.", ico: "🍎" },
+        { name: "Honig", description: "Opfergabe: süße Wärme — Tropfen oder Schälchen, teilen statt fordern.", ico: "🍯" },
+        { name: "Blumen", description: "Opfergabe: Farbe und Würde — ethisch gewählt.", ico: "🌸" },
+        { name: "Kerze", description: "Opfergabe: Licht und Dank — Brandschutz achten, keine Initiation.", ico: "🕯️" },
+        { name: "Wein", description: "Opfergabe: Bund-Symbol — Tropfen ehren; Respekt und Maß, kein Missbrauch.", ico: "🍷" },
+        { name: "Süßes", description: "Opfergabe: Willkommen — teilen mit Maß.", ico: "🍬" },
       ],
       stones: [
         { name: "Koralle", description: "Meer-Blickfang — Symbol für Fluss und Haus, kein Ile-Anspruch.", ico: "🪸" },
@@ -1125,6 +1161,14 @@
         { name: "Zimt", description: "Hausmittel: Willkommen und Wärme — Duft-Symbol, kein Spektakel.", ico: "🟤" },
         { name: "Anis", description: "Hausmittel: würzige Klarheit — Hausmittel-Symbol für Atem und Maß, nicht als Medizin.", ico: "✨" },
       ],
+      offerings: [
+        { name: "Wein", description: "Opfergabe / Labor-Symbol: Bund der Operation — Tropfen oder Becher als Merkzeichen; Operator bleibt nüchtern klar, Maß und Ethik, kein Rausch als Praxisziel.", ico: "🍷" },
+        { name: "Weihrauch", description: "Opfergabe: Harzduft für Fokus und Stunde — Maß statt Spektakel.", ico: "💨" },
+        { name: "Öl", description: "Opfergabe: Tropfen als Träger-Symbol — keine alchemistische Heilsalbe.", ico: "🫙" },
+        { name: "Kerze", description: "Opfergabe: Laborlicht — Stunde notieren, Anfang und Ende markieren.", ico: "🕯️" },
+        { name: "Wasser", description: "Opfergabe: Lösung und Klarheit — Schale als Merkzeichen.", ico: "💧" },
+        { name: "Dankgabe", description: "Opfergabe: Abschluss der Operation — danken und siegeln.", ico: "🙏" },
+      ],
       stones: [
         { name: "Lapis", description: "Denken-Blickfang — Königsblau am Labor-Tisch, Symbol nicht Orakel.", ico: "🔵" },
         { name: "Bergkristall", description: "Fokus-Stein — Beobachtung vor Eingriff.", ico: "💎" },
@@ -1189,6 +1233,16 @@
         { name: "Pfeffer", description: "Hausmittel: Schärfe und Wachheit — Fokus-Symbol am Tisch, kein Rezept.", ico: "🌶️" },
         { name: "Knoblauch", description: "Hausmittel: scharfe Hausgrenze am Eingang — Symbol, kein Heilversprechen und kein Zwang.", ico: "🧄" },
         { name: "Anis", description: "Hausmittel: würzige Klarheit — Hausmittel-Symbol für Atem und Maß, nicht als Medizin.", ico: "✨" },
+      ],
+      offerings: [
+        { name: "Wein", description: "Opfergabe: Kelch-Gabe im Kreis — teilen mit Maß, an niemandem Schaden; kein Trinkzwang, kein Missbrauch.", ico: "🍷" },
+        { name: "Met", description: "Opfergabe: Honigwein als süße Kreis-Gabe — teilen, Wort halten; Ethik vor Rausch.", ico: "🍯" },
+        { name: "Kuchen", description: "Opfergabe: Fest und Teilen nach dem Kreis — Stück ablegen und teilen.", ico: "🧁" },
+        { name: "Milch", description: "Opfergabe: sanfte Mond-Gabe — Schälchen ablegen.", ico: "🥛" },
+        { name: "Blumen", description: "Opfergabe: Farbe und Jahresrad — ethisch gewählt.", ico: "🌸" },
+        { name: "Kerze", description: "Opfergabe: Element Feuer als Gabe — an niemandem Schaden.", ico: "🕯️" },
+        { name: "Wasser", description: "Opfergabe: Loslassen und Kelch — Absicht entlassen.", ico: "💧" },
+        { name: "Honig", description: "Opfergabe: süße Gabe — teilen, kein Besitzanspruch.", ico: "🍯" },
       ],
       stones: [
         { name: "Obsidian", description: "Grenze-Blickfang — Schutz ohne Angriff, an niemandem Schaden.", ico: "🖤" },
@@ -1264,6 +1318,14 @@
         { name: "Zimt", description: "Hausmittel: Willkommen und Wärme — Duft-Symbol, kein Spektakel.", ico: "🟤" },
         { name: "Anis", description: "Hausmittel: würzige Klarheit — Hausmittel-Symbol für Atem und Maß, nicht als Medizin.", ico: "✨" },
       ],
+      offerings: [
+        { name: "Kaffee", description: "Opfergabe: Wachheit als Anker — Tasse ablegen oder trinken mit Maß; Ethik behalten, Ergebnis nicht jagen.", ico: "☕" },
+        { name: "Alkohol", description: "Opfergabe: optionale Gnosis-Metapher — nur mit klarem Maß; kein Missbrauch, kein Trinkzwang.", ico: "🥂" },
+        { name: "Rauch", description: "Opfergabe: Banishing-Ton — Schnitt und Reset mit Maß.", ico: "🌫️" },
+        { name: "Kerze", description: "Opfergabe: kurzer Fokus — zünden, halten, löschen.", ico: "🕯️" },
+        { name: "Münze", description: "Opfergabe: Zufall und Ausgleich — kein Kauf von Willen.", ico: "🪙" },
+        { name: "Dankgabe", description: "Opfergabe: Labor schließen — danken und vergessen.", ico: "🙏" },
+      ],
       stones: [
         { name: "Obsidian", description: "Schnitt-Blickfang — altes Modell ablegen, Ethik behalten.", ico: "🖤" },
         { name: "Pyrit", description: "Funke-Symbol — Labor-Start ohne Identitätsdrama.", ico: "✨" },
@@ -1327,6 +1389,15 @@
         { name: "Pfeffer", description: "Hausmittel: Schärfe und Wachheit — Fokus-Symbol am Tisch, kein Rezept.", ico: "🌶️" },
         { name: "Knoblauch", description: "Hausmittel: scharfe Hausgrenze am Eingang — Symbol, kein Heilversprechen und kein Zwang.", ico: "🧄" },
         { name: "Nelke", description: "Hausmittel / Würze: Schutz-Ton und Wärme — Maß halten, keinen fremden Willen binden.", ico: "🌺" },
+      ],
+      offerings: [
+        { name: "Wein", description: "Opfergabe: sanfte Gabe und Bund am Alltagstisch — Tropfen als Symbol; Maß, kein Trinkzwang, kein Missbrauch.", ico: "🍷" },
+        { name: "Blumen", description: "Opfergabe: Farbe und Ruhe — schlichter Blickfang.", ico: "🌸" },
+        { name: "Kerze", description: "Opfergabe: Licht und Absicht klein halten.", ico: "🕯️" },
+        { name: "Tee", description: "Opfergabe: Pause und Atem — Tasse als Schwelle.", ico: "🍵" },
+        { name: "Wasser", description: "Opfergabe: Klarheit — Glas oder Schale.", ico: "💧" },
+        { name: "Dankgabe", description: "Opfergabe: schlichter Dank — Wort oder Atem.", ico: "🙏" },
+        { name: "Honig", description: "Opfergabe: süße Sanftheit — teilen mit Maß.", ico: "🍯" },
       ],
       stones: [
         { name: "Rosenquarz", description: "Sanft-Blickfang — Nähe ohne Besitzanspruch, keine Kristallheilung.", ico: "💗" },
@@ -1405,7 +1476,8 @@
       stone: 'Altarstein / Blickfang — Symbolik, keine Kristallheilung.',
       kitchen: 'Hausmittel — Symbolik der Hauspraxis, kein Heilversprechen.',
       tool: 'Werkzeug der Hauspraxis — Symbolik und Maß, kein Zwang.',
-      link: 'Bezug / Hilfsmittel — traditionelle Symbolik mit Ethik und Einwilligung; kein Schaden.'
+      link: 'Bezug / Hilfsmittel — traditionelle Symbolik mit Ethik und Einwilligung; kein Schaden.',
+      offering: 'Opfergabe — Symbolik und Maß, kein Trinkzwang, keine Initiation, kein Heilversprechen.'
     };
     const fallback = fallbacks[kind] || 'Hauspraxis-Symbolik — Haltung und Gabe, kein medizinischer Rat.';
     if (item && typeof item === 'object') {
@@ -1430,6 +1502,7 @@
   function normalizeKitchen(k) { return normalizeNamedItem(k, 'kitchen'); }
   function normalizeTool(t) { return normalizeNamedItem(t, 'tool'); }
   function normalizeLink(l) { return normalizeNamedItem(l, 'link'); }
+  function normalizeOffering(o) { return normalizeNamedItem(o, 'offering'); }
 
   function herbDisplayName(h) {
     return normalizeHerb(h).name;
@@ -1441,6 +1514,7 @@
     if (kind === 'kitchen') return normalizeKitchen(item).name;
     if (kind === 'tool') return normalizeTool(item).name;
     if (kind === 'link') return normalizeLink(item).name;
+    if (kind === 'offering') return normalizeOffering(item).name;
     return normalizeHerb(item).name;
   }
 
@@ -1501,8 +1575,6 @@
       { name: "Kardamom", description: "Hausmittel: Wärme und weite Wege — Duft-Symbol für Gastfreundschaft.", ico: "🟢" },
       { name: "Vanille", description: "Hausmittel: weiche Süße — Anziehen mit Maß, teilen statt binden.", ico: "🤍" },
       { name: "Senf", description: "Hausmittel: scharfer Funke — Wachheit und Schnitt, kein Angriff.", ico: "🟡" },
-      { name: "Wein", description: "Hausmittel: Gabe und Bund — Schluck oder Tropfen als Symbol, Maß halten, kein Rauschzwang.", ico: "🍷" },
-      { name: "Bier", description: "Hausmittel: Herd und Gemeinschaft — Becher als Alltagseid, Maß vor Pathos.", ico: "🍺" },
       { name: "Kaffee", description: "Hausmittel: Wachheit als Werkzeug — scharf starten, Ethik behalten, Ergebnis nicht jagen.", ico: "☕" },
       { name: "Tee", description: "Hausmittel: Pause und Atem — Tasse als Schwelle, kein Heilversprechen.", ico: "🍵" },
       { name: "Mehl", description: "Hausmittel: Stoff und Form — Kreis streuen als Symbol, Alltag ehren.", ico: "🌾" },
@@ -1515,6 +1587,40 @@
       { name: "Zwiebel", description: "Hausmittel: Schichten und Tränen — Schnitt als Loslassen-Symbol, kein Zwang.", ico: "🧅" },
       { name: "Hafer", description: "Hausmittel: schlichte Nahrung — Stand und Alltag, teilen statt Spektakel.", ico: "🥣" },
       { name: "Apfel", description: "Hausmittel: Jahreskreis und Wahl — Frucht als Gabe, Kern als Keim-Symbol.", ico: "🍎" }
+    ],
+    offerings: [
+      { name: "Dankgabe", description: "Opfergabe: schlichter Dank ablegen — Wort, Atem oder kleine Gabe; teilen statt fordern, kein Zwang und keine Initiation.", ico: "🙏" },
+      { name: "Wasser", description: "Opfergabe: Klarheit und Fluss — Schale oder Glas ablegen; Haltung der Reinheit, kein Reinigungsversprechen an Personen.", ico: "💧" },
+      { name: "Milch", description: "Opfergabe: sanfte Mond- und Nährungs-Gabe — Schälchen ablegen, teilen mit Maß.", ico: "🥛" },
+      { name: "Honig", description: "Opfergabe: süße Wärme und Willkommen — Tropfen oder Schälchen; teilen statt binden.", ico: "🍯" },
+      { name: "Öl", description: "Opfergabe: Pflege und Salbung als Haltung — Tropfen am Blickfang, keine Heilsalbe.", ico: "🫙" },
+      { name: "Brot", description: "Opfergabe: Versorgung und Teilen — Stück oder Laib ablegen, Alltagseid ohne Opferzwang.", ico: "🍞" },
+      { name: "Obst", description: "Opfergabe: Frucht und Jahreskreis — frisch ablegen, später teilen oder kompostieren; Respekt vor dem Ort.", ico: "🍎" },
+      { name: "Blumen", description: "Opfergabe: Farbe und Duft — Strauß oder einzelne Blüte; ethisch gepflückt oder gekauft, kein Wildfang-Zwang.", ico: "🌸" },
+      { name: "Kuchen", description: "Opfergabe: Fest und Teilen (u. a. Kreis-Ton) — Stück ablegen und teilen, Maß vor Pathos.", ico: "🧁" },
+      { name: "Süßes", description: "Opfergabe: Willkommen und Anziehen mit Maß — Schälchen Zucker, Bonbon oder Frucht; teilen statt binden.", ico: "🍬" },
+      { name: "Kerze", description: "Opfergabe: Licht als Gabe — zünden, halten, löschen; Brandschutz achten, keine Initiation.", ico: "🕯️" },
+      { name: "Licht", description: "Opfergabe: helles Merkzeichen — Kerze, Lampe oder Tageslicht ehren; Maß statt Spektakel.", ico: "✨" },
+      { name: "Weihrauch", description: "Opfergabe: Harzduft und Atem — Raum ehren, Maß statt Spektakel, Brandschutz achten.", ico: "💨" },
+      { name: "Rauch", description: "Opfergabe: sichtbarer Atem und Schwelle — Räucherwerk mit Maß; frische Luft, kein Zwang.", ico: "🌫️" },
+      { name: "Münze", description: "Opfergabe: Ausgleich und Tausch — kleine Münze ablegen oder spenden; kein Kauf von Willen.", ico: "🪙" },
+      { name: "Tabak (Symbol)", description: "Opfergabe: Respekt-Gabe in manchen Linien — hier nur Symbolik; nie Rauchzwang, nie Initiation, Ethik und Maß.", ico: "🍂" },
+      { name: "Kaffee", description: "Opfergabe: Wachheit und Alltagseid — Tasse oder Schälchen ablegen; Ethik behalten, kein Missbrauch.", ico: "☕" },
+      { name: "Tee", description: "Opfergabe: Pause und Atem — Tasse als Schwelle und Dank, kein Heilversprechen.", ico: "🍵" },
+      { name: "Alkohol", description: "Opfergabe: Gabe, Bund und Schwelle — Tropfen oder Becher als Symbolik; Maß und Ethik, kein Trinkzwang, kein Missbrauch, kein Rausch als Praxisziel.", ico: "🥂" },
+      { name: "Rum", description: "Opfergabe: warme Opfer- und Willkommens-Gabe (u. a. Hof-/Karibik-Ton) — Schälchen oder Tropfen ablegen; öffentliche Hauspraxis, Maß, kein Trinkzwang, kein Missbrauch, keine Initiation.", ico: "🍾" },
+      { name: "Wein", description: "Opfergabe: Gabe und Bund — Schluck oder Tropfen (Hermetik, Wicca, Hof); Maß halten, kein Rauschzwang, kein Missbrauch.", ico: "🍷" },
+      { name: "Rotwein", description: "Opfergabe: tiefe Wärme und Bund — Tropfen ethisch ablegen; Maß, kein Trinkzwang.", ico: "🍷" },
+      { name: "Weißwein", description: "Opfergabe: hellere Gabe und Klarheit — teilen mit Maß, kein Rausch als Ziel.", ico: "🥂" },
+      { name: "Bier", description: "Opfergabe: Herd und Gemeinschaft — Becher als Alltagseid (u. a. nordischer Ton); Maß vor Pathos, kein Trinkzwang.", ico: "🍺" },
+      { name: "Met", description: "Opfergabe: Honigwein als Gabe und Ring-Symbol — teilen, Wort halten; Maß und Ethik, kein Missbrauch.", ico: "🍯" },
+      { name: "Schnaps", description: "Opfergabe: scharfer Tropfen als Gabe oder Schnitt — winzig ablegen oder ehren; Maß, kein Trinkzwang, kein Missbrauch.", ico: "🥃" },
+      { name: "Branntwein", description: "Opfergabe: klarer Geist als Opfer- und Grenz-Symbol — Tropfen mit Respekt; Ethik vor Rausch, kein Missbrauch.", ico: "🥃" },
+      { name: "Whisky", description: "Opfergabe: warme Gabe und Feuer-Ton — Becher oder Tropfen als Symbol; Maß halten, kein Trinkzwang.", ico: "🥃" },
+      { name: "Cognac", description: "Opfergabe: würdige Gabe und Abschluss — Tropfen ehren, teilen mit Maß, kein Missbrauch.", ico: "🥃" },
+      { name: "Likör", description: "Opfergabe: süße Gabe und Willkommen — Schälchen als Symbol; Anziehen mit Maß, kein Trinkzwang.", ico: "🍸" },
+      { name: "Champagner", description: "Opfergabe: Fest und Dank — Perlen als Freude-Symbol; teilen statt fordern, Maß, kein Missbrauch.", ico: "🍾" },
+      { name: "Sekt", description: "Opfergabe: leichter Festton — Anstoßen als Alltagseid; Maß vor Pathos, kein Trinkzwang.", ico: "🥂" }
     ],
     stones: [
       { name: "Bergkristall", description: "Klarer Fokus-Stein — Haltung und Atem, keine Kristallheilung und keine Messung.", ico: "💎" },
@@ -1624,7 +1730,7 @@
     ]
   };
 
-  var LEXIKON_KINDS = ['herb', 'kitchen', 'stone', 'color', 'tool', 'link'];
+  var LEXIKON_KINDS = ['herb', 'kitchen', 'offering', 'stone', 'color', 'tool', 'link'];
 
   function mergeLexikonLists(pathList, coreList, normalizer) {
     const seen = Object.create(null);
@@ -1648,6 +1754,7 @@
     const out = Object.assign({}, c);
     out.herbs = mergeLexikonLists(c.herbs, core.herbs, normalizeHerb);
     out.kitchen = mergeLexikonLists(c.kitchen, core.kitchen, normalizeKitchen);
+    out.offerings = mergeLexikonLists(c.offerings, core.offerings, normalizeOffering);
     out.stones = mergeLexikonLists(c.stones, core.stones, normalizeStone);
     out.colors = mergeLexikonLists(c.colors, core.colors, normalizeColor);
     out.tools = mergeLexikonLists(c.tools, core.tools, normalizeTool);
@@ -1662,6 +1769,7 @@
     const key = kind === 'stone' ? 'stones'
       : kind === 'color' ? 'colors'
       : kind === 'kitchen' ? 'kitchen'
+      : kind === 'offering' ? 'offerings'
       : kind === 'tool' ? 'tools'
       : kind === 'link' ? 'links'
       : 'herbs';
@@ -1687,6 +1795,7 @@
   function getColorsForPath(pathId) { return mapPathItems(pathId, 'color'); }
   function getToolsForPath(pathId) { return mapPathItems(pathId, 'tool'); }
   function getLinksForPath(pathId) { return mapPathItems(pathId, 'link'); }
+  function getOfferingsForPath(pathId) { return mapPathItems(pathId, 'offering'); }
 
   function dedupeNamedItems(getter) {
     const map = Object.create(null);
@@ -1729,10 +1838,12 @@
   function getAllColorsDeduped() { return dedupeNamedItems(getColorsForPath); }
   function getAllToolsDeduped() { return dedupeNamedItems(getToolsForPath); }
   function getAllLinksDeduped() { return dedupeNamedItems(getLinksForPath); }
+  function getAllOfferingsDeduped() { return dedupeNamedItems(getOfferingsForPath); }
 
   function getLexikonForPath(pathId, kind) {
     const k = kind || 'herb';
     if (k === 'kitchen') return getKitchenForPath(pathId);
+    if (k === 'offering') return getOfferingsForPath(pathId);
     if (k === 'stone') return getStonesForPath(pathId);
     if (k === 'color') return getColorsForPath(pathId);
     if (k === 'tool') return getToolsForPath(pathId);
@@ -1743,6 +1854,7 @@
   function getAllLexikonDeduped(kind) {
     const k = kind || 'herb';
     if (k === 'kitchen') return getAllKitchenDeduped();
+    if (k === 'offering') return getAllOfferingsDeduped();
     if (k === 'stone') return getAllStonesDeduped();
     if (k === 'color') return getAllColorsDeduped();
     if (k === 'tool') return getAllToolsDeduped();
@@ -1903,6 +2015,182 @@
     return SABBAT_PRAXIS[name] || 'Jahresatem achten — Praxis, nicht Pflicht.';
   }
 
+
+  /** Mond × Planetenstunde → 1–3 Lexikon-Vorschläge (Kräuter / Opfergaben / Farben). */
+  var PLANET_LEXIKON = {
+    Sonne: [
+      { kind: 'offering', name: 'Kerze' },
+      { kind: 'color', name: 'Gold' },
+      { kind: 'herb', name: 'Rosmarin' }
+    ],
+    Mond: [
+      { kind: 'offering', name: 'Milch' },
+      { kind: 'color', name: 'Silber' },
+      { kind: 'offering', name: 'Wasser' }
+    ],
+    Mars: [
+      { kind: 'kitchen', name: 'Pfeffer' },
+      { kind: 'color', name: 'Rot' },
+      { kind: 'herb', name: 'Thymian' }
+    ],
+    Merkur: [
+      { kind: 'offering', name: 'Tee' },
+      { kind: 'herb', name: 'Lavendel' },
+      { kind: 'tool', name: 'Buch' }
+    ],
+    Jupiter: [
+      { kind: 'offering', name: 'Münze' },
+      { kind: 'color', name: 'Blau' },
+      { kind: 'offering', name: 'Wein' }
+    ],
+    Venus: [
+      { kind: 'herb', name: 'Rose' },
+      { kind: 'offering', name: 'Honig' },
+      { kind: 'color', name: 'Rosa' }
+    ],
+    Saturn: [
+      { kind: 'kitchen', name: 'Salz' },
+      { kind: 'color', name: 'Schwarz' },
+      { kind: 'stone', name: 'Obsidian' }
+    ]
+  };
+
+  var MOON_LEXIKON = {
+    neu: [
+      { kind: 'kitchen', name: 'Salz' },
+      { kind: 'color', name: 'Schwarz' },
+      { kind: 'offering', name: 'Dankgabe' }
+    ],
+    zunehmend: [
+      { kind: 'herb', name: 'Basilikum' },
+      { kind: 'color', name: 'Grün' },
+      { kind: 'offering', name: 'Obst' }
+    ],
+    voll: [
+      { kind: 'offering', name: 'Wein' },
+      { kind: 'offering', name: 'Blumen' },
+      { kind: 'color', name: 'Gold' }
+    ],
+    abnehmend: [
+      { kind: 'offering', name: 'Wasser' },
+      { kind: 'herb', name: 'Beifuß' },
+      { kind: 'link', name: 'Asche' }
+    ]
+  };
+
+  function resolveLexikonSuggestion(pathId, hint) {
+    if (!hint || !hint.name) return null;
+    const kind = hint.kind || 'herb';
+    const list = getLexikonForPath(pathId, kind) || [];
+    const key = String(hint.name).toLowerCase();
+    let hit = list.find(function (x) { return String(x.name || '').toLowerCase() === key; });
+    if (!hit) {
+      // Alle-Pfade fallback
+      const all = getAllLexikonDeduped(kind) || [];
+      hit = all.find(function (x) { return String(x.name || '').toLowerCase() === key; });
+    }
+    if (!hit) {
+      return {
+        name: hint.name,
+        description: 'Symbolik der Hauspraxis — Maß und Ethik.',
+        ico: hint.ico || '',
+        kind: kind,
+        pathId: pathId || 'esoterik'
+      };
+    }
+    return {
+      name: hit.name,
+      description: hit.description,
+      ico: hit.ico || '',
+      kind: kind,
+      pathId: hit.pathId || pathId || 'esoterik'
+    };
+  }
+
+  function getLexikonHeuteSuggestions(pathId, moonName, planetName) {
+    const pid = pathId || 'esoterik';
+    const bucket = moonBucket(moonName);
+    const planet = String(planetName || '').trim();
+    const moonHints = MOON_LEXIKON[bucket] || MOON_LEXIKON.zunehmend;
+    const planetAliases = {
+      Sun: 'Sonne', Moon: 'Mond', Mercury: 'Merkur', Mars: 'Mars',
+      Jupiter: 'Jupiter', Venus: 'Venus', Saturn: 'Saturn',
+      Sonne: 'Sonne', Mond: 'Mond', Merkur: 'Merkur'
+    };
+    const planetNorm = planetAliases[planet] || planet;
+    const planetKey = Object.keys(PLANET_LEXIKON).find(function (k) {
+      return planetNorm.indexOf(k) === 0 || k.indexOf(planetNorm) === 0;
+    });
+    const planetHints = (planetKey && PLANET_LEXIKON[planetKey]) || PLANET_LEXIKON.Sonne;
+    // Pick up to 3: 1 moon, 1 planet, 1 path-aware offering/herb
+    const picks = [];
+    const seen = Object.create(null);
+    function add(hint, why) {
+      if (!hint || picks.length >= 3) return;
+      const key = (hint.kind || '') + ':' + String(hint.name || '').toLowerCase();
+      if (seen[key]) return;
+      seen[key] = true;
+      const resolved = resolveLexikonSuggestion(pid, hint);
+      if (!resolved) return;
+      resolved.why = why;
+      picks.push(resolved);
+    }
+    add(moonHints[0], 'Mondfenster · ' + (bucket === 'neu' ? 'Neumond' : bucket === 'voll' ? 'Vollmond' : bucket === 'abnehmend' ? 'abnehmend' : 'zunehmend'));
+    add(planetHints[0], 'Planetenstunde · ' + (planetKey || planet || 'Sonne'));
+    // Path flavor
+    if (pid === 'nordisch') add({ kind: 'offering', name: 'Met' }, 'Pfad · nordisch');
+    else if (pid === 'voodoo' || pid === 'santeria') add({ kind: 'offering', name: 'Rum' }, 'Pfad · Hof');
+    else if (pid === 'wicca') add({ kind: 'offering', name: 'Wein' }, 'Pfad · Kreis');
+    else if (pid === 'hermetik') add({ kind: 'offering', name: 'Weihrauch' }, 'Pfad · Labor');
+    else if (pid === 'chaosmagie') add({ kind: 'offering', name: 'Kaffee' }, 'Pfad · Labor');
+    else add(moonHints[1] || planetHints[1], 'Heute · Symbolik');
+    // fill
+    var i;
+    for (i = 1; i < moonHints.length && picks.length < 3; i++) add(moonHints[i], 'Mondfenster');
+    for (i = 1; i < planetHints.length && picks.length < 3; i++) add(planetHints[i], 'Planetenstunde');
+    return {
+      moonBucket: bucket,
+      planet: planetKey || planet || '',
+      items: picks
+    };
+  }
+
+  /** Alle Katalog-Namen (längste zuerst) für Ritual-Text-Verlinkung. */
+  function getLexikonNameIndex() {
+    const kinds = LEXIKON_KINDS;
+    const out = [];
+    const seen = Object.create(null);
+    kinds.forEach(function (kind) {
+      (getAllLexikonDeduped(kind) || []).forEach(function (item) {
+        const name = String(item.name || '').trim();
+        if (!name || name.length < 3) return;
+        const key = name.toLowerCase();
+        if (seen[key]) return;
+        // Skip very generic short words that cause false positives
+        if (/^(öl|ei|tee)$/i.test(name)) return;
+        seen[key] = true;
+        out.push({ name: name, kind: kind, ico: item.ico || '' });
+      });
+    });
+    out.sort(function (a, b) { return b.name.length - a.name.length; });
+    return out;
+  }
+
+  function findLexikonByName(name, preferredKind) {
+    const key = String(name || '').trim().toLowerCase();
+    if (!key) return null;
+    const order = preferredKind
+      ? [preferredKind].concat(LEXIKON_KINDS.filter(function (k) { return k !== preferredKind; }))
+      : LEXIKON_KINDS.slice();
+    for (var i = 0; i < order.length; i++) {
+      const kind = order[i];
+      const list = getAllLexikonDeduped(kind) || [];
+      const hit = list.find(function (x) { return String(x.name || '').toLowerCase() === key; });
+      if (hit) return { name: hit.name, description: hit.description, ico: hit.ico || '', kind: kind, pathId: hit.pathId };
+    }
+    return null;
+  }
+
   function getHeuteResonanz(pathId, date) {
     const c = getCorrespondences(pathId);
     const pid = pathId || 'esoterik';
@@ -1995,6 +2283,7 @@
     normalizeKitchen,
     normalizeTool,
     normalizeLink,
+    normalizeOffering,
     normalizeNamedItem,
     herbDisplayName,
     itemDisplayName,
@@ -2005,12 +2294,14 @@
     getColorsForPath,
     getToolsForPath,
     getLinksForPath,
+    getOfferingsForPath,
     getAllHerbsDeduped,
     getAllKitchenDeduped,
     getAllStonesDeduped,
     getAllColorsDeduped,
     getAllToolsDeduped,
     getAllLinksDeduped,
+    getAllOfferingsDeduped,
     getLexikonForPath,
     getAllLexikonDeduped,
     getAllHerbsGrouped,
@@ -2021,6 +2312,11 @@
     getCraftWorks,
     getTodayCraft,
     getSabbatPraxis,
-    getHeuteResonanz
+    getHeuteResonanz,
+    getLexikonHeuteSuggestions,
+    getLexikonNameIndex,
+    findLexikonByName,
+    PLANET_LEXIKON,
+    MOON_LEXIKON
   };
 })(typeof window !== 'undefined' ? window : globalThis);

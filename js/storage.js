@@ -13,6 +13,7 @@
     lon: 8.54,
     diary: [],
     notes: [],
+    customLexikon: [],
     customRituals: [],
     checkIn: null,
     practice369: {},
@@ -49,6 +50,7 @@
       lastResonanzId: null,
       lastResonanzLabel: null,
       lastResonanzPath: null,
+      lastResonanzKind: null,
       lastResonanzAt: null,
       lastCalendarDay: null,
       lastCalendarLabel: null,
@@ -108,6 +110,7 @@
       return Object.assign(structuredClone(DEFAULTS), data, {
         diary: Array.isArray(data.diary) ? data.diary : [],
         notes: Array.isArray(data.notes) ? data.notes : [],
+        customLexikon: Array.isArray(data.customLexikon) ? data.customLexikon.slice(0, 200) : [],
         customRituals: Array.isArray(data.customRituals) ? data.customRituals : [],
         practice369: data.practice369 && typeof data.practice369 === 'object' ? data.practice369 : {},
         dailyIntention: Object.assign({}, DEFAULTS.dailyIntention, data.dailyIntention || {}),
@@ -251,7 +254,7 @@
     });
   }
 
-  const APP_VERSION = '5.15.0';
+  const APP_VERSION = '5.16.0';
 
   function buildExportMeta(data) {
     const pathId = data.path || 'esoterik';
@@ -268,6 +271,7 @@
       pathName: pathName,
       diaryCount: (data.diary || []).length,
       notesCount: (data.notes || []).length,
+      customLexikonCount: (data.customLexikon || []).length,
       customRitualsCount: (data.customRituals || []).length,
       ritualTemplatesCount: (data.ritualTemplates || []).length,
       cardDrawsCount: (data.cardDrawHistory || []).length,
@@ -489,6 +493,7 @@
     return Object.assign(structuredClone(DEFAULTS), incoming, {
       diary: Array.isArray(incoming.diary) ? incoming.diary : [],
       notes: Array.isArray(incoming.notes) ? incoming.notes : [],
+      customLexikon: Array.isArray(incoming.customLexikon) ? incoming.customLexikon : [],
       customRituals: Array.isArray(incoming.customRituals) ? incoming.customRituals : [],
       practice369: incoming.practice369 && typeof incoming.practice369 === 'object'
         ? incoming.practice369 : {},
@@ -554,6 +559,7 @@
               lon: norm.lon != null ? norm.lon : local.lon,
               diary: mergeById(local.diary, norm.diary),
               notes: mergeById(local.notes, norm.notes),
+              customLexikon: mergeById(local.customLexikon || [], norm.customLexikon || []),
               customRituals: mergeById(local.customRituals, norm.customRituals),
               practice369: Object.assign({}, local.practice369 || {}, norm.practice369 || {}),
               cardDrawHistory: (norm.cardDrawHistory || []).concat(local.cardDrawHistory || []).slice(0, 40),
@@ -1093,6 +1099,44 @@
   }
 
 
+
+  function getCustomLexikon() {
+    const d = load();
+    return Array.isArray(d.customLexikon) ? d.customLexikon.slice() : [];
+  }
+
+  function upsertCustomLexikon(entry) {
+    if (!entry || !entry.name) return getCustomLexikon();
+    const kind = String(entry.kind || 'herb');
+    const name = String(entry.name || '').trim().slice(0, 80);
+    const description = String(entry.description || entry.desc || '').trim().slice(0, 400);
+    const ico = String(entry.ico || '✦').trim().slice(0, 8) || '✦';
+    if (!name || !description) return getCustomLexikon();
+    return update(d => {
+      if (!Array.isArray(d.customLexikon)) d.customLexikon = [];
+      const now = new Date().toISOString();
+      let id = entry.id ? String(entry.id) : '';
+      const list = d.customLexikon;
+      if (id) {
+        const i = list.findIndex(x => x && x.id === id);
+        if (i >= 0) {
+          list[i] = Object.assign({}, list[i], { kind, name, description, ico, updated: now });
+          return;
+        }
+      }
+      id = id || uid();
+      list.unshift({ id, kind, name, description, ico, created: now, updated: now, custom: true });
+      d.customLexikon = list.slice(0, 200);
+    });
+  }
+
+  function removeCustomLexikon(id) {
+    if (!id) return getCustomLexikon();
+    return update(d => {
+      d.customLexikon = (d.customLexikon || []).filter(x => x && x.id !== id);
+    });
+  }
+
   function getLastActivity() {
     const d = load();
     return Object.assign({}, DEFAULTS.lastActivity, d.lastActivity || {});
@@ -1202,6 +1246,9 @@
     addRitualJournalEntry,
     getRitualJournal,
     removeRitualJournalEntry,
+    getCustomLexikon,
+    upsertCustomLexikon,
+    removeCustomLexikon,
     getLastActivity,
     touchLastActivity
   };

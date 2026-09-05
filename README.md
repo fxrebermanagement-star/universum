@@ -430,6 +430,17 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.16.0 — Opfergaben · Lexikon-Suche · Heute-Brücke · Ritual↔Lexikon · Eigene
+
+- Neuer Lexikon-Tab **Opfergaben** (Alkohol, Rum, Wein, Met, Bier, Wasser, Obst, Kerze, …) — Symbolik/Gabe, Maß, Ethik, kein Trinkzwang, keine Initiation
+- Hausmittel bleibt Speise/Würze; klare Gaben in Opfergaben (Doppelungen mit anderem Kontext ok)
+- Lexikon-**Suche** + **A–Z**-Leiste / Sortierung
+- **Heute-Brücke**: Mond × Planetenstunde → 1–3 Vorschläge (Altar + Resonanzen)
+- Ritual-Schritte verlinken passende Lexikon-Namen (Tap → Tab + Hervorhebung)
+- **Eigene Lexikon-Einträge** lokal (Speicher wie Buch), immer sichtbar
+- Altar-Zuletzt-Kachel: Chip für alle Tabs inkl. Opfergaben
+- SW-Cache `universum-shell-v57`
+
 ## 5.15.0 — Lexikon stark erweitert · Tab Hausmittel
 
 - Tab-Label **Küche → Hausmittel** (interne Id `kitchen` unverändert)
