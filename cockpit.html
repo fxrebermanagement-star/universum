@@ -40,15 +40,9 @@
     <!-- 1. Cockpit -->
     <section id="sec-cockpit" class="section-view active" aria-label="Cockpit">
       <h1 class="section-title">Cockpit</h1>
-      <p class="section-sub" id="cockpit-greeting">Still begleiten — Praxis vor Spektakel.</p>
-      <p class="path-haltung" id="path-haltung" aria-live="polite">Still üben — Daten bleiben bei dir.</p>
-
-      <ul class="trust-strip trust-strip-inline" aria-label="Warum UNIVERSUM">
-        <li><strong>Lokal</strong><span>Daten bleiben bei dir</span></li>
-        <li><strong>Ethisch</strong><span>Grenze &amp; Ausgleich</span></li>
-        <li><strong>Pfadstark</strong><span>Haltung statt Show</span></li>
-      </ul>
-      <p class="privacy-line" id="privacy-line">Hier übst du. Alles bleibt in <code>feldlicht-v15</code> auf diesem Gerät — kein Server, kein Tracking.</p>
+      <p class="section-sub" id="cockpit-greeting">Praxis vor Spektakel.</p>
+      <p class="path-haltung" id="path-haltung" aria-live="polite"><span class="path-sym" aria-hidden="true">✦</span> <span class="path-haltung-text">Still üben — Daten bleiben bei dir.</span></p>
+      <p class="privacy-line privacy-line-slim" id="privacy-line">Lokal in <code>feldlicht-v15</code> · kein Tracking</p>
 
       <div class="install-banner" id="install-banner" hidden role="region" aria-label="App installieren">
         <div class="install-banner-inner">
@@ -78,7 +72,7 @@
           <h3 id="jetzt-title">Jetzt</h3>
           <span class="chip-quiet" id="jetzt-chip">Praxis</span>
         </div>
-        <p class="jetzt-lead" id="jetzt-lead">Eine ruhige Praxis reicht — empfohlen für heute.</p>
+        <p class="jetzt-lead" id="jetzt-lead">Eine Praxis für heute.</p>
         <p class="jetzt-meta hint-sm" id="jetzt-meta"></p>
         <div class="btn-row">
           <button type="button" class="primary" id="jetzt-start">Empfohlene Praxis</button>
@@ -92,7 +86,7 @@
           <span class="chip-quiet" id="path-week-chip">Tag —</span>
         </div>
         <p class="path-week-lead" id="path-week-lead">Mikro-Praxis für heute.</p>
-        <p class="hint-sm" id="path-week-hint">Mo–So · rollt mit dem Wochentag</p>
+        <p class="hint-sm" id="path-week-hint">Heute · Mo–So</p>
         <div class="btn-row">
           <button type="button" class="primary" id="path-week-done">Erledigt</button>
           <button type="button" class="ghost tiny" id="path-week-undo" hidden>Zurücknehmen</button>
@@ -112,26 +106,15 @@
         </div>
       </article>
 
-      <div class="voc-banner" id="voc-banner" role="status">
-        <span class="voc-ico">☾</span>
-        <span id="voc-text"></span>
-        <span class="approx-badge voc-approx" title="VoC-Hinweis ist eine JS-Näherung">Näherung</span>
-      </div>
+      <!-- Secondary / dense panels: calm Mehr accordion -->
+      <details class="card mehr-accordion" id="mehr-accordion">
+        <summary class="mehr-summary">
+          <span>Mehr</span>
+          <span class="mehr-hint">Heute · Mond · Astronomie · Werkzeug · Intention</span>
+        </summary>
+        <div class="mehr-body">
 
-      <article class="card mond-arbeit-card" id="mond-arbeit" hidden aria-live="polite">
-        <div class="intention-top">
-          <h3 id="mond-arbeit-title">Mond-Arbeit</h3>
-          <span class="chip-quiet" id="mond-arbeit-phase">—</span>
-        </div>
-        <p class="mond-arbeit-lead" id="mond-arbeit-lead"></p>
-        <p class="hint-sm" id="mond-arbeit-practice"></p>
-        <div class="btn-row">
-          <button type="button" class="primary" id="mond-arbeit-start">Praxis starten</button>
-          <button type="button" class="ghost tiny" id="mond-arbeit-diary">Im Tagebuch notieren</button>
-        </div>
-      </article>
-
-      <article class="card briefing-card briefing-card-slim" id="tagesbriefing" aria-labelledby="briefing-title">
+      <article class="card briefing-card briefing-card-slim nested-card" id="tagesbriefing" aria-labelledby="briefing-title">
         <div class="briefing-top">
           <h3 id="briefing-title">Heute</h3>
           <span class="briefing-streak" id="briefing-streak" hidden></span>
@@ -148,16 +131,32 @@
           <button type="button" class="ghost tiny" id="briefing-open-kalender">Zum Fest</button>
           <button type="button" class="primary hidden" id="briefing-start-practice" tabindex="-1" aria-hidden="true">Empfohlene Praxis</button>
         </div>
-        <p class="briefing-share-hint hint-sm" id="briefing-share-hint">Impuls teilen — ohne Druck.</p>
       </article>
 
-      <!-- Secondary / dense panels: calm Mehr accordion -->
-      <details class="card mehr-accordion" id="mehr-accordion">
-        <summary class="mehr-summary">
-          <span>Mehr</span>
-          <span class="mehr-hint">Astronomie · Pfad-Woche · Werkzeug · Lehre · Intention</span>
-        </summary>
-        <div class="mehr-body">
+      <div class="voc-banner nested-card" id="voc-banner" role="status">
+        <span class="voc-ico">☾</span>
+        <span id="voc-text"></span>
+        <span class="approx-badge voc-approx" title="VoC-Hinweis ist eine JS-Näherung">Näherung</span>
+      </div>
+
+      <article class="card mond-arbeit-card nested-card" id="mond-arbeit" hidden aria-live="polite">
+        <div class="intention-top">
+          <h3 id="mond-arbeit-title">Mond-Arbeit</h3>
+          <span class="chip-quiet" id="mond-arbeit-phase">—</span>
+        </div>
+        <p class="mond-arbeit-lead" id="mond-arbeit-lead"></p>
+        <p class="hint-sm" id="mond-arbeit-practice"></p>
+        <div class="btn-row">
+          <button type="button" class="primary" id="mond-arbeit-start">Praxis starten</button>
+          <button type="button" class="ghost tiny" id="mond-arbeit-diary">Ins Tagebuch</button>
+        </div>
+      </article>
+
+      <ul class="trust-strip trust-strip-inline nested-card" aria-label="Warum UNIVERSUM">
+        <li><strong>Lokal</strong><span>Daten bei dir</span></li>
+        <li><strong>Ethisch</strong><span>Grenze &amp; Ausgleich</span></li>
+        <li><strong>Pfadstark</strong><span>Haltung statt Show</span></li>
+      </ul>
 
       <article class="card path-teach-card nested-card" id="path-teach-card" aria-labelledby="path-teach-title">
         <div class="intention-top">
@@ -360,7 +359,7 @@
         </div><!-- .mehr-body -->
       </details>
 
-      <h3 class="areas-label">Bereiche</h3>
+      <h3 class="areas-label">Mehr Bereiche</h3>
       <div class="tiles">
         <button type="button" class="tile" data-tile="kalender"><div class="tile-ico">📅</div><div class="tile-name">Kalender</div><div class="tile-desc">Mond, Feste, Maya</div></button>
         <button type="button" class="tile" data-tile="kosmos"><div class="tile-ico">🪐</div><div class="tile-name">Kosmos</div><div class="tile-desc">Radar &amp; Schumann</div></button>
@@ -444,7 +443,7 @@
     <!-- 4. Rituale -->
     <section id="sec-rituale" class="section-view">
       <h1 class="section-title">Rituale</h1>
-      <p class="section-sub">Geführt · eigene · Sigil · Feldkarten · mit Sicherheitscheck</p>
+      <p class="section-sub">Geführt · eigene · Sigil · Karten</p>
       <div class="tabs" role="tablist" aria-label="Ritual-Bereiche">
         <button type="button" class="active" role="tab" aria-selected="true" data-rtab="guided">Geführt</button>
         <button type="button" role="tab" aria-selected="false" data-rtab="custom">Eigene</button>
@@ -452,9 +451,10 @@
         <button type="button" role="tab" aria-selected="false" data-rtab="karten">Feldkarten</button>
       </div>
 
+      <p class="ritual-section-label">Hilfen</p>
       <div class="card praxis-helper" id="praxis-helper">
-        <h3>Praxis-Helfer</h3>
-        <p class="hint">Stille Fokuszeit — optional mit sanfter Streak (369 oder abgeschlossenes Ritual).</p>
+        <h3>Fokus</h3>
+        <p class="hint-sm">Stille · optional Streak</p>
         <div class="praxis-timer-row">
           <div class="praxis-timer" id="focus-timer" aria-live="polite">5:00</div>
           <div class="praxis-timer-btns" role="group" aria-label="Fokusdauer">
@@ -472,8 +472,8 @@
       </div>
 
       <div class="card breath-standalone" id="breath-standalone" aria-labelledby="breath-title">
-        <h3 id="breath-title">Atem-Übung</h3>
-        <p class="hint">Ohne volles Ritual — 4/6 oder Box-Atmung mit visuellem Kreis.</p>
+        <h3 id="breath-title">Atem</h3>
+        <p class="hint-sm">4/6 oder Box — ohne volles Ritual</p>
         <div class="breath-mode-row" role="group" aria-label="Atemmodus">
           <button type="button" class="picked" data-breath-mode="46" aria-pressed="true">4 / 6</button>
           <button type="button" data-breath-mode="box" aria-pressed="false">Box 4–4–4–4</button>
@@ -487,7 +487,8 @@
       </div>
 
       <div data-rpanel="guided">
-        <div class="notice ethics-line">Vor jeder Arbeit: Körper, Zweck, Grenzen, kein Schaden, Abschluss.</div>
+        <p class="ritual-section-label">Pfad-Rituale</p>
+        <div class="notice ethics-line">Körper · Zweck · Grenzen · kein Schaden · Abschluss</div>
         <p class="path-flavor" id="ritual-path-flavor"></p>
         <div class="card path-week-card compact" id="path-week-card-ritual" aria-labelledby="path-week-title-r">
           <div class="intention-top">
@@ -510,8 +511,8 @@
         </div>
         <div class="ritual-filters card" id="ritual-filters">
           <div class="form-row" style="margin-bottom:0.55rem">
-            <label for="ritual-search">Bibliothek durchsuchen</label>
-            <input id="ritual-search" type="search" placeholder="Name, Atem, Kerze…" autocomplete="off" />
+            <label for="ritual-search">Suche</label>
+            <input id="ritual-search" type="search" placeholder="Name…" autocomplete="off" />
           </div>
           <div class="filter-row">
             <label class="sr-only" for="ritual-filter-duration">Dauer</label>
@@ -531,8 +532,8 @@
         </div>
         <div class="ritual-list" id="ritual-list-own" aria-label="Pfad-eigene Rituale"></div>
         <details class="card shared-rituals-accordion" id="shared-rituals-accordion">
-          <summary>Gemeinsame Übungen</summary>
-          <p class="hint-sm">Geteilte Rituale für alle Pfade — optional.</p>
+          <summary>Gemeinsam</summary>
+          <p class="hint-sm">Für alle Pfade</p>
           <div class="ritual-list" id="ritual-list-shared" aria-label="Gemeinsame Rituale"></div>
         </details>
         <div class="ritual-list" id="ritual-list" hidden aria-hidden="true"></div>
@@ -640,7 +641,7 @@
     <!-- 5. Magie-Tagebuch -->
     <section id="sec-tagebuch" class="section-view">
       <h1 class="section-title">Magie-Tagebuch</h1>
-      <p class="section-sub">Dein Buch · lokal in <code>feldlicht-v15</code> · Export-Paket — du besitzt die Daten</p>
+      <p class="section-sub">Lokal · <code>feldlicht-v15</code> · Export</p>
       <div class="toolbar export-pack" role="group" aria-label="Export-Paket">
         <button type="button" class="primary" id="diary-export">Buch JSON</button>
         <button type="button" class="ghost" id="diary-export-summary" title="Kurztext für Coach / Supervision">Praxis-Zusammenfassung</button>
@@ -804,13 +805,13 @@
   <!-- First-run onboarding · Erste Minute (v2.4) -->
   <div class="onboard-overlay" id="onboard-overlay" hidden>
     <div class="onboard-card" role="dialog" aria-modal="true" aria-labelledby="onboard-title">
-      <p class="splash-eyebrow">ERSTE MINUTE · UNIVERSUM</p>
+      <p class="splash-eyebrow">ERSTE MINUTE</p>
       <h2 id="onboard-title">Dein Pfad</h2>
-      <p class="onboard-copy" id="onboard-lead">Pfad wählen — dann üben.</p>
+      <p class="onboard-copy" id="onboard-lead">Symbol wählen — dann üben.</p>
       <div class="onboard-progress" id="onboard-progress" aria-hidden="true"><i data-op="0"></i><i data-op="1"></i></div>
 
       <div class="onboard-step" data-onboard-step="0">
-        <p class="hint">Pfad prägt Rituale und Impulse — später wechselbar. Standort: Zürich (Einstellungen).</p>
+        <p class="hint">Ein Pfad genügt. Später wechselbar · Standort Zürich.</p>
         <div class="path-grid" id="onboard-paths"></div>
         <label class="inline-check onboard-ethics">
           <input type="checkbox" id="onboard-ethics" />
@@ -821,9 +822,9 @@
       </div>
 
       <div class="onboard-step hidden" data-onboard-step="1">
-        <p class="hint"><strong>Einladung:</strong> Die Karte <em>Jetzt</em> zeigt eine klare Empfehlung für heute.</p>
+        <p class="hint">Im Cockpit wartet <em>Jetzt</em> — eine Praxis für heute.</p>
         <div class="notice ethics-line onboard-invite-box">
-          Tippe «Üben» — keine Tour. Eine Praxis reicht.
+          «Üben» öffnet das Cockpit. Keine Tour.
         </div>
       </div>
 
@@ -885,7 +886,7 @@
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
         <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">2.7.0</span></p>
+        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">2.8.0</span></p>
       </div>
     </div>
   </div>
@@ -912,7 +913,7 @@
   <div class="modal-overlay" id="path-modal">
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="path-modal-title">
       <h2 id="path-modal-title">Pfad wählen</h2>
-      <p class="modal-sub">Wählt Haltung und Farbe für diese Sitzung: Begrüßung, Briefing-Ton, Ritual-Betonung. Voodoo/Santería = nur Hauspraxis, keine Initiation.</p>
+      <p class="modal-sub">Symbol · Haltung · Farbe. Voodoo/Santería = nur Hauspraxis.</p>
       <div class="path-grid" id="path-grid"></div>
       <button type="button" id="path-modal-close" class="w-full mt-2">Schließen</button>
     </div>

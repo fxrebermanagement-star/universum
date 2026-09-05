@@ -1,6 +1,6 @@
 /**
  * UNIVERSUM — 8 practice paths (path-aware rituals/sayings/calendar/diary)
- * v2.7: Kalender pfadfokussiert (pathOnly) · Pfad-Woche · Werkzeug · Initiations-Grenze
+ * v2.8: Pfad-Symbole · UX-Klarheit · v2.7 Kalender pfadfokussiert (pathOnly) · Pfad-Woche · Werkzeug · Initiations-Grenze
  */
 (function (global) {
   'use strict';
@@ -9,6 +9,8 @@
     {
       id: 'schamanismus',
       name: 'Schamanismus',
+      symbol: '◎',
+      symbolLabel: 'Trommelkreis',
       accent: '#c4893a',
       accentSoft: 'rgba(196, 137, 58, 0.22)',
       accentDeep: '#a06e2e',
@@ -55,6 +57,8 @@
     {
       id: 'nordisch',
       name: 'Nordisch',
+      symbol: 'ᛟ',
+      symbolLabel: 'Odal',
       accent: '#7aa8c9',
       accentSoft: 'rgba(122, 168, 201, 0.22)',
       accentDeep: '#5a88a8',
@@ -101,6 +105,8 @@
     {
       id: 'voodoo',
       name: 'Voodoo',
+      symbol: '✶',
+      symbolLabel: 'Sternkreuz',
       accent: '#b84a6a',
       accentSoft: 'rgba(184, 74, 106, 0.22)',
       accentDeep: '#943850',
@@ -148,6 +154,8 @@
     {
       id: 'santeria',
       name: 'Santería',
+      symbol: '◆',
+      symbolLabel: 'Raute',
       accent: '#c9a03a',
       accentSoft: 'rgba(201, 160, 58, 0.22)',
       accentDeep: '#a8822e',
@@ -195,6 +203,8 @@
     {
       id: 'hermetik',
       name: 'Hermetik',
+      symbol: '△',
+      symbolLabel: 'Dreieck',
       accent: '#9a8fd4',
       accentSoft: 'rgba(154, 143, 212, 0.22)',
       accentDeep: '#7a6fb4',
@@ -241,6 +251,8 @@
     {
       id: 'wicca',
       name: 'Wicca-Hexerei',
+      symbol: '☽',
+      symbolLabel: 'Mondsichel',
       accent: '#5aab7a',
       accentSoft: 'rgba(90, 171, 122, 0.22)',
       accentDeep: '#3f8a5a',
@@ -287,6 +299,8 @@
     {
       id: 'chaosmagie',
       name: 'Chaosmagie',
+      symbol: '↯',
+      symbolLabel: 'Blitz',
       accent: '#c45ec8',
       accentSoft: 'rgba(196, 94, 200, 0.22)',
       accentDeep: '#a040a8',
@@ -333,6 +347,8 @@
     {
       id: 'esoterik',
       name: 'Esoterik',
+      symbol: '✦',
+      symbolLabel: 'Stern',
       accent: '#8b6fd0',
       accentSoft: 'rgba(139, 111, 208, 0.22)',
       accentDeep: '#6a4fb0',

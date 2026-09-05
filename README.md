@@ -155,6 +155,16 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 - App `2.5.0`, SW-Cache `universum-shell-v17`
 
 
+
+**Zusätzlich (v2.8 · UX Klarheit & Pfad-Symbole)**
+
+- **Modernes Cockpit** — klarere Typografie, mehr Luft, weichere Elevation, weniger gestapelte Karten
+- **Pfad-Symbole** — einziges Symbol pro Pfad (◎ ᛟ ✶ ◆ △ ☽ ↯ ✦) in Chip, Haltung, Ritual-Badges, Kalender-Filter und Onboarding
+- **Weniger auf einmal** — Cockpit zeigt Jetzt + Pfad-Woche (+ Fest-Chip); Briefing, VoC, Mond-Arbeit und Astronomie unter Mehr
+- **Rituale & Onboarding** — klarere Abschnitte, kürzere Labels, weniger dichte Hinweise
+- Kalender „Nur mein Pfad“ bleibt (v2.7); Schumann-Live + Tomsk-Spektrogramm, Ethik, `feldlicht-v15` unverändert
+- App `2.8.0`, SW-Cache `universum-shell-v20`
+
 **Zusätzlich (v2.7 · Kalender pfadfokussiert)**
 
 - **Nur mein Pfad** — Kalender zeigt standardmäßig nur pfadrelevante Feste/Betonung/Tore (aus `paths.js` Emphasis + Pfad-Listen / dynamische Gates)
@@ -216,7 +226,7 @@ Kein Ersatz für Ephemeriden oder traditionelle Einweihung.
 
 - Schriften: **Syne** (Titel/Zahlen) + **Manrope** (Fließtext) via Google Fonts
 - Dark-Violet Mystik-Cockpit, mobile-first, Micro-Interactions
-- Service Worker: Offline-Shell (`universum-shell-v19`), Scope relativ für GitHub Pages `/universum/`
+- Service Worker: Offline-Shell (`universum-shell-v20`), Scope relativ für GitHub Pages `/universum/`
 - Kein React, kein Bundler, kein Backend
 
 ## Dateien
@@ -304,4 +314,6 @@ Fünfzehnte Runde — **Live Tomsk-Spektrogramm**: ResonanceOne `/api/spectrogra
 
 Sechzehnte Runde — **Kalender nur mein Pfad**: Standardfilter auf pfadrelevante Feste; Umschalter Alle Feste; Tagesdetail mit „Andere Feste“; Briefing/Countdown respektieren `settings.calendarPathOnly`. App `2.7.0`, SW-Cache `universum-shell-v19`. Server Port **8765**.
 
+## Craft-Pass (v2.8)
 
+Siebzehnte Runde — **UX Klarheit**: modernes dunkles UI mit mehr Weißraum und weicher Elevation; eindeutige Pfad-Symbole in Chip/Haltung/Rituale/Kalender; Cockpit auf Jetzt + Pfad-Woche verdichtet (Rest unter Mehr); Rituale und Onboarding gestrafft. Kalender pfadfokussiert (v2.7), Live-Schumann/Tomsk und Ethik bleiben. App `2.8.0`, SW-Cache `universum-shell-v20`. Server Port **8765**.

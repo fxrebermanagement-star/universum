@@ -185,6 +185,7 @@
     'Kalender „Nur mein Pfad“: standardmäßig nur pfadrelevante Feste — Umschalter auf Alle Feste.',
     'Pfad-Woche: sieben kurze Schritte Mo–So — erledigt speichert lokal.',
     'Werkzeug-Set: Mini-Modul pro Pfad (Eid, Sigil, Elemente, Haus-Reinheit).',
+    'Pfad-Symbole: jedes Symbol steht für eine Haltung — Chip, Rituale, Kalender.',
   ];
 
   function tipOfDay(date) {
@@ -962,6 +963,17 @@
     return Paths.getPath(state.path || 'esoterik');
   }
 
+  function pathSymbol(path) {
+    const p = path || currentPath();
+    return (p && p.symbol) || '✦';
+  }
+
+  function pathDisplayName(path) {
+    const p = path || currentPath();
+    if (!p) return 'Pfad';
+    return pathSymbol(p) + ' ' + (p.name || 'Pfad');
+  }
+
   /** Path as Haltung: CSS data-path + accent vars + cockpit line. */
   function applyPathTheme() {
     const path = currentPath();
@@ -977,9 +989,18 @@
       if (path.accentSoft) root.style.setProperty('--accent-soft', path.accentSoft);
     }
     const h = $('#path-haltung');
-    if (h) h.textContent = (path && (path.haltung || path.saying)) || 'Still üben — Daten bleiben bei dir.';
+    if (h) {
+      const sym = pathSymbol(path);
+      const text = (path && (path.haltung || path.saying)) || 'Still üben — Daten bleiben bei dir.';
+      h.innerHTML = '<span class="path-sym" aria-hidden="true">' + escapeHtml(sym) + '</span> ' +
+        '<span class="path-haltung-text">' + escapeHtml(text) + '</span>';
+    }
     const chip = $('#path-chip');
-    if (chip && path) chip.textContent = path.name;
+    if (chip && path) {
+      chip.innerHTML = '<span class="path-sym" aria-hidden="true">' + escapeHtml(pathSymbol(path)) + '</span> ' +
+        '<span class="path-chip-name">' + escapeHtml(path.name) + '</span>';
+      chip.setAttribute('aria-label', 'Pfad: ' + path.name);
+    }
   }
 
   function renderJetztCard() {
@@ -1008,7 +1029,7 @@
     const ritualId = (path && path.recommendedRitual) || 'erdung';
     const ritual = Rituals.getRitual(ritualId);
     if (title) title.textContent = 'Jetzt';
-    if (chip) chip.textContent = (path && path.name) || 'Praxis';
+    if (chip) chip.innerHTML = '<span class="path-sym" aria-hidden="true">' + escapeHtml(pathSymbol(path)) + '</span> ' + escapeHtml((path && path.name) || 'Praxis');
     if (lead) {
       lead.textContent = (path && path.practiceHint) || 'Eine ruhige Praxis reicht.';
     }
@@ -1675,11 +1696,14 @@
   /* ——— Calendar ——— */
   function syncCalFilterUi() {
     const pathOnly = isCalendarPathOnly();
+    const path = currentPath();
+    const sym = pathSymbol(path);
     const btnPath = $('#cal-filter-path');
     const btnAll = $('#cal-filter-all');
     if (btnPath) {
       btnPath.classList.toggle('active', pathOnly);
       btnPath.setAttribute('aria-pressed', pathOnly ? 'true' : 'false');
+      btnPath.innerHTML = '<span class="path-sym" aria-hidden="true">' + escapeHtml(sym) + '</span> Nur mein Pfad';
     }
     if (btnAll) {
       btnAll.classList.toggle('active', !pathOnly);
@@ -1688,8 +1712,8 @@
     const sub = $('#cal-section-sub');
     if (sub) {
       sub.textContent = pathOnly
-        ? 'Gregorianisch · Mond · Maya · nur pfadrelevante Feste'
-        : 'Gregorianisch · Mond · Maya · alle Feste';
+        ? (sym + ' ' + ((path && path.name) || 'Pfad') + ' · nur Pfad-Feste')
+        : (sym + ' · alle Feste · Mond · Maya');
     }
     const setEl = $('#set-calendar-path-only');
     if (setEl) setEl.checked = pathOnly;
@@ -2081,7 +2105,7 @@
       const status = $(prefix === 'r' ? '#path-week-status-r' : '#path-week-status');
       const doneBtn = $(prefix === 'r' ? '#path-week-done-r' : '#path-week-done');
       const undoBtn = $(prefix === 'r' ? '#path-week-undo-r' : '#path-week-undo');
-      if (chip) chip.textContent = dayLabel + ' · ' + ((path && path.name) || 'Pfad');
+      if (chip) chip.innerHTML = '<span class="path-sym" aria-hidden="true">' + escapeHtml(pathSymbol(path)) + '</span> ' + escapeHtml(dayLabel);
       if (lead) lead.textContent = (step.title || 'Heute') + ' — ' + (step.text || '');
       if (status) status.textContent = done ? 'Heute erledigt.' : 'Noch offen — kurz und ruhig.';
       if (doneBtn) {
@@ -2131,7 +2155,7 @@
       const body = $(bodySel);
       const chip = $(chipSel);
       const title = $(titleSel);
-      if (chip) chip.textContent = (path && path.name) || 'Pfad';
+      if (chip) chip.innerHTML = '<span class="path-sym" aria-hidden="true">' + escapeHtml(pathSymbol(path)) + '</span> ' + escapeHtml((path && path.name) || 'Pfad');
       if (title && tool) title.textContent = 'Werkzeug · ' + tool.title;
       if (!body || !tool) return;
 
@@ -2283,8 +2307,9 @@
     const path = currentPath();
     const flavor = $('#ritual-path-flavor');
     if (flavor) {
-      flavor.textContent = path.name + ': ' + (path.ritualFlavor || '') +
-        (path.disclaimer ? ' — ' + path.disclaimer : '');
+      flavor.innerHTML = '<span class="path-sym" aria-hidden="true">' + escapeHtml(pathSymbol(path)) + '</span> ' +
+        '<strong>' + escapeHtml(path.name) + '</strong>: ' + escapeHtml(path.ritualFlavor || '') +
+        (path.disclaimer ? ' — ' + escapeHtml(path.disclaimer) : '');
     }
     renderStreakLine();
 
@@ -2318,7 +2343,7 @@
         '<button type="button" class="ritual-item-main" data-ritual="' + r.id + '">' +
         '<span class="r-ico">' + r.ico + '</span>' +
         '<span><div class="r-name">' + escapeHtml(r.name) +
-        (isOwn ? '<span class="fav-badge path-own-badge">Pfad</span>' : '') +
+        (isOwn ? '<span class="fav-badge path-own-badge"><span class="path-sym">' + escapeHtml(pathSymbol(path)) + '</span> Pfad</span>' : '') +
         (isFav ? '<span class="fav-badge">Favorit</span>' : '') + '</div>' +
         '<div class="r-meta">≈ ' + r.mins + ' Min · ' + r.steps.length + ' Schritte' +
         (r.breath ? ' · Atem' : '') + (r.candle ? ' · Kerze' : '') +
@@ -3655,7 +3680,8 @@
     modal.classList.add('open');
     const grid = $('#path-grid');
     grid.innerHTML = Paths.PATHS.map(p =>
-      '<button type="button" class="path-btn' + (p.id === state.path ? ' active' : '') + '" data-path="' + p.id + '">' +
+      '<button type="button" class="path-btn' + (p.id === state.path ? ' active' : '') + '" data-path="' + p.id + '" aria-label="' + escapeHtml(p.name) + '">' +
+      '<span class="path-btn-sym" aria-hidden="true">' + escapeHtml(p.symbol || '✦') + '</span>' +
       '<span class="path-btn-name">' + escapeHtml(p.name) + '</span>' +
       (p.haltung ? '<span class="path-btn-haltung">' + escapeHtml(p.haltung) + '</span>' : '') +
       '</button>'
@@ -3667,7 +3693,7 @@
         applyPathTheme();
         modal.classList.remove('open');
         Rituals.vibrate(25);
-        toast('Haltung: ' + currentPath().name);
+        toast('Haltung: ' + pathDisplayName());
         const active = $$('.section-view.active')[0];
         if (active) navigate(active.id.replace('sec-', ''), { force: true });
       });
@@ -3731,8 +3757,8 @@
       'Erste Praxis'
     ];
     const leads = [
-      'Pfad wählen — Ethik in einer Zeile.',
-      'Danach: Jetzt-Karte im Cockpit — eine Praxis für heute.'
+      'Symbol tippen · Ethik bestätigen.',
+      'Danach wartet Jetzt im Cockpit.'
     ];
     const title = $('#onboard-title');
     if (title && titles[n]) title.textContent = titles[n];
@@ -3747,8 +3773,10 @@
     const grid = $('#onboard-paths');
     if (grid) {
       grid.innerHTML = Paths.PATHS.map(p =>
-        '<button type="button" class="path-btn' + (p.id === onboardPath ? ' active' : '') + '" data-onboard-path="' + p.id + '">' +
-        escapeHtml(p.name) + '</button>'
+        '<button type="button" class="path-btn' + (p.id === onboardPath ? ' active' : '') + '" data-onboard-path="' + p.id + '" aria-label="' + escapeHtml(p.name) + '">' +
+        '<span class="path-btn-sym" aria-hidden="true">' + escapeHtml(p.symbol || '✦') + '</span>' +
+        '<span class="path-btn-name">' + escapeHtml(p.name) + '</span>' +
+        '</button>'
       ).join('');
       $$('#onboard-paths [data-onboard-path]').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -3790,7 +3818,7 @@
     try { if (Store.dismissStarterFlow) Store.dismissStarterFlow(); } catch (_) {}
     refreshState();
     applyMotionPref();
-    $('#path-chip').textContent = currentPath().name;
+    applyPathTheme();
     closeOnboarding();
     toast('Bereit — du kannst üben.');
     navigate('cockpit');
