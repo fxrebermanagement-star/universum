@@ -817,6 +817,71 @@ input[type="checkbox"] {
 .schumann-source a { color: #9b7ed9; text-decoration: underline; text-underline-offset: 2px; }
 .schumann-live-panel .ghost.tiny { margin-top: 0.45rem; }
 
+/* Tomsk live spectrogram (main graphic) */
+.schumann-spectrogram {
+  margin: 0 0 0.75rem;
+  width: 100%;
+}
+.schumann-spectrogram-figure {
+  margin: 0;
+  padding: 0.4rem;
+  background:
+    linear-gradient(180deg, rgba(18, 12, 32, 0.95) 0%, rgba(10, 8, 18, 0.98) 100%);
+  border: 1px solid rgba(155, 126, 217, 0.28);
+  border-radius: 14px;
+  box-shadow:
+    inset 0 0 0 1px rgba(62, 207, 191, 0.06),
+    0 0 28px rgba(139, 111, 208, 0.12);
+  overflow: hidden;
+}
+.schumann-spectrogram-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: min(42vh, 320px);
+  object-fit: contain;
+  object-position: center;
+  border-radius: 10px;
+  background: #0a0812;
+}
+.schumann-spectrogram.is-error .schumann-spectrogram-figure img {
+  display: none;
+}
+.schumann-spectrogram-err {
+  margin: 0.55rem 0.35rem 0.35rem;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: #e8c547;
+}
+.schumann-spectrogram-attr {
+  margin-top: 0.45rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+.schumann-spectrogram-attr a {
+  color: #9b7ed9;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.schumann-secondary-label {
+  margin: 0.15rem 0 0.35rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+@media (max-width: 480px) {
+  .schumann-spectrogram-figure {
+    padding: 0.3rem;
+    border-radius: 12px;
+  }
+  .schumann-spectrogram-figure img {
+    max-height: min(36vh, 260px);
+    border-radius: 8px;
+  }
+}
+
+
 /* Calendar */
 .cal-nav {
   display: flex;

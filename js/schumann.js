@@ -1,6 +1,7 @@
 /**
  * UNIVERSUM — Schumann Puls-Visualisierung + optionale Live-Stationsdaten
  * Live: ResonanceOne /api/now (Tomsk SR + NOAA Kp/Solar) — Stations-/Index-Daten
+ * Spektrogramm: ResonanceOne /api/spectrogram (Tomsk SOS JPEG, ~5 Min Cache)
  * Explizit: kein Magnetometer, keine Geister-/EMF-Messung, kein Körper-Sensor
  */
 (function (global) {
@@ -9,6 +10,8 @@
   const FALLBACK_FREQ = 7.83;
   const API_URL = 'https://resonanceone.app/api/now';
   const REFRESH_MS = 5 * 60 * 1000; // match API cache-control max-age=300
+  const SPECTROGRAM_URL = 'https://resonanceone.app/api/spectrogram';
+  const SPECTROGRAM_REFRESH_MS = 5 * 60 * 1000;
 
   let raf = null;
   let audioCtx = null;
@@ -35,6 +38,7 @@
   let liveTimer = null;
   let liveListeners = [];
   let persistFn = null;
+  let spectrogramTimer = null;
 
   function formatHz(hz) {
     const n = Number(hz);
@@ -457,10 +461,62 @@
     }
   }
 
+
+  function spectrogramSrc() {
+    return SPECTROGRAM_URL + '?t=' + Date.now();
+  }
+
+  function clearSpectrogramTimer() {
+    if (spectrogramTimer) {
+      clearInterval(spectrogramTimer);
+      spectrogramTimer = null;
+    }
+  }
+
+  function setSpectrogramError(wrap, img, errEl, on) {
+    if (wrap) wrap.classList.toggle('is-error', !!on);
+    if (img) img.hidden = !!on;
+    if (errEl) errEl.hidden = !on;
+  }
+
+  function refreshSpectrogram() {
+    if (typeof document === 'undefined') return;
+    const wraps = document.querySelectorAll('[data-sch-spectrogram]');
+    if (!wraps.length) return;
+    const src = spectrogramSrc();
+    wraps.forEach(function (wrap) {
+      const img = wrap.querySelector('[data-sch-spectrogram-img]');
+      const errEl = wrap.querySelector('[data-sch-spectrogram-err]');
+      if (!img) return;
+      const probe = new Image();
+      probe.onload = function () {
+        img.src = src;
+        img.removeAttribute('hidden');
+        setSpectrogramError(wrap, img, errEl, false);
+      };
+      probe.onerror = function () {
+        setSpectrogramError(wrap, img, errEl, true);
+      };
+      probe.src = src;
+    });
+  }
+
+  function startSpectrogram() {
+    refreshSpectrogram();
+    clearSpectrogramTimer();
+    spectrogramTimer = setInterval(refreshSpectrogram, SPECTROGRAM_REFRESH_MS);
+  }
+
+  function stopSpectrogram() {
+    clearSpectrogramTimer();
+  }
+
   global.UniversumSchumann = {
     FREQ: FALLBACK_FREQ,
     API_URL,
     REFRESH_MS,
+    SPECTROGRAM_URL,
+    SPECTROGRAM_REFRESH_MS,
     startViz,
     stopViz,
     toggleAudio,
@@ -475,6 +531,9 @@
     onLiveUpdate,
     formatHz,
     geoLabelDe,
-    formatUpdatedLocal
+    formatUpdatedLocal,
+    startSpectrogram,
+    stopSpectrogram,
+    refreshSpectrogram
   };
 })(typeof window !== 'undefined' ? window : globalThis);

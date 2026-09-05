@@ -92,6 +92,7 @@
       persist: persistSchumannLiveCache
     }).then(renderSchumannLiveUI).catch(() => renderSchumannLiveUI());
     renderSchumannLiveUI(Schumann.getLiveState());
+    if (Schumann.startSpectrogram) Schumann.startSpectrogram();
   }
 
 
@@ -3670,6 +3671,7 @@
     $$('[data-sch-refresh]').forEach(btn => {
       btn.addEventListener('click', () => {
         if (!Schumann || !Schumann.fetchNow) return;
+        if (Schumann.refreshSpectrogram) Schumann.refreshSpectrogram();
         if (!schumannLiveEnabledFromState(state)) {
           toast('Live-Stationsdaten sind aus — unter Einstellungen einschalten');
           return;

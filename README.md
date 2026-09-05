@@ -26,14 +26,14 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 - Voodoo / Santería: nur öffentliche **Hauspraxis**, keine Initiation
 - Explizit: *Ein Handy kann keine Geister messen.* Keine EMF-/Geister-Behauptungen
 - Unruhe = abgeleitet aus Mondphase, VoC-Hinweis, Retrograd-Näherung, Maya-Ton, optionalem Check-in
-- Schumann = optionale **Live-Stationsdaten** (Tomsk via ResonanceOne + NOAA Kp/Solar) plus 7,83-Hz-Puls-Visualisierung als Offline-Fallback (optional leiser 136-Hz-Web-Audio-Träger); kein Magnetometer, keine Körper-/Geister-Messung
+- Schumann = optionale **Live-Stationsdaten** und **Tomsk-Spektrogramm** (via ResonanceOne + NOAA Kp/Solar) plus 7,83-Hz-Puls-Visualisierung als Offline-Fallback (optional leiser 136-Hz-Web-Audio-Träger); kein Magnetometer, keine Körper-/Geister-Messung
 - Erststart: Ethik-Bestätigung im Onboarding (gespeichert in `feldlicht-v15`)
 
 ## Funktionen
 
 1. **Cockpit** — **Tagesbriefing** (Mond + Stunde + Unruhe + empfohlene Praxis + nächstes Fest), Mond, **Mond-Arbeit** (Neu/Voll), Planetenstunde (Zürich-Standard), Maya, Unruhe, VoC-Banner, Empfehlungen, Schumann, **369-Tracker**, globale Suche, Pfad-Chip, Streak-Hinweis
 2. **Kalender** — Monatsnavigation, Tagesdetails (Mond/Sonne/Maya/Feste), **pfadabhängige Betonung** und Kalender-Notizen
-3. **Kosmos** — Planeten-Radar mit klareren Labels, **Legende**, aktuelle **Planetenstunde hervorgehoben**, Tap/Klick für Detail, Schumann Live-Station
+3. **Kosmos** — Planeten-Radar mit klareren Labels, **Legende**, aktuelle **Planetenstunde hervorgehoben**, Tap/Klick für Detail, Schumann Live-Station + Tomsk-Spektrogramm
 4. **Rituale** — Sicherheitscheck, geführte Timed-Rituale (Atembrücke, Kerzenwache), **Praxis-Helfer** (Fokus-Timer), sanfte Streak, Sigil, 22 Feldkarten + Dreierlege, eigene Rituale + **3 Vorlagen**, pfadbezogene Ritual-Auswahl/Flavor
 5. **Magie-Tagebuch** — **pfadbezogene Impuls-Vorschläge**, Tags & Stimmung, Export/Import `universum-buch.json`
 6. **Notizen** — lokal, optionaler Tag, **ein Tippen → Tagebuch**, leere Zustände mit nächstem Schritt
@@ -146,6 +146,14 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 - **Haltung in der Praxis** — pfadeigene Sicherheitscheck-Zeilen, Schritt-Intros und Abschlussworte (Danken/Atmen/Erden/Siegeln)
 - App `2.4.0`, SW-Cache `universum-shell-v16`
 
+**Zusätzlich (v2.5 · Tomsk-Spektrogramm)**
+
+- **Live-Spektrogramm** — JPEG von `https://resonanceone.app/api/spectrogram` (Tomsk SOS / Tomsk State University, über ResonanceOne), als Hauptgrafik in Cockpit und Kosmos
+- Auto-Refresh alle 5 Minuten mit Cache-Bust `?t=` + Date.now(); bei Fehler: Bild ausblenden/Hinweis, Metriken und lokale 7,83-Hz-Viz bleiben
+- Ehrliche Attribution (deutsch): Spektrogramm der Station Tomsk (SOS / Tomsk State University), bereitgestellt über ResonanceOne — kein Handy-Sensor; Links zu Methodik / ResonanceOne / Tomsk SOS
+- Bestehende Live-SR/Kp-Panels und lokale Puls-Viz bleiben (sekundär)
+- App `2.5.0`, SW-Cache `universum-shell-v17`
+
 **Zusätzlich**
 
 - **First-run Onboarding (Erste Minute)** — Pfad → Praxis-Einladung → fertig; Ethik als eine Zeile; optional Überspringen; Standort Zürich-Default (Einstellungen)
@@ -191,7 +199,7 @@ Kein Ersatz für Ephemeriden oder traditionelle Einweihung.
 
 - Schriften: **Syne** (Titel/Zahlen) + **Manrope** (Fließtext) via Google Fonts
 - Dark-Violet Mystik-Cockpit, mobile-first, Micro-Interactions
-- Service Worker: Offline-Shell (`universum-shell-v16`), Scope relativ für GitHub Pages `/universum/`
+- Service Worker: Offline-Shell (`universum-shell-v17`), Scope relativ für GitHub Pages `/universum/`
 - Kein React, kein Bundler, kein Backend
 
 ## Dateien
@@ -263,3 +271,8 @@ Dreizehnte Runde — **Ehrliche Live-Stationsdaten**: ResonanceOne `/api/now` (T
 ## Craft-Pass (v2.4) · Pfadtiefe
 
 Vierzehnte Runde — **Pfad-Tiefe**: jedes der 8 Pfade erhält eigene geführte Rituale (Filter: Eigenes zuerst); reichere Kalender-Betonung inkl. Chaos-Tore 3/6/9 und klar getrennte Voodoo-/Santería-Haus-Erinnerungstage mit Disclaimern; Haltung schreibt Sicherheitscheck, Schritt-Intro und Abschluss (Danken/Atmen/Erden/Siegeln). Schumann-Live aus v2.3 bleibt. App `2.4.0`, SW-Cache `universum-shell-v16`. Server Port **8765**.
+
+## Craft-Pass (v2.5) · Tomsk-Spektrogramm
+
+Fünfzehnte Runde — **Live Tomsk-Spektrogramm**: ResonanceOne `/api/spectrogram` als sonogramm-artige Hauptgrafik in Cockpit/Kosmos (5-Min-Refresh, ehrliche Attribution, Fehlerfall ohne Metrik-/Viz-Verlust). Pfadtiefe aus v2.4 und Live-Metriken aus v2.3 bleiben. App `2.5.0`, SW-Cache `universum-shell-v17`. Server Port **8765**.
+
