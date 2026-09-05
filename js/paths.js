@@ -1,6 +1,6 @@
 /**
  * UNIVERSUM — 8 practice paths (path-aware rituals/sayings/calendar/diary)
- * v2.6: Pfad-Woche, Werkzeug-Set, Initiations-Grenze helpers
+ * v2.7: Kalender pfadfokussiert (pathOnly) · Pfad-Woche · Werkzeug · Initiations-Grenze
  */
 (function (global) {
   'use strict';
@@ -453,7 +453,12 @@
     return PATH_FESTIVALS.some(f => f.name === festivalName && f.paths.includes(pathId));
   }
 
-  function festivalsForPath(date, pathId) {
+  /**
+   * Festivals for a date. opts.pathOnly (default false): only path-relevant
+   * (emphasis + path-specific / dynamic gates).
+   */
+  function festivalsForPath(date, pathId, opts) {
+    opts = opts || {};
     const Astro = global.UniversumAstro;
     let list = Astro ? Astro.festivalsOn(date) : [];
     const d = date || new Date();
@@ -473,10 +478,21 @@
       seen[f.name] = true;
       return true;
     });
-    return list.map(f => ({
+    let out = list.map(f => ({
       ...f,
       emphasized: isEmphasized(f.name, pathId)
     }));
+    if (opts.pathOnly) out = out.filter(f => f.emphasized);
+    return out;
+  }
+
+  /** Split into path-relevant vs other traditions for day detail. */
+  function festivalsSplit(date, pathId) {
+    const all = festivalsForPath(date, pathId, { pathOnly: false });
+    return {
+      path: all.filter(f => f.emphasized),
+      other: all.filter(f => !f.emphasized)
+    };
   }
 
   function randomSaying(pathId) {
@@ -520,8 +536,9 @@
     return path.closingToast || 'Schwelle gehalten — gut geübt.';
   }
 
-  /** Next festival from today (inclusive), preferring path-emphasized ones in note. */
-  function nextFestival(fromDate, pathId) {
+  /** Next festival from today (inclusive). opts.pathOnly: only path-relevant. */
+  function nextFestival(fromDate, pathId, opts) {
+    opts = opts || {};
     const Astro = global.UniversumAstro;
     const start = fromDate ? new Date(fromDate.getTime()) : new Date();
     start.setHours(12, 0, 0, 0);
@@ -531,6 +548,7 @@
     }
     PATH_FESTIVALS.forEach(f => {
       if (f.dynamic || f.monthly) return;
+      if (!f.paths.includes(pathId) && opts.pathOnly) return;
       if (!all.some(x => x.name === f.name && x.m === f.m && x.d === f.d)) {
         all.push({ name: f.name, m: f.m, d: f.d });
       }
@@ -551,7 +569,7 @@
       });
     }
     const y = start.getFullYear();
-    const candidates = [];
+    let candidates = [];
     [y, y + 1].forEach(year => {
       all.forEach(f => {
         const dt = f._date || new Date(year, f.m - 1, f.d, 12, 0, 0, 0);
@@ -565,6 +583,9 @@
         }
       });
     });
+    if (opts.pathOnly) {
+      candidates = candidates.filter(c => c.emphasized);
+    }
     candidates.sort((a, b) => a.date - b.date || (b.emphasized ? 1 : 0) - (a.emphasized ? 1 : 0));
     if (!candidates.length) return null;
     const firstDay = candidates[0].date.toDateString();
@@ -717,6 +738,7 @@
     getPath,
     isEmphasized,
     festivalsForPath,
+    festivalsSplit,
     randomSaying,
     diaryPrompts,
     nextFestival,

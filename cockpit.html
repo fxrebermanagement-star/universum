@@ -376,7 +376,11 @@
     <!-- 2. Kalender -->
     <section id="sec-kalender" class="section-view">
       <h1 class="section-title">Kalender</h1>
-      <p class="section-sub">Gregorianisch · Mond · Maya · Feste (pfadabhängig hervorgehoben)</p>
+      <p class="section-sub" id="cal-section-sub">Gregorianisch · Mond · Maya · nur pfadrelevante Feste</p>
+      <div class="cal-path-toggle" role="group" aria-label="Festfilter">
+        <button type="button" class="cal-filter-btn active" id="cal-filter-path" aria-pressed="true">Nur mein Pfad</button>
+        <button type="button" class="cal-filter-btn" id="cal-filter-all" aria-pressed="false">Alle Feste</button>
+      </div>
       <div class="cal-nav">
         <button type="button" id="cal-prev" aria-label="Vorheriger Monat">‹</button>
         <h2 id="cal-title">—</h2>
@@ -859,6 +863,7 @@
         <label class="inline-check"><input type="checkbox" id="set-mondnacht" /> Mondnacht-Modus (sanfter Abend-Dimm)</label>
         <label class="inline-check"><input type="checkbox" id="set-hour-alert" /> Planetenstunde-Wecker (sanfte Vibration/Toast, Standard aus)</label>
         <label class="inline-check"><input type="checkbox" id="set-quiet-ritual" checked /> Stiller Modus während Ritual (Chrome ausblenden)</label>
+        <label class="inline-check"><input type="checkbox" id="set-calendar-path-only" checked /> Kalender: nur mein Pfad (Feste)</label>
 
         <h3 class="mt-2">Suche</h3>
         <p class="hint-sm">Rituale, Feldkarten-Namen, Tagebuch-Titel</p>
@@ -880,7 +885,7 @@
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
         <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">2.6.0</span></p>
+        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">2.7.0</span></p>
       </div>
     </div>
   </div>

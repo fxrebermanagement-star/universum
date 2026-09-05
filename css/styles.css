@@ -3915,3 +3915,64 @@ body.quiet-mode .path-haltung {
 }
 .initiation-gate-card .notice { margin-top: 0.65rem; }
 #initiation-gate { z-index: 95; }
+
+/* ——— v2.7 Kalender pfadfokussiert ——— */
+.cal-path-toggle {
+  display: flex;
+  gap: 0.4rem;
+  margin: 0 0 0.85rem;
+  padding: 0.2rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--card, #16101f) 88%, transparent);
+  border: 1px solid color-mix(in srgb, var(--path-accent, var(--gold)) 22%, transparent);
+}
+.cal-filter-btn {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: var(--muted, #9a8fb0);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.45rem 0.7rem;
+  border-radius: 999px;
+  cursor: pointer;
+}
+.cal-filter-btn.active {
+  background: color-mix(in srgb, var(--path-accent, var(--gold)) 28%, transparent);
+  color: var(--path-accent, var(--gold));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--path-accent, var(--gold)) 40%, transparent);
+}
+.fest-dot.path {
+  background: var(--path-accent, var(--gold));
+}
+.yw-node.dim {
+  opacity: 0.38;
+  filter: grayscale(0.35);
+}
+.andere-feste-acc {
+  margin-top: 0.55rem;
+  padding: 0.55rem 0.75rem 0.7rem;
+  border-radius: 0.65rem;
+  border: 1px solid color-mix(in srgb, var(--muted, #9a8fb0) 28%, transparent);
+  background: color-mix(in srgb, var(--card, #16101f) 70%, transparent);
+}
+.andere-feste-acc > summary {
+  cursor: pointer;
+  font-weight: 600;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  color: var(--text);
+  font-size: 0.88rem;
+}
+.andere-feste-acc > summary::-webkit-details-marker { display: none; }
+.andere-feste-acc > summary::after {
+  content: '▾';
+  opacity: 0.65;
+  font-size: 0.85rem;
+}
+.andere-feste-acc[open] > summary::after { content: '▴'; }
+.andere-feste-acc .hint-sm { margin: 0.35rem 0 0.45rem; }

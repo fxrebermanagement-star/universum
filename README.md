@@ -32,7 +32,7 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 ## Funktionen
 
 1. **Cockpit** — **Tagesbriefing** (Mond + Stunde + Unruhe + empfohlene Praxis + nächstes Fest), Mond, **Mond-Arbeit** (Neu/Voll), Planetenstunde (Zürich-Standard), Maya, Unruhe, VoC-Banner, Empfehlungen, Schumann, **369-Tracker**, globale Suche, Pfad-Chip, Streak-Hinweis
-2. **Kalender** — Monatsnavigation, Tagesdetails (Mond/Sonne/Maya/Feste), **pfadabhängige Betonung** und Kalender-Notizen
+2. **Kalender** — Monatsnavigation, Tagesdetails (Mond/Sonne/Maya/Feste), **standardmäßig nur Pfad-Feste** (Umschalter Alle Feste), Betonung und Kalender-Notizen
 3. **Kosmos** — Planeten-Radar mit klareren Labels, **Legende**, aktuelle **Planetenstunde hervorgehoben**, Tap/Klick für Detail, Schumann Live-Station + Tomsk-Spektrogramm
 4. **Rituale** — Sicherheitscheck, geführte Timed-Rituale (Atembrücke, Kerzenwache), **Praxis-Helfer** (Fokus-Timer), sanfte Streak, Sigil, 22 Feldkarten + Dreierlege, eigene Rituale + **3 Vorlagen**, pfadbezogene Ritual-Auswahl/Flavor
 5. **Magie-Tagebuch** — **pfadbezogene Impuls-Vorschläge**, Tags & Stimmung, Export/Import `universum-buch.json`
@@ -154,6 +154,15 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 - Bestehende Live-SR/Kp-Panels und lokale Puls-Viz bleiben (sekundär)
 - App `2.5.0`, SW-Cache `universum-shell-v17`
 
+
+**Zusätzlich (v2.7 · Kalender pfadfokussiert)**
+
+- **Nur mein Pfad** — Kalender zeigt standardmäßig nur pfadrelevante Feste/Betonung/Tore (aus `paths.js` Emphasis + Pfad-Listen / dynamische Gates)
+- Umschalter im Kalender: „Nur mein Pfad“ (Standard an) vs „Alle Feste“; Einstellung `settings.calendarPathOnly` in `feldlicht-v15`
+- Tagesdetail: Pfad-Feste zuerst; andere Traditionen hinter „Andere Feste“
+- Cockpit-Briefing und Fest-Countdown folgen demselben Filter
+- App `2.7.0`, SW-Cache `universum-shell-v19`
+
 **Zusätzlich (v2.6 · Pfad-Woche & Werkzeug)**
 
 - **Pfad-Woche** — 7-Tage-Mikroplan pro Pfad (Mo–So), erledigt in `feldlicht-v15`
@@ -165,7 +174,7 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 **Zusätzlich**
 
 - **First-run Onboarding (Erste Minute)** — Pfad → Praxis-Einladung → fertig; Ethik als eine Zeile; optional Überspringen; Standort Zürich-Default (Einstellungen)
-- **Einstellungen (⚙)** — Standort, Haptik, Live-Stationsdaten (Schumann/NOAA, Standard an), Schumann-Audio, sanfter Ambient-Ton (separat, Standard aus), reduzierte Bewegung, Planetenstunde-Wecker (Standard aus), Stiller Modus bei Ritual, Suche, Onboarding/Starter zurücksetzen, Tipp des Tages
+- **Einstellungen (⚙)** — Standort, Haptik, Live-Stationsdaten (Schumann/NOAA, Standard an), Schumann-Audio, sanfter Ambient-Ton (separat, Standard aus), reduzierte Bewegung, Planetenstunde-Wecker (Standard aus), Stiller Modus bei Ritual, Kalender nur mein Pfad (Standard an), Suche, Onboarding/Starter zurücksetzen, Tipp des Tages
 - **Toasts** — kurze Bestätigungen; Escape schließt Drawer/Modal/Ritual-Runner; bessere Labels/a11y
 - **Feldkarten** — Flip-/Reveal-Animation, Verlauf der letzten Züge in `feldlicht-v15`
 - **Ritual-Bibliothek** — Suche und Filter nach Dauer und Pfad (aktuell/alle)
@@ -207,7 +216,7 @@ Kein Ersatz für Ephemeriden oder traditionelle Einweihung.
 
 - Schriften: **Syne** (Titel/Zahlen) + **Manrope** (Fließtext) via Google Fonts
 - Dark-Violet Mystik-Cockpit, mobile-first, Micro-Interactions
-- Service Worker: Offline-Shell (`universum-shell-v18`), Scope relativ für GitHub Pages `/universum/`
+- Service Worker: Offline-Shell (`universum-shell-v19`), Scope relativ für GitHub Pages `/universum/`
 - Kein React, kein Bundler, kein Backend
 
 ## Dateien
@@ -291,4 +300,8 @@ Fünfzehnte Runde — **Live Tomsk-Spektrogramm**: ResonanceOne `/api/spectrogra
 - **Werkzeug-Set** — Mini-Module pro Pfad (Eid/Gabe, Sigil-Labor, Stunden-Notiz, Element-/Körper-/Haus-Check, Schwellen-Notiz)
 - **Initiations-Grenze** — Erststart Voodoo/Santería: Bestätigung „Nur Hauspraxis, keine Initiation“
 - App `2.6.0`, SW-Cache `universum-shell-v18`. Server Port **8765**.
+## Craft-Pass (v2.7) · Kalender pfadfokussiert
+
+Sechzehnte Runde — **Kalender nur mein Pfad**: Standardfilter auf pfadrelevante Feste; Umschalter Alle Feste; Tagesdetail mit „Andere Feste“; Briefing/Countdown respektieren `settings.calendarPathOnly`. App `2.7.0`, SW-Cache `universum-shell-v19`. Server Port **8765**.
+
 

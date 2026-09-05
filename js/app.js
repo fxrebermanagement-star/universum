@@ -1,5 +1,5 @@
 /**
- * UNIVERSUM · COCKPIT — main UI controller (practice companion · Feld-Klarheit · v2.6)
+ * UNIVERSUM · COCKPIT — main UI controller (practice companion · Feld-Klarheit · v2.7)
  */
 (function () {
   'use strict';
@@ -182,6 +182,7 @@
     'Stiller Modus blendet Chrome aus — Fokus aufs Ritual, Esc bringt alles zurück.',
     'Export-Paket: universum-buch.json plus Praxis-Zusammenfassung für Coaches.',
     'Fest-Countdown: wenn der nächste Sabbat unter 14 Tagen liegt, zeigt das Cockpit einen Chip.',
+    'Kalender „Nur mein Pfad“: standardmäßig nur pfadrelevante Feste — Umschalter auf Alle Feste.',
     'Pfad-Woche: sieben kurze Schritte Mo–So — erledigt speichert lokal.',
     'Werkzeug-Set: Mini-Modul pro Pfad (Eid, Sigil, Elemente, Haus-Reinheit).',
   ];
@@ -737,7 +738,21 @@
   function renderFestCountdown() {
     const chip = $('#fest-countdown-chip');
     if (!chip) return;
-    const next = nextSabbatInfo(new Date());
+    const pathOnly = isCalendarPathOnly();
+    let next = null;
+    if (pathOnly) {
+      const nf = Paths.nextFestival(new Date(), state.path, { pathOnly: true });
+      if (nf && nf.date) {
+        const start = new Date();
+        start.setHours(0, 0, 0, 0);
+        const day = new Date(nf.date.getFullYear(), nf.date.getMonth(), nf.date.getDate());
+        const days = Math.round((day - start) / 86400000);
+        const sab = SABBATS.find(s => s.name === nf.name);
+        next = { name: nf.name, ico: sab ? sab.ico : '✦', date: nf.date, days: days, pathOnly: true };
+      }
+    } else {
+      next = nextSabbatInfo(new Date());
+    }
     if (!next || next.days > 14) {
       chip.hidden = true;
       chip.textContent = '';
@@ -747,7 +762,7 @@
     chip.hidden = false;
     chip.innerHTML = '<span class="fest-ico" aria-hidden="true">' + (next.ico || '✦') + '</span> ' +
       '<strong>' + escapeHtml(next.name) + '</strong> · ' + when;
-    chip.setAttribute('aria-label', 'Nächster Sabbat: ' + next.name + ', ' + when);
+    chip.setAttribute('aria-label', (pathOnly ? 'Nächstes Pfad-Fest: ' : 'Nächster Sabbat: ') + next.name + ', ' + when);
   }
 
   function renderStarterCard() {
@@ -1491,7 +1506,7 @@
     const unrestWord = unrest && unrest.label ? unrest.label.toLowerCase() : 'offen';
     const sunSign = Astro.tropicalSunSign(now);
     const maya = Astro.mayaCalendar(now);
-    const nextFest = Paths.nextFestival(now, state.path);
+    const nextFest = Paths.nextFestival(now, state.path, { pathOnly: isCalendarPathOnly() });
     lead.textContent =
       moon.emoji + ' ' + moon.name + ' · Stunde ' + hourName +
       ' · Unruhe ' + unrestWord + '. ' + saying;
@@ -1643,10 +1658,47 @@
     });
   }
 
+
+  /** Calendar path filter: default ON (settings.calendarPathOnly !== false). */
+  function isCalendarPathOnly() {
+    return !(state.settings && state.settings.calendarPathOnly === false);
+  }
+
+  function setCalendarPathOnly(on) {
+    Store.update(d => {
+      if (!d.settings || typeof d.settings !== 'object') d.settings = {};
+      d.settings.calendarPathOnly = !!on;
+    });
+    refreshState();
+  }
+
   /* ——— Calendar ——— */
+  function syncCalFilterUi() {
+    const pathOnly = isCalendarPathOnly();
+    const btnPath = $('#cal-filter-path');
+    const btnAll = $('#cal-filter-all');
+    if (btnPath) {
+      btnPath.classList.toggle('active', pathOnly);
+      btnPath.setAttribute('aria-pressed', pathOnly ? 'true' : 'false');
+    }
+    if (btnAll) {
+      btnAll.classList.toggle('active', !pathOnly);
+      btnAll.setAttribute('aria-pressed', !pathOnly ? 'true' : 'false');
+    }
+    const sub = $('#cal-section-sub');
+    if (sub) {
+      sub.textContent = pathOnly
+        ? 'Gregorianisch · Mond · Maya · nur pfadrelevante Feste'
+        : 'Gregorianisch · Mond · Maya · alle Feste';
+    }
+    const setEl = $('#set-calendar-path-only');
+    if (setEl) setEl.checked = pathOnly;
+  }
+
   function renderCalendar() {
     const now = new Date();
     if (calYear == null) { calYear = now.getFullYear(); calMonth = now.getMonth(); }
+    syncCalFilterUi();
     const title = new Date(calYear, calMonth, 1).toLocaleDateString('de-CH', { month: 'long', year: 'numeric' });
     $('#cal-title').textContent = title.charAt(0).toUpperCase() + title.slice(1);
 
@@ -1684,10 +1736,11 @@
       if (isToday) btn.classList.add('today');
       if (selectedDay && c.date.toDateString() === selectedDay.toDateString()) btn.classList.add('selected');
       btn.textContent = c.day;
-      const fests = Paths.festivalsForPath(c.date, state.path);
+      const pathOnly = isCalendarPathOnly();
+      const fests = Paths.festivalsForPath(c.date, state.path, { pathOnly: pathOnly });
       if (fests.length) {
         const dot = document.createElement('span');
-        dot.className = 'fest-dot';
+        dot.className = 'fest-dot' + (pathOnly || fests.some(f => f.emphasized) ? ' path' : '');
         btn.appendChild(dot);
       }
       btn.addEventListener('click', () => {
@@ -1727,9 +1780,11 @@
       const cy = 50 + Math.sin(rad) * 38;
       const dt = sabbatDate(y, sab);
       const emph = Paths.isEmphasized(sab.name, state.path);
+      const pathOnly = isCalendarPathOnly();
       const isNear = selectedDay && selectedDay.getMonth() === sab.m - 1 && selectedDay.getDate() === sab.d;
       const todayMatch = now.getFullYear() === y && now.getMonth() === sab.m - 1 && now.getDate() === sab.d;
-      const cls = 'yw-node' + (emph ? ' emph' : '') + (isNear || todayMatch ? ' active' : '');
+      const cls = 'yw-node' + (emph ? ' emph' : '') + (pathOnly && !emph ? ' dim' : '') +
+        (isNear || todayMatch ? ' active' : '');
       return '<button type="button" class="' + cls + '" style="left:' + cx + '%;top:' + cy + '%" data-sabbat="' + i + '" role="listitem" title="' + escapeHtml(sab.name) + '">' +
         '<span class="yw-ico">' + sab.ico + '</span><span class="yw-name">' + escapeHtml(sab.name) + '</span></button>';
     }).join('') + '<div class="yw-hub" aria-hidden="true">☉</div>';
@@ -1746,21 +1801,31 @@
       });
     });
 
-    // Next sabbat caption
+    // Next sabbat caption (path-only prefers emphasized)
     let next = null;
     const start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
+    const pathOnlyCap = isCalendarPathOnly();
     for (let pass = 0; pass < 2 && !next; pass++) {
       const yy = now.getFullYear() + pass;
       for (const sab of SABBATS) {
+        if (pathOnlyCap && !Paths.isEmphasized(sab.name, state.path)) continue;
         const dt = sabbatDate(yy, sab);
         if (dt >= start) { next = { sab: sab, date: dt }; break; }
+      }
+    }
+    if (!next && pathOnlyCap) {
+      const nf = Paths.nextFestival(now, state.path, { pathOnly: true });
+      if (nf) {
+        const sab = SABBATS.find(s => s.name === nf.name) || { name: nf.name, ico: '✦', m: nf.date.getMonth() + 1, d: nf.date.getDate() };
+        next = { sab: sab, date: nf.date };
       }
     }
     if (cap) {
       if (next) {
         const days = Math.round((next.date - start) / 86400000);
         const when = days <= 0 ? 'heute' : days === 1 ? 'morgen' : 'in ' + days + ' Tagen';
-        cap.textContent = 'Nächster Sabbat · ' + next.sab.name + ' (' + when + ')' +
+        const label = pathOnlyCap ? 'Nächstes Pfad-Fest' : 'Nächster Sabbat';
+        cap.textContent = label + ' · ' + next.sab.name + ' (' + when + ')' +
           (Paths.isEmphasized(next.sab.name, state.path) ? ' ★ ' + path.name : '');
       } else {
         cap.textContent = 'Jahresrad · ' + y;
@@ -1778,11 +1843,38 @@
       state.lat, state.lon
     );
     const voidW = Astro.moonVoidWarning(date);
-    const fests = Paths.festivalsForPath(date, state.path);
+    const pathOnly = isCalendarPathOnly();
+    const split = Paths.festivalsSplit(date, state.path);
+    const pathFests = split.path;
+    const otherFests = split.other;
     const path = currentPath();
     const ritualId = path.recommendedRitual || 'erdung';
     const ritual = Rituals.getRitual(ritualId);
     const box = $('#cal-detail');
+    function festPills(list) {
+      return list.map(f =>
+        '<span class="pill" style="' + (f.emphasized ? 'border-color:var(--gold);color:var(--gold)' : '') + '">' +
+        escapeHtml(f.name) + (f.emphasized ? ' ★' : '') + '</span>'
+      ).join(' ');
+    }
+    let festHtml = '';
+    if (pathFests.length) {
+      festHtml += '<p class="cal-path-fests" style="margin-top:0.75rem">' + festPills(pathFests) + '</p>';
+    }
+    if (otherFests.length) {
+      if (pathOnly) {
+        festHtml += '<details class="andere-feste-acc"><summary>Andere Feste</summary>' +
+          '<p class="hint-sm">Andere Traditionen — nicht Schwerpunkt deines Pfads.</p>' +
+          '<p>' + festPills(otherFests) + '</p></details>';
+      } else {
+        festHtml += '<p class="cal-other-fests" style="margin-top:0.45rem">' + festPills(otherFests) + '</p>';
+      }
+    }
+    if (!pathFests.length && !otherFests.length) {
+      festHtml = '<p class="meta" style="margin-top:0.75rem;color:var(--muted);font-size:0.8rem">Keine Festtage an diesem Datum.</p>';
+    } else if (!pathFests.length && pathOnly && otherFests.length) {
+      festHtml = '<p class="meta" style="margin-top:0.75rem;color:var(--muted);font-size:0.8rem">Kein Pfad-Fest an diesem Datum.</p>' + festHtml;
+    }
     box.innerHTML =
       '<h3>' + escapeHtml(fmtDate(date)) + '</h3>' +
       '<div>' +
@@ -1793,12 +1885,7 @@
       pill('Maya: ' + maya.tzolkin + ' / ' + maya.haab) +
       pill(voidW.message) +
       '</div>' +
-      (fests.length
-        ? '<p style="margin-top:0.75rem">' + fests.map(f =>
-            '<span class="pill" style="' + (f.emphasized ? 'border-color:var(--gold);color:var(--gold)' : '') + '">' +
-            escapeHtml(f.name) + (f.emphasized ? ' ★' : '') + '</span>'
-          ).join(' ') + '</p>'
-        : '<p class="meta" style="margin-top:0.75rem;color:var(--muted);font-size:0.8rem">Keine Festtage an diesem Datum.</p>') +
+      festHtml +
       '<div class="day-quick-actions" role="group" aria-label="Schnellaktionen">' +
       '<button type="button" class="primary" id="day-set-intention">Intention setzen</button>' +
       '<button type="button" class="ghost" id="day-start-ritual" data-ritual="' + escapeHtml(ritualId) + '">' +
@@ -3612,6 +3699,8 @@
     if (hourAl) hourAl.checked = !!(state.settings && state.settings.hourAlert);
     const quietR = $('#set-quiet-ritual');
     if (quietR) quietR.checked = !(state.settings && state.settings.quietDuringRitual === false);
+    const calPath = $('#set-calendar-path-only');
+    if (calPath) calPath.checked = isCalendarPathOnly();
   }
 
   function closeSettings() {
@@ -3834,6 +3923,29 @@
       selectedDay = n;
       renderCalendar();
     });
+
+    const calFilterPath = $('#cal-filter-path');
+    const calFilterAll = $('#cal-filter-all');
+    if (calFilterPath) {
+      calFilterPath.addEventListener('click', () => {
+        setCalendarPathOnly(true);
+        renderCalendar();
+        renderFestCountdown();
+        try { renderCockpit(); } catch (_) { /* ignore */ }
+        toast('Kalender: nur mein Pfad');
+        Rituals.vibrate(12);
+      });
+    }
+    if (calFilterAll) {
+      calFilterAll.addEventListener('click', () => {
+        setCalendarPathOnly(false);
+        renderCalendar();
+        renderFestCountdown();
+        try { renderCockpit(); } catch (_) { /* ignore */ }
+        toast('Kalender: alle Feste');
+        Rituals.vibrate(12);
+      });
+    }
 
     $$('[data-tile]').forEach(t => t.addEventListener('click', () => navigate(t.dataset.tile)));
 
@@ -4080,6 +4192,17 @@
         refreshState();
         if (!setQuietRitualEl.checked) setQuietRitual(false);
         toast(setQuietRitualEl.checked ? 'Stiller Modus bei Ritual an' : 'Stiller Modus bei Ritual aus');
+      });
+    }
+    const setCalPathOnly = $('#set-calendar-path-only');
+    if (setCalPathOnly) {
+      setCalPathOnly.checked = isCalendarPathOnly();
+      setCalPathOnly.addEventListener('change', () => {
+        setCalendarPathOnly(!!setCalPathOnly.checked);
+        try { renderCalendar(); } catch (_) { /* ignore */ }
+        renderFestCountdown();
+        try { renderCockpit(); } catch (_) { /* ignore */ }
+        toast(setCalPathOnly.checked ? 'Kalender: nur mein Pfad' : 'Kalender: alle Feste');
       });
     }
     const quietToggle = $('#quiet-mode-toggle');
