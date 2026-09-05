@@ -29,6 +29,7 @@
     backupReminder: { lastRemindCount: 0, lastExportAt: null },
     ritualTemplates: [],
     installHint: { dismissed: false, seenAt: null },
+    starterFlow: { done: false, completedAt: null, dismissed: false },
     onboarding: {
       done: false,
       ethicsAck: false,
@@ -46,7 +47,8 @@
       haptics: true,
       reducedMotion: false,
       mondnacht: false,
-      hourAlert: false
+      hourAlert: false,
+      quietDuringRitual: true
     }
   };
 
@@ -93,6 +95,7 @@
         backupReminder: Object.assign({}, DEFAULTS.backupReminder, data.backupReminder || {}),
         ritualTemplates: normalizeTemplates(data.ritualTemplates),
         installHint: Object.assign({}, DEFAULTS.installHint, data.installHint || {}),
+        starterFlow: Object.assign({}, DEFAULTS.starterFlow, data.starterFlow || {}),
         onboarding: Object.assign({}, DEFAULTS.onboarding, data.onboarding || {}),
         streaks: Object.assign({}, DEFAULTS.streaks, data.streaks || {}),
         cardDrawHistory: Array.isArray(data.cardDrawHistory) ? data.cardDrawHistory : [],
@@ -215,10 +218,9 @@
     });
   }
 
-  const APP_VERSION = '1.8.0';
+  const APP_VERSION = '1.9.0';
 
-  function exportBuch() {
-    const data = load();
+  function buildExportMeta(data) {
     const pathId = data.path || 'esoterik';
     let pathName = pathId;
     try {
@@ -226,6 +228,27 @@
         pathName = global.UniversumPaths.getPath(pathId).name || pathId;
       }
     } catch (_) { /* ignore */ }
+    const week = getWeeklyPracticeSummary(7);
+    const streak = getStreak();
+    return {
+      path: pathId,
+      pathName: pathName,
+      diaryCount: (data.diary || []).length,
+      notesCount: (data.notes || []).length,
+      customRitualsCount: (data.customRituals || []).length,
+      ritualTemplatesCount: (data.ritualTemplates || []).length,
+      cardDrawsCount: (data.cardDrawHistory || []).length,
+      practiceLogCount: (data.practiceLog || []).length,
+      weekPracticeTotal: week.total,
+      weekActiveDays: week.activeDays,
+      streakCount: streak.count || 0,
+      intentionToday: !!(data.dailyIntention && data.dailyIntention.text && data.dailyIntention.date === todayKey())
+    };
+  }
+
+  function exportBuch() {
+    const data = load();
+    const meta = buildExportMeta(data);
     const payload = {
       app: 'UNIVERSUM',
       formerly: 'Feldlicht Ritualbegleiter',
@@ -233,15 +256,7 @@
       exportedAt: new Date().toISOString(),
       storageKey: STORAGE_KEY,
       format: 'universum-buch-v2',
-      meta: {
-        path: pathId,
-        pathName: pathName,
-        diaryCount: (data.diary || []).length,
-        notesCount: (data.notes || []).length,
-        customRitualsCount: (data.customRituals || []).length,
-        ritualTemplatesCount: (data.ritualTemplates || []).length,
-        cardDrawsCount: (data.cardDrawHistory || []).length
-      },
+      meta: meta,
       data
     };
     const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
@@ -252,6 +267,104 @@
     a.click();
     setTimeout(() => URL.revokeObjectURL(url), 2000);
     return true;
+  }
+
+  /** Plain-text practice summary for coaches / supervision (no full diary bodies). */
+  function exportPracticeSummary() {
+    const data = load();
+    const meta = buildExportMeta(data);
+    const week = getWeeklyPracticeSummary(14);
+    const streak = getStreak();
+    const log = (data.practiceLog || []).slice(0, 20);
+    const intentions = (data.intentionHistory || []).slice(0, 7);
+    const lines = [];
+    lines.push('UNIVERSUM · Praxis-Zusammenfassung');
+    lines.push('Für Coach / Supervision · ohne volle Tagebuchtexte');
+    lines.push('App v' + APP_VERSION + ' · Export ' + new Date().toISOString());
+    lines.push('Pfad: ' + meta.pathName + ' (' + meta.path + ')');
+    lines.push('');
+    lines.push('— Überblick —');
+    lines.push('Tagebuch-Einträge: ' + meta.diaryCount);
+    lines.push('Notizen: ' + meta.notesCount);
+    lines.push('Praxis-Log gesamt (gespeichert): ' + meta.practiceLogCount);
+    lines.push('Streak (sanft): ' + (streak.count || 0) + (streak.doneToday ? ' · heute geübt' : ''));
+    lines.push('Intention heute: ' + (meta.intentionToday ? 'ja' : 'nein'));
+    lines.push('');
+    lines.push('— 14 Tage Praxis —');
+    lines.push('Einträge: ' + week.total + ' · aktive Tage: ' + week.activeDays);
+    const kinds = week.byKind || {};
+    Object.keys(kinds).sort().forEach(k => {
+      lines.push('  · ' + k + ': ' + kinds[k]);
+    });
+    if (week.highlights && week.highlights.length) {
+      lines.push('Highlights: ' + week.highlights.join(', '));
+    }
+    lines.push('');
+    lines.push('— Letzte Praxis (max. 20) —');
+    if (!log.length) {
+      lines.push('(keine Einträge)');
+    } else {
+      log.forEach(e => {
+        const when = e.at || '';
+        lines.push((when ? when.slice(0, 16).replace('T', ' ') : '—') +
+          ' · ' + (e.kind || 'praxis') + ' · ' + (e.label || '') +
+          (e.detail ? ' — ' + e.detail : ''));
+      });
+    }
+    lines.push('');
+    lines.push('— Intentionen (Historie) —');
+    if (!intentions.length) {
+      lines.push('(keine)');
+    } else {
+      intentions.forEach(it => {
+        lines.push((it.date || '—') + ' · ' + (it.text || ''));
+      });
+    }
+    lines.push('');
+    lines.push('Ethik: Grenze und Ausgleich. Kein Schaden an Personen.');
+    lines.push('Hinweis: Zusammenfassung enthält keine vollständigen Tagebuchtexte.');
+    lines.push('Vollbackup: universum-buch.json');
+    const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'universum-praxis-zusammenfassung.txt';
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+    return true;
+  }
+
+  function shouldShowStarterFlow() {
+    const d = load();
+    if (!(d.onboarding && d.onboarding.done)) return false;
+    const s = d.starterFlow || {};
+    if (s.done || s.dismissed) return false;
+    return true;
+  }
+
+  function markStarterDone() {
+    return update(d => {
+      d.starterFlow = {
+        done: true,
+        dismissed: false,
+        completedAt: new Date().toISOString()
+      };
+    });
+  }
+
+  function dismissStarterFlow() {
+    return update(d => {
+      d.starterFlow = Object.assign({}, d.starterFlow || {}, {
+        dismissed: true,
+        completedAt: (d.starterFlow && d.starterFlow.completedAt) || null
+      });
+    });
+  }
+
+  function resetStarterFlow() {
+    return update(d => {
+      d.starterFlow = { done: false, completedAt: null, dismissed: false };
+    });
   }
 
   function normalizePins(pins) {
@@ -299,6 +412,7 @@
       backupReminder: Object.assign({}, DEFAULTS.backupReminder, incoming.backupReminder || {}),
       ritualTemplates: normalizeTemplates(incoming.ritualTemplates),
       installHint: Object.assign({}, DEFAULTS.installHint, incoming.installHint || {}),
+      starterFlow: Object.assign({}, DEFAULTS.starterFlow, incoming.starterFlow || {}),
       cardDrawHistory: Array.isArray(incoming.cardDrawHistory) ? incoming.cardDrawHistory : [],
       onboarding: Object.assign({}, DEFAULTS.onboarding, incoming.onboarding || {}),
       streaks: Object.assign({}, DEFAULTS.streaks, incoming.streaks || {}),
@@ -769,6 +883,8 @@
     save,
     update,
     exportBuch,
+    exportPracticeSummary,
+    buildExportMeta,
     importBuch,
     uid,
     todayKey,
@@ -799,6 +915,10 @@
     getWeeklyPracticeSummary,
     shouldShowInstallHint,
     dismissInstallHint,
+    shouldShowStarterFlow,
+    markStarterDone,
+    dismissStarterFlow,
+    resetStarterFlow,
     addKreisNote,
     removeKreisNote,
     getKreisNotes,

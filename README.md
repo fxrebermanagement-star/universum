@@ -98,10 +98,19 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 - Accessibility & Mobile-Spacing-Politur; kleine Bugfixes (Tipp-Einrückung, Tab-ARIA bei Empty-CTAs)
 - App `1.8.0`, SW-Cache `universum-shell-v10`
 
+**Zusätzlich (v1.9)**
+
+- **Erste Praxis in 3 Minuten** — geführter Starter (Intention → Atem → Erdung) für neue Nutzer:innen
+- **Stiller Modus** — Chrome ausblenden während Ritual/Fokus; manueller Toggle; Esc / Exit-Chip
+- **Export-Paket** — `universum-buch.json` plus optionale Praxis-Zusammenfassung (TXT) für Coaches
+- **Fest-Countdown** — Chip im Cockpit, wenn nächster Sabbat &lt; 14 Tage
+- Mikro-Copy: ruhige, klare Produktstimme; A11y an Starter, Quiet, Export, Festival-Chip
+- App `1.9.0`, SW-Cache `universum-shell-v11`
+
 **Zusätzlich**
 
 - **First-run Onboarding** — Willkommen, Pfadwahl, Standort (Zürich-Default), Ethik-Bestätigung
-- **Einstellungen (⚙)** — Standort, Haptik, Schumann-Audio, sanfter Ambient-Ton (separat, Standard aus), reduzierte Bewegung, Planetenstunde-Wecker (Standard aus), Suche, Onboarding zurücksetzen, Tipp des Tages
+- **Einstellungen (⚙)** — Standort, Haptik, Schumann-Audio, sanfter Ambient-Ton (separat, Standard aus), reduzierte Bewegung, Planetenstunde-Wecker (Standard aus), Stiller Modus bei Ritual, Suche, Onboarding/Starter zurücksetzen, Tipp des Tages
 - **Toasts** — kurze Bestätigungen; Escape schließt Drawer/Modal/Ritual-Runner; bessere Labels/a11y
 - **Feldkarten** — Flip-/Reveal-Animation, Verlauf der letzten Züge in `feldlicht-v15`
 - **Ritual-Bibliothek** — Suche und Filter nach Dauer und Pfad (aktuell/alle)
@@ -128,19 +137,20 @@ Kein Ersatz für Ephemeriden oder traditionelle Einweihung.
 ## Daten
 
 - localStorage-Schlüssel: **`feldlicht-v15`** (unverändert)
-- Export-Dateiname: `universum-buch.json`
+- Export-Dateiname: `universum-buch.json` · optional `universum-praxis-zusammenfassung.txt`
 - Standard-Koordinaten: 47,37 / 8,54 (Europa/Zürich), überschreibbar
 - Zusätzliche Felder im selben Key: `onboarding`, `streaks`, `settings.*` (inkl. `hourAlert`), `dailyIntention`, `intentionHistory`, `ritualFavorites`, `briefingPins`, `sigilGallery`, `practiceLog`, `kreisNotes`, `cardDrawHistory`, `lastSeenDay`, `dayBanner`, `dailyCard`, `backupReminder`, `ritualTemplates`, 369-Tageszähler, Tagebuch-Tags/Stimmung
 - Export-Format: `universum-buch-v2` (inkl. `appVersion`, `meta.path` / `pathName`)
 - Weitere Felder (v1.5): `lastSeenDay`, `dayBanner`, `dailyCard`, `backupReminder`
 - Weitere Felder (v1.6): `ritualTemplates`, `settings.hourAlert`
 - Weitere Felder (v1.7): `installHint`
+- Weitere Felder (v1.9): `starterFlow`, `settings.quietDuringRitual`
 
 ## Technik
 
 - Schriften: **Syne** (Titel/Zahlen) + **Manrope** (Fließtext) via Google Fonts
 - Dark-Violet Mystik-Cockpit, mobile-first, Micro-Interactions
-- Service Worker: Offline-Shell (`universum-shell-v10`), Scope relativ für GitHub Pages `/universum/`
+- Service Worker: Offline-Shell (`universum-shell-v11`), Scope relativ für GitHub Pages `/universum/`
 - Kein React, kein Bundler, kein Backend
 
 ## Dateien
@@ -188,3 +198,7 @@ Siebte Runde — **Produktqualität**: Splash & Onboarding verkaufen den Ritualb
 ## Craft-Pass (v1.8)
 
 Achte Runde — **Anbieten & Tiefe**: sharebares Tagesbriefing (Text/Link/Web-Share + `#briefing`), soft Empfehlen-Einladung mit Pages-URL, Pfad-Lehre (ein Tip pro Pfad), konvertierende Empty-States für Feldkarten/Rituale, A11y/Mobile-Spacing, Bugfixes. App `1.8.0`, SW-Cache `universum-shell-v10`. Server Port **8765**.
+
+## Craft-Pass (v1.9)
+
+Neunte Runde — **Angebot & Fokus**: geführte Erste Praxis (3 Min), Stiller Modus / Focus-Overlay, Export-Paket mit Coach-Zusammenfassung, Sabbat-Countdown-Chip (&lt; 14 Tage), Mikro-Copy und A11y-Politur. App `1.9.0`, SW-Cache `universum-shell-v11`. Server Port **8765**.

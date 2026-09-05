@@ -31,6 +31,7 @@
       <a href="index.html" class="logo" aria-label="UNIVERSUM Start">UNIVERSUM <span>· COCKPIT</span></a>
       <span class="live-clock" id="live-clock" aria-live="polite"></span>
       <button type="button" class="path-chip" id="path-chip" title="Pfad wählen" aria-label="Pfad wählen" aria-haspopup="dialog">Esoterik</button>
+      <button type="button" class="icon-btn" id="quiet-mode-toggle" title="Stiller Modus" aria-label="Stiller Modus umschalten" aria-pressed="false">◉</button>
       <button type="button" class="icon-btn" id="global-search-open" title="Suche" aria-label="Globale Suche öffnen" aria-haspopup="dialog">⌕</button>
       <button type="button" class="icon-btn" id="settings-open" title="Einstellungen" aria-label="Einstellungen öffnen" aria-haspopup="dialog">⚙</button>
     </header>
@@ -39,14 +40,14 @@
     <!-- 1. Cockpit -->
     <section id="sec-cockpit" class="section-view active" aria-label="Cockpit">
       <h1 class="section-title">Cockpit</h1>
-      <p class="section-sub" id="cockpit-greeting">Feldlicht ist da — still begleiten.</p>
+      <p class="section-sub" id="cockpit-greeting">Still begleiten — Praxis vor Spektakel.</p>
 
       <ul class="trust-strip trust-strip-inline" aria-label="Warum UNIVERSUM">
         <li><strong>Lokal</strong><span>Kein Konto · Gerät only</span></li>
         <li><strong>Ethisch</strong><span>Grenze &amp; Ausgleich</span></li>
         <li><strong>Pfadstark</strong><span>Praxis statt Show</span></li>
       </ul>
-      <p class="privacy-line" id="privacy-line">Alles bleibt in <code>feldlicht-v15</code> auf diesem Gerät — kein Server, kein Tracking.</p>
+      <p class="privacy-line" id="privacy-line">Daten bleiben in <code>feldlicht-v15</code> auf diesem Gerät — kein Server, kein Tracking.</p>
 
       <div class="install-banner" id="install-banner" hidden role="region" aria-label="App installieren">
         <div class="install-banner-inner">
@@ -67,6 +68,20 @@
           <button type="button" class="ghost tiny" id="day-banner-dismiss">Willkommen · schließen</button>
         </div>
       </div>
+
+      <button type="button" class="fest-countdown-chip" id="fest-countdown-chip" hidden aria-live="polite"></button>
+
+      <article class="card starter-card" id="starter-card" hidden aria-labelledby="starter-title">
+        <div class="intention-top">
+          <h3 id="starter-title">Erste Praxis in 3 Minuten</h3>
+          <span class="chip-quiet">geführt · neu</span>
+        </div>
+        <p class="starter-lead">Intention, Atem, Erdung — ein klarer Einstieg, ohne Hektik.</p>
+        <div class="btn-row">
+          <button type="button" class="primary" id="starter-start">Starten</button>
+          <button type="button" class="ghost tiny" id="starter-dismiss">Später</button>
+        </div>
+      </article>
 
       <div class="voc-banner" id="voc-banner" role="status">
         <span class="voc-ico">☾</span>
@@ -91,7 +106,7 @@
           <h3 id="briefing-title">Heute</h3>
           <span class="briefing-streak" id="briefing-streak" hidden></span>
         </div>
-        <p class="briefing-lead" id="briefing-lead">Feldlicht sammelt den Tag…</p>
+        <p class="briefing-lead" id="briefing-lead">Der Tag wird gelesen…</p>
         <ul class="briefing-meta" id="briefing-meta" aria-label="Tages-Chips"></ul>
         <div class="briefing-pin-bar" id="briefing-pin-bar">
           <button type="button" class="ghost tiny" id="briefing-pins-toggle" aria-expanded="false" aria-controls="briefing-pins-panel">Chips wählen</button>
@@ -106,7 +121,7 @@
           <button type="button" class="ghost tiny" id="briefing-copy-link" title="Teilbaren Briefing-Link kopieren">Link</button>
           <button type="button" class="ghost tiny" id="briefing-print" title="Druckansicht">Drucken</button>
         </div>
-        <p class="briefing-share-hint hint-sm" id="briefing-share-hint">Professioneller Tagesimpuls zum Weitergeben — mit Link zur Praxis-App.</p>
+        <p class="briefing-share-hint hint-sm" id="briefing-share-hint">Tagesimpuls zum Weitergeben — mit Link zur Praxis-App.</p>
         <p class="briefing-path-note" id="briefing-path-note"></p>
       </article>
 
@@ -124,7 +139,7 @@
           <h3 id="invite-title">Empfehlen</h3>
           <span class="chip-quiet">sanft · ohne Druck</span>
         </div>
-        <p class="invite-lead">Kennst du jemanden, dem ein stiller Ritualbegleiter guttäte? Teile eine kurze Einladung — lokal, ethisch, ohne Konto.</p>
+        <p class="invite-lead">Wenn jemand einen ruhigen Ritualbegleiter braucht: kurze Einladung teilen — lokal, ethisch, ohne Konto.</p>
         <div class="invite-preview" id="invite-preview" aria-live="polite"></div>
         <div class="btn-row invite-actions">
           <button type="button" class="primary" id="invite-copy">Einladung kopieren</button>
@@ -501,9 +516,10 @@
     <!-- 5. Magie-Tagebuch -->
     <section id="sec-tagebuch" class="section-view">
       <h1 class="section-title">Magie-Tagebuch</h1>
-      <p class="section-sub">Dein Buch · lokal in <code>feldlicht-v15</code> · Export als universum-buch.json — du besitzt die Daten</p>
-      <div class="toolbar">
-        <button type="button" class="primary" id="diary-export">Export JSON</button>
+      <p class="section-sub">Dein Buch · lokal in <code>feldlicht-v15</code> · Export-Paket — du besitzt die Daten</p>
+      <div class="toolbar export-pack" role="group" aria-label="Export-Paket">
+        <button type="button" class="primary" id="diary-export">Buch JSON</button>
+        <button type="button" class="ghost" id="diary-export-summary" title="Kurztext für Coach / Supervision">Praxis-Zusammenfassung</button>
         <label class="btn" style="display:inline-block;cursor:pointer;margin:0">
           Import<input type="file" id="diary-import" accept="application/json,.json" hidden />
         </label>
@@ -512,7 +528,7 @@
         <label class="inline-check"><input type="radio" name="import-mode" value="merge" checked /> Zusammenführen</label>
         <label class="inline-check"><input type="radio" name="import-mode" value="replace" /> Ersetzen</label>
       </div>
-      <p class="hint-sm">Export enthält App-Version und Pfad-Metadaten. Zusammenführen behält lokale Einträge.</p>
+      <p class="hint-sm">Buch = volles Backup (<code>universum-buch.json</code>). Zusammenfassung = Klartext für Coaches, ohne volle Tagebuchtexte.</p>
       <p class="import-status" id="import-status"></p>
       <div class="card week-review-card" id="week-review-card" aria-labelledby="week-review-title">
         <div class="intention-top">
@@ -637,19 +653,40 @@
     <nav class="bottom-nav" id="bottom-nav" aria-label="Hauptnavigation"></nav>
   </div>
 
+  <!-- Quiet mode exit (visible when chrome hidden) -->
+  <button type="button" class="quiet-exit-chip" id="quiet-exit-chip" hidden aria-label="Stillen Modus beenden">Chrome wieder · Esc</button>
+
   <!-- Toast -->
   <div class="toast-host" id="toast-host" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Erste Praxis in 3 Minuten -->
+  <div class="starter-overlay" id="starter-overlay" hidden>
+    <div class="starter-sheet" role="dialog" aria-modal="true" aria-labelledby="starter-flow-title">
+      <div class="starter-flow-head">
+        <p class="splash-eyebrow">3 MINUTEN · EINSTIEG</p>
+        <h2 id="starter-flow-title">Erste Praxis</h2>
+        <p class="hint-sm" id="starter-flow-lead">Drei Schritte. Kein Druck. Ethik bleibt.</p>
+        <div class="onboard-progress" id="starter-progress" aria-hidden="true"><i data-sp="0"></i><i data-sp="1"></i><i data-sp="2"></i></div>
+      </div>
+      <div class="starter-flow-body" id="starter-flow-body"></div>
+      <div class="onboard-nav starter-flow-nav">
+        <button type="button" class="ghost" id="starter-flow-back" hidden>Zurück</button>
+        <button type="button" class="ghost" id="starter-flow-cancel">Abbrechen</button>
+        <button type="button" class="primary" id="starter-flow-next">Weiter</button>
+      </div>
+    </div>
+  </div>
 
   <!-- First-run onboarding -->
   <div class="onboard-overlay" id="onboard-overlay" hidden>
     <div class="onboard-card" role="dialog" aria-modal="true" aria-labelledby="onboard-title">
       <p class="splash-eyebrow">WILLKOMMEN · UNIVERSUM</p>
       <h2 id="onboard-title">Dein Praxis-Cockpit</h2>
-      <p class="onboard-copy" id="onboard-lead">Der stille Ritualbegleiter für den Tag — lokal, ethisch, pfadstark. Kein Konto, kein Backend.</p>
+      <p class="onboard-copy" id="onboard-lead">Ritualbegleiter für den Tag — lokal, ethisch, pfadstark. Kein Konto, kein Backend.</p>
       <div class="onboard-progress" id="onboard-progress" aria-hidden="true"><i data-op="0"></i><i data-op="1"></i><i data-op="2"></i><i data-op="3"></i></div>
 
       <div class="onboard-step" data-onboard-step="0">
-        <p class="hint"><strong>Warum UNIVERSUM?</strong> Für Magier:innen und Praktizierende, die ein ruhiges Werkzeug wollen — nicht einen Feed.</p>
+        <p class="hint"><strong>Warum UNIVERSUM?</strong> Für Magier:innen und Praktizierende, die ein ruhiges Werkzeug brauchen — nicht einen Feed.</p>
         <ul class="trust-strip trust-strip-onboard" aria-label="Warum UNIVERSUM">
           <li><strong>Lokal zuerst</strong><span>Tagebuch &amp; Rituale bleiben auf dem Gerät</span></li>
           <li><strong>Ethisch klar</strong><span>Grenze &amp; Ausgleich · kein Schaden</span></li>
@@ -723,6 +760,7 @@
         <label class="inline-check"><input type="checkbox" id="set-reduced-motion" /> Reduzierte Bewegung</label>
         <label class="inline-check"><input type="checkbox" id="set-mondnacht" /> Mondnacht-Modus (sanfter Abend-Dimm)</label>
         <label class="inline-check"><input type="checkbox" id="set-hour-alert" /> Planetenstunde-Wecker (sanfte Vibration/Toast, Standard aus)</label>
+        <label class="inline-check"><input type="checkbox" id="set-quiet-ritual" checked /> Stiller Modus während Ritual (Chrome ausblenden)</label>
 
         <h3 class="mt-2">Suche</h3>
         <p class="hint-sm">Rituale, Feldkarten-Namen, Tagebuch-Titel</p>
@@ -739,8 +777,9 @@
         <h3 class="mt-2">Onboarding</h3>
         <p class="hint-sm">Willkommen, Pfad und Ethik erneut durchlaufen</p>
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
+        <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">1.8.0</span></p>
+        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">1.9.0</span></p>
       </div>
     </div>
   </div>
@@ -774,10 +813,11 @@
   </div>
 
   <!-- Ritual runner -->
-  <div class="ritual-runner" id="ritual-runner" role="dialog" aria-modal="true" aria-labelledby="rr-title">
+  <div class="ritual-runner" id="ritual-runner" role="dialog" aria-modal="true" aria-labelledby="rr-title" aria-describedby="rr-quiet-hint">
     <div class="rr-header">
       <strong id="rr-title">Ritual</strong>
-      <button type="button" id="rr-close" aria-label="Schließen">✕</button>
+      <span class="rr-quiet-hint chip-quiet" id="rr-quiet-hint" hidden>Stiller Modus</span>
+      <button type="button" id="rr-close" aria-label="Ritual schließen">✕</button>
     </div>
     <div id="rr-content"></div>
   </div>

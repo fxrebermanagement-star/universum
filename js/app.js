@@ -93,7 +93,11 @@
     'Warum UNIVERSUM: lokal, ethisch, pfadstark — Praxiswerkzeug, kein Feed.',
     'Tagesbriefing teilen: professioneller Text oder Link — Praxis empfehlen ohne Druck.',
     'Empfehlen-Karte: sanfte Einladung mit Pages-URL kopieren — für Kolleg:innen im Feld.',
-    'Pfad-Lehre: ein Lehrsatz pro Pfad auf dem Cockpit — Tiefe ohne Dogma.'
+    'Pfad-Lehre: ein Lehrsatz pro Pfad auf dem Cockpit — Tiefe ohne Dogma.',
+    'Erste Praxis in 3 Minuten: Intention, Atem, Erdung — klarer Einstieg für Neue.',
+    'Stiller Modus blendet Chrome aus — Fokus aufs Ritual, Esc bringt alles zurück.',
+    'Export-Paket: universum-buch.json plus Praxis-Zusammenfassung für Coaches.',
+    'Fest-Countdown: wenn der nächste Sabbat unter 14 Tagen liegt, zeigt das Cockpit einen Chip.'
   ];
 
   function tipOfDay(date) {
@@ -319,7 +323,7 @@
     const text = buildBriefingShareText({ withLink: true });
     try {
       await copyToClipboard(text);
-      toast('Tagesbriefing kopiert — bereit zum Empfehlen');
+      toast('Tagesbriefing kopiert');
       Rituals.vibrate(12);
     } catch (e) {
       toast('Kopieren nicht möglich — Text manuell markieren.', 3600, 'warn');
@@ -588,6 +592,236 @@
       const meta = document.querySelector('meta[name="theme-color"]');
       if (meta) meta.setAttribute('content', on ? '#07060c' : '#0c0814');
     } catch (_) { /* ignore */ }
+  }
+
+  let quietManual = false;
+  let quietRitual = false;
+
+  function syncQuietUi() {
+    const on = quietManual || quietRitual;
+    document.body.classList.toggle('quiet-mode', on);
+    const btn = $('#quiet-mode-toggle');
+    if (btn) {
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      btn.classList.toggle('active', on);
+      btn.title = on ? 'Stillen Modus beenden' : 'Stiller Modus';
+    }
+    const exit = $('#quiet-exit-chip');
+    if (exit) exit.hidden = !on;
+    const hint = $('#rr-quiet-hint');
+    if (hint) hint.hidden = !quietRitual;
+  }
+
+  function setQuietManual(on) {
+    quietManual = !!on;
+    syncQuietUi();
+  }
+
+  function setQuietRitual(on) {
+    const allow = !(state.settings && state.settings.quietDuringRitual === false);
+    quietRitual = !!(on && allow);
+    syncQuietUi();
+  }
+
+  function toggleQuietManual() {
+    setQuietManual(!quietManual);
+    toast(quietManual ? 'Stiller Modus — Chrome ausgeblendet' : 'Chrome wieder sichtbar');
+    Rituals.vibrate(12);
+  }
+
+  function nextSabbatInfo(fromDate) {
+    const start = fromDate ? new Date(fromDate.getTime()) : new Date();
+    start.setHours(0, 0, 0, 0);
+    const y = start.getFullYear();
+    let best = null;
+    for (let yy = y; yy <= y + 1; yy++) {
+      for (const sab of SABBATS) {
+        const dt = new Date(yy, sab.m - 1, sab.d, 12, 0, 0, 0);
+        const day = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate());
+        if (day >= start) {
+          const days = Math.round((day - start) / 86400000);
+          const cand = { name: sab.name, ico: sab.ico, date: dt, days: days };
+          if (!best || cand.days < best.days) best = cand;
+        }
+      }
+    }
+    return best;
+  }
+
+  function renderFestCountdown() {
+    const chip = $('#fest-countdown-chip');
+    if (!chip) return;
+    const next = nextSabbatInfo(new Date());
+    if (!next || next.days > 14) {
+      chip.hidden = true;
+      chip.textContent = '';
+      return;
+    }
+    const when = next.days <= 0 ? 'heute' : next.days === 1 ? 'morgen' : 'in ' + next.days + ' Tagen';
+    chip.hidden = false;
+    chip.innerHTML = '<span class="fest-ico" aria-hidden="true">' + (next.ico || '✦') + '</span> ' +
+      '<strong>' + escapeHtml(next.name) + '</strong> · ' + when;
+    chip.setAttribute('aria-label', 'Nächster Sabbat: ' + next.name + ', ' + when);
+  }
+
+  function renderStarterCard() {
+    const card = $('#starter-card');
+    if (!card) return;
+    const show = Store.shouldShowStarterFlow && Store.shouldShowStarterFlow();
+    card.hidden = !show;
+  }
+
+  /* ——— Erste Praxis in 3 Minuten ——— */
+  let starterStep = 0;
+  let starterIntention = '';
+  let starterBreathTimer = null;
+
+  function clearStarterBreath() {
+    if (starterBreathTimer) {
+      clearTimeout(starterBreathTimer);
+      starterBreathTimer = null;
+    }
+  }
+
+  function openStarterFlow() {
+    const ov = $('#starter-overlay');
+    if (!ov) return;
+    starterStep = 0;
+    starterIntention = '';
+    clearStarterBreath();
+    ov.hidden = false;
+    paintStarterStep();
+    Rituals.vibrate(20);
+  }
+
+  function closeStarterFlow() {
+    clearStarterBreath();
+    const ov = $('#starter-overlay');
+    if (ov) ov.hidden = true;
+  }
+
+  function paintStarterStep() {
+    const body = $('#starter-flow-body');
+    const next = $('#starter-flow-next');
+    const back = $('#starter-flow-back');
+    const lead = $('#starter-flow-lead');
+    const title = $('#starter-flow-title');
+    if (!body) return;
+    $$('#starter-progress [data-sp]').forEach(dot => {
+      const i = Number(dot.getAttribute('data-sp'));
+      dot.classList.toggle('on', i === starterStep);
+      dot.classList.toggle('done', i < starterStep);
+    });
+    if (back) back.hidden = starterStep === 0;
+    if (starterStep === 0) {
+      if (title) title.textContent = 'Intention';
+      if (lead) lead.textContent = 'Eine Zeile reicht. Positiv, Gegenwart.';
+      if (next) next.textContent = 'Weiter · Atem';
+      body.innerHTML =
+        '<p class="hint">Was willst du in diesen drei Minuten halten?</p>' +
+        '<div class="form-row" style="margin-bottom:0.4rem">' +
+        '<label class="sr-only" for="starter-intention">Intention</label>' +
+        '<input id="starter-intention" maxlength="140" placeholder="z. B. Ich übe ruhige Klarheit" autocomplete="off" />' +
+        '</div>' +
+        '<p class="hint-sm">Wird als Intention des Tages gespeichert — lokal, nur hier.</p>';
+      const inp = $('#starter-intention');
+      if (inp) {
+        inp.value = starterIntention;
+        setTimeout(() => inp.focus(), 40);
+      }
+    } else if (starterStep === 1) {
+      if (title) title.textContent = 'Atem';
+      if (lead) lead.textContent = 'Vier ein, sechs aus — ca. eine Minute.';
+      if (next) next.textContent = 'Weiter · Erdung';
+      body.innerHTML =
+        '<div class="breath-circle breath-standalone-circle" id="starter-breath" aria-live="polite" role="status">Bereit</div>' +
+        '<p class="hint" style="text-align:center;margin-top:0.75rem">Folge dem Kreis. Du kannst jederzeit weitergehen.</p>' +
+        '<p class="meta-line" id="starter-breath-meta" style="text-align:center">4 / 6</p>';
+      const el = $('#starter-breath');
+      function cycle(phase) {
+        if (!el || ($('#starter-overlay') && $('#starter-overlay').hidden)) return;
+        if (phase === 'in') {
+          el.textContent = 'Einatmen';
+          el.classList.remove('exhale');
+          el.classList.add('inhale');
+          el.style.transitionDuration = '4s';
+          starterBreathTimer = setTimeout(() => cycle('out'), 4000);
+        } else {
+          el.textContent = 'Ausatmen';
+          el.classList.remove('inhale');
+          el.classList.add('exhale');
+          el.style.transitionDuration = '6s';
+          starterBreathTimer = setTimeout(() => cycle('in'), 6000);
+        }
+      }
+      cycle('in');
+    } else {
+      if (title) title.textContent = 'Erdung';
+      if (lead) lead.textContent = 'Kurz im Körper ankommen — dann Alltag.';
+      if (next) next.textContent = 'Abschließen';
+      body.innerHTML =
+        '<p class="hint">Füße, Sitzknochen, Atem. Grenze und Ausgleich.</p>' +
+        '<ul class="starter-ground-list">' +
+        '<li>Spüre den Boden unter den Füßen.</li>' +
+        '<li>Atme einmal bewusst aus — abgeben, was nicht gehört.</li>' +
+        '<li>Sag innerlich: „Die Arbeit ist gehalten.“</li>' +
+        '</ul>' +
+        '<p class="hint-sm">Optional danach: volles Erdungs-Ritual in der Bibliothek.</p>' +
+        '<div class="btn-row" style="justify-content:center;margin-top:0.75rem">' +
+        '<button type="button" class="ghost" id="starter-open-erdung">Erdung öffnen</button></div>';
+      const go = $('#starter-open-erdung');
+      if (go) {
+        go.addEventListener('click', () => {
+          finishStarterFlow(true);
+        });
+      }
+    }
+  }
+
+  function advanceStarterFlow() {
+    if (starterStep === 0) {
+      const inp = $('#starter-intention');
+      starterIntention = inp ? String(inp.value || '').trim() : '';
+      if (starterIntention) {
+        Store.setDailyIntention({ text: starterIntention, link369: false });
+        refreshState();
+      }
+      clearStarterBreath();
+      starterStep = 1;
+      paintStarterStep();
+      return;
+    }
+    if (starterStep === 1) {
+      clearStarterBreath();
+      starterStep = 2;
+      paintStarterStep();
+      return;
+    }
+    finishStarterFlow(false);
+  }
+
+  function finishStarterFlow(openErdung) {
+    clearStarterBreath();
+    Store.recordPractice('starter');
+    Store.addPracticeLog({
+      kind: 'starter',
+      label: 'Erste Praxis (3 Min)',
+      detail: starterIntention ? ('Intention: ' + starterIntention.slice(0, 80)) : 'Intention · Atem · Erdung'
+    });
+    if (Store.markStarterDone) Store.markStarterDone();
+    refreshState();
+    closeStarterFlow();
+    renderStarterCard();
+    renderCockpit();
+    toast('Erste Praxis gehalten — willkommen.');
+    Rituals.vibrate([40, 30, 60]);
+    if (openErdung) {
+      const r = Rituals.getRitual('erdung') || Rituals.getRitual((currentPath() && currentPath().recommendedRitual) || 'erdung');
+      if (r) {
+        navigate('rituale', { force: true });
+        openRitual(r);
+      }
+    }
   }
 
   function syncHiddenLocControls() {
@@ -1052,6 +1286,8 @@
     renderQuickPraxis();
     renderDayBanner();
     renderMondArbeit(moon);
+    renderFestCountdown();
+    renderStarterCard();
     checkPlanetaryHourAlert(false);
     syncHiddenLocControls();
     const locSum = $('#loc-summary');
@@ -1098,8 +1334,8 @@
     const maya = Astro.mayaCalendar(now);
     const nextFest = Paths.nextFestival(now, state.path);
     lead.textContent =
-      'Heute steht ' + moon.emoji + ' ' + moon.name + ' im Raum, die Stunde trägt ' + hourName +
-      ', die Unruhe fühlt sich ' + unrestWord + ' an. ' + saying;
+      moon.emoji + ' ' + moon.name + ' · Stunde ' + hourName +
+      ' · Unruhe ' + unrestWord + '. ' + saying;
 
     const pins = Store.getBriefingPins();
     const ctx = { moon, hour, unrest, sunSign, maya, nextFest, now };
@@ -1761,6 +1997,7 @@
     if (!ritual) return;
     const runner = $('#ritual-runner');
     runner.classList.add('open');
+    setQuietRitual(true);
     let stepIdx = 0;
     let remaining = 0;
 
@@ -1924,6 +2161,7 @@
     clearInterval(ritualTimer);
     clearBreath();
     $('#ritual-runner').classList.remove('open');
+    setQuietRitual(false);
   }
 
   function formatSec(s) {
@@ -2722,6 +2960,7 @@
 
   function stopFocusTimer(silent) {
     if (focusTimer) { clearInterval(focusTimer); focusTimer = null; }
+    setQuietRitual(false);
     const stop = $('#focus-stop');
     const start = $('#focus-start');
     if (stop) stop.hidden = true;
@@ -2737,6 +2976,7 @@
     const start = $('#focus-start');
     if (stop) stop.hidden = false;
     if (start) start.hidden = true;
+    setQuietRitual(true);
     toast('Stille · ' + focusSelectedMins + ' Min');
     Rituals.vibrate(20);
     focusTimer = setInterval(() => {
@@ -2804,6 +3044,8 @@
     if (moon) moon.checked = !!(state.settings && state.settings.mondnacht);
     const hourAl = $('#set-hour-alert');
     if (hourAl) hourAl.checked = !!(state.settings && state.settings.hourAlert);
+    const quietR = $('#set-quiet-ritual');
+    if (quietR) quietR.checked = !(state.settings && state.settings.quietDuringRitual === false);
   }
 
   function closeSettings() {
@@ -2894,9 +3136,18 @@
     applyMotionPref();
     $('#path-chip').textContent = currentPath().name;
     closeOnboarding();
-    toast('Willkommen — Feldlicht begleitet still.');
+    toast('Willkommen — Praxis beginnt hier.');
     navigate('cockpit');
+    renderStarterCard();
     setTimeout(() => { try { showInstallBanner(true); } catch (_) {} }, 900);
+    setTimeout(() => {
+      try {
+        if (Store.shouldShowStarterFlow && Store.shouldShowStarterFlow()) {
+          const card = $('#starter-card');
+          if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      } catch (_) {}
+    }, 500);
     return true;
   }
 
@@ -2925,6 +3176,7 @@
     setInterval(updateClock, 15000);
     applyMotionPref();
     applyMondnachtPref();
+    syncQuietUi();
     setFocusDisplay();
 
     $('#path-chip').addEventListener('click', openPathModal);
@@ -3209,6 +3461,76 @@
         toast('Onboarding zurückgesetzt');
       });
     }
+    const resetStarter = $('#set-reset-starter');
+    if (resetStarter) {
+      resetStarter.addEventListener('click', () => {
+        if (Store.resetStarterFlow) Store.resetStarterFlow();
+        refreshState();
+        renderStarterCard();
+        closeSettings();
+        navigate('cockpit');
+        toast('Erste Praxis wieder angeboten');
+      });
+    }
+    const setQuietRitualEl = $('#set-quiet-ritual');
+    if (setQuietRitualEl) {
+      setQuietRitualEl.checked = !(state.settings && state.settings.quietDuringRitual === false);
+      setQuietRitualEl.addEventListener('change', () => {
+        Store.update(d => { d.settings.quietDuringRitual = !!setQuietRitualEl.checked; });
+        refreshState();
+        if (!setQuietRitualEl.checked) setQuietRitual(false);
+        toast(setQuietRitualEl.checked ? 'Stiller Modus bei Ritual an' : 'Stiller Modus bei Ritual aus');
+      });
+    }
+    const quietToggle = $('#quiet-mode-toggle');
+    if (quietToggle) quietToggle.addEventListener('click', toggleQuietManual);
+    const quietExit = $('#quiet-exit-chip');
+    if (quietExit) quietExit.addEventListener('click', () => {
+      quietManual = false;
+      quietRitual = false;
+      syncQuietUi();
+      toast('Chrome wieder sichtbar');
+    });
+    const festChip = $('#fest-countdown-chip');
+    if (festChip) {
+      festChip.addEventListener('click', () => {
+        const next = nextSabbatInfo(new Date());
+        if (next && next.date) {
+          calYear = next.date.getFullYear();
+          calMonth = next.date.getMonth();
+          selectedDay = next.date;
+        }
+        navigate('kalender');
+      });
+    }
+    const starterStart = $('#starter-start');
+    if (starterStart) starterStart.addEventListener('click', openStarterFlow);
+    const starterDismiss = $('#starter-dismiss');
+    if (starterDismiss) {
+      starterDismiss.addEventListener('click', () => {
+        if (Store.dismissStarterFlow) Store.dismissStarterFlow();
+        refreshState();
+        renderStarterCard();
+        toast('Später — Karte ausgeblendet');
+      });
+    }
+    const starterNext = $('#starter-flow-next');
+    if (starterNext) starterNext.addEventListener('click', advanceStarterFlow);
+    const starterBack = $('#starter-flow-back');
+    if (starterBack) {
+      starterBack.addEventListener('click', () => {
+        if (starterStep > 0) {
+          clearStarterBreath();
+          starterStep -= 1;
+          paintStarterStep();
+        }
+      });
+    }
+    const starterCancel = $('#starter-flow-cancel');
+    if (starterCancel) starterCancel.addEventListener('click', () => {
+      closeStarterFlow();
+      toast('Einstieg geschlossen');
+    });
 
     // Focus timer
     $$('[data-focus-mins]').forEach(btn => {
@@ -3325,8 +3647,21 @@
         st.classList.add('show');
         setTimeout(() => st.classList.remove('show'), 4000);
       }
-      toast('Export mit Metadaten · v' + ver);
+      toast('Buch exportiert · v' + ver);
     });
+    const exportSum = $('#diary-export-summary');
+    if (exportSum) {
+      exportSum.addEventListener('click', () => {
+        if (Store.exportPracticeSummary) Store.exportPracticeSummary();
+        const st = $('#import-status');
+        if (st) {
+          st.textContent = 'Praxis-Zusammenfassung.txt · ohne volle Tagebuchtexte · für Coach/Supervision';
+          st.classList.add('show');
+          setTimeout(() => st.classList.remove('show'), 4500);
+        }
+        toast('Zusammenfassung exportiert');
+      });
+    }
     $('#diary-import').addEventListener('change', async (e) => {
       const file = e.target.files && e.target.files[0];
       if (!file) return;
@@ -3620,6 +3955,11 @@
 
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
+        const starterOv = $('#starter-overlay');
+        if (starterOv && !starterOv.hidden) {
+          closeStarterFlow();
+          return;
+        }
         closeSettings();
         closeGlobalSearch();
         const pm = $('#path-modal');
@@ -3632,8 +3972,12 @@
         const pinPanel = $('#briefing-pins-panel');
         if (pinPanel && !pinPanel.hidden) {
           pinPanel.hidden = true;
-          const t = $('#briefing-pins-toggle');
-          if (t) t.setAttribute('aria-expanded', 'false');
+          const tg = $('#briefing-pins-toggle');
+          if (tg) tg.setAttribute('aria-expanded', 'false');
+        }
+        if (quietManual) {
+          quietManual = false;
+          syncQuietUi();
         }
       }
     });

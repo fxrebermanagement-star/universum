@@ -3243,3 +3243,177 @@ body.mondnacht .invite-card {
   .invite-card, .invite-card * { visibility: hidden !important; }
   .briefing-actions, .briefing-share-hint { display: none !important; }
 }
+
+
+/* ——— v1.9 · Erste Praxis, Quiet Mode, Fest-Chip, Export ——— */
+.fest-countdown-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  width: 100%;
+  justify-content: flex-start;
+  margin: 0 0 0.75rem;
+  padding: 0.55rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(212, 175, 106, 0.35);
+  background: linear-gradient(120deg, rgba(212, 175, 106, 0.12), rgba(139, 111, 208, 0.1));
+  color: var(--text, #efeaf8);
+  font: inherit;
+  font-size: 0.88rem;
+  cursor: pointer;
+  text-align: left;
+}
+.fest-countdown-chip:hover,
+.fest-countdown-chip:focus-visible {
+  border-color: rgba(212, 175, 106, 0.55);
+  outline: 2px solid var(--gold, #d4af6a);
+  outline-offset: 2px;
+}
+.fest-countdown-chip .fest-ico { font-size: 1.05rem; }
+.fest-countdown-chip[hidden] { display: none !important; }
+
+.starter-card {
+  border-color: rgba(139, 111, 208, 0.4);
+  background: linear-gradient(155deg, rgba(139, 111, 208, 0.14), rgba(12, 8, 20, 0.4));
+}
+.starter-lead {
+  margin: 0.35rem 0 0.85rem;
+  color: var(--muted, #b8aec9);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+.starter-ground-list {
+  margin: 0.5rem 0 0;
+  padding-left: 1.15rem;
+  color: var(--text, #efeaf8);
+  line-height: 1.55;
+  font-size: 0.94rem;
+}
+.starter-ground-list li { margin-bottom: 0.35rem; }
+
+.starter-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+  background: rgba(6, 4, 12, 0.72);
+  backdrop-filter: blur(8px);
+}
+.starter-overlay[hidden] { display: none !important; }
+.starter-sheet {
+  width: min(440px, 100%);
+  max-height: min(92vh, 720px);
+  overflow: auto;
+  border-radius: 1.1rem;
+  border: 1px solid rgba(139, 111, 208, 0.35);
+  background: linear-gradient(165deg, #161022, #0c0814 70%);
+  padding: 1.15rem 1.1rem 1rem;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+}
+.starter-flow-head { margin-bottom: 0.75rem; }
+.starter-flow-nav {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+#starter-progress { margin: 0.65rem 0 0.25rem; }
+
+body.quiet-mode .app-header,
+body.quiet-mode .bottom-nav,
+body.quiet-mode .trust-strip-inline,
+body.quiet-mode .privacy-line,
+body.quiet-mode .install-banner,
+body.quiet-mode .invite-card,
+body.quiet-mode .path-teach-card {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+body.quiet-mode .app-header,
+body.quiet-mode .bottom-nav {
+  position: absolute;
+  height: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+body.quiet-mode #main-content {
+  padding-bottom: 1.5rem;
+}
+body.quiet-mode .section-title {
+  margin-top: 0.35rem;
+}
+
+.quiet-exit-chip {
+  position: fixed;
+  top: calc(0.55rem + env(safe-area-inset-top, 0px));
+  right: 0.65rem;
+  z-index: 90;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid rgba(239, 234, 248, 0.28);
+  background: rgba(20, 14, 32, 0.88);
+  color: #efeaf8;
+  font: inherit;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+}
+.quiet-exit-chip:hover,
+.quiet-exit-chip:focus-visible {
+  border-color: var(--gold, #d4af6a);
+  outline: 2px solid var(--gold, #d4af6a);
+  outline-offset: 2px;
+}
+.quiet-exit-chip[hidden] { display: none !important; }
+
+#quiet-mode-toggle.active {
+  color: var(--gold, #d4af6a);
+  box-shadow: 0 0 0 1px rgba(212, 175, 106, 0.45);
+}
+
+.ritual-runner .rr-quiet-hint {
+  margin-left: auto;
+  margin-right: 0.5rem;
+  font-size: 0.72rem;
+}
+.ritual-runner .rr-header {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.export-pack {
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+#diary-export-summary:focus-visible,
+#starter-start:focus-visible,
+#quiet-mode-toggle:focus-visible,
+#fest-countdown-chip:focus-visible,
+#starter-flow-next:focus-visible {
+  outline: 2px solid var(--gold, #d4af6a);
+  outline-offset: 2px;
+}
+
+body.mondnacht .starter-card,
+body.mondnacht .fest-countdown-chip {
+  border-color: rgba(126, 192, 255, 0.3);
+  background: linear-gradient(145deg, rgba(126, 192, 255, 0.1), rgba(139, 111, 208, 0.08));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .starter-overlay { backdrop-filter: none; }
+}
+body.reduced-motion .starter-overlay { backdrop-filter: none; }
+
+@media print {
+  .starter-card, .fest-countdown-chip, .quiet-exit-chip, .starter-overlay { display: none !important; }
+}
