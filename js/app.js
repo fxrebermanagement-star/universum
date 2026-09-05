@@ -235,10 +235,12 @@
     { id: 'kalender', name: 'Kalender', ico: '📅' },
     { id: 'kosmos', name: 'Kosmos', ico: '🪐' },
     { id: 'rituale', name: 'Rituale', ico: '🕯️' },
-    { id: 'tagebuch', name: 'Tagebuch', ico: '📖' },
-    { id: 'notizen', name: 'Notizen', ico: '📝' },
+    { id: 'buch', name: 'Buch', ico: '📖' },
     { id: 'netzwerk', name: 'Kreis', ico: '🔮' }
   ];
+  /** Magie-Buch compose mode: notiz | eintrag */
+  let buchMode = 'notiz';
+  const BUCH_ALIASES = { tagebuch: 'buch', notizen: 'buch', diary: 'buch', notes: 'buch' };
 
   function $(sel, root) { return (root || document).querySelector(sel); }
   function $$(sel, root) { return Array.from((root || document).querySelectorAll(sel)); }
@@ -618,8 +620,8 @@
           toast('Atem-Übung');
           return;
         }
-        navigate('tagebuch', { force: true });
-        toast('Praxis-Log im Tagebuch');
+        navigate('buch', { force: true });
+        toast('Praxis-Log im Magie-Buch');
       });
     });
   }
@@ -953,8 +955,22 @@
     if (aud) aud.checked = !!(state.settings && state.settings.schumannAudio);
   }
 
+  function resolveSectionId(id) {
+    if (!id) return 'cockpit';
+    if (BUCH_ALIASES[id]) return BUCH_ALIASES[id];
+    return id;
+  }
+
   function navigate(id, opts) {
     opts = opts || {};
+    id = resolveSectionId(id);
+    if (opts.buchMode === 'notiz' || opts.buchMode === 'eintrag') {
+      buchMode = opts.buchMode;
+    } else if (opts.fromAlias === 'notizen') {
+      buchMode = 'notiz';
+    } else if (opts.fromAlias === 'tagebuch') {
+      buchMode = 'eintrag';
+    }
     const same = activeSection === id && !opts.force;
     $$('.section-view').forEach(el => el.classList.toggle('active', el.id === 'sec-' + id));
     $$('.bottom-nav button').forEach(btn => btn.classList.toggle('active', btn.dataset.nav === id));
@@ -965,9 +981,10 @@
       if (id === 'kalender') renderCalendar();
       if (id === 'kosmos') renderKosmos();
       if (id === 'rituale') renderRituale();
-      if (id === 'tagebuch') renderTagebuch();
-      if (id === 'notizen') renderNotizen();
+      if (id === 'buch') renderBuch();
       if (id === 'netzwerk') renderNetzwerk();
+    } else if (id === 'buch' && opts.force) {
+      renderBuch();
     }
     try { history.replaceState(null, '', '#' + id); } catch (_) { /* ignore */ }
     if (!opts.keepScroll) window.scrollTo(0, 0);
@@ -1312,8 +1329,18 @@
         id: e.id,
         title: e.title || 'Ohne Titel',
         hay: ((e.title || '') + ' ' + (e.body || '') + ' ' + ((e.tags || []).join(' '))).toLowerCase(),
-        meta: 'Tagebuch' + (e.created ? ' · ' + new Date(e.created).toLocaleDateString('de-CH') : ''),
+        meta: 'Eintrag' + (e.ritualName ? ' · Ritual' : '') + (e.created ? ' · ' + new Date(e.created).toLocaleDateString('de-CH') : ''),
         action: 'diary:' + e.id
+      });
+    });
+    (state.notes || []).forEach(n => {
+      items.push({
+        kind: 'note',
+        id: n.id,
+        title: (n.text || 'Notiz').split('\n')[0].slice(0, 60) || 'Notiz',
+        hay: ((n.text || '') + ' ' + (n.tag || '')).toLowerCase(),
+        meta: 'Notiz' + (n.updated ? ' · ' + new Date(n.updated).toLocaleDateString('de-CH') : ''),
+        action: 'note:' + n.id
       });
     });
     return items;
@@ -1398,14 +1425,25 @@
       return;
     }
     if (kind === 'diary') {
-      navigate('tagebuch', { force: true });
+      navigate('buch', { force: true, buchMode: 'eintrag' });
       const el = document.querySelector('#diary-list [data-id="' + id + '"]');
       if (el) {
         el.classList.add('search-flash');
         setTimeout(() => el.classList.remove('search-flash'), 1600);
         try { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (_) {}
       }
-      toast('Tagebuch-Eintrag');
+      toast('Magie-Buch · Eintrag');
+      return;
+    }
+    if (kind === 'note') {
+      navigate('buch', { force: true, buchMode: 'notiz' });
+      const el = document.querySelector('#diary-list [data-note-id="' + id + '"]');
+      if (el) {
+        el.classList.add('search-flash');
+        setTimeout(() => el.classList.remove('search-flash'), 1600);
+        try { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (_) {}
+      }
+      toast('Magie-Buch · Notiz');
     }
   }
 
@@ -1425,7 +1463,7 @@
     if (modal) modal.classList.remove('open');
   }
 
-  /* ——— Notiz → Tagebuch ——— */
+  /* ——— Notiz → Eintrag (gleiches Magie-Buch) ——— */
   function noteToDiary(noteId) {
     refreshState();
     const note = (state.notes || []).find(n => n.id === noteId);
@@ -1458,12 +1496,12 @@
       });
       d.notes = (d.notes || []).filter(x => x.id !== noteId);
     });
-    if (!afterPersist('Notiz → Tagebuch')) return;
+    if (!afterPersist('Notiz → Eintrag')) return;
     Rituals.vibrate(22);
     refreshState();
-    renderNotizen();
-    navigate('tagebuch', { force: true });
-    toast('Im Magie-Tagebuch angelegt');
+    buchMode = 'eintrag';
+    navigate('buch', { force: true, buchMode: 'eintrag' });
+    toast('Als Eintrag im Magie-Buch');
   }
 
   /* ——— Ritual-Vorlagen ——— */
@@ -4214,40 +4252,118 @@
     w.document.close();
   }
 
-  function renderTagebuch() {
+  function setBuchMode(mode) {
+    buchMode = mode === 'eintrag' ? 'eintrag' : 'notiz';
+    $$('[data-buch-mode]').forEach(btn => {
+      const on = btn.dataset.buchMode === buchMode;
+      btn.classList.toggle('active', on);
+      btn.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    $$('[data-buch-panel]').forEach(el => {
+      el.hidden = el.dataset.buchPanel !== buchMode;
+    });
+  }
+
+  function renderBuch() {
     refreshState();
+    setBuchMode(buchMode);
     renderDiaryPrompts();
     renderWeekReview();
     renderPracticeLog();
     populateDiaryFilterOptions();
+    renderBuchTimeline();
+  }
+
+  /** Alias for older call sites */
+  function renderTagebuch() { renderBuch(); }
+  function renderNotizen() { renderBuch(); }
+
+  function renderBuchTimeline() {
     const list = $('#diary-list');
-    const allCount = (state.diary || []).length;
-    const entries = filteredDiaryEntries();
+    if (!list) return;
+    const diaryAll = state.diary || [];
+    const notesAll = state.notes || [];
+    const filteredDiary = filteredDiaryEntries();
+    const filtersOn = !!(diaryFilters.path || diaryFilters.moon || diaryFilters.ritual || diaryFilters.tag);
     const countEl = $('#diary-filter-count');
     if (countEl) {
-      const active = !!(diaryFilters.path || diaryFilters.moon || diaryFilters.ritual || diaryFilters.tag);
-      countEl.textContent = active
-        ? (entries.length + ' von ' + allCount + ' Einträgen')
-        : (allCount ? allCount + ' Einträge' : '');
+      const nNotes = notesAll.length;
+      const nDiary = diaryAll.length;
+      if (filtersOn) {
+        countEl.textContent = filteredDiary.length + ' von ' + nDiary + ' Einträgen' +
+          (nNotes ? ' · ' + nNotes + ' Notizen (ungefiltert)' : '');
+      } else {
+        const parts = [];
+        if (nDiary) parts.push(nDiary + ' Einträge');
+        if (nNotes) parts.push(nNotes + ' Notizen');
+        countEl.textContent = parts.length ? parts.join(' · ') : '';
+      }
     }
-    if (!allCount) {
-      list.innerHTML = '<div class="empty-state"><strong>📖 Dein Buch ist noch leer</strong>' +
-        '<p>Nutze einen pfadbezogenen Impuls oder schreibe den ersten Satz — lokal, nur hier. Fotos bleiben auf diesem Gerät.</p>' +
-        '<div class="empty-cta"><button type="button" class="primary" id="empty-diary-focus">Ersten Impuls nutzen</button></div></div>';
-      const b = $('#empty-diary-focus');
-      if (b) b.addEventListener('click', () => {
+
+    const items = [];
+    filteredDiary.forEach(e => {
+      items.push({
+        kind: e.ritualName ? 'ritual' : 'eintrag',
+        sort: e.created || '',
+        diary: e
+      });
+    });
+    // Notes always visible (quick slips); filters apply to entries only
+    if (!filtersOn || buchMode === 'notiz') {
+      notesAll.forEach(n => {
+        items.push({ kind: 'notiz', sort: n.updated || '', note: n });
+      });
+    } else {
+      notesAll.forEach(n => {
+        items.push({ kind: 'notiz', sort: n.updated || '', note: n });
+      });
+    }
+    items.sort((a, b) => (b.sort || '').localeCompare(a.sort || ''));
+
+    if (!diaryAll.length && !notesAll.length) {
+      list.innerHTML = '<div class="empty-state"><strong>📖 Dein Magie-Buch ist noch leer</strong>' +
+        '<p>Schreib eine schnelle Notiz oder einen vollen Eintrag mit Foto — lokal, nur hier.</p>' +
+        '<div class="empty-cta">' +
+        '<button type="button" class="primary" id="empty-buch-notiz">📝 Notiz</button>' +
+        '<button type="button" class="ghost" id="empty-buch-eintrag">📖 Eintrag</button>' +
+        '</div></div>';
+      const bn = $('#empty-buch-notiz');
+      const be = $('#empty-buch-eintrag');
+      if (bn) bn.addEventListener('click', () => { setBuchMode('notiz'); const n = $('#note-input'); if (n) n.focus(); });
+      if (be) be.addEventListener('click', () => {
+        setBuchMode('eintrag');
         const first = $('#diary-prompts button');
         if (first) first.click();
         const t = $('#diary-title'); if (t) t.focus();
       });
       return;
     }
-    if (!entries.length) {
+
+    if (filtersOn && !filteredDiary.length && !notesAll.length) {
       list.innerHTML = '<div class="empty-state compact"><strong>Keine Treffer</strong>' +
         '<p>Filter lockern oder zurücksetzen.</p></div>';
       return;
     }
-    list.innerHTML = entries.map(e => {
+
+    list.innerHTML = items.map(it => {
+      if (it.kind === 'notiz') {
+        const n = it.note;
+        return '<div class="entry-card buch-notiz" data-note-id="' + escapeHtml(n.id) + '">' +
+          '<div class="e-main">' +
+          '<div class="e-date">' +
+          '<span class="buch-badge notiz">Notiz</span> ' +
+          escapeHtml(n.updated ? new Date(n.updated).toLocaleString('de-CH') : '') + '</div>' +
+          '<div class="e-body">' + escapeHtml(n.text || '') + '</div>' +
+          (n.tag ? '<div class="e-tags"><span class="e-tag">' + escapeHtml(n.tag) + '</span></div>' : '') +
+          '<div class="e-actions">' +
+          '<button type="button" class="primary tiny" data-note-to-diary="' + escapeHtml(n.id) + '">Als Eintrag</button>' +
+          '<button type="button" data-del-note="' + escapeHtml(n.id) + '">Löschen</button></div>' +
+          '</div></div>';
+      }
+      const e = it.diary;
+      const badge = e.ritualName
+        ? '<span class="buch-badge ritual">Ritual</span>'
+        : '<span class="buch-badge eintrag">Eintrag</span>';
       const tags = (e.tags || []).map(t => '<span class="e-tag">' + escapeHtml(t) + '</span>').join('');
       const metaBits = [];
       if (e.ritualName) metaBits.push('🕯️ ' + e.ritualName);
@@ -4264,7 +4380,8 @@
         : '';
       return '<div class="entry-card' + (e.photoId ? ' has-photo' : '') + '" data-id="' + escapeHtml(e.id) + '">' +
         '<div class="e-main">' +
-        '<div class="e-date">' + escapeHtml(e.created ? new Date(e.created).toLocaleString('de-CH') : '') +
+        '<div class="e-date">' + badge + ' ' +
+        escapeHtml(e.created ? new Date(e.created).toLocaleString('de-CH') : '') +
         (e.mood ? '<span class="e-mood">· ' + escapeHtml(e.mood) + '</span>' : '') + '</div>' +
         '<div class="e-title">' + escapeHtml(e.title || 'Ohne Titel') + '</div>' +
         (metaBits.length ? '<div class="e-meta">' + escapeHtml(metaBits.join(' · ')) + '</div>' : '') +
@@ -4273,6 +4390,7 @@
         '<div class="e-actions"><button type="button" data-del-diary="' + escapeHtml(e.id) + '">Löschen</button></div>' +
         '</div>' + thumb + '</div>';
     }).join('');
+
     $$('[data-del-diary]').forEach(btn => {
       btn.addEventListener('click', async () => {
         const id = btn.dataset.delDiary;
@@ -4282,13 +4400,23 @@
         if (photoId && Media) {
           try { await Media.removePhoto(photoId); } catch (_) {}
         }
-        renderTagebuch();
+        renderBuch();
+      });
+    });
+    $$('[data-note-to-diary]').forEach(btn => {
+      btn.addEventListener('click', () => noteToDiary(btn.dataset.noteToDiary));
+    });
+    $$('[data-del-note]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        Store.update(d => { d.notes = d.notes.filter(x => x.id !== btn.dataset.delNote); });
+        afterPersist('Notiz gelöscht', { checkBackup: false });
+        refreshState();
+        renderBuch();
       });
     });
     $$('[data-photo-id]').forEach(btn => {
       btn.addEventListener('click', () => openPhotoLightbox(btn.getAttribute('data-photo-id')));
     });
-    // lazy-load thumbs
     $$('img[data-photo-src]').forEach(async img => {
       const pid = img.getAttribute('data-photo-src');
       if (!pid || !Media) return;
@@ -4365,7 +4493,7 @@
         moonEmoji: moon.moonEmoji
       });
     });
-    if (!afterPersist('Tagebuch gespeichert')) {
+    if (!afterPersist('Eintrag im Magie-Buch')) {
       return;
     }
     $('#diary-title').value = '';
@@ -4375,42 +4503,7 @@
     $$('#diary-mood-row [data-mood]').forEach(b => b.classList.remove('picked'));
     clearDiaryPendingPhoto();
     Rituals.vibrate(25);
-    renderTagebuch();
-  }
-
-  /* ——— Notizen ——— */
-  function renderNotizen() {
-    refreshState();
-    const list = $('#notes-list');
-    const notes = (state.notes || []).slice().sort((a, b) => (b.updated || '').localeCompare(a.updated || ''));
-    if (!notes.length) {
-      list.innerHTML = '<div class="empty-state"><strong>Keine Notizen</strong>' +
-        '<p>Halte einen Gedanken, ein Symbol oder eine offene Frage fest.</p>' +
-        '<div class="empty-cta"><button type="button" class="ghost" id="empty-note-focus">Notiz schreiben</button></div></div>';
-      const b = $('#empty-note-focus');
-      if (b) b.addEventListener('click', () => { const n = $('#note-input'); if (n) n.focus(); });
-      return;
-    }
-    list.innerHTML = notes.map(n =>
-      '<div class="entry-card">' +
-      '<div class="e-date">' + escapeHtml(n.updated ? new Date(n.updated).toLocaleString('de-CH') : '') + '</div>' +
-      '<div class="e-body">' + escapeHtml(n.text || '') + '</div>' +
-      (n.tag ? '<div class="e-tags"><span class="e-tag">' + escapeHtml(n.tag) + '</span></div>' : '') +
-      '<div class="e-actions">' +
-      '<button type="button" class="primary tiny" data-note-to-diary="' + escapeHtml(n.id) + '">Ins Tagebuch</button>' +
-      '<button type="button" data-del-note="' + escapeHtml(n.id) + '">Löschen</button></div></div>'
-    ).join('');
-    $$('[data-note-to-diary]').forEach(btn => {
-      btn.addEventListener('click', () => noteToDiary(btn.dataset.noteToDiary));
-    });
-    $$('[data-del-note]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        Store.update(d => { d.notes = d.notes.filter(x => x.id !== btn.dataset.delNote); });
-        afterPersist('Notiz gelöscht', { checkBackup: false });
-        refreshState();
-        renderNotizen();
-      });
-    });
+    renderBuch();
   }
 
   function addNote() {
@@ -4420,11 +4513,11 @@
     Store.update(d => {
       d.notes.push({ id: Store.uid(), text, tag: tag || null, updated: new Date().toISOString() });
     });
-    if (!afterPersist('Notiz festgehalten')) return;
+    if (!afterPersist('Notiz im Magie-Buch')) return;
     $('#note-input').value = '';
     if ($('#note-tag')) $('#note-tag').value = '';
     Rituals.vibrate(20);
-    renderNotizen();
+    renderBuch();
   }
 
   function renderStreakLine() {
@@ -4735,7 +4828,7 @@
     const mondDiary = $('#mond-arbeit-diary');
     if (mondDiary) {
       mondDiary.addEventListener('click', () => {
-        navigate('tagebuch', { force: true });
+        navigate('buch', { force: true });
         const moon = Astro.moonPhase(new Date());
         const kind = isPeakMoon(moon);
         const copy = mondArbeitCopy(kind || 'full');
@@ -5398,8 +5491,7 @@
         applyMondnachtPref();
         if (state.settings && state.settings.ambientTone) Schumann.toggleAmbient(true);
         else Schumann.toggleAmbient(false);
-        renderTagebuch();
-        renderNotizen();
+        renderBuch();
         renderRituale();
         applyPathTheme();
         const meta = result && result.meta;
@@ -5425,6 +5517,12 @@
     });
 
     $('#note-add').addEventListener('click', addNote);
+    $$('[data-buch-mode]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        setBuchMode(btn.dataset.buchMode);
+        Rituals.vibrate(10);
+      });
+    });
 
     $('#sigil-make').addEventListener('click', runSigil);
     $('#sigil-charge').addEventListener('click', chargeSigil);
@@ -5670,12 +5768,19 @@
       navigate('cockpit');
       setTimeout(focusBriefingFromShare, 120);
     } else {
-      navigate(SECTIONS.some(s => s.id === hash) ? hash : 'cockpit');
+      const resolved = resolveSectionId(hash);
+      const fromAlias = (hash === 'notizen' || hash === 'tagebuch') ? hash : undefined;
+      if (SECTIONS.some(s => s.id === resolved)) navigate(resolved, { fromAlias: fromAlias });
+      else navigate('cockpit');
     }
     window.addEventListener('hashchange', () => {
       const h = (location.hash || '').replace('#', '').split('?')[0];
       if (h === 'briefing' || h === 'tagesbriefing') focusBriefingFromShare();
-      else if (SECTIONS.some(s => s.id === h)) navigate(h);
+      else {
+        const resolved = resolveSectionId(h);
+        const fromAlias = (h === 'notizen' || h === 'tagebuch') ? h : undefined;
+        if (SECTIONS.some(s => s.id === resolved)) navigate(resolved, { fromAlias: fromAlias });
+      }
     });
 
     if (!(state.onboarding && state.onboarding.done)) {

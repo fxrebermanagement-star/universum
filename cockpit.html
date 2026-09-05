@@ -42,12 +42,12 @@
     <div id="main-content" tabindex="-1">
     <!-- 1. Cockpit -->
     <section id="sec-cockpit" class="section-view active cockpit-lovely-page" aria-label="Cockpit">
-      <!-- v4.0.0 Cockpit above-the-fold: Suche · Astro-Tiles · Schumann -->
+      <!-- v4.1.0 Cockpit above-the-fold: Suche · Astro-Tiles · Schumann -->
       <div class="cockpit-top" id="cockpit-top">
         <div class="cockpit-search-pill" id="cockpit-search-bar">
           <label class="sr-only" for="global-search-input-cockpit">Suche</label>
           <span class="cockpit-search-ico" aria-hidden="true">⌕</span>
-          <input type="search" id="global-search-input-cockpit" placeholder="Suche · Rituale, Karten, Tagebuch" autocomplete="off" />
+          <input type="search" id="global-search-input-cockpit" placeholder="Suche · Rituale, Karten, Magie-Buch" autocomplete="off" />
           <button type="button" class="ghost tiny cockpit-search-go" id="global-search-go-cockpit" aria-label="Suchen">Suchen</button>
           <div class="global-search-results" id="global-search-results-cockpit" hidden role="listbox" aria-label="Suchergebnisse"></div>
         </div>
@@ -241,7 +241,7 @@
         <p class="hint-sm" id="mond-arbeit-practice"></p>
         <div class="btn-row">
           <button type="button" class="primary" id="mond-arbeit-start">Praxis starten</button>
-          <button type="button" class="ghost tiny" id="mond-arbeit-diary">Ins Tagebuch</button>
+          <button type="button" class="ghost tiny" id="mond-arbeit-diary">Ins Magie-Buch</button>
         </div>
       </article>
 
@@ -411,8 +411,7 @@
         <button type="button" class="tile" data-tile="kalender"><div class="tile-ico" aria-hidden="true">📅</div><div class="tile-name">Kalender</div><div class="tile-desc">Mond &amp; Feste</div></button>
         <button type="button" class="tile" data-tile="kosmos"><div class="tile-ico" aria-hidden="true">🪐</div><div class="tile-name">Kosmos</div><div class="tile-desc">Stunde · Kreis · Fokus</div></button>
         <button type="button" class="tile" data-tile="rituale"><div class="tile-ico" aria-hidden="true">🕯️</div><div class="tile-name">Rituale</div><div class="tile-desc">Geführt · Sigil · Karten</div></button>
-        <button type="button" class="tile" data-tile="tagebuch"><div class="tile-ico" aria-hidden="true">📖</div><div class="tile-name">Tagebuch</div><div class="tile-desc">Magie-Buch lokal</div></button>
-        <button type="button" class="tile" data-tile="notizen"><div class="tile-ico" aria-hidden="true">📝</div><div class="tile-name">Notizen</div><div class="tile-desc">Schnell festhalten</div></button>
+        <button type="button" class="tile" data-tile="buch"><div class="tile-ico" aria-hidden="true">📖</div><div class="tile-name">Magie-Buch</div><div class="tile-desc">Notiz · Eintrag · lokal</div></button>
         <button type="button" class="tile" data-tile="netzwerk"><div class="tile-ico" aria-hidden="true">🔮</div><div class="tile-name">Netzwerk</div><div class="tile-desc">Lokal · kein Sync</div></button>
       </div>
 
@@ -721,11 +720,11 @@
       </div>
     </section>
 
-    <!-- 5. Magie-Tagebuch -->
-    <section id="sec-tagebuch" class="section-view">
-      <h1 class="section-title"><span class="sec-ico" aria-hidden="true">📖</span> Magie-Tagebuch</h1>
+    <!-- 5. Magie-Buch (Notiz + Eintrag) -->
+    <section id="sec-buch" class="section-view">
+      <h1 class="section-title"><span class="sec-ico" aria-hidden="true">📖</span> Magie-Buch</h1>
       <span class="section-motif" aria-hidden="true"></span>
-      <p class="section-sub">Lokal · <code>feldlicht-v15</code> · Fotos in IndexedDB · Export</p>
+      <p class="section-sub">Lokal · <code>feldlicht-v15</code> · Notiz &amp; Eintrag · Fotos in IndexedDB · Export</p>
       <div class="toolbar export-pack" role="group" aria-label="Export-Paket">
         <button type="button" class="primary" id="diary-export">Buch JSON</button>
         <button type="button" class="ghost" id="diary-export-summary" title="Kurztext für Coach / Supervision">Praxis-Zusammenfassung</button>
@@ -737,7 +736,7 @@
         <label class="inline-check"><input type="radio" name="import-mode" value="merge" checked /> Zusammenführen</label>
         <label class="inline-check"><input type="radio" name="import-mode" value="replace" /> Ersetzen</label>
       </div>
-      <p class="hint-sm">Buch = volles Backup (<code>universum-buch.json</code>). Zusammenfassung = Klartext für Coaches, ohne volle Tagebuchtexte.</p>
+      <p class="hint-sm">Buch = volles Backup (<code>universum-buch.json</code>). Zusammenfassung = Klartext für Coaches, ohne volle Eintragstexte.</p>
       <p class="import-status" id="import-status"></p>
       <div class="card week-review-card" id="week-review-card" aria-labelledby="week-review-title">
         <div class="intention-top">
@@ -757,7 +756,20 @@
         <div class="practice-log-timeline" id="practice-log-timeline" aria-live="polite"></div>
         <p class="empty-state compact" id="practice-log-empty">Noch keine Praxis-Einträge.</p>
       </div>
-      <div class="card diary-filters-card" id="diary-filters-card" aria-labelledby="diary-filters-title">
+
+      <div class="buch-mode-row" role="tablist" aria-label="Magie-Buch Modus">
+        <button type="button" class="buch-mode-btn active" data-buch-mode="notiz" role="tab" aria-selected="true" id="buch-mode-notiz-btn">📝 Notiz</button>
+        <button type="button" class="buch-mode-btn" data-buch-mode="eintrag" role="tab" aria-selected="false" id="buch-mode-eintrag-btn">📖 Eintrag</button>
+      </div>
+
+      <div class="card" id="buch-panel-notiz" data-buch-panel="notiz">
+        <div class="form-row"><label for="note-input">Schnelle Notiz</label><textarea id="note-input" placeholder="Festhalten…"></textarea></div>
+        <div class="form-row"><label for="note-tag">Tag (optional)</label><input id="note-tag" placeholder="z. B. Idee" /></div>
+        <button type="button" class="primary" id="note-add">Notiz speichern</button>
+        <p class="hint-sm">Kurzer Zettel im Magie-Buch. Später: «Als Eintrag» für Stimmung, Foto und Filter.</p>
+      </div>
+
+      <div class="card diary-filters-card" id="diary-filters-card" aria-labelledby="diary-filters-title" data-buch-panel="eintrag" hidden>
         <div class="intention-top">
           <h3 id="diary-filters-title">🔍 Filter</h3>
           <button type="button" class="ghost tiny" id="diary-filter-reset">Zurücksetzen</button>
@@ -780,10 +792,11 @@
         </div>
         <p class="hint-sm" id="diary-filter-count" aria-live="polite"></p>
       </div>
-      <div class="card">
+
+      <div class="card" id="buch-panel-eintrag" data-buch-panel="eintrag" hidden>
         <div class="form-row">
           <label>Impuls (optional, pfadbezogen)</label>
-          <div class="prompt-chips" id="diary-prompts" role="group" aria-label="Tagebuch-Impulse"></div>
+          <div class="prompt-chips" id="diary-prompts" role="group" aria-label="Buch-Impulse"></div>
         </div>
         <div class="form-row"><label for="diary-title">Titel</label><input id="diary-title" placeholder="Titel" /></div>
         <div class="form-row"><label for="diary-body">Eintrag</label><textarea id="diary-body" placeholder="Was geschah? Was bleibt?"></textarea></div>
@@ -814,28 +827,17 @@
           </div>
           <p class="hint-sm honesty-photo">Fotos bleiben auf diesem Gerät, kein Upload.</p>
         </div>
-        <button type="button" class="primary" id="diary-add">Speichern</button>
+        <button type="button" class="primary" id="diary-add">Eintrag speichern</button>
       </div>
+
       <div class="toolbar export-pack diary-extra-export" role="group" aria-label="Lokaler Buch-Export">
         <button type="button" class="ghost" id="diary-export-zip" title="ZIP mit Fotos — nur lokal">📦 ZIP-Backup</button>
         <button type="button" class="ghost" id="diary-export-print" title="Drucken / als PDF speichern — nur lokal">🖨️ Drucken / PDF</button>
       </div>
       <p class="hint-sm">📦 ZIP und 🖨️ PDF bleiben auf dem Gerät — kein Cloud-Upload. Buch-JSON kann komprimierte Fotos einbetten.</p>
-      <div class="entry-list" id="diary-list"></div>
-    </section>
-
-    <!-- 6. Notizen -->
-    <section id="sec-notizen" class="section-view">
-      <h1 class="section-title"><span class="sec-ico" aria-hidden="true">📝</span> Notizen</h1>
-      <span class="section-motif" aria-hidden="true"></span>
-      <p class="section-sub">Schnelle lokale Notizen · optional mit Tag · ein Tippen → Tagebuch</p>
-      <div class="card">
-        <div class="form-row"><label for="note-input">Notiz</label><textarea id="note-input" placeholder="Festhalten…"></textarea></div>
-        <div class="form-row"><label for="note-tag">Tag (optional)</label><input id="note-tag" placeholder="z. B. Idee" /></div>
-        <button type="button" class="primary" id="note-add">Hinzufügen</button>
-        <p class="hint-sm">Gespeicherte Notizen: „Ins Tagebuch“ wandelt in einen Magie-Buch-Eintrag um.</p>
-      </div>
-      <div class="entry-list" id="notes-list"></div>
+      <div class="entry-list" id="diary-list" aria-label="Magie-Buch Timeline"></div>
+      <!-- Legacy id kept for notes form handlers; list unified in diary-list -->
+      <div id="notes-list" hidden aria-hidden="true"></div>
     </section>
 
     <!-- 7. Netzwerk / Kreis -->
@@ -897,7 +899,7 @@
           <p>Kein Login, kein Backend — Talker bleibt offline. Nutze lokale Praxis, Tagebuch oder Kreis-Notizen.</p>
           <div class="empty-cta">
             <button type="button" class="primary" data-tile="rituale">Zu den Ritualen</button>
-            <button type="button" class="ghost" data-tile="tagebuch">Tagebuch</button>
+            <button type="button" class="ghost" data-tile="buch">Magie-Buch</button>
           </div>
         </div>
       </div>
@@ -999,7 +1001,7 @@
         <label class="inline-check"><input type="checkbox" id="set-calendar-path-only" checked /> Kalender: nur mein Pfad (Feste)</label>
 
         <h3 class="mt-2">Suche</h3>
-        <p class="hint-sm">Rituale, Feldkarten-Namen, Tagebuch-Titel</p>
+        <p class="hint-sm">Rituale, Feldkarten-Namen, Magie-Buch</p>
         <div class="global-search-bar">
           <label class="sr-only" for="global-search-input-settings">Suche</label>
           <input type="search" id="global-search-input-settings" placeholder="Begriff eingeben…" autocomplete="off" />
@@ -1025,7 +1027,7 @@
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
         <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">4.0.0</span></p>
+        <p class="footer-ethics" style="padding-top:1rem">Daten: localStorage <code>feldlicht-v15</code> · App v<span id="settings-app-version">4.1.0</span></p>
       </div>
     </div>
   </div>
@@ -1037,7 +1039,7 @@
         <h2 id="global-search-title">Suche</h2>
         <button type="button" class="icon-btn" id="global-search-close" aria-label="Suche schließen">✕</button>
       </div>
-      <p class="hint-sm">Rituale, Feldkarten, Tagebuch-Titel — lokal, ohne Backend.</p>
+      <p class="hint-sm">Rituale, Feldkarten, Magie-Buch — lokal, ohne Backend.</p>
       <div class="global-search-bar">
         <label class="sr-only" for="global-search-input-modal">Suchbegriff</label>
         <input type="search" id="global-search-input-modal" placeholder="z. B. Erdung, Grenze, Mond…" autocomplete="off" />
@@ -1053,7 +1055,7 @@
   <div class="modal-overlay" id="photo-lightbox" hidden>
     <div class="modal photo-lightbox-modal" role="dialog" aria-modal="true" aria-labelledby="photo-lightbox-title">
       <h2 id="photo-lightbox-title" class="sr-only">Foto</h2>
-      <img id="photo-lightbox-img" alt="Tagebuch-Foto" />
+      <img id="photo-lightbox-img" alt="Magie-Buch-Foto" />
       <p class="hint-sm honesty-photo">Nur auf diesem Gerät · kein Upload</p>
       <button type="button" class="primary w-full mt-2" id="photo-lightbox-close">Schließen</button>
     </div>

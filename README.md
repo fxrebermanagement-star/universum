@@ -35,9 +35,8 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 2. **Kalender** — Monatsnavigation, Tagesdetails (Mond/Sonne/Feste), **standardmäßig nur Pfad-Feste** (Umschalter Alle Feste), Betonung und Kalender-Notizen
 3. **Kosmos** — Planeten-Radar mit klareren Labels, **Legende**, aktuelle **Planetenstunde hervorgehoben**, Tap/Klick für Detail, Schumann Live-Station + Tomsk-Spektrogramm
 4. **Rituale** — **nur aktueller Pfad** (4–5 einzigartige Own-Rituale); Grundlagen separat; Signaturen, Dauer-Tags 3/11/21, Sicherheitscheck, Timed-Rituale, Fokus-Timer, Sigil, illustrierte Feldkarten, eigene Rituale + Vorlagen
-5. **Magie-Tagebuch** — Fotos (IndexedDB), Ritual→Buch, Filter, ZIP/PDF, Impuls-Vorschläge, Tags & Stimmung, Export/Import `universum-buch.json`
-6. **Notizen** — lokal, optionaler Tag, **ein Tippen → Tagebuch**, leere Zustände mit nächstem Schritt
-7. **Netzwerk/Kreis** — ohne Login leer; Talker = knappe Schnittstelle, kein Medium
+5. **Magie-Buch** — Notiz (schnell) · Eintrag (Ritual, Stimmung, Foto, Filter); gemeinsame Timeline; Fotos IndexedDB; ZIP/PDF; Export/Import `universum-buch.json` (`notes` + `diary` in `feldlicht-v15`)
+6. **Netzwerk/Kreis** — ohne Login leer; Talker = knappe Schnittstelle, kein Medium
 
 **Zusätzlich (v1.3–1.4)**
 
@@ -339,6 +338,17 @@ universum/
 ## Hinweis
 
 Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine Verantwortung — mit Grenze und Ausgleich.
+
+
+## Craft-Pass (v4.1.0) · Magie-Buch vereint
+
+Notizen und Tagebuch sind ein **Magie-Buch** mit zwei Modi:
+
+- **Bottom-Nav** — 6 Einträge: Cockpit, Kalender, Kosmos, Rituale, **Buch** 📖, Kreis 🔮 (kein separates Notizen)
+- **Modi** — «Notiz» (Zettel) · «Eintrag» (Impuls, Stimmung, Tags, Foto, Filter)
+- **Timeline** — beide Arten mit Badges Notiz / Eintrag / Ritual; «Als Eintrag» wandelt Notiz um
+- **Daten** — `feldlicht-v15` unverändert: Arrays `notes` + `diary` bleiben; Redirects `#notizen` / `#tagebuch` → `#buch`
+- App `4.1.0`, SW-Cache `universum-shell-v32`
 
 
 ## Craft-Pass (v4.0.0) · Cockpit Reference Layout

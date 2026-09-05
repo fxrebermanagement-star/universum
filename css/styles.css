@@ -3351,7 +3351,7 @@ body.mondnacht .week-stat {
 @media (max-width: 480px) {
   #sec-cockpit .card,
   #sec-rituale .card,
-  #sec-tagebuch .card {
+  #sec-buch .card {
     margin-bottom: 0.85rem;
   }
   .briefing-actions {
@@ -5358,4 +5358,63 @@ body.quiet-mode .path-art-orb {
   .cockpit-dash .dash-panel.unrest {
     grid-column: auto;
   }
+}
+
+
+/* ——— v4.1.0 Magie-Buch · Notiz + Eintrag ——— */
+.buch-mode-row {
+  display: flex;
+  gap: 0.45rem;
+  margin: 0.75rem 0 0.85rem;
+  padding: 0.25rem;
+  border-radius: 999px;
+  background: rgba(40, 28, 60, 0.55);
+  border: 1px solid rgba(167, 139, 250, 0.22);
+}
+.buch-mode-btn {
+  flex: 1;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.55rem 0.75rem;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: rgba(240, 230, 255, 0.72);
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+}
+.buch-mode-btn:hover { color: #f6f0ff; }
+.buch-mode-btn.active {
+  color: #1a1028;
+  background: linear-gradient(135deg, #e8d5ff, #c4b5fd);
+  box-shadow: 0 2px 12px rgba(167, 139, 250, 0.35);
+}
+.buch-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 0.12rem 0.45rem;
+  border-radius: 999px;
+  vertical-align: middle;
+  margin-right: 0.25rem;
+}
+.buch-badge.notiz {
+  background: rgba(110, 181, 255, 0.22);
+  color: #9fd0ff;
+  border: 1px solid rgba(110, 181, 255, 0.35);
+}
+.buch-badge.eintrag {
+  background: rgba(167, 139, 250, 0.22);
+  color: #d4c4ff;
+  border: 1px solid rgba(167, 139, 250, 0.38);
+}
+.buch-badge.ritual {
+  background: rgba(232, 197, 71, 0.18);
+  color: #f0d78c;
+  border: 1px solid rgba(232, 197, 71, 0.35);
+}
+.entry-card.buch-notiz {
+  border-left: 3px solid rgba(110, 181, 255, 0.55);
 }
