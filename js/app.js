@@ -1214,7 +1214,9 @@
   function firstSectionContent(sec) {
     if (!sec) return null;
     const selectors = [
-      '.cockpit-top',
+      '#jetzt-card',
+      '.altar-heart',
+      '.altar-welcome',
       '.cal-path-toggle',
       '.cal-nav',
       '.kosmos-praxis',
@@ -1446,16 +1448,16 @@
         escapeHtml((path && path.name) || 'Praxis');
     }
     if (kindEl) {
-      kindEl.textContent = tip && tip.kind === 'haltung' ? 'Haltung' : 'Ritual';
+      kindEl.textContent = tip && tip.kind === 'haltung' ? 'Haltung' : 'Einladung';
     }
     if (lead) {
-      lead.textContent = (tip && tip.text) || (path && path.practiceHint) || 'Eine ruhige Praxis reicht.';
+      lead.textContent = (tip && tip.text) || (path && path.practiceHint) || 'Eine ruhige Praxis reicht — bleib, wenn es sich gut anfühlt.';
     }
     if (meta) {
       const tipTitle = tip && tip.title ? tip.title : (ritual ? ritual.name : 'Praxis');
       meta.textContent = tipTitle +
         (ritual ? (' · ' + ((Rituals.durLabel && Rituals.durLabel(ritual.mins)) || ('≈ ' + ritual.mins + ' Min'))) : '') +
-        ' · stabil für heute';
+        ' · für dich heute';
     }
     if (jetztStart) {
       jetztStart.textContent = (tip && tip.cta) || (ritual ? ('Kreis öffnen · ' + ritual.name) : 'Kreis öffnen');
@@ -1515,8 +1517,8 @@
     if (!Paths.getTodayCraft) return;
     const craft = Paths.getTodayCraft(state.path, new Date());
     if (!craft) return;
-    if (chip) chip.textContent = craft.kind || 'Werk';
-    if (text) text.textContent = (craft.kind ? craft.kind + ': ' : '') + (craft.text || '');
+    if (chip) chip.textContent = craft.kind || 'kurz';
+    if (text) text.textContent = craft.text || ((craft.kind ? craft.kind + ' — ' : '') + 'Ein kleines Werk mit Grenze und Ausgleich.');
   }
 
   function renderKorrespondenzenSection() {
@@ -1569,12 +1571,12 @@
     const m = moon || (Astro.moonPhase && Astro.moonPhase(new Date())) || {};
     const fen = Paths.getMondFenster(state.path, m.name);
     if (chip) chip.textContent = fen.label || m.name || 'Mond';
-    lead.textContent = fen.text || 'Gut für ruhige Praxis mit Maß.';
+    lead.textContent = fen.text || 'Weiches Licht — gut für ruhige Praxis mit Maß.';
     const orb = $('#mondfenster-emoji');
     if (orb) orb.textContent = m.emoji || '🌕';
     if (meta) {
       meta.textContent = (m.emoji || '☾') + ' ' + (m.name || '—') +
-        ' · Arbeitsfenster · pfadbezogen';
+        ' · Stimmung · kein Messwert';
     }
   }
 
@@ -2063,21 +2065,30 @@
     const recs = Astro.recommendations(now, state.lat, state.lon, unrest);
     const path = currentPath();
 
-    $('#dash-moon-val').innerHTML =
-      '<span class="moon-emoji">' + moon.emoji + '</span>' + escapeHtml(moon.name);
+    const dashMoon = $('#dash-moon-val');
+    if (dashMoon) {
+      dashMoon.innerHTML =
+        '<span class="moon-emoji">' + moon.emoji + '</span>' + escapeHtml(moon.name);
+    }
     // Arbeitsfenster: «gut für …», kein %-Dashboard
     let moonGut = '';
     if (Paths.getMondFenster) {
       const fen = Paths.getMondFenster(state.path, moon.name);
       moonGut = fen && fen.text ? fen.text : '';
     }
-    $('#dash-moon-meta').textContent = moonGut || ('Gut für ruhige Praxis · ' + (moonInfo.sign || ''));
+    const dashMoonMeta = $('#dash-moon-meta');
+    if (dashMoonMeta) dashMoonMeta.textContent = moonGut || ('Gut für ruhige Praxis · ' + (moonInfo.sign || ''));
     const hourInv = softHourInvite(hour);
-    $('#dash-hour-val').textContent = hourInv.planet;
-    $('#dash-hour-meta').textContent = 'Gut für: ' + hourInv.gut.replace(/^Gut für:\s*/i, '');
+    const dashHour = $('#dash-hour-val');
+    if (dashHour) dashHour.textContent = hourInv.planet;
+    const dashHourMeta = $('#dash-hour-meta');
+    if (dashHourMeta) dashHourMeta.textContent = 'Gut für: ' + hourInv.gut.replace(/^Gut für:\s*/i, '');
     const uInv = softUnrestInvite(unrest);
-    $('#dash-unrest-val').textContent = uInv.word;
-    $('#dash-unrest-val').style.color = unrest.color || '';
+    const dashUnrest = $('#dash-unrest-val');
+    if (dashUnrest) {
+      dashUnrest.textContent = uInv.word;
+      dashUnrest.style.color = unrest.color || '';
+    }
     const uMeta = $('#dash-unrest-meta');
     if (uMeta) uMeta.textContent = uInv.meta;
     const bar = $('#dash-unrest-bar');
@@ -2088,26 +2099,34 @@
     }
 
     const voc = $('#voc-banner');
-    if (voidW.active) {
-      voc.classList.add('show');
-      $('#voc-text').textContent = voidW.message;
-    } else {
-      voc.classList.remove('show');
+    if (voc) {
+      if (voidW.active) {
+        voc.classList.add('show');
+        const vt = $('#voc-text');
+        if (vt) vt.textContent = voidW.message;
+      } else {
+        voc.classList.remove('show');
+      }
     }
 
     const recEl = $('#dash-recs');
-    recEl.innerHTML = recs.map(r => '<li>' + escapeHtml(r) + '</li>').join('');
-    if (path.disclaimer) {
-      recEl.innerHTML += '<li>' + escapeHtml(path.disclaimer) + '</li>';
+    if (recEl) {
+      recEl.innerHTML = recs.map(r => '<li>' + escapeHtml(r) + '</li>').join('');
+      if (path.disclaimer) {
+        recEl.innerHTML += '<li>' + escapeHtml(path.disclaimer) + '</li>';
+      }
+      recEl.innerHTML += '<li>' + escapeHtml(Paths.randomSaying(state.path)) + '</li>';
     }
-    recEl.innerHTML += '<li>' + escapeHtml(Paths.randomSaying(state.path)) + '</li>';
-
-    $('#dash-next-moon').textContent =
-      'Nächster Neumond ≈ ' + (nextNew ? fmtDate(nextNew) + ' ' + fmtTime(nextNew) : '—') +
-      ' · Vollmond ≈ ' + (nextFull ? fmtDate(nextFull) + ' ' + fmtTime(nextFull) : '—');
+    const nextMoonEl = $('#dash-next-moon');
+    if (nextMoonEl) {
+      nextMoonEl.textContent =
+        'Nächster Neumond ≈ ' + (nextNew ? fmtDate(nextNew) + ' ' + fmtTime(nextNew) : '—') +
+        ' · Vollmond ≈ ' + (nextFull ? fmtDate(nextFull) + ' ' + fmtTime(nextFull) : '—');
+    }
 
     applyPathTheme();
-    $('#cockpit-greeting').textContent = path.greeting || 'Hier arbeitest du in der Praxis — Praxis vor Spektakel.';
+    const greetEl = $('#cockpit-greeting');
+    if (greetEl) greetEl.textContent = path.greeting || 'Hier darfst du bleiben — warm, still, ohne Eile.';
     renderJetztCard();
     renderPathWeek();
     renderPathWerkzeug();

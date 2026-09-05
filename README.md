@@ -31,7 +31,7 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 
 ## Funktionen
 
-1. **Altar** — **Above-the-fold**: Suche, weiche Praxis-Fenster (Mond · Stunde · Unruhe als Einladung), Schumann leise/optional; **Heute-Tip primär**; Pfad-Woche, Mondfenster, Resonanzen «heute passt», kurze Werke; Empfehlen/PWA; Pfad-Chip, Streak
+1. **Altar** — **Above-the-fold**: warmes Willkommen, **Heute** als Herz; darunter stille Begleiter (Mond-Stimmung, Resonanz «heute passt…», Werkzeug); Schumann/Unruhe/Stunde in «Mehr aus dem Feld»; Suche im Header; Altar-Nav 🪔
 2. **Kalender** — Monatsnavigation, Tagesdetails (Mond/Sonne/Feste), **standardmäßig nur Pfad-Feste** (Umschalter Alle Feste), Betonung und Kalender-Notizen
 3. **Kosmos** — Planeten-Radar mit klareren Labels, **Legende**, aktuelle **Planetenstunde hervorgehoben**, Tap/Klick für Detail, Schumann Live-Station + Tomsk-Spektrogramm
 4. **Rituale** — **nur aktueller Pfad** (4–5 einzigartige Own-Rituale); Grundlagen separat; Signaturen, Dauer-Tags 3/11/21, Sicherheitscheck, Timed-Rituale, Fokus-Timer, Sigil, illustrierte Feldkarten, eigene Rituale + Vorlagen
@@ -342,6 +342,15 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 
 
 
+
+## Craft-Pass (v5.8.0) · Altar man soll ihn lieben
+
+- **Gefühl** — Altar als warmer, stiller Ort zum Bleiben (kein Tech-Dashboard)
+- **Herz** — Heute-Tip groß, schön, primär; Kerzen-/Mondlicht-Atmosphäre
+- **Begleiter** — unter Heute: weicher Mond als Stimmung (ohne %-Balken), eine Resonanz «heute passt…», ein Werkzeug-Shortcut
+- **Feld begraben** — Schumann / Unruhe / Planetenstunde in zugeklapptem «Mehr aus dem Feld»
+- Suche bleibt dezent im Header; Altar-Nav 🪔; Stille-Modus & reduced-motion respektiert
+- App `5.8.0`, SW-Cache `universum-shell-v46`
 
 ## Craft-Pass (v5.7.0) · Rituale für Kenner
 
