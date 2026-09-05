@@ -42,14 +42,13 @@
     <div id="main-content" tabindex="-1">
     <!-- 1. Altar (route id: cockpit) -->
     <section id="sec-cockpit" class="section-view active cockpit-lovely-page altar-sacred" aria-label="Altar">
-      <!-- v5.8.0 Altar: soft sacred table · Heute heart · quiet companions · Feld buried -->
-
-      <div class="altar-welcome" id="altar-welcome">
+      <!-- v5.9.0 Altar: Messpult-Anzeigen + app-home glance -->
+      <div class="altar-welcome altar-welcome-compact" id="altar-welcome">
         <div class="altar-welcome-glow" aria-hidden="true">
           <div class="candle-flame altar-candle"><div class="flame"></div><div class="wick"></div></div>
         </div>
         <p class="altar-welcome-eyebrow">Willkommen am Altar</p>
-        <p class="section-sub altar-welcome-line" id="cockpit-greeting">Hier darfst du bleiben — warm, still, ohne Eile.</p>
+        <p class="section-sub altar-welcome-line" id="cockpit-greeting">Messpult und Praxis — Anzeigen und Einladung auf einen Blick.</p>
         <div class="cockpit-path-art" id="cockpit-path-art" aria-hidden="true"><span class="path-art-orb" id="path-art-orb">✦</span></div>
         <p class="path-haltung" id="path-haltung" aria-live="polite"><span class="path-sym" aria-hidden="true">✦</span> <span class="path-haltung-text">Stille Praxis — Daten bleiben bei dir.</span></p>
       </div>
@@ -92,22 +91,142 @@
         </div>
       </div>
 
+      <!-- legacy chip kept for JS; visually replaced by Kalender glance card -->
       <button type="button" class="fest-countdown-chip" id="fest-countdown-chip" hidden aria-live="polite"></button>
 
-      <!-- Heart: Heute -->
-      <article class="card jetzt-card heute-tip-card cockpit-hero cockpit-lovely heute-primary altar-heart" id="jetzt-card" aria-labelledby="jetzt-title">
-        <div class="intention-top">
-          <h2 id="jetzt-title" class="heute-heart-title">Heute</h2>
-          <span class="chip-quiet" id="jetzt-chip">Ein Tip</span>
+      <!-- v5.9.0 Messpult + app-home glance -->
+
+      <!-- MESSPULT: instrument readouts up front -->
+      <div class="altar-messpult cockpit-top" id="cockpit-top" aria-label="Messpult">
+        <div class="messpult-head">
+          <p class="messpult-eyebrow">Messpult</p>
+          <span class="approx-badge" title="JS-Näherungen für die Praxis">Näherung</span>
         </div>
-        <p class="jetzt-kind chip-quiet" id="jetzt-kind">Praxis</p>
-        <p class="jetzt-lead" id="jetzt-lead">Eine Einladung für heute — bleib, wenn es sich gut anfühlt.</p>
-        <p class="jetzt-meta hint-sm" id="jetzt-meta"></p>
-        <div class="btn-row">
-          <button type="button" class="primary" id="jetzt-start">Kreis öffnen</button>
-          <button type="button" class="ghost tiny" id="jetzt-starter" hidden>3-Min-Starter</button>
+        <div class="dashboard-grid cockpit-dash messpult-grid" aria-label="Anzeigen">
+          <div class="dash-panel moon mess-tile" id="mess-mond">
+            <div class="label">Mond <span class="approx-badge">Näherung</span></div>
+            <div class="value" id="dash-moon-val">—</div>
+            <div class="mess-readout" id="dash-moon-pct">— %</div>
+            <div class="meta" id="dash-moon-meta"></div>
+            <div class="mess-sign" id="dash-moon-sign">—</div>
+          </div>
+          <div class="dash-panel hour mess-tile" id="mess-stunde">
+            <div class="label">Planetenstunde</div>
+            <div class="value" id="dash-hour-val">—</div>
+            <div class="mess-readout" id="dash-hour-window">—</div>
+            <div class="meta" id="dash-hour-meta"></div>
+          </div>
+          <div class="dash-panel unrest impulse-panel mess-tile" id="mess-unruhe">
+            <div class="label">Unruhe · Impuls</div>
+            <div class="value" id="dash-unrest-val">—</div>
+            <div class="mess-readout" id="dash-unrest-level">—</div>
+            <div class="unrest-bar soft-impulse" aria-hidden="true"><i id="dash-unrest-bar"></i></div>
+            <div class="meta impulse-meta" id="dash-unrest-meta">Schweigen darf — kein Messgerät</div>
+          </div>
         </div>
-      </article>
+
+        <article class="card mess-schumann schumann-card cockpit-schumann" id="glance-schumann-card" aria-labelledby="glance-schumann-title">
+          <div class="schumann-head compact-head">
+            <h3 id="glance-schumann-title">Schumann · Station</h3>
+            <span class="schumann-live-badge" data-sch-badge data-state="offline">Lokal · 7,83 Hz</span>
+          </div>
+          <div class="schumann-spectrogram" data-sch-spectrogram>
+            <figure class="schumann-spectrogram-figure">
+              <img data-sch-spectrogram-img alt="Schumann-Spektrogramm der Station Tomsk (live Sonogramm)" width="1200" height="400" decoding="async" />
+              <p class="schumann-spectrogram-err" data-sch-spectrogram-err hidden>Spektrogramm derzeit nicht erreichbar — Puls bleibt aktiv.</p>
+            </figure>
+            <p class="hint-sm schumann-spectrogram-attr">Tomsk SOS via <a href="https://resonanceone.app/ai" target="_blank" rel="noopener noreferrer">ResonanceOne</a> · kein Handy-Sensor · <a href="https://resonanceone.app/schumann-resonance-today" target="_blank" rel="noopener noreferrer">Methodik</a></p>
+          </div>
+          <div class="schumann-live-panel" data-sch-panel>
+            <div class="schumann-metrics" aria-label="Stationsdaten">
+              <div class="sch-metric"><span class="m-label">SR</span> <strong data-sch-hz>—</strong> <span class="m-unit">Hz</span></div>
+              <div class="sch-metric"><span class="m-label">Index</span> <strong data-sch-index>—</strong></div>
+              <div class="sch-metric"><span class="m-label">Kp</span> <strong data-sch-kp>—</strong></div>
+              <div class="sch-metric"><span class="m-label">Geomag.</span> <strong data-sch-geo>—</strong></div>
+            </div>
+            <p class="hint-sm schumann-update">Update: <span data-sch-updated>—</span></p>
+            <button type="button" class="ghost tiny" data-sch-refresh>Aktualisieren</button>
+          </div>
+          <p class="schumann-secondary-label">Lokal · 7,83-Hz-Puls</p>
+          <div class="schumann-wrap"><canvas id="schumann-canvas" aria-label="Schumann-Puls Visualisierung"></canvas></div>
+          <p class="hint-sm" data-sch-honesty>Stationsdaten und Puls sind Impulse für die Praxis — kein Wahrheitsmesser, keine Körper- oder Geister-Messung.</p>
+        </article>
+
+        <p class="approx-note hint-sm cockpit-approx-once soft-honesty" id="astro-approx-note-home">Kreis, Grenze, Gabe, Schweigen — Mond und Stunde sind <strong>Fenster zur Praxis</strong> (Näherung), keine Orakel-Wahrheit.</p>
+      </div>
+
+      <!-- APP-HOME glance: Heute + praxis shortcuts -->
+      <div class="altar-glance" id="altar-glance" aria-label="Altar auf einen Blick">
+
+        <article class="card jetzt-card heute-tip-card cockpit-hero cockpit-lovely heute-primary altar-heart glance-card glance-heute" id="jetzt-card" aria-labelledby="jetzt-title">
+          <div class="glance-ico" aria-hidden="true">✨</div>
+          <div class="intention-top">
+            <h2 id="jetzt-title" class="heute-heart-title">Heute</h2>
+            <span class="chip-quiet" id="jetzt-chip">Ein Tip</span>
+          </div>
+          <p class="jetzt-kind chip-quiet" id="jetzt-kind">Praxis</p>
+          <p class="jetzt-lead" id="jetzt-lead">Eine Einladung für heute — bleib, wenn es sich gut anfühlt.</p>
+          <p class="jetzt-meta hint-sm" id="jetzt-meta"></p>
+          <div class="btn-row">
+            <button type="button" class="primary" id="jetzt-start">Kreis öffnen</button>
+            <button type="button" class="ghost tiny" id="jetzt-starter" hidden>3-Min-Starter</button>
+          </div>
+        </article>
+
+        <button type="button" class="card glance-card glance-kalender nested-card cockpit-lovely" id="glance-kalender-card" aria-labelledby="glance-kalender-title">
+          <div class="glance-ico" aria-hidden="true">📅</div>
+          <div class="intention-top">
+            <h3 id="glance-kalender-title">Kalender</h3>
+            <span class="chip-quiet" id="glance-kalender-chip">Fest</span>
+          </div>
+          <p class="glance-lead" id="glance-kalender-lead">Nächstes Pfad-Fest erscheint hier.</p>
+          <p class="hint-sm" id="glance-kalender-meta">Tippen → Kalender</p>
+        </button>
+
+        <button type="button" class="card glance-card glance-ritual nested-card cockpit-lovely" id="glance-ritual-card" aria-labelledby="glance-ritual-title">
+          <div class="glance-ico" aria-hidden="true">🕯️</div>
+          <div class="intention-top">
+            <h3 id="glance-ritual-title">Letztes Ritual</h3>
+            <span class="chip-quiet" id="glance-ritual-chip">—</span>
+          </div>
+          <p class="glance-lead" id="glance-ritual-lead">Noch keine Praxis geloggt.</p>
+          <p class="hint-sm" id="glance-ritual-meta">Tippen zum Fortsetzen</p>
+        </button>
+
+        <button type="button" class="card glance-card glance-buch nested-card cockpit-lovely" id="glance-buch-card" aria-labelledby="glance-buch-title">
+          <div class="glance-ico" aria-hidden="true">📖</div>
+          <div class="intention-top">
+            <h3 id="glance-buch-title">Letzter Bucheintrag</h3>
+            <span class="chip-quiet" id="glance-buch-chip">Buch</span>
+          </div>
+          <div class="glance-buch-body">
+            <div class="glance-buch-thumb" id="glance-buch-thumb" hidden></div>
+            <div>
+              <p class="glance-lead" id="glance-buch-lead">Noch kein Eintrag im Magie-Buch.</p>
+              <p class="hint-sm" id="glance-buch-meta">Tippen → Magie-Buch</p>
+            </div>
+          </div>
+        </button>
+
+        <button type="button" class="card glance-card glance-werkzeug nested-card cockpit-lovely craft-peek" id="craft-peek-card" aria-labelledby="craft-peek-title">
+          <div class="glance-ico" aria-hidden="true">🛠️</div>
+          <div class="intention-top">
+            <h3 id="craft-peek-title">Werkzeug</h3>
+            <span class="chip-quiet" id="craft-peek-chip">kurz</span>
+          </div>
+          <p class="hint-sm" id="craft-peek-text">Ein kleines Werk für heute — mit Grenze und Ausgleich.</p>
+          <p class="path-chip-line hint-sm" id="glance-path-chip"><span class="path-sym" aria-hidden="true">✦</span> <span id="glance-path-name">Pfad</span></p>
+        </button>
+
+        <!-- keep Mondfenster ids for JS soft practice line (hidden mirror filled into mess meta) -->
+        <article class="card mondfenster-card nested-card" id="mondfenster-card" hidden aria-hidden="true">
+          <h3 id="mondfenster-title">Mond</h3>
+          <span class="chip-quiet" id="mondfenster-chip">—</span>
+          <span id="mondfenster-emoji" class="moon-orb">🌕</span>
+          <p id="mondfenster-lead"></p>
+          <p id="mondfenster-meta"></p>
+        </article>
+      </div><!-- #altar-glance -->
 
       <div class="stille-ritual-slot" id="stille-ritual-slot" hidden>
         <article class="card" aria-labelledby="stille-ritual-title">
@@ -130,36 +249,14 @@
         </div>
       </article>
 
-      <!-- Quiet companions below Heute -->
-      <div class="altar-companions" id="altar-companions" aria-label="Stille Begleiter">
-        <article class="card mondfenster-card companion-card companion-mond nested-card cockpit-lovely" id="mondfenster-card" aria-labelledby="mondfenster-title">
-          <div class="intention-top">
-            <h3 id="mondfenster-title">Mond · Stimmung</h3>
-            <span class="chip-quiet" id="mondfenster-chip">—</span>
-          </div>
-          <div class="mondfenster-visual" aria-hidden="true"><span id="mondfenster-emoji" class="moon-orb">🌕</span></div>
-          <p class="mondfenster-lead" id="mondfenster-lead">Weiches Licht für heute.</p>
-          <p class="hint-sm" id="mondfenster-meta"></p>
-        </article>
-
-        <article class="card korrespondenz-card korrespondenz-peek companion-card companion-resonanz nested-card" id="korrespondenz-card" aria-labelledby="korrespondenz-title">
-          <div class="intention-top">
-            <h3 id="korrespondenz-title">Resonanz</h3>
-            <span class="chip-quiet" id="korrespondenz-chip">heute passt</span>
-          </div>
-          <p class="hint-sm" id="korrespondenz-peek-text">Heute passt … — kurze Symbolik mit Warum.</p>
-          <button type="button" class="ghost tiny" id="korrespondenz-open">Alle Resonanzen</button>
-        </article>
-
-        <article class="card craft-peek companion-card companion-werkzeug nested-card" id="craft-peek-card" aria-labelledby="craft-peek-title">
-          <div class="intention-top">
-            <h3 id="craft-peek-title">Werkzeug</h3>
-            <span class="chip-quiet" id="craft-peek-chip">kurz</span>
-          </div>
-          <p class="hint-sm" id="craft-peek-text">Ein kleines Werk für heute — mit Grenze und Ausgleich.</p>
-          <button type="button" class="ghost tiny" id="craft-peek-open">Zum Werkzeug</button>
-        </article>
-      </div>
+      <article class="card korrespondenz-card korrespondenz-peek glance-resonanz-slim nested-card" id="korrespondenz-card" aria-labelledby="korrespondenz-title">
+        <div class="intention-top">
+          <h3 id="korrespondenz-title">Resonanz</h3>
+          <span class="chip-quiet" id="korrespondenz-chip">heute passt</span>
+        </div>
+        <p class="hint-sm" id="korrespondenz-peek-text">Heute passt … — kurze Symbolik mit Warum.</p>
+        <button type="button" class="ghost tiny" id="korrespondenz-open">Alle Resonanzen</button>
+      </article>
 
       <span class="offline-chip" id="offline-chip" hidden>Offline · lokale Praxis</span>
       <p class="offline-honesty hint-sm" id="offline-honesty" role="status">Lokal auf diesem Gerät · Offline-Shell bereit, wenn einmal geladen.</p>
@@ -167,68 +264,12 @@
 
       <div class="cockpit-stardust" id="cockpit-stardust" aria-hidden="true"></div>
 
-      <!-- Tech / Feld / secondary: buried deep -->
       <details class="card mehr-accordion mehr-feld" id="mehr-aus-dem-feld">
         <summary class="mehr-summary">
-          Mehr aus dem Feld
-          <span class="mehr-hint">Stunde · Unruhe · Schumann · Notizen · Einstellungen</span>
+          Mehr am Altar
+          <span class="mehr-hint">Pfad-Woche · Journal · Notizen · Einstellungen</span>
         </summary>
         <div class="mehr-body" id="cockpit-flow">
-
-      <div class="cockpit-top" id="cockpit-top">
-        <div class="dashboard-grid cockpit-dash cockpit-dash-soft" aria-label="Praxis-Fenster">
-          <div class="dash-panel moon">
-            <div class="label">Mond · Arbeitsfenster</div>
-            <div class="value" id="dash-moon-val">—</div>
-            <div class="meta" id="dash-moon-meta"></div>
-          </div>
-          <div class="dash-panel hour">
-            <div class="label">Stunde · Gabe</div>
-            <div class="value" id="dash-hour-val">—</div>
-            <div class="meta" id="dash-hour-meta"></div>
-          </div>
-          <div class="dash-panel unrest impulse-panel">
-            <div class="label">Unruhe · Grenze</div>
-            <div class="value" id="dash-unrest-val">—</div>
-            <div class="unrest-bar soft-impulse soft-impulse-quiet" hidden aria-hidden="true"><i id="dash-unrest-bar"></i></div>
-            <div class="meta impulse-meta" id="dash-unrest-meta">Schweigen darf — kein Messgerät</div>
-          </div>
-        </div>
-        <p class="approx-note hint-sm cockpit-approx-once soft-honesty" id="astro-approx-note">Kreis, Grenze, Gabe, Schweigen — Mond und Stunde sind <strong>Fenster zur Praxis</strong>, keine Orakel-Wahrheit.</p>
-
-        <details class="card nested-card schumann-card cockpit-schumann cockpit-schumann-details impulse-details schumann-quiet">
-          <summary class="schumann-summary">
-            <span>Schumann · leise</span>
-            <span class="chip-quiet">optional · sekundär</span>
-          </summary>
-          <div class="schumann-head compact-head">
-            <span class="schumann-live-badge schumann-badge-quiet" data-sch-badge data-state="offline">Lokal · 7,83 Hz</span>
-          </div>
-          <div class="schumann-spectrogram" data-sch-spectrogram>
-            <figure class="schumann-spectrogram-figure">
-              <img data-sch-spectrogram-img alt="Schumann-Spektrogramm der Station Tomsk (live Sonogramm)" width="1200" height="400" decoding="async" />
-              <p class="schumann-spectrogram-err" data-sch-spectrogram-err hidden>Spektrogramm derzeit nicht erreichbar — Metriken und lokale Visualisierung bleiben aktiv.</p>
-            </figure>
-            <p class="hint-sm schumann-spectrogram-attr">Spektrogramm der Station Tomsk (SOS / Tomsk State University), bereitgestellt über <a href="https://resonanceone.app/ai" target="_blank" rel="noopener noreferrer">ResonanceOne</a>. Kein Handy-Sensor. · <a href="https://resonanceone.app/schumann-resonance-today" target="_blank" rel="noopener noreferrer">Methodik</a> · <a href="https://sos70.ru/" target="_blank" rel="noopener noreferrer">Tomsk SOS</a></p>
-          </div>
-          <p class="schumann-secondary-label">Lokal · leiser 7,83-Hz-Puls</p>
-          <div class="schumann-wrap"><canvas id="schumann-canvas" aria-label="Schumann-Puls Visualisierung"></canvas></div>
-          <div class="schumann-live-panel" data-sch-panel>
-            <div class="schumann-metrics" aria-label="Stationsdaten">
-              <div class="sch-metric"><span class="m-label">SR</span> <strong data-sch-hz>—</strong> <span class="m-unit">Hz</span></div>
-              <div class="sch-metric"><span class="m-label">Index</span> <strong data-sch-index>—</strong></div>
-              <div class="sch-metric"><span class="m-label">Kp</span> <strong data-sch-kp>—</strong></div>
-              <div class="sch-metric"><span class="m-label">Geomag.</span> <strong data-sch-geo>—</strong></div>
-            </div>
-            <p class="hint-sm schumann-update">Update: <span data-sch-updated>—</span></p>
-            <p class="hint-sm schumann-source">Quelle: <span data-sch-source>—</span> · <a href="https://resonanceone.app/schumann-resonance-today" target="_blank" rel="noopener noreferrer">Methodik</a> · <a href="https://resonanceone.app/ai" target="_blank" rel="noopener noreferrer">ResonanceOne</a></p>
-            <button type="button" class="ghost tiny" data-sch-refresh>Aktualisieren</button>
-          </div>
-          <p class="hint-sm schumann-honesty" data-sch-honesty>Optional und leise — lokal 7,83 Hz bleibt. Kein Messgerät am Handy.</p>
-          <p class="schumann-note">Ehrliche Stationsdaten (Tomsk via ResonanceOne + NOAA), wenn erreichbar — sekundär, kein Wahrheitsmesser, keine Körper- oder Geister-Messung. Offline: lokale Visualisierung. Optional leiser 136-Hz-Träger in den Einstellungen.</p>
-          <p class="hint-sm impulse-frame">Stationsdaten und Puls sind <strong>Impulse für die Praxis</strong> — keine Erdbeben-, Körper- oder Geister-Messung.</p>
-        </details>
-      </div>
 
       <article class="card path-week-card nested-card" id="path-week-card" aria-labelledby="path-week-title">
         <div class="intention-top">

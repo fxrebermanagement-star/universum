@@ -6043,14 +6043,21 @@ body.reduced-motion .feldkarte:hover {
 }
 
 /* ——— v5.6 Stille-Modus · only Heute + one ritual ——— */
-body.stille-modus #sec-cockpit > *:not(#jetzt-card):not(.stille-ritual-slot):not(.sitzung-bar) {
+body.stille-modus #sec-cockpit > *:not(#jetzt-card):not(.stille-ritual-slot):not(.sitzung-bar):not(#altar-glance) {
   display: none !important;
 }
 body.stille-modus #sec-cockpit .sitzung-bar,
 body.stille-modus #sec-cockpit .altar-welcome,
 body.stille-modus #sec-cockpit .altar-companions,
+body.stille-modus #sec-cockpit .altar-messpult,
+body.stille-modus #sec-cockpit #altar-glance > *:not(#jetzt-card),
+body.stille-modus #sec-cockpit #korrespondenz-card,
+body.stille-modus #sec-cockpit .altar-glance-honesty,
 body.stille-modus #sec-cockpit #mehr-aus-dem-feld {
   display: none !important;
+}
+body.stille-modus #sec-cockpit #altar-glance {
+  display: block !important;
 }
 body.stille-modus #sec-cockpit #jetzt-card {
   display: block !important;
@@ -6427,3 +6434,410 @@ body.reduced-motion .altar-sacred .cockpit-stardust {
     height: 100%;
   }
 }
+
+
+/* ——— v5.9.0 Altar app-home glance dashboard ——— */
+.altar-welcome-compact {
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.25rem;
+}
+.altar-welcome-compact .altar-welcome-line {
+  font-size: 0.92rem;
+  max-width: 26rem;
+}
+
+.altar-glance {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7rem;
+  margin: 0.15rem 0 0.85rem;
+  align-items: stretch;
+}
+.glance-card {
+  position: relative;
+  margin: 0;
+  padding: 0.9rem 0.85rem 0.85rem;
+  text-align: left;
+  width: 100%;
+  border-radius: calc(var(--radius, 18px) + 4px);
+  border: 1px solid rgba(155, 126, 217, 0.22);
+  background:
+    radial-gradient(ellipse at 18% 0%, rgba(255, 190, 120, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 90% 100%, rgba(120, 90, 200, 0.12) 0%, transparent 55%),
+    color-mix(in srgb, var(--bg-card, #1e1628) 94%, #2a1838);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.04),
+    0 10px 28px rgba(0, 0, 0, 0.22),
+    0 0 28px rgba(155, 126, 217, 0.06);
+  color: inherit;
+  font: inherit;
+  cursor: default;
+  overflow: hidden;
+  min-height: 7.5rem;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+button.glance-card {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+button.glance-card:hover,
+button.glance-card:focus-visible {
+  border-color: rgba(252, 211, 77, 0.38);
+  box-shadow:
+    0 0 0 1px rgba(252, 211, 77, 0.12),
+    0 14px 34px rgba(0, 0, 0, 0.28),
+    0 0 36px rgba(255, 176, 96, 0.12);
+  outline: none;
+}
+@media (hover: hover) {
+  button.glance-card:hover { transform: translateY(-1px); }
+}
+.glance-ico {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.6rem;
+  font-size: 1.05rem;
+  opacity: 0.55;
+  filter: drop-shadow(0 0 8px rgba(255, 200, 140, 0.25));
+  pointer-events: none;
+}
+.glance-card .intention-top {
+  gap: 0.35rem;
+  padding-right: 1.4rem;
+  align-items: flex-start;
+}
+.glance-card h3 {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: rgba(248, 242, 255, 0.95);
+}
+.glance-lead {
+  margin: 0.35rem 0 0.25rem;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  font-weight: 520;
+  color: rgba(245, 240, 255, 0.92);
+}
+.glance-card .hint-sm {
+  margin: 0;
+  line-height: 1.35;
+  color: rgba(210, 200, 230, 0.72);
+  font-size: 0.75rem;
+}
+.glance-card .chip-quiet {
+  font-size: 0.68rem;
+}
+
+/* Heute: primary, slightly larger, full width */
+.glance-heute,
+.altar-glance .altar-heart {
+  grid-column: 1 / -1;
+  min-height: 0;
+  padding: 1.25rem 1.15rem 1.15rem;
+  border-color: rgba(252, 211, 77, 0.34);
+  background:
+    radial-gradient(ellipse at 50% -10%, rgba(255, 200, 120, 0.2) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 110%, rgba(140, 100, 220, 0.16) 0%, transparent 50%),
+    linear-gradient(165deg,
+      color-mix(in srgb, var(--accent-soft, rgba(201,160,255,0.22)) 70%, transparent),
+      color-mix(in srgb, var(--card, #1e1628) 94%, #2a1838) 52%,
+      var(--card, #1e1628));
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 16px 44px rgba(0, 0, 0, 0.32),
+    0 0 48px rgba(255, 176, 96, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+.glance-heute .heute-heart-title {
+  font-size: clamp(1.35rem, 4.8vw, 1.75rem);
+}
+.glance-heute .jetzt-lead {
+  font-size: clamp(0.98rem, 3.4vw, 1.12rem);
+  margin: 0.4rem 0 0.5rem;
+}
+.glance-heute .btn-row .primary {
+  min-height: 2.55rem;
+  border-radius: 999px;
+  box-shadow: 0 0 22px rgba(255, 176, 96, 0.22);
+}
+.glance-heute .glance-ico { font-size: 1.2rem; opacity: 0.7; }
+
+.glance-mond {
+  border-color: rgba(126, 192, 255, 0.28);
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(126, 192, 255, 0.16) 0%, transparent 55%),
+    color-mix(in srgb, var(--bg-card, #1e1628) 93%, #152238);
+}
+.glance-mond .moon-orb {
+  font-size: 1.7rem;
+  filter: drop-shadow(0 0 12px rgba(126, 192, 255, 0.4));
+}
+.glance-mond .mondfenster-visual { margin: 0.2rem 0 0.1rem; }
+.glance-mond .mondfenster-lead {
+  font-size: 0.88rem;
+  margin: 0.15rem 0 0.25rem;
+  color: rgba(230, 235, 255, 0.92);
+}
+
+.glance-kalender {
+  border-color: rgba(90, 171, 122, 0.28);
+  background:
+    radial-gradient(ellipse at 15% 0%, rgba(90, 171, 122, 0.14) 0%, transparent 55%),
+    color-mix(in srgb, var(--bg-card, #1e1628) 93%, #183028);
+}
+
+.glance-schumann {
+  border-color: rgba(62, 207, 191, 0.28);
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(62, 207, 191, 0.12) 0%, transparent 55%),
+    color-mix(in srgb, var(--bg-card, #1e1628) 93%, #102428);
+  cursor: default;
+}
+.glance-schumann-pulse {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0.35rem 0;
+}
+.glance-schumann-wrap {
+  height: 52px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 0;
+}
+.glance-schumann-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  font-size: 0.78rem;
+  color: rgba(200, 230, 225, 0.85);
+}
+.glance-schumann-metrics strong { color: #9ef0e4; font-weight: 700; }
+.glance-spectro {
+  margin: 0.25rem 0 0.35rem;
+}
+.glance-spectro .schumann-spectrogram-figure {
+  margin: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  max-height: 64px;
+}
+.glance-spectro .schumann-spectrogram-figure img {
+  width: 100%;
+  height: 64px;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+.glance-schumann .schumann-live-badge {
+  font-size: 0.65rem;
+  padding: 0.15rem 0.45rem;
+}
+
+.glance-ritual {
+  border-color: rgba(255, 176, 96, 0.26);
+}
+.glance-buch {
+  border-color: rgba(180, 140, 255, 0.26);
+}
+.glance-buch-body {
+  display: flex;
+  gap: 0.55rem;
+  align-items: flex-start;
+  margin-top: 0.25rem;
+}
+.glance-buch-thumb {
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(0,0,0,0.25);
+}
+.glance-buch-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.glance-stunde {
+  border-color: rgba(201, 160, 255, 0.24);
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(201, 160, 255, 0.12) 0%, transparent 55%),
+    color-mix(in srgb, var(--bg-card, #1e1628) 93%, #241830);
+}
+.glance-werkzeug {
+  border-color: rgba(232, 197, 71, 0.22);
+}
+.path-chip-line {
+  margin-top: 0.45rem !important;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-weight: 600;
+  color: rgba(232, 197, 71, 0.85) !important;
+}
+
+.altar-glance-honesty {
+  text-align: center;
+  margin: 0 0 0.85rem;
+  opacity: 0.78;
+}
+.glance-resonanz-slim {
+  margin: 0 0 0.85rem;
+  padding: 0.75rem 0.9rem;
+  border-style: dashed;
+  border-color: rgba(90, 171, 122, 0.22);
+  background: rgba(16, 20, 18, 0.35);
+}
+.mehr-feld .mehr-hint { opacity: 0.8; }
+.mehr-schumann-hint {
+  margin: 0.35rem 0 0;
+  opacity: 0.7;
+}
+
+@media (min-width: 720px) {
+  .altar-glance {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.85rem;
+  }
+  .glance-heute { grid-column: 1 / -1; }
+  .glance-mond,
+  .glance-kalender,
+  .glance-schumann,
+  .glance-ritual { grid-column: span 1; }
+  .glance-schumann { grid-column: span 2; }
+  .glance-buch { grid-column: span 2; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glance-card { transition: none; }
+  button.glance-card:hover { transform: none; }
+}
+
+
+/* ——— v5.9.0 Messpult instrument strip ——— */
+.altar-messpult {
+  margin: 0.15rem 0 1rem;
+  padding: 0.85rem 0.75rem 1rem;
+  border-radius: calc(var(--radius, 18px) + 6px);
+  border: 1px solid rgba(155, 126, 217, 0.28);
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(126, 192, 255, 0.1) 0%, transparent 45%),
+    radial-gradient(ellipse at 85% 10%, rgba(62, 207, 191, 0.08) 0%, transparent 40%),
+    linear-gradient(180deg, rgba(28, 20, 42, 0.92), rgba(16, 12, 28, 0.88));
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.04),
+    0 14px 40px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+.messpult-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin: 0 0 0.65rem;
+  padding: 0 0.15rem;
+}
+.messpult-eyebrow {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: rgba(232, 197, 71, 0.78);
+}
+.messpult-grid {
+  margin: 0 0 0.75rem;
+}
+.mess-tile {
+  position: relative;
+  min-height: 118px;
+}
+.mess-readout {
+  margin-top: 0.2rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: rgba(245, 240, 255, 0.92);
+  text-shadow: 0 0 12px rgba(155, 126, 217, 0.25);
+}
+.mess-sign {
+  margin-top: 0.35rem;
+  font-size: 0.78rem;
+  color: rgba(190, 210, 255, 0.85);
+}
+.mess-tile .unrest-bar {
+  display: block !important;
+  margin-top: 0.45rem;
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+.mess-tile .unrest-bar > i {
+  display: block;
+  height: 100%;
+  width: 0%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--unrest-green, #5aab7a), var(--unrest-yellow, #e8c547), var(--unrest-red, #e07a7a));
+  box-shadow: 0 0 10px rgba(232, 197, 71, 0.35);
+  transition: width 0.35s ease;
+}
+.mess-schumann {
+  margin: 0;
+  padding: 0.85rem 0.9rem 0.95rem;
+  border-radius: calc(var(--radius, 18px) + 2px);
+  border: 1px solid rgba(62, 207, 191, 0.28);
+  background:
+    radial-gradient(ellipse at 15% 0%, rgba(62, 207, 191, 0.12) 0%, transparent 50%),
+    rgba(10, 16, 20, 0.55);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.22);
+}
+.mess-schumann .schumann-head {
+  margin-bottom: 0.55rem;
+}
+.mess-schumann .schumann-head h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+.mess-schumann .schumann-wrap {
+  height: 72px;
+  margin-top: 0.45rem;
+}
+.mess-schumann .schumann-spectrogram-figure {
+  max-height: 140px;
+}
+.mess-schumann .schumann-spectrogram-figure img {
+  max-height: 140px;
+  object-fit: cover;
+}
+.altar-messpult .approx-note {
+  margin: 0.65rem 0 0;
+  text-align: center;
+}
+
+/* Glance grid refinements with messpult above */
+.altar-glance {
+  margin-top: 0.15rem;
+}
+.glance-heute { order: 0; }
+@media (min-width: 720px) {
+  .messpult-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .altar-glance {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .glance-heute { grid-column: 1 / -1; }
+  .glance-kalender,
+  .glance-ritual,
+  .glance-buch,
+  .glance-werkzeug { grid-column: span 1; }
+  .glance-buch { grid-column: span 2; }
+}
+

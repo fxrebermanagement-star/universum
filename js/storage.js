@@ -231,7 +231,7 @@
     });
   }
 
-  const APP_VERSION = '5.8.0';
+  const APP_VERSION = '5.9.0';
 
   function buildExportMeta(data) {
     const pathId = data.path || 'esoterik';
@@ -682,7 +682,8 @@
         at: new Date().toISOString(),
         kind: (entry && entry.kind) || 'praxis',
         label: (entry && entry.label) ? String(entry.label).slice(0, 120) : 'Praxis',
-        detail: (entry && entry.detail) ? String(entry.detail).slice(0, 200) : ''
+        detail: (entry && entry.detail) ? String(entry.detail).slice(0, 200) : '',
+        ritualId: (entry && entry.ritualId) ? String(entry.ritualId).slice(0, 80) : null
       });
       d.practiceLog = list.slice(0, 60);
     });

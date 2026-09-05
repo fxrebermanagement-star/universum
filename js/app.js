@@ -917,9 +917,7 @@
     return best;
   }
 
-  function renderFestCountdown() {
-    const chip = $('#fest-countdown-chip');
-    if (!chip) return;
+  function nextFestForGlance() {
     const pathOnly = isCalendarPathOnly();
     let next = null;
     if (pathOnly) {
@@ -934,17 +932,151 @@
       }
     } else {
       next = nextSabbatInfo(new Date());
+      if (next) next.pathOnly = false;
     }
-    if (!next || next.days > 14) {
-      chip.hidden = true;
-      chip.textContent = '';
+    return next;
+  }
+
+  function renderFestCountdown() {
+    const chip = $('#fest-countdown-chip');
+    const lead = $('#glance-kalender-lead');
+    const meta = $('#glance-kalender-meta');
+    const gChip = $('#glance-kalender-chip');
+    const next = nextFestForGlance();
+    const pathOnly = isCalendarPathOnly();
+    if (!next) {
+      if (chip) { chip.hidden = true; chip.textContent = ''; }
+      if (lead) lead.textContent = 'Kein baldiges Fest im Kalender.';
+      if (meta) meta.textContent = 'Tippen → Kalender';
+      if (gChip) gChip.textContent = 'Kalender';
       return;
     }
     const when = next.days <= 0 ? 'heute' : next.days === 1 ? 'morgen' : 'in ' + next.days + ' Tagen';
-    chip.hidden = false;
-    chip.innerHTML = '<span class="fest-ico" aria-hidden="true">' + (next.ico || '✦') + '</span> ' +
-      '<strong>' + escapeHtml(next.name) + '</strong> · ' + when;
-    chip.setAttribute('aria-label', (pathOnly ? 'Nächstes Pfad-Fest: ' : 'Nächster Sabbat: ') + next.name + ', ' + when);
+    if (lead) lead.textContent = (next.ico || '✦') + ' ' + next.name + ' · ' + when;
+    if (meta) {
+      meta.textContent = (pathOnly ? 'Pfad-Fest' : 'Fest') + ' · ' +
+        (next.date ? fmtDate(next.date) : '') + ' · Tippen → Kalender';
+    }
+    if (gChip) gChip.textContent = next.days <= 14 ? when : 'Fest';
+    // Legacy chip: only when < 14 days
+    if (chip) {
+      if (next.days > 14) {
+        chip.hidden = true;
+        chip.textContent = '';
+      } else {
+        chip.hidden = false;
+        chip.innerHTML = '<span class="fest-ico" aria-hidden="true">' + (next.ico || '✦') + '</span> ' +
+          '<strong>' + escapeHtml(next.name) + '</strong> · ' + when;
+        chip.setAttribute('aria-label', (pathOnly ? 'Nächstes Pfad-Fest: ' : 'Nächster Sabbat: ') + next.name + ', ' + when);
+      }
+    }
+  }
+
+  function resolveRitualFromLog(entry) {
+    if (!entry) return null;
+    if (entry.ritualId) {
+      const r = Rituals.getRitual(entry.ritualId);
+      if (r) return r;
+      const custom = (state.customRituals || []).find(x => x.id === entry.ritualId);
+      if (custom) return Object.assign({ ico: '✦' }, custom);
+    }
+    const name = entry.label || '';
+    if (Rituals.GUIDED) {
+      const hit = Rituals.GUIDED.find(x => x.name === name);
+      if (hit) return hit;
+    }
+    const custom = (state.customRituals || []).find(x => x.name === name);
+    if (custom) return Object.assign({ ico: '✦' }, custom);
+    return null;
+  }
+
+  function renderLastRitualCard() {
+    const lead = $('#glance-ritual-lead');
+    const meta = $('#glance-ritual-meta');
+    const chip = $('#glance-ritual-chip');
+    const card = $('#glance-ritual-card');
+    if (!lead) return;
+    const log = (Store.getPracticeLog ? Store.getPracticeLog(20) : []).filter(function (p) {
+      return p && (p.kind === 'ritual' || p.kind === 'starter' || p.kind === 'fokus' || p.kind === '369' || p.kind === 'atem');
+    });
+    const last = log[0];
+    if (!last) {
+      lead.textContent = 'Noch keine Praxis geloggt.';
+      if (meta) meta.textContent = 'Nach einem Ritual erscheint es hier';
+      if (chip) chip.textContent = '—';
+      if (card) { card.dataset.ritualId = ''; card.dataset.logKind = ''; }
+      return;
+    }
+    lead.textContent = last.label || 'Praxis';
+    const when = last.at ? new Date(last.at).toLocaleString('de-CH', {
+      day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
+    }) : '';
+    if (meta) meta.textContent = (when ? when + ' · ' : '') + 'Tippen zum Fortsetzen';
+    if (chip) chip.textContent = last.kind === 'ritual' ? 'Ritual' : (last.kind || 'Praxis');
+    const r = resolveRitualFromLog(last);
+    if (card) {
+      card.dataset.ritualId = r ? r.id : '';
+      card.dataset.logKind = last.kind || '';
+    }
+  }
+
+  async function renderLastBuchCard() {
+    const lead = $('#glance-buch-lead');
+    const meta = $('#glance-buch-meta');
+    const chip = $('#glance-buch-chip');
+    const thumb = $('#glance-buch-thumb');
+    const card = $('#glance-buch-card');
+    if (!lead) return;
+    refreshState();
+    const entries = (state.diary || []).slice().sort(function (a, b) {
+      return String(b.created || '').localeCompare(String(a.created || ''));
+    });
+    const e = entries[0];
+    if (!e) {
+      lead.textContent = 'Noch kein Eintrag im Magie-Buch.';
+      if (meta) meta.textContent = 'Tippen → Magie-Buch';
+      if (chip) chip.textContent = 'Buch';
+      if (thumb) { thumb.hidden = true; thumb.innerHTML = ''; }
+      if (card) card.dataset.entryId = '';
+      return;
+    }
+    const title = e.title || (e.body ? String(e.body).slice(0, 48) : 'Eintrag');
+    lead.textContent = title;
+    const when = e.created ? new Date(e.created).toLocaleString('de-CH', {
+      day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
+    }) : '';
+    if (meta) meta.textContent = (when ? when + ' · ' : '') + 'Tippen → Magie-Buch';
+    if (chip) chip.textContent = e.mood ? String(e.mood) : 'Buch';
+    if (card) card.dataset.entryId = e.id || '';
+    if (thumb) {
+      if (e.photoId && Media && Media.getDataUrl) {
+        try {
+          const url = await Media.getDataUrl(e.photoId);
+          if (url) {
+            thumb.hidden = false;
+            thumb.innerHTML = '<img alt="" src="' + url + '" />';
+          } else {
+            thumb.hidden = true;
+            thumb.innerHTML = '';
+          }
+        } catch (_) {
+          thumb.hidden = true;
+          thumb.innerHTML = '';
+        }
+      } else {
+        thumb.hidden = true;
+        thumb.innerHTML = '';
+      }
+    }
+  }
+
+  function renderGlancePathChip() {
+    const nameEl = $('#glance-path-name');
+    const path = currentPath();
+    if (nameEl) nameEl.textContent = (path && path.name) || 'Pfad';
+    const orb = $('#path-art-orb');
+    const sym = pathSymbol(path);
+    if (orb) orb.textContent = sym;
   }
 
   function renderStarterCard() {
@@ -2070,32 +2202,51 @@
       dashMoon.innerHTML =
         '<span class="moon-emoji">' + moon.emoji + '</span>' + escapeHtml(moon.name);
     }
-    // Arbeitsfenster: «gut für …», kein %-Dashboard
+    const pctEl = $('#dash-moon-pct');
+    if (pctEl) pctEl.textContent = (moon.percent != null ? moon.percent : '—') + ' %';
+    const signEl = $('#dash-moon-sign');
+    if (signEl) {
+      const ms = moonInfo && moonInfo.sign ? moonInfo.sign : '—';
+      const deg = moonInfo && moonInfo.degrees != null ? (' · ' + moonInfo.degrees + '°') : '';
+      signEl.textContent = 'Zeichen ' + ms + deg + ' · Näherung';
+    }
     let moonGut = '';
     if (Paths.getMondFenster) {
       const fen = Paths.getMondFenster(state.path, moon.name);
       moonGut = fen && fen.text ? fen.text : '';
     }
     const dashMoonMeta = $('#dash-moon-meta');
-    if (dashMoonMeta) dashMoonMeta.textContent = moonGut || ('Gut für ruhige Praxis · ' + (moonInfo.sign || ''));
+    if (dashMoonMeta) dashMoonMeta.textContent = moonGut || ('Arbeitsfenster · ' + ((moonInfo && moonInfo.sign) || ''));
     const hourInv = softHourInvite(hour);
     const dashHour = $('#dash-hour-val');
     if (dashHour) dashHour.textContent = hourInv.planet;
+    const hourWin = $('#dash-hour-window');
+    if (hourWin) {
+      if (hour && hour.start && hour.end) {
+        hourWin.textContent = fmtHourClock(hour.start) + '–' + fmtHourClock(hour.end) +
+          (hour.remainMin != null ? ' · noch ' + hour.remainMin + ' Min' : '');
+      } else {
+        hourWin.textContent = 'Fenster —';
+      }
+    }
     const dashHourMeta = $('#dash-hour-meta');
     if (dashHourMeta) dashHourMeta.textContent = 'Gut für: ' + hourInv.gut.replace(/^Gut für:\s*/i, '');
     const uInv = softUnrestInvite(unrest);
     const dashUnrest = $('#dash-unrest-val');
     if (dashUnrest) {
-      dashUnrest.textContent = uInv.word;
-      dashUnrest.style.color = unrest.color || '';
+      dashUnrest.textContent = (unrest && unrest.label) || uInv.word;
+      dashUnrest.style.color = (unrest && unrest.color) || '';
     }
+    const uLevel = $('#dash-unrest-level');
+    if (uLevel) uLevel.textContent = (unrest && unrest.value != null ? unrest.value : '—') + ' / 100';
     const uMeta = $('#dash-unrest-meta');
     if (uMeta) uMeta.textContent = uInv.meta;
     const bar = $('#dash-unrest-bar');
     if (bar) {
-      // Fortschrittsbalken bewusst still — kein Score-Feeling
-      bar.style.width = '0%';
-      bar.style.opacity = '0';
+      const v = unrest && unrest.value != null ? Math.max(0, Math.min(100, unrest.value)) : 0;
+      bar.style.width = v + '%';
+      bar.style.opacity = '1';
+      bar.style.background = (unrest && unrest.color) || '';
     }
 
     const voc = $('#voc-banner');
@@ -2126,7 +2277,7 @@
 
     applyPathTheme();
     const greetEl = $('#cockpit-greeting');
-    if (greetEl) greetEl.textContent = path.greeting || 'Hier darfst du bleiben — warm, still, ohne Eile.';
+    if (greetEl) greetEl.textContent = path.greeting || 'Messpult und Praxis — warm, dicht, auf einen Blick.';
     renderJetztCard();
     renderPathWeek();
     renderPathWerkzeug();
@@ -2150,6 +2301,9 @@
     renderMondfenster(moon);
     renderKorrespondenzen();
     renderFestCountdown();
+    renderLastRitualCard();
+    renderLastBuchCard();
+    renderGlancePathChip();
     renderStarterCard();
     checkPlanetaryHourAlert(false);
     syncHiddenLocControls();
@@ -3498,7 +3652,8 @@
         Store.addPracticeLog({
           kind: kind,
           label: ritual.name || 'Ritual',
-          detail: 'Geführtes Ritual abgeschlossen'
+          detail: 'Geführtes Ritual abgeschlossen',
+          ritualId: ritual.id || null
         });
         refreshState();
         showClosingFlow(ritual);
@@ -5752,17 +5907,48 @@
       setStilleModus(false);
       toast('Stille verlassen — alles wieder da');
     });
+    function openFestInKalender() {
+      const next = nextFestForGlance ? nextFestForGlance() : nextSabbatInfo(new Date());
+      if (next && next.date) {
+        calYear = next.date.getFullYear();
+        calMonth = next.date.getMonth();
+        selectedDay = next.date;
+      }
+      navigate('kalender');
+    }
     const festChip = $('#fest-countdown-chip');
-    if (festChip) {
-      festChip.addEventListener('click', () => {
-        const next = nextSabbatInfo(new Date());
-        if (next && next.date) {
-          calYear = next.date.getFullYear();
-          calMonth = next.date.getMonth();
-          selectedDay = next.date;
+    if (festChip) festChip.addEventListener('click', openFestInKalender);
+    const glanceKal = $('#glance-kalender-card');
+    if (glanceKal) glanceKal.addEventListener('click', openFestInKalender);
+    const glanceRitual = $('#glance-ritual-card');
+    if (glanceRitual) {
+      glanceRitual.addEventListener('click', () => {
+        const rid = glanceRitual.dataset.ritualId;
+        if (rid) {
+          let r = Rituals.getRitual(rid);
+          if (!r) r = (state.customRituals || []).find(x => x.id === rid);
+          if (r) { navigate('rituale', { force: true }); openRitual(r); return; }
         }
-        navigate('kalender');
+        const lk = glanceRitual.dataset.logKind;
+        if (lk === '369') {
+          navigate('cockpit', { force: true });
+          const el = $('#phrase-369');
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        }
+        navigate('rituale', { force: true });
+        toast('Rituale öffnen');
       });
+    }
+    const glanceBuch = $('#glance-buch-card');
+    if (glanceBuch) {
+      glanceBuch.addEventListener('click', () => {
+        navigate('buch', { force: true });
+      });
+    }
+    const craftCard = $('#craft-peek-card');
+    if (craftCard && craftCard.tagName === 'BUTTON') {
+      craftCard.addEventListener('click', () => navigate('korrespondenzen', { force: true }));
     }
     const starterStart = $('#starter-start');
     if (starterStart) starterStart.addEventListener('click', openStarterFlow);

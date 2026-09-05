@@ -31,7 +31,7 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 
 ## Funktionen
 
-1. **Altar** — **Above-the-fold**: warmes Willkommen, **Heute** als Herz; darunter stille Begleiter (Mond-Stimmung, Resonanz «heute passt…», Werkzeug); Schumann/Unruhe/Stunde in «Mehr aus dem Feld»; Suche im Header; Altar-Nav 🪔
+1. **Altar** — **Messpult + App-Home**: Anzeigen vorn (Mond %, Zeichen, Planetenstunde-Fenster, Unruhe-Level, Schumann Station+Spektrogramm); darunter Glance-Karten (Heute, Fest, letztes Ritual, letzter Bucheintrag, Werkzeug); warm & dicht; Altar-Nav 🪔
 2. **Kalender** — Monatsnavigation, Tagesdetails (Mond/Sonne/Feste), **standardmäßig nur Pfad-Feste** (Umschalter Alle Feste), Betonung und Kalender-Notizen
 3. **Kosmos** — Planeten-Radar mit klareren Labels, **Legende**, aktuelle **Planetenstunde hervorgehoben**, Tap/Klick für Detail, Schumann Live-Station + Tomsk-Spektrogramm
 4. **Rituale** — **nur aktueller Pfad** (4–5 einzigartige Own-Rituale); Grundlagen separat; Signaturen, Dauer-Tags 3/11/21, Sicherheitscheck, Timed-Rituale, Fokus-Timer, Sigil, illustrierte Feldkarten, eigene Rituale + Vorlagen
@@ -342,6 +342,13 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 
 
 
+
+## Craft-Pass (v5.9.0) · Altar Messpult + App-Home
+
+- **Messpult** — Instrument-Anzeigen oben: Mond (Phase, %, Zeichen + Näherung), Planetenstunde (Planet + Zeitfenster), Unruhe/Impuls mit Level-Balken, Schumann Station + Spektrogramm sichtbar
+- **App-Home Glance** — Heute (primär), nächstes Fest → Kalender, letztes Ritual, letzter Magie-Buch-Eintrag (+ Thumb), Werkzeug/Pfad
+- Warm polierte App-UI, aber klar ein Dashboard aus Anzeigen — nicht leer, nicht alles in «Mehr»
+- App `5.9.0`, SW-Cache `universum-shell-v47`
 
 ## Craft-Pass (v5.8.0) · Altar man soll ihn lieben
 
