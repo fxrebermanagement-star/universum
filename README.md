@@ -340,6 +340,15 @@ universum/
 Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine Verantwortung — mit Grenze und Ausgleich.
 
 
+## Craft-Pass (v4.3.0) · Pfad-Werkzeugkasten
+
+Ritual-Tabs entzerrt — Werkzeuge nicht mehr gleichgewichtet:
+
+- **Tabs** — Geführt · **🛠️ Werkzeug** · Eigene (Sigil/Karten keine eigenen Haupt-Tabs)
+- **Werkzeugkasten** — Grenze/Ethik, Pfad-Modul, Sigil, Feldkarten mit Sprungmarken
+- App `4.3.0`, SW-Cache `universum-shell-v34`
+
+
 ## Craft-Pass (v4.2.0) · Sitzung A–Z
 
 Nahtlose Praxis-Kette ohne Menü-Hopping:

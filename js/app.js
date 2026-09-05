@@ -1490,13 +1490,7 @@
       return;
     }
     if (kind === 'card') {
-      navigate('rituale', { force: true });
-      $$('[data-rtab]').forEach(b => {
-        const on = b.dataset.rtab === 'karten';
-        b.classList.toggle('active', on);
-        b.setAttribute('aria-selected', on ? 'true' : 'false');
-      });
-      $$('[data-rpanel]').forEach(p => p.classList.toggle('hidden', p.dataset.rpanel !== 'karten'));
+      openRitualTab('karten', { scroll: 'werkzeug-karten' });
       const card = (Cards.FELDKARTEN || []).find(c => String(c.n) === String(id));
       if (card) {
         toast(card.name + ' · ' + (card.theme || 'Feldkarte'), 3600);
@@ -2579,14 +2573,7 @@
 
       body.querySelectorAll('[data-werkzeug-sigil]').forEach(btn => {
         btn.addEventListener('click', () => {
-          navigate('rituale', { force: true });
-          $$('[data-rtab]').forEach(b => {
-            const on = b.dataset.rtab === 'sigil';
-            b.classList.toggle('active', on);
-            b.setAttribute('aria-selected', on ? 'true' : 'false');
-          });
-          $$('[data-rpanel]').forEach(p => p.classList.toggle('hidden', p.dataset.rpanel !== 'sigil'));
-          if (typeof renderSigilGallery === 'function') renderSigilGallery();
+          openRitualTab('sigil', { scroll: 'werkzeug-sigil' });
           toast('Sigil-Labor');
         });
       });
@@ -2951,6 +2938,39 @@
 
   function clearBreath() {
     if (breathTimer) { clearTimeout(breathTimer); clearInterval(breathTimer); breathTimer = null; }
+  }
+
+
+  /** Open Rituale tab; aliases sigil/karten → werkzeug + optional scroll. */
+  function openRitualTab(tab, opts) {
+    opts = opts || {};
+    const alias = { sigil: 'werkzeug', karten: 'werkzeug', cards: 'werkzeug', tools: 'werkzeug' };
+    const target = alias[tab] || tab || 'guided';
+    navigate('rituale', { force: true });
+    $$('[data-rtab]').forEach(b => {
+      const on = b.dataset.rtab === target;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    $$('[data-rpanel]').forEach(p => p.classList.toggle('hidden', p.dataset.rpanel !== target));
+    if (target === 'werkzeug') {
+      if (typeof renderPathWerkzeug === 'function') renderPathWerkzeug();
+      if (typeof renderSigilGallery === 'function') renderSigilGallery();
+      if (typeof renderFeldkartenGrid === 'function') {
+        try { renderFeldkartenGrid(); } catch (_) {}
+      }
+      const scrollId = opts.scroll || (tab === 'sigil' ? 'werkzeug-sigil' : tab === 'karten' ? 'werkzeug-karten' : null);
+      if (scrollId) {
+        setTimeout(() => {
+          const el = document.getElementById(scrollId);
+          if (el) try { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (_) {}
+        }, 80);
+      }
+    }
+    if (target === 'guided') {
+      renderPathWeek();
+      renderPathWerkzeug();
+    }
   }
 
   function openRitual(ritual) {
@@ -3496,9 +3516,7 @@
     if (bar) bar.hidden = false;
     const label = $('#sigil-review-label');
     if (label) label.textContent = 'Glyph zur Ansicht · #' + (item.hash || '····') + ' · nur lesen';
-    // Ensure sigil panel visible
-    const sigTab = $$('[data-rtab="sigil"]')[0];
-    if (sigTab) sigTab.click();
+    openRitualTab('sigil', { scroll: 'werkzeug-sigil' });
     toast('Glyph auf Canvas · Ansicht');
     Rituals.vibrate(12);
   }
@@ -5866,13 +5884,18 @@
           b.setAttribute('aria-selected', on ? 'true' : 'false');
         });
         $$('[data-rpanel]').forEach(p => p.classList.toggle('hidden', p.dataset.rpanel !== btn.dataset.rtab));
-        if (btn.dataset.rtab === 'sigil') renderSigilGallery();
+        if (btn.dataset.rtab === 'werkzeug') {
+          renderPathWerkzeug();
+          renderSigilGallery();
+        }
         if (btn.dataset.rtab === 'guided') {
           renderPathWeek();
-          renderPathWerkzeug();
         }
       });
     });
+
+    const gtw = $('#guided-to-werkzeug');
+    if (gtw) gtw.addEventListener('click', () => openRitualTab('werkzeug', { scroll: 'path-werkzeug-card-ritual' }));
 
     $('#rr-close').addEventListener('click', closeRunner);
 
