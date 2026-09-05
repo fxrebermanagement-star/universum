@@ -237,7 +237,7 @@ PWA: `manifest.webmanifest` + Service Worker (`sw.js`) cachen die App-Shell offl
 
 **Zusätzlich (v3.0 · Hexerei-Tiefe)**
 
-- **Resonanzen** — pfadbezogene Kräuter / Steine / Farben (Hauspraxis-Symbolik, keine medizinischen Claims)
+- **Resonanzen** — Lexikon zuerst (Tabs · Suche · A–Z-Sort); «heute passt …» und Mond×Stunden-Vorschläge danach; Filter **Nur mein Pfad** / Alle Pfade; kurze Werke; kein medizinischer Rat
 - **Mondfenster** — actionable «gut für …» für aktuelle Phase × Pfad
 - **Ritual-Journal** — optionale Kurzreflexion nach Ritual-Abschluss; Liste unter Mehr; `ritualJournal` in `feldlicht-v15`
 - App `3.0.0` (Zwischenstand), aufgegangen in `3.1.0`
@@ -429,6 +429,14 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Heute-Tip bleibt primär; Altar-Nav 🪔 bleibt
 - Zwischenstand aufgegangen in `5.1.0`
 
+
+## 5.16.1 — Resonanzen UI · Lexikon-Icons · keine Buchstabenleiste
+
+- «Heute passt …» nicht mehr zuerst — nach Lexikon als ruhige Nebenkarte
+- Buchstaben-Tastatur (A B C …) entfernt; Suche und **A–Z-Sortierung** bleiben
+- Heute-Vorschläge (1–3) unter der Liste, dezent
+- Lexikon-Icons treffender und namensgleich über alle Pfade (z. B. Wasser 💧, Rum 🥃, Asche 🌫️, Obsidian ⬛)
+- SW-Cache `universum-shell-v58`
 
 ## 5.16.0 — Opfergaben · Lexikon-Suche · Heute-Brücke · Ritual↔Lexikon · Eigene
 

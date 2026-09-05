@@ -1753,7 +1753,6 @@
 
   let lexikonSearchQ = '';
   let lexikonSortAz = true;
-  let lexikonLetter = '';
   let pendingLexikonFocus = null; // { tab, name }
 
 
@@ -1941,24 +1940,6 @@
     });
   }
 
-  function renderLexikonAzBar() {
-    const bar = $('#lexikon-az');
-    if (!bar) return;
-    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ'.split('');
-    bar.innerHTML = '<button type="button" class="lexikon-az-btn' + (!lexikonLetter ? ' active' : '') +
-      '" data-letter="" aria-pressed="' + (!lexikonLetter ? 'true' : 'false') + '">Alle</button>' +
-      letters.map(function (L) {
-        const on = lexikonLetter === L;
-        return '<button type="button" class="lexikon-az-btn' + (on ? ' active' : '') +
-          '" data-letter="' + L + '" aria-pressed="' + (on ? 'true' : 'false') + '">' + L + '</button>';
-      }).join('');
-    bar.querySelectorAll('.lexikon-az-btn').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        lexikonLetter = btn.getAttribute('data-letter') || '';
-        renderHerbList();
-      });
-    });
-  }
 
   function renderCustomLexikonList() {
     const ul = $('#lexikon-custom-list');
@@ -2054,14 +2035,6 @@
         return hay.indexOf(q) !== -1;
       });
     }
-    // Buchstabenfilter
-    if (lexikonLetter) {
-      const L = lexikonLetter.toLowerCase();
-      items = items.filter(function (h) {
-        const n = String(h.name || '').trim().toLowerCase();
-        return n.charAt(0) === L;
-      });
-    }
     // Sortierung
     if (lexikonSortAz) {
       items = items.slice().sort(function (a, b) {
@@ -2102,15 +2075,14 @@
       const n = items.length;
       countEl.textContent = n
         ? (n + (pathOnly
-          ? (' ' + meta.title + (q || lexikonLetter ? ' (gefiltert)' : ' auf diesem Pfad'))
-          : (' ' + meta.title + (q || lexikonLetter ? ' (gefiltert)' : ' (dedupliziert)'))))
-        : (q || lexikonLetter ? 'Keine Treffer.' : meta.empty);
+          ? (' ' + meta.title + (q ? ' (gefiltert)' : ' auf diesem Pfad'))
+          : (' ' + meta.title + (q ? ' (gefiltert)' : ' (dedupliziert)'))))
+        : (q ? 'Keine Treffer.' : meta.empty);
     }
     if (pendingLexikonFocus && pendingLexikonFocus.tab === tab) {
       // keep highlight one cycle then clear
       setTimeout(function () { pendingLexikonFocus = null; }, 2500);
     }
-    renderLexikonAzBar();
     renderLexikonHeuteBridge();
   }
 
@@ -2181,8 +2153,8 @@
     if (titlePath) titlePath.textContent = (path && path.name) || 'Pfad';
     if (chip) chip.textContent = (path && path.name) || 'Pfad';
     if (lead) {
-      lead.textContent = 'Heute passt … — kurze Einladung mit Warum für ' +
-        ((path && path.name) || 'diesen Pfad') + '. Darunter das Lexikon (Kräuter, Hausmittel, Steine, Farben, Werkzeuge, Bezüge). Kein medizinischer Rat.';
+      lead.textContent = 'Kurze Einladung mit Warum für ' +
+        ((path && path.name) || 'diesen Pfad') + ' — Symbolik für die Haltung, kein medizinischer Rat.';
     }
     if (heuteEl) heuteEl.textContent = (heute && heute.line) || 'Heute passt eine stille Haltung — Grenze und Gabe.';
     if (note) note.textContent = c.note || 'Hauspraxis — kein medizinischer Rat.';

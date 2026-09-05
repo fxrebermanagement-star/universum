@@ -999,17 +999,6 @@
       <span class="section-motif" aria-hidden="true"></span>
       <p class="section-sub" id="korresp-section-sub">Lexikon · Hauspraxis-Symbolik · <span id="korresp-path-name">Pfad</span></p>
 
-      <div class="card korrespondenz-full-card heute-passt-card" aria-labelledby="korresp-full-title">
-        <div class="intention-top">
-          <h3 id="korresp-full-title">Heute passt …</h3>
-          <span class="chip-quiet" id="korresp-chip">Pfad</span>
-        </div>
-        <p class="hint" id="korresp-lead">Kurze Einladung mit Warum — Symbolik für die Haltung, kein medizinischer Rat.</p>
-        <p class="heute-passt-lead" id="korresp-heute-passt" aria-live="polite" role="button" tabindex="0"></p>
-        <p class="hint-sm" id="korresp-note">Hauspraxis — kein Heilversprechen.</p>
-        <p class="notice ethics-line">Ein Handy kann keine Geister messen. Symbolik dient der Haltung, nicht der Diagnose. Bezüge nur mit Einwilligung — kein Schaden, nichts Illegales.</p>
-      </div>
-
       <div class="cal-path-toggle resonanz-path-toggle" role="group" aria-label="Lexikon-Pfadfilter">
         <button type="button" class="cal-filter-btn active" id="herb-filter-path" aria-pressed="true">Nur mein Pfad</button>
         <button type="button" class="cal-filter-btn" id="herb-filter-all" aria-pressed="false">Alle Pfade</button>
@@ -1035,15 +1024,10 @@
             <span class="visually-hidden">Lexikon durchsuchen</span>
             <input type="search" id="lexikon-search" class="lexikon-search" placeholder="Suchen … Name oder Erklärung" autocomplete="off" enterkeyhint="search">
           </label>
-          <div class="lexikon-sort-row">
+          <div class="lexikon-sort-row" role="group" aria-label="Sortierung">
             <button type="button" class="ghost tiny cal-filter-btn active" id="lexikon-sort-az" aria-pressed="true">A–Z</button>
             <button type="button" class="ghost tiny cal-filter-btn" id="lexikon-sort-path" aria-pressed="false">Pfad-Reihenfolge</button>
           </div>
-          <div class="lexikon-az" id="lexikon-az" role="navigation" aria-label="Buchstaben A–Z"></div>
-        </div>
-        <div class="lexikon-heute-bridge card nested-card" id="lexikon-heute-bridge" hidden>
-          <div class="card-head"><h4 id="lexikon-heute-title">Heute passt · Brücke</h4><span class="chip-quiet" id="lexikon-heute-chip">Mond · Stunde</span></div>
-          <ul class="lexikon-bridge-list" id="lexikon-bridge-list"></ul>
         </div>
         <details class="lexikon-custom-details" id="lexikon-custom-details">
           <summary>Eigene Einträge</summary>
@@ -1073,9 +1057,24 @@
         </details>
         <ul class="herb-ref-list" id="herb-list" data-lexikon-tab="herb"></ul>
         <p class="hint-sm" id="herb-list-count" aria-live="polite"></p>
+        <div class="lexikon-heute-bridge card nested-card" id="lexikon-heute-bridge" hidden>
+          <div class="card-head"><h4 id="lexikon-heute-title">Heute · Vorschläge</h4><span class="chip-quiet" id="lexikon-heute-chip">Mond · Stunde</span></div>
+          <ul class="lexikon-bridge-list" id="lexikon-bridge-list"></ul>
+        </div>
         <!-- legacy ids -->
         <ul class="korrespondenz-list resonanz-sec-list" id="resonanz-sec-list" hidden></ul>
         <ul class="korrespondenz-list" id="korresp-list" hidden></ul>
+      </div>
+
+      <div class="card korrespondenz-full-card heute-passt-card heute-passt-secondary" aria-labelledby="korresp-full-title">
+        <div class="intention-top">
+          <h3 id="korresp-full-title">Heute passt …</h3>
+          <span class="chip-quiet" id="korresp-chip">Pfad</span>
+        </div>
+        <p class="hint-sm" id="korresp-lead">Kurze Einladung mit Warum — Symbolik für die Haltung, kein medizinischer Rat.</p>
+        <p class="heute-passt-lead" id="korresp-heute-passt" aria-live="polite" role="button" tabindex="0"></p>
+        <p class="hint-sm" id="korresp-note">Hauspraxis — kein Heilversprechen.</p>
+        <p class="notice ethics-line">Ein Handy kann keine Geister messen. Symbolik dient der Haltung, nicht der Diagnose. Bezüge nur mit Einwilligung — kein Schaden, nichts Illegales.</p>
       </div>
 
       <div class="card craft-works-card" id="craft-works-card" aria-labelledby="craft-works-title">
