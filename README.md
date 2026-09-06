@@ -430,6 +430,16 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.24.0 — Altar layout from user sketch
+
+- **Top:** Datum/Zeit (+ slim Heute) · Kalender · Wetter (höher) | Mond | Sonne
+- **Schumann** volle Breite mit Mini-Spektro
+- **Apps:** Kosmos · Ritual · Resonanz · Buch
+- **Unten:** Sigil · Karten (~2×) · Notiz → Rituale-Panels / Magie-Buch
+- Wetter via Open-Meteo (kein Key), Zürich-Default, Cache offline
+- Impuls weiter vom Cockpit; kein separater Heute-Hero
+- SW-Cache `universum-shell-v74`
+
 ## 5.23.0 — Altar prettier + readable
 
 - **Impuls/Unruhe** vom One-Screen-Cockpit genommen (DOM bleibt versteckt für JS)

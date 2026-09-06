@@ -2626,10 +2626,10 @@
   }
 
   function updateClock() {
-    const el = $('#live-clock');
-    if (!el) return;
     const n = new Date();
-    el.textContent = n.toLocaleTimeString('de-CH', { hour: '2-digit', minute: '2-digit' });
+    const el = $('#live-clock');
+    if (el) el.textContent = n.toLocaleTimeString('de-CH', { hour: '2-digit', minute: '2-digit' });
+    if (typeof renderDateTimeTile === 'function') renderDateTimeTile(n);
   }
 
 
@@ -3047,6 +3047,148 @@
 
   /* ——— Cockpit ——— */
   /** Quiet Altar one-liner: today moon · planetary hour · one Gabe/Resonanz. */
+
+  /* ——— v5.24 Wetter (Open-Meteo) · Sonne · Datum/Zeit ——— */
+  const WETTER_CACHE_KEY = 'universum-wetter-cache-v1';
+  const WMO_DE = {
+    0: 'Klar', 1: 'Überwiegend klar', 2: 'Teilweise bewölkt', 3: 'Bewölkt',
+    45: 'Nebel', 48: 'Nebel',
+    51: 'Niesel', 53: 'Niesel', 55: 'Niesel',
+    61: 'Regen', 63: 'Regen', 65: 'Starker Regen',
+    71: 'Schnee', 73: 'Schnee', 75: 'Starker Schnee',
+    80: 'Schauer', 81: 'Schauer', 82: 'Starke Schauer',
+    95: 'Gewitter', 96: 'Gewitter', 99: 'Gewitter'
+  };
+  let wetterFetchInflight = null;
+  let wetterLastFetchAt = 0;
+
+  function wetterConditionDe(code) {
+    if (code == null || code === '') return '—';
+    return WMO_DE[Number(code)] || ('Code ' + code);
+  }
+
+  function readWetterCache() {
+    try {
+      const raw = localStorage.getItem(WETTER_CACHE_KEY);
+      if (!raw) return null;
+      return JSON.parse(raw);
+    } catch (_) { return null; }
+  }
+
+  function writeWetterCache(payload) {
+    try { localStorage.setItem(WETTER_CACHE_KEY, JSON.stringify(payload)); } catch (_) {}
+  }
+
+  function paintWetterTile(data, opts) {
+    opts = opts || {};
+    const tempEl = $('#dash-wetter-temp');
+    const condEl = $('#dash-wetter-cond');
+    const metaEl = $('#dash-wetter-meta');
+    const chipEl = $('#dash-wetter-chip');
+    const tile = $('#mess-wetter');
+    if (!tempEl) return;
+    const offline = !!opts.offline || !navigator.onLine;
+    if (tile) tile.dataset.offline = offline && !data ? '1' : '0';
+    if (!data) {
+      tempEl.textContent = '—';
+      if (condEl) condEl.textContent = offline ? 'Offline' : 'Kein Abruf';
+      if (metaEl) metaEl.textContent = 'Open-Meteo · lokal gemerkt wenn möglich';
+      if (chipEl) chipEl.textContent = offline ? 'Offline' : '—';
+      return;
+    }
+    const t = data.temp;
+    tempEl.textContent = (t != null && t !== '') ? (Math.round(Number(t) * 10) / 10 + '°') : '—';
+    if (condEl) condEl.textContent = wetterConditionDe(data.code);
+    const place = data.placeLabel || 'Standort';
+    const age = data.fetchedAt ? (' · ' + new Date(data.fetchedAt).toLocaleTimeString('de-CH', { hour: '2-digit', minute: '2-digit' })) : '';
+    if (metaEl) {
+      metaEl.textContent = (opts.fromCache ? 'Zuletzt lokal · ' : 'Open-Meteo · ') + place + age;
+    }
+    if (chipEl) chipEl.textContent = opts.fromCache ? (offline ? 'Cache' : 'Lokal') : 'Live';
+  }
+
+  function wetterPlaceLabel() {
+    const lat = Number(state.lat);
+    const lon = Number(state.lon);
+    if (Math.abs(lat - 47.37) < 0.05 && Math.abs(lon - 8.54) < 0.05) return 'Zürich';
+    return lat.toFixed(2) + ' / ' + lon.toFixed(2);
+  }
+
+  function renderWetterTile(force) {
+    const cache = readWetterCache();
+    const lat = Number(state.lat);
+    const lon = Number(state.lon);
+    const place = wetterPlaceLabel();
+    const cacheOk = cache && Math.abs(Number(cache.lat) - lat) < 0.02 && Math.abs(Number(cache.lon) - lon) < 0.02;
+    if (cacheOk) paintWetterTile(cache, { fromCache: true, offline: !navigator.onLine });
+    else paintWetterTile(null, { offline: !navigator.onLine });
+
+    if (!navigator.onLine) return;
+    const now = Date.now();
+    if (!force && wetterLastFetchAt && (now - wetterLastFetchAt) < 10 * 60 * 1000 && cacheOk) return;
+    if (wetterFetchInflight) return;
+
+    const url = 'https://api.open-meteo.com/v1/forecast?latitude=' + encodeURIComponent(lat) +
+      '&longitude=' + encodeURIComponent(lon) +
+      '&current=temperature_2m,weather_code&timezone=auto';
+    wetterFetchInflight = fetch(url, { cache: 'no-store' })
+      .then(function (res) { if (!res.ok) throw new Error('wetter ' + res.status); return res.json(); })
+      .then(function (json) {
+        const cur = (json && json.current) || {};
+        const payload = {
+          lat: lat,
+          lon: lon,
+          temp: cur.temperature_2m,
+          code: cur.weather_code,
+          placeLabel: place,
+          fetchedAt: Date.now()
+        };
+        writeWetterCache(payload);
+        wetterLastFetchAt = Date.now();
+        paintWetterTile(payload, { fromCache: false });
+      })
+      .catch(function () {
+        if (cacheOk) paintWetterTile(cache, { fromCache: true, offline: true });
+        else paintWetterTile(null, { offline: true });
+      })
+      .finally(function () { wetterFetchInflight = null; });
+  }
+
+  function renderDateTimeTile(now) {
+    now = now || new Date();
+    const clock = $('#dash-datetime-clock');
+    const dateEl = $('#dash-datetime-date');
+    if (clock) {
+      clock.textContent = now.toLocaleTimeString('de-CH', { hour: '2-digit', minute: '2-digit' });
+    }
+    if (dateEl) {
+      dateEl.textContent = now.toLocaleDateString('de-CH', {
+        weekday: 'short', day: 'numeric', month: 'short'
+      });
+    }
+  }
+
+  function renderSunTile(now) {
+    now = now || new Date();
+    const signEl = $('#dash-sun-sign');
+    const riseEl = $('#dash-sun-rise');
+    const setEl = $('#dash-sun-set');
+    const metaEl = $('#dash-sun-meta');
+    if (!signEl && !riseEl) return;
+    const sign = Astro.tropicalSunSign ? Astro.tropicalSunSign(now) : '—';
+    if (signEl) signEl.textContent = sign || '—';
+    let rise = null;
+    let set = null;
+    try {
+      const times = Astro.sunTimes(now, state.lat, state.lon);
+      rise = times && times.rise;
+      set = times && times.set;
+    } catch (_) {}
+    if (riseEl) riseEl.textContent = '↑ ' + (rise ? fmtTime(rise) : '—');
+    if (setEl) setEl.textContent = '↓ ' + (set ? fmtTime(set) : '—');
+    if (metaEl) metaEl.textContent = 'Zeichen · Aufgang · Untergang (Näherung)';
+  }
+
   function renderAltarTageszeile(now, moon, hour, path) {
     const el = $('#altar-tageszeile');
     if (!el) return;
@@ -3166,6 +3308,9 @@
     const greetEl = $('#cockpit-greeting');
     if (greetEl) greetEl.textContent = path.greeting || 'Home-Bildschirm — Anzeigen und letzte Praxis auf einen Blick.';
     renderAltarTageszeile(now, moon, hour, path);
+    renderDateTimeTile(now);
+    renderSunTile(now);
+    renderWetterTile(false);
     renderJetztCard();
     renderPathWeek();
     renderPathWerkzeug();
@@ -7695,6 +7840,25 @@
         }
       });
     }
+
+    const glanceSigil = $('#glance-sigil-card');
+    if (glanceSigil) {
+      glanceSigil.addEventListener('click', () => {
+        openRitualTab('sigil', { scroll: true, flash: true });
+      });
+    }
+    const glanceKarten = $('#glance-karten-card');
+    if (glanceKarten) {
+      glanceKarten.addEventListener('click', () => {
+        openRitualTab('karten', { scroll: true, flash: true });
+      });
+    }
+    const glanceNotiz = $('#glance-notiz-card');
+    if (glanceNotiz) {
+      glanceNotiz.addEventListener('click', () => {
+        navigate('buch', { force: true, buchMode: 'notiz' });
+      });
+    }
     $$('.mess-tap[data-mess-nav]').forEach(function (btn) {
       btn.addEventListener('click', function () {
         const dest = btn.dataset.messNav || 'kosmos';
@@ -7711,6 +7875,14 @@
           Store.touchLastActivity({
             lastKosmosKind: 'planet',
             lastKosmosLabel: 'Mond · ' + mv.replace(/\s+/g, ' ').trim().slice(0, 40)
+          });
+          refreshState();
+        }
+        if (btn.id === 'mess-sonne' && Store.touchLastActivity) {
+          const sv = ($('#dash-sun-sign') && $('#dash-sun-sign').textContent) || 'Sonne';
+          Store.touchLastActivity({
+            lastKosmosKind: 'planet',
+            lastKosmosLabel: 'Sonne · ' + sv.replace(/\s+/g, ' ').trim().slice(0, 40)
           });
           refreshState();
         }
@@ -7952,8 +8124,14 @@
     const empInstBtn = $('#empfehlen-install');
     if (empInstBtn) empInstBtn.addEventListener('click', () => { promptPwaInstall(); });
 
-    window.addEventListener('online', updateOfflineHonesty);
-    window.addEventListener('offline', updateOfflineHonesty);
+    window.addEventListener('online', function () {
+      updateOfflineHonesty();
+      try { renderWetterTile(true); } catch (_) {}
+    });
+    window.addEventListener('offline', function () {
+      updateOfflineHonesty();
+      try { renderWetterTile(false); } catch (_) {}
+    });
     updateOfflineHonesty();
     if (navigator.serviceWorker) {
       navigator.serviceWorker.ready.then(() => updateOfflineHonesty()).catch(() => {});
