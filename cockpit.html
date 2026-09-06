@@ -43,7 +43,7 @@
     <div id="main-content" tabindex="-1">
     <!-- 1. Altar (route id: cockpit) -->
     <section id="sec-cockpit" class="section-view active cockpit-lovely-page altar-sacred" aria-label="Altar">
-      <!-- v5.28.1 Altar — Skizze + volles Apps-Dock · 1 Status-Box · Figur frei · kein Sitzungs-Banner -->
+      <!-- v5.28.2 Altar — Skizze + volles Apps-Dock · 1 Status-Box · Figur frei · kein Sitzungs-Banner -->
       <h1 class="section-title altar-cockpit-heading sr-only"><span class="sec-ico" aria-hidden="true">🪔</span> Altar</h1>
       <span class="section-motif altar-cockpit-motif" aria-hidden="true" hidden></span>
       <p class="section-sub altar-cockpit-sub sr-only">Dein Altar — warm, still, zum Ankommen.</p>
@@ -99,12 +99,19 @@
       <!-- legacy chip kept for JS -->
       <button type="button" class="fest-countdown-chip" id="fest-countdown-chip" hidden aria-live="polite"></button>
 
-      <!-- v5.28.1 Altar — Skizze: 1 Status-Box · Figur frei · Mond|Sonne · Schumann · volles Apps-Dock -->
+      <!-- v5.28.2 Altar — Skizze: 1 Status-Box · Figur frei · Mond|Sonne · Schumann · volles Apps-Dock -->
       <div class="altar-cockpit altar-homescreen" id="altar-cockpit" aria-label="Altar — dein magisches Home">
 
-        <div class="cock-hero-grid" aria-label="Zeit, Kosmos und Pfad">
+                  <figure class="cock-path-figur cock-path-figur-float cock-path-figur-overlay" id="cock-path-figur" aria-labelledby="path-figure-label">
+            <div class="path-figure-frame">
+              <img id="path-figure-img" class="path-figure-img" src="assets/path-figures/esoterik.png" alt="" width="512" height="512" decoding="async" data-path-figure="1" />
+            </div>
+            <figcaption class="path-figure-caption" id="path-figure-label">Esoterik</figcaption>
+          </figure>
+
+<div class="cock-hero-grid" aria-label="Zeit, Kosmos und Pfad">
           <div class="cock-hero-main">
-          <div class="cock-status-bar cock-status-unified cock-tile cock-glass" role="group" aria-label="Zeit, Wetter und Heute">
+            <div class="cock-status-bar cock-status-unified cock-tile cock-glass" role="group" aria-label="Zeit, Wetter und Heute">
             <div class="cock-status-meta">
               <div class="cock-status-zeit" aria-label="Zeit und Datum">
                 <span class="cock-status-ico" aria-hidden="true">🕰️</span>
@@ -162,12 +169,6 @@
           </button>
             </div>
           </div>
-          <figure class="cock-path-figur cock-path-figur-float" id="cock-path-figur" aria-labelledby="path-figure-label">
-            <div class="path-figure-frame">
-              <img id="path-figure-img" class="path-figure-img" src="assets/path-figures/esoterik.png" alt="" width="512" height="512" decoding="async" data-path-figure="1" />
-            </div>
-            <figcaption class="path-figure-caption" id="path-figure-label">Esoterik</figcaption>
-          </figure>
         </div>
 
         <!-- 3. Schumann breit (Glaskachel + Grafik) -->
@@ -1347,7 +1348,7 @@
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
         <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem">Daten bleiben lokal auf diesem Gerät · App v<span id="settings-app-version">5.28.1</span> · <a href="#vertrauen" data-open-vertrauen>Vertrauen</a></p>
+        <p class="footer-ethics" style="padding-top:1rem">Daten bleiben lokal auf diesem Gerät · App v<span id="settings-app-version">5.28.2</span> · <a href="#vertrauen" data-open-vertrauen>Vertrauen</a></p>
       </div>
     </div>
   </div>

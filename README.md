@@ -430,6 +430,12 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.28.2 — Figur als Overlay · Status volle Breite
+
+- Status-Kachel volle Breite (Platz rechts nur optisch für Figur)
+- Pfad-Figur absolut oben rechts — keine eigene Grid-Kachel mehr
+- SW `universum-shell-v85`
+
 ## 5.28.1 — Figur ohne Rahmenplatte
 
 - Pfad-Figur-PNGs: goldener Kachel-Rahmen und dunkle Platte entfernt
