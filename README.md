@@ -430,6 +430,11 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.32.7 — App-Name UNIVERSUM
+
+- Manifest, Homescreen-Titel, Startseite und Browser-Titel einheitlich **UNIVERSUM**
+- Altar bleibt der Homescreen *innerhalb* der App · SW `universum-shell-v106`
+
 ## 5.32.6 — Magie-Buch JSON-Name
 
 - Export-Datei: `universum-magie-buch.json` (Import erkennt weiterhin `universum-buch.json`)
