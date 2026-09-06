@@ -430,6 +430,11 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.33.1 — Sprache + Lampen-Icon Cache
+
+- Sprachwechsel robust (Klick-Delegation, Apply in Einstellungen)
+- App-Icon Lampe mit Cache-Bust / PNG-Favicon · SW `universum-shell-v108`
+
 ## 5.33.0 — Sprache DE/EN · UNIVERSUM+ · Lampen-Icon
 
 - UI-Chrome: Sprache **Deutsch | English** (Settings, `settings.lang`, `js/i18n.js`) — Lexikon bleibt DE, keine Gendersprache

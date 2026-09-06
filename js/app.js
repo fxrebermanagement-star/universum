@@ -361,15 +361,51 @@
   function setAppLanguage(lang, opts) {
     opts = opts || {};
     lang = lang === 'en' ? 'en' : 'de';
-    Store.update(function (d) {
-      if (!d.settings) d.settings = {};
-      d.settings.lang = lang;
-    });
-    refreshState();
+    try {
+      Store.update(function (d) {
+        if (!d.settings || typeof d.settings !== 'object') d.settings = {};
+        d.settings.lang = lang;
+      });
+    } catch (e) { try { console.warn('setAppLanguage', e); } catch (_) {} }
+    try { refreshState(); } catch (_) {}
+    try {
+      if (window.UniversumI18n) {
+        UniversumI18n.setLang(lang);
+        UniversumI18n.apply(document);
+      }
+    } catch (_) {}
     applyUiLanguage({ lang: lang });
+    try {
+      var logoSub = document.querySelector('.logo-sub');
+      if (logoSub) logoSub.textContent = tt('nav.altar', 'Altar');
+    } catch (_) {}
     if (opts.toast !== false) {
-      toast(lang === 'en' ? tt('toast.langEn', 'Language: English') : tt('toast.langDe', 'Sprache: Deutsch'));
+      try {
+        toast(lang === 'en' ? tt('toast.langEn', 'Language: English') : tt('toast.langDe', 'Sprache: Deutsch'));
+      } catch (_) {}
     }
+  }
+
+  function bindLanguageControls() {
+    var seg = document.getElementById('set-lang-seg');
+    if (seg && seg.dataset.langBound !== '1') {
+      seg.dataset.langBound = '1';
+      seg.addEventListener('click', function (ev) {
+        var btn = ev.target && ev.target.closest ? ev.target.closest('[data-lang]') : null;
+        if (!btn || !seg.contains(btn)) return;
+        ev.preventDefault();
+        setAppLanguage(btn.getAttribute('data-lang') === 'en' ? 'en' : 'de');
+      });
+    }
+    ['set-lang-de', 'set-lang-en'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (!el || el.dataset.langBound === '1') return;
+      el.dataset.langBound = '1';
+      el.addEventListener('click', function (ev) {
+        ev.preventDefault();
+        setAppLanguage(el.getAttribute('data-lang') === 'en' ? 'en' : 'de');
+      });
+    });
   }
 
   /* ——— v5.21.1 exclusive Werkzeug sub-panels (Pfad ≠ Sigil) ——— */
@@ -6991,6 +7027,8 @@
     try { syncRemindersUi(); } catch (_) {}
     try {
       const lang = (state.settings && state.settings.lang === 'en') ? 'en' : 'de';
+      bindLanguageControls();
+      applyUiLanguage({ lang: lang });
       syncLangSegUi(lang);
     } catch (_) {}
     try {
@@ -7559,7 +7597,9 @@
     syncQuietUi();
     setFocusDisplay();
 
-    $('#path-chip').addEventListener('click', openPathModal);
+    var pathChipEl = $('#path-chip');
+    if (pathChipEl) pathChipEl.addEventListener('click', openPathModal);
+    bindLanguageControls();
     const altarHomeBtn = $('#altar-home-btn');
     if (altarHomeBtn) {
       altarHomeBtn.addEventListener('click', () => navigate('cockpit', { force: true }));
@@ -7577,10 +7617,7 @@
       });
     }
     syncBuchBackToAltar();
-    const setLangDe = $('#set-lang-de');
-    const setLangEn = $('#set-lang-en');
-    if (setLangDe) setLangDe.addEventListener('click', function () { setAppLanguage('de'); });
-    if (setLangEn) setLangEn.addEventListener('click', function () { setAppLanguage('en'); });
+    bindLanguageControls();
     const settingsClose = $('#settings-close');
     if (settingsClose) settingsClose.addEventListener('click', closeSettings);
 

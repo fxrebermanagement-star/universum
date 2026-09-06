@@ -10420,3 +10420,11 @@ body.altar-mehr-open .app-shell > main {
   opacity: 0.85;
   font-style: italic;
 }
+
+
+/* v5.33.1 — brand lamp in header */
+.logo-mark .logo-lamp {
+  display: inline-block;
+  margin-right: 0.2rem;
+  filter: drop-shadow(0 0 8px rgba(255, 176, 96, 0.45));
+}

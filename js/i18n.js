@@ -316,4 +316,12 @@
     bootFromStorage: bootFromStorage
   };
   global.t = t;
+
+  if (typeof document !== 'undefined') {
+    function bootI18n() {
+      try { bootFromStorage(); } catch (_) {}
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bootI18n);
+    else bootI18n();
+  }
 })(typeof window !== 'undefined' ? window : this);
