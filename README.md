@@ -430,6 +430,14 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.25.1 — Drop «Heute gewählt», hide bottom menu
+
+- **Oben:** Phrase «Heute gewählt» entfernt (Sitzungs-Lead bereinigt)
+- **Unten:** `#bottom-nav` versteckt (Altar-App-Dock ist der Hub); DOM bleibt für JS
+- **Heimweg:** Auf jeder Nicht-Altar-Sektion klarer **🪔 Altar**-Button in der Top-Bar
+- Content-Padding ohne Bottom-Nav-Höhe; Altar füllt Viewport unter dem Header
+- SW-Cache `universum-shell-v76`
+
 ## 5.25.0 — Altar clean + homescreen hub
 
 - **Homescreen:** Oben Status-Widgets (Datum·Zeit · Wetter | Mond | Sonne) · Schumann nur Grafik

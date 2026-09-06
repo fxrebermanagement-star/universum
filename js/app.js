@@ -1445,7 +1445,16 @@
     if (aud) aud.checked = !!(state.settings && state.settings.schumannAudio);
   }
 
-  function resolveSectionId(id) {
+  function syncAltarHomeBtn(id) {
+    const btn = $('#altar-home-btn');
+    const onAltar = !id || id === 'cockpit';
+    document.body.classList.toggle('on-altar', onAltar);
+    if (!btn) return;
+    btn.hidden = onAltar;
+    btn.setAttribute('aria-hidden', onAltar ? 'true' : 'false');
+  }
+
+    function resolveSectionId(id) {
     if (!id) return 'cockpit';
     if (BUCH_ALIASES[id]) return BUCH_ALIASES[id];
     if (SECTION_REDIRECTS[id]) return SECTION_REDIRECTS[id];
@@ -1466,6 +1475,7 @@
     $$('.section-view').forEach(el => el.classList.toggle('active', el.id === 'sec-' + id));
     $$('.bottom-nav button').forEach(btn => btn.classList.toggle('active', btn.dataset.nav === id));
     activeSection = id;
+    syncAltarHomeBtn(id);
     // Skip heavy full re-renders when already on the same section (easy win)
     if (!same) {
       if (id === 'cockpit') renderCockpit();
@@ -1669,7 +1679,7 @@
     const cta = $('#sitzung-cta');
     const copy = {
       heute: {
-        lead: 'Heute gewählt — öffne den Kreis ohne Menü-Hopping.',
+        lead: 'Öffne den Kreis — ohne Menü-Hopping.',
         cta: '② Kreis öffnen',
         action: 'ritual'
       },
@@ -7116,6 +7126,10 @@
     setFocusDisplay();
 
     $('#path-chip').addEventListener('click', openPathModal);
+    const altarHomeBtn = $('#altar-home-btn');
+    if (altarHomeBtn) {
+      altarHomeBtn.addEventListener('click', () => navigate('cockpit', { force: true }));
+    }
     const settingsOpen = $('#settings-open');
     if (settingsOpen) settingsOpen.addEventListener('click', openSettings);
     const settingsFromCockpit = $('#open-settings-from-cockpit');

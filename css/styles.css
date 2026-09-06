@@ -273,7 +273,8 @@ input[type="checkbox"] {
   display: flex;
   flex-direction: column;
   min-height: 100dvh;
-  padding-bottom: calc(72px + var(--safe-bottom));
+  /* v5.25.1: bottom-nav hidden — only safe-area padding */
+  padding-bottom: calc(0.65rem + var(--safe-bottom));
 }
 
 .app-header {
@@ -425,8 +426,14 @@ input[type="checkbox"] {
 .mt-2 { margin-top: 1rem; }
 .w-full { width: 100%; }
 
-/* ——— Bottom nav ——— */
+/* ——— Bottom nav (v5.25.1: hidden — Altar dock is hub) ——— */
+#bottom-nav,
 .bottom-nav {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+.bottom-nav { /* layout kept for DOM build; forced hidden above */
   position: fixed;
   bottom: 0;
   left: 0;
@@ -5175,6 +5182,41 @@ body.quiet-mode .path-art-orb {
   box-shadow: 0 0 12px rgba(120, 80, 180, 0.12);
 }
 
+/* v5.25.1 — Altar home on non-Altar sections */
+.altar-home-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  flex: 0 0 auto;
+  margin-right: auto;
+  padding: 0.35rem 0.72rem;
+  min-height: 2.15rem;
+  border-radius: 999px;
+  border: 1px solid rgba(232, 197, 71, 0.42);
+  background: linear-gradient(135deg, rgba(232, 197, 71, 0.14), rgba(155, 126, 217, 0.12));
+  color: #f0e2b8;
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 0 14px rgba(232, 197, 71, 0.12);
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.altar-home-btn:hover {
+  border-color: rgba(232, 197, 71, 0.62);
+  box-shadow: 0 0 18px rgba(232, 197, 71, 0.2);
+  transform: translateY(-1px);
+}
+.altar-home-btn:active { transform: scale(0.97); }
+.altar-home-btn[hidden] { display: none !important; }
+body.on-altar .altar-home-btn { display: none !important; }
+@media (max-width: 360px) {
+  .altar-home-btn { padding: 0.35rem 0.55rem; font-size: 0.68rem; }
+}
+
 .cockpit-top {
   display: flex;
   flex-direction: column;
@@ -8724,7 +8766,7 @@ body.quiet-mode .first-session-tip { display: none !important; }
 }
 
 
-/* ——— v5.25.0 Altar Homescreen — widgets + compact app dock ——— */
+/* ——— v5.25.1 Altar Homescreen — widgets + app dock · no bottom-nav ——— */
 #sec-cockpit.altar-sacred {
   display: flex;
   flex-direction: column;
@@ -8735,8 +8777,9 @@ body.quiet-mode .first-session-tip { display: none !important; }
 }
 #sec-cockpit.altar-sacred.active {
   min-height: 0;
-  height: calc(100dvh - 72px - env(safe-area-inset-bottom, 0px));
-  max-height: calc(100dvh - 72px - env(safe-area-inset-bottom, 0px));
+  /* v5.25.1: no bottom-nav — fill under sticky header */
+  height: calc(100dvh - 3.5rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+  max-height: calc(100dvh - 3.5rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
 }
 #sec-cockpit .altar-cockpit-heading.sr-only,
 #sec-cockpit .altar-cockpit-sub.sr-only {
