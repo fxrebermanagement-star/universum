@@ -430,6 +430,11 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.28.3 — Figur-Assets freigestellt
+
+- Dunkler Pinsel-/Kachelrahmen aus allen Pfad-Figur-PNGs entfernt
+- Nur Figur + weicher Glow · SW `universum-shell-v86`
+
 ## 5.28.2 — Figur als Overlay · Status volle Breite
 
 - Status-Kachel volle Breite (Platz rechts nur optisch für Figur)
