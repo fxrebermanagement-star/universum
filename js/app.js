@@ -6231,7 +6231,62 @@
     window.prompt('Link kopieren:', url);
   }
 
-  async function promptPwaInstall() {
+  function getInstallPlatformCopy(plat) {
+    if (plat.isIOS) {
+      return {
+        title: 'Einladung · Homescreen (iPhone / iPad)',
+        text: 'Safari → Teilen → „Zum Home-Bildschirm“. Einmal legen — offline, lokal, ohne Konto. Ganz freiwillig.',
+        howtoTitle: 'So legst du UNIVERSUM auf den Homescreen (iPhone / iPad)',
+        stepsHtml:
+          '<li>Tippe auf <strong>Teilen</strong> (Quadrat mit Pfeil).</li>' +
+          '<li>Wähle <strong>Zum Home-Bildschirm</strong>.</li>' +
+          '<li>Bestätige „Hinzufügen“ — fertig.</li>',
+        summary: 'Kurz: Safari → Teilen → Zum Home-Bildschirm.'
+      };
+    }
+    if (plat.isAndroid) {
+      return {
+        title: 'Einladung · Homescreen (Android)',
+        text: 'Chrome-Menü → „App installieren“ / Zum Startbildschirm. Lokal auf dem Gerät, ohne Konto — einmal reicht.',
+        howtoTitle: 'So legst du UNIVERSUM auf den Homescreen (Android)',
+        stepsHtml:
+          '<li>Öffne das <strong>Menü</strong> (⋮) im Browser.</li>' +
+          '<li>Tippe <strong>App installieren</strong> / Zum Startbildschirm.</li>' +
+          '<li>Bestätigen — Icon erscheint neben deinen Apps.</li>',
+        summary: 'Kurz: Browser-Menü → App installieren / Zum Startbildschirm.'
+      };
+    }
+    return {
+      title: 'Einladung · wie eine kleine App',
+      text: 'Browser-Menü → „Zum Home-Bildschirm“ / Installieren. Praktisch auf dem Handy — lokal, ohne Konto, kein Druck.',
+      howtoTitle: 'So legst du UNIVERSUM auf den Homescreen',
+      stepsHtml:
+        '<li>Browser-Menü öffnen.</li>' +
+        '<li>„Installieren“ oder „Zum Home-Bildschirm“ wählen.</li>',
+      summary: 'Kurz: Browser-Menü → Installieren / Zum Homescreen.'
+    };
+  }
+
+  function fillInstallSteps(plat, opts) {
+    const copy = getInstallPlatformCopy(plat || detectMobileInstallPlatform());
+    const showHowto = !(opts && opts.showHowto === false);
+    const steps = $('#install-steps');
+    const howtoSteps = $('#install-howto-steps');
+    const title = $('#install-banner-title');
+    const text = $('#install-banner-text');
+    const howtoTitle = $('#install-howto-title');
+    const howto = $('#install-howto');
+    if (title) title.textContent = copy.title;
+    if (text) text.textContent = copy.text;
+    if (howtoTitle) howtoTitle.textContent = copy.howtoTitle;
+    if (steps) steps.innerHTML = copy.stepsHtml;
+    if (howtoSteps) howtoSteps.innerHTML = copy.stepsHtml;
+    if (howto && showHowto) howto.hidden = false;
+    return copy;
+  }
+
+  async function promptPwaInstall(opts) {
+    const fromSettings = !!(opts && opts.fromSettings);
     const status = $('#empfehlen-status');
     const plat = detectMobileInstallPlatform();
     const busyBtns = [$('#empfehlen-install'), $('#set-install-app'), $('#install-banner-prompt')].filter(Boolean);
@@ -6251,15 +6306,19 @@
       return;
     }
 
-    // iOS has no beforeinstallprompt — always show steps, never await a native prompt
+    // Fill platform steps into banner + settings howto (never closeSettings first)
+    const copy = fillInstallSteps(plat);
+    if (status) status.textContent = copy.summary;
+    if (fromSettings) {
+      try {
+        const howto = $('#install-howto');
+        if (howto && howto.scrollIntoView) howto.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      } catch (_) {}
+    }
+
+    // iOS / no deferred prompt: show steps; do NOT closeSettings (howto stays readable)
     if (plat.isIOS || !deferredInstallPrompt) {
-      try { closeSettings(); } catch (_) {}
       showInstallBanner(true);
-      if (status) {
-        status.textContent = plat.isIOS
-          ? 'Kurz: Safari → Teilen → Zum Home-Bildschirm.'
-          : 'Kurzer Hinweis unten — oder Browser-Menü „App installieren“ / Zum Homescreen.';
-      }
       toast(plat.isIOS ? 'Schritte fürs Homescreen sind offen' : 'Install-Hinweis ist offen');
       return;
     }
@@ -6277,19 +6336,22 @@
         toast('Schön — UNIVERSUM kommt auf den Homescreen');
         if (status) status.textContent = 'Installiert — lokal auf dem Gerät, ohne Konto.';
         dismissInstallBanner(true);
+        const howto = $('#install-howto');
+        if (howto) howto.hidden = true;
       } else if (choice && choice.outcome === 'timeout') {
-        // Native sheet stuck or ignored — fall back to manual steps
-        try { closeSettings(); } catch (_) {}
+        fillInstallSteps(plat);
         showInstallBanner(true);
-        if (status) status.textContent = 'Browser-Dialog hat nicht geantwortet — bitte Menü → App installieren.';
+        if (status) status.textContent = 'Browser-Dialog hat nicht geantwortet — ' + copy.summary;
         toast('Bitte über das Browser-Menü installieren', 3200, 'warn');
-      } else if (status) {
-        status.textContent = 'Später geht auch — jederzeit über das Browser-Menü.';
+      } else {
+        fillInstallSteps(plat);
         showInstallBanner(true);
+        if (status) status.textContent = 'Später geht auch — ' + copy.summary;
       }
     } catch (_) {
-      try { closeSettings(); } catch (_) {}
+      fillInstallSteps(plat);
       showInstallBanner(true);
+      if (status) status.textContent = copy.summary;
       toast('Install über Browser-Menü', 2800, 'warn');
     }
     deferredInstallPrompt = null;
@@ -6335,37 +6397,7 @@
       ban.hidden = true;
       return;
     }
-    const steps = $('#install-steps');
-    const title = $('#install-banner-title');
-    const text = $('#install-banner-text');
-    // Offline-zuerst: Banner auch auf Desktop bei force; Copy betont Cache
-    if (plat.isIOS) {
-      if (title) title.textContent = 'Einladung · Homescreen (iPhone / iPad)';
-      if (text) text.textContent = 'Safari → Teilen → „Zum Home-Bildschirm“. Einmal legen — offline, lokal, ohne Konto. Ganz freiwillig.';
-      if (steps) {
-        steps.innerHTML =
-          '<li>Tippe auf <strong>Teilen</strong> (Quadrat mit Pfeil).</li>' +
-          '<li>Wähle <strong>Zum Home-Bildschirm</strong>.</li>' +
-          '<li>Bestätige „Hinzufügen“ — fertig.</li>';
-      }
-    } else if (plat.isAndroid) {
-      if (title) title.textContent = 'Einladung · Homescreen (Android)';
-      if (text) text.textContent = 'Chrome-Menü → „App installieren“ / Zum Startbildschirm. Lokal auf dem Gerät, ohne Konto — einmal reicht.';
-      if (steps) {
-        steps.innerHTML =
-          '<li>Öffne das <strong>Menü</strong> (⋮) im Browser.</li>' +
-          '<li>Tippe <strong>App installieren</strong> / Zum Startbildschirm.</li>' +
-          '<li>Bestätigen — Icon erscheint neben deinen Apps.</li>';
-      }
-    } else {
-      if (title) title.textContent = 'Einladung · wie eine kleine App';
-      if (text) text.textContent = 'Browser-Menü → „Zum Home-Bildschirm“ / Installieren. Praktisch auf dem Handy — lokal, ohne Konto, kein Druck.';
-      if (steps) {
-        steps.innerHTML =
-          '<li>Browser-Menü öffnen.</li>' +
-          '<li>„Installieren“ oder „Zum Home-Bildschirm“ wählen.</li>';
-      }
-    }
+    fillInstallSteps(plat, { showHowto: false });
     const promptBtn = $('#install-banner-prompt');
     if (promptBtn) promptBtn.hidden = !deferredInstallPrompt;
     ban.hidden = false;
@@ -8705,7 +8737,7 @@
     }
 
     const setInst = $('#set-install-app');
-    if (setInst) setInst.addEventListener('click', () => { promptPwaInstall(); });
+    if (setInst) setInst.addEventListener('click', () => { promptPwaInstall({ fromSettings: true }); });
     const setShare = $('#set-share-app');
     if (setShare) setShare.addEventListener('click', () => { shareAppRecommend(); });
 

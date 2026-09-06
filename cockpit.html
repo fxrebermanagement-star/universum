@@ -78,19 +78,6 @@
         </div>
       </div>
 
-      <div class="install-banner" id="install-banner" hidden role="region" aria-label="Zum Homescreen">
-        <div class="install-banner-inner">
-          <strong id="install-banner-title" data-i18n="install.title">Einladung · auf den Homescreen</strong>
-          <p id="install-banner-text" data-i18n="install.text">Leg UNIVERSUM sanft auf den Homescreen — Rituale und Magie-Buch auch offline. Privat, lokal, ohne Konto und ohne Store. Ganz freiwillig.</p>
-          <ol class="install-steps" id="install-steps"></ol>
-          <div class="btn-row">
-            <button type="button" class="primary tiny" id="install-banner-prompt" hidden data-i18n="install.prompt">Zum Homescreen</button>
-            <button type="button" class="primary tiny" id="install-banner-ok" data-i18n="install.ok">Verstanden</button>
-            <button type="button" class="ghost tiny" id="install-banner-later" data-i18n="install.later">Später</button>
-          </div>
-        </div>
-      </div>
-
       <div class="day-banner" id="day-banner" hidden role="status" aria-live="polite">
         <div class="day-banner-inner">
           <strong id="day-banner-title">Neuer Tag</strong>
@@ -1337,6 +1324,11 @@
           <button type="button" class="ghost" id="set-install-app" data-i18n="settings.install">Zum Homescreen / Hinweis</button>
           <button type="button" class="ghost" id="set-share-app" data-i18n="common.recommend">Empfehlen</button>
         </div>
+        <div class="install-howto" id="install-howto" hidden role="region" aria-label="Homescreen-Schritte">
+          <strong id="install-howto-title">So legst du UNIVERSUM auf den Homescreen</strong>
+          <ol class="install-steps" id="install-howto-steps"></ol>
+          <p class="hint-sm" id="install-howto-note">Privat und lokal — ohne Store und ohne Konto.</p>
+        </div>
 
         <article class="card nested-card universum-plus-card" id="universum-plus-card" aria-labelledby="universum-plus-title">
           <div class="intention-top">
@@ -1387,7 +1379,7 @@
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
         <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem"><span data-i18n="settings.footer">Daten bleiben lokal auf diesem Gerät</span> · App v<span id="settings-app-version">5.33.3</span> · <a href="#vertrauen" data-open-vertrauen>Vertrauen</a></p>
+        <p class="footer-ethics" style="padding-top:1rem"><span data-i18n="settings.footer">Daten bleiben lokal auf diesem Gerät</span> · App v<span id="settings-app-version">5.33.4</span> · <a href="#vertrauen" data-open-vertrauen>Vertrauen</a></p>
       </div>
     </div>
   </div>
@@ -1527,5 +1519,19 @@
       navigator.serviceWorker.register('./sw.js', { scope: './' }).catch(function () {});
     }
   </script>
+  <!-- PWA install overlay — outside altar/cockpit so overflow:hidden never clips it -->
+  <div class="install-banner" id="install-banner" hidden role="region" aria-label="Zum Homescreen">
+    <div class="install-banner-inner">
+      <strong id="install-banner-title" data-i18n="install.title">Einladung · auf den Homescreen</strong>
+      <p id="install-banner-text" data-i18n="install.text">Leg UNIVERSUM sanft auf den Homescreen — Rituale und Magie-Buch auch offline. Privat, lokal, ohne Konto und ohne Store. Ganz freiwillig.</p>
+      <ol class="install-steps" id="install-steps"></ol>
+      <div class="btn-row">
+        <button type="button" class="primary tiny" id="install-banner-prompt" hidden data-i18n="install.prompt">Zum Homescreen</button>
+        <button type="button" class="primary tiny" id="install-banner-ok" data-i18n="install.ok">Verstanden</button>
+        <button type="button" class="ghost tiny" id="install-banner-later" data-i18n="install.later">Später</button>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
