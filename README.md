@@ -993,3 +993,9 @@ Siebzehnte Runde — **UX Klarheit**: modernes dunkles UI mit mehr Weißraum und
 - SVG aus dem Web-Manifest entfernt (nur noch Favicon)
 - `apple-touch-icon` 180×180 für iPhone
 - SW-Cache `universum-shell-v112`
+
+## 5.33.6 — Install hängt nicht mehr
+
+- Kein `beforeinstallprompt().prompt()` mehr (friert auf manchen Handys ein)
+- Button zeigt nur noch klare Safari/Chrome-Schritte
+- SW `universum-shell-v113`
