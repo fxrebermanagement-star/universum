@@ -43,9 +43,9 @@
     <!-- 1. Altar (route id: cockpit) -->
     <section id="sec-cockpit" class="section-view active cockpit-lovely-page altar-sacred" aria-label="Altar">
       <!-- v5.12.0 Altar: polish Messpult + Heute + bento (one scroll) -->
-      <h1 class="section-title"><span class="sec-ico" aria-hidden="true">🪔</span> Altar</h1>
-      <span class="section-motif" aria-hidden="true"></span>
-      <p class="section-sub">Messpult · Heute · Apps — dein stilles Home.</p>
+      <h1 class="section-title altar-cockpit-heading"><span class="sec-ico" aria-hidden="true">🪔</span> Altar</h1>
+      <span class="section-motif altar-cockpit-motif" aria-hidden="true"></span>
+      <p class="section-sub altar-cockpit-sub">Cockpit — alles auf einen Blick.</p>
       <div class="altar-welcome altar-welcome-compact" id="altar-welcome" hidden aria-hidden="true">
         <div class="altar-welcome-glow" aria-hidden="true">
           <div class="candle-flame altar-candle"><div class="flame"></div><div class="wick"></div></div>
@@ -95,162 +95,167 @@
       </div>
 
       <!-- legacy chip kept for JS; visually replaced by Kalender glance card -->
-      <button type="button" class="fest-countdown-chip" id="fest-countdown-chip" hidden aria-live="polite"></button>
+      <button type="button" class="fest-countdown-chip" id="fest-count      <!-- v5.22.0 Altar Cockpit — one-screen bento from sketch -->
+      <div class="altar-cockpit" id="altar-cockpit" aria-label="Altar Cockpit">
 
-      <!-- v5.12.0 Single Altar scroll: title → Messpult → Heute/Starter → glance apps -->
+        <!-- Row 1 left: Mond (wide) -->
+        <button type="button" class="dash-panel moon mess-tile mess-tap cock-tile cock-mond" id="mess-mond" data-mess-nav="kosmos" aria-label="Mond — öffnet Kosmos">
+          <div class="label">Mond</div>
+          <div class="value" id="dash-moon-val">—</div>
+          <div class="mess-readout" id="dash-moon-pct">— %</div>
+          <div class="meta" id="dash-moon-meta"></div>
+          <div class="mess-sign" id="dash-moon-sign">—</div>
+        </button>
 
-      <!-- 1) MESSPULT: instruments (Mond|Stunde, Unruhe, Schumann) -->
-      <div class="altar-messpult cockpit-top messpult-home" id="cockpit-top" aria-label="Messpult">
-        <div class="messpult-head">
-          <p class="messpult-eyebrow">Messpult</p>
-          <span class="approx-badge" title="JS-Näherungen für die Praxis">Näherung</span>
-        </div>
-        <div class="dashboard-grid cockpit-dash messpult-grid" aria-label="Anzeigen">
-          <button type="button" class="dash-panel moon mess-tile mess-tap" id="mess-mond" data-mess-nav="kosmos" aria-label="Mond — öffnet Kosmos">
-            <div class="label">Mond <span class="approx-badge">Näherung</span></div>
-            <div class="value" id="dash-moon-val">—</div>
-            <div class="mess-readout" id="dash-moon-pct">— %</div>
-            <div class="meta" id="dash-moon-meta"></div>
-            <div class="mess-sign" id="dash-moon-sign">—</div>
-          </button>
-          <button type="button" class="dash-panel hour mess-tile mess-tap" id="mess-stunde" data-mess-nav="kosmos" aria-label="Planetenstunde — öffnet Kosmos">
-            <div class="label">Planetenstunde</div>
-            <div class="value" id="dash-hour-val">—</div>
-            <div class="mess-readout" id="dash-hour-window">—</div>
-            <div class="meta" id="dash-hour-meta"></div>
-          </button>
-          <div class="dash-panel unrest impulse-panel mess-tile mess-unruhe-wide" id="mess-unruhe">
-            <div class="label">Unruhe · Impuls</div>
-            <div class="value" id="dash-unrest-val">—</div>
-            <div class="mess-readout" id="dash-unrest-level">—</div>
-            <div class="unrest-bar soft-impulse" aria-hidden="true"><i id="dash-unrest-bar"></i></div>
-            <div class="meta impulse-meta" id="dash-unrest-meta">Schweigen darf — kein Messgerät</div>
-          </div>
+        <!-- Row 1 left: Planetenstunde (square) -->
+        <button type="button" class="dash-panel hour mess-tile mess-tap cock-tile cock-stunde" id="mess-stunde" data-mess-nav="kosmos" aria-label="Planetenstunde — öffnet Kosmos">
+          <div class="label">Stunde</div>
+          <div class="value" id="dash-hour-val">—</div>
+          <div class="mess-readout" id="dash-hour-window">—</div>
+          <div class="meta" id="dash-hour-meta"></div>
+        </button>
+
+        <!-- Row 1 center: tall Unruhe / Impuls -->
+        <div class="dash-panel unrest impulse-panel mess-tile mess-unruhe-wide cock-tile cock-unruhe" id="mess-unruhe">
+          <div class="label">Impuls</div>
+          <div class="value" id="dash-unrest-val">—</div>
+          <div class="mess-readout" id="dash-unrest-level">—</div>
+          <div class="unrest-bar soft-impulse" aria-hidden="true"><i id="dash-unrest-bar"></i></div>
+          <div class="meta impulse-meta" id="dash-unrest-meta">Schweigen darf</div>
         </div>
 
-        <article class="card mess-schumann schumann-card cockpit-schumann mess-schumann-home" id="glance-schumann-card" aria-labelledby="glance-schumann-title">
-          <div class="schumann-head compact-head">
-            <h3 id="glance-schumann-title">Schumann · Station</h3>
-            <span class="schumann-live-badge" data-sch-badge data-state="offline">Lokal · 7,83 Hz</span>
+        <!-- Row 1 right: Schumann (wide, mini spectro) -->
+        <article class="card mess-schumann schumann-card cock-tile cock-schumann" id="glance-schumann-card" aria-labelledby="glance-schumann-title">
+          <div class="schumann-head compact-head cock-sch-head">
+            <h3 id="glance-schumann-title">Schumann</h3>
+            <span class="schumann-live-badge" data-sch-badge data-state="offline">7,83 Hz</span>
           </div>
-          <div class="schumann-spectrogram" data-sch-spectrogram>
+          <div class="schumann-spectrogram glance-spectro cock-spectro" data-sch-spectrogram>
             <figure class="schumann-spectrogram-figure">
-              <img data-sch-spectrogram-img alt="Schumann-Spektrogramm der Station Tomsk (live Sonogramm)" width="1200" height="400" decoding="async" />
-              <p class="schumann-spectrogram-err" data-sch-spectrogram-err hidden>Spektrogramm derzeit nicht erreichbar — Puls bleibt aktiv.</p>
+              <img data-sch-spectrogram-img alt="Schumann-Spektrogramm Tomsk" width="1200" height="400" decoding="async" />
+              <p class="schumann-spectrogram-err" data-sch-spectrogram-err hidden>Spektro offline</p>
             </figure>
-            <p class="hint-sm schumann-spectrogram-attr">Tomsk SOS via <a href="https://resonanceone.app/ai" target="_blank" rel="noopener noreferrer">ResonanceOne</a> · kein Handy-Sensor · <a href="https://resonanceone.app/schumann-resonance-today" target="_blank" rel="noopener noreferrer">Methodik</a></p>
           </div>
-          <div class="schumann-live-panel" data-sch-panel>
+          <div class="schumann-live-panel cock-sch-metrics" data-sch-panel>
             <div class="schumann-metrics" aria-label="Stationsdaten">
-              <div class="sch-metric"><span class="m-label">SR</span> <strong data-sch-hz>—</strong> <span class="m-unit">Hz</span></div>
-              <div class="sch-metric"><span class="m-label">Index</span> <strong data-sch-index>—</strong></div>
+              <div class="sch-metric"><span class="m-label">SR</span> <strong data-sch-hz>—</strong></div>
               <div class="sch-metric"><span class="m-label">Kp</span> <strong data-sch-kp>—</strong></div>
-              <div class="sch-metric"><span class="m-label">Geomag.</span> <strong data-sch-geo>—</strong></div>
             </div>
-            <p class="hint-sm schumann-update">Update: <span data-sch-updated>—</span></p>
-            <button type="button" class="ghost tiny" data-sch-refresh>Aktualisieren</button>
+            <button type="button" class="ghost tiny cock-sch-refresh" data-sch-refresh hidden>↻</button>
           </div>
-          <p class="schumann-secondary-label">Lokal · 7,83-Hz-Puls</p>
-          <div class="schumann-wrap"><canvas id="schumann-canvas" aria-label="Schumann-Puls Visualisierung"></canvas></div>
-          <p class="hint-sm" data-sch-honesty>Stationsdaten und Puls sind Impulse für die Praxis — kein Wahrheitsmesser, keine Körper- oder Geister-Messung.</p>
+          <div class="schumann-wrap cock-sch-pulse" hidden aria-hidden="true"><canvas id="schumann-canvas" aria-label="Schumann-Puls"></canvas></div>
+          <span class="sr-only" data-sch-updated></span>
+          <span class="sr-only" data-sch-index></span>
+          <span class="sr-only" data-sch-geo></span>
+          <span class="sr-only" data-sch-honesty></span>
         </article>
 
-        <p class="approx-note hint-sm cockpit-approx-once soft-honesty" id="astro-approx-note-home">Kreis, Grenze, Gabe, Schweigen — Mond und Stunde sind <strong>Fenster zur Praxis</strong> (Näherung), keine Orakel-Wahrheit.</p>
+        <!-- Row 1 right under: Ritual | Buch -->
+        <button type="button" class="card glance-card glance-ritual nested-card cockpit-lovely glance-widget cock-tile cock-ritual" id="glance-ritual-card" aria-labelledby="glance-ritual-title">
+          <div class="glance-ico" aria-hidden="true">🕯️</div>
+          <div class="intention-top">
+            <h3 id="glance-ritual-title">Ritual</h3>
+            <span class="chip-quiet" id="glance-ritual-chip">—</span>
+          </div>
+          <p class="glance-lead" id="glance-ritual-lead">Noch still</p>
+          <p class="hint-sm" id="glance-ritual-meta">öffnen</p>
+        </button>
+
+        <button type="button" class="card glance-card glance-buch nested-card cockpit-lovely glance-widget cock-tile cock-buch" id="glance-buch-card" aria-labelledby="glance-buch-title">
+          <div class="glance-ico" aria-hidden="true">📖</div>
+          <div class="intention-top">
+            <h3 id="glance-buch-title">Buch</h3>
+            <span class="chip-quiet" id="glance-buch-chip">Buch</span>
+          </div>
+          <div class="glance-buch-body">
+            <div class="glance-buch-thumb" id="glance-buch-thumb" hidden></div>
+            <div>
+              <p class="glance-lead" id="glance-buch-lead">Leer</p>
+              <p class="hint-sm" id="glance-buch-meta">öffnen</p>
+            </div>
+          </div>
+        </button>
+
+        <!-- Row 2: Heute ~2/3 + Resonanz | Kalender -->
+        <article class="card jetzt-card heute-starter-hero cockpit-hero cockpit-lovely heute-primary altar-heart cock-tile cock-heute" id="jetzt-card" aria-labelledby="jetzt-title">
+          <h2 id="jetzt-title" class="sr-only">Heute</h2>
+          <span class="chip-quiet" id="jetzt-chip" hidden>Praxis</span>
+          <p class="jetzt-kind chip-quiet" id="jetzt-kind" hidden>Praxis</p>
+          <p class="jetzt-lead" id="jetzt-lead" hidden>Heute</p>
+          <p class="jetzt-meta heute-starter-meta" id="jetzt-meta">für dich heute</p>
+          <div class="btn-row heute-starter-actions">
+            <button type="button" class="primary" id="jetzt-start">Kreis öffnen</button>
+            <button type="button" class="ghost tiny" id="jetzt-starter" hidden>3-Min</button>
+          </div>
+        </article>
+
+        <button type="button" class="card glance-card glance-resonanz nested-card cockpit-lovely glance-widget cock-tile cock-resonanz" id="glance-resonanz-card" aria-labelledby="glance-resonanz-title">
+          <div class="glance-ico" aria-hidden="true">🌿</div>
+          <div class="intention-top">
+            <h3 id="glance-resonanz-title">Resonanz</h3>
+            <span class="chip-quiet" id="glance-resonanz-chip">—</span>
+          </div>
+          <p class="glance-lead" id="glance-resonanz-lead">Heute passt …</p>
+          <p class="hint-sm" id="glance-resonanz-meta">öffnen</p>
+        </button>
+
+        <button type="button" class="card glance-card glance-kalender nested-card cockpit-lovely glance-widget cock-tile cock-kalender" id="glance-kalender-card" aria-labelledby="glance-kalender-title">
+          <div class="glance-ico" aria-hidden="true">📅</div>
+          <div class="intention-top">
+            <h3 id="glance-kalender-title">Kalender</h3>
+            <span class="chip-quiet" id="glance-kalender-chip">Fest</span>
+          </div>
+          <p class="glance-lead" id="glance-kalender-lead">Feste</p>
+          <p class="hint-sm" id="glance-kalender-meta">öffnen</p>
+        </button>
+
+        <!-- Row 3: Tageszeile full -->
+        <p class="altar-tageszeile cock-tile cock-tageszeile" id="altar-tageszeile" aria-live="polite">Heute · Mond · Stunde · Gabe</p>
+
+        <!-- Row 4: Kosmos half + Werkzeug | Tip / Offline under -->
+        <button type="button" class="card glance-card glance-kosmos nested-card cockpit-lovely glance-widget cock-tile cock-kosmos" id="glance-kosmos-card" aria-labelledby="glance-kosmos-title">
+          <div class="glance-ico" aria-hidden="true">🪐</div>
+          <div class="intention-top">
+            <h3 id="glance-kosmos-title">Kosmos</h3>
+            <span class="chip-quiet" id="glance-kosmos-chip">Stunde</span>
+          </div>
+          <p class="glance-lead" id="glance-kosmos-lead">Stunde · Radar</p>
+          <p class="hint-sm" id="glance-kosmos-meta">öffnen</p>
+        </button>
+
+        <button type="button" class="card glance-card glance-werkzeug nested-card cockpit-lovely craft-peek glance-widget cock-tile cock-werkzeug" id="craft-peek-card" aria-labelledby="craft-peek-title">
+          <div class="glance-ico" aria-hidden="true">🛠️</div>
+          <div class="intention-top">
+            <h3 id="craft-peek-title">Werkzeug</h3>
+            <span class="chip-quiet" id="craft-peek-chip">kurz</span>
+          </div>
+          <p class="hint-sm" id="craft-peek-text">Mini für heute</p>
+          <p class="path-chip-line hint-sm" id="glance-path-chip"><span class="path-sym" aria-hidden="true">✦</span> <span id="glance-path-name">Pfad</span></p>
+        </button>
+
+        <div class="card nested-card tip-card cock-tile cock-tip" id="tip-of-day-card">
+          <h3>Tipp</h3>
+          <p id="tip-of-day" class="tip-text">…</p>
+        </div>
+
+        <div class="altar-offline-bar cock-tile cock-offline" id="altar-offline-bar" role="status" data-state="online">
+          <span class="offline-chip offline-chip-bar" id="offline-chip">● Lokal</span>
+          <p class="offline-honesty hint-sm" id="offline-honesty" hidden>Shell bereit</p>
+          <p class="privacy-line privacy-line-slim" id="privacy-line">Lokal · kein Konto</p>
+        </div>
+      </div><!-- #altar-cockpit -->
+
+      <!-- legacy / JS mirrors (hidden) -->
+      <div class="altar-messpult cockpit-top messpult-home" id="cockpit-top" hidden aria-hidden="true">
+        <p class="approx-note hint-sm cockpit-approx-once soft-honesty" id="astro-approx-note-home">Mond und Stunde sind Fenster zur Praxis (Näherung).</p>
       </div>
 
-      
-      <!-- v5.20.0 First-session calm tip (after ≈60s onboarding) -->
       <aside class="first-session-tip" id="first-session-tip" hidden role="status" aria-live="polite">
         <p class="first-session-tip-text" id="first-session-tip-text">Ein ruhiger Tipp: Heute reicht oft ein kurzes Ritual — Tiefe findest du unter Rituale · Filter «Tiefe».</p>
         <button type="button" class="ghost tiny" id="first-session-tip-dismiss">Verstanden</button>
       </aside>
 
-      <!-- v5.19.0 Quiet day line: moon · hour · Gabe/Resonanz -->
-      <p class="altar-tageszeile" id="altar-tageszeile" aria-live="polite">Heute · Mond · Stunde · Gabe</p>
-
-      <!-- 2) Heute / Starter hero — one clear CTA (no second «start» block) -->
-      <article class="card jetzt-card heute-starter-hero cockpit-hero cockpit-lovely heute-primary altar-heart" id="jetzt-card" aria-labelledby="jetzt-title">
-        <h2 id="jetzt-title" class="sr-only">Heute</h2>
-        <span class="chip-quiet" id="jetzt-chip" hidden>Praxis</span>
-        <p class="jetzt-kind chip-quiet" id="jetzt-kind" hidden>Praxis</p>
-        <p class="jetzt-lead" id="jetzt-lead" hidden>Eine Einladung für heute.</p>
-        <p class="jetzt-meta heute-starter-meta" id="jetzt-meta">für dich heute</p>
-        <div class="btn-row heute-starter-actions">
-          <button type="button" class="primary" id="jetzt-start">Kreis öffnen</button>
-          <button type="button" class="ghost tiny" id="jetzt-starter" hidden>3-Min-Starter</button>
-        </div>
-      </article>
-
-      <!-- 3) Bento glance-apps -->
-      <div class="altar-glance altar-bento" id="altar-glance" aria-label="Altar auf einen Blick">
-        <div class="glance-apps" id="glance-apps" aria-label="Letzte Aktivität">
-          <button type="button" class="card glance-card glance-ritual nested-card cockpit-lovely glance-widget" id="glance-ritual-card" aria-labelledby="glance-ritual-title">
-            <div class="glance-ico" aria-hidden="true">🕯️</div>
-            <div class="intention-top">
-              <h3 id="glance-ritual-title">Letztes Ritual</h3>
-              <span class="chip-quiet" id="glance-ritual-chip">—</span>
-            </div>
-            <p class="glance-lead" id="glance-ritual-lead">Noch still — öffne ein Ritual.</p>
-            <p class="hint-sm" id="glance-ritual-meta">Tippen · fortsetzen</p>
-          </button>
-
-          <button type="button" class="card glance-card glance-buch nested-card cockpit-lovely glance-widget" id="glance-buch-card" aria-labelledby="glance-buch-title">
-            <div class="glance-ico" aria-hidden="true">📖</div>
-            <div class="intention-top">
-              <h3 id="glance-buch-title">Letzter Buch</h3>
-              <span class="chip-quiet" id="glance-buch-chip">Buch</span>
-            </div>
-            <div class="glance-buch-body">
-              <div class="glance-buch-thumb" id="glance-buch-thumb" hidden></div>
-              <div>
-                <p class="glance-lead" id="glance-buch-lead">Dein Magie-Buch wartet auf den ersten Eintrag.</p>
-                <p class="hint-sm" id="glance-buch-meta">Tippen · Magie-Buch</p>
-              </div>
-            </div>
-          </button>
-
-          <button type="button" class="card glance-card glance-resonanz nested-card cockpit-lovely glance-widget" id="glance-resonanz-card" aria-labelledby="glance-resonanz-title">
-            <div class="glance-ico" aria-hidden="true">🌿</div>
-            <div class="intention-top">
-              <h3 id="glance-resonanz-title">Letzte Resonanz</h3>
-              <span class="chip-quiet" id="glance-resonanz-chip">Resonanz</span>
-            </div>
-            <p class="glance-lead" id="glance-resonanz-lead">Heute passt … — tippe und sieh nach.</p>
-            <p class="hint-sm" id="glance-resonanz-meta">Tippen · Resonanzen</p>
-          </button>
-
-          <button type="button" class="card glance-card glance-kalender nested-card cockpit-lovely glance-widget" id="glance-kalender-card" aria-labelledby="glance-kalender-title">
-            <div class="glance-ico" aria-hidden="true">📅</div>
-            <div class="intention-top">
-              <h3 id="glance-kalender-title">Kalender</h3>
-              <span class="chip-quiet" id="glance-kalender-chip">Fest</span>
-            </div>
-            <p class="glance-lead" id="glance-kalender-lead">Feste und Tage — bereit zum Blättern.</p>
-            <p class="hint-sm" id="glance-kalender-meta">Tippen · Kalender</p>
-          </button>
-
-          <button type="button" class="card glance-card glance-kosmos nested-card cockpit-lovely glance-widget" id="glance-kosmos-card" aria-labelledby="glance-kosmos-title">
-            <div class="glance-ico" aria-hidden="true">🪐</div>
-            <div class="intention-top">
-              <h3 id="glance-kosmos-title">Kosmos</h3>
-              <span class="chip-quiet" id="glance-kosmos-chip">Stunde</span>
-            </div>
-            <p class="glance-lead" id="glance-kosmos-lead">Stunde und Radar — ein Blick genügt.</p>
-            <p class="hint-sm" id="glance-kosmos-meta">Tippen · Kosmos</p>
-          </button>
-
-          <button type="button" class="card glance-card glance-werkzeug nested-card cockpit-lovely craft-peek glance-widget" id="craft-peek-card" aria-labelledby="craft-peek-title">
-            <div class="glance-ico" aria-hidden="true">🛠️</div>
-            <div class="intention-top">
-              <h3 id="craft-peek-title">Werkzeug</h3>
-              <span class="chip-quiet" id="craft-peek-chip">kurz</span>
-            </div>
-            <p class="hint-sm" id="craft-peek-text">Ein kleines Werk für heute.</p>
-            <p class="path-chip-line hint-sm" id="glance-path-chip"><span class="path-sym" aria-hidden="true">✦</span> <span id="glance-path-name">Pfad</span></p>
-          </button>
-        </div>
-
-        <!-- keep Mondfenster ids for JS soft practice line (hidden mirror filled into mess meta) -->
+      <div class="altar-glance altar-bento" id="altar-glance" hidden aria-hidden="true">
         <article class="card mondfenster-card nested-card" id="mondfenster-card" hidden aria-hidden="true">
           <h3 id="mondfenster-title">Mond</h3>
           <span class="chip-quiet" id="mondfenster-chip">—</span>
@@ -258,10 +263,13 @@
           <p id="mondfenster-lead"></p>
           <p id="mondfenster-meta"></p>
         </article>
-      <div class="card nested-card lexikon-heute-bridge" id="altar-lexikon-bridge" hidden>
-        <div class="card-head"><h3>Heute · Lexikon</h3><span class="chip-quiet" id="altar-lexikon-bridge-chip">Mond · Stunde</span></div>
-        <ul class="lexikon-bridge-list" id="altar-lexikon-bridge-list"></ul>
+        <div class="card nested-card lexikon-heute-bridge" id="altar-lexikon-bridge" hidden>
+          <div class="card-head"><h3>Heute · Lexikon</h3><span class="chip-quiet" id="altar-lexikon-bridge-chip">Mond · Stunde</span></div>
+          <ul class="lexikon-bridge-list" id="altar-lexikon-bridge-list"></ul>
+        </div>
       </div>
+
+    </div>
 
       </div><!-- #altar-glance -->
 
@@ -297,12 +305,6 @@
       </article>
 
       <!-- 4) Offline bar -->
-      <div class="altar-offline-bar" id="altar-offline-bar" role="status" data-state="online">
-        <span class="offline-chip offline-chip-bar" id="offline-chip">● Lokal · Shell bereit</span>
-        <p class="offline-honesty hint-sm" id="offline-honesty">Einmal laden — dann Praxis ohne Netz. Status aktualisiert sich automatisch.</p>
-        <p class="privacy-line privacy-line-slim" id="privacy-line">Lokal auf diesem Gerät · kein Konto · kein Tracking</p>
-      </div>
-
       <div class="cockpit-stardust" id="cockpit-stardust" aria-hidden="true"></div>
 
       <details class="card mehr-accordion mehr-feld" id="mehr-aus-dem-feld">
@@ -497,9 +499,9 @@
         </div>
       </div>
 
-      <div class="card nested-card tip-card" id="tip-of-day-card">
+      <div class="card nested-card tip-card" id="tip-of-day-card-mehr" aria-hidden="true">
         <h3>Tipp des Tages</h3>
-        <p id="tip-of-day" class="tip-text">…</p>
+        <p class="tip-text tip-of-day-mirror">Siehe Cockpit oben.</p>
       </div>
 
       <div class="card nested-card">
@@ -1301,7 +1303,7 @@
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
         <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem">Daten bleiben lokal auf diesem Gerät · App v<span id="settings-app-version">5.21.3</span> · <a href="#vertrauen" data-open-vertrauen>Vertrauen</a></p>
+        <p class="footer-ethics" style="padding-top:1rem">Daten bleiben lokal auf diesem Gerät · App v<span id="settings-app-version">5.22.0</span> · <a href="#vertrauen" data-open-vertrauen>Vertrauen</a></p>
       </div>
     </div>
   </div>

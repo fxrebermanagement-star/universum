@@ -430,6 +430,11 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.22.0 — Altar Cockpit (ein Screen)
+
+Hand-skizziertes **Cockpit**-Bento: alles Wesentliche auf einen Blick (~100dvh, kein Lang-Scroll).
+Messpult + Heute + Glance-Apps in asymmetrischer Grid-Zeilenstruktur; kurze Copy; warmes Altar-Gefühl.
+
 ## 5.21.3 — Resonanz-Chips alle sichtbar
 
 - **Kein Horizontal-Scroll** mehr bei Kategorie-Chips (Kräuter … Opfergaben): alle Menüpunkte auf einmal sichtbar
