@@ -430,6 +430,12 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.28.0 — Figur wirklich frei · Status bis Rand
+
+- Hero neu: links Status + Mond/Sonne, rechts Figur von oben (kein 3-Kachel-Raster)
+- Pfad-Figur-PNGs: dunkler Kachel-Hintergrund entfernt (transparent)
+- Status näher am Bildschirmrand · SW `universum-shell-v83`
+
 ## 5.27.2 — Status bis Rand · Figur ohne Kachel
 
 - Erste Status-Kachel (Zeit/Wetter/Heute) größer und näher am Rand

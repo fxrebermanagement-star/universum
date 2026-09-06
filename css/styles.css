@@ -9360,7 +9360,8 @@ body.stille-modus #sec-cockpit > *:not(.altar-cockpit):not(.stille-ritual-slot):
 body.stille-modus #altar-cockpit > *:not(.cock-hero-grid) {
   display: none !important;
 }
-body.stille-modus #altar-cockpit .cock-hero-grid > *:not(.cock-status-bar) {
+body.stille-modus #altar-cockpit .cock-path-figur,
+body.stille-modus #altar-cockpit .cock-mond-sonne {
   display: none !important;
 }
 body.stille-modus #altar-cockpit .cock-status-unified .cock-status-meta {
@@ -9370,7 +9371,11 @@ body.stille-modus #altar-cockpit .cock-hero-grid {
   display: grid !important;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
-  grid-template-areas: "status";
+  height: 100%;
+}
+body.stille-modus #altar-cockpit .cock-hero-main {
+  display: grid !important;
+  grid-template-rows: 1fr;
   height: 100%;
 }
 body.stille-modus #altar-cockpit .cock-status-bar {
@@ -9509,14 +9514,11 @@ body.stille-modus #sec-cockpit #jetzt-card .jetzt-lead {
   overflow: hidden;
 }
 
-/* Hero: große Status-Kachel bis Rand links · Figur frei oben rechts */
+/* Hero v5.28: Status+Mond/Sonne links · Figur frei rechts von oben */
 .cock-hero-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1.35fr) minmax(0, 1.2fr);
-  grid-template-rows: minmax(0, 1.15fr) minmax(0, 1fr);
-  grid-template-areas:
-    "status status figur"
-    "mond   sonne  figur";
+  grid-template-columns: minmax(0, 1.7fr) minmax(6.5rem, 0.95fr);
+  grid-template-rows: minmax(0, 1fr);
   gap: var(--cock-gap);
   min-height: 0;
   height: 100%;
@@ -9525,10 +9527,31 @@ body.stille-modus #sec-cockpit #jetzt-card .jetzt-lead {
   margin: 0;
   padding: 0;
 }
-.cock-hero-grid .cock-status-bar { grid-area: status; }
-.cock-hero-grid .cock-mond { grid-area: mond; }
-.cock-hero-grid .cock-sonne { grid-area: sonne; }
-.cock-hero-grid .cock-path-figur { grid-area: figur; }
+.cock-hero-main {
+  display: grid;
+  grid-template-rows: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: var(--cock-gap);
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+}
+.cock-hero-main .cock-status-bar {
+  min-height: 0;
+  height: 100%;
+  width: 100%;
+}
+.cock-mond-sonne {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--cock-gap);
+  min-height: 0;
+  height: 100%;
+}
+.cock-mond-sonne .cock-mond,
+.cock-mond-sonne .cock-sonne {
+  min-height: 0;
+  height: 100%;
+}
 
 /* Soft glassmorphism + neon stroke */
 .altar-cockpit .cock-tile,
@@ -9660,8 +9683,8 @@ body.stille-modus #sec-cockpit #jetzt-card .jetzt-lead {
   display: flex !important;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
-  gap: 0.12rem;
+  justify-content: flex-start;
+  gap: 0.15rem;
   margin: 0 !important;
   padding: 0 !important;
   min-height: 0;
@@ -9680,16 +9703,19 @@ body.stille-modus #sec-cockpit #jetzt-card .jetzt-lead {
   overflow: visible !important;
   cursor: default;
   pointer-events: none;
-  z-index: 2;
+  z-index: 3;
   align-self: stretch;
+  grid-column: 2;
+  grid-row: 1;
 }
 .cock-path-figur .path-figure-frame {
   flex: 1 1 auto;
   min-height: 0;
   width: 100%;
   height: 100%;
-  display: grid;
-  place-items: end center;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
   border: 0 !important;
   border-radius: 0 !important;
   overflow: visible !important;
@@ -9699,12 +9725,12 @@ body.stille-modus #sec-cockpit #jetzt-card .jetzt-lead {
   padding: 0 !important;
 }
 .cock-path-figur .path-figure-img {
-  width: auto;
+  width: 100%;
   max-width: 100%;
   height: 100%;
-  max-height: 100%;
+  max-height: calc(100% - 1rem);
   object-fit: contain;
-  object-position: center bottom;
+  object-position: top center;
   display: block;
   border: 0 !important;
   border-radius: 0 !important;
@@ -9793,41 +9819,32 @@ body.stille-modus #sec-cockpit #jetzt-card .jetzt-lead {
 
 @media (max-width: 430px) {
   .altar-cockpit { --cock-gap: 0.36rem; }
-  .cock-hero-grid {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.95fr);
-  }
   .cock-status-unified { padding: 0.45rem 0.52rem 0.4rem !important; }
   .cock-status-meta { gap: 0.32rem; }
   .path-figure-caption { font-size: 0.58rem; }
 }
 
-/* v5.27.2 — Status bis Rand · Figur ohne Kachel */
+/* v5.28.0 — Status bis Rand · Figur oben frei (kein Kachel-PNG) */
 #sec-cockpit.altar-sacred.active {
-  padding-left: 0.55rem !important;
-  padding-right: 0.55rem !important;
-  padding-top: 0.45rem !important;
+  padding-left: 0.4rem !important;
+  padding-right: 0.4rem !important;
+  padding-top: 0.35rem !important;
 }
 .altar-cockpit.altar-homescreen {
   width: 100%;
   max-width: none;
   margin-inline: 0;
 }
-.cock-hero-grid .cock-status-bar {
+.cock-hero-main .cock-status-bar {
   min-width: 0;
   width: 100%;
 }
-.cock-hero-grid .cock-path-figur {
-  /* keep figure column tight to right edge of hero */
-  margin-right: -0.1rem;
-  margin-top: -0.15rem;
-}
 @media (max-width: 430px) {
   #sec-cockpit.altar-sacred.active {
-    padding-left: 0.42rem !important;
-    padding-right: 0.42rem !important;
+    padding-left: 0.28rem !important;
+    padding-right: 0.28rem !important;
   }
   .cock-hero-grid {
-    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1.25fr) minmax(0, 1.15fr) !important;
-    grid-template-rows: minmax(0, 1.2fr) minmax(0, 1fr) !important;
+    grid-template-columns: minmax(0, 1.55fr) minmax(5.6rem, 0.9fr) !important;
   }
 }
