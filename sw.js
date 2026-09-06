@@ -2,9 +2,9 @@
  * UNIVERSUM · Service Worker — offline shell caching
  * Relative URLs so GitHub Pages /universum/ subpath works.
  * Cache-first for app shell; network-first navigations; offline fallback to cockpit.
- * v69: 5.21.2 — Resonanz menu like Rituale · large category chips
+ * v70: 5.21.3 — Resonanz chips all visible · no horizontal scroll
  */
-const CACHE = 'universum-shell-v69';
+const CACHE = 'universum-shell-v70';
 const SHELL = [
   './',
   './index.html',

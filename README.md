@@ -430,6 +430,13 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.21.3 — Resonanz-Chips alle sichtbar
+
+- **Kein Horizontal-Scroll** mehr bei Kategorie-Chips (Kräuter … Opfergaben): alle Menüpunkte auf einmal sichtbar
+- **3×N-Grid** auf typischer Phone-Breite (ab ~420px: 4 Spalten); große Tap-Ziele, aktive/inaktive States, Exclusive-Panel unverändert
+- Rituale-Werkzeug-Jump bleibt Grid (bereits ohne Seiten-Scroll)
+- SW-Cache `universum-shell-v70`
+
 ## 5.21.2 — Resonanz-Menü wie Rituale
 
 - **Kategorie-Chips** (Kräuter · Hausmittel · Steine · Farben · Werkzeuge · Bezüge · Opfergaben) im Stil der Rituale-Jump-Pills: große Tap-Ziele, Icon + Label, aktiv hervorgehoben / inaktiv gedämpft

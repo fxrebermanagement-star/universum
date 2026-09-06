@@ -1846,7 +1846,7 @@
   let lexikonDetailCtx = null; // { kind, name, ico, description, pathNames, pathId }
 
 
-  /* ——— v5.21.2 Resonanz category chips (like Rituale Werkzeug) ——— */
+  /* ——— v5.21.3 Resonanz category chips (grid · no h-scroll) ——— */
   const LEXIKON_TAB_KEY = 'universum-lexikon-tab';
 
   function loadLexikonTab() {
