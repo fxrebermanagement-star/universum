@@ -3,7 +3,8 @@
  * Generate cohesive custom SVG lexicon icons for UNIVERSUM.
  * Motifs: recognizable per herb/kitchen/stone/color/tool/link/offering.
  * Style: warm mystical — gold/cream/earth on dark, ~28–36px readable, tiny files.
- * v5.18.1: Feinschliff silhouettes · no letter monograms · category/_blank fallbacks.
+ * v5.19.0: Distinct silhouettes per entry · stones with cut cues · color hue swatches ·
+ *          thicker strokes for 28–36px · warm Universum palette · no monograms/emoji primary.
  */
 import fs from 'fs';
 import path from 'path';
@@ -46,11 +47,11 @@ function esc(t) {
   return String(t).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
 }
 
-function frameCircle(stroke = STROKE, opacity = 0.42) {
-  return `<circle cx="16" cy="16" r="14.25" fill="none" stroke="${stroke}" stroke-opacity="${opacity}" stroke-width="1.15"/>`;
+function frameCircle(stroke = STROKE, opacity = 0.48) {
+  return `<circle cx="16" cy="16" r="14.2" fill="none" stroke="${stroke}" stroke-opacity="${opacity}" stroke-width="1.35"/>`;
 }
-function frameSquare(stroke = STROKE, opacity = 0.3) {
-  return `<rect x="2" y="2" width="28" height="28" rx="6" fill="none" stroke="${stroke}" stroke-opacity="${opacity}" stroke-width="1"/>`;
+function frameSquare(stroke = STROKE, opacity = 0.35) {
+  return `<rect x="2.2" y="2.2" width="27.6" height="27.6" rx="6" fill="none" stroke="${stroke}" stroke-opacity="${opacity}" stroke-width="1.2"/>`;
 }
 
 /* ——— Motif builders ——— */
@@ -62,29 +63,38 @@ function leafSimple(cx, cy, rot = -25, fill = GREEN, len = 9) {
 }
 
 function spikeFlower(fill = PURPLE) {
-  // lavender-like spike
+  // lavender / yarrow-like vertical spike — readable at 28–36px
   let buds = '';
-  for (let i = 0; i < 6; i++) {
-    const y = 22 - i * 2.4;
-    const w = 2.2 + (i % 2) * 0.4;
-    buds += `<ellipse cx="16" cy="${y}" rx="${w}" ry="1.5" fill="${fill}" fill-opacity="${0.55 + i * 0.07}"/>`;
-    buds += `<ellipse cx="${16 - w - 0.3}" cy="${y + 0.3}" rx="${w * 0.7}" ry="1.2" fill="${fill}" fill-opacity="0.45"/>`;
-    buds += `<ellipse cx="${16 + w + 0.3}" cy="${y + 0.3}" rx="${w * 0.7}" ry="1.2" fill="${fill}" fill-opacity="0.45"/>`;
+  for (let i = 0; i < 7; i++) {
+    const y = +(23 - i * 2.15).toFixed(2);
+    const w = +(2.55 + (i % 2) * 0.45).toFixed(2);
+    const op = +(0.58 + i * 0.06).toFixed(2);
+    const rw = +(w * 0.72).toFixed(2);
+    buds += `<ellipse cx="16" cy="${y}" rx="${w}" ry="1.65" fill="${fill}" fill-opacity="${op}"/>`;
+    buds += `<ellipse cx="${+(16 - w - 0.15).toFixed(2)}" cy="${+(y + 0.25).toFixed(2)}" rx="${rw}" ry="1.3" fill="${fill}" fill-opacity="0.5"/>`;
+    buds += `<ellipse cx="${+(16 + w + 0.15).toFixed(2)}" cy="${+(y + 0.25).toFixed(2)}" rx="${rw}" ry="1.3" fill="${fill}" fill-opacity="0.5"/>`;
   }
   return `${frameCircle()}
-    <line x1="16" y1="26" x2="16" y2="10" stroke="${SAGE}" stroke-width="1.2"/>
+    <line x1="16" y1="27" x2="16" y2="9" stroke="${SAGE}" stroke-width="1.45"/>
     ${buds}
-    <circle cx="16" cy="8.5" r="1.4" fill="${GOLD}" fill-opacity="0.7"/>`;
+    <circle cx="16" cy="7.8" r="1.55" fill="${GOLD}" fill-opacity="0.75"/>`;
 }
 
 function roseBloom() {
+  let petals = '';
+  for (let i = 0; i < 6; i++) {
+    const a = (i * 60 - 90) * Math.PI / 180;
+    const x = 16 + Math.cos(a) * 4.2;
+    const y = 14.5 + Math.sin(a) * 4.2;
+    petals += `<ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="3.4" ry="4.6" transform="rotate(${i * 60} ${x.toFixed(1)} ${y.toFixed(1)})" fill="${ROSE}" fill-opacity="0.72"/>`;
+  }
   return `${frameCircle()}
-    <circle cx="16" cy="15" r="7" fill="${ROSE}" fill-opacity="0.35" stroke="${ROSE}" stroke-width="1"/>
-    <circle cx="16" cy="15" r="4.5" fill="none" stroke="${ROSE}" stroke-width="1.1" stroke-opacity="0.85"/>
-    <circle cx="16" cy="15" r="2.2" fill="${GOLD}" fill-opacity="0.75"/>
-    <path d="M10 22 Q16 26 22 22" fill="none" stroke="${GREEN}" stroke-width="1.2"/>
-    ${leafSimple(11, 23, -50, GREEN, 5)}
-    ${leafSimple(21, 23, 50, GREEN, 5)}`;
+    ${petals}
+    <circle cx="16" cy="14.5" r="3.2" fill="${ROSE}" fill-opacity="0.9" stroke="${CREAM}" stroke-opacity="0.35" stroke-width="0.8"/>
+    <circle cx="16" cy="14.5" r="1.5" fill="${GOLD}" fill-opacity="0.8"/>
+    <path d="M16 19.5 V25" stroke="${SAGE}" stroke-width="1.3"/>
+    ${leafSimple(11.5, 22.5, -55, GREEN, 5.2)}
+    ${leafSimple(20.5, 22.5, 55, GREEN, 5.2)}`;
 }
 
 function sageLeaf() {
@@ -166,9 +176,10 @@ function droplet(fill) {
 }
 
 function swatch(fill) {
-  return `${frameSquare()}
-    <rect x="7" y="7" width="18" height="18" rx="4" fill="${fill}" stroke="${CREAM}" stroke-opacity="0.4" stroke-width="1"/>
-    <rect x="9" y="9" width="8" height="5" rx="1.5" fill="#fff" fill-opacity="0.18"/>`;
+  return `${frameCircle()}
+    <rect x="7.5" y="7.5" width="17" height="17" rx="4" fill="${fill}" stroke="${CREAM}" stroke-opacity="0.45" stroke-width="1.15"/>
+    <rect x="9.5" y="9.5" width="7" height="4.5" rx="1.4" fill="#fff" fill-opacity="0.22"/>
+    <circle cx="16" cy="16" r="14.2" fill="none" stroke="${STROKE}" stroke-opacity="0.12" stroke-width="0.6"/>`;
 }
 
 function crystal(fill = TEAL, facets = true) {
@@ -636,22 +647,54 @@ function wax() {
 }
 
 
+
+function obsidianShard() {
+  return `${frameCircle()}
+    <path d="M9 7 L23 5 L27 16 L20 27 L6 22 L9 7Z" fill="#101018" fill-opacity="0.95" stroke="${STROKE}" stroke-width="1.35"/>
+    <path d="M9 7 L17 15 L23 5 M17 15 L27 16 M17 15 L20 27 M17 15 L6 22" fill="none" stroke="${CREAM}" stroke-opacity="0.32" stroke-width="0.9"/>
+    <path d="M12 11 L15 19" stroke="#4a4a58" stroke-width="1.2" stroke-opacity="0.65" stroke-linecap="round"/>`;
+}
+
+function quartzPoint(fill = '#c8e4f0') {
+  return `${frameCircle()}
+    <path d="M16 4.5 L22.5 14.5 L19.5 27 L12.5 27 L9.5 14.5Z" fill="${fill}" fill-opacity="0.72" stroke="${STROKE}" stroke-width="1.35"/>
+    <path d="M16 4.5 L16 27 M16 4.5 L12.5 14.5 M16 4.5 L19.5 14.5 M12.5 14.5 H19.5" fill="none" stroke="${CREAM}" stroke-opacity="0.5" stroke-width="0.85"/>
+    <path d="M14 10 L16 8 L18 10" fill="none" stroke="#fff" stroke-opacity="0.45" stroke-width="0.8"/>`;
+}
+
+function moonstoneRound() {
+  return `${frameCircle()}
+    <circle cx="16" cy="16.5" r="9" fill="#c8d0e0" fill-opacity="0.78" stroke="${STROKE}" stroke-width="1.3"/>
+    <ellipse cx="13" cy="13.5" rx="3.5" ry="2.6" fill="#fff" fill-opacity="0.35"/>
+    <path d="M9 19 Q16 23 23 19" fill="none" stroke="#a8b8d8" stroke-opacity="0.55" stroke-width="1"/>
+    <circle cx="19.5" cy="17" r="2.2" fill="#e8eef8" fill-opacity="0.45"/>`;
+}
+
+function sageOvalLeaf() {
+  return `${frameCircle()}
+    <path d="M16 27 C9.5 21 8 13.5 16 5 C24 13.5 22.5 21 16 27Z" fill="${SAGE}" fill-opacity="0.88" stroke="${GREEN}" stroke-width="0.85"/>
+    <path d="M16 25 V7" stroke="${CREAM}" stroke-opacity="0.45" stroke-width="0.85"/>
+    <path d="M16 12 Q11.5 14 10.5 17 M16 11 Q20.5 13 21.5 16 M16 17 Q12.5 18.5 11.5 21 M16 16 Q19.5 17.5 20.5 20" fill="none" stroke="${CREAM}" stroke-opacity="0.4" stroke-width="0.65"/>`;
+}
+
 function rosemarySprig() {
   return `${frameCircle()}
-    <line x1="16" y1="26" x2="16" y2="7" stroke="${SAGE}" stroke-width="1.35"/>
-    ${Array.from({length: 7}, (_, i) => {
-      const y = 9 + i * 2.3;
-      const w = 5.5 - i * 0.25;
-      return `<line x1="${16 - w}" y1="${y}" x2="${16 + w}" y2="${y}" stroke="${GREEN}" stroke-width="1.15" stroke-linecap="round"/>`;
+    <line x1="16" y1="27" x2="16" y2="6.5" stroke="${SAGE}" stroke-width="1.55"/>
+    ${Array.from({length: 8}, (_, i) => {
+      const y = 8.2 + i * 2.15;
+      const w = 6.2 - i * 0.28;
+      return `<line x1="${16 - w}" y1="${y - 0.6}" x2="${16 - 0.6}" y2="${y + 0.4}" stroke="${GREEN}" stroke-width="1.35" stroke-linecap="round"/>` +
+        `<line x1="${16 + w}" y1="${y - 0.6}" x2="${16 + 0.6}" y2="${y + 0.4}" stroke="${GREEN}" stroke-width="1.35" stroke-linecap="round"/>`;
     }).join('')}
-    <circle cx="16" cy="6.5" r="1.2" fill="${GOLD}" fill-opacity="0.55"/>`;
+    <circle cx="16" cy="5.8" r="1.25" fill="${GOLD}" fill-opacity="0.6"/>`;
 }
 
 function mugwortLeaf() {
   return `${frameCircle()}
-    <path d="M16 27 C11 22 8 18 9 13 C7 12 8 8 12 9 C11 6 14 4 16 4 C18 4 21 6 20 9 C24 8 25 12 23 13 C24 18 21 22 16 27Z" fill="${SAGE}" fill-opacity="0.82" stroke="${GREEN}" stroke-width="0.7"/>
-    <path d="M16 25 V6" stroke="${CREAM}" stroke-opacity="0.4" stroke-width="0.7"/>
-    <path d="M16 12 Q12 13 11 15 M16 16 Q20 17 21 19" fill="none" stroke="${CREAM}" stroke-opacity="0.35" stroke-width="0.6"/>`;
+    <path d="M16 27 C12 23 7 21 8 16 C5 15 6 10 10 11 C8 7 12 4 16 4 C20 4 24 7 22 11 C26 10 27 15 24 16 C25 21 20 23 16 27Z" fill="${SAGE}" fill-opacity="0.86" stroke="${GREEN}" stroke-width="0.9"/>
+    <path d="M16 25.5 V5.5" stroke="${CREAM}" stroke-opacity="0.45" stroke-width="0.85"/>
+    <path d="M16 10 Q11 11 9.5 14 M16 14 Q21 15 22.5 18 M16 18 Q12 19 10.5 22" fill="none" stroke="${CREAM}" stroke-opacity="0.4" stroke-width="0.7"/>
+    <path d="M10 12 Q8 14 9 16 M22 12 Q24 14 23 16" fill="none" stroke="${GREEN}" stroke-opacity="0.55" stroke-width="0.75"/>`;
 }
 
 function dillUmbrella() {
@@ -723,7 +766,7 @@ function defaultOffering() {
 }
 
 function defaultColor() {
-  return droplet('#9b7ed9');
+  return swatch('#9b7ed9');
 }
 
 /* Color name → hex */
@@ -744,7 +787,7 @@ const COLOR_HEX = {
 const NAME_MOTIF = {
   'Lavendel': () => spikeFlower(PURPLE),
   'Rose': () => roseBloom(),
-  'Salbei': () => sageLeaf(),
+  'Salbei': () => sageOvalLeaf(),
   'Rosmarin': () => rosemarySprig(),
   'Thymian': () => `${frameCircle()}<line x1="16" y1="25" x2="16" y2="9" stroke="${SAGE}" stroke-width="1.2"/>${Array.from({length:5},(_,i)=>`<ellipse cx="13" cy="${10+i*2.8}" rx="2.4" ry="1.5" fill="${GREEN}" fill-opacity="0.85"/><ellipse cx="19" cy="${11+i*2.8}" rx="2.4" ry="1.5" fill="${SAGE}" fill-opacity="0.85"/>`).join('')}`,
   'Minze': () => `${frameCircle()}${leafSimple(12, 16, -40, GREEN, 8)}${leafSimple(20, 16, 40, GREEN, 8)}<line x1="16" y1="24" x2="16" y2="10" stroke="${SAGE}" stroke-width="1.2"/>`,
@@ -842,21 +885,21 @@ const NAME_MOTIF = {
   'Sekt': () => `${frameCircle()}<path d="M13 8 H19 L18 18 H14Z" fill="${TEAL}" fill-opacity="0.3" stroke="${GOLD}" stroke-width="0.9"/><line x1="16" y1="18" x2="16" y2="24" stroke="${CREAM}" stroke-width="1.1"/><line x1="12" y1="25" x2="20" y2="25" stroke="${CREAM}" stroke-width="1.2"/>`,
 
   // Stones
-  'Bergkristall': () => pointCluster('#a8d4e8'),
+  'Bergkristall': () => quartzPoint('#a8d4e8'),
   'Rosenquarz': () => cabochon(ROSE),
-  'Rauchquarz': () => crystal('#6a5a58'),
-  'Raucherquarz': () => crystal('#6a5a58'),
+  'Rauchquarz': () => quartzPoint('#6a5a58'),
+  'Raucherquarz': () => quartzPoint('#6a5a58'),
   'Amethyst': () => pointCluster(PURPLE),
   'Citrin': () => crystal(GOLD),
   'Milchquarz': () => tumbledStone('#e8e4dc', 9, 7.2),
   'Aventurin': () => cabochon('#5a9a6a'),
-  'Obsidian': () => tumbledStone('#1a1a22', 9, 7),
+  'Obsidian': () => obsidianShard(),
   'Schwarzer Turmalin': () => crystalDark('#2a2a35'),
   'Schwarzer Turmalin (Symbol)': () => crystalDark('#2a2a35'),
   'Hämatit': () => cabochon('#5a5a68'),
   'Onyx': () => tumbledStone('#22222a', 8.5, 7.5),
   'Labradorit': () => `${frameCircle()}<path d="M8 18 L16 6 L24 18 L16 26Z" fill="#3a6a7a" fill-opacity="0.7" stroke="${STROKE}" stroke-width="1.2"/><path d="M12 16 L20 14" stroke="${TEAL}" stroke-width="1.4" stroke-opacity="0.7"/><path d="M11 19 L19 17" stroke="#80d0e8" stroke-width="1" stroke-opacity="0.55"/>`,
-  'Mondstein': () => cabochon('#c8d0e0'),
+  'Mondstein': () => moonstoneRound(),
   'Selenit': () => `${frameCircle()}<rect x="11" y="6" width="10" height="20" rx="1.5" fill="#e8e8f0" fill-opacity="0.7" stroke="${STROKE}" stroke-width="1.1"/><path d="M11 12 H21 M11 16 H21 M11 20 H21" stroke="${CREAM}" stroke-opacity="0.45" stroke-width="0.7"/>`,
   'Jaspis': () => tumbledStone('#c45a3a', 9, 7),
   'Achat': () => `${frameCircle()}<circle cx="16" cy="16" r="9" fill="#8a6a4a" fill-opacity="0.5" stroke="${GOLD}" stroke-width="1"/><circle cx="16" cy="16" r="6" fill="none" stroke="${CREAM}" stroke-opacity="0.4" stroke-width="1"/><circle cx="16" cy="16" r="3" fill="${EARTH}" fill-opacity="0.5"/>`,
@@ -881,9 +924,9 @@ const NAME_MOTIF = {
   'Kiesel vom Weg': () => `${frameCircle()}<ellipse cx="16" cy="17" rx="8" ry="6" fill="#7a7060" fill-opacity="0.7" stroke="${EARTH}" stroke-width="0.9"/>`,
   'Tonperle': () => `${frameCircle()}<circle cx="16" cy="16" r="8" fill="#a07848" fill-opacity="0.75" stroke="${EARTH}" stroke-width="1"/><circle cx="16" cy="16" r="2" fill="${DARK}"/>`,
   'Schiefer': () => `${frameSquare()}<rect x="8" y="10" width="16" height="3" fill="#5a5a68" fill-opacity="0.7"/><rect x="8" y="14.5" width="16" height="3" fill="#4a4a55" fill-opacity="0.7"/><rect x="8" y="19" width="16" height="3" fill="#5a5a68" fill-opacity="0.7"/>`,
-  'Quarz': () => crystal('#a0c8e0'),
+  'Quarz': () => quartzPoint('#a0c8e0'),
   'Quarzader': () => `${frameCircle()}<path d="M6 20 Q12 10 16 16 Q20 22 26 12" fill="none" stroke="${CREAM}" stroke-width="2"/><path d="M8 22 Q14 12 18 18" fill="none" stroke="${TEAL}" stroke-width="1.2" stroke-opacity="0.6"/>`,
-  'Klarer Quarz': () => pointCluster('#c8e4f0'),
+  'Klarer Quarz': () => quartzPoint('#c8e4f0'),
   'Grüner Achat': () => `${frameCircle()}<circle cx="16" cy="16" r="9" fill="#4a8a5a" fill-opacity="0.55" stroke="${GREEN}" stroke-width="1.15"/><circle cx="16" cy="16" r="6" fill="none" stroke="${CREAM}" stroke-opacity="0.4" stroke-width="1"/><circle cx="16" cy="16" r="3" fill="#2a5a3a" fill-opacity="0.55"/>`,
   'Lava': () => lava(),
   'Koralle': () => coral(),
@@ -944,13 +987,16 @@ const NAME_MOTIF = {
   'Rost': () => rust(),
   'Schwefel (Symbol)': () => sulfur(),
   'Quecksilber (Symbol)': () => mercury(),
+  'Muschelweiß': () => swatch('#f0ebe0'),
+  'Zinnober-Ton': () => swatch('#c45a3a'),
 };
+
 
 function motifFor(name, kind) {
   if (NAME_MOTIF[name]) return NAME_MOTIF[name]();
-  if (kind === 'color') {
+  if (kind === 'color' || COLOR_HEX[name]) {
     const hex = COLOR_HEX[name] || '#9b7ed9';
-    return droplet(hex);
+    return swatch(hex);
   }
   if (kind === 'herb') return defaultHerb();
   if (kind === 'kitchen') return defaultKitchen();

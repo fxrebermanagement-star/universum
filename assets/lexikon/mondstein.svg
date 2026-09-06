@@ -1,4 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="Mondstein"><circle cx="16" cy="16" r="14.25" fill="none" stroke="#f0d878" stroke-opacity="0.42" stroke-width="1.15"/>
-    <ellipse cx="16" cy="17" rx="8.5" ry="7" fill="#c8d0e0" fill-opacity="0.75" stroke="#f0d878" stroke-width="1.2"/>
-    <ellipse cx="13.5" cy="14" rx="3" ry="2.4" fill="#fff" fill-opacity="0.22"/>
-    <path d="M9 20 Q16 24 23 20" fill="none" stroke="#f5e6c8" stroke-opacity="0.25" stroke-width="0.8"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="Mondstein"><circle cx="16" cy="16" r="14.2" fill="none" stroke="#f0d878" stroke-opacity="0.48" stroke-width="1.35"/>
+    <circle cx="16" cy="16.5" r="9" fill="#c8d0e0" fill-opacity="0.78" stroke="#f0d878" stroke-width="1.3"/>
+    <ellipse cx="13" cy="13.5" rx="3.5" ry="2.6" fill="#fff" fill-opacity="0.35"/>
+    <path d="M9 19 Q16 23 23 19" fill="none" stroke="#a8b8d8" stroke-opacity="0.55" stroke-width="1"/>
+    <circle cx="19.5" cy="17" r="2.2" fill="#e8eef8" fill-opacity="0.45"/></svg>

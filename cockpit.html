@@ -158,6 +158,9 @@
         <p class="approx-note hint-sm cockpit-approx-once soft-honesty" id="astro-approx-note-home">Kreis, Grenze, Gabe, Schweigen — Mond und Stunde sind <strong>Fenster zur Praxis</strong> (Näherung), keine Orakel-Wahrheit.</p>
       </div>
 
+      <!-- v5.19.0 Quiet day line: moon · hour · Gabe/Resonanz -->
+      <p class="altar-tageszeile" id="altar-tageszeile" aria-live="polite">Heute · Mond · Stunde · Gabe</p>
+
       <!-- 2) Heute / Starter hero — one clear CTA (no second «start» block) -->
       <article class="card jetzt-card heute-starter-hero cockpit-hero cockpit-lovely heute-primary altar-heart" id="jetzt-card" aria-labelledby="jetzt-title">
         <h2 id="jetzt-title" class="sr-only">Heute</h2>
@@ -1137,13 +1140,13 @@
     </div>
   </div>
 
-  <!-- First-run onboarding · Erste Minute (v2.4) -->
+  <!-- First-run onboarding · ≈60s (v5.19.0) -->
   <div class="onboard-overlay" id="onboard-overlay" hidden>
     <div class="onboard-card" role="dialog" aria-modal="true" aria-labelledby="onboard-title">
-      <p class="splash-eyebrow">3 MINUTEN · ERNSTHAFT</p>
-      <div class="onboard-hero" aria-hidden="true"><span>🪔</span><span>🕯️</span><span>📖</span><span>🔗</span></div>
+      <p class="splash-eyebrow">≈ 60 SEKUNDEN · ERNSTHAFT</p>
+      <div class="onboard-hero" aria-hidden="true"><span>🪔</span><span>🕯️</span><span>🌿</span></div>
       <h2 id="onboard-title">Dein Pfad</h2>
-      <p class="onboard-copy" id="onboard-lead">In drei Minuten ernsthafte Praxis — und weiterempfehlen können.</p>
+      <p class="onboard-copy" id="onboard-lead">Pfad wählen · ein Ritual-Tipp · Lexikon kurz ansehen.</p>
       <div class="onboard-progress" id="onboard-progress" aria-hidden="true"><i data-op="0"></i><i data-op="1"></i><i data-op="2"></i></div>
 
       <div class="onboard-step" data-onboard-step="0">
@@ -1158,28 +1161,20 @@
       </div>
 
       <div class="onboard-step hidden" data-onboard-step="1">
-        <p class="hint">Was du in ≈ 3 Minuten ernsthaft kannst — ohne Tour, ohne Konto:</p>
-        <ol class="onboard-three-min">
-          <li><strong>Heute</strong> — ein Pfad-Ritual starten (Sitzung A–Z)</li>
-          <li><strong>Schließen</strong> — Danken → Atmen → Erden → Siegeln</li>
-          <li><strong>Magie-Buch</strong> — optional Satz + Foto, alles lokal</li>
-        </ol>
-        <div class="notice ethics-line onboard-invite-box">
-          <span class="onboard-invite-illu" aria-hidden="true">🕯️</span>
-          Praxis vor Spektakel. Kein Feed. Daten bleiben lokal.
+        <p class="hint">Ein Ritual-Tipp für den gewählten Pfad — klein und machbar.</p>
+        <div class="notice ethics-line onboard-ritual-tip" id="onboard-ritual-tip">
+          Kreis öffnen, Absicht prüfen, schließen — ohne Spektakel.
         </div>
+        <p class="hint-sm">Später: Heute → Ritual starten → Schließen. Daten bleiben lokal.</p>
       </div>
 
       <div class="onboard-step hidden" data-onboard-step="2">
-        <p class="hint">Wenn das Werkzeug stimmt — einen Kollegen ernsthaft darauf hinweisen.</p>
-        <div class="onboard-recommend-box">
-          <p class="onboard-recommend-lead">Lokal · ethisch · offline-fähig. Kein Login, kein Tracking.</p>
-          <div class="btn-row" style="justify-content:center;flex-wrap:wrap;gap:0.45rem">
-            <button type="button" class="ghost" id="onboard-share">Empfehlen · Teilen</button>
-            <button type="button" class="ghost" id="onboard-copy">Link kopieren</button>
-          </div>
-          <p class="hint-sm" id="onboard-share-status" aria-live="polite"></p>
-        </div>
+        <p class="hint">Lexikon-Peek — Kräuter, Steine, Werkzeuge als Symbolik (kein Rat).</p>
+        <ul class="onboard-lex-peek" id="onboard-lex-peek" aria-label="Lexikon-Beispiele"></ul>
+        <p class="hint-sm">Im Menü unter Resonanzen · Lexikon. Tippen öffnet den Eintrag.</p>
+        <p class="hint-sm" id="onboard-share-status" hidden aria-live="polite"></p>
+        <button type="button" class="ghost tiny" id="onboard-share" hidden>Empfehlen</button>
+        <button type="button" class="ghost tiny" id="onboard-copy" hidden>Link</button>
       </div>
 
       <div class="onboard-nav">
@@ -1254,7 +1249,7 @@
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
         <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem">Daten bleiben lokal auf diesem Gerät · App v<span id="settings-app-version">5.18.1</span></p>
+        <p class="footer-ethics" style="padding-top:1rem">Daten bleiben lokal auf diesem Gerät · App v<span id="settings-app-version">5.19.0</span></p>
       </div>
     </div>
   </div>

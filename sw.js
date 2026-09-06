@@ -2,9 +2,9 @@
  * UNIVERSUM · Service Worker — offline shell caching
  * Relative URLs so GitHub Pages /universum/ subpath works.
  * Cache-first for app shell; network-first navigations; offline fallback to cockpit.
- * v62: 5.18.1 — Lexikon SVG Feinschliff · keine Abkürzungen · fallback-* SVGs · .nojekyll
+ * v63: 5.19.0 — Distinct Lexikon SVGs · Ritual Lexikon-Pack · Altar-Tageszeile · Onboarding ≈60s
  */
-const CACHE = 'universum-shell-v62';
+const CACHE = 'universum-shell-v63';
 const SHELL = [
   './',
   './index.html',

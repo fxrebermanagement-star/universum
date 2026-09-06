@@ -1995,6 +1995,89 @@
     });
   }
 
+  /** Lexikon-Pack: tools / offerings / herbs (etc.) mentioned in ritual text. */
+  function collectRitualLexikonNeeds(ritual) {
+    if (!ritual || !Paths.getLexikonNameIndex) return [];
+    const index = Paths.getLexikonNameIndex() || [];
+    if (!index.length) return [];
+    const chunks = [];
+    if (ritual.intention) chunks.push(String(ritual.intention));
+    if (ritual.journal) chunks.push(String(ritual.journal));
+    if (ritual.name) chunks.push(String(ritual.name));
+    (ritual.steps || []).forEach(function (s) {
+      if (s && s.title) chunks.push(String(s.title));
+      if (s && s.text) chunks.push(String(s.text));
+    });
+    const blob = chunks.join('\n');
+    const blobLow = blob.toLowerCase();
+    const prefer = { tool: 0, offering: 1, herb: 2, kitchen: 3, stone: 4, link: 5, color: 6 };
+    const hit = [];
+    const seen = Object.create(null);
+    const sorted = index.slice().sort(function (a, b) {
+      return String(b.name || '').length - String(a.name || '').length;
+    });
+    sorted.forEach(function (x) {
+      const name = x && x.name;
+      if (!name || seen[name]) return;
+      const kind = x.kind || 'herb';
+      if (prefer[kind] == null) return;
+      const low = String(name).toLowerCase();
+      let idx = blobLow.indexOf(low);
+      while (idx !== -1) {
+        const before = idx === 0 ? '' : blobLow.charAt(idx - 1);
+        const after = blobLow.charAt(idx + low.length);
+        const edge = /[^a-zäöüàâéèêëïîôùûçß0-9]/i;
+        const okBefore = idx === 0 || edge.test(before);
+        const okAfter = !after || edge.test(after);
+        if (okBefore && okAfter) {
+          seen[name] = 1;
+          hit.push({ name: name, kind: kind });
+          return;
+        }
+        idx = blobLow.indexOf(low, idx + low.length);
+      }
+    });
+    hit.sort(function (a, b) {
+      const pa = prefer[a.kind] != null ? prefer[a.kind] : 9;
+      const pb = prefer[b.kind] != null ? prefer[b.kind] : 9;
+      if (pa !== pb) return pa - pb;
+      return a.name.localeCompare(b.name, 'de');
+    });
+    return hit.slice(0, 8);
+  }
+
+
+  function ritualLexikonPackHtml(items) {
+    if (!items || !items.length) return '';
+    const rows = items.map(function (it) {
+      const meta = LEXIKON_TAB_META[it.kind] || LEXIKON_TAB_META.herb;
+      const ico = lexikonIconHtml ? lexikonIconHtml(it.name, it.kind, 'lex-pack-ico') : '';
+      return '<label class="lex-pack-item">' +
+        '<input type="checkbox" class="lex-pack-check" />' +
+        '<button type="button" class="lex-pack-open" data-lex-tab="' + escapeHtml(it.kind) +
+        '" data-lex-name="' + escapeHtml(it.name) + '">' +
+        '<span class="lex-pack-ico-wrap" aria-hidden="true">' + ico + '</span>' +
+        '<span class="lex-pack-text"><strong>' + escapeHtml(it.name) + '</strong>' +
+        '<span class="hint-sm">' + escapeHtml(meta.title || it.kind) + '</span></span>' +
+        '</button></label>';
+    }).join('');
+    return '<div class="ritual-lex-pack" id="ritual-lex-pack">' +
+      '<p class="lex-pack-title">Was du brauchst</p>' +
+      '<p class="hint-sm lex-pack-sub">Aus dem Lexikon · tippen öffnet den Eintrag</p>' +
+      '<div class="lex-pack-list">' + rows + '</div></div>';
+  }
+
+  function bindRitualLexikonPack(root) {
+    if (!root) return;
+    root.querySelectorAll('.lex-pack-open').forEach(function (btn) {
+      btn.addEventListener('click', function (ev) {
+        ev.preventDefault();
+        ev.stopPropagation();
+        openLexikonEntry(btn.getAttribute('data-lex-tab') || 'herb', btn.getAttribute('data-lex-name') || '');
+      });
+    });
+  }
+
   function renderLexikonHeuteBridge() {
     const lists = [
       { list: $('#lexikon-bridge-list'), wrap: $('#lexikon-heute-bridge'), chip: $('#lexikon-heute-chip') },
@@ -2848,6 +2931,31 @@
   }
 
   /* ——— Cockpit ——— */
+  /** Quiet Altar one-liner: today moon · planetary hour · one Gabe/Resonanz. */
+  function renderAltarTageszeile(now, moon, hour, path) {
+    const el = $('#altar-tageszeile');
+    if (!el) return;
+    const moonBit = (moon && moon.name) ? moon.name : 'Mond';
+    const hourInv = softHourInvite(hour);
+    const planet = (hourInv && hourInv.planet) ? hourInv.planet : ((hour && hour.planet) || 'Stunde');
+    let gabe = '';
+    try {
+      const heute = Paths.getHeuteResonanz
+        ? Paths.getHeuteResonanz(state.path, now || new Date())
+        : null;
+      if (heute && heute.item) gabe = heute.item;
+    } catch (_) {}
+    if (!gabe && Paths.getLexikonHeuteSuggestions) {
+      try {
+        const pack = Paths.getLexikonHeuteSuggestions(state.path, moonBit, planet) || {};
+        const sug = pack.items || [];
+        if (sug.length && sug[0].name) gabe = sug[0].name;
+      } catch (_) {}
+    }
+    if (!gabe) gabe = 'eine stille Gabe';
+    el.textContent = 'Heute · ' + moonBit + ' · ' + planet + ' · ' + gabe;
+  }
+
   function renderCockpit() {
     const now = new Date();
     const moon = Astro.moonPhase(now);
@@ -2942,6 +3050,7 @@
     applyPathTheme();
     const greetEl = $('#cockpit-greeting');
     if (greetEl) greetEl.textContent = path.greeting || 'Home-Bildschirm — Anzeigen und letzte Praxis auf einen Blick.';
+    renderAltarTageszeile(now, moon, hour, path);
     renderJetztCard();
     renderPathWeek();
     renderPathWerkzeug();
@@ -4297,8 +4406,35 @@
       const go = $('#rr-safety-go');
       function sync() { go.disabled = !boxes.every(b => b.checked); }
       boxes.forEach(b => b.addEventListener('change', sync));
-      go.addEventListener('click', () => { Rituals.vibrate(30); showStep(0); });
+      go.addEventListener('click', () => { Rituals.vibrate(30); showLexPack(); });
       $('#rr-cancel').addEventListener('click', closeRunner);
+    }
+
+    function showLexPack() {
+      const needs = collectRitualLexikonNeeds(ritual);
+      if (!needs.length) {
+        showStep(0);
+        return;
+      }
+      clearInterval(ritualTimer);
+      clearBreath();
+      const pack = ritualLexikonPackHtml(needs);
+      $('#rr-content').innerHTML =
+        '<div class="rr-step rr-lex-pack-step">' +
+        '<h2>Was du brauchst</h2>' +
+        '<p class="section-sub">Kurz checken — optional. Tippen öffnet das Lexikon.</p>' +
+        pack +
+        '<div class="rr-actions">' +
+        '<button type="button" class="primary" id="rr-pack-go">Schwelle weiter</button>' +
+        '<button type="button" id="rr-pack-skip">Ohne Liste weiter</button>' +
+        '<button type="button" id="rr-cancel-pack">Verlassen</button></div></div>';
+      bindRitualLexikonPack($('#rr-content'));
+      const goP = $('#rr-pack-go');
+      if (goP) goP.addEventListener('click', () => { Rituals.vibrate(30); showStep(0); });
+      const sk = $('#rr-pack-skip');
+      if (sk) sk.addEventListener('click', () => showStep(0));
+      const c = $('#rr-cancel-pack');
+      if (c) c.addEventListener('click', closeRunner);
     }
 
     function startBreath(el, breathIn, breathOut) {
@@ -4401,6 +4537,7 @@
       $('#rr-skip-timer').addEventListener('click', () => { clearInterval(ritualTimer); showStep(i + 1); });
       $('#rr-cancel2').addEventListener('click', closeRunner);
       bindLexikonInlineLinks($('#rr-content'));
+      bindRitualLexikonPack($('#rr-content'));
     }
 
     $('#rr-title').textContent = ritual.name;
@@ -6079,6 +6216,67 @@
   }
 
   /* ——— Onboarding ——— */
+  function fillOnboardRitualTip() {
+    const el = $('#onboard-ritual-tip');
+    if (!el) return;
+    const pathId = onboardPath || state.path || 'esoterik';
+    const path = Paths.getPath ? Paths.getPath(pathId) : (Paths.PATHS || []).find(function (p) { return p.id === pathId; });
+    let tip = '';
+    if (path && path.recommendedRitual && Rituals.getRitual) {
+      const r = Rituals.getRitual(path.recommendedRitual);
+      if (r) {
+        tip = (path.symbol ? path.symbol + ' ' : '') + (path.name || 'Pfad') +
+          ': starte «' + r.name + '» (≈ ' + (r.mins || '?') + ' Min). Absicht prüfen, Kreis schließen.';
+      }
+    }
+    if (!tip && path && path.ritualFlavor) {
+      tip = (path.name || 'Pfad') + ' — ' + String(path.ritualFlavor).slice(0, 160);
+    }
+    if (!tip) tip = 'Kreis öffnen, Absicht prüfen, schließen — ohne Spektakel.';
+    el.textContent = tip;
+  }
+
+  function fillOnboardLexPeek() {
+    const list = $('#onboard-lex-peek');
+    if (!list || !Paths.getLexikonNameIndex) return;
+    const pathId = onboardPath || state.path || 'esoterik';
+    let items = [];
+    try {
+      if (Paths.getLexikonHeuteSuggestions) {
+        const pack = Paths.getLexikonHeuteSuggestions(pathId, null, null) || {};
+        items = pack.items || [];
+      }
+    } catch (_) {}
+    if (!items.length && Paths.getLexikonForPath) {
+      ['herb', 'stone', 'tool'].forEach(function (k) {
+        const arr = Paths.getLexikonForPath(pathId, k) || [];
+        if (arr[0]) items.push({ name: arr[0].name || arr[0], kind: k });
+      });
+    }
+    if (!items.length) {
+      const idx = Paths.getLexikonNameIndex() || [];
+      items = idx.filter(function (x) {
+        return x.kind === 'herb' || x.kind === 'stone' || x.kind === 'tool';
+      }).slice(0, 3);
+    }
+    items = items.slice(0, 3);
+    list.innerHTML = items.map(function (it) {
+      const kind = it.kind || 'herb';
+      const meta = LEXIKON_TAB_META[kind] || LEXIKON_TAB_META.herb;
+      const ico = lexikonIconHtml(it.name, kind, 'onboard-lex-ico');
+      return '<li><button type="button" class="onboard-lex-btn" data-lex-tab="' + escapeHtml(kind) +
+        '" data-lex-name="' + escapeHtml(it.name) + '">' +
+        '<span class="onboard-lex-ico" aria-hidden="true">' + ico + '</span>' +
+        '<span><strong>' + escapeHtml(it.name) + '</strong>' +
+        '<span class="hint-sm">' + escapeHtml(meta.title || kind) + '</span></span></button></li>';
+    }).join('') || '<li class="hint-sm">Lexikon später unter Resonanzen.</li>';
+    list.querySelectorAll('.onboard-lex-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        openLexikonEntry(btn.getAttribute('data-lex-tab') || 'herb', btn.getAttribute('data-lex-name') || '');
+      });
+    });
+  }
+
   function showOnboardStep(n) {
     onboardStep = n;
     $$('[data-onboard-step]').forEach(el => {
@@ -6088,7 +6286,7 @@
     const next = $('#onboard-next');
     const skip = $('#onboard-skip');
     if (back) back.hidden = n === 0;
-    if (next) next.textContent = n >= 2 ? 'Praxis öffnen' : 'Weiter';
+    if (next) next.textContent = n >= 2 ? 'Zum Altar' : 'Weiter';
     if (skip) skip.hidden = false;
     $$('#onboard-progress [data-op]').forEach(dot => {
       const i = Number(dot.getAttribute('data-op'));
@@ -6098,14 +6296,16 @@
     const lead = $('#onboard-lead');
     const titles = [
       'Dein Pfad',
-      'In 3 Minuten',
-      'Weiterempfehlen'
+      'Ein Ritual-Tipp',
+      'Lexikon-Peek'
     ];
     const leads = [
-      'Symbol tippen · Ethik bestätigen.',
-      'Heute → Ritual → Schließen → Buch — ernsthaft, lokal.',
-      'Wenn es stimmt: einem Kollegen zeigen. Dann Praxis.'
+      'Pfad wählen · Ethik bestätigen.',
+      'Ein kleiner Tipp für deinen Pfad — dann Praxis.',
+      'Kurz ins Lexikon schauen — Symbolik, kein Rat.'
     ];
+    if (n === 1) fillOnboardRitualTip();
+    if (n === 2) fillOnboardLexPeek();
     const title = $('#onboard-title');
     if (title && titles[n]) title.textContent = titles[n];
     if (lead && leads[n]) lead.textContent = leads[n];
@@ -6166,7 +6366,7 @@
     applyMotionPref();
     applyPathTheme();
     closeOnboarding();
-    toast('Bereit — Heute starten. Optional weiterempfehlen.');
+    toast('Bereit — Heute starten.');
     navigate('cockpit');
     renderStarterCard();
     renderJetztCard();
@@ -6448,16 +6648,24 @@
       lexDetailBuch.addEventListener('click', function () {
         if (!lexikonDetailCtx) return;
         const meta = LEXIKON_TAB_META[lexikonDetailCtx.kind] || LEXIKON_TAB_META.herb;
-        const text = (lexikonDetailCtx.ico ? lexikonDetailCtx.ico + ' ' : '') +
-          lexikonDetailCtx.name + ' · ' + (meta.title || 'Lexikon') + '\n\n' +
-          (lexikonDetailCtx.description || '');
+        const title = lexikonDetailCtx.name || 'Lexikon';
+        const desc = String(lexikonDetailCtx.description || '').trim();
+        const shortBody = desc
+          ? desc.split(/(?<=[.!?])\s+/).slice(0, 2).join(' ').slice(0, 280)
+          : ((meta.title || 'Lexikon') + ' — Symbolik für die Hauspraxis.');
+        const tags = 'Lexikon' + (meta.title ? ', ' + meta.title : '');
         closeLexikonDetail();
-        navigate('buch', { force: true, buchMode: 'notiz' });
+        navigate('buch', { force: true, buchMode: 'eintrag' });
         setTimeout(function () {
-          if ($('#note-input')) $('#note-input').value = text;
-          if ($('#note-tag')) $('#note-tag').value = 'Lexikon';
-          toast('Notiz vorbereitet');
-        }, 60);
+          if (typeof setBuchMode === 'function') setBuchMode('eintrag');
+          const t = $('#diary-title');
+          const b = $('#diary-body');
+          const g = $('#diary-tags');
+          if (t) { t.value = title; t.focus(); }
+          if (b) b.value = shortBody;
+          if (g) g.value = tags;
+          toast('Eintrag vorbereitet · Magie-Buch');
+        }, 80);
       });
     }
     const customForm = $('#lexikon-custom-form');

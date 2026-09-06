@@ -430,6 +430,15 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.19.0 — Major pass · SVG Motive · Ritual-Pack · Buch · Altar · Onboarding
+
+- **Lexikon-SVGs** deutlich erkennbarer: distinkte Silhouetten (Lavendel-Ähre, Rose, Beifuß, Salbei, Rosmarin-Nadeln, …), Steine mit Schliff/Form (Obsidian-Scherbe, Quarz-Spitze, runder Mondstein), Farben als echte Hue-Swatches, konsistenter Kreisrahmen, stärkere Striche für 28–36px; Generator `scripts/generate-lexikon-icons.mjs` regeneriert
+- **Ritual Lexikon-Pack**: nach Sicherheitscheck «Was du brauchst»-Checkliste aus verlinkten Lexikon-Einträgen; Tippen öffnet Detail
+- **Ins Buch**: aus Lexikon-Detail Titel + kurzer Body vorgefüllt, Sprung in Magie-Buch-Eintrag
+- **Altar-Tageszeile**: ruhige Zeile Mond · Planetenstunde · eine Gabe/Resonanz
+- **Onboarding ≈60s**: Pfad wählen → ein Ritual-Tipp → Lexikon-Peek (ohne Gendersprache)
+- SW-Cache `universum-shell-v63`
+
 ## 5.18.1 — Lexikon SVG Feinschliff · keine Abkürzungen
 
 - Monogramm-/Buchstaben-Chips («Bf» etc.) entfernt — Liste + Detail nur noch SVG

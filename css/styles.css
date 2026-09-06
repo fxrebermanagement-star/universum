@@ -8140,3 +8140,114 @@ body.reduced-motion .herb-ref-item:focus-visible {
     max-height: min(80vh, 560px);
   }
 }
+
+
+/* ——— v5.19.0 — Lexikon-Pack · Altar-Tageszeile · Onboarding ≈60s ——— */
+.altar-tageszeile {
+  margin: 0.35rem 0.85rem 0.15rem;
+  padding: 0.35rem 0.55rem;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  letter-spacing: 0.01em;
+  color: var(--muted, #c4b8a0);
+  text-align: center;
+  opacity: 0.92;
+}
+.ritual-lex-pack,
+.rr-lex-pack-step .ritual-lex-pack {
+  margin: 0.65rem 0 0.85rem;
+  padding: 0.65rem 0.7rem;
+  border-radius: 0.85rem;
+  background: rgba(232, 197, 71, 0.06);
+  border: 1px solid rgba(240, 216, 120, 0.22);
+  text-align: left;
+  width: 100%;
+  box-sizing: border-box;
+}
+.lex-pack-title {
+  margin: 0 0 0.15rem;
+  font-size: 0.95rem;
+  font-weight: 650;
+  color: var(--gold, #e8c547);
+}
+.lex-pack-sub { margin: 0 0 0.55rem; }
+.lex-pack-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.lex-pack-item {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0;
+  cursor: pointer;
+}
+.lex-pack-check {
+  flex: 0 0 auto;
+  width: 1.05rem;
+  height: 1.05rem;
+  accent-color: #e8c547;
+}
+.lex-pack-open {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  padding: 0.25rem 0.15rem;
+  border-radius: 0.55rem;
+  cursor: pointer;
+}
+.lex-pack-open:hover,
+.lex-pack-open:focus-visible {
+  background: rgba(245, 230, 200, 0.08);
+  outline: none;
+}
+.lex-pack-ico-wrap .lex-ico-img,
+.lex-pack-ico-wrap img {
+  width: 28px;
+  height: 28px;
+  display: block;
+}
+.lex-pack-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+  min-width: 0;
+}
+.lex-pack-text strong {
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+.onboard-lex-peek {
+  list-style: none;
+  margin: 0.5rem 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.onboard-lex-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  text-align: left;
+  padding: 0.45rem 0.55rem;
+  border-radius: 0.7rem;
+  border: 1px solid rgba(240, 216, 120, 0.25);
+  background: rgba(26, 20, 36, 0.45);
+  color: inherit;
+  cursor: pointer;
+}
+.onboard-lex-btn strong { display: block; font-size: 0.95rem; }
+.onboard-lex-ico .lex-ico-img,
+.onboard-lex-ico img { width: 32px; height: 32px; display: block; }
+.onboard-ritual-tip {
+  margin: 0.5rem 0;
+  line-height: 1.45;
+}

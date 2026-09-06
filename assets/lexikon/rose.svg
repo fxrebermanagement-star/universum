@@ -1,13 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="Rose"><circle cx="16" cy="16" r="14.25" fill="none" stroke="#f0d878" stroke-opacity="0.42" stroke-width="1.15"/>
-    <circle cx="16" cy="15" r="7" fill="#d4a0b0" fill-opacity="0.35" stroke="#d4a0b0" stroke-width="1"/>
-    <circle cx="16" cy="15" r="4.5" fill="none" stroke="#d4a0b0" stroke-width="1.1" stroke-opacity="0.85"/>
-    <circle cx="16" cy="15" r="2.2" fill="#e8c547" fill-opacity="0.75"/>
-    <path d="M10 22 Q16 26 22 22" fill="none" stroke="#8fb88a" stroke-width="1.2"/>
-    <g transform="translate(11 23) rotate(-50)">
-    <path d="M0 5 C2.9 1.9 2.75 -1.6 0 -5 C-2.75 -1.6 -2.9 1.9 0 5Z" fill="#8fb88a" fill-opacity="0.92"/>
-    <path d="M0 3.5999999999999996 V-3.25" stroke="#f5e6c8" stroke-opacity="0.5" stroke-width="0.75" fill="none"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="Rose"><circle cx="16" cy="16" r="14.2" fill="none" stroke="#f0d878" stroke-opacity="0.48" stroke-width="1.35"/>
+    <ellipse cx="16.0" cy="10.3" rx="3.4" ry="4.6" transform="rotate(0 16.0 10.3)" fill="#d4a0b0" fill-opacity="0.72"/><ellipse cx="19.6" cy="12.4" rx="3.4" ry="4.6" transform="rotate(60 19.6 12.4)" fill="#d4a0b0" fill-opacity="0.72"/><ellipse cx="19.6" cy="16.6" rx="3.4" ry="4.6" transform="rotate(120 19.6 16.6)" fill="#d4a0b0" fill-opacity="0.72"/><ellipse cx="16.0" cy="18.7" rx="3.4" ry="4.6" transform="rotate(180 16.0 18.7)" fill="#d4a0b0" fill-opacity="0.72"/><ellipse cx="12.4" cy="16.6" rx="3.4" ry="4.6" transform="rotate(240 12.4 16.6)" fill="#d4a0b0" fill-opacity="0.72"/><ellipse cx="12.4" cy="12.4" rx="3.4" ry="4.6" transform="rotate(300 12.4 12.4)" fill="#d4a0b0" fill-opacity="0.72"/>
+    <circle cx="16" cy="14.5" r="3.2" fill="#d4a0b0" fill-opacity="0.9" stroke="#f5e6c8" stroke-opacity="0.35" stroke-width="0.8"/>
+    <circle cx="16" cy="14.5" r="1.5" fill="#e8c547" fill-opacity="0.8"/>
+    <path d="M16 19.5 V25" stroke="#6a9a78" stroke-width="1.3"/>
+    <g transform="translate(11.5 22.5) rotate(-55)">
+    <path d="M0 5.2 C3.016 1.9760000000000002 2.8600000000000003 -1.6640000000000001 0 -5.2 C-2.8600000000000003 -1.6640000000000001 -3.016 1.9760000000000002 0 5.2Z" fill="#8fb88a" fill-opacity="0.92"/>
+    <path d="M0 3.7439999999999998 V-3.3800000000000003" stroke="#f5e6c8" stroke-opacity="0.5" stroke-width="0.75" fill="none"/>
   </g>
-    <g transform="translate(21 23) rotate(50)">
-    <path d="M0 5 C2.9 1.9 2.75 -1.6 0 -5 C-2.75 -1.6 -2.9 1.9 0 5Z" fill="#8fb88a" fill-opacity="0.92"/>
-    <path d="M0 3.5999999999999996 V-3.25" stroke="#f5e6c8" stroke-opacity="0.5" stroke-width="0.75" fill="none"/>
+    <g transform="translate(20.5 22.5) rotate(55)">
+    <path d="M0 5.2 C3.016 1.9760000000000002 2.8600000000000003 -1.6640000000000001 0 -5.2 C-2.8600000000000003 -1.6640000000000001 -3.016 1.9760000000000002 0 5.2Z" fill="#8fb88a" fill-opacity="0.92"/>
+    <path d="M0 3.7439999999999998 V-3.3800000000000003" stroke="#f5e6c8" stroke-opacity="0.5" stroke-width="0.75" fill="none"/>
   </g></svg>
