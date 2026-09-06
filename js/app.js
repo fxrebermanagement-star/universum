@@ -1522,10 +1522,11 @@
     }
     const nav = $('#bottom-nav');
     if (nav) {
-      // v5.31.2 — Bottom-Menü bleibt auch am Altar sichtbar
-      nav.hidden = false;
-      nav.removeAttribute('hidden');
-      nav.setAttribute('aria-hidden', 'false');
+      // v5.32.3 — Bottom-Menü am Altar aus; Dock übernimmt
+      nav.hidden = onAltar;
+      if (onAltar) nav.setAttribute('hidden', '');
+      else nav.removeAttribute('hidden');
+      nav.setAttribute('aria-hidden', onAltar ? 'true' : 'false');
     }
     if (!btn) return;
     btn.hidden = onAltar;

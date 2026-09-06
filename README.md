@@ -430,6 +430,11 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.32.3 — Bottom-Menü am Altar aus
+
+- Am Altar wieder ohne Bottom-Nav (Dock reicht)
+- Außerhalb Altar Menü sichtbar · SW `universum-shell-v102`
+
 ## 5.32.2 — Altar Wärme · Empfehlen warm
 
 - Altar: wärmere Heute-/Fest-/Mond-Zeilen, weichere Pfadfigur-Tipps, Day-Banner & First-Session-Tipp

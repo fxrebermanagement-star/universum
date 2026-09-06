@@ -10059,31 +10059,31 @@ body.stille-modus #sec-cockpit #jetzt-card .jetzt-lead {
 body.on-altar .bottom-nav button[data-nav="cockpit"] {
   color: var(--maya, #3ed4c4);
 }
-/* v5.31.2 — Bottom-Nav auch am Altar (statt Mehr Bereiche) */
+/* v5.32.3 — Bottom-Nav am Altar aus (Dock reicht); außerhalb sichtbar */
 body.on-altar .bottom-nav,
 body.on-altar #bottom-nav,
 body.on-altar nav.bottom-nav {
-  display: flex !important;
-  visibility: visible !important;
-  pointer-events: auto !important;
-  height: auto !important;
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  height: 0 !important;
   min-height: 0 !important;
-  overflow: visible !important;
-  opacity: 1 !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
 }
 body.on-altar .app-shell {
-  padding-bottom: calc(4.15rem + var(--safe-bottom));
+  padding-bottom: calc(0.65rem + var(--safe-bottom));
 }
-/* Altar homescreen leaves room for bottom nav */
+/* Altar full height without bottom-nav */
 #sec-cockpit.altar-sacred.active {
-  height: calc(100dvh - 3.5rem - 4.15rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
-  max-height: calc(100dvh - 3.5rem - 4.15rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+  height: calc(100dvh - 3.5rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+  max-height: calc(100dvh - 3.5rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
 }
 #sec-cockpit.altar-sacred.active.altar-mehr-open {
   height: auto !important;
   max-height: none !important;
-  min-height: calc(100dvh - 3.5rem - 4.15rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
-  padding-bottom: calc(5.2rem + env(safe-area-inset-bottom, 0px)) !important;
+  min-height: calc(100dvh - 3.5rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+  padding-bottom: calc(1.4rem + env(safe-area-inset-bottom, 0px)) !important;
 }
 
 body:not(.on-altar) .bottom-nav button[data-nav="cockpit"] {
@@ -10190,11 +10190,11 @@ body.stille-modus .first-session-tip { display: none !important; }
   opacity: 0.85;
   font-style: italic;
 }
-/* CRITICAL retain — inactive altar display:none (v5.30.2+) · bottom-nav stays visible on Altar (v5.31.2) */
+/* CRITICAL retain — inactive altar display:none (v5.30.2+) · bottom-nav hidden on Altar (v5.32.3) */
 #sec-cockpit.altar-sacred:not(.active) {
   display: none !important;
 }
-/* Do NOT re-hide bottom-nav here — see v5.31.2 rules above */
+/* Bottom-nav hide on Altar: see v5.32.3 rules above */
 
 /* v5.31.1b — main scroll when Mehr open */
 body.altar-mehr-open #main-content,
