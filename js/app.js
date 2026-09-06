@@ -61,7 +61,9 @@
     });
     const hz = reading && reading.schumann_frequency_hz != null
       ? Schumann.formatHz(reading.schumann_frequency_hz)
-      : (status === 'live' ? Schumann.formatHz(snap.freqHz) : '—');
+      : (status === 'live' && snap.freqHz != null
+        ? Schumann.formatHz(snap.freqHz)
+        : '7,83');
     const idx = reading && reading.schumann_index != null && isFinite(reading.schumann_index)
       ? String(Math.round(reading.schumann_index))
       : '—';
@@ -87,6 +89,18 @@
         ? 'Kurz verbinden … lokal 7,83 Hz bleibt.'
         : 'Lokal 7,83 Hz — optional und leise. Kein Wahrheitsmesser.';
     $$('[data-sch-honesty]').forEach(el => { el.textContent = honesty; });
+    const readoutState = (status === 'live')
+      ? 'live'
+      : (status === 'loading')
+        ? 'verbindet …'
+        : 'ruhig';
+    $$('[data-sch-readout-state]').forEach(el => { el.textContent = readoutState; });
+    // Altar-Zeile: immer eine lesbare Hz-Angabe
+    $$('#cock-sch-readout [data-sch-hz], .cock-sch-readout [data-sch-hz]').forEach(el => {
+      if (!el.textContent || el.textContent === '—' || el.textContent === '–') {
+        el.textContent = '7,83';
+      }
+    });
   }
 
   function bootSchumannLive() {
@@ -453,18 +467,30 @@
     return 'Guten Abend';
   }
 
+  let dayBannerAutoTimer = null;
   function renderDayBanner() {
     const ban = $('#day-banner');
     if (!ban) return;
     const show = Store.shouldShowDayBanner && Store.shouldShowDayBanner();
     ban.hidden = !show;
+    if (dayBannerAutoTimer) {
+      clearTimeout(dayBannerAutoTimer);
+      dayBannerAutoTimer = null;
+    }
     if (!show) return;
+    ban.classList.add('day-banner-compact');
     const title = $('#day-banner-title');
     const body = $('#day-banner-text');
-    if (title) title.textContent = dayGreetingWord() + ' — neuer Tag';
+    if (title) title.textContent = dayGreetingWord();
     if (body) {
-      body.textContent = 'Deine Einträge, Notizen und Streaks bleiben. Intention und Tageskarte sind frisch für heute.';
+      body.textContent = 'Einträge bleiben. Intention und Tageskarte sind frisch.';
     }
+    // Einmal am Tag kurz nicken, dann von selbst weg — Altar bleibt frei
+    dayBannerAutoTimer = setTimeout(function () {
+      if (Store.dismissDayBanner) Store.dismissDayBanner();
+      if (typeof refreshState === 'function') refreshState();
+      renderDayBanner();
+    }, 5200);
   }
 
   function onLocalDayChange() {
@@ -1621,33 +1647,42 @@
     }
     const artOrb = $('#path-art-orb');
     if (artOrb) artOrb.textContent = sym || '✦';
-    // Path figure tile — SVG/PNG placeholder; user photo can override via same key
+    // Path figure — tip + optional user photo (localStorage)
     (function updatePathFigure() {
       const figImg = $('#path-figure-img');
       const figLabel = $('#path-figure-label');
+      const figTip = $('#path-figure-tip');
       const figur = $('#cock-path-figur');
+      const resetBtn = $('#path-figure-photo-reset');
       const name = (path && path.name) || 'Pfad';
+      const tip = (path && (path.haltung || path.saying || path.teachingTip)) || 'Stille Praxis — neugierig, leicht.';
       if (figLabel) figLabel.textContent = name;
+      if (figTip) figTip.textContent = tip;
       if (figur) {
         figur.setAttribute('data-path', id);
         figur.style.setProperty('--path-accent', (path && path.accent) || '#8b6fd0');
       }
       if (!figImg) return;
       let src = 'assets/path-figures/' + id + '.png';
+      let hasPhoto = false;
       try {
-        const override = localStorage.getItem('universum-path-figure-' + id)
-          || localStorage.getItem('universum-path-figure-photo-' + id);
-        if (override && String(override).trim()) src = String(override).trim();
+        const override = localStorage.getItem('universum-path-figure-photo-' + id)
+          || localStorage.getItem('universum-path-figure-' + id);
+        if (override && String(override).trim()) {
+          src = String(override).trim();
+          hasPhoto = true;
+        }
       } catch (_) {}
+      if (resetBtn) resetBtn.hidden = !hasPhoto;
+      figImg.dataset.fellBack = '';
       if (figImg.getAttribute('src') !== src) {
         figImg.setAttribute('src', src);
       }
-      figImg.setAttribute('alt', name + ' · Pfadfigur');
+      figImg.setAttribute('alt', name + (hasPhoto ? ' · dein Foto' : ' · Pfadfigur'));
       figImg.onerror = function () {
-        // fallback to soft SVG silhouette if png missing
         if (!figImg.dataset.fellBack) {
           figImg.dataset.fellBack = '1';
-          figImg.src = 'assets/path-figures/' + id + '.svg';
+          figImg.src = 'assets/path-figures/' + id + '.png';
         }
       };
     })();
@@ -3154,9 +3189,12 @@
     if (tile) tile.dataset.offline = offline && !data ? '1' : '0';
     if (!data) {
       tempEl.textContent = '—';
-      if (condEl) condEl.textContent = offline ? 'Offline' : 'Kein Abruf';
-      if (metaEl) metaEl.textContent = 'Open-Meteo · lokal gemerkt wenn möglich';
-      if (chipEl) chipEl.textContent = offline ? 'Offline' : '—';
+      if (condEl) condEl.textContent = offline ? 'Gleich wieder' : 'Lädt …';
+      if (metaEl) metaEl.textContent = 'Wetter · Zürich-Standard · lokal gemerkt';
+      if (chipEl) {
+        chipEl.hidden = false;
+        chipEl.textContent = offline ? 'Pause' : '…';
+      }
       return;
     }
     const t = data.temp;
@@ -3167,23 +3205,69 @@
     if (metaEl) {
       metaEl.textContent = (opts.fromCache ? 'Zuletzt lokal · ' : 'Open-Meteo · ') + place + age;
     }
-    if (chipEl) chipEl.textContent = opts.fromCache ? (offline ? 'Cache' : 'Lokal') : 'Live';
+    if (chipEl) {
+      chipEl.hidden = false;
+      chipEl.textContent = opts.fromCache ? 'Zuletzt' : (data.source === 'wttr' ? 'Live' : 'Live');
+    }
+  }
+
+  function wetterCoords() {
+    let lat = Number(state.lat);
+    let lon = Number(state.lon);
+    if (!isFinite(lat) || !isFinite(lon)) {
+      lat = 47.37;
+      lon = 8.54;
+    }
+    return { lat: lat, lon: lon };
   }
 
   function wetterPlaceLabel() {
-    const lat = Number(state.lat);
-    const lon = Number(state.lon);
-    if (Math.abs(lat - 47.37) < 0.05 && Math.abs(lon - 8.54) < 0.05) return 'Zürich';
-    return lat.toFixed(2) + ' / ' + lon.toFixed(2);
+    const c = wetterCoords();
+    if (Math.abs(c.lat - 47.37) < 0.05 && Math.abs(c.lon - 8.54) < 0.05) return 'Zürich';
+    return c.lat.toFixed(2) + ' / ' + c.lon.toFixed(2);
+  }
+
+  function paintWetterFromWttr(json, lat, lon, place) {
+    try {
+      const cur = json && json.current_condition && json.current_condition[0];
+      if (!cur) return null;
+      const temp = cur.temp_C != null ? Number(cur.temp_C) : null;
+      const codeMap = { 113: 0, 116: 2, 119: 3, 122: 3, 143: 45, 176: 61, 200: 95, 263: 51, 266: 51, 293: 61, 296: 61, 302: 63, 308: 65, 353: 80, 356: 81, 389: 95 };
+      const wcode = Number(cur.weatherCode);
+      return {
+        lat: lat,
+        lon: lon,
+        temp: temp,
+        code: codeMap[wcode] != null ? codeMap[wcode] : 2,
+        placeLabel: place,
+        fetchedAt: Date.now(),
+        source: 'wttr'
+      };
+    } catch (_) { return null; }
+  }
+
+  function fetchWetterFallback(lat, lon, place) {
+    const q = (Math.abs(lat - 47.37) < 0.05 && Math.abs(lon - 8.54) < 0.05)
+      ? 'Zurich'
+      : (lat.toFixed(2) + ',' + lon.toFixed(2));
+    return fetch('https://wttr.in/' + encodeURIComponent(q) + '?format=j1', { cache: 'no-store' })
+      .then(function (res) { if (!res.ok) throw new Error('wttr ' + res.status); return res.json(); })
+      .then(function (json) {
+        const payload = paintWetterFromWttr(json, lat, lon, place);
+        if (!payload) throw new Error('wttr parse');
+        return payload;
+      });
   }
 
   function renderWetterTile(force) {
     const cache = readWetterCache();
-    const lat = Number(state.lat);
-    const lon = Number(state.lon);
+    const c = wetterCoords();
+    const lat = c.lat;
+    const lon = c.lon;
     const place = wetterPlaceLabel();
-    const cacheOk = cache && Math.abs(Number(cache.lat) - lat) < 0.02 && Math.abs(Number(cache.lon) - lon) < 0.02;
-    if (cacheOk) paintWetterTile(cache, { fromCache: true, offline: !navigator.onLine });
+    const cacheOk = cache && isFinite(Number(cache.temp)) && Math.abs(Number(cache.lat) - lat) < 0.25 && Math.abs(Number(cache.lon) - lon) < 0.25;
+    // Immer zuerst Cache zeigen — nie leeres „Offline“, wenn wir noch Werte haben
+    if (cacheOk) paintWetterTile(cache, { fromCache: true, offline: false });
     else paintWetterTile(null, { offline: !navigator.onLine });
 
     if (!navigator.onLine) return;
@@ -3198,20 +3282,25 @@
       .then(function (res) { if (!res.ok) throw new Error('wetter ' + res.status); return res.json(); })
       .then(function (json) {
         const cur = (json && json.current) || {};
-        const payload = {
+        if (cur.temperature_2m == null) throw new Error('wetter empty');
+        return {
           lat: lat,
           lon: lon,
           temp: cur.temperature_2m,
           code: cur.weather_code,
           placeLabel: place,
-          fetchedAt: Date.now()
+          fetchedAt: Date.now(),
+          source: 'open-meteo'
         };
+      })
+      .catch(function () { return fetchWetterFallback(lat, lon, place); })
+      .then(function (payload) {
         writeWetterCache(payload);
         wetterLastFetchAt = Date.now();
         paintWetterTile(payload, { fromCache: false });
       })
       .catch(function () {
-        if (cacheOk) paintWetterTile(cache, { fromCache: true, offline: true });
+        if (cacheOk) paintWetterTile(cache, { fromCache: true, offline: false });
         else paintWetterTile(null, { offline: true });
       })
       .finally(function () { wetterFetchInflight = null; });
@@ -8460,7 +8549,53 @@
         Store.dismissDayBanner();
         refreshState();
         renderDayBanner();
-        toast('Willkommen im neuen Tag');
+        toast('Schönen Tag am Altar', 1800);
+      });
+    }
+
+    // Pfad-Figur: eigenes Foto (lokal, pro Pfad)
+    const pathFile = $('#path-figure-file');
+    if (pathFile && !pathFile.dataset.bound) {
+      pathFile.dataset.bound = '1';
+      pathFile.addEventListener('change', function () {
+        const file = pathFile.files && pathFile.files[0];
+        pathFile.value = '';
+        if (!file) return;
+        if (file.size > 2.5 * 1024 * 1024) {
+          toast('Foto bitte unter ≈2,5 MB', 2800, 'warn');
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = function () {
+          const dataUrl = String(reader.result || '');
+          if (!dataUrl.startsWith('data:image/')) {
+            toast('Kein Bild erkannt', 2200, 'warn');
+            return;
+          }
+          const pid = (state && state.path) || 'esoterik';
+          try {
+            localStorage.setItem('universum-path-figure-photo-' + pid, dataUrl);
+          } catch (_) {
+            toast('Speicher voll — Foto zu groß?', 2800, 'warn');
+            return;
+          }
+          applyPathTheme();
+          toast('Foto für diesen Pfad gesetzt', 2200);
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+    const pathReset = $('#path-figure-photo-reset');
+    if (pathReset && !pathReset.dataset.bound) {
+      pathReset.dataset.bound = '1';
+      pathReset.addEventListener('click', function () {
+        const pid = (state && state.path) || 'esoterik';
+        try {
+          localStorage.removeItem('universum-path-figure-photo-' + pid);
+          localStorage.removeItem('universum-path-figure-' + pid);
+        } catch (_) {}
+        applyPathTheme();
+        toast('Platzhalter wieder da', 1800);
       });
     }
 

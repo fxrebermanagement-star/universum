@@ -9706,6 +9706,11 @@ body.stille-modus #sec-cockpit #jetzt-card .jetzt-lead {
   cursor: default;
   pointer-events: none;
 }
+.cock-path-figur .path-figure-actions,
+.cock-path-figur .path-figure-photo-btn,
+.cock-path-figur .path-figure-photo-reset {
+  pointer-events: auto;
+}
 .altar-cockpit {
   position: relative;
 }
@@ -9911,4 +9916,97 @@ body.stille-modus #sec-cockpit #jetzt-card .jetzt-lead {
 .cock-mond-sonne {
   /* Mond|Sonne ebenfalls volle Breite; Figur schwebt nur über dem oberen Bereich */
   padding-right: 0;
+}
+
+/* v5.29.0 — Wetter/Banner/Schumann/Figur-Tipp/Foto */
+.cock-sch-readout {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-start;
+  gap: 0.35rem;
+  margin: 0 0 0.28rem;
+  padding: 0 0.2rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: color-mix(in srgb, var(--neon-cyan, #5ce1ff) 70%, #e8fff8);
+  text-shadow: 0 0 10px rgba(92, 225, 255, 0.35);
+}
+.cock-sch-readout strong {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #f4fffb;
+}
+.cock-sch-readout-sep { opacity: 0.55; }
+.cock-sch-readout-state {
+  font-weight: 500;
+  opacity: 0.82;
+  text-transform: lowercase;
+}
+.cock-schumann-visual .cock-sch-head-slim { display: none !important; }
+.cock-schumann-visual .cock-sch-readout { display: flex !important; }
+
+.path-figure-tip {
+  margin: 0.1rem 0 0;
+  padding: 0 0.15rem;
+  max-width: 100%;
+  font-size: 0.58rem;
+  line-height: 1.25;
+  text-align: center;
+  color: color-mix(in srgb, var(--neon-cyan, #5ce1ff) 45%, #efe8ff);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.45);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.path-figure-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  margin-top: 0.2rem;
+}
+.path-figure-photo-btn,
+.path-figure-photo-reset {
+  appearance: none;
+  border: 1px solid rgba(92, 225, 255, 0.35);
+  background: rgba(12, 8, 22, 0.55);
+  color: #efe8ff;
+  border-radius: 999px;
+  padding: 0.18rem 0.45rem;
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  line-height: 1.2;
+}
+.path-figure-photo-btn:hover,
+.path-figure-photo-reset:hover {
+  border-color: rgba(255, 110, 199, 0.45);
+}
+.path-figure-img[src^="data:"] {
+  border-radius: 18px;
+  object-fit: cover;
+  aspect-ratio: 1;
+  max-height: min(38vh, 12rem);
+}
+
+.day-banner.day-banner-compact {
+  margin: 0.35rem 0 0.45rem;
+  padding: 0.55rem 0.7rem 0.5rem;
+  border-radius: 14px;
+  animation: day-banner-in 0.35s ease;
+}
+.day-banner.day-banner-compact .day-banner-inner {
+  gap: 0.25rem;
+}
+.day-banner.day-banner-compact #day-banner-text {
+  font-size: 0.78rem;
+  line-height: 1.35;
+  margin: 0;
+}
+@keyframes day-banner-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
 }

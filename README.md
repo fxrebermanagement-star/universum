@@ -430,6 +430,14 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.29.0 — Altar Feinschliff (Wetter · Banner · Schumann · Figur)
+
+- Wetter: Cache zuerst, Open-Meteo + wttr.in-Fallback, kein hartes „Offline“ bei bekannten Werten
+- Tages-Banner: kompakt, nach ≈5 s automatisch weg (einmal am Tag)
+- Schumann: lesbare Zeile „7,83 Hz · ruhig/live“
+- Pfad-Figur: Haltungstipp + eigenes Foto (lokal, pro Pfad)
+- SW `universum-shell-v88`
+
 ## 5.28.4 — Status-Kachel volle Breite
 
 - Erste Kachel bis zum Bildschirmrand; Text weicht der Overlay-Figur aus
