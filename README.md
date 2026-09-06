@@ -430,6 +430,15 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.33.3 — Englisch + Install-Fix
+
+- Mehr sichtbare EN-Strings (Altar/Settings)
+- **Install hängt nicht mehr:** Timeout 8s, iOS nur Anleitung, Busy-State, Fallback Browser-Menü
+- SW `universum-shell-v110`
+
+- Deutlich mehr `data-i18n` (Dock, Mehr, Mond/Sonne, Intention, Settings-Checkboxen)
+- Apply nach Sprachwechsel verstärkt · SW `universum-shell-v110`
+
 ## 5.33.2 — Stabilität Logo + Sprache
 
 - Logo-CSS: UNIVERSUM nicht mehr als Mini-Untertitel gerendert

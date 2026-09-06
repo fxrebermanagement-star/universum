@@ -137,7 +137,7 @@
             <article class="card jetzt-card cockpit-lovely heute-primary altar-heart cock-datum cock-status-heute" id="jetzt-card" aria-labelledby="jetzt-title">
               <span class="cock-status-ico" aria-hidden="true">✦</span>
               <div class="cock-status-body">
-                <h2 id="jetzt-title" class="heute-title label">Heute · Impuls</h2>
+                <h2 id="jetzt-title" class="heute-title label" data-i18n="altar.heute">Heute · Impuls</h2>
                 <p class="jetzt-lead cock-heute-slim-lead" id="jetzt-lead">—</p>
                 <button type="button" class="jetzt-next-fest" id="jetzt-next-fest" hidden aria-label="Nächster wichtiger Tag im Kalender">
                   <span class="jetzt-next-fest-ico" id="jetzt-next-fest-ico" aria-hidden="true">✦</span>
@@ -158,7 +158,7 @@
           <button type="button" class="dash-panel moon mess-tile mess-tap cock-tile cock-glass cock-glow-mond cock-mond" id="mess-mond" data-mess-nav="kosmos" aria-label="Mond — öffnet Kosmos">
             <div class="cock-head">
               <span class="cock-ico" aria-hidden="true">🌙</span>
-              <span class="label">Mond</span>
+              <span class="label" data-i18n="altar.mond">Mond</span>
             </div>
             <div class="value" id="dash-moon-val">—</div>
             <div class="mess-readout" id="dash-moon-pct">— %</div>
@@ -169,7 +169,7 @@
           <button type="button" class="dash-panel sun mess-tile mess-tap cock-tile cock-glass cock-glow-sonne cock-sonne" id="mess-sonne" data-mess-nav="kosmos" aria-label="Sonne — öffnet Kosmos">
             <div class="cock-head">
               <span class="cock-ico" aria-hidden="true">☀️</span>
-              <span class="label">Sonne</span>
+              <span class="label" data-i18n="altar.sonne">Sonne</span>
             </div>
             <div class="value" id="dash-sun-sign">—</div>
             <div class="mess-readout" id="dash-sun-rise">↑ —</div>
@@ -184,7 +184,7 @@
         <article class="card mess-schumann schumann-card cock-tile cock-glass cock-schumann cock-schumann-visual" id="glance-schumann-card" aria-labelledby="glance-schumann-title">
           <div class="schumann-head compact-head cock-sch-head cock-head cock-sch-head-slim">
             <span class="cock-ico" aria-hidden="true">〰️</span>
-            <h3 id="glance-schumann-title" class="sr-only">Schumann</h3>
+            <h3 id="glance-schumann-title" class="sr-only" data-i18n="altar.schumann">Schumann</h3>
             <span class="schumann-live-badge" data-sch-badge data-state="offline" hidden>7,83 Hz</span>
           </div>
           <p class="cock-sch-readout" id="cock-sch-readout" aria-live="polite">
@@ -258,11 +258,11 @@
             </button>
             <button type="button" class="hs-app" id="glance-sigil-card" aria-label="Sigille — Rituale Werkzeug">
               <span class="ico" aria-hidden="true">✒️</span>
-              <span class="hs-label">Sigille</span>
+              <span class="hs-label" data-i18n="altar.sigille">Sigille</span>
             </button>
             <button type="button" class="hs-app" id="glance-karten-card" aria-label="Karten — Rituale Feldkarten">
               <span class="ico" aria-hidden="true">🃏</span>
-              <span class="hs-label">Karten</span>
+              <span class="hs-label" data-i18n="altar.karten">Karten</span>
             </button>
           </nav>
         </div>
@@ -308,9 +308,9 @@
       </div><!-- #altar-cockpit -->
 
       <p class="altar-trust-link hint-sm" id="altar-trust-link">
-        <a href="#vertrauen" data-open-vertrauen>Vertrauen &amp; Ethik</a>
+        <a href="#vertrauen" data-open-vertrauen data-i18n="altar.trustLine">Vertrauen &amp; Ethik</a>
         <span aria-hidden="true"> · </span>
-        <span class="altar-trust-note">Daten bleiben auf diesem Gerät</span>
+        <span class="altar-trust-note" data-i18n="altar.trustNote">Daten bleiben auf diesem Gerät</span>
       </p>
 
       <!-- legacy / JS mirrors (hidden) -->
@@ -373,15 +373,15 @@
 
       <details class="card mehr-accordion mehr-feld" id="mehr-aus-dem-feld">
         <summary class="mehr-summary">
-          Mehr am Altar
-          <span class="mehr-hint">Pfad-Woche · Intention · 369</span>
-          <span class="mehr-offline-chip" id="mehr-offline-chip" aria-live="polite">● Lokal</span>
+          <span data-i18n="altar.mehr">Mehr am Altar</span>
+          <span class="mehr-hint" data-i18n="altar.mehrHint">Pfad-Woche · Intention · 369</span>
+          <span class="mehr-offline-chip" id="mehr-offline-chip" aria-live="polite" data-i18n="altar.localChip">● Lokal</span>
         </summary>
         <div class="mehr-body" id="cockpit-flow">
 
 <article class="card path-week-card nested-card" id="path-week-card" aria-labelledby="path-week-title">
         <div class="intention-top">
-          <h3 id="path-week-title">Pfad-Woche</h3>
+          <h3 id="path-week-title" data-i18n="altar.pathWeek">Pfad-Woche</h3>
           <span class="chip-quiet" id="path-week-chip">Tag —</span>
         </div>
         <p class="path-week-lead" id="path-week-lead">Mikro-Praxis für heute.</p>
@@ -395,7 +395,7 @@
 
 <article class="card intention-card nested-card" id="intention-card" aria-labelledby="intention-title">
         <div class="intention-top">
-          <h3 id="intention-title">Intention des Tages</h3>
+          <h3 id="intention-title" data-i18n="altar.intention">Intention des Tages</h3>
           <button type="button" class="ghost tiny" id="intention-clear" aria-label="Intention löschen">Löschen</button>
         </div>
         <p class="hint">Eine Zeile — lokal, nur heute. Optional mit 369 verknüpfen.</p>
@@ -413,7 +413,7 @@
       </article>
 
 <div class="card nested-card" id="phrase-369-card" aria-labelledby="phrase-369-heading">
-        <h3 id="phrase-369-heading">369-Praxis · heute</h3>
+        <h3 id="phrase-369-heading" data-i18n="altar.praxis369">369-Praxis · heute</h3>
         <p class="hint">Ethischer Satz · 3 / 6 / 9 — lokal gespeichert</p>
         <div class="form-row">
           <input id="phrase-369" placeholder="z. B. Ich halte klare Grenzen im Alltag" maxlength="120" />
@@ -1305,18 +1305,18 @@
         </div>
 
         <h3 class="mt-2" data-i18n="settings.perception">Wahrnehmung</h3>
-        <label class="inline-check"><input type="checkbox" id="set-haptics" checked /> Haptik (Vibration)</label>
-        <label class="inline-check"><input type="checkbox" id="set-schumann-live" checked /> Live-Stationsdaten laden (Tomsk / NOAA via ResonanceOne)</label>
-        <label class="inline-check"><input type="checkbox" id="set-schumann-audio" /> Schumann-Audio (leiser 136-Hz-Träger)</label>
-        <label class="inline-check"><input type="checkbox" id="set-ambient-tone" /> Sanfter Ambient-Ton (sehr leise, getrennt von Schumann)</label>
-        <label class="inline-check"><input type="checkbox" id="set-ritual-klang" /> Ritual-Klang (leiser Ton beim Öffnen und Schließen, Standard aus)</label>
-        <label class="inline-check"><input type="checkbox" id="set-reduced-motion" /> Reduzierte Bewegung</label>
-        <label class="inline-check"><input type="checkbox" id="set-mondnacht" /> Mondnacht (sanftes Abendlicht)</label>
-        <label class="inline-check"><input type="checkbox" id="set-mondnacht-auto" /> Mondnacht abends automatisch (ca. 19–6 Uhr)</label>
-        <label class="inline-check"><input type="checkbox" id="set-hour-alert" /> Planetenstunde-Wecker (sanfte Vibration/Toast, Standard aus)</label>
-        <label class="inline-check"><input type="checkbox" id="set-quiet-ritual" checked /> Chrome während Ritual ausblenden</label>
-        <label class="inline-check"><input type="checkbox" id="set-stille-modus" /> Stille-Modus (nur Heute und ein Ritual)</label>
-        <label class="inline-check"><input type="checkbox" id="set-calendar-path-only" checked /> Kalender: nur mein Pfad (Feste)</label>
+        <label class="inline-check"><input type="checkbox" id="set-haptics" checked /> <span data-i18n="settings.haptics">Haptik (Vibration)</span></label>
+        <label class="inline-check"><input type="checkbox" id="set-schumann-live" checked /> <span data-i18n="settings.schumannLive">Live-Stationsdaten laden (Tomsk / NOAA via ResonanceOne)</span></label>
+        <label class="inline-check"><input type="checkbox" id="set-schumann-audio" /> <span data-i18n="settings.schumannAudio">Schumann-Audio (leiser 136-Hz-Träger)</span></label>
+        <label class="inline-check"><input type="checkbox" id="set-ambient-tone" /> <span data-i18n="settings.ambient">Sanfter Ambient-Ton (sehr leise, getrennt von Schumann)</span></label>
+        <label class="inline-check"><input type="checkbox" id="set-ritual-klang" /> <span data-i18n="settings.ritualKlang">Ritual-Klang (leiser Ton beim Öffnen und Schließen, Standard aus)</span></label>
+        <label class="inline-check"><input type="checkbox" id="set-reduced-motion" /> <span data-i18n="settings.reducedMotion">Reduzierte Bewegung</span></label>
+        <label class="inline-check"><input type="checkbox" id="set-mondnacht" /> <span data-i18n="settings.mondnacht">Mondnacht (sanftes Abendlicht)</span></label>
+        <label class="inline-check"><input type="checkbox" id="set-mondnacht-auto" /> <span data-i18n="settings.mondnachtAuto">Mondnacht abends automatisch (ca. 19–6 Uhr)</span></label>
+        <label class="inline-check"><input type="checkbox" id="set-hour-alert" /> <span data-i18n="settings.hourAlert">Planetenstunde-Wecker (sanfte Vibration/Toast, Standard aus)</span></label>
+        <label class="inline-check"><input type="checkbox" id="set-quiet-ritual" checked /> <span data-i18n="settings.quietRitual">Chrome während Ritual ausblenden</span></label>
+        <label class="inline-check"><input type="checkbox" id="set-stille-modus" /> <span data-i18n="settings.stille">Stille-Modus (nur Heute und ein Ritual)</span></label>
+        <label class="inline-check"><input type="checkbox" id="set-calendar-path-only" checked /> <span data-i18n="settings.calPathOnly">Kalender: nur mein Pfad (Feste)</span></label>
 
         <h3 class="mt-2" data-i18n="settings.search">Suche</h3>
         <p class="hint-sm" data-i18n="settings.searchHint">Rituale, Feldkarten-Namen, Magie-Buch</p>
@@ -1387,7 +1387,7 @@
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
         <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem"><span data-i18n="settings.footer">Daten bleiben lokal auf diesem Gerät</span> · App v<span id="settings-app-version">5.33.2</span> · <a href="#vertrauen" data-open-vertrauen>Vertrauen</a></p>
+        <p class="footer-ethics" style="padding-top:1rem"><span data-i18n="settings.footer">Daten bleiben lokal auf diesem Gerät</span> · App v<span id="settings-app-version">5.33.3</span> · <a href="#vertrauen" data-open-vertrauen>Vertrauen</a></p>
       </div>
     </div>
   </div>

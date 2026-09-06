@@ -376,6 +376,17 @@
     } catch (_) {}
     applyUiLanguage({ lang: lang });
     try {
+      document.body.classList.toggle('lang-en', lang === 'en');
+      document.body.classList.toggle('lang-de', lang === 'de');
+      document.documentElement.lang = lang;
+    } catch (_) {}
+    try {
+      if (window.UniversumI18n) {
+        UniversumI18n.setLang(lang);
+        UniversumI18n.apply(document);
+      }
+    } catch (_) {}
+    try {
       var logoSub = document.querySelector('.logo-sub');
       if (logoSub) logoSub.textContent = tt('nav.altar', 'Altar');
     } catch (_) {}
@@ -6222,30 +6233,72 @@
 
   async function promptPwaInstall() {
     const status = $('#empfehlen-status');
-    if (deferredInstallPrompt) {
-      try {
-        deferredInstallPrompt.prompt();
-        const choice = await deferredInstallPrompt.userChoice;
-        if (choice && choice.outcome === 'accepted') {
-          toast('Schön — UNIVERSUM kommt auf den Homescreen');
-          if (status) status.textContent = 'Installiert — lokal auf dem Gerät, ohne Konto.';
-          dismissInstallBanner(true);
-        } else if (status) {
-          status.textContent = 'Später geht auch — jederzeit über das Browser-Menü.';
-        }
-      } catch (_) {
-        showInstallBanner(true);
-      }
-      deferredInstallPrompt = null;
-      const bp = $('#install-banner-prompt');
-      if (bp) bp.hidden = true;
+    const plat = detectMobileInstallPlatform();
+    const busyBtns = [$('#empfehlen-install'), $('#set-install-app'), $('#install-banner-prompt')].filter(Boolean);
+    function setBusy(on) {
+      busyBtns.forEach(function (b) {
+        b.disabled = !!on;
+        if (on) b.setAttribute('aria-busy', 'true');
+        else b.removeAttribute('aria-busy');
+      });
+    }
+
+    // Already installed as PWA — don't hang on a second prompt
+    if (isStandaloneDisplay()) {
+      toast('UNIVERSUM ist schon installiert');
+      if (status) status.textContent = 'Bereits auf dem Homescreen — lokal, ohne Konto.';
+      dismissInstallBanner(true);
       return;
     }
-    showInstallBanner(true);
-    if (status) status.textContent = 'Kurzer Hinweis unten — oder im Browser-Menü „App installieren“ / Zum Homescreen.';
+
+    // iOS has no beforeinstallprompt — always show steps, never await a native prompt
+    if (plat.isIOS || !deferredInstallPrompt) {
+      try { closeSettings(); } catch (_) {}
+      showInstallBanner(true);
+      if (status) {
+        status.textContent = plat.isIOS
+          ? 'Kurz: Safari → Teilen → Zum Home-Bildschirm.'
+          : 'Kurzer Hinweis unten — oder Browser-Menü „App installieren“ / Zum Homescreen.';
+      }
+      toast(plat.isIOS ? 'Schritte fürs Homescreen sind offen' : 'Install-Hinweis ist offen');
+      return;
+    }
+
+    setBusy(true);
+    try {
+      deferredInstallPrompt.prompt();
+      const choice = await Promise.race([
+        deferredInstallPrompt.userChoice,
+        new Promise(function (resolve) {
+          setTimeout(function () { resolve({ outcome: 'timeout' }); }, 8000);
+        })
+      ]);
+      if (choice && choice.outcome === 'accepted') {
+        toast('Schön — UNIVERSUM kommt auf den Homescreen');
+        if (status) status.textContent = 'Installiert — lokal auf dem Gerät, ohne Konto.';
+        dismissInstallBanner(true);
+      } else if (choice && choice.outcome === 'timeout') {
+        // Native sheet stuck or ignored — fall back to manual steps
+        try { closeSettings(); } catch (_) {}
+        showInstallBanner(true);
+        if (status) status.textContent = 'Browser-Dialog hat nicht geantwortet — bitte Menü → App installieren.';
+        toast('Bitte über das Browser-Menü installieren', 3200, 'warn');
+      } else if (status) {
+        status.textContent = 'Später geht auch — jederzeit über das Browser-Menü.';
+        showInstallBanner(true);
+      }
+    } catch (_) {
+      try { closeSettings(); } catch (_) {}
+      showInstallBanner(true);
+      toast('Install über Browser-Menü', 2800, 'warn');
+    }
+    deferredInstallPrompt = null;
+    const bp = $('#install-banner-prompt');
+    if (bp) bp.hidden = true;
+    setBusy(false);
   }
 
-    function isStandaloneDisplay() {
+  function isStandaloneDisplay() {
     try {
       if (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) return true;
       if (window.matchMedia && window.matchMedia('(display-mode: minimal-ui)').matches) return true;
