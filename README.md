@@ -430,6 +430,12 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.27.2 — Status bis Rand · Figur ohne Kachel
+
+- Erste Status-Kachel (Zeit/Wetter/Heute) größer und näher am Rand
+- Pfad-Figur: alte Kachel-Styles entfernt, frei oben rechts ohne Rahmen/Hintergrund
+- SW `universum-shell-v82`
+
 ## 5.27.1 — Closer to sketch + full app dock
 
 - Layout bleibt: **eine** Status-Box (Zeit/Datum+Wetter+Heute) · Figur frei · Mond|Sonne · Schumann vollbreit
