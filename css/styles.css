@@ -9981,3 +9981,44 @@ body.stille-modus #sec-cockpit #jetzt-card .jetzt-lead {
 .first-session-tip {
   display: none !important;
 }
+
+/* v5.29.3 — Nächster Pfad-Tag unter Heute */
+.jetzt-next-fest {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  margin: 0.22rem 0 0;
+  padding: 0.18rem 0.45rem 0.18rem 0.28rem;
+  max-width: 100%;
+  border: 1px solid rgba(92, 225, 255, 0.28);
+  border-radius: 999px;
+  background: rgba(12, 8, 22, 0.35);
+  color: color-mix(in srgb, var(--neon-cyan, #5ce1ff) 55%, #efe8ff);
+  font: inherit;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.25;
+  text-align: left;
+  cursor: pointer;
+  appearance: none;
+}
+.jetzt-next-fest:hover,
+.jetzt-next-fest:focus-visible {
+  border-color: rgba(255, 110, 199, 0.4);
+  outline: none;
+}
+.jetzt-next-fest[hidden] { display: none !important; }
+.jetzt-next-fest-ico {
+  flex: 0 0 auto;
+  opacity: 0.9;
+}
+.jetzt-next-fest-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cock-status-heute .cock-status-body {
+  min-width: 0;
+}

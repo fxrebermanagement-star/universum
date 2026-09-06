@@ -1020,24 +1020,36 @@
     return best;
   }
 
+  function formatNextFest(nf, pathOnly) {
+    if (!nf || !nf.date) return null;
+    const start = new Date();
+    start.setHours(0, 0, 0, 0);
+    const day = new Date(nf.date.getFullYear(), nf.date.getMonth(), nf.date.getDate());
+    const days = Math.round((day - start) / 86400000);
+    const sab = typeof SABBATS !== 'undefined' && SABBATS ? SABBATS.find(s => s.name === nf.name) : null;
+    return {
+      name: nf.name,
+      ico: sab ? sab.ico : '✦',
+      date: nf.date,
+      days: days,
+      pathOnly: !!pathOnly,
+      emphasized: !!nf.emphasized
+    };
+  }
+
   function nextFestForGlance() {
     const pathOnly = isCalendarPathOnly();
-    let next = null;
     if (pathOnly) {
-      const nf = Paths.nextFestival(new Date(), state.path, { pathOnly: true });
-      if (nf && nf.date) {
-        const start = new Date();
-        start.setHours(0, 0, 0, 0);
-        const day = new Date(nf.date.getFullYear(), nf.date.getMonth(), nf.date.getDate());
-        const days = Math.round((day - start) / 86400000);
-        const sab = SABBATS.find(s => s.name === nf.name);
-        next = { name: nf.name, ico: sab ? sab.ico : '✦', date: nf.date, days: days, pathOnly: true };
-      }
-    } else {
-      next = nextSabbatInfo(new Date());
-      if (next) next.pathOnly = false;
+      return formatNextFest(Paths.nextFestival(new Date(), state.path, { pathOnly: true }), true);
     }
+    const next = nextSabbatInfo(new Date());
+    if (next) next.pathOnly = false;
     return next;
+  }
+
+  /** Altar Heute: immer nächster wichtiger Tag des gewählten Pfads */
+  function nextFestForHeute() {
+    return formatNextFest(Paths.nextFestival(new Date(), state.path, { pathOnly: true }), true);
   }
 
   function renderFestCountdown() {
@@ -1839,6 +1851,27 @@
       }
       lead.textContent = leadText;
     }
+    // Nächster wichtiger Pfad-Tag unter Heute
+    (function paintHeuteNextFest() {
+      const row = $('#jetzt-next-fest');
+      const icoEl = $('#jetzt-next-fest-ico');
+      const textEl = $('#jetzt-next-fest-text');
+      if (!row || !textEl) return;
+      const next = nextFestForHeute ? nextFestForHeute() : null;
+      if (!next || next.days == null || next.days > 90) {
+        row.hidden = true;
+        textEl.textContent = '';
+        return;
+      }
+      const when = next.days <= 0 ? 'heute' : next.days === 1 ? 'morgen' : 'in ' + next.days + ' Tagen';
+      const dateStr = next.date
+        ? next.date.toLocaleDateString('de-CH', { day: 'numeric', month: 'short' })
+        : '';
+      if (icoEl) icoEl.textContent = next.ico || '✦';
+      textEl.textContent = 'Als Nächstes · ' + next.name + ' · ' + when + (dateStr ? ' (' + dateStr + ')' : '');
+      row.hidden = false;
+      row.setAttribute('aria-label', 'Nächster Tag für deinen Pfad: ' + next.name + ', ' + when);
+    })();
     const tipTitle = tip && tip.title ? tip.title : (ritual ? ritual.name : 'Praxis');
     const dur = ritual
       ? ((Rituals.durLabel && Rituals.durLabel(ritual.mins)) || (ritual.mins + ' Min'))
@@ -8519,6 +8552,18 @@
     if (intInput) {
       intInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') { e.preventDefault(); saveDailyIntention(); }
+      });
+    }
+
+    // Heute → nächster Pfad-Tag öffnet Kalender
+    const jetztFest = $('#jetzt-next-fest');
+    if (jetztFest && !jetztFest.dataset.bound) {
+      jetztFest.dataset.bound = '1';
+      jetztFest.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (typeof navigate === 'function') navigate('kalender', { force: true });
+        else if (typeof showSection === 'function') showSection('kalender');
       });
     }
 

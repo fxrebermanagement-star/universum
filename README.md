@@ -430,6 +430,11 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.29.3 — Nächster Pfad-Tag unter Heute
+
+- Heute-Zeile zeigt den nächsten wichtigen Tag des gewählten Pfads
+- Tippen öffnet den Kalender · SW `universum-shell-v91`
+
 ## 5.29.2 — „Verstanden“-Tipp am Altar weg
 
 - First-session-Hinweis mit Verstanden-Button dauerhaft ausgeblendet
