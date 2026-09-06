@@ -9975,3 +9975,9 @@ body.stille-modus #sec-cockpit #jetzt-card .jetzt-lead {
   from { opacity: 0; transform: translateY(-4px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* v5.29.2 — First-session „Verstanden“ am Altar dauerhaft aus */
+#sec-cockpit > .first-session-tip,
+.first-session-tip {
+  display: none !important;
+}

@@ -430,6 +430,11 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.29.2 — „Verstanden“-Tipp am Altar weg
+
+- First-session-Hinweis mit Verstanden-Button dauerhaft ausgeblendet
+- SW `universum-shell-v90`
+
 ## 5.29.1 — Figur-Foto-Upload entfernt
 
 - Foto-Button an der Pfad-Figur weg (Tipp bleibt)

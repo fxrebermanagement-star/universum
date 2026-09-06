@@ -7026,21 +7026,12 @@
   }
 
   function maybeShowFirstSessionTip() {
-    if (!Store.getFirstSessionTipShown) return;
-    if (Store.getFirstSessionTipShown()) return;
-    if (!(state.onboarding && state.onboarding.done)) return;
+    // v5.29.2: „Verstanden“-Tipp am Altar entfernt — Altar bleibt frei
     const el = $('#first-session-tip');
-    if (!el) return;
-    const tips = [
-      'Lust auf Hexerei? Ein kurzes Ritual weckt schon Magie — unter Rituale wartet mehr zum Entdecken.',
-      'Tipp: Magie-Buch und Lexikon bleiben lokal. Unter Einstellungen kannst du ein Vollbackup ZIP sichern.',
-      'Tipp: Zum Homescreen legen — dann läuft die Offline-Shell auch ohne Netz. Daten bleiben auf dem Gerät.'
-    ];
-    const pathId = state.path || 'esoterik';
-    const idx = Math.abs(String(pathId).length + (state.lat || 0) * 10) % tips.length;
-    const text = $('#first-session-tip-text');
-    if (text) text.textContent = tips[idx];
-    el.hidden = false;
+    if (el) el.hidden = true;
+    if (Store.markFirstSessionTipShown) {
+      try { Store.markFirstSessionTipShown(); } catch (_) {}
+    }
   }
 
   function dismissFirstSessionTip() {
