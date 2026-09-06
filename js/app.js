@@ -6289,7 +6289,7 @@
     const el = $('#install-ready-status');
     if (!el) return;
     if (isStandaloneDisplay()) {
-      el.textContent = 'Chrome-Install: schon als App geöffnet.';
+      el.textContent = 'Bereits als App / Homescreen geöffnet.';
       return;
     }
     const plat = detectMobileInstallPlatform();
@@ -6297,11 +6297,7 @@
       el.textContent = 'iPhone: nur Safari → Teilen → Zum Home-Bildschirm.';
       return;
     }
-    if (deferredInstallPrompt) {
-      el.textContent = 'Chrome-Install: bereit — Button öffnet den Dialog.';
-    } else {
-      el.textContent = 'Chrome-Install: noch nicht bereit — Seite 15 Sek. offen lassen oder ⋮ → App installieren.';
-    }
+    el.textContent = 'Android: Chrome-Menü ⋮ → App installieren / Zum Startbildschirm (In-App-Dialog aus — hat gehängt).';
   }
 
   function promptPwaInstall(opts) {
@@ -6312,11 +6308,11 @@
     if (isStandaloneDisplay()) {
       toast('UNIVERSUM ist schon installiert');
       if (status) status.textContent = 'Bereits auf dem Homescreen — lokal, ohne Konto.';
-      dismissInstallBanner(true);
+      try { syncInstallReadyStatus(); } catch (_) {}
       return;
     }
 
-    dismissInstallBanner(false);
+    // Never call deferredInstallPrompt.prompt() — freezes Android Chrome for some users.
     const copy = fillInstallSteps(plat);
     if (status) status.textContent = copy.summary;
     if (fromSettings) {
@@ -6328,46 +6324,10 @@
         }
       } catch (_) {}
     }
-
-    // iOS: never native prompt
-    if (plat.isIOS) {
-      toast('Nur Safari: Teilen → Zum Home-Bildschirm', 3400);
-      return;
-    }
-
-    // Android/Desktop Chrome: fire-and-forget native sheet (no await = no hang)
-    const ev = deferredInstallPrompt;
-    if (ev && typeof ev.prompt === 'function') {
-      deferredInstallPrompt = null;
-      const bp = $('#install-banner-prompt');
-      if (bp) bp.hidden = true;
-      try {
-        const p = ev.prompt();
-        if (p && typeof p.then === 'function') p.catch(function () {});
-      } catch (_) {}
-      try {
-        if (ev.userChoice && typeof ev.userChoice.then === 'function') {
-          ev.userChoice.then(function (choice) {
-            if (choice && choice.outcome === 'accepted') {
-              toast('Schön — UNIVERSUM kommt auf den Homescreen');
-              if (status) status.textContent = 'Installiert — lokal auf dem Gerät, ohne Konto.';
-              const howto = $('#install-howto');
-              if (howto) howto.hidden = true;
-            } else if (status) {
-              status.textContent = 'Falls kein Dialog: Chrome ⋮ → App installieren / Zum Startbildschirm.';
-            }
-          }).catch(function () {});
-        }
-      } catch (_) {}
-      toast('Install-Dialog sollte erscheinen …', 2600);
-      return;
-    }
-
-    // No deferred event yet — clear Chrome menu path
-    toast('Chrome ⋮ → App installieren / Zum Startbildschirm', 3600);
-    if (status) {
-      status.textContent = 'Kein Dialog bereit — bitte Chrome-Menü ⋮ → App installieren. Seite kurz neu laden und nochmal tippen.';
-    }
+    try { syncInstallReadyStatus(); } catch (_) {}
+    toast(plat.isIOS
+      ? 'Safari: Teilen → Zum Home-Bildschirm'
+      : 'Bitte Chrome ⋮ → App installieren / Zum Startbildschirm', 3800);
   }
 
   function isStandaloneDisplay() {
@@ -8704,12 +8664,10 @@
     if (instPrompt) instPrompt.addEventListener('click', () => { promptPwaInstall(); });
 
     window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredInstallPrompt = e;
+      // Do NOT preventDefault — let Chrome show its own install UI (in-app prompt froze devices).
+      deferredInstallPrompt = null;
       const bp = $('#install-banner-prompt');
-      if (bp) bp.hidden = false;
-      const empInst = $('#empfehlen-install');
-      if (empInst) empInst.classList.add('has-prompt');
+      if (bp) bp.hidden = true;
       try { syncInstallReadyStatus(); } catch (_) {}
     });
     window.addEventListener('appinstalled', () => {

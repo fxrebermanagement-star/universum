@@ -2,9 +2,9 @@
  * UNIVERSUM · Service Worker — offline shell caching
  * Relative URLs so GitHub Pages /universum/ subpath works.
  * Cache-first for app shell; network-first navigations; offline fallback to cockpit.
- * v117: 5.33.10 — stable sw.js URL (no ?v=); install readiness; drop manifest id
+ * v118: 5.33.11 — calm SW; no install prompt; no auto-reload hang
  */
-const CACHE = 'universum-shell-v117';
+const CACHE = 'universum-shell-v118';
 const SHELL = [
   './',
   './index.html',
@@ -141,7 +141,7 @@ function isShellPath(pathname) {
 }
 
 function networkFirst(req) {
-  return fetch(req, { cache: 'no-store' })
+  return fetch(req)
     .then((res) => {
       if (res && res.ok) {
         const clone = res.clone();
@@ -202,12 +202,6 @@ self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
       Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))
-    ).then(() => self.clients.claim()).then(() =>
-      self.clients.matchAll({ type: 'window' }).then((clients) => {
-        clients.forEach((c) => {
-          try { c.postMessage({ type: 'UNIVERSUM_SW_UPDATED', cache: CACHE }); } catch (_) {}
-        });
-      })
-    )
+    ).then(() => self.clients.claim())
   );
 });

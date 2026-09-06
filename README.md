@@ -1028,3 +1028,10 @@ Siebzehnte Runde — **UX Klarheit**: modernes dunkles UI mit mehr Weißraum und
 - Alte `sw.js?v=…`-Registrierungen werden entfernt
 - Manifest-`id` entfernt
 - Statuszeile „Chrome-Install: bereit/nicht bereit“ in Einstellungen
+
+## 5.33.11 — Ruhe statt Hänger
+
+- Kein `prompt()`, kein `preventDefault` auf Install-Event
+- Kein Auto-Reload / SW-Update-Loop
+- Ruhige SW-Registrierung
+- Homescreen nur über Chrome ⋮
