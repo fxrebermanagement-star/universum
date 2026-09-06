@@ -430,6 +430,13 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.20.2 — Rituale Werkzeug redesign
+
+- **Jump-Pills** (Grenze · Pfad · Sigil · Karten) deutlich größer: gleichmäßige Tap-Ziele (~48px), klare Labels — weiterhin sekundär zu Werkzeug/Eigene/Geführt
+- **Schwellen-Notiz** aus dem Werkzeug-Default entfernt; optionaler Link «Im Magie-Buch notieren» statt leerem Notiz-Modul
+- Werkzeug-Bereich ruhiger: weniger Fluff-Text, kompakte Grenze & Ausgleich, Sigil/Karten ohne Extra-Notice-Karten
+- SW-Cache `universum-shell-v66`
+
 ## 5.20.1 — Rituale UI sizing
 
 - **Modus-Tabs** (Werkzeug · Eigene · Geführt) größer: mehr Padding, höhere Tap-Ziele (~52px), klarere Untermenü-Hierarchie auf Mobile

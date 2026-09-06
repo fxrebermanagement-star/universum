@@ -3928,13 +3928,39 @@
       const chip = $(chipSel);
       const title = $(titleSel);
       if (chip) chip.innerHTML = '<span class="path-sym" aria-hidden="true">' + escapeHtml(pathSymbol(path)) + '</span> ' + escapeHtml((path && path.name) || 'Pfad');
-      if (title && tool) title.textContent = 'Werkzeug · ' + tool.title;
+      const card = body && body.closest ? body.closest('.path-werkzeug-card') : null;
+      if (title && tool) {
+        if (tool.kind === 'buch') title.textContent = tool.title || 'Pfad';
+        else title.textContent = 'Werkzeug · ' + tool.title;
+      }
+      if (card) {
+        card.classList.toggle('is-buch-link', !!(tool && tool.kind === 'buch'));
+        card.classList.toggle('compact', !!(tool && (tool.kind === 'buch' || tool.kind === 'shortcut')));
+      }
+      const hintEl = card ? card.querySelector('.hint-sm[id^="path-werkzeug-hint"]') : null;
+      if (hintEl) {
+        const isRitualHint = !!(hintEl.id && hintEl.id.indexOf('-r') !== -1);
+        if (tool && tool.kind === 'buch') {
+          hintEl.hidden = true;
+          hintEl.textContent = '';
+        } else if (tool && tool.kind === 'shortcut') {
+          hintEl.hidden = false;
+          hintEl.textContent = 'Kurz zum Sigil — ethisch laden, dann vergessen.';
+        } else if (tool && isRitualHint) {
+          hintEl.hidden = true;
+          hintEl.textContent = '';
+        } else if (tool) {
+          hintEl.hidden = false;
+        }
+      }
       if (!body || !tool) return;
 
       if (tool.kind === 'shortcut') {
-        body.innerHTML = '<p class="hint-sm">Kurz zum Sigil-Labor — ethische Absicht, dann vergessen.</p>' +
-          '<button type="button" class="primary" data-werkzeug-sigil>Sigil öffnen</button>' +
+        body.innerHTML = '<button type="button" class="primary" data-werkzeug-sigil>Sigil öffnen</button>' +
           (tool.houseOnly ? '<p class="notice ethics-line">Nur Hauspraxis.</p>' : '');
+      } else if (tool.kind === 'buch') {
+        body.innerHTML = '<p class="hint-sm werkzeug-buch-hint">' + escapeHtml(tool.hint || 'Optional im Magie-Buch festhalten.') + '</p>' +
+          '<button type="button" class="ghost" data-werkzeug-buch>' + escapeHtml(tool.cta || 'Zum Magie-Buch') + '</button>';
       } else if (tool.kind === 'note') {
         const val = st[tool.field] || '';
         body.innerHTML = (tool.houseOnly ? '<p class="notice ethics-line">Nur Hauspraxis, keine Initiation.</p>' : '') +
@@ -3961,6 +3987,12 @@
         btn.addEventListener('click', () => {
           openRitualTab('sigil', { scroll: 'werkzeug-sigil' });
           toast('Sigil-Labor');
+        });
+      });
+      body.querySelectorAll('[data-werkzeug-buch]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          navigate('buch', { force: true, buchMode: tool.buchMode || 'notiz' });
+          toast('Magie-Buch');
         });
       });
       body.querySelectorAll('[data-werkzeug-save-note]').forEach(btn => {

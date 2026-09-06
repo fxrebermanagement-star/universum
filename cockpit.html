@@ -663,13 +663,11 @@
       </div>
 
       <div data-rpanel="werkzeug" id="ritual-werkzeug-panel">
-        <p class="ritual-section-label">Pfad-Werkzeugkasten</p>
-        <p class="hint-sm">Alles am Platz: Grenze, Resonanzen, Pfad-Modul, Sigil, Feldkarten — nicht als gleichwertige Haupt-Tabs.</p>
         <div class="werkzeug-jump" role="navigation" aria-label="Werkzeug-Sprungmarken">
-          <a class="werkzeug-jump-chip" href="#werkzeug-grenze">🛡️ Grenze</a>
-          <a class="werkzeug-jump-chip" href="#werkzeug-path">🛠️ Pfad</a>
-          <a class="werkzeug-jump-chip" href="#werkzeug-sigil">✒️ Sigil</a>
-          <a class="werkzeug-jump-chip" href="#werkzeug-karten">🃏 Karten</a>
+          <a class="werkzeug-jump-chip" href="#werkzeug-grenze"><span class="wz-jump-ico" aria-hidden="true">🛡️</span><span class="wz-jump-label">Grenze</span></a>
+          <a class="werkzeug-jump-chip" href="#werkzeug-path"><span class="wz-jump-ico" aria-hidden="true">🛠️</span><span class="wz-jump-label">Pfad</span></a>
+          <a class="werkzeug-jump-chip" href="#werkzeug-sigil"><span class="wz-jump-ico" aria-hidden="true">✒️</span><span class="wz-jump-label">Sigil</span></a>
+          <a class="werkzeug-jump-chip" href="#werkzeug-karten"><span class="wz-jump-ico" aria-hidden="true">🃏</span><span class="wz-jump-label">Karten</span></a>
         </div>
 
         <details class="card ethik-compact" id="werkzeug-grenze">
@@ -690,24 +688,24 @@
           <p class="notice ethics-line ethik-compact-note">Ein Handy kann keine Geister messen. Praxis vor Spektakel.</p>
         </details>
 
-        <div class="card path-werkzeug-card" id="path-werkzeug-card-ritual" aria-labelledby="path-werkzeug-title-r">
+        <div class="card path-werkzeug-card compact" id="path-werkzeug-card-ritual" aria-labelledby="path-werkzeug-title-r">
           <div class="intention-top">
-            <h3 id="path-werkzeug-title-r">🛠️ Pfad-Modul</h3>
+            <h3 id="path-werkzeug-title-r">Pfad</h3>
             <span class="chip-quiet" id="path-werkzeug-chip-r">Pfad</span>
           </div>
-          <p class="hint-sm" id="path-werkzeug-hint-r">Mini-Modul für deinen Pfad — lokal auf dem Gerät.</p>
+          <p class="hint-sm" id="path-werkzeug-hint-r" hidden></p>
           <div id="path-werkzeug-body-r" class="path-werkzeug-body"></div>
         </div>
         <div id="werkzeug-path" class="sr-only" aria-hidden="true"></div>
 
-        <div id="werkzeug-sigil">
+        <div id="werkzeug-sigil" class="werkzeug-block">
         <p class="ritual-section-label">✒️ Sigil</p>
-        <div class="notice warn">Sigil lehnt schädliche / Fluch-Absichten ab. Chaosmagie: laden — dann vergessen.</div>
         <div class="card sigil-area">
           <div class="form-row" style="width:100%"><label>Absicht (ethisch)</label>
             <input id="sigil-input" placeholder="z. B. Ich halte klare Grenzen im Alltag" />
           </div>
           <div class="sigil-warn" id="sigil-warn"></div>
+          <p class="meta-line sigil-ethics-line">Keine Fluch-/Schadensabsicht · laden, dann vergessen.</p>
           <button type="button" class="primary" id="sigil-make">Sigil wirken</button>
           <p id="sigil-reduced" class="sigil-reduced"></p>
           <canvas id="sigil-canvas" width="300" height="300" aria-label="Sigil-Canvas"></canvas>
@@ -716,14 +714,13 @@
             <button type="button" id="sigil-forget" class="hidden">Absicht vergessen</button>
             <button type="button" id="sigil-save-gallery" class="hidden ghost">Ins Buch legen</button>
           </div>
-          <p class="hint-sm">Galerie speichert nur Hash + Glyph — nie schädliche Absichten, nie Klartext der Intention.</p>
+          <p class="hint-sm">Galerie: nur Hash + Glyph — nie Klartext der Absicht.</p>
         </div>
         <div class="card sigil-gallery-card" id="sigil-gallery-card">
           <div class="intention-top">
             <h3>Sigil-Galerie</h3>
             <button type="button" class="ghost tiny" id="sigil-gallery-clear" aria-label="Galerie leeren">Alle vergessen</button>
           </div>
-          <p class="hint-sm">Tippe <strong>Ansehen</strong>, um den Glyph aufs Canvas zu legen — optional stiller Atem, nur Lesen.</p>
           <div class="sigil-gallery" id="sigil-gallery" aria-live="polite"></div>
           <p class="empty-state compact" id="sigil-gallery-empty">Noch keine Glyphs — zeichne eines und lege es ab.</p>
           <div class="sigil-review-bar" id="sigil-review-bar" hidden>
@@ -736,15 +733,14 @@
         </div>
         </div>
 
-        <div id="werkzeug-karten">
+        <div id="werkzeug-karten" class="werkzeug-block">
         <p class="ritual-section-label">🃏 Feldkarten</p>
-        <div class="notice">22 originale Feldkarten — eigene Bildsprache, kein Tarot-Klon. Ziehe mit Absicht, ohne Schaden.</div>
         <div class="card daily-card-panel" id="daily-card-panel" aria-labelledby="daily-card-title">
           <div class="intention-top">
             <h3 id="daily-card-title">Tageskarte</h3>
             <span class="chip-quiet">1× / Tag</span>
           </div>
-          <p class="hint-sm">Optional eine Karte für heute — danach bis Mitternacht (Lokalzeit) gesperrt. Daten bleiben.</p>
+          <p class="hint-sm">Eine Karte für heute — bis Mitternacht gesiegelt. Daten bleiben lokal.</p>
           <button type="button" class="primary" id="draw-daily">Feldkarte des Tages</button>
           <div id="daily-card-result" class="daily-card-result" hidden aria-live="polite"></div>
           <p class="meta-line" id="daily-card-lock" hidden>Gesiegelt bis morgen · weiterziehen entsperrt nach Mitternacht.</p>
@@ -1297,7 +1293,7 @@
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
         <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem">Daten bleiben lokal auf diesem Gerät · App v<span id="settings-app-version">5.20.1</span> · <a href="#vertrauen" data-open-vertrauen>Vertrauen</a></p>
+        <p class="footer-ethics" style="padding-top:1rem">Daten bleiben lokal auf diesem Gerät · App v<span id="settings-app-version">5.20.2</span> · <a href="#vertrauen" data-open-vertrauen>Vertrauen</a></p>
       </div>
     </div>
   </div>

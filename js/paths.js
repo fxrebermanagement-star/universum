@@ -737,7 +737,7 @@
     santeria: { id: 'haus-reinheit', title: 'Haus-Reinheit', kind: 'checks', houseOnly: true, fields: [
       { id: 'raum', label: 'Raum' }, { id: 'wasser', label: 'Wasser' }, { id: 'licht', label: 'Licht' }
     ]},
-    esoterik: { id: 'schwellen-notiz', title: 'Schwellen-Notiz', kind: 'note', field: 'schwellenNotiz', placeholder: 'Schwelle / Klarheit…' }
+    esoterik: { id: 'klarheit-buch', title: 'Klarheit', kind: 'buch', buchMode: 'notiz', cta: 'Im Magie-Buch notieren', hint: 'Optional — Klarheit im Buch festhalten.' }
   };
 
   function getPathWerkzeug(pathId) {
