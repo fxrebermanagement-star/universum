@@ -430,6 +430,14 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.23.0 — Altar prettier + readable
+
+- **Impuls/Unruhe** vom One-Screen-Cockpit genommen (DOM bleibt versteckt für JS)
+- Kacheln lesbarer: kleines Label, großer Wert, mehr Padding, weiche Rundungen, sanfter Glow
+- Grid neu: Mond | Stunde | Schumann · Heute-Hero · Ritual/Buch/Resonanz/Kalender · Tageszeile · Kosmos/Werkzeug/Offline
+- Tipp des Tages unter **Mehr am Altar**
+- SW-Cache `universum-shell-v73`
+
 ## 5.22.0 — Altar Cockpit (ein Screen)
 
 Hand-skizziertes **Cockpit**-Bento: alles Wesentliche auf einen Blick (~100dvh, kein Lang-Scroll).

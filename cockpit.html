@@ -42,7 +42,7 @@
     <div id="main-content" tabindex="-1">
     <!-- 1. Altar (route id: cockpit) -->
     <section id="sec-cockpit" class="section-view active cockpit-lovely-page altar-sacred" aria-label="Altar">
-      <!-- v5.12.0 Altar: polish Messpult + Heute + bento (one scroll) -->
+      <!-- v5.23.0 Altar: prettier tiles, Impuls off cockpit, tip in Mehr -->
       <h1 class="section-title altar-cockpit-heading"><span class="sec-ico" aria-hidden="true">🪔</span> Altar</h1>
       <span class="section-motif altar-cockpit-motif" aria-hidden="true"></span>
       <p class="section-sub altar-cockpit-sub">Cockpit — alles auf einen Blick.</p>
@@ -97,38 +97,34 @@
       <!-- legacy chip kept for JS; visually replaced by Kalender glance card -->
       <button type="button" class="fest-countdown-chip" id="fest-countdown-chip" hidden aria-live="polite"></button>
 
-      <!-- v5.22.1 Altar Cockpit — fixed broken fest-chip tag -->
+      <!-- v5.23.0 Altar — prettier + readable; Impuls off cockpit -->
       <div class="altar-cockpit" id="altar-cockpit" aria-label="Altar Cockpit">
 
-        <!-- Row 1 left: Mond (wide) -->
+        <!-- Row 1: Mond | Stunde | Schumann -->
         <button type="button" class="dash-panel moon mess-tile mess-tap cock-tile cock-mond" id="mess-mond" data-mess-nav="kosmos" aria-label="Mond — öffnet Kosmos">
-          <div class="label">Mond</div>
+          <div class="cock-head">
+            <span class="cock-ico" aria-hidden="true">🌙</span>
+            <span class="label">Mond</span>
+          </div>
           <div class="value" id="dash-moon-val">—</div>
           <div class="mess-readout" id="dash-moon-pct">— %</div>
           <div class="meta" id="dash-moon-meta"></div>
           <div class="mess-sign" id="dash-moon-sign">—</div>
         </button>
 
-        <!-- Row 1 left: Planetenstunde (square) -->
         <button type="button" class="dash-panel hour mess-tile mess-tap cock-tile cock-stunde" id="mess-stunde" data-mess-nav="kosmos" aria-label="Planetenstunde — öffnet Kosmos">
-          <div class="label">Stunde</div>
+          <div class="cock-head">
+            <span class="cock-ico" aria-hidden="true">⏳</span>
+            <span class="label">Stunde</span>
+          </div>
           <div class="value" id="dash-hour-val">—</div>
           <div class="mess-readout" id="dash-hour-window">—</div>
           <div class="meta" id="dash-hour-meta"></div>
         </button>
 
-        <!-- Row 1 center: tall Unruhe / Impuls -->
-        <div class="dash-panel unrest impulse-panel mess-tile mess-unruhe-wide cock-tile cock-unruhe" id="mess-unruhe">
-          <div class="label">Impuls</div>
-          <div class="value" id="dash-unrest-val">—</div>
-          <div class="mess-readout" id="dash-unrest-level">—</div>
-          <div class="unrest-bar soft-impulse" aria-hidden="true"><i id="dash-unrest-bar"></i></div>
-          <div class="meta impulse-meta" id="dash-unrest-meta">Schweigen darf</div>
-        </div>
-
-        <!-- Row 1 right: Schumann (wide, mini spectro) -->
         <article class="card mess-schumann schumann-card cock-tile cock-schumann" id="glance-schumann-card" aria-labelledby="glance-schumann-title">
-          <div class="schumann-head compact-head cock-sch-head">
+          <div class="schumann-head compact-head cock-sch-head cock-head">
+            <span class="cock-ico" aria-hidden="true">〰️</span>
             <h3 id="glance-schumann-title">Schumann</h3>
             <span class="schumann-live-badge" data-sch-badge data-state="offline">7,83 Hz</span>
           </div>
@@ -152,10 +148,35 @@
           <span class="sr-only" data-sch-honesty></span>
         </article>
 
-        <!-- Row 1 right under: Ritual | Buch -->
+        <!-- Impuls / Unruhe: off one-screen cockpit; kept for JS dash-unrest-* -->
+        <div class="dash-panel unrest impulse-panel mess-tile mess-unruhe-wide cock-tile cock-unruhe" id="mess-unruhe" hidden aria-hidden="true">
+          <div class="label">Impuls</div>
+          <div class="value" id="dash-unrest-val">—</div>
+          <div class="mess-readout" id="dash-unrest-level">—</div>
+          <div class="unrest-bar soft-impulse" aria-hidden="true"><i id="dash-unrest-bar"></i></div>
+          <div class="meta impulse-meta" id="dash-unrest-meta">Schweigen darf</div>
+        </div>
+
+        <!-- Row 2: Heute hero (wide) -->
+        <article class="card jetzt-card heute-starter-hero cockpit-hero cockpit-lovely heute-primary altar-heart cock-tile cock-heute" id="jetzt-card" aria-labelledby="jetzt-title">
+          <div class="cock-head heute-head">
+            <span class="cock-ico" aria-hidden="true">🪔</span>
+            <h2 id="jetzt-title" class="heute-title">Heute</h2>
+            <span class="chip-quiet" id="jetzt-chip">Praxis</span>
+          </div>
+          <p class="jetzt-kind chip-quiet" id="jetzt-kind" hidden>Praxis</p>
+          <p class="jetzt-lead" id="jetzt-lead">Heute</p>
+          <p class="jetzt-meta heute-starter-meta" id="jetzt-meta">für dich heute</p>
+          <div class="btn-row heute-starter-actions">
+            <button type="button" class="primary" id="jetzt-start">Kreis öffnen</button>
+            <button type="button" class="ghost tiny" id="jetzt-starter" hidden>3-Min</button>
+          </div>
+        </article>
+
+        <!-- Row 3: glance apps -->
         <button type="button" class="card glance-card glance-ritual nested-card cockpit-lovely glance-widget cock-tile cock-ritual" id="glance-ritual-card" aria-labelledby="glance-ritual-title">
-          <div class="glance-ico" aria-hidden="true">🕯️</div>
-          <div class="intention-top">
+          <div class="cock-head">
+            <span class="glance-ico cock-ico" aria-hidden="true">🕯️</span>
             <h3 id="glance-ritual-title">Ritual</h3>
             <span class="chip-quiet" id="glance-ritual-chip">—</span>
           </div>
@@ -164,8 +185,8 @@
         </button>
 
         <button type="button" class="card glance-card glance-buch nested-card cockpit-lovely glance-widget cock-tile cock-buch" id="glance-buch-card" aria-labelledby="glance-buch-title">
-          <div class="glance-ico" aria-hidden="true">📖</div>
-          <div class="intention-top">
+          <div class="cock-head">
+            <span class="glance-ico cock-ico" aria-hidden="true">📖</span>
             <h3 id="glance-buch-title">Buch</h3>
             <span class="chip-quiet" id="glance-buch-chip">Buch</span>
           </div>
@@ -178,22 +199,9 @@
           </div>
         </button>
 
-        <!-- Row 2: Heute ~2/3 + Resonanz | Kalender -->
-        <article class="card jetzt-card heute-starter-hero cockpit-hero cockpit-lovely heute-primary altar-heart cock-tile cock-heute" id="jetzt-card" aria-labelledby="jetzt-title">
-          <h2 id="jetzt-title" class="sr-only">Heute</h2>
-          <span class="chip-quiet" id="jetzt-chip" hidden>Praxis</span>
-          <p class="jetzt-kind chip-quiet" id="jetzt-kind" hidden>Praxis</p>
-          <p class="jetzt-lead" id="jetzt-lead" hidden>Heute</p>
-          <p class="jetzt-meta heute-starter-meta" id="jetzt-meta">für dich heute</p>
-          <div class="btn-row heute-starter-actions">
-            <button type="button" class="primary" id="jetzt-start">Kreis öffnen</button>
-            <button type="button" class="ghost tiny" id="jetzt-starter" hidden>3-Min</button>
-          </div>
-        </article>
-
         <button type="button" class="card glance-card glance-resonanz nested-card cockpit-lovely glance-widget cock-tile cock-resonanz" id="glance-resonanz-card" aria-labelledby="glance-resonanz-title">
-          <div class="glance-ico" aria-hidden="true">🌿</div>
-          <div class="intention-top">
+          <div class="cock-head">
+            <span class="glance-ico cock-ico" aria-hidden="true">🌿</span>
             <h3 id="glance-resonanz-title">Resonanz</h3>
             <span class="chip-quiet" id="glance-resonanz-chip">—</span>
           </div>
@@ -202,8 +210,8 @@
         </button>
 
         <button type="button" class="card glance-card glance-kalender nested-card cockpit-lovely glance-widget cock-tile cock-kalender" id="glance-kalender-card" aria-labelledby="glance-kalender-title">
-          <div class="glance-ico" aria-hidden="true">📅</div>
-          <div class="intention-top">
+          <div class="cock-head">
+            <span class="glance-ico cock-ico" aria-hidden="true">📅</span>
             <h3 id="glance-kalender-title">Kalender</h3>
             <span class="chip-quiet" id="glance-kalender-chip">Fest</span>
           </div>
@@ -211,13 +219,13 @@
           <p class="hint-sm" id="glance-kalender-meta">öffnen</p>
         </button>
 
-        <!-- Row 3: Tageszeile full -->
+        <!-- Row 4: Tageszeile -->
         <p class="altar-tageszeile cock-tile cock-tageszeile" id="altar-tageszeile" aria-live="polite">Heute · Mond · Stunde · Gabe</p>
 
-        <!-- Row 4: Kosmos half + Werkzeug | Tip / Offline under -->
+        <!-- Row 5: Kosmos | Werkzeug | Offline -->
         <button type="button" class="card glance-card glance-kosmos nested-card cockpit-lovely glance-widget cock-tile cock-kosmos" id="glance-kosmos-card" aria-labelledby="glance-kosmos-title">
-          <div class="glance-ico" aria-hidden="true">🪐</div>
-          <div class="intention-top">
+          <div class="cock-head">
+            <span class="glance-ico cock-ico" aria-hidden="true">🪐</span>
             <h3 id="glance-kosmos-title">Kosmos</h3>
             <span class="chip-quiet" id="glance-kosmos-chip">Stunde</span>
           </div>
@@ -226,19 +234,14 @@
         </button>
 
         <button type="button" class="card glance-card glance-werkzeug nested-card cockpit-lovely craft-peek glance-widget cock-tile cock-werkzeug" id="craft-peek-card" aria-labelledby="craft-peek-title">
-          <div class="glance-ico" aria-hidden="true">🛠️</div>
-          <div class="intention-top">
+          <div class="cock-head">
+            <span class="glance-ico cock-ico" aria-hidden="true">🛠️</span>
             <h3 id="craft-peek-title">Werkzeug</h3>
             <span class="chip-quiet" id="craft-peek-chip">kurz</span>
           </div>
           <p class="hint-sm" id="craft-peek-text">Mini für heute</p>
           <p class="path-chip-line hint-sm" id="glance-path-chip"><span class="path-sym" aria-hidden="true">✦</span> <span id="glance-path-name">Pfad</span></p>
         </button>
-
-        <div class="card nested-card tip-card cock-tile cock-tip" id="tip-of-day-card">
-          <h3>Tipp</h3>
-          <p id="tip-of-day" class="tip-text">…</p>
-        </div>
 
         <div class="altar-offline-bar cock-tile cock-offline" id="altar-offline-bar" role="status" data-state="online">
           <span class="offline-chip offline-chip-bar" id="offline-chip">● Lokal</span>
@@ -501,9 +504,9 @@
         </div>
       </div>
 
-      <div class="card nested-card tip-card" id="tip-of-day-card-mehr" aria-hidden="true">
+      <div class="card nested-card tip-card" id="tip-of-day-card">
         <h3>Tipp des Tages</h3>
-        <p class="tip-text tip-of-day-mirror">Siehe Cockpit oben.</p>
+        <p id="tip-of-day" class="tip-text">…</p>
       </div>
 
       <div class="card nested-card">
@@ -1305,7 +1308,7 @@
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
         <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem">Daten bleiben lokal auf diesem Gerät · App v<span id="settings-app-version">5.22.1</span> · <a href="#vertrauen" data-open-vertrauen>Vertrauen</a></p>
+        <p class="footer-ethics" style="padding-top:1rem">Daten bleiben lokal auf diesem Gerät · App v<span id="settings-app-version">5.23.0</span> · <a href="#vertrauen" data-open-vertrauen>Vertrauen</a></p>
       </div>
     </div>
   </div>
