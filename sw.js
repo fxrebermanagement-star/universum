@@ -2,9 +2,9 @@
  * UNIVERSUM · Service Worker — offline shell caching
  * Relative URLs so GitHub Pages /universum/ subpath works.
  * Cache-first for app shell; network-first navigations; offline fallback to cockpit.
- * v114: 5.33.7 — no install overlay auto-show; Altar boot; no blur
+ * v115: 5.33.8 — force cache refresh (network-first shell + auto-reload)
  */
-const CACHE = 'universum-shell-v114';
+const CACHE = 'universum-shell-v115';
 const SHELL = [
   './',
   './index.html',
@@ -120,19 +120,12 @@ self.addEventListener('install', (event) => {
   );
 });
 
-self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))
-    ).then(() => self.clients.claim())
-  );
-});
-
 self.addEventListener('message', (event) => {
   if (event && event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
   }
 });
+
 
 function isShellPath(pathname) {
   return (
@@ -147,31 +140,44 @@ function isShellPath(pathname) {
   );
 }
 
+function networkFirst(req) {
+  return fetch(req, { cache: 'no-store' })
+    .then((res) => {
+      if (res && res.ok) {
+        const clone = res.clone();
+        caches.open(CACHE).then((c) => c.put(req, clone)).catch(() => null);
+      }
+      return res;
+    })
+    .catch(() =>
+      caches.match(req).then((cached) =>
+        cached ||
+        caches.match('./cockpit.html') ||
+        caches.match('./index.html') ||
+        caches.match('./')
+      )
+    );
+}
+
 self.addEventListener('fetch', (event) => {
   const req = event.request;
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
 
-  if (req.mode === 'navigate') {
-    event.respondWith(
-      fetch(req)
-        .then((res) => {
-          if (res && res.ok) {
-            const clone = res.clone();
-            caches.open(CACHE).then((c) => c.put(req, clone));
-          }
-          return res;
-        })
-        .catch(() =>
-          caches.match(req).then((cached) =>
-            cached ||
-            caches.match('./cockpit.html') ||
-            caches.match('./index.html') ||
-            caches.match('./')
-          )
-        )
-    );
+  const path = url.pathname || '';
+  const isNav = req.mode === 'navigate';
+  const isShellCode =
+    path.endsWith('.html') ||
+    path.endsWith('.js') ||
+    path.endsWith('.css') ||
+    path.endsWith('.webmanifest') ||
+    path.endsWith('/universum') ||
+    path.endsWith('/');
+
+  // v5.33.8: network-first for app shell so updates are not stuck in old cache
+  if (isNav || isShellCode) {
+    event.respondWith(networkFirst(req));
     return;
   }
 
@@ -188,5 +194,20 @@ self.addEventListener('fetch', (event) => {
         .catch(() => cached);
       return cached || fetched;
     })
+  );
+});
+
+// Tell open tabs to reload once this SW takes control
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((keys) =>
+      Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))
+    ).then(() => self.clients.claim()).then(() =>
+      self.clients.matchAll({ type: 'window' }).then((clients) => {
+        clients.forEach((c) => {
+          try { c.postMessage({ type: 'UNIVERSUM_SW_UPDATED', cache: CACHE }); } catch (_) {}
+        });
+      })
+    )
   );
 });

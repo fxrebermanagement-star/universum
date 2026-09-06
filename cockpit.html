@@ -16,10 +16,10 @@
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=5335" sizes="180x180" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preload" href="css/styles.css" as="style" />
+  <link rel="preload" href="css/styles.css?v=5338" as="style" />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
   <noscript><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" /></noscript>
-  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/styles.css?v=5338" />
   <style>
     /* Critical above-the-fold shell — reduces FOUC before styles.css */
     body{margin:0;background:#0c0814;color:#efeaf8;font-family:system-ui,sans-serif}
@@ -1379,7 +1379,7 @@
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
         <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem"><span data-i18n="settings.footer">Daten bleiben lokal auf diesem Gerät</span> · App v<span id="settings-app-version">5.33.7</span> · <a href="#vertrauen" data-open-vertrauen>Vertrauen</a></p>
+        <p class="footer-ethics" style="padding-top:1rem"><span data-i18n="settings.footer">Daten bleiben lokal auf diesem Gerät</span> · App v<span id="settings-app-version">5.33.8</span> · <a href="#vertrauen" data-open-vertrauen>Vertrauen</a></p>
       </div>
     </div>
   </div>
@@ -1504,20 +1504,56 @@
     <div id="rr-content"></div>
   </div>
 
-  <script defer src="js/astronomy.js"></script>
-  <script defer src="js/storage.js"></script>
-  <script defer src="js/media.js"></script>
-  <script defer src="js/paths.js"></script>
-  <script defer src="js/rituals.js"></script>
-  <script defer src="js/sigil.js"></script>
-  <script defer src="js/cards.js"></script>
-  <script defer src="js/schumann.js"></script>
-  <script defer src="js/i18n.js"></script>
-  <script defer src="js/app.js"></script>
+  <script defer src="js/astronomy.js?v=5338"></script>
+  <script defer src="js/storage.js?v=5338"></script>
+  <script defer src="js/media.js?v=5338"></script>
+  <script defer src="js/paths.js?v=5338"></script>
+  <script defer src="js/rituals.js?v=5338"></script>
+  <script defer src="js/sigil.js?v=5338"></script>
+  <script defer src="js/cards.js?v=5338"></script>
+  <script defer src="js/schumann.js?v=5338"></script>
+  <script defer src="js/i18n.js?v=5338"></script>
+  <script defer src="js/app.js?v=5338"></script>
   <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js', { scope: './' }).catch(function () {});
-    }
+    (function () {
+      if (!('serviceWorker' in navigator)) return;
+      var reloaded = false;
+      function reloadOnce() {
+        if (reloaded) return;
+        reloaded = true;
+        try { sessionStorage.setItem('universum-sw-reloaded', '1'); } catch (e) {}
+        location.reload();
+      }
+      navigator.serviceWorker.addEventListener('controllerchange', function () {
+        try {
+          if (sessionStorage.getItem('universum-sw-reloaded') === '1') {
+            sessionStorage.removeItem('universum-sw-reloaded');
+            return;
+          }
+        } catch (e) {}
+        reloadOnce();
+      });
+      navigator.serviceWorker.addEventListener('message', function (ev) {
+        if (ev && ev.data && ev.data.type === 'UNIVERSUM_SW_UPDATED') reloadOnce();
+      });
+      navigator.serviceWorker.register('./sw.js?v=115', { scope: './' }).then(function (reg) {
+        try { if (reg && reg.update) reg.update(); } catch (e) {}
+        if (reg && reg.waiting) {
+          try { reg.waiting.postMessage({ type: 'SKIP_WAITING' }); } catch (e) {}
+        }
+        if (reg) {
+          reg.addEventListener('updatefound', function () {
+            var nw = reg.installing;
+            if (!nw) return;
+            nw.addEventListener('statechange', function () {
+              if (nw.state === 'installed' && navigator.serviceWorker.controller) {
+                try { nw.postMessage({ type: 'SKIP_WAITING' }); } catch (e) {}
+              }
+            });
+          });
+        }
+      }).catch(function () {});
+    })();
   </script>
   <!-- PWA install overlay — outside altar/cockpit so overflow:hidden never clips it -->
   <div class="install-banner" id="install-banner" hidden role="region" aria-label="Zum Homescreen">

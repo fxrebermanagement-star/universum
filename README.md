@@ -1007,3 +1007,10 @@ Siebzehnte Runde — **UX Klarheit**: modernes dunkles UI mit mehr Weißraum und
 - Homescreen-Schritte nur in den Einstellungen
 - Manifest `start_url` mit `#cockpit`
 - SW `universum-shell-v114`
+
+## 5.33.8 — Cache-Zwangsupdate
+
+- Service Worker: Shell (HTML/JS/CSS) network-first
+- Auto-Reload wenn neuer SW aktiv wird
+- Script-URLs mit `?v=5338`, SW `?v=115`
+- Cache-Name `universum-shell-v115`
