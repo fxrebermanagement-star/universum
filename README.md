@@ -430,6 +430,11 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.28.1 — Figur ohne Rahmenplatte
+
+- Pfad-Figur-PNGs: goldener Kachel-Rahmen und dunkle Platte entfernt
+- Figur-Chrome im CSS nochmals hart ausgeschaltet · SW `universum-shell-v84`
+
 ## 5.28.0 — Figur wirklich frei · Status bis Rand
 
 - Hero neu: links Status + Mond/Sonne, rechts Figur von oben (kein 3-Kachel-Raster)

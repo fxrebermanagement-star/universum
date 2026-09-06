@@ -9824,6 +9824,44 @@ body.stille-modus #sec-cockpit #jetzt-card .jetzt-lead {
   .path-figure-caption { font-size: 0.58rem; }
 }
 
+/* v5.28.1 — Figur-PNG ohne Rahmenplatte · null Kachel-Chrome */
+.cock-hero-grid > .cock-path-figur,
+.cock-hero-grid > .cock-path-figur-float,
+#cock-path-figur {
+  border: 0 !important;
+  border-radius: 0 !important;
+  outline: 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+#cock-path-figur .path-figure-frame,
+#cock-path-figur .path-figure-img {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+}
+#cock-path-figur .path-figure-caption {
+  position: relative;
+  z-index: 1;
+  margin-top: -0.15rem;
+  padding: 0;
+  background: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  text-shadow:
+    0 0 8px rgba(92, 225, 255, 0.35),
+    0 1px 2px rgba(0, 0, 0, 0.55);
+}
+
 /* v5.28.0 — Status bis Rand · Figur oben frei (kein Kachel-PNG) */
 #sec-cockpit.altar-sacred.active {
   padding-left: 0.4rem !important;
