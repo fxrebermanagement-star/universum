@@ -1693,7 +1693,7 @@
   function renderSitzungBar() {
     const bar = $('#sitzung-bar');
     if (!bar) return;
-    /* v5.26.2: Sitzungs-Banner am Altar dauerhaft aus */
+    /* v5.27.0: Sitzungs-Banner am Altar dauerhaft aus */
     bar.hidden = true;
     bar.setAttribute('aria-hidden', 'true');
     return;
@@ -7862,7 +7862,17 @@
     if (glanceKal) glanceKal.addEventListener('click', openFestInKalender);
     const glanceRitual = $('#glance-ritual-card');
     if (glanceRitual) {
-      glanceRitual.addEventListener('click', () => {
+      let ritualLpTimer = null;
+      let ritualLpFired = false;
+      const ritualMehr = $('#cock-ritual-mehr');
+      function closeRitualMehr() {
+        if (ritualMehr) ritualMehr.hidden = true;
+      }
+      function openRitualMehr() {
+        if (!ritualMehr) return;
+        ritualMehr.hidden = false;
+      }
+      function goRitualDefault() {
         const rid = glanceRitual.dataset.ritualId;
         if (rid) {
           let r = Rituals.getRitual(rid);
@@ -7877,7 +7887,57 @@
           return;
         }
         navigate('rituale', { force: true });
+      }
+      glanceRitual.addEventListener('pointerdown', (ev) => {
+        if (ev.button != null && ev.button !== 0) return;
+        ritualLpFired = false;
+        clearTimeout(ritualLpTimer);
+        ritualLpTimer = setTimeout(() => {
+          ritualLpFired = true;
+          openRitualMehr();
+          try { if (navigator.vibrate) navigator.vibrate(12); } catch (_) {}
+        }, 520);
       });
+      const clearRitualLp = () => { clearTimeout(ritualLpTimer); ritualLpTimer = null; };
+      glanceRitual.addEventListener('pointerup', clearRitualLp);
+      glanceRitual.addEventListener('pointercancel', clearRitualLp);
+      glanceRitual.addEventListener('pointerleave', clearRitualLp);
+      glanceRitual.addEventListener('contextmenu', (ev) => {
+        ev.preventDefault();
+        ritualLpFired = true;
+        openRitualMehr();
+      });
+      glanceRitual.addEventListener('click', (ev) => {
+        if (ritualLpFired) {
+          ev.preventDefault();
+          ritualLpFired = false;
+          return;
+        }
+        closeRitualMehr();
+        goRitualDefault();
+      });
+      if (ritualMehr) {
+        ritualMehr.querySelectorAll('[data-mehr]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const kind = btn.getAttribute('data-mehr');
+            closeRitualMehr();
+            if (kind === 'sigil') openRitualTab('sigil', { scroll: true, flash: true });
+            else if (kind === 'karten') openRitualTab('karten', { scroll: true, flash: true });
+            else if (kind === 'kalender') {
+              const kal = $('#glance-kalender-card');
+              if (kal) kal.click();
+              else navigate('kalender', { force: true });
+            }
+          });
+        });
+        const mehrClose = $('#cock-ritual-mehr-close');
+        if (mehrClose) mehrClose.addEventListener('click', closeRitualMehr);
+        document.addEventListener('click', (ev) => {
+          if (!ritualMehr.hidden && !ritualMehr.contains(ev.target) && ev.target !== glanceRitual && !glanceRitual.contains(ev.target)) {
+            closeRitualMehr();
+          }
+        });
+      }
     }
     const glanceBuch = $('#glance-buch-card');
     if (glanceBuch) {

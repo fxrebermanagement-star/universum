@@ -8854,14 +8854,45 @@ body.quiet-mode .first-session-tip { display: none !important; }
 .altar-cockpit .cock-head .chip-quiet,
 .altar-cockpit .cock-head .schumann-live-badge { margin-left: auto; flex: 0 0 auto; }
 
-/* 1. Top status strip: Zeit · Wetter · Heute */
-.cock-status-bar {
-  display: grid;
-  grid-template-columns: minmax(0, 0.95fr) minmax(0, 0.85fr) minmax(0, 1.2fr);
-  gap: var(--cock-gap);
+/* 1. ONE status box: Zeit/Datum + Wetter + Heute tip */
+.cock-status-bar,
+.cock-status-unified {
+  display: flex;
+  flex-direction: column;
+  gap: 0.42rem;
   min-height: 0;
   align-items: stretch;
+  padding: 0.55rem 0.62rem 0.5rem !important;
+  border-radius: 18px;
 }
+.cock-status-meta {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 0.45rem;
+  min-width: 0;
+  align-items: center;
+}
+.cock-status-zeit,
+.cock-status-wetter {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  animation: none !important;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: default;
+}
+.cock-status-wetter { cursor: pointer; }
 .cock-status-bar .cock-tile {
   display: flex;
   flex-direction: row;
@@ -8920,6 +8951,30 @@ body.quiet-mode .first-session-tip { display: none !important; }
 }
 .cock-status-wetter {
   border-color: rgba(120, 190, 220, 0.3) !important;
+}
+/* Unified status box: inner parts are plain content, not nested tiles */
+.cock-status-unified.cock-tile {
+  cursor: default;
+}
+.cock-status-unified .cock-status-heute,
+.cock-status-unified #jetzt-card.card {
+  border: none !important;
+  border-top: 1px solid rgba(255, 110, 199, 0.2) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 0.35rem 0 0 !important;
+  border-radius: 0 !important;
+}
+.cock-status-unified .cock-status-wetter.dash-panel,
+.cock-status-unified .cock-status-wetter.mess-tile {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: 0 !important;
+  width: auto;
 }
 .cock-heute-slim-actions[hidden] { display: none !important; }
 
@@ -9068,11 +9123,56 @@ body.quiet-mode .first-session-tip { display: none !important; }
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 .cock-app-dock-secondary {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  max-width: 16rem;
-  margin-inline: auto;
-  width: 100%;
+  display: none !important;
 }
+.cock-dock-mehr-hooks { display: none !important; }
+.cock-ritual-mehr {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 0.35rem);
+  transform: translateX(-50%);
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+  min-width: 11.5rem;
+  padding: 0.55rem 0.6rem;
+  border-radius: 14px;
+  border: 1.5px solid rgba(92, 225, 255, 0.35);
+  background:
+    linear-gradient(145deg, rgba(255, 110, 199, 0.12), transparent 45%),
+    rgba(14, 10, 24, 0.92);
+  box-shadow: 0 0 18px rgba(92, 225, 255, 0.18), 0 10px 24px rgba(0,0,0,0.4);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+.cock-ritual-mehr[hidden] { display: none !important; }
+.cock-dock-wrap { position: relative; }
+.cock-ritual-mehr-title {
+  margin: 0 0 0.15rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+.cock-ritual-mehr-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: 100%;
+  padding: 0.45rem 0.5rem;
+  border: 1px solid rgba(255, 220, 200, 0.12);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(245, 238, 255, 0.95);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+}
+.cock-ritual-mehr-btn:active { transform: scale(0.98); background: rgba(255, 110, 199, 0.14); }
+.cock-ritual-mehr-close { margin-top: 0.15rem; align-self: center; }
 .cock-app-dock .hs-app {
   display: flex;
   flex-direction: column;
@@ -9286,14 +9386,25 @@ body.quiet-mode .first-session-tip { display: none !important; }
 body.stille-modus #sec-cockpit > *:not(.altar-cockpit):not(.stille-ritual-slot):not(.sitzung-bar) {
   display: none !important;
 }
-body.stille-modus #altar-cockpit > *:not(.cock-status-bar) {
+body.stille-modus #altar-cockpit > *:not(.cock-hero-grid) {
   display: none !important;
 }
-body.stille-modus #altar-cockpit .cock-status-bar > *:not(#jetzt-card) {
+body.stille-modus #altar-cockpit .cock-hero-grid > *:not(.cock-status-bar) {
   display: none !important;
+}
+body.stille-modus #altar-cockpit .cock-status-unified .cock-status-meta {
+  display: none !important;
+}
+body.stille-modus #altar-cockpit .cock-hero-grid {
+  display: grid !important;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas: "status";
+  height: 100%;
 }
 body.stille-modus #altar-cockpit .cock-status-bar {
-  display: contents;
+  display: flex !important;
+  height: 100%;
 }
 body.stille-modus #sec-cockpit #jetzt-card {
   display: flex !important;
@@ -9326,7 +9437,7 @@ body.stille-modus #sec-cockpit #jetzt-card .jetzt-lead {
 @media (min-width: 720px) {
   .altar-cockpit { --cock-gap: 0.58rem; }
   .cock-dock-wrap { max-width: 36rem; justify-self: center; width: 100%; }
-  .cock-app-dock-secondary { max-width: 18rem; }
+  .cock-app-dock-secondary { display: none !important; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -9416,7 +9527,7 @@ body.stille-modus #sec-cockpit #jetzt-card .jetzt-lead {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   grid-template-rows:
-    minmax(0, 2.55fr)
+    minmax(0, 2.65fr)
     minmax(0, 1.05fr)
     auto;
   gap: var(--cock-gap);
@@ -9430,8 +9541,8 @@ body.stille-modus #sec-cockpit #jetzt-card .jetzt-lead {
 /* Hero: Status | Mond | Sonne | Figur (Figur rechts über 2 Reihen) */
 .cock-hero-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.28fr);
-  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.05fr);
+  grid-template-rows: minmax(0, 0.95fr) minmax(0, 1.15fr);
   grid-template-areas:
     "status status figur"
     "mond   sonne  figur";
@@ -9486,12 +9597,38 @@ body.stille-modus #sec-cockpit #jetzt-card .jetzt-lead {
   }
 }
 
-.cock-status-bar {
-  display: grid;
-  grid-template-columns: minmax(0, 0.95fr) minmax(0, 0.85fr) minmax(0, 1.2fr);
-  gap: var(--cock-gap);
+.cock-status-bar.cock-status-unified {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
   min-height: 0;
-  align-items: stretch;
+  height: 100%;
+  justify-content: center;
+  padding: 0.55rem 0.65rem 0.5rem !important;
+  border-radius: 18px;
+  animation: cock-glass-shimmer 7.5s ease-in-out infinite;
+}
+.cock-status-unified .cock-status-heute {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0.42rem;
+  margin: 0;
+  padding: 0.35rem 0 0;
+  border: none !important;
+  border-top: 1px solid rgba(255, 110, 199, 0.22) !important;
+  border-radius: 0;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  animation: none !important;
+  min-height: 0;
+}
+.cock-status-unified .cock-status-wetter {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
 }
 .cock-status-bar .cock-tile {
   display: flex;
@@ -9501,17 +9638,7 @@ body.stille-modus #sec-cockpit #jetzt-card .jetzt-lead {
   padding: 0.4rem 0.5rem !important;
   border-radius: 14px;
   min-height: 2.95rem;
-  animation: none; /* keep shimmer only on larger tiles for calm UI */
-}
-.cock-status-heute {
-  border-color: rgba(255, 110, 199, 0.48) !important;
-  box-shadow:
-    0 0 14px rgba(255, 110, 199, 0.22),
-    0 6px 16px rgba(0, 0, 0, 0.22),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
-}
-.cock-status-wetter {
-  border-color: rgba(92, 225, 255, 0.45) !important;
+  animation: none;
 }
 
 /* Mond / Sonne — tall soft neon glow borders */
@@ -9676,7 +9803,9 @@ body.stille-modus #sec-cockpit #jetzt-card .jetzt-lead {
 @media (max-width: 430px) {
   .altar-cockpit { --cock-gap: 0.36rem; }
   .cock-hero-grid {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.15fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.95fr);
   }
+  .cock-status-unified { padding: 0.45rem 0.52rem 0.4rem !important; }
+  .cock-status-meta { gap: 0.32rem; }
   .path-figure-caption { font-size: 0.58rem; }
 }

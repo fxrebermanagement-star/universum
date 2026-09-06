@@ -430,6 +430,16 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.27.0 — Match user sketch literally
+
+- **ONE Status-Box** oben links: Zeit/Datum + Wetter + Heute-Tipp (keine drei Einzelkacheln)
+- **Figur frei** oben rechts, ohne Kachel — hoch neben Status + Mond|Sonne
+- **Mond | Sonne** unter der Status-Box; Figur rechts daneben
+- **Schumann** volle Breite darunter
+- **Genau 4 Apps** in einer Reihe: Rituale · Resonanzen · Buch · Kosmos (Sigille/Karten/Kalender via Rituale-Langdruck / Mehr)
+- Kein Sitzungs-Banner · keine zweite Dock-Reihe · Soft neon glass
+- SW-Cache `universum-shell-v80`
+
 ## 5.26.2 — Altar soft neon glass · Magie ohne Angst
 
 - **Layout (Skizze):** Zeit/Datum·Wetter·Heute links · **Pfad-Figur ohne Kachel** rechts · Mond|Sonne · Schumann · Apps-Dock

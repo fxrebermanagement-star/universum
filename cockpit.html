@@ -43,7 +43,7 @@
     <div id="main-content" tabindex="-1">
     <!-- 1. Altar (route id: cockpit) -->
     <section id="sec-cockpit" class="section-view active cockpit-lovely-page altar-sacred" aria-label="Altar">
-      <!-- v5.26.2 Altar — Skizze + Glas · Figur ohne Kachel · kein Sitzungs-Banner · kein Bottom-Nav -->
+      <!-- v5.27.0 Altar — Skizze literal · 1 Status-Box · Figur frei · 4 Apps · kein Sitzungs-Banner -->
       <h1 class="section-title altar-cockpit-heading sr-only"><span class="sec-ico" aria-hidden="true">🪔</span> Altar</h1>
       <span class="section-motif altar-cockpit-motif" aria-hidden="true" hidden></span>
       <p class="section-sub altar-cockpit-sub sr-only">Dein Altar — warm, still, zum Ankommen.</p>
@@ -57,7 +57,7 @@
         <p class="path-haltung" id="path-haltung" aria-live="polite"><span class="path-sym" aria-hidden="true">✦</span> <span class="path-haltung-text">Stille Praxis — Daten bleiben bei dir.</span></p>
       </div>
 
-      <!-- v5.26.2: Sitzungs-Banner dauerhaft entfernt am Altar (DOM/JS-Hooks bleiben stumm) -->
+      <!-- v5.27.0: Sitzungs-Banner dauerhaft entfernt am Altar (DOM/JS-Hooks bleiben stumm) -->
       <div class="sitzung-bar sitzung-bar-retired" id="sitzung-bar" role="region" aria-label="Sitzung A bis Z" hidden aria-hidden="true">
         <div class="sitzung-steps" aria-hidden="true">
           <span class="sitzung-step" data-sitzung="heute">① Heute</span>
@@ -99,29 +99,31 @@
       <!-- legacy chip kept for JS -->
       <button type="button" class="fest-countdown-chip" id="fest-countdown-chip" hidden aria-live="polite"></button>
 
-      <!-- v5.26.2 Altar — Skizze: Status · Figur frei · Mond|Sonne · Schumann · Dock -->
+      <!-- v5.27.0 Altar — Skizze literal: 1 Status-Box · Figur frei · Mond|Sonne · Schumann · 4 Apps -->
       <div class="altar-cockpit altar-homescreen" id="altar-cockpit" aria-label="Altar — dein magisches Home">
 
         <div class="cock-hero-grid" aria-label="Zeit, Kosmos und Pfad">
-          <!-- 1. Oben links: Zeit/Datum · Wetter · Heute (kompakte Glaskacheln) -->
-          <div class="cock-status-bar" role="group" aria-label="Zeit, Wetter und Heute">
-            <div class="cock-status-zeit cock-tile cock-glass" aria-label="Zeit und Datum">
-              <span class="cock-status-ico" aria-hidden="true">🕰️</span>
-              <div class="cock-status-body">
-                <span class="value cock-clock" id="dash-datetime-clock">—</span>
-                <span class="mess-readout" id="dash-datetime-date">—</span>
+          <!-- 1. ONE top-left status box: Zeit/Datum + Wetter + Heute tip -->
+          <div class="cock-status-bar cock-status-unified cock-tile cock-glass" role="group" aria-label="Zeit, Wetter und Heute">
+            <div class="cock-status-meta">
+              <div class="cock-status-zeit" aria-label="Zeit und Datum">
+                <span class="cock-status-ico" aria-hidden="true">🕰️</span>
+                <div class="cock-status-body">
+                  <span class="value cock-clock" id="dash-datetime-clock">—</span>
+                  <span class="mess-readout" id="dash-datetime-date">—</span>
+                </div>
               </div>
+              <button type="button" class="dash-panel mess-tile cock-wetter cock-status-wetter" id="mess-wetter" data-mess-nav="kosmos" aria-label="Wetter — Standort Zürich oder gemerkt">
+                <span class="cock-status-ico" aria-hidden="true">🌤️</span>
+                <div class="cock-status-body">
+                  <span class="value" id="dash-wetter-temp">—</span>
+                  <span class="mess-readout" id="dash-wetter-cond">—</span>
+                  <span class="chip-quiet" id="dash-wetter-chip" hidden>Lokal</span>
+                  <span class="meta sr-only" id="dash-wetter-meta">Open-Meteo · Zürich-Default</span>
+                </div>
+              </button>
             </div>
-            <button type="button" class="dash-panel mess-tile cock-tile cock-glass cock-wetter cock-status-wetter" id="mess-wetter" data-mess-nav="kosmos" aria-label="Wetter — Standort Zürich oder gemerkt">
-              <span class="cock-status-ico" aria-hidden="true">🌤️</span>
-              <div class="cock-status-body">
-                <span class="value" id="dash-wetter-temp">—</span>
-                <span class="mess-readout" id="dash-wetter-cond">—</span>
-                <span class="chip-quiet" id="dash-wetter-chip" hidden>Lokal</span>
-                <span class="meta sr-only" id="dash-wetter-meta">Open-Meteo · Zürich-Default</span>
-              </div>
-            </button>
-            <article class="card jetzt-card cockpit-lovely heute-primary altar-heart cock-tile cock-glass cock-datum cock-status-heute" id="jetzt-card" aria-labelledby="jetzt-title">
+            <article class="card jetzt-card cockpit-lovely heute-primary altar-heart cock-datum cock-status-heute" id="jetzt-card" aria-labelledby="jetzt-title">
               <span class="cock-status-ico" aria-hidden="true">✦</span>
               <div class="cock-status-body">
                 <h2 id="jetzt-title" class="heute-title label">Heute</h2>
@@ -196,10 +198,10 @@
           <span class="sr-only" data-sch-honesty></span>
         </article>
 
-        <!-- 4. Apps/Menue: 4 Icons + schlanke 2. Reihe -->
+        <!-- 4. Apps/Menue: exactly 4 icons (Skizze) — Sigille/Karten/Kalender via Rituale Langdruck -->
         <div class="cock-dock-wrap">
           <nav class="cock-app-dock cock-app-dock-primary" aria-label="Altar Apps">
-            <button type="button" class="hs-app" id="glance-ritual-card" aria-label="Rituale">
+            <button type="button" class="hs-app" id="glance-ritual-card" aria-label="Rituale — lang drücken für Mehr" title="Rituale · lang drücken: Sigille · Karten · Kalender">
               <span class="ico" aria-hidden="true">🕯️</span>
               <span class="hs-label">Rituale</span>
               <span class="sr-only" id="glance-ritual-title">Rituale</span>
@@ -233,24 +235,25 @@
               <span class="hint-sm sr-only" id="glance-kosmos-meta">öffnen</span>
             </button>
           </nav>
-          <nav class="cock-app-dock cock-app-dock-secondary" aria-label="Weitere Apps">
-            <button type="button" class="hs-app hs-app-sm" id="glance-sigil-card" aria-label="Sigille — Rituale Werkzeug">
-              <span class="ico" aria-hidden="true">✒️</span>
-              <span class="hs-label">Sigille</span>
-            </button>
-            <button type="button" class="hs-app hs-app-sm" id="glance-karten-card" aria-label="Karten — Rituale Feldkarten">
-              <span class="ico" aria-hidden="true">🃏</span>
-              <span class="hs-label">Karten</span>
-            </button>
-            <button type="button" class="hs-app hs-app-sm" id="glance-kalender-card" aria-label="Kalender">
-              <span class="ico" aria-hidden="true">📅</span>
-              <span class="hs-label">Kalender</span>
+          <!-- Hidden JS hooks — access via Rituale long-press / Mehr -->
+          <div class="cock-dock-mehr-hooks" hidden aria-hidden="true">
+            <button type="button" id="glance-sigil-card" aria-label="Sigille — Rituale Werkzeug">Sigille</button>
+            <button type="button" id="glance-karten-card" aria-label="Karten — Rituale Feldkarten">Karten</button>
+            <button type="button" id="glance-kalender-card" aria-label="Kalender">
+              Kalender
               <span class="sr-only" id="glance-kalender-title">Kalender</span>
               <span class="chip-quiet sr-only" id="glance-kalender-chip">Fest</span>
               <span class="glance-lead sr-only" id="glance-kalender-lead">Feste</span>
               <span class="hint-sm sr-only" id="glance-kalender-meta">öffnen</span>
             </button>
-          </nav>
+          </div>
+          <div class="cock-ritual-mehr" id="cock-ritual-mehr" hidden role="dialog" aria-label="Mehr aus Rituale">
+            <p class="cock-ritual-mehr-title">Mehr</p>
+            <button type="button" class="cock-ritual-mehr-btn" data-mehr="sigil">✒️ Sigille</button>
+            <button type="button" class="cock-ritual-mehr-btn" data-mehr="karten">🃏 Karten</button>
+            <button type="button" class="cock-ritual-mehr-btn" data-mehr="kalender">📅 Kalender</button>
+            <button type="button" class="ghost tiny cock-ritual-mehr-close" id="cock-ritual-mehr-close">Schließen</button>
+          </div>
         </div>
 
         <!-- Legacy / JS mirrors (off homescreen) -->
@@ -1348,7 +1351,7 @@
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
         <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem">Daten bleiben lokal auf diesem Gerät · App v<span id="settings-app-version">5.26.2</span> · <a href="#vertrauen" data-open-vertrauen>Vertrauen</a></p>
+        <p class="footer-ethics" style="padding-top:1rem">Daten bleiben lokal auf diesem Gerät · App v<span id="settings-app-version">5.27.0</span> · <a href="#vertrauen" data-open-vertrauen>Vertrauen</a></p>
       </div>
     </div>
   </div>
