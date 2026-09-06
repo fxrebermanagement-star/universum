@@ -260,8 +260,8 @@
       var key = el.getAttribute('data-i18n');
       if (!key) return;
       var val = t(key);
-      if (el.childElementCount && el.getAttribute('data-i18n-keep-children') === '1') {
-        // leave structure; only update a dedicated text node if present
+      // Never wipe nested elements (icons etc.)
+      if (el.childElementCount > 0) {
         var textNode = null;
         for (var i = 0; i < el.childNodes.length; i++) {
           if (el.childNodes[i].nodeType === 3 && String(el.childNodes[i].textContent).trim()) {
@@ -269,8 +269,7 @@
             break;
           }
         }
-        if (textNode) textNode.textContent = ' ' + val;
-        else el.appendChild(document.createTextNode(' ' + val));
+        if (textNode) textNode.textContent = ' ' + val + ' ';
         return;
       }
       el.textContent = val;

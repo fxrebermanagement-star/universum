@@ -304,7 +304,8 @@ input[type="checkbox"] {
   transition: opacity .15s;
 }
 .app-header .logo:hover { text-decoration: none; opacity: 0.88; }
-.app-header .logo span {
+/* v5.33.2 — nur Untertitel, nicht UNIVERSUM / Lampe platt machen */
+.app-header .logo .logo-sub {
   color: var(--muted);
   font-weight: 500;
   font-size: 0.7rem;
@@ -10427,4 +10428,18 @@ body.altar-mehr-open .app-shell > main {
   display: inline-block;
   margin-right: 0.2rem;
   filter: drop-shadow(0 0 8px rgba(255, 176, 96, 0.45));
+}
+
+
+/* v5.33.2 logo lamp */
+.app-header .logo-stack .logo-mark {
+  color: #dcc8ff !important;
+  font-size: 1.12rem !important;
+  font-weight: 800 !important;
+}
+.app-header .logo-stack .logo-lamp {
+  font-size: 1.05rem !important;
+  color: inherit !important;
+  margin-right: 0.25rem;
+  filter: drop-shadow(0 0 8px rgba(255, 176, 96, 0.5));
 }

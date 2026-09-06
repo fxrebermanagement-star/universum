@@ -430,6 +430,12 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.33.2 — Stabilität Logo + Sprache
+
+- Logo-CSS: UNIVERSUM nicht mehr als Mini-Untertitel gerendert
+- i18n überschreibt keine Kind-Elemente mehr · neue Icon-Dateinamen gegen PWA-Cache
+- SW `universum-shell-v109`
+
 ## 5.33.1 — Sprache + Lampen-Icon Cache
 
 - Sprachwechsel robust (Klick-Delegation, Apply in Einstellungen)

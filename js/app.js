@@ -7563,6 +7563,7 @@
 
   function buildNav() {
     const nav = $('#bottom-nav');
+    if (!nav) return;
     nav.innerHTML = SECTIONS.map(s =>
       '<button type="button" data-nav="' + s.id + '"><span class="ico">' + s.ico + '</span>' + s.name + '</button>'
     ).join('');
