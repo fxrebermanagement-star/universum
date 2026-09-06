@@ -430,6 +430,13 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.20.1 — Rituale UI sizing
+
+- **Modus-Tabs** (Werkzeug · Eigene · Geführt) größer: mehr Padding, höhere Tap-Ziele (~52px), klarere Untermenü-Hierarchie auf Mobile
+- **Grenze & Ausgleich** kompakt: kurze Vorschau (2 Zeilen) + Aufklappen für die volle Ethik-Liste; weniger Karten-Padding — Ethik bleibt erreichbar, dominiert nicht
+- Sprung-Pills (Grenze · Pfad · Sigil · Karten) leicht zurückgenommen
+- SW-Cache `universum-shell-v65`
+
 ## 5.20.0 — Close the six product gaps
 
 - **Praxis-Tiefe**: Pro Pfad längeres Ritual (~21–25 Min, multi-phase) klar als «Tiefe» · Wochenbögen mit reicheren Tagestexten · kurze Rituale bleiben

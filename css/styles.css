@@ -8330,3 +8330,141 @@ body.reduced-motion .herb-ref-item:focus-visible {
   min-height: 1.2em;
 }
 body.quiet-mode .first-session-tip { display: none !important; }
+
+/* ——— v5.20.1 — Rituale UI sizing · Modus-Tabs groß · Ethik kompakt ——— */
+#sec-rituale > .tabs[role="tablist"] {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.45rem;
+  margin-bottom: 0.85rem;
+  min-height: 56px;
+}
+#sec-rituale > .tabs[role="tablist"] button {
+  flex: 1 1 0;
+  min-height: 52px;
+  padding: 0.72rem 0.55rem;
+  font-size: 0.98rem;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+  line-height: 1.15;
+  border-radius: 14px;
+  white-space: nowrap;
+}
+#sec-rituale > .tabs[role="tablist"] button.tab-secondary {
+  opacity: 0.88;
+  font-weight: 600;
+  border-style: solid;
+}
+#sec-rituale > .tabs[role="tablist"] button.tab-secondary.active {
+  opacity: 1;
+  font-weight: 650;
+}
+@media (max-width: 390px) {
+  #sec-rituale > .tabs[role="tablist"] button {
+    font-size: 0.9rem;
+    padding: 0.68rem 0.35rem;
+    min-height: 50px;
+  }
+}
+
+/* Jump chips stay secondary to mode tabs */
+#ritual-werkzeug-panel .werkzeug-jump {
+  margin: 0.25rem 0 0.65rem;
+  gap: 0.35rem;
+}
+#ritual-werkzeug-panel .werkzeug-jump-chip {
+  padding: 0.28rem 0.58rem;
+  font-size: 0.72rem;
+  font-weight: 550;
+  min-height: 34px;
+  opacity: 0.92;
+}
+
+/* Compact Ethik card — 2-line preview, expand for full list */
+#werkzeug-grenze.ethik-compact {
+  padding: 0.55rem 0.75rem 0.6rem;
+  margin-bottom: 0.75rem;
+}
+#werkzeug-grenze.ethik-compact > summary.ethik-compact-summary {
+  list-style: none;
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    "head more"
+    "preview preview";
+  gap: 0.2rem 0.5rem;
+  align-items: start;
+}
+#werkzeug-grenze.ethik-compact > summary.ethik-compact-summary::-webkit-details-marker {
+  display: none;
+}
+#werkzeug-grenze .ethik-compact-head {
+  grid-area: head;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+}
+#werkzeug-grenze .ethik-compact-title {
+  font-size: 0.92rem;
+  font-weight: 650;
+  color: rgba(248, 242, 255, 0.95);
+  line-height: 1.25;
+}
+#werkzeug-grenze .ethik-compact-preview {
+  grid-area: preview;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  font-size: 0.78rem;
+  line-height: 1.35;
+  color: rgba(210, 200, 230, 0.78);
+  margin: 0;
+}
+#werkzeug-grenze .ethik-compact-more {
+  grid-area: more;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(180, 160, 220, 0.75);
+  padding-top: 0.15rem;
+  white-space: nowrap;
+}
+#werkzeug-grenze.ethik-compact[open] .ethik-compact-preview {
+  display: none;
+}
+#werkzeug-grenze.ethik-compact[open] .ethik-compact-more {
+  font-size: 0;
+  line-height: 0;
+  color: transparent;
+}
+#werkzeug-grenze.ethik-compact[open] .ethik-compact-more::after {
+  content: "weniger";
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(180, 160, 220, 0.75);
+  line-height: 1.2;
+}
+#werkzeug-grenze .ethik-compact-list {
+  margin: 0.55rem 0 0.35rem;
+  padding-left: 1.1rem;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  color: rgba(230, 220, 245, 0.88);
+}
+#werkzeug-grenze .ethik-compact-list li {
+  margin-bottom: 0.28rem;
+}
+#werkzeug-grenze .ethik-compact-note {
+  margin: 0.35rem 0 0.15rem;
+  padding: 0.45rem 0.65rem;
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
