@@ -430,6 +430,11 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.32.6 — Magie-Buch JSON-Name
+
+- Export-Datei: `universum-magie-buch.json` (Import erkennt weiterhin `universum-buch.json`)
+- SW `universum-shell-v105`
+
 ## 5.32.5 — Tageskarte ohne Auto-Scroll
 
 - Tageskarte ziehen scrollt nicht mehr zur Feldkarten-Grid · SW `universum-shell-v104`

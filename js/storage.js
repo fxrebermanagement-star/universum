@@ -267,7 +267,7 @@
     });
   }
 
-  const APP_VERSION = '5.32.5';
+  const APP_VERSION = '5.32.6';
 
   function buildExportMeta(data) {
     const pathId = data.path || 'esoterik';
@@ -312,7 +312,7 @@
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = filename || 'universum-buch.json';
+    a.download = filename || 'universum-magie-buch.json';
     a.click();
     setTimeout(() => URL.revokeObjectURL(url), 2000);
   }
@@ -337,7 +337,7 @@
       }),
       data
     };
-    downloadJsonPayload(payload, 'universum-buch.json');
+    downloadJsonPayload(payload, 'universum-magie-buch.json');
     return true;
   }
 
@@ -375,7 +375,7 @@
       media: media,
       data
     };
-    downloadJsonPayload(payload, 'universum-buch.json');
+    downloadJsonPayload(payload, 'universum-magie-buch.json');
     return { ok: true, embedded: embedded, photoIds: photoIds.length };
   }
 
@@ -433,7 +433,7 @@
     lines.push('');
     lines.push('Ethik: Grenze und Ausgleich. Kein Schaden an Personen.');
     lines.push('Hinweis: Zusammenfassung enthält keine vollständigen Tagebuchtexte.');
-    lines.push('Vollbackup: universum-buch.json');
+    lines.push('Vollbackup: universum-magie-buch.json');
     const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');

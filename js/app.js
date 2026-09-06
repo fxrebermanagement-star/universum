@@ -207,7 +207,7 @@
     'Pfad-Lehre: ein Lehrsatz pro Pfad am Altar — Tiefe ohne Dogma.',
     'Erste Praxis in 3 Minuten: Intention, Atem, Erdung — klarer Einstieg für Neue.',
     'Stiller Modus blendet Chrome aus — Fokus aufs Ritual, Esc bringt alles zurück.',
-    'Export-Paket: universum-buch.json plus Praxis-Zusammenfassung für Coaches.',
+    'Export-Paket: universum-magie-buch.json plus Praxis-Zusammenfassung für Coaches.',
     'Fest-Countdown: wenn der nächste Sabbat unter 14 Tagen liegt, zeigt der Altar einen Chip.',
     'Kalender „Nur mein Pfad“: standardmäßig nur pfadrelevante Feste — Umschalter auf Alle Feste.',
     'Pfad-Woche: sieben kurze Schritte Mo–So — erledigt speichert lokal.',
@@ -7350,6 +7350,7 @@
         if (!Media || !Media.parseZip) throw new Error('ZIP-Import nicht verfügbar');
         const entries = await Media.parseZip(file);
         const prefer = entries.find(e => /universum-backup\.json$/i.test(e.name))
+          || entries.find(e => /universum-magie-buch\.json$/i.test(e.name))
           || entries.find(e => /universum-buch\.json$/i.test(e.name))
           || entries.find(e => /\.json$/i.test(e.name));
         if (!prefer) throw new Error('Keine JSON-Datei im ZIP');
@@ -8592,7 +8593,7 @@
       const ver = Store.APP_VERSION || '';
       const pathName = currentPath().name;
       if (st) {
-        st.textContent = 'Export: universum-buch.json · v' + ver + ' · Pfad ' + pathName +
+        st.textContent = 'Export: universum-magie-buch.json · v' + ver + ' · Pfad ' + pathName +
           (embedded ? ' · ' + embedded + ' Fotos eingebettet' : '');
         st.classList.add('show');
         setTimeout(() => st.classList.remove('show'), 4500);
