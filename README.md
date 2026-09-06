@@ -430,6 +430,10 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.32.5 — Tageskarte ohne Auto-Scroll
+
+- Tageskarte ziehen scrollt nicht mehr zur Feldkarten-Grid · SW `universum-shell-v104`
+
 ## 5.32.4 — Bottom-Dock nur Untermenüs
 
 - Am Altar: Bottom-Nav hard-hide (`[hidden]` + `body.on-altar` + Critical CSS)

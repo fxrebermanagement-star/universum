@@ -5932,8 +5932,11 @@
       const card = cards[0];
       $('#drawn-result').textContent = 'Enthüllt: ' + card.name + ' — ' + card.theme +
         (card.prompt ? '\n' + card.prompt : '');
-      const el = $('[data-card="' + card.n + '"]');
-      if (el) el.scrollIntoView({ behavior: (state.settings && state.settings.reducedMotion) ? 'auto' : 'smooth', block: 'nearest' });
+      // v5.32.5 — Tageskarte/Verlauf (skipSave): kein Auto-Scroll nach unten zur Grid-Karte
+      if (!skipSave) {
+        const el = $('[data-card="' + card.n + '"]');
+        if (el) el.scrollIntoView({ behavior: (state.settings && state.settings.reducedMotion) ? 'auto' : 'smooth', block: 'nearest' });
+      }
     } else {
       // After flip animation, keep stage briefly then rely on spread-area
       setTimeout(() => {
