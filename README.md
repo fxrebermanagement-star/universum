@@ -430,6 +430,13 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.27.1 — Closer to sketch + full app dock
+
+- Layout bleibt: **eine** Status-Box (Zeit/Datum+Wetter+Heute) · Figur frei · Mond|Sonne · Schumann vollbreit
+- **Volles Homescreen-Dock** (Wrap/Grid, kein Side-Scroll): Kalender · Kosmos · Rituale · Resonanzen · Buch · Sigille · Karten
+- Wie altes Bottom-Menü + Werkzeug; kein Bottom-Nav; Altar-Home-Button auf anderen Seiten
+- Soft neon glass, lesbare Proportionen; SW-Cache `universum-shell-v81`
+
 ## 5.27.0 — Match user sketch literally
 
 - **ONE Status-Box** oben links: Zeit/Datum + Wetter + Heute-Tipp (keine drei Einzelkacheln)

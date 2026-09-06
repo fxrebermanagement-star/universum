@@ -9102,92 +9102,60 @@ body.quiet-mode .first-session-tip { display: none !important; }
 .altar-cockpit .schumann-update,
 .altar-cockpit [data-sch-honesty] { display: none !important; }
 
-/* 4. Phone dock — primary 4 + slim secondary */
+/* 4. Phone dock — full 7 apps (wrap/grid, no side-scroll) */
 .cock-dock-wrap {
   display: flex;
   flex-direction: column;
-  gap: 0.18rem;
+  gap: 0.12rem;
   min-height: 0;
-  padding: 0.08rem 0 0.05rem;
+  padding: 0.1rem 0 0.08rem;
+  position: relative;
 }
-.cock-app-dock {
-  display: grid;
-  gap: 0.28rem;
+.cock-app-dock,
+.cock-app-dock-full {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   align-content: center;
-  justify-items: stretch;
+  gap: 0.22rem 0.18rem;
   min-height: 0;
   margin: 0;
-  padding: 0;
-}
-.cock-app-dock-primary {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-}
-.cock-app-dock-secondary {
-  display: none !important;
-}
-.cock-dock-mehr-hooks { display: none !important; }
-.cock-ritual-mehr {
-  position: absolute;
-  left: 50%;
-  bottom: calc(100% + 0.35rem);
-  transform: translateX(-50%);
-  z-index: 40;
-  display: flex;
-  flex-direction: column;
-  gap: 0.28rem;
-  min-width: 11.5rem;
-  padding: 0.55rem 0.6rem;
-  border-radius: 14px;
-  border: 1.5px solid rgba(92, 225, 255, 0.35);
+  padding: 0.12rem 0.08rem 0.18rem;
+  border-radius: 18px;
+  border: 1px solid rgba(120, 220, 255, 0.16);
   background:
-    linear-gradient(145deg, rgba(255, 110, 199, 0.12), transparent 45%),
-    rgba(14, 10, 24, 0.92);
-  box-shadow: 0 0 18px rgba(92, 225, 255, 0.18), 0 10px 24px rgba(0,0,0,0.4);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
+    linear-gradient(155deg, rgba(255, 110, 199, 0.07), transparent 42%),
+    linear-gradient(205deg, rgba(80, 220, 255, 0.06), transparent 50%),
+    rgba(18, 12, 28, 0.38);
+  box-shadow:
+    0 0 22px rgba(92, 225, 255, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  overflow: visible;
 }
-.cock-ritual-mehr[hidden] { display: none !important; }
-.cock-dock-wrap { position: relative; }
-.cock-ritual-mehr-title {
-  margin: 0 0 0.15rem;
-  font-size: 0.62rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  opacity: 0.75;
-}
-.cock-ritual-mehr-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  width: 100%;
-  padding: 0.45rem 0.5rem;
-  border: 1px solid rgba(255, 220, 200, 0.12);
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.04);
-  color: rgba(245, 238, 255, 0.95);
-  font: inherit;
-  font-size: 0.82rem;
-  font-weight: 600;
-  cursor: pointer;
-  text-align: left;
-}
-.cock-ritual-mehr-btn:active { transform: scale(0.98); background: rgba(255, 110, 199, 0.14); }
-.cock-ritual-mehr-close { margin-top: 0.15rem; align-self: center; }
+.cock-app-dock-primary,
+.cock-app-dock-secondary,
+.cock-dock-mehr-hooks,
+.cock-ritual-mehr { display: none !important; }
 .cock-app-dock .hs-app {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.18rem;
-  min-height: 3.15rem;
+  gap: 0.16rem;
+  flex: 0 1 calc(25% - 0.18rem);
+  width: calc(25% - 0.18rem);
+  max-width: 5.2rem;
+  min-height: 3.05rem;
   min-width: 0;
-  padding: 0.38rem 0.15rem;
+  padding: 0.32rem 0.1rem;
   border: none;
   border-radius: 16px;
   background: transparent;
   color: var(--muted, rgba(220, 210, 235, 0.72));
   font: inherit;
-  font-size: 0.66rem;
+  font-size: 0.64rem;
   font-weight: 560;
   letter-spacing: 0.01em;
   cursor: pointer;
@@ -9195,31 +9163,46 @@ body.quiet-mode .first-session-tip { display: none !important; }
   transition: background 0.15s ease, color 0.15s ease, transform 0.12s ease;
 }
 .cock-app-dock .hs-app-sm {
-  min-height: 2.55rem;
-  font-size: 0.6rem;
-  padding: 0.22rem 0.1rem;
+  /* same size as primary — all 7 equal */
+  min-height: 3.05rem;
+  font-size: 0.64rem;
+  padding: 0.32rem 0.1rem;
 }
 .cock-app-dock .hs-app .ico {
   display: grid;
   place-items: center;
-  width: 2.55rem;
-  height: 2.55rem;
-  border-radius: 0.95rem;
-  font-size: 1.28rem;
+  width: 2.48rem;
+  height: 2.48rem;
+  border-radius: 0.92rem;
+  font-size: 1.22rem;
   line-height: 1;
   background:
-    linear-gradient(160deg, rgba(255, 230, 210, 0.14), transparent 55%),
-    color-mix(in srgb, var(--bg-card, #1e1628) 70%, #2a2038);
-  border: 1px solid rgba(255, 220, 200, 0.12);
+    linear-gradient(160deg, rgba(255, 230, 210, 0.16), transparent 55%),
+    linear-gradient(200deg, rgba(120, 220, 255, 0.08), transparent 60%),
+    color-mix(in srgb, var(--bg-card, #1e1628) 68%, #2a2038);
+  border: 1px solid rgba(180, 230, 255, 0.18);
   box-shadow:
+    0 0 12px rgba(92, 225, 255, 0.1),
     0 5px 14px rgba(0, 0, 0, 0.24),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 .cock-app-dock .hs-app-sm .ico {
-  width: 2.05rem;
-  height: 2.05rem;
-  font-size: 1.05rem;
-  border-radius: 0.75rem;
+  width: 2.48rem;
+  height: 2.48rem;
+  font-size: 1.22rem;
+  border-radius: 0.92rem;
+}
+@media (max-width: 360px) {
+  .cock-app-dock .hs-app {
+    flex-basis: calc(25% - 0.14rem);
+    width: calc(25% - 0.14rem);
+    font-size: 0.58rem;
+  }
+  .cock-app-dock .hs-app .ico {
+    width: 2.28rem;
+    height: 2.28rem;
+    font-size: 1.12rem;
+  }
 }
 .cock-app-dock .hs-app#glance-kosmos-card .ico {
   background: linear-gradient(160deg, rgba(126, 192, 255, 0.28), rgba(30, 40, 70, 0.5)), color-mix(in srgb, #1a2030 80%, #2a4060);
