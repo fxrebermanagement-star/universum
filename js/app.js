@@ -6285,6 +6285,25 @@
     return copy;
   }
 
+  function syncInstallReadyStatus() {
+    const el = $('#install-ready-status');
+    if (!el) return;
+    if (isStandaloneDisplay()) {
+      el.textContent = 'Chrome-Install: schon als App geöffnet.';
+      return;
+    }
+    const plat = detectMobileInstallPlatform();
+    if (plat.isIOS) {
+      el.textContent = 'iPhone: nur Safari → Teilen → Zum Home-Bildschirm.';
+      return;
+    }
+    if (deferredInstallPrompt) {
+      el.textContent = 'Chrome-Install: bereit — Button öffnet den Dialog.';
+    } else {
+      el.textContent = 'Chrome-Install: noch nicht bereit — Seite 15 Sek. offen lassen oder ⋮ → App installieren.';
+    }
+  }
+
   function promptPwaInstall(opts) {
     const fromSettings = !!(opts && opts.fromSettings);
     const status = $('#empfehlen-status');
@@ -7069,6 +7088,7 @@
 
   /* ——— Settings drawer ——— */
   function openSettings() {
+    try { syncInstallReadyStatus(); } catch (_) {}
     refreshState();
     const drawer = $('#settings-drawer');
     if (!drawer) return;
@@ -8687,10 +8707,10 @@
       e.preventDefault();
       deferredInstallPrompt = e;
       const bp = $('#install-banner-prompt');
-      if (bp) bp.hidden = false; // native install available
+      if (bp) bp.hidden = false;
       const empInst = $('#empfehlen-install');
       if (empInst) empInst.classList.add('has-prompt');
-      /* v5.33.7: do not auto-show install banner after beforeinstallprompt */
+      try { syncInstallReadyStatus(); } catch (_) {}
     });
     window.addEventListener('appinstalled', () => {
       deferredInstallPrompt = null;

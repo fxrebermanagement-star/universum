@@ -1021,3 +1021,10 @@ Siebzehnte Runde — **UX Klarheit**: modernes dunkles UI mit mehr Weißraum und
 - `start_url` ohne `#` (Chrome-Install)
 - Manifest `id`
 - SW `universum-shell-v116`
+
+## 5.33.10 — Chrome-Install reparieren
+
+- Service Worker wieder stabil als `./sw.js` (kein `?v=`)
+- Alte `sw.js?v=…`-Registrierungen werden entfernt
+- Manifest-`id` entfernt
+- Statuszeile „Chrome-Install: bereit/nicht bereit“ in Einstellungen

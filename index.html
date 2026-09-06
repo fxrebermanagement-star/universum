@@ -16,10 +16,10 @@
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=5335" sizes="180x180" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preload" href="css/styles.css?v=5339" as="style" />
+  <link rel="preload" href="css/styles.css?v=5340" as="style" />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
   <noscript><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" /></noscript>
-  <link rel="stylesheet" href="css/styles.css?v=5339" />
+  <link rel="stylesheet" href="css/styles.css?v=5340" />
 </head>
 <body>
   <main class="splash splash-product landing-v22">
@@ -62,7 +62,7 @@
     <p class="splash-install-hint" data-i18n="landing.install">Gerne auf den Homescreen legen — offline-fähig, lokal, ohne Store und ohne Konto.</p>
     <p class="splash-foot">
       <span data-i18n="landing.foot">Früher: Feldlicht Ritualbegleiter · Daten bleiben lokal auf dem Gerät</span><br />
-      v5.33.9 · Sprache DE/EN · UNIVERSUM+ Vorschau
+      v5.33.10 · Sprache DE/EN · UNIVERSUM+ Vorschau
     </p>
   </main>
   <script src="js/i18n.js"></script>
@@ -71,7 +71,22 @@
       try { UniversumI18n.bootFromStorage(); } catch (e) {}
     }
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js?v=116', { scope: './' }).catch(function () {});
+      navigator.serviceWorker.getRegistrations().then(function (regs) {
+        return Promise.all((regs || []).map(function (reg) {
+          var src = '';
+          try {
+            src = (reg.active && reg.active.scriptURL) ||
+              (reg.installing && reg.installing.scriptURL) ||
+              (reg.waiting && reg.waiting.scriptURL) || '';
+          } catch (e) {}
+          if (src.indexOf('sw.js?') !== -1) {
+            try { return reg.unregister(); } catch (e2) { return null; }
+          }
+          return null;
+        }));
+      }).catch(function () {}).then(function () {
+        return navigator.serviceWorker.register('./sw.js', { scope: './' });
+      }).catch(function () {});
     }
     (function () {
       var url = 'https://fxrebermanagement-star.github.io/universum/';
