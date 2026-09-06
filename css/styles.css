@@ -10216,32 +10216,8 @@ body.altar-mehr-open .app-shell > main {
 
 
 /* ——— v5.32.0 — Slim dock Sigille·Karten · thin Mehr · Ritual→Buch→Altar ——— */
-.cock-app-dock-slim {
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: center;
-  align-items: center;
-  gap: 0.85rem;
-  width: fit-content;
-  max-width: 100%;
-  margin: 0.15rem auto 0.2rem;
-  padding: 0.35rem 0.85rem 0.45rem;
-  border-radius: 20px;
-  border: 1px solid rgba(120, 220, 255, 0.18);
-  background:
-    linear-gradient(155deg, rgba(255, 110, 199, 0.09), transparent 42%),
-    linear-gradient(205deg, rgba(80, 220, 255, 0.07), transparent 50%),
-    rgba(18, 12, 28, 0.42);
-  box-shadow:
-    0 0 20px rgba(92, 225, 255, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.07);
-}
-.cock-app-dock-slim .hs-app {
-  flex: 0 0 auto;
-  width: 4.6rem;
-  max-width: 5rem;
-  min-height: 3.2rem;
-}
+/* v5.32.1 — slim dock reverted; full dock restored */
+
 .cock-dock-legacy-mirrors {
   position: absolute;
   width: 1px;

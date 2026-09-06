@@ -43,7 +43,7 @@
     <div id="main-content" tabindex="-1">
     <!-- 1. Altar (route id: cockpit) -->
     <section id="sec-cockpit" class="section-view active cockpit-lovely-page altar-sacred" aria-label="Altar">
-      <!-- v5.32.0 Altar — warm · Figur soft neon · 1 Status-Box · Dock · kein Spam-Banner -->
+      <!-- v5.32.1 Altar — warm · Figur soft neon · 1 Status-Box · Dock · kein Spam-Banner -->
       <h1 class="section-title altar-cockpit-heading sr-only"><span class="sec-ico" aria-hidden="true">🪔</span> Altar</h1>
       <span class="section-motif altar-cockpit-motif" aria-hidden="true" hidden></span>
       <p class="section-sub altar-cockpit-sub sr-only">Dein Altar — warm, still, zum Ankommen.</p>
@@ -99,7 +99,7 @@
       <!-- legacy chip kept for JS -->
       <button type="button" class="fest-countdown-chip" id="fest-countdown-chip" hidden aria-live="polite"></button>
 
-      <!-- v5.32.0 Altar — Status · Mond|Sonne · Schumann · Dock · Figur soft oben rechts -->
+      <!-- v5.32.1 Altar — Status · Mond|Sonne · Schumann · Dock · Figur soft oben rechts -->
       <div class="altar-cockpit altar-homescreen" id="altar-cockpit" aria-label="Altar — dein magisches Home">
 
                   <figure class="cock-path-figur cock-path-figur-float cock-path-figur-overlay" id="cock-path-figur" aria-labelledby="path-figure-label">
@@ -209,9 +209,50 @@
           <span class="sr-only" data-sch-honesty></span>
         </article>
 
-        <!-- 4. Slim Apps-Dock: Schnellzugriff Sigille · Karten (Rest = Bottom-Nav) -->
+        <!-- 4. Apps-Dock: alle 7 wie vorher — Wrap/Grid, kein Side-Scroll -->
         <div class="cock-dock-wrap">
-          <nav class="cock-app-dock cock-app-dock-slim" aria-label="Schnellzugriff Sigille · Karten">
+          <nav class="cock-app-dock cock-app-dock-full" aria-label="Altar Apps">
+            <button type="button" class="hs-app" id="glance-kalender-card" aria-label="Kalender">
+              <span class="ico" aria-hidden="true">📅</span>
+              <span class="hs-label">Kalender</span>
+              <span class="sr-only" id="glance-kalender-title">Kalender</span>
+              <span class="chip-quiet sr-only" id="glance-kalender-chip">Fest</span>
+              <span class="glance-lead sr-only" id="glance-kalender-lead">Feste</span>
+              <span class="hint-sm sr-only" id="glance-kalender-meta">öffnen</span>
+            </button>
+            <button type="button" class="hs-app" id="glance-kosmos-card" aria-label="Kosmos">
+              <span class="ico" aria-hidden="true">🪐</span>
+              <span class="hs-label">Kosmos</span>
+              <span class="sr-only" id="glance-kosmos-title">Kosmos</span>
+              <span class="chip-quiet sr-only" id="glance-kosmos-chip">Stunde</span>
+              <span class="glance-lead sr-only" id="glance-kosmos-lead">Stunde · Radar</span>
+              <span class="hint-sm sr-only" id="glance-kosmos-meta">öffnen</span>
+            </button>
+            <button type="button" class="hs-app" id="glance-ritual-card" aria-label="Rituale">
+              <span class="ico" aria-hidden="true">🕯️</span>
+              <span class="hs-label">Rituale</span>
+              <span class="sr-only" id="glance-ritual-title">Rituale</span>
+              <span class="chip-quiet sr-only" id="glance-ritual-chip">—</span>
+              <span class="glance-lead sr-only" id="glance-ritual-lead">Noch still</span>
+              <span class="hint-sm sr-only" id="glance-ritual-meta">öffnen</span>
+            </button>
+            <button type="button" class="hs-app" id="glance-resonanz-card" aria-label="Resonanzen">
+              <span class="ico" aria-hidden="true">🌿</span>
+              <span class="hs-label">Resonanzen</span>
+              <span class="sr-only" id="glance-resonanz-title">Resonanzen</span>
+              <span class="chip-quiet sr-only" id="glance-resonanz-chip">—</span>
+              <span class="glance-lead sr-only" id="glance-resonanz-lead">Heute passt …</span>
+              <span class="hint-sm sr-only" id="glance-resonanz-meta">öffnen</span>
+            </button>
+            <button type="button" class="hs-app" id="glance-buch-card" aria-label="Buch">
+              <span class="ico" aria-hidden="true">📖</span>
+              <span class="hs-label">Buch</span>
+              <span class="sr-only" id="glance-buch-title">Buch</span>
+              <span class="chip-quiet sr-only" id="glance-buch-chip">Buch</span>
+              <span class="glance-buch-thumb sr-only" id="glance-buch-thumb" hidden></span>
+              <span class="glance-lead sr-only" id="glance-buch-lead">Leer</span>
+              <span class="hint-sm sr-only" id="glance-buch-meta">öffnen</span>
+            </button>
             <button type="button" class="hs-app" id="glance-sigil-card" aria-label="Sigille — Rituale Werkzeug">
               <span class="ico" aria-hidden="true">✒️</span>
               <span class="hs-label">Sigille</span>
@@ -221,40 +262,6 @@
               <span class="hs-label">Karten</span>
             </button>
           </nav>
-          <!-- Legacy glance-* mirrors for JS writers (off-homescreen; Bottom-Nav covers these apps) -->
-          <div class="cock-dock-legacy-mirrors sr-only" aria-hidden="true" hidden>
-            <button type="button" class="hs-app" id="glance-kalender-card" tabindex="-1" aria-label="Kalender">
-              <span class="sr-only" id="glance-kalender-title">Kalender</span>
-              <span class="chip-quiet sr-only" id="glance-kalender-chip">Fest</span>
-              <span class="glance-lead sr-only" id="glance-kalender-lead">Feste</span>
-              <span class="hint-sm sr-only" id="glance-kalender-meta">öffnen</span>
-            </button>
-            <button type="button" class="hs-app" id="glance-kosmos-card" tabindex="-1" aria-label="Kosmos">
-              <span class="sr-only" id="glance-kosmos-title">Kosmos</span>
-              <span class="chip-quiet sr-only" id="glance-kosmos-chip">Stunde</span>
-              <span class="glance-lead sr-only" id="glance-kosmos-lead">Stunde · Radar</span>
-              <span class="hint-sm sr-only" id="glance-kosmos-meta">öffnen</span>
-            </button>
-            <button type="button" class="hs-app" id="glance-ritual-card" tabindex="-1" aria-label="Rituale">
-              <span class="sr-only" id="glance-ritual-title">Rituale</span>
-              <span class="chip-quiet sr-only" id="glance-ritual-chip">—</span>
-              <span class="glance-lead sr-only" id="glance-ritual-lead">Noch still</span>
-              <span class="hint-sm sr-only" id="glance-ritual-meta">öffnen</span>
-            </button>
-            <button type="button" class="hs-app" id="glance-resonanz-card" tabindex="-1" aria-label="Resonanzen">
-              <span class="sr-only" id="glance-resonanz-title">Resonanzen</span>
-              <span class="chip-quiet sr-only" id="glance-resonanz-chip">—</span>
-              <span class="glance-lead sr-only" id="glance-resonanz-lead">Heute passt …</span>
-              <span class="hint-sm sr-only" id="glance-resonanz-meta">öffnen</span>
-            </button>
-            <button type="button" class="hs-app" id="glance-buch-card" tabindex="-1" aria-label="Buch">
-              <span class="sr-only" id="glance-buch-title">Buch</span>
-              <span class="chip-quiet sr-only" id="glance-buch-chip">Buch</span>
-              <span class="glance-buch-thumb sr-only" id="glance-buch-thumb" hidden></span>
-              <span class="glance-lead sr-only" id="glance-buch-lead">Leer</span>
-              <span class="hint-sm sr-only" id="glance-buch-meta">öffnen</span>
-            </button>
-          </div>
         </div>
 
         <!-- Legacy / JS mirrors (off homescreen) -->
@@ -457,7 +464,7 @@
       </div>
 
 
-      <!-- v5.32.0: legacy Mehr blocks hidden for JS writers -->
+      <!-- v5.32.1: legacy Mehr blocks hidden for JS writers -->
 <article class="card ritual-journal-card nested-card" id="ritual-journal-card" aria-labelledby="ritual-journal-title" hidden aria-hidden="true">
         <div class="intention-top">
           <h3 id="ritual-journal-title">Ritual-Journal</h3>
@@ -596,7 +603,7 @@
       
       
 
-      <!-- v5.32.0: Slim Mehr · Navigation Bottom-Nav -->
+      <!-- v5.32.1: Slim Mehr · Navigation Bottom-Nav -->
 </div><!-- .mehr-body / #cockpit-flow -->
       </details>
 
@@ -1360,7 +1367,7 @@
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
         <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem">Daten bleiben lokal auf diesem Gerät · App v<span id="settings-app-version">5.32.0</span> · <a href="#vertrauen" data-open-vertrauen>Vertrauen</a></p>
+        <p class="footer-ethics" style="padding-top:1rem">Daten bleiben lokal auf diesem Gerät · App v<span id="settings-app-version">5.32.1</span> · <a href="#vertrauen" data-open-vertrauen>Vertrauen</a></p>
       </div>
     </div>
   </div>

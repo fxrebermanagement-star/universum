@@ -430,6 +430,11 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.32.1 — Dock wieder voll
+
+- Altar-Apps-Dock: wieder alle 7 (Kalender · Kosmos · Rituale · Resonanzen · Buch · Sigille · Karten)
+- SW `universum-shell-v100`
+
 ## 5.32.0 — Slim Dock · dünnes Mehr · Praxis-Loop
 
 - Altar-Dock: nur **Sigille** + **Karten** (Kalender/Kosmos/Rituale/Resonanzen/Buch über Bottom-Nav); Legacy-glance-* Spiegel für JS
