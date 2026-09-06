@@ -740,7 +740,10 @@
     santeria: { id: 'haus-reinheit', title: 'Haus-Reinheit', kind: 'checks', houseOnly: true, fields: [
       { id: 'raum', label: 'Raum' }, { id: 'wasser', label: 'Wasser' }, { id: 'licht', label: 'Licht' }
     ]},
-    esoterik: { id: 'klarheit-buch', title: 'Klarheit', kind: 'buch', buchMode: 'notiz', cta: 'Im Magie-Buch notieren', hint: 'Optional — Klarheit im Buch festhalten.' }
+    esoterik: { id: 'klarheit-check', title: 'Klarheit-Check', kind: 'checks', fields: [
+      { id: 'absicht', label: 'Absicht klar' }, { id: 'grenze', label: 'Grenze geprüft' },
+      { id: 'ausgleich', label: 'Ausgleich bedacht' }, { id: 'alltag', label: 'Alltag ehren' }
+    ]}
   };
 
   function getPathWerkzeug(pathId) {

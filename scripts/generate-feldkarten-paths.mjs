@@ -292,7 +292,7 @@ function main() {
     console.log('✓', pathId, cards.length, 'cards');
   }
   fs.writeFileSync(path.join(OUT, 'manifest.json'), JSON.stringify({
-    version: '5.21.0',
+    version: '5.21.1',
     paths: Object.keys(PATHS),
     cardsPerPath: cards.length,
     total: manifest.length,

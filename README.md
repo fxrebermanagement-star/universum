@@ -430,6 +430,16 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.21.1 — Pfad ≠ Sigil (exklusive Panels)
+
+- **Werkzeug-Chips** steuern exklusive Panels: Grenze · Pfad · Sigil · Karten — nur ein Block sichtbar
+- Aktiver Chip wie Modus-Tabs; `werkzeugSub` in `sessionStorage` (Default / zuletzt: **Pfad**)
+- **Esoterik-Pfad**: Klarheit-Check (Checks), nicht nur Magie-Buch-Link; kein Pfad-Panel als «Sigil öffnen»
+- Soft-Scroll nur im gezeigten Panel — kein Scroll, das Sigil unter Pfad freilegt
+- SW-Cache `universum-shell-v68`
+
+## 5.21.0 — Path-specific Feldkarten + Sigille
+
 ## 5.21.0 — Path-specific Feldkarten + Sigille
 
 - **Feldkarten** je Pfad unter `assets/feldkarten/{path}/` (8×22 = 176 SVGs): Palette, Rahmen, Wassermarken — öffentliche Hauspraxis / symbolisch, keine kopierten heiligen Veves/Lwa/Orisha-Motive

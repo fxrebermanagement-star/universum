@@ -8406,6 +8406,36 @@ body.quiet-mode .first-session-tip { display: none !important; }
   color: #fff;
   outline: none;
 }
+
+/* v5.21.1 — exclusive Werkzeug panels (Pfad ≠ Sigil) */
+#ritual-werkzeug-panel .werkzeug-jump-chip {
+  cursor: pointer;
+  color: rgba(210, 200, 230, 0.78);
+  background: rgba(40, 28, 62, 0.35);
+  border: 1px solid rgba(167, 139, 250, 0.22);
+  opacity: 0.82;
+  box-shadow: none;
+}
+#ritual-werkzeug-panel .werkzeug-jump-chip.active {
+  opacity: 1;
+  color: #fff;
+  font-weight: 700;
+  background: rgba(139, 111, 208, 0.38);
+  border-color: var(--accent, #8b6fd0);
+  box-shadow: inset 0 -2px 0 var(--accent, #8b6fd0), 0 0 14px rgba(139, 111, 208, 0.22);
+}
+#ritual-werkzeug-panel .werkzeug-jump-chip:not(.active):hover,
+#ritual-werkzeug-panel .werkzeug-jump-chip:not(.active):focus-visible {
+  opacity: 0.95;
+  color: #fff;
+  background: rgba(120, 85, 180, 0.32);
+}
+#ritual-werkzeug-panel [data-wz-panel][hidden] {
+  display: none !important;
+}
+#ritual-werkzeug-panel [data-wz-panel].werkzeug-panel-active {
+  margin-top: 0.15rem;
+}
 @media (max-width: 390px) {
   #ritual-werkzeug-panel .werkzeug-jump {
     gap: 0.35rem;
@@ -8552,9 +8582,7 @@ body.quiet-mode .first-session-tip { display: none !important; }
 .ritual-section-head .chip-quiet {
   flex-shrink: 0;
 }
-#werkzeug-path.werkzeug-block {
-  scroll-margin-top: 4.5rem;
-}
+#werkzeug-path.werkzeug-block,
 #werkzeug-sigil.werkzeug-block,
 #werkzeug-karten.werkzeug-block,
 #werkzeug-grenze {

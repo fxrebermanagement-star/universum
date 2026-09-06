@@ -663,14 +663,14 @@
       </div>
 
       <div data-rpanel="werkzeug" id="ritual-werkzeug-panel">
-        <div class="werkzeug-jump" role="navigation" aria-label="Werkzeug-Sprungmarken">
-          <a class="werkzeug-jump-chip" href="#werkzeug-grenze"><span class="wz-jump-ico" aria-hidden="true">🛡️</span><span class="wz-jump-label">Grenze</span></a>
-          <a class="werkzeug-jump-chip" href="#werkzeug-path"><span class="wz-jump-ico" aria-hidden="true">🛠️</span><span class="wz-jump-label">Pfad</span></a>
-          <a class="werkzeug-jump-chip" href="#werkzeug-sigil"><span class="wz-jump-ico" aria-hidden="true">✒️</span><span class="wz-jump-label">Sigil</span></a>
-          <a class="werkzeug-jump-chip" href="#werkzeug-karten"><span class="wz-jump-ico" aria-hidden="true">🃏</span><span class="wz-jump-label">Karten</span></a>
+        <div class="werkzeug-jump" role="tablist" aria-label="Werkzeug-Bereiche">
+          <button type="button" class="werkzeug-jump-chip" role="tab" data-wz-sub="grenze" aria-selected="false"><span class="wz-jump-ico" aria-hidden="true">🛡️</span><span class="wz-jump-label">Grenze</span></button>
+          <button type="button" class="werkzeug-jump-chip active" role="tab" data-wz-sub="path" aria-selected="true"><span class="wz-jump-ico" aria-hidden="true">🛠️</span><span class="wz-jump-label">Pfad</span></button>
+          <button type="button" class="werkzeug-jump-chip" role="tab" data-wz-sub="sigil" aria-selected="false"><span class="wz-jump-ico" aria-hidden="true">✒️</span><span class="wz-jump-label">Sigil</span></button>
+          <button type="button" class="werkzeug-jump-chip" role="tab" data-wz-sub="karten" aria-selected="false"><span class="wz-jump-ico" aria-hidden="true">🃏</span><span class="wz-jump-label">Karten</span></button>
         </div>
 
-        <details class="card ethik-compact" id="werkzeug-grenze">
+        <details class="card ethik-compact" id="werkzeug-grenze" data-wz-panel="grenze" hidden>
           <summary class="ethik-compact-summary">
             <span class="ethik-compact-head">
               <span class="ethik-compact-title">🛡️ Grenze &amp; Ausgleich</span>
@@ -688,7 +688,7 @@
           <p class="notice ethics-line ethik-compact-note">Ein Handy kann keine Geister messen. Praxis vor Spektakel.</p>
         </details>
 
-        <div id="werkzeug-path" class="werkzeug-block">
+        <div id="werkzeug-path" class="werkzeug-block" data-wz-panel="path">
         <p class="ritual-section-label">🛠️ Pfad-Werkzeug</p>
         <div class="card path-werkzeug-card compact" id="path-werkzeug-card-ritual" aria-labelledby="path-werkzeug-title-r">
           <div class="intention-top">
@@ -700,7 +700,7 @@
         </div>
         </div>
 
-        <div id="werkzeug-sigil" class="werkzeug-block">
+        <div id="werkzeug-sigil" class="werkzeug-block" data-wz-panel="sigil" hidden>
         <div class="intention-top ritual-section-head">
           <p class="ritual-section-label">✒️ Sigil</p>
           <span class="chip-quiet" id="sigil-path-chip">Pfad</span>
@@ -738,7 +738,7 @@
         </div>
         </div>
 
-        <div id="werkzeug-karten" class="werkzeug-block">
+        <div id="werkzeug-karten" class="werkzeug-block" data-wz-panel="karten" hidden>
         <div class="intention-top ritual-section-head">
           <p class="ritual-section-label">🃏 Feldkarten</p>
           <span class="chip-quiet" id="karten-path-chip">Pfad</span>
@@ -1301,7 +1301,7 @@
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
         <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem">Daten bleiben lokal auf diesem Gerät · App v<span id="settings-app-version">5.21.0</span> · <a href="#vertrauen" data-open-vertrauen>Vertrauen</a></p>
+        <p class="footer-ethics" style="padding-top:1rem">Daten bleiben lokal auf diesem Gerät · App v<span id="settings-app-version">5.21.1</span> · <a href="#vertrauen" data-open-vertrauen>Vertrauen</a></p>
       </div>
     </div>
   </div>

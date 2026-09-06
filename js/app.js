@@ -283,6 +283,82 @@
   ];
   /** Magie-Buch compose mode: notiz | eintrag */
   let buchMode = 'notiz';
+
+  /* ——— v5.21.1 exclusive Werkzeug sub-panels (Pfad ≠ Sigil) ——— */
+  const WERKZEUG_SUBS = ['grenze', 'path', 'sigil', 'karten'];
+  const WERKZEUG_SUB_KEY = 'universum-werkzeug-sub';
+  let werkzeugSub = 'path';
+
+  function loadWerkzeugSub() {
+    try {
+      const v = sessionStorage.getItem(WERKZEUG_SUB_KEY);
+      if (v && WERKZEUG_SUBS.indexOf(v) !== -1) return v;
+    } catch (_) { /* ignore */ }
+    return 'path';
+  }
+
+  function persistWerkzeugSub(sub) {
+    try { sessionStorage.setItem(WERKZEUG_SUB_KEY, sub); } catch (_) { /* ignore */ }
+  }
+
+  function resolveWerkzeugSubFromOpts(tab, opts) {
+    opts = opts || {};
+    if (opts.werkzeugSub && WERKZEUG_SUBS.indexOf(opts.werkzeugSub) !== -1) return opts.werkzeugSub;
+    const sid = String(opts.scroll || '');
+    if (sid) {
+      if (sid.indexOf('sigil') !== -1) return 'sigil';
+      if (sid.indexOf('karten') !== -1 || sid.indexOf('card') !== -1) return 'karten';
+      if (sid.indexOf('grenze') !== -1) return 'grenze';
+      if (sid.indexOf('path') !== -1 || sid.indexOf('werkzeug') !== -1) return 'path';
+    }
+    if (tab === 'sigil') return 'sigil';
+    if (tab === 'karten' || tab === 'cards') return 'karten';
+    return loadWerkzeugSub();
+  }
+
+  /** Show exactly one Werkzeug block; persist active chip (session). */
+  function setWerkzeugSub(sub, opts) {
+    opts = opts || {};
+    const next = WERKZEUG_SUBS.indexOf(sub) !== -1 ? sub : 'path';
+    werkzeugSub = next;
+    persistWerkzeugSub(next);
+    $$('.werkzeug-jump-chip').forEach(chip => {
+      const on = (chip.getAttribute('data-wz-sub') || '') === next;
+      chip.classList.toggle('active', on);
+      chip.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    $$('[data-wz-panel]').forEach(panel => {
+      const on = (panel.getAttribute('data-wz-panel') || '') === next;
+      panel.hidden = !on;
+      panel.classList.toggle('werkzeug-panel-active', on);
+      if (!on) panel.classList.remove('wz-jump-flash');
+    });
+    if (next === 'path' && typeof renderPathWerkzeug === 'function') {
+      try { renderPathWerkzeug(); } catch (_) {}
+    }
+    if (next === 'sigil' && typeof renderSigilGallery === 'function') {
+      try { renderSigilGallery(); } catch (_) {}
+    }
+    if (next === 'karten' && typeof renderFeldkartenGrid === 'function') {
+      try { renderFeldkartenGrid(); } catch (_) {}
+    }
+    if (opts.scroll === false) return;
+    const delay = typeof opts.delay === 'number' ? opts.delay : 50;
+    setTimeout(() => {
+      const panel = document.querySelector('[data-wz-panel="' + next + '"]');
+      if (!panel || panel.hidden) return;
+      // Soft-scroll only within the shown panel — others stay hidden (no Pfad→Sigil reveal)
+      try {
+        const behavior = (state.settings && state.settings.reducedMotion) ? 'auto' : 'smooth';
+        panel.scrollIntoView({ behavior: behavior, block: 'nearest' });
+      } catch (_) {}
+      if (opts.flash) {
+        panel.classList.add('wz-jump-flash');
+        setTimeout(() => panel.classList.remove('wz-jump-flash'), 900);
+      }
+    }, delay);
+  }
+
   const BUCH_ALIASES = { tagebuch: 'buch', notizen: 'buch', diary: 'buch', notes: 'buch' };
   /** Legacy hashes → aktuelle Sektionen */
   const SECTION_REDIRECTS = {
@@ -1406,6 +1482,7 @@
           });
           $$('[data-rpanel]').forEach(p => p.classList.toggle('hidden', p.dataset.rpanel !== target));
           if (target === 'werkzeug') {
+            setWerkzeugSub(loadWerkzeugSub(), { scroll: false });
             if (typeof renderPathWerkzeug === 'function') renderPathWerkzeug();
             if (typeof renderSigilGallery === 'function') renderSigilGallery();
           }
@@ -3947,7 +4024,7 @@
       }
       if (card) {
         card.classList.toggle('is-buch-link', !!(tool && tool.kind === 'buch'));
-        card.classList.toggle('compact', !!(tool && (tool.kind === 'buch' || tool.kind === 'shortcut')));
+        card.classList.toggle('compact', !!(tool && tool.kind === 'buch'));
       }
       const hintEl = card ? card.querySelector('.hint-sm[id^="path-werkzeug-hint"]') : null;
       if (hintEl) {
@@ -3956,8 +4033,8 @@
           hintEl.hidden = true;
           hintEl.textContent = '';
         } else if (tool && tool.kind === 'shortcut') {
-          hintEl.hidden = false;
-          hintEl.textContent = 'Kurz zum Sigil — ethisch laden, dann vergessen.';
+          hintEl.hidden = true;
+          hintEl.textContent = '';
         } else if (tool && isRitualHint) {
           hintEl.hidden = true;
           hintEl.textContent = '';
@@ -3968,8 +4045,14 @@
       if (!body || !tool) return;
 
       if (tool.kind === 'shortcut') {
-        body.innerHTML = '<button type="button" class="primary" data-werkzeug-sigil>Sigil öffnen</button>' +
-          (tool.houseOnly ? '<p class="notice ethics-line">Nur Hauspraxis.</p>' : '');
+        /* Pfad darf nie nur «Sigil öffnen» sein — Sigil ist eigener Chip/Panel */
+        const checksSc = st.checks && typeof st.checks === 'object' ? st.checks : {};
+        body.innerHTML = (tool.houseOnly ? '<p class="notice ethics-line">Nur Hauspraxis.</p>' : '') +
+          '<p class="hint-sm">Kurz-Check für den Pfad. Sigil liegt unter dem Chip «Sigil» — nicht hier.</p>' +
+          '<div class="werkzeug-checks">' +
+          '<label class="inline-check"><input type="checkbox" data-werkzeug-check="bereit"' + (checksSc.bereit ? ' checked' : '') + '> Bereit</label>' +
+          '<label class="inline-check"><input type="checkbox" data-werkzeug-check="ethik"' + (checksSc.ethik ? ' checked' : '') + '> Ethik geprüft</label>' +
+          '</div><p class="meta-line">Tippen speichert lokal.</p>';
       } else if (tool.kind === 'buch') {
         body.innerHTML = '<p class="hint-sm werkzeug-buch-hint">' + escapeHtml(tool.hint || 'Optional im Magie-Buch festhalten.') + '</p>' +
           '<button type="button" class="ghost" data-werkzeug-buch>' + escapeHtml(tool.cta || 'Zum Magie-Buch') + '</button>';
@@ -4387,7 +4470,7 @@
   }
 
 
-  /** Open Rituale tab; aliases sigil/karten → werkzeug + optional scroll. */
+  /** Open Rituale tab; aliases sigil/karten → werkzeug + exclusive sub-panel. */
   function openRitualTab(tab, opts) {
     opts = opts || {};
     const alias = { sigil: 'werkzeug', karten: 'werkzeug', cards: 'werkzeug', tools: 'werkzeug' };
@@ -4400,18 +4483,8 @@
     });
     $$('[data-rpanel]').forEach(p => p.classList.toggle('hidden', p.dataset.rpanel !== target));
     if (target === 'werkzeug') {
-      if (typeof renderPathWerkzeug === 'function') renderPathWerkzeug();
-      if (typeof renderSigilGallery === 'function') renderSigilGallery();
-      if (typeof renderFeldkartenGrid === 'function') {
-        try { renderFeldkartenGrid(); } catch (_) {}
-      }
-      const scrollId = opts.scroll || (tab === 'sigil' ? 'werkzeug-sigil' : tab === 'karten' ? 'werkzeug-karten' : 'ritual-werkzeug-panel');
-      if (scrollId) {
-        setTimeout(() => {
-          const el = document.getElementById(scrollId);
-          if (el) try { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (_) {}
-        }, 80);
-      }
+      const sub = resolveWerkzeugSubFromOpts(tab, opts);
+      setWerkzeugSub(sub, { scroll: opts.scroll !== false, delay: 80, flash: !!opts.flash });
     }
     if (target === 'guided') {
       renderPathWeek();
@@ -8014,22 +8087,19 @@
       });
     });
 
-    // Werkzeug jump chips: scroll to distinct blocks (Pfad ≠ Sigil ≠ Karten ≠ Grenze)
-    $$('.werkzeug-jump-chip').forEach(a => {
-      if (a.dataset.boundJump) return;
-      a.dataset.boundJump = '1';
-      a.addEventListener('click', (e) => {
-        const href = a.getAttribute('href') || '';
-        const id = href.charAt(0) === '#' ? href.slice(1) : '';
-        const target = id ? document.getElementById(id) : null;
-        if (!target) return;
+    // Werkzeug chips: exclusive panels (Pfad ≠ Sigil ≠ Karten ≠ Grenze)
+    $$('.werkzeug-jump-chip').forEach(chip => {
+      if (chip.dataset.boundJump) return;
+      chip.dataset.boundJump = '1';
+      chip.addEventListener('click', (e) => {
         e.preventDefault();
-        try { target.scrollIntoView({ behavior: (state.settings && state.settings.reducedMotion) ? 'auto' : 'smooth', block: 'start' }); } catch (_) {}
+        const sub = chip.getAttribute('data-wz-sub') || 'path';
+        setWerkzeugSub(sub, { flash: true });
+        Rituals.vibrate(8);
         try { history.replaceState(null, '', '#' + (activeSection || 'rituale')); } catch (_) {}
-        target.classList.add('wz-jump-flash');
-        setTimeout(() => target.classList.remove('wz-jump-flash'), 900);
       });
     });
+    setWerkzeugSub(loadWerkzeugSub(), { scroll: false });
 
     $('#sigil-make').addEventListener('click', runSigil);
     $('#sigil-charge').addEventListener('click', chargeSigil);
@@ -8252,6 +8322,7 @@
         });
         $$('[data-rpanel]').forEach(p => p.classList.toggle('hidden', p.dataset.rpanel !== btn.dataset.rtab));
         if (btn.dataset.rtab === 'werkzeug') {
+          setWerkzeugSub(loadWerkzeugSub(), { scroll: false });
           renderPathWerkzeug();
           renderSigilGallery();
         }
@@ -8262,7 +8333,7 @@
     });
 
     const gtw = $('#guided-to-werkzeug');
-    if (gtw) gtw.addEventListener('click', () => openRitualTab('werkzeug', { scroll: 'path-werkzeug-card-ritual' }));
+    if (gtw) gtw.addEventListener('click', () => openRitualTab('werkzeug', { werkzeugSub: 'path' }));
 
     $('#rr-close').addEventListener('click', closeRunner);
 
