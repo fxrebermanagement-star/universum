@@ -73,13 +73,13 @@
         </div>
       </div>
 
-      <div class="install-banner" id="install-banner" hidden role="region" aria-label="App installieren">
+      <div class="install-banner" id="install-banner" hidden role="region" aria-label="Zum Homescreen">
         <div class="install-banner-inner">
-          <strong id="install-banner-title">Offline zuerst · Home-Bildschirm</strong>
-          <p id="install-banner-text">Einmal laden, dann Rituale und Magie-Buch ohne Netz. Wie eine App, ohne Store — Daten bleiben lokal.</p>
+          <strong id="install-banner-title">Zum Homescreen · offline zuerst</strong>
+          <p id="install-banner-text">UNIVERSUM wie eine App: einmal laden, dann Rituale und Magie-Buch ohne Netz. Daten bleiben nur auf diesem Gerät — kein Store, kein Konto.</p>
           <ol class="install-steps" id="install-steps"></ol>
           <div class="btn-row">
-            <button type="button" class="primary tiny" id="install-banner-prompt" hidden>Jetzt installieren</button>
+            <button type="button" class="primary tiny" id="install-banner-prompt" hidden>Zum Homescreen</button>
             <button type="button" class="primary tiny" id="install-banner-ok">Verstanden</button>
             <button type="button" class="ghost tiny" id="install-banner-later">Später</button>
           </div>
@@ -157,6 +157,13 @@
 
         <p class="approx-note hint-sm cockpit-approx-once soft-honesty" id="astro-approx-note-home">Kreis, Grenze, Gabe, Schweigen — Mond und Stunde sind <strong>Fenster zur Praxis</strong> (Näherung), keine Orakel-Wahrheit.</p>
       </div>
+
+      
+      <!-- v5.20.0 First-session calm tip (after ≈60s onboarding) -->
+      <aside class="first-session-tip" id="first-session-tip" hidden role="status" aria-live="polite">
+        <p class="first-session-tip-text" id="first-session-tip-text">Ein ruhiger Tipp: Heute reicht oft ein kurzes Ritual — Tiefe findest du unter Rituale · Filter «Tiefe».</p>
+        <button type="button" class="ghost tiny" id="first-session-tip-dismiss">Verstanden</button>
+      </aside>
 
       <!-- v5.19.0 Quiet day line: moon · hour · Gabe/Resonanz -->
       <p class="altar-tageszeile" id="altar-tageszeile" aria-live="polite">Heute · Mond · Stunde · Gabe</p>
@@ -290,9 +297,9 @@
       </article>
 
       <!-- 4) Offline bar -->
-      <div class="altar-offline-bar" id="altar-offline-bar" role="status">
-        <span class="offline-chip offline-chip-bar" id="offline-chip">💾 Offline · lokale Praxis</span>
-        <p class="offline-honesty hint-sm" id="offline-honesty">Einmal laden — dann Praxis ohne Netz.</p>
+      <div class="altar-offline-bar" id="altar-offline-bar" role="status" data-state="online">
+        <span class="offline-chip offline-chip-bar" id="offline-chip">● Lokal · Shell bereit</span>
+        <p class="offline-honesty hint-sm" id="offline-honesty">Einmal laden — dann Praxis ohne Netz. Status aktualisiert sich automatisch.</p>
         <p class="privacy-line privacy-line-slim" id="privacy-line">Lokal auf diesem Gerät · kein Konto · kein Tracking</p>
       </div>
 
@@ -516,10 +523,11 @@
         </div>
         <p class="hint-sm" id="empfehlen-lead">UNIVERSUM bleibt auf dem Gerät. Kein Login, kein Tracking — zum Home-Bildschirm oder Link teilen.</p>
         <p class="hint-sm" id="empfehlen-trust">Vertrauen: lokal auf diesem Gerät, ohne Konto und ohne Online-Kreis.</p>
+        <p class="hint-sm"><a href="#vertrauen" id="empfehlen-vertrauen-link" data-open-vertrauen>Zur Vertrauensseite</a> · Ethik, Privatsphäre, Maß.</p>
         <div class="btn-row empfehlen-actions">
           <button type="button" class="primary tiny" id="empfehlen-share">Teilen</button>
           <button type="button" class="ghost tiny" id="empfehlen-copy">Link kopieren</button>
-          <button type="button" class="ghost tiny" id="empfehlen-install">App installieren</button>
+          <button type="button" class="ghost tiny" id="empfehlen-install">Zum Homescreen</button>
         </div>
         <p class="meta-line" id="empfehlen-status" aria-live="polite"></p>
       </article>
@@ -536,7 +544,7 @@
         </div><!-- .mehr-body / #cockpit-flow -->
       </details>
 
-      <p class="footer-ethics">Astronomie = Näherungen zur Praxis · keine Astrologie-Beratung · Voodoo/Santería nur Hauspraxis</p>
+      <p class="footer-ethics">Astronomie = Näherungen zur Praxis · keine Astrologie-Beratung · Voodoo/Santería nur Hauspraxis · <a href="#vertrauen" data-open-vertrauen>Vertrauen</a></p>
     </section>
 
     <!-- 2. Kalender -->
@@ -827,7 +835,7 @@
               <option value="all">Dauer · alle</option>
               <option value="short">Kurz · 3 Min</option>
               <option value="mid">Mittel · 11 Min</option>
-              <option value="long">Lang · 21 Min</option>
+              <option value="long">Tiefe · 21–25 Min</option>
             </select>
             <label class="sr-only" for="ritual-filter-path">Pfad</label>
             <select id="ritual-filter-path" aria-label="Pfad filtern">
@@ -988,9 +996,16 @@
 
       <div class="toolbar export-pack diary-extra-export" role="group" aria-label="Lokaler Buch-Export">
         <button type="button" class="ghost" id="diary-export-zip" title="ZIP mit Fotos — nur lokal">📦 ZIP-Backup</button>
+        <button type="button" class="ghost" id="backup-export-full" title="Vollbackup: Buch · Lexikon · Favoriten · Settings">💾 Vollbackup ZIP</button>
         <button type="button" class="ghost" id="diary-export-print" title="Drucken / als PDF speichern — nur lokal">🖨️ Drucken / PDF</button>
       </div>
-      <p class="hint-sm">📦 ZIP und 🖨️ PDF bleiben auf dem Gerät — kein Cloud-Upload.</p>
+      <div class="toolbar export-pack" role="group" aria-label="Backup importieren">
+        <label class="ghost file-btn">Import ZIP / JSON
+          <input type="file" id="backup-import-file" accept="application/zip,.zip,application/json,.json" hidden />
+        </label>
+      </div>
+      <p class="hint-sm">📦 ZIP und 🖨️ PDF bleiben auf dem Gerät — kein Cloud-Upload. Vollbackup: Magie-Buch, eigenes Lexikon, Favoriten, Schlüssel-Settings (ohne Geheimnisse).</p>
+      <p class="import-status" id="backup-import-status"></p>
       <div class="entry-list" id="diary-list" aria-label="Magie-Buch Timeline"></div>
       <!-- Legacy id kept for notes form handlers; list unified in diary-list -->
       <div id="notes-list" hidden aria-hidden="true"></div>
@@ -1234,9 +1249,38 @@
           Kein Login, kein Online-Kreis, kein Backend. Praxis und Magie-Buch bleiben auf diesem Gerät.</p>
         </div>
         <div class="btn-row">
-          <button type="button" class="ghost" id="set-install-app">App installieren / Hinweis</button>
+          <button type="button" class="ghost" id="set-install-app">Zum Homescreen / Hinweis</button>
           <button type="button" class="ghost" id="set-share-app">Empfehlen</button>
         </div>
+
+        <h3 class="mt-2">Lokale Erinnerungen</h3>
+        <p class="hint-sm">Optional · nur auf diesem Gerät (Notification API). Kein Cloud-Push, kein Server. Bei verweigerter Erlaubnis bleibt die App ruhig nutzbar.</p>
+        <label class="inline-check"><input type="checkbox" id="set-reminders-enabled" /> Erinnerungen aktivieren</label>
+        <label class="inline-check"><input type="checkbox" id="set-remind-mond" checked /> Mondfenster (Voll-/Neumond-Nähe)</label>
+        <label class="inline-check"><input type="checkbox" id="set-remind-fest" checked /> Nächstes Pfad-Fest (am Tag)</label>
+        <label class="inline-check"><input type="checkbox" id="set-remind-daily" /> Täglich «heute 3 Min»</label>
+        <div class="form-row" style="margin:0.4rem 0 0">
+          <label for="set-remind-daily-time">Uhrzeit «heute 3 Min»</label>
+          <input id="set-remind-daily-time" type="time" value="09:00" />
+        </div>
+        <p class="hint-sm" id="reminders-perm-status">Status: aus · offline/lokal</p>
+        <div class="btn-row mt-1">
+          <button type="button" class="ghost tiny" id="set-reminders-permission">Berechtigung anfragen</button>
+        </div>
+
+        <h3 class="mt-2">Backup &amp; Import</h3>
+        <p class="hint-sm">Lokal: Magie-Buch, eigenes Lexikon, Favoriten, Schlüssel-Settings — ohne Geheimnisse, ohne Upload.</p>
+        <div class="btn-row">
+          <button type="button" class="ghost" id="set-backup-export">Vollbackup ZIP</button>
+          <label class="ghost file-btn">Import
+            <input type="file" id="set-backup-import" accept="application/zip,.zip,application/json,.json" hidden />
+          </label>
+        </div>
+        <p class="hint-sm" id="set-backup-status"></p>
+
+        <h3 class="mt-2">Vertrauen</h3>
+        <p class="hint-sm">Ethik, Privatsphäre (lokal), kein medizinischer Rat, Maß, geschlossene Traditionen.</p>
+        <button type="button" class="ghost" id="set-open-vertrauen" data-open-vertrauen>Vertrauensseite öffnen</button>
 
         <h3 class="mt-2">Tipp des Tages</h3>
         <p class="tip-text" id="settings-tip-of-day">…</p>
@@ -1249,7 +1293,7 @@
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
         <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem">Daten bleiben lokal auf diesem Gerät · App v<span id="settings-app-version">5.19.0</span></p>
+        <p class="footer-ethics" style="padding-top:1rem">Daten bleiben lokal auf diesem Gerät · App v<span id="settings-app-version">5.20.0</span> · <a href="#vertrauen" data-open-vertrauen>Vertrauen</a></p>
       </div>
     </div>
   </div>
@@ -1302,6 +1346,38 @@
       <img id="photo-lightbox-img" alt="Magie-Buch-Foto" />
       <p class="hint-sm honesty-photo">Nur auf diesem Gerät · kein Upload</p>
       <button type="button" class="primary w-full mt-2" id="photo-lightbox-close">Zurück</button>
+    </div>
+  </div>
+
+
+  <!-- v5.20.0 Vertrauensseite -->
+  <div class="modal-overlay" id="vertrauen-overlay" hidden>
+    <div class="modal vertrauen-sheet" role="dialog" aria-modal="true" aria-labelledby="vertrauen-title">
+      <div class="drawer-head" style="padding:0;margin-bottom:0.75rem;border:none">
+        <h2 id="vertrauen-title">Vertrauen</h2>
+        <button type="button" class="icon-btn" id="vertrauen-close" aria-label="Schließen">✕</button>
+      </div>
+      <div class="vertrauen-body">
+        <p class="hint-sm">Ruhige Produktstimme — lokal, ethisch, ohne Spektakel.</p>
+
+        <h3>Ethik</h3>
+        <p>Grenze und Ausgleich. Kein Schaden an Personen. Absicht prüfen, Kreis schließen, Alltag ehren. Praxis bleibt Werkzeug — kein Schaukasten, kein Zwang.</p>
+
+        <h3>Privatsphäre · lokal</h3>
+        <p>Kein Konto, kein Login, kein Tracking-Backend. Magie-Buch, Rituale und Einstellungen bleiben auf diesem Gerät. Optional: lokale Erinnerungen (Notification API) — ohne Cloud-Push. Backup und Import sind Download/Upload auf dem Gerät.</p>
+
+        <h3>Kein medizinischer Rat</h3>
+        <p>UNIVERSUM ersetzt keine medizinische, psychologische oder therapeutische Beratung. Bei Krankheit, Krise oder Unsicherheit: Fachpersonen und Notfallhilfen nutzen. Kräuter, Steine und Rituale sind Symbolik und Haltung — kein Heilversprechen.</p>
+
+        <h3>Maß</h3>
+        <p>Weniger ist oft klarer. Kurze Praxis genügt; Tiefe ist optional. Ergebnis nicht jagen. Astronomie und Stunden sind Näherungen für die Praxis — kein Orakel-Zwang.</p>
+
+        <h3>Geschlossene Traditionen</h3>
+        <p>Voodoo und Santería hier nur als öffentliche Hauspraxis — keine Initiation, kein Medium, kein Anspruch auf Ile oder Lwa-Tradition. Respekt statt Besitz. Andere geschlossene Linien ebenfalls achten.</p>
+
+        <p class="notice ethics-line">Ein Handy kann keine Geister messen. Daten bleiben bei dir.</p>
+      </div>
+      <button type="button" class="primary w-full mt-2" id="vertrauen-done">Schließen</button>
     </div>
   </div>
 

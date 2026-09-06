@@ -430,6 +430,15 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.20.0 — Close the six product gaps
+
+- **Praxis-Tiefe**: Pro Pfad längeres Ritual (~21–25 Min, multi-phase) klar als «Tiefe» · Wochenbögen mit reicheren Tagestexten · kurze Rituale bleiben
+- **Lokale Erinnerungen**: Optional Notification API (Mondfenster, Pfad-Fest, «heute 3 Min») · nur lokal · graceful bei Deny
+- **Backup / Import**: Vollbackup ZIP (Buch · Lexikon · Favoriten · Settings) · Import merge/replace · Einstellungen & Magie-Buch
+- **PWA Feinschliff**: Stärkerer Homescreen-Hinweis · klarerer Offline-Status am Altar · First-Session-Tipp nach Onboarding · SW `universum-shell-v64`
+- **Lexikon Qualität**: ~40 SVG-Motive + dünne Beschreibungen geschärft
+- **Vertrauensseite**: Ethik · Privatsphäre lokal · kein medizinischer Rat · Maß · geschlossene Traditionen
+
 ## 5.19.0 — Major pass · SVG Motive · Ritual-Pack · Buch · Altar · Onboarding
 
 - **Lexikon-SVGs** deutlich erkennbarer: distinkte Silhouetten (Lavendel-Ähre, Rose, Beifuß, Salbei, Rosmarin-Nadeln, …), Steine mit Schliff/Form (Obsidian-Scherbe, Quarz-Spitze, runder Mondstein), Farben als echte Hue-Swatches, konsistenter Kreisrahmen, stärkere Striche für 28–36px; Generator `scripts/generate-lexikon-icons.mjs` regeneriert

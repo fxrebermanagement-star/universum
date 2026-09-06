@@ -80,7 +80,18 @@
       schumannLiveEnabled: true,
       schumannLive: null,
       calendarPathOnly: true,
-      resonanzPathOnly: true
+      resonanzPathOnly: true,
+      reminders: {
+        enabled: false,
+        mondfenster: true,
+        pathFest: true,
+        daily3min: false,
+        daily3minHour: 9,
+        daily3minMinute: 0,
+        permission: 'default',
+        lastFired: {}
+      },
+      firstSessionTipShown: false
     }
   };
 
@@ -256,7 +267,7 @@
     });
   }
 
-  const APP_VERSION = '5.19.0';
+  const APP_VERSION = '5.20.0';
 
   function buildExportMeta(data) {
     const pathId = data.path || 'esoterik';
@@ -1251,6 +1262,112 @@
     });
   }
 
+
+  function getReminders() {
+    const d = load();
+    const base = (DEFAULTS.settings && DEFAULTS.settings.reminders) || {};
+    const cur = (d.settings && d.settings.reminders) || {};
+    return Object.assign({}, base, cur, {
+      lastFired: Object.assign({}, base.lastFired || {}, cur.lastFired || {})
+    });
+  }
+
+  function setReminders(partial) {
+    return update(d => {
+      if (!d.settings) d.settings = Object.assign({}, DEFAULTS.settings);
+      const prev = Object.assign({}, (DEFAULTS.settings.reminders || {}), d.settings.reminders || {});
+      const next = Object.assign({}, prev, partial || {});
+      if (partial && partial.lastFired) {
+        next.lastFired = Object.assign({}, prev.lastFired || {}, partial.lastFired);
+      }
+      d.settings.reminders = next;
+    });
+  }
+
+  function markReminderFired(kind, dayKeyStr) {
+    return setReminders({
+      lastFired: Object.assign({}, getReminders().lastFired || {}, {
+        [kind]: dayKeyStr || todayKey()
+      })
+    });
+  }
+
+  function wasReminderFired(kind, dayKeyStr) {
+    const r = getReminders();
+    const key = dayKeyStr || todayKey();
+    return !!(r.lastFired && r.lastFired[kind] === key);
+  }
+
+  function getFirstSessionTipShown() {
+    const d = load();
+    return !!(d.settings && d.settings.firstSessionTipShown);
+  }
+
+  function markFirstSessionTipShown() {
+    return update(d => {
+      if (!d.settings) d.settings = Object.assign({}, DEFAULTS.settings);
+      d.settings.firstSessionTipShown = true;
+    });
+  }
+
+  /** Build portable backup payload (no secrets) — Magie-Buch, Lexikon, Favoriten, Schlüssel-Settings. */
+  function buildBackupPayload(opts) {
+    opts = opts || {};
+    const data = load();
+    const meta = buildExportMeta(data);
+    const settings = data.settings || {};
+    const keySettings = {
+      path: data.path,
+      lat: data.lat,
+      lon: data.lon,
+      calendarPathOnly: settings.calendarPathOnly,
+      resonanzPathOnly: settings.resonanzPathOnly,
+      quietDuringRitual: settings.quietDuringRitual,
+      stilleModus: settings.stilleModus,
+      reducedMotion: settings.reducedMotion,
+      mondnacht: settings.mondnacht,
+      mondnachtAuto: settings.mondnachtAuto,
+      haptics: settings.haptics,
+      hourAlert: settings.hourAlert,
+      reminders: settings.reminders || null,
+      briefingPins: data.briefingPins || []
+    };
+    return {
+      app: 'UNIVERSUM',
+      formerly: 'Feldlicht Ritualbegleiter',
+      appVersion: APP_VERSION,
+      exportedAt: new Date().toISOString(),
+      storageKey: STORAGE_KEY,
+      format: 'universum-backup-v1',
+      meta: Object.assign({}, meta, { kind: 'local-backup', secrets: false }),
+      data: {
+        path: data.path,
+        lat: data.lat,
+        lon: data.lon,
+        diary: data.diary || [],
+        notes: data.notes || [],
+        customLexikon: data.customLexikon || [],
+        customRituals: data.customRituals || [],
+        ritualFavorites: data.ritualFavorites || [],
+        lexikonFavorites: data.lexikonFavorites || [],
+        ritualTemplates: data.ritualTemplates || [],
+        ritualJournal: opts.includeJournal === false ? [] : (data.ritualJournal || []),
+        practiceLog: opts.includePracticeLog === false ? [] : (data.practiceLog || []),
+        intentionHistory: data.intentionHistory || [],
+        dailyIntention: data.dailyIntention || null,
+        kreisNotes: data.kreisNotes || [],
+        sigilGallery: data.sigilGallery || [],
+        pathWeekDone: data.pathWeekDone || {},
+        pathWerkzeug: data.pathWerkzeug || {},
+        briefingPins: data.briefingPins || [],
+        settings: Object.assign({}, keySettings),
+        onboarding: data.onboarding || {},
+        streaks: data.streaks || {}
+      },
+      keySettings: keySettings
+    };
+  }
+
   global.UniversumStorage = {
     STORAGE_KEY,
     DEFAULTS,
@@ -1338,6 +1455,13 @@
     exportLexikon,
     exportLexikonText,
     getLastActivity,
-    touchLastActivity
+    touchLastActivity,
+    getReminders,
+    setReminders,
+    markReminderFired,
+    wasReminderFired,
+    getFirstSessionTipShown,
+    markFirstSessionTipShown,
+    buildBackupPayload
   };
 })(typeof window !== 'undefined' ? window : globalThis);

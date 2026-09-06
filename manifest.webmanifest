@@ -1,7 +1,7 @@
 {
   "name": "UNIVERSUM · ALTAR",
   "short_name": "UNIVERSUM",
-  "description": "UNIVERSUM — stiller Ritualbegleiter für die Praxis. Lokal, ethisch, pfadstark. Kein Konto.",
+  "description": "UNIVERSUM — stiller Ritualbegleiter. Lokal-first, ethisch, pfadstark. Tiefe optional. Kein Konto.",
   "start_url": "./cockpit.html",
   "scope": "./",
   "display": "standalone",

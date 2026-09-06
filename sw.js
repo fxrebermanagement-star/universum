@@ -2,9 +2,9 @@
  * UNIVERSUM · Service Worker — offline shell caching
  * Relative URLs so GitHub Pages /universum/ subpath works.
  * Cache-first for app shell; network-first navigations; offline fallback to cockpit.
- * v63: 5.19.0 — Distinct Lexikon SVGs · Ritual Lexikon-Pack · Altar-Tageszeile · Onboarding ≈60s
+ * v64: 5.20.0 — Praxis-Tiefe · lokale Erinnerungen · Backup ZIP · PWA · Vertrauen · Lexikon-Feinschliff
  */
-const CACHE = 'universum-shell-v63';
+const CACHE = 'universum-shell-v64';
 const SHELL = [
   './',
   './index.html',

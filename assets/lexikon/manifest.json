@@ -171,7 +171,7 @@
     "name": "Brot",
     "slug": "brot",
     "file": "brot.svg",
-    "kind": "offering"
+    "kind": "kitchen"
   },
   {
     "name": "Buch",
@@ -459,7 +459,7 @@
     "name": "Honig",
     "slug": "honig",
     "file": "honig.svg",
-    "kind": "offering"
+    "kind": "kitchen"
   },
   {
     "name": "Honiggold",
@@ -513,7 +513,7 @@
     "name": "Kaffee",
     "slug": "kaffee",
     "file": "kaffee.svg",
-    "kind": "offering"
+    "kind": "kitchen"
   },
   {
     "name": "Kamille",
@@ -717,7 +717,7 @@
     "name": "Milch",
     "slug": "milch",
     "file": "milch.svg",
-    "kind": "offering"
+    "kind": "kitchen"
   },
   {
     "name": "Milchquarz",
@@ -843,7 +843,7 @@
     "name": "Öl",
     "slug": "ol",
     "file": "ol.svg",
-    "kind": "offering"
+    "kind": "kitchen"
   },
   {
     "name": "Onyx",
@@ -855,7 +855,7 @@
     "name": "Orange",
     "slug": "orange",
     "file": "orange.svg",
-    "kind": "color"
+    "kind": "herb"
   },
   {
     "name": "Oregano",
@@ -1053,7 +1053,7 @@
     "name": "Schlüssel",
     "slug": "schlussel",
     "file": "schlussel.svg",
-    "kind": "link"
+    "kind": "tool"
   },
   {
     "name": "Schnaps",
@@ -1179,7 +1179,7 @@
     "name": "Tee",
     "slug": "tee",
     "file": "tee.svg",
-    "kind": "offering"
+    "kind": "kitchen"
   },
   {
     "name": "Thymian",
@@ -1221,7 +1221,7 @@
     "name": "Türkis",
     "slug": "turkis",
     "file": "turkis.svg",
-    "kind": "color"
+    "kind": "stone"
   },
   {
     "name": "Vanille",
@@ -1263,7 +1263,7 @@
     "name": "Wasser",
     "slug": "wasser",
     "file": "wasser.svg",
-    "kind": "offering"
+    "kind": "kitchen"
   },
   {
     "name": "Weide",
@@ -1275,7 +1275,7 @@
     "name": "Weihrauch",
     "slug": "weihrauch",
     "file": "weihrauch.svg",
-    "kind": "offering"
+    "kind": "herb"
   },
   {
     "name": "Weihrauchhalter",

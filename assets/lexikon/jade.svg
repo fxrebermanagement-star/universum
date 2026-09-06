@@ -1,3 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="Jade"><circle cx="16" cy="16" r="14.2" fill="none" stroke="#f0d878" stroke-opacity="0.48" stroke-width="1.35"/>
-    <ellipse cx="16" cy="16.5" rx="8.8" ry="7.2" fill="#3a8a5a" fill-opacity="0.72" stroke="#f0d878" stroke-width="1.2"/>
-    <ellipse cx="13" cy="13.5" rx="3.2" ry="2.2" fill="#fff" fill-opacity="0.18"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="Jade"><circle cx="16" cy="16" r="14.2" fill="none" stroke="#f0d878" stroke-opacity="0.48" stroke-width="1.35"/><path d="M7 18 Q10 8 16 7 Q22 8 25 18 Q22 24 16 25 Q10 24 7 18Z" fill="#3a8a5a" fill-opacity="0.7" stroke="#2a6a42" stroke-width="0.9"/><path d="M11 14 Q16 11 21 14" fill="none" stroke="#f5e6c8" stroke-opacity="0.4" stroke-width="0.7"/><circle cx="14" cy="16" r="1.1" fill="#f5e6c8" fill-opacity="0.35"/></svg>

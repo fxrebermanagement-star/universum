@@ -304,6 +304,7 @@
       paths: ['voodoo'],
       own: true,
       houseOnly: true,
+      tiefe: true,
       candle: true,
       intention: 'Licht als Dienst am Haus — Wache ohne Spektakel, echte Brandsicherheit.',
       journal: 'Was hast du im stillen Dienst am Haus bemerkt?',
@@ -777,6 +778,7 @@
       mins: 21,
       paths: ['esoterik'],
       own: true,
+      tiefe: true,
       breath: true,
       intention: 'Längere Stille als Feld — Praxis ohne zu messen, ohne zu deuten.',
       journal: 'Was blieb nach der Stille — ohne es zu verkaufen?',
@@ -786,7 +788,142 @@
         { phase: 'body', title: 'Feld halten', text: 'Gedanken kommen und gehen. Nicht jagen. Grenze und Ausgleich.', sec: 1080, breath: true },
         { phase: 'closing', title: 'Rückkehr', text: 'Augen öffnen. Wasser. Ein Satz reicht — oder keiner.', sec: 50 }
       ]
-    }
+    },
+    /* ——— Tiefe · längere geführte Optionen (~25 Min, multi-phase) ——— */
+    {
+      id: 'trommelreise-anker',
+      name: 'Trommelreise-Anker',
+      ico: '🥁',
+      mins: 25,
+      paths: ['schamanismus'],
+      own: true,
+      tiefe: true,
+      breath: true,
+      intention: 'Lange Körper-Praxis mit Puls — Ankern, nicht erzwungene Geisterreise.',
+      journal: 'Was hat der Körper nach der langen Pulsarbeit klar gesagt?',
+      steps: [
+        { phase: 'intention', title: 'Rahmen', text: 'Mit dem Feld gehen. Kein Medium, kein Spektakel. Nur Körper und Atem.', sec: 60 },
+        { phase: 'body', title: 'Boden setzen', text: 'Sitzbein oder Füße. Schultern sinken. Drei bewusste Atemzüge.', sec: 90, breath: true },
+        { phase: 'body', title: 'Puls finden', text: 'Sanft klopfen. Atem folgt dem Puls. Zwei Minuten nur Rhythmus.', sec: 120, breath: true },
+        { phase: 'body', title: 'Spur halten', text: 'Augen weich. Was meldet der Körper — Laut, Wärme, Spannung? Ohne Deutung jagen.', sec: 240 },
+        { phase: 'body', title: 'Alltagsfrage', text: '„Was braucht der Alltag von diesem Körper?“ Eine klare, kleine Antwort genügt.', sec: 180 },
+        { phase: 'body', title: 'Puls drosseln', text: 'Klopfen langsamer. Hände, Raum, Wasser. „Ich bin im Körper.“', sec: 150, breath: true },
+        { phase: 'body', title: 'Ahnenlicht still', text: 'Ein Name oder eine Kraft als Dank — ohne Forderung, ohne Messen.', sec: 120 },
+        { phase: 'closing', title: 'Ankern & schließen', text: 'Stehen, strecken, trinken. Die Reise ist geschlossen. Alltag nimmt Raum.', sec: 90 }
+      ]
+    },
+    {
+      id: 'thing-ring-lang',
+      name: 'Thing-Ring (Tiefe)',
+      ico: 'ᛟ',
+      mins: 25,
+      paths: ['nordisch'],
+      own: true,
+      tiefe: true,
+      breath: true,
+      intention: 'Langer Ring: Maß prüfen, Eid wägen, Frith halten — ohne Pathos.',
+      journal: 'Welcher eine Eid bleibt nach dem Ring haltbar?',
+      steps: [
+        { phase: 'intention', title: 'Ring öffnen', text: 'Was will entschieden oder geehrt werden? Ohne Drama benennen. Kein Schaden.', sec: 70 },
+        { phase: 'body', title: 'Maß prüfen', text: 'Was ist heute Maß — und was Übermaß? Ein klarer Satz.', sec: 120 },
+        { phase: 'body', title: 'Kreis denken', text: 'Wer wäre betroffen — du, Haus, Sippe? Kurz listen, nicht anklagen.', sec: 150 },
+        { phase: 'body', title: 'Schweigen', text: 'Fünf Minuten still. Kein Argument, nur atmen. Maß vor Wort.', sec: 300, breath: true },
+        { phase: 'body', title: 'Eid wägen', text: 'Welchen Eid hältst du schon? Welchen setzt du heute — haltbar und ethisch?', sec: 180 },
+        { phase: 'body', title: 'Frith-Grenze', text: '„Bis hierher — in Frieden.“ Kein Fluch, kein Angriff auf Personen.', sec: 150 },
+        { phase: 'body', title: 'Ein Satz', text: 'Ein einziger nächster Schritt. Wort und Tat im selben Ring.', sec: 90 },
+        { phase: 'closing', title: 'Ring schließen', text: 'Entscheidung oder Aufschub anerkennen. Alltag ohne Theater.', sec: 70 }
+      ]
+    },
+    {
+      id: 'haus-reinheit-lang',
+      name: 'Haus-Reinheit (Tiefe)',
+      ico: '🏠',
+      mins: 25,
+      paths: ['santeria'],
+      own: true,
+      tiefe: true,
+      houseOnly: true,
+      candle: true,
+      breath: true,
+      intention: 'Lange Hauspraxis: Ordnung, Wasser, Licht, Dank — keine Initiation, kein Ile.',
+      journal: 'Was im Haus ist klarer — praktisch und würdig?',
+      steps: [
+        { phase: 'intention', title: 'Disclaimer', text: 'Nur Hauspraxis. Keine Orisha-Ansprüche. Kein Medium. Respekt vor Tradition.', sec: 60 },
+        { phase: 'body', title: 'Raum klären', text: 'Eine Ecke oder Fläche: Staub weg, Ordnung. Reinheit beginnt im Sichtbaren.', sec: 180 },
+        { phase: 'body', title: 'Weißes Tuch', text: 'Tuch glatt legen oder Fläche wischen. Weniger ist klarer.', sec: 120 },
+        { phase: 'body', title: 'Wasser & Licht', text: 'Frischwasser und Kerze/LED. Zweck: Klarheit und Dank — kein Schaden.', sec: 150, candle: true },
+        { phase: 'body', title: 'Atem halten', text: 'Bei Wasser und Licht bleiben. Vier ruhige Züge. Was braucht das Haus?', sec: 300, breath: true },
+        { phase: 'body', title: 'Dank ohne Forderung', text: 'Stiller Dank. Keine Besitzansprüche, keine Einweihung hier.', sec: 120 },
+        { phase: 'body', title: 'Grenze sprechen', text: '„Hauspraxis. Keine Initiation.“ Laut oder still.', sec: 90 },
+        { phase: 'closing', title: 'Schließen', text: 'Licht aus. Wasser achten. Alltag nimmt Raum.', sec: 80 }
+      ]
+    },
+    {
+      id: 'operator-arbeit-lang',
+      name: 'Operator-Arbeit (Tiefe)',
+      ico: '△',
+      mins: 25,
+      paths: ['hermetik'],
+      own: true,
+      tiefe: true,
+      breath: true,
+      intention: 'Lange Operator-Praxis: Stunde, Proportion, Solve/Coagula — Maß statt Glanz.',
+      journal: 'Welche eine Proportion hältst du nach der Arbeit?',
+      steps: [
+        { phase: 'intention', title: 'Operator prüfen', text: 'Nüchtern und klar? Absicht ethisch? Ohne Schaden an Personen? Sonst stoppen.', sec: 70 },
+        { phase: 'body', title: 'Stunde notieren', text: 'Planetenstunde ungefähr (Näherung). Ein Wort dazu — kein Orakel-Zwang.', sec: 90 },
+        { phase: 'body', title: 'Vier-Tafel', text: 'Oben/unten, innen/außen kurz beobachten. Entsprechung ohne Spektakel.', sec: 180 },
+        { phase: 'body', title: 'Atem der Klarheit', text: 'Vier ruhige Züge. Geist vor Theater.', sec: 120, breath: true },
+        { phase: 'body', title: 'Solve', text: 'Einatmen weich, ausatmen lang: „lösen.“ Schultern sinken. Was darf weichen?', sec: 240, breath: true },
+        { phase: 'body', title: 'Coagula', text: 'Was bleibt als Form? Ein Satz, haltbar und proportioniert.', sec: 240 },
+        { phase: 'body', title: 'Siegel', text: 'Hand auf Tisch oder Herz. „Maß hält.“ Stille.', sec: 150 },
+        { phase: 'closing', title: 'Lösen & Alltag', text: 'Symbol lösen. Operator bleibt Mensch. Weiter ohne leeren Glanz.', sec: 80 }
+      ]
+    },
+    {
+      id: 'kreis-halten-lang',
+      name: 'Kreis halten (Tiefe)',
+      ico: '☽',
+      mins: 25,
+      paths: ['wicca'],
+      own: true,
+      tiefe: true,
+      breath: true,
+      intention: 'Langer Kreis: Schutz, Reinigung, ethische Absicht, Elemente — an es harm none.',
+      journal: 'Was bleibt nach dem Kreis als Haltung — ohne Besitz?',
+      steps: [
+        { phase: 'intention', title: 'Prüfen', text: 'Absicht klar? Schadet niemandem — auch nicht subtil? Wenn nein — stoppen.', sec: 70 },
+        { phase: 'body', title: 'Schutz setzen', text: 'Raum markieren (Blick, Hand, Kerze). „Hier halte ich.“', sec: 120 },
+        { phase: 'body', title: 'Reinigung', text: 'Wasser an den Händen oder frische Luft. Was nicht dient, darf gehen.', sec: 150 },
+        { phase: 'body', title: 'Vier Wege', text: 'Elemente kurz grüßen — Erde, Luft, Feuer, Wasser. Ohne Drama.', sec: 180 },
+        { phase: 'body', title: 'Kreis halten', text: 'Atem ruhig. Absicht ethisch halten. Ergebnis nicht jagen.', sec: 360, breath: true },
+        { phase: 'body', title: 'Anziehen / Loslassen', text: 'Eine Gabe setzen oder einen Satz entlassen — gegen niemanden.', sec: 180 },
+        { phase: 'body', title: 'Danken', text: 'Elemente danken. Kreis bewusst öffnen.', sec: 90 },
+        { phase: 'closing', title: 'Alltag frei', text: 'Raum freigeben. An es harm none bleibt Haltung.', sec: 70 }
+      ]
+    },
+    {
+      id: 'gnosis-labor-lang',
+      name: 'Gnosis-Labor (Tiefe)',
+      ico: '↯',
+      mins: 25,
+      paths: ['chaosmagie'],
+      own: true,
+      tiefe: true,
+      breath: true,
+      intention: 'Langes Labor: Modell wählen, ethische Absicht, Gnosis, laden, vergessen — kein Schaden.',
+      journal: 'Hast du nach dem Labor bewusst vergessen — ohne Ergebnis-Jagd?',
+      steps: [
+        { phase: 'intention', title: 'Ethik-Check', text: 'Absicht ohne Schaden an Personen? Modell dient, Dogma nicht. Sonst stoppen.', sec: 70 },
+        { phase: 'body', title: 'Modell wählen', text: 'Welches Modell dient heute — und darf wieder weg? Eins genügt.', sec: 90 },
+        { phase: 'body', title: 'Absicht knappen', text: 'Ein positiver Satz in Gegenwart. Klein, haltbar, ethisch.', sec: 120 },
+        { phase: 'body', title: 'Sigil-Keim', text: 'Buchstaben streichen oder Form skizzieren. Noch nicht laden.', sec: 150 },
+        { phase: 'body', title: 'Gnosis', text: 'Atem oder Fokus — vier Minuten. Dann lockern. Kein Zwang.', sec: 240, breath: true },
+        { phase: 'body', title: 'Laden', text: 'Kurz die Form halten — Absicht „abschicken“. Dann sofort ablenken.', sec: 120 },
+        { phase: 'body', title: 'Vergessen', text: 'Bewusst ablenken. Nicht nachchecken. Ergebnis-Jagd stoppen.', sec: 300 },
+        { phase: 'closing', title: 'Banishing-Punkt', text: 'Ein klarer Schnitt: Modell weg. Alltag vor Theater.', sec: 80 }
+      ]
+    },
   ];
 
   const SAFETY_ITEMS = [
@@ -801,7 +938,12 @@
     const m = mins || 0;
     if (m <= 5) return '3 Min';
     if (m <= 15) return '11 Min';
-    return '21 Min';
+    if (m <= 22) return '21 Min';
+    return '≈ 25 Min · Tiefe';
+  }
+
+  function isTiefe(r) {
+    return !!(r && (r.tiefe || (r.mins || 0) >= 20));
   }
 
   function isOwnForPath(r, pathId) {
@@ -872,6 +1014,7 @@
     isOwnForPath,
     isShared,
     durLabel,
+    isTiefe,
     shortForPath,
     vibrate
   };

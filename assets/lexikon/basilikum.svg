@@ -1,4 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="Basilikum"><circle cx="16" cy="16" r="14.2" fill="none" stroke="#f0d878" stroke-opacity="0.48" stroke-width="1.35"/><g transform="translate(16 15) rotate(0)">
-    <path d="M0 11 C6.38 4.18 6.050000000000001 -3.52 0 -11 C-6.050000000000001 -3.52 -6.38 4.18 0 11Z" fill="#8fb88a" fill-opacity="0.92"/>
-    <path d="M0 7.92 V-7.15" stroke="#f5e6c8" stroke-opacity="0.5" stroke-width="0.75" fill="none"/>
-  </g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="Basilikum"><circle cx="16" cy="16" r="14.2" fill="none" stroke="#f0d878" stroke-opacity="0.48" stroke-width="1.35"/><path d="M16 26 C9 18 9 11 16 5 C23 11 23 18 16 26Z" fill="#8fb88a" fill-opacity="0.88"/><path d="M16 24 V7" stroke="#f5e6c8" stroke-opacity="0.4" stroke-width="0.7"/><path d="M16 12 Q11 14 10 17 M16 14 Q21 16 22 19" fill="none" stroke="#6a9a78" stroke-opacity="0.55" stroke-width="0.7"/></svg>

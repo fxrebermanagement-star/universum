@@ -2487,27 +2487,36 @@
     const bar = $('#altar-offline-bar');
     const online = typeof navigator.onLine === 'boolean' ? navigator.onLine : true;
     const swOk = !!(navigator.serviceWorker && navigator.serviceWorker.controller);
+    const standalone = isStandaloneDisplay && isStandaloneDisplay();
     const stateKey = online ? 'online' : 'offline';
     if (el) {
       if (online) {
         el.textContent = swOk
-          ? 'Online · Offline-Shell aktiv — Praxis, Buch und Rituale bleiben lokal auch ohne Netz.'
-          : 'Online · lokal auf diesem Gerät · einmal laden, dann offline Praxis (PWA/Home-Bildschirm).';
+          ? 'Online · Offline-Shell aktiv — Rituale, Buch und Fokus bleiben lokal auch ohne Netz.'
+          : 'Online · lokal · einmal laden, dann offline Praxis. Tipp: Zum Homescreen für die Shell.';
         el.dataset.state = 'online';
       } else {
         el.textContent = swOk
-          ? 'Offline · Shell aus dem Cache. Rituale, Magie-Buch und Fokus laufen lokal. Station Tomsk pausiert.'
-          : 'Offline · ohne Cache ggf. eingeschränkt. Installiere die App / lade einmal online neu.';
+          ? 'Offline · Shell aus dem Cache. Rituale, Magie-Buch und Fokus laufen lokal. Live-Station pausiert.'
+          : 'Offline · ohne Cache eingeschränkt. Online neu laden oder Zum Homescreen installieren.';
         el.dataset.state = 'offline';
       }
     }
-    if (bar) bar.dataset.state = stateKey;
+    if (bar) {
+      bar.dataset.state = stateKey;
+      bar.dataset.sw = swOk ? '1' : '0';
+      bar.dataset.standalone = standalone ? '1' : '0';
+    }
     const chip = $('#offline-chip');
     if (chip) {
       chip.hidden = false;
-      chip.textContent = online
-        ? '💾 Offline · lokale Praxis'
-        : '📴 Offline · lokale Praxis';
+      if (!online) {
+        chip.textContent = swOk ? '📴 Offline · Shell bereit' : '📴 Offline · Cache fehlt';
+      } else if (standalone) {
+        chip.textContent = '● Homescreen · lokal';
+      } else {
+        chip.textContent = swOk ? '● Online · Shell bereit' : '● Online · Shell lädt';
+      }
     }
   }
 
@@ -4128,11 +4137,13 @@
         escapeHtml(r.name) +
         '<span class="dur-badge ' + durClass + '" title="Dauer-Tag">' + escapeHtml(dur) + '</span>' +
         (r.signature ? '<span class="fav-badge signature-badge">Signatur</span>' : '') +
+        ((Rituals.isTiefe && Rituals.isTiefe(r)) || r.tiefe ? '<span class="fav-badge tiefe-badge" title="Längere geführte Option">Tiefe</span>' : '') +
         (isOwn ? '<span class="fav-badge path-own-badge">Pfad</span>' : '') +
         (isFav ? '<span class="fav-badge">Favorit</span>' : '') + '</div>' +
         '<div class="r-meta">' + r.steps.length + ' Schritte' +
         (r.breath ? ' · Atem' : '') + (r.candle ? ' · Kerze' : '') +
         (r.houseOnly ? ' · Haus' : '') +
+        (((Rituals.isTiefe && Rituals.isTiefe(r)) || r.tiefe) ? ' · Tiefe' : '') +
         (path.recommendedRitual === r.id ? ' · empfohlen' : '') +
         (r.intention ? (' · ' + escapeHtml(String(r.intention).slice(0, 72)) + (String(r.intention).length > 72 ? '…' : '')) : '') +
         '</div></span></button>' +
@@ -5480,7 +5491,7 @@
     const text = $('#install-banner-text');
     // Offline-zuerst: Banner auch auf Desktop bei force; Copy betont Cache
     if (plat.isIOS) {
-      if (title) title.textContent = 'Auf dem iPhone / iPad';
+      if (title) title.textContent = 'Zum Homescreen · iPhone / iPad';
       if (text) text.textContent = 'Safari → Teilen → „Zum Home-Bildschirm“. Dann öffnet UNIVERSUM wie eine App — offline-fähig, lokal.';
       if (steps) {
         steps.innerHTML =
@@ -5489,7 +5500,7 @@
           '<li>Bestätige „Hinzufügen“ — fertig.</li>';
       }
     } else if (plat.isAndroid) {
-      if (title) title.textContent = 'Auf dem Android-Handy';
+      if (title) title.textContent = 'Zum Homescreen · Android';
       if (text) text.textContent = 'Chrome-Menü → „App installieren“ oder „Zum Startbildschirm“. UNIVERSUM bleibt lokal auf dem Gerät.';
       if (steps) {
         steps.innerHTML =
@@ -5498,7 +5509,7 @@
           '<li>Bestätigen — Icon erscheint neben deinen Apps.</li>';
       }
     } else {
-      if (title) title.textContent = 'Als App nutzen';
+      if (title) title.textContent = 'Zum Homescreen · App';
       if (text) text.textContent = 'Über das Browser-Menü „Zum Home-Bildschirm“ / Installieren — ideal auf dem Handy.';
       if (steps) {
         steps.innerHTML =
@@ -6208,6 +6219,7 @@
     if (stille) stille.checked = !!(state.settings && state.settings.stilleModus);
     const calPath = $('#set-calendar-path-only');
     if (calPath) calPath.checked = isCalendarPathOnly();
+    try { syncRemindersUi(); } catch (_) {}
   }
 
   function closeSettings() {
@@ -6345,6 +6357,329 @@
     if (overlay) overlay.hidden = true;
   }
 
+
+  /* ——— v5.20.0 · Vertrauen · Erinnerungen · Backup ZIP · First-session tip ——— */
+
+  function openVertrauen() {
+    const ov = $('#vertrauen-overlay');
+    if (ov) {
+      ov.hidden = false;
+      try { history.replaceState(null, '', '#vertrauen'); } catch (_) {}
+    }
+    const drawer = $('#settings-drawer');
+    if (drawer) drawer.hidden = true;
+  }
+
+  function closeVertrauen() {
+    const ov = $('#vertrauen-overlay');
+    if (ov) ov.hidden = true;
+    try {
+      if (location.hash === '#vertrauen') history.replaceState(null, '', location.pathname + location.search);
+    } catch (_) {}
+  }
+
+  function syncRemindersUi() {
+    const r = (Store.getReminders && Store.getReminders()) || {};
+    const en = $('#set-reminders-enabled');
+    const mond = $('#set-remind-mond');
+    const fest = $('#set-remind-fest');
+    const daily = $('#set-remind-daily');
+    const time = $('#set-remind-daily-time');
+    const st = $('#reminders-perm-status');
+    if (en) en.checked = !!r.enabled;
+    if (mond) mond.checked = r.mondfenster !== false;
+    if (fest) fest.checked = r.pathFest !== false;
+    if (daily) daily.checked = !!r.daily3min;
+    if (time) {
+      const hh = String(r.daily3minHour != null ? r.daily3minHour : 9).padStart(2, '0');
+      const mm = String(r.daily3minMinute != null ? r.daily3minMinute : 0).padStart(2, '0');
+      time.value = hh + ':' + mm;
+    }
+    let perm = 'default';
+    try {
+      if (typeof Notification !== 'undefined') perm = Notification.permission || 'default';
+    } catch (_) {}
+    if (st) {
+      if (!r.enabled) st.textContent = 'Status: aus · nur lokal, kein Cloud-Push';
+      else if (perm === 'granted') st.textContent = 'Status: aktiv · Berechtigung erteilt · offline/lokal';
+      else if (perm === 'denied') st.textContent = 'Status: Berechtigung verweigert — App bleibt nutzbar, keine System-Hinweise';
+      else st.textContent = 'Status: aktiv, aber Berechtigung noch offen — «Berechtigung anfragen» tippen';
+    }
+  }
+
+  function readRemindersFromUi() {
+    const time = $('#set-remind-daily-time');
+    let hour = 9, minute = 0;
+    if (time && time.value) {
+      const parts = String(time.value).split(':');
+      hour = parseInt(parts[0], 10); if (isNaN(hour)) hour = 9;
+      minute = parseInt(parts[1], 10); if (isNaN(minute)) minute = 0;
+    }
+    return {
+      enabled: !!( $('#set-reminders-enabled') && $('#set-reminders-enabled').checked ),
+      mondfenster: !!( $('#set-remind-mond') && $('#set-remind-mond').checked ),
+      pathFest: !!( $('#set-remind-fest') && $('#set-remind-fest').checked ),
+      daily3min: !!( $('#set-remind-daily') && $('#set-remind-daily').checked ),
+      daily3minHour: hour,
+      daily3minMinute: minute
+    };
+  }
+
+  function saveRemindersFromUi() {
+    if (!Store.setReminders) return;
+    Store.setReminders(readRemindersFromUi());
+    refreshState();
+    syncRemindersUi();
+    scheduleLocalReminders();
+  }
+
+  async function requestReminderPermission() {
+    const st = $('#reminders-perm-status');
+    if (typeof Notification === 'undefined') {
+      if (st) st.textContent = 'Dieses Gerät unterstützt keine System-Hinweise — Erinnerungen bleiben deaktiviert.';
+      toast('Keine Notification API — lokal ohne Push', 3200, 'warn');
+      return;
+    }
+    try {
+      const perm = await Notification.requestPermission();
+      if (Store.setReminders) Store.setReminders({ permission: perm, enabled: perm === 'granted' ? true : !!(Store.getReminders() || {}).enabled });
+      refreshState();
+      syncRemindersUi();
+      if (perm === 'granted') {
+        toast('Berechtigung erteilt · Hinweise bleiben lokal');
+        const en = $('#set-reminders-enabled');
+        if (en) { en.checked = true; saveRemindersFromUi(); }
+      } else if (perm === 'denied') {
+        toast('Berechtigung verweigert — App bleibt ruhig nutzbar', 3600, 'warn');
+      } else {
+        toast('Noch keine Entscheidung — jederzeit erneut anfragen', 3200, 'warn');
+      }
+    } catch (e) {
+      toast('Hinweis nicht möglich auf diesem Gerät', 3200, 'warn');
+    }
+  }
+
+  function fireLocalNotification(title, body, tag) {
+    try {
+      if (typeof Notification === 'undefined' || Notification.permission !== 'granted') return false;
+      const n = new Notification(title, {
+        body: body || '',
+        tag: tag || 'universum-local',
+        silent: false
+      });
+      setTimeout(() => { try { n.close(); } catch (_) {} }, 12000);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  function checkLocalReminders() {
+    if (!Store.getReminders) return;
+    const r = Store.getReminders();
+    if (!r || !r.enabled) return;
+    let perm = 'default';
+    try { if (typeof Notification !== 'undefined') perm = Notification.permission; } catch (_) {}
+    if (perm !== 'granted') return;
+    const day = Store.todayKey ? Store.todayKey() : new Date().toISOString().slice(0, 10);
+    const now = new Date();
+
+    // Daily 3 min
+    if (r.daily3min && !(Store.wasReminderFired && Store.wasReminderFired('daily3min', day))) {
+      const h = r.daily3minHour != null ? r.daily3minHour : 9;
+      const m = r.daily3minMinute != null ? r.daily3minMinute : 0;
+      if (now.getHours() > h || (now.getHours() === h && now.getMinutes() >= m)) {
+        if (fireLocalNotification('UNIVERSUM · heute 3 Min', 'Ein kurzes Ritual reicht. Altar öffnen — lokal auf diesem Gerät.', 'universum-daily3')) {
+          Store.markReminderFired('daily3min', day);
+        }
+      }
+    }
+
+    // Mondfenster near full/new
+    if (r.mondfenster && !(Store.wasReminderFired && Store.wasReminderFired('mondfenster', day))) {
+      try {
+        const moon = Astro && Astro.moonPhase ? Astro.moonPhase(now) : null;
+        const name = (moon && moon.name) || '';
+        const ill = moon && typeof moon.illumination === 'number' ? moon.illumination : null;
+        const nearFull = /voll/i.test(name) || (ill != null && ill >= 0.92);
+        const nearNew = /neu/i.test(name) || (ill != null && ill <= 0.08);
+        if (nearFull || nearNew) {
+          const label = nearFull ? 'Vollmond-Nähe' : 'Neumond-Nähe';
+          if (fireLocalNotification('UNIVERSUM · Mondfenster', label + ' — ein ruhiger Blick aufs Mondfenster genügt. Näherung, kein Orakel.', 'universum-moon')) {
+            Store.markReminderFired('mondfenster', day);
+          }
+        }
+      } catch (_) {}
+    }
+
+    // Path festival today
+    if (r.pathFest && !(Store.wasReminderFired && Store.wasReminderFired('pathFest', day))) {
+      try {
+        const pathId = (state && state.path) || (Store.load() || {}).path || 'esoterik';
+        const fests = Paths.festivalsForPath ? Paths.festivalsForPath(now, pathId, { pathOnly: true }) : [];
+        if (fests && fests.length) {
+          const names = fests.map(f => f.name).filter(Boolean).slice(0, 2).join(', ');
+          if (fireLocalNotification('UNIVERSUM · Pfad-Fest', 'Heute: ' + names + ' — Maß und Respekt. Nur Hauspraxis wo nötig.', 'universum-fest')) {
+            Store.markReminderFired('pathFest', day);
+          }
+        }
+      } catch (_) {}
+    }
+  }
+
+  let reminderTimer = null;
+  function scheduleLocalReminders() {
+    if (reminderTimer) {
+      clearInterval(reminderTimer);
+      reminderTimer = null;
+    }
+    const r = Store.getReminders && Store.getReminders();
+    if (!r || !r.enabled) return;
+    checkLocalReminders();
+    reminderTimer = setInterval(checkLocalReminders, 60 * 1000);
+  }
+
+  function maybeShowFirstSessionTip() {
+    if (!Store.getFirstSessionTipShown) return;
+    if (Store.getFirstSessionTipShown()) return;
+    if (!(state.onboarding && state.onboarding.done)) return;
+    const el = $('#first-session-tip');
+    if (!el) return;
+    const tips = [
+      'Ein ruhiger Tipp: Heute reicht oft ein kurzes Ritual — längere Begleitung findest du unter Rituale · Filter «Tiefe».',
+      'Tipp: Magie-Buch und Lexikon bleiben lokal. Unter Einstellungen kannst du ein Vollbackup ZIP sichern.',
+      'Tipp: Zum Homescreen legen — dann läuft die Offline-Shell auch ohne Netz. Daten bleiben auf dem Gerät.'
+    ];
+    const pathId = state.path || 'esoterik';
+    const idx = Math.abs(String(pathId).length + (state.lat || 0) * 10) % tips.length;
+    const text = $('#first-session-tip-text');
+    if (text) text.textContent = tips[idx];
+    el.hidden = false;
+  }
+
+  function dismissFirstSessionTip() {
+    const el = $('#first-session-tip');
+    if (el) el.hidden = true;
+    if (Store.markFirstSessionTipShown) Store.markFirstSessionTipShown();
+  }
+
+  async function exportFullBackupZip() {
+    if (!Media || !Media.buildZip) { toast('Medienmodul fehlt', 2400, 'warn'); return; }
+    if (!Store.buildBackupPayload) { toast('Backup nicht verfügbar', 2400, 'warn'); return; }
+    toast('Vollbackup wird gebaut…', 2000);
+    try {
+      const payload = Store.buildBackupPayload({ includeJournal: true, includePracticeLog: true });
+      // Strip any accidental secrets-like fields
+      if (payload.data && payload.data.settings) {
+        delete payload.data.settings.schumannLive;
+      }
+      const files = [
+        {
+          name: 'INHALT.txt',
+          data: [
+            'UNIVERSUM · Lokales Vollbackup',
+            'App v' + (Store.APP_VERSION || '') + ' · ' + new Date().toISOString(),
+            'Enthält: Magie-Buch, eigenes Lexikon, Favoriten, Schlüssel-Settings.',
+            'Keine Geheimnisse, kein Upload — nur Download auf diesem Gerät.',
+            'Import: Einstellungen oder Magie-Buch → Import ZIP (Zusammenführen / Ersetzen).',
+            ''
+          ].join('\n')
+        },
+        { name: 'universum-backup.json', data: JSON.stringify(payload, null, 2) },
+        {
+          name: 'lexikon-custom.json',
+          data: JSON.stringify({
+            app: 'UNIVERSUM',
+            appVersion: Store.APP_VERSION,
+            customLexikon: (payload.data && payload.data.customLexikon) || [],
+            lexikonFavorites: (payload.data && payload.data.lexikonFavorites) || []
+          }, null, 2)
+        },
+        {
+          name: 'favorites.json',
+          data: JSON.stringify({
+            ritualFavorites: (payload.data && payload.data.ritualFavorites) || [],
+            lexikonFavorites: (payload.data && payload.data.lexikonFavorites) || []
+          }, null, 2)
+        },
+        {
+          name: 'settings-key.json',
+          data: JSON.stringify(payload.keySettings || {}, null, 2)
+        }
+      ];
+      const zip = await Media.buildZip(files);
+      Media.downloadBlob(zip, 'universum-backup.zip');
+      if (Store.markBackupExported) Store.markBackupExported();
+      toast('💾 Vollbackup ZIP gespeichert · lokal');
+      const st = $('#set-backup-status');
+      if (st) st.textContent = 'Exportiert: universum-backup.zip · ' + new Date().toLocaleString('de-CH');
+    } catch (e) {
+      console.warn(e);
+      toast('Backup fehlgeschlagen', 3200, 'warn');
+    }
+  }
+
+  function confirmImportMode() {
+    const modeRadio = document.querySelector('input[name="import-mode"]:checked');
+    let mode = modeRadio ? modeRadio.value : 'merge';
+    const msg = mode === 'replace'
+      ? 'Import: bestehende lokale Daten ERSETZEN? Das überschreibt Magie-Buch und Einstellungen auf diesem Gerät.'
+      : 'Import: mit lokalen Daten ZUSAMMENFÜHREN?';
+    if (!window.confirm(msg + '\n\nNur lokal — kein Upload.')) return null;
+    if (mode !== 'merge' && mode !== 'replace') mode = 'merge';
+    return mode;
+  }
+
+  async function importBackupFile(file) {
+    if (!file) return;
+    const statusEls = [$('#backup-import-status'), $('#set-backup-status'), $('#import-status')].filter(Boolean);
+    const setStatus = (t) => statusEls.forEach(el => { el.textContent = t; });
+    const mode = confirmImportMode();
+    if (!mode) { setStatus('Import abgebrochen'); return; }
+    const name = (file.name || '').toLowerCase();
+    try {
+      let jsonText = null;
+      if (name.endsWith('.zip') || (file.type && file.type.indexOf('zip') >= 0)) {
+        if (!Media || !Media.parseZip) throw new Error('ZIP-Import nicht verfügbar');
+        const entries = await Media.parseZip(file);
+        const prefer = entries.find(e => /universum-backup\.json$/i.test(e.name))
+          || entries.find(e => /universum-buch\.json$/i.test(e.name))
+          || entries.find(e => /\.json$/i.test(e.name));
+        if (!prefer) throw new Error('Keine JSON-Datei im ZIP');
+        jsonText = Media.zipEntryText(prefer);
+      } else {
+        jsonText = await new Promise((resolve, reject) => {
+          const r = new FileReader();
+          r.onload = () => resolve(r.result);
+          r.onerror = () => reject(r.error || new Error('Lesefehler'));
+          r.readAsText(file);
+        });
+      }
+      const parsed = JSON.parse(jsonText);
+      // Reuse importBuch by wrapping as File-like Blob
+      const blob = new Blob([JSON.stringify(parsed)], { type: 'application/json' });
+      const fake = new File([blob], 'universum-backup.json', { type: 'application/json' });
+      const result = await Store.importBuch(fake, mode);
+      refreshState();
+      try { applyMotionPref(); } catch (_) {}
+      try { applyMondnachtPref(); } catch (_) {}
+      try { applyStilleModus(); } catch (_) {}
+      try { applyPathTheme(); } catch (_) {}
+      try { renderBuch(); } catch (_) {}
+      try { renderRituale(); } catch (_) {}
+      try { renderCockpit(); } catch (_) {}
+      setStatus('Import (' + mode + ') · App v' + (result.appVersion || '?') + ' · lokal');
+      toast('Import abgeschlossen · ' + mode);
+      syncRemindersUi();
+      scheduleLocalReminders();
+    } catch (e) {
+      console.warn(e);
+      setStatus('Import fehlgeschlagen: ' + (e && e.message ? e.message : 'unbekannt'));
+      toast('Import fehlgeschlagen', 3600, 'warn');
+    }
+  }
+
+
   function finishOnboarding() {
     const eth = $('#onboard-ethics');
     if (!eth || !eth.checked) {
@@ -6379,6 +6714,14 @@
     }, 350);
     setTimeout(() => { try { showInstallBanner(true); } catch (_) {} }, 900);
     return true;
+  
+    setTimeout(function () {
+      maybeShowFirstSessionTip();
+      // Soft install nudge after first calm minute
+      try {
+        if (!isStandaloneDisplay()) showInstallBanner(false);
+      } catch (_) {}
+    }, 4000);
   }
 
   function escapeHtml(s) {
@@ -7005,6 +7348,60 @@
         toast(setCalPathOnly.checked ? 'Kalender: nur mein Pfad' : 'Kalender: alle Feste');
       });
     }
+
+    /* v5.20.0 reminders · backup · vertrauen · first-session */
+    ['set-reminders-enabled', 'set-remind-mond', 'set-remind-fest', 'set-remind-daily', 'set-remind-daily-time'].forEach(function (id) {
+      const el = $('#' + id);
+      if (!el) return;
+      el.addEventListener('change', function () {
+        saveRemindersFromUi();
+        toast('Erinnerungen gespeichert · lokal');
+      });
+    });
+    const remPerm = $('#set-reminders-permission');
+    if (remPerm) remPerm.addEventListener('click', function () { requestReminderPermission(); });
+    const setBackupExp = $('#set-backup-export');
+    if (setBackupExp) setBackupExp.addEventListener('click', function () { exportFullBackupZip(); });
+    const setBackupImp = $('#set-backup-import');
+    if (setBackupImp) setBackupImp.addEventListener('change', function (e) {
+      const f = e.target.files && e.target.files[0];
+      if (f) importBackupFile(f);
+      e.target.value = '';
+    });
+    const buchBackupExp = $('#backup-export-full');
+    if (buchBackupExp) buchBackupExp.addEventListener('click', function () { exportFullBackupZip(); });
+    const buchBackupImp = $('#backup-import-file');
+    if (buchBackupImp) buchBackupImp.addEventListener('change', function (e) {
+      const f = e.target.files && e.target.files[0];
+      if (f) importBackupFile(f);
+      e.target.value = '';
+    });
+    document.querySelectorAll('[data-open-vertrauen]').forEach(function (el) {
+      el.addEventListener('click', function (e) {
+        e.preventDefault();
+        openVertrauen();
+      });
+    });
+    const vertClose = $('#vertrauen-close');
+    if (vertClose) vertClose.addEventListener('click', closeVertrauen);
+    const vertDone = $('#vertrauen-done');
+    if (vertDone) vertDone.addEventListener('click', closeVertrauen);
+    const vertOv = $('#vertrauen-overlay');
+    if (vertOv) vertOv.addEventListener('click', function (e) {
+      if (e.target.id === 'vertrauen-overlay') closeVertrauen();
+    });
+    const tipDismiss = $('#first-session-tip-dismiss');
+    if (tipDismiss) tipDismiss.addEventListener('click', dismissFirstSessionTip);
+    if (location.hash === '#vertrauen') {
+      setTimeout(openVertrauen, 200);
+    }
+    try { syncRemindersUi(); scheduleLocalReminders(); } catch (_) {}
+    setTimeout(function () {
+      try {
+        if (state.onboarding && state.onboarding.done) maybeShowFirstSessionTip();
+      } catch (_) {}
+    }, 5000);
+
     const quietToggle = $('#quiet-mode-toggle');
     if (quietToggle) quietToggle.addEventListener('click', toggleQuietManual);
     const quietExit = $('#quiet-exit-chip');

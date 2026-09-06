@@ -209,6 +209,55 @@
    * files: [{ name: string, data: Uint8Array|string|Blob }]
    * returns Blob (application/zip)
    */
+
+  function u16read(view, o) { return view.getUint16(o, true); }
+  function u32read(view, o) { return view.getUint32(o, true); }
+
+  /**
+   * Parse store-method (uncompressed) ZIP produced by buildZip.
+   * Returns [{ name, data: Uint8Array }]. Compressed entries are skipped.
+   */
+  async function parseZip(blobOrBuffer) {
+    const buf = blobOrBuffer instanceof ArrayBuffer
+      ? blobOrBuffer
+      : await (blobOrBuffer instanceof Blob ? blobOrBuffer.arrayBuffer() : blobOrBuffer);
+    const view = new DataView(buf);
+    const bytes = new Uint8Array(buf);
+    // Find end of central directory
+    let eocd = -1;
+    for (let i = bytes.length - 22; i >= 0; i--) {
+      if (u32read(view, i) === 0x06054b50) { eocd = i; break; }
+    }
+    if (eocd < 0) throw new Error('Kein ZIP-Endverzeichnis');
+    const entries = u16read(view, eocd + 8);
+    let centralOffset = u32read(view, eocd + 16);
+    const out = [];
+    const dec = new TextDecoder();
+    for (let n = 0; n < entries; n++) {
+      if (u32read(view, centralOffset) !== 0x02014b50) break;
+      const method = u16read(view, centralOffset + 10);
+      const compSize = u32read(view, centralOffset + 20);
+      const nameLen = u16read(view, centralOffset + 28);
+      const extraLen = u16read(view, centralOffset + 30);
+      const commentLen = u16read(view, centralOffset + 32);
+      const localOff = u32read(view, centralOffset + 42);
+      const name = dec.decode(bytes.subarray(centralOffset + 46, centralOffset + 46 + nameLen));
+      const localNameLen = u16read(view, localOff + 26);
+      const localExtra = u16read(view, localOff + 28);
+      const dataStart = localOff + 30 + localNameLen + localExtra;
+      if (method === 0) {
+        out.push({ name: name, data: bytes.subarray(dataStart, dataStart + compSize) });
+      }
+      centralOffset += 46 + nameLen + extraLen + commentLen;
+    }
+    return out;
+  }
+
+  function zipEntryText(entry) {
+    if (!entry || !entry.data) return '';
+    return new TextDecoder().decode(entry.data);
+  }
+
   async function buildZip(files) {
     const locals = [];
     const centrals = [];
@@ -307,6 +356,8 @@
     compressImage,
     uid,
     buildZip,
+    parseZip,
+    zipEntryText,
     downloadBlob,
     collectMediaMap,
     restoreMediaMap
