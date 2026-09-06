@@ -6297,20 +6297,34 @@
       return;
     }
 
-    // Never call deferredInstallPrompt.prompt() — on some phones that freezes the tab.
-    // Only show clear manual steps (Safari Teilen / Chrome ⋮ App installieren).
+    // No fixed overlay, no native prompt — both froze phones. Steps only in Settings/Empfehlen.
+    dismissInstallBanner(false);
     const copy = fillInstallSteps(plat);
     if (status) status.textContent = copy.summary;
-    showInstallBanner(true);
     if (fromSettings) {
       try {
         const howto = $('#install-howto');
-        if (howto && howto.scrollIntoView) howto.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        if (howto) {
+          howto.hidden = false;
+          if (howto.scrollIntoView) howto.scrollIntoView({ block: 'nearest', behavior: 'auto' });
+        }
+      } catch (_) {}
+    } else {
+      // From Empfehlen: open settings so steps are readable
+      try { openSettings(); } catch (_) {}
+      try {
+        const howto = $('#install-howto');
+        if (howto) {
+          howto.hidden = false;
+          setTimeout(function () {
+            try { howto.scrollIntoView({ block: 'nearest', behavior: 'auto' }); } catch (_) {}
+          }, 50);
+        }
       } catch (_) {}
     }
     toast(plat.isIOS
-      ? 'Safari: Teilen → Zum Home-Bildschirm'
-      : 'Öffne das Browser-Menü → App installieren', 3600);
+      ? 'Nur Safari: Teilen → Zum Home-Bildschirm'
+      : 'Chrome ⋮ → App installieren', 3200);
   }
 
   function isStandaloneDisplay() {
@@ -7586,9 +7600,6 @@
     // Sanfter Homescreen-Hinweis einmal, nicht sofort nach Onboarding-Druck
     setTimeout(function () {
       maybeShowFirstSessionTip();
-      try {
-        if (!isStandaloneDisplay()) showInstallBanner(false);
-      } catch (_) {}
     }, 2800);
     return true;
   }
@@ -8655,7 +8666,7 @@
       if (bp) bp.hidden = false;
       const empInst = $('#empfehlen-install');
       if (empInst) empInst.classList.add('has-prompt');
-      setTimeout(() => { try { showInstallBanner(false); } catch (_) {} }, 400);
+      /* v5.33.7: do not auto-show install banner after beforeinstallprompt */
     });
     window.addEventListener('appinstalled', () => {
       deferredInstallPrompt = null;
@@ -8842,7 +8853,7 @@
         const sub = chip.getAttribute('data-wz-sub') || 'path';
         setWerkzeugSub(sub, { flash: true });
         Rituals.vibrate(8);
-        try { history.replaceState(null, '', '#' + (activeSection || 'rituale')); } catch (_) {}
+        try { history.replaceState(null, '', '#' + (activeSection || 'cockpit')); } catch (_) {}
       });
     });
     setWerkzeugSub(loadWerkzeugSub(), { scroll: false });
@@ -9098,14 +9109,13 @@
 
     const rawHash = (location.hash || '#cockpit').replace('#', '');
     const hash = rawHash.split('?')[0];
+    // Altar-first homescreen: every full load opens Altar (not last #rituale).
+    // In-session nav still uses hashchange. Briefing deep-link kept.
     if (hash === 'briefing' || hash === 'tagesbriefing') {
-      navigate('cockpit');
+      navigate('cockpit', { force: true });
       setTimeout(focusBriefingFromShare, 120);
     } else {
-      const resolved = resolveSectionId(hash);
-      const fromAlias = (hash === 'notizen' || hash === 'tagebuch') ? hash : undefined;
-      if (SECTIONS.some(s => s.id === resolved)) navigate(resolved, { fromAlias: fromAlias });
-      else navigate('cockpit');
+      navigate('cockpit', { force: true });
     }
     bindAltarMehrExpand();
     window.addEventListener('hashchange', () => {
@@ -9121,7 +9131,7 @@
     if (!(state.onboarding && state.onboarding.done)) {
       openOnboarding();
     } else {
-      setTimeout(() => showInstallBanner(false), 600);
+      /* v5.33.7: no auto install overlay — froze iOS / covered Altar */
     }
 
     document.addEventListener('keydown', (e) => {

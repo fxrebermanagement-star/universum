@@ -999,3 +999,11 @@ Siebzehnte Runde — **UX Klarheit**: modernes dunkles UI mit mehr Weißraum und
 - Kein `beforeinstallprompt().prompt()` mehr (friert auf manchen Handys ein)
 - Button zeigt nur noch klare Safari/Chrome-Schritte
 - SW `universum-shell-v113`
+
+## 5.33.7 — Altar-Start · kein Install-Overlay
+
+- Start immer am Altar (nicht letztes #rituale)
+- Kein auto Install-Banner / kein Blur (iOS-Freeze)
+- Homescreen-Schritte nur in den Einstellungen
+- Manifest `start_url` mit `#cockpit`
+- SW `universum-shell-v114`

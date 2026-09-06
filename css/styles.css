@@ -3110,20 +3110,24 @@ body.mondnacht .search-hit {
   margin-right: auto;
 }
 
-/* v5.33.4 — fixed overlay outside altar; never clipped by #sec-cockpit overflow */
+/* v5.33.7 — install overlay disabled by default; no blur (iOS freeze) */
 .install-banner {
   position: fixed;
   left: max(0.75rem, env(safe-area-inset-left));
   right: max(0.75rem, env(safe-area-inset-right));
   bottom: max(0.75rem, env(safe-area-inset-bottom));
-  z-index: 12000;
+  z-index: 40;
   margin: 0;
   border-radius: var(--radius);
   border: 1px solid rgba(62, 212, 196, 0.35);
   background: linear-gradient(145deg, rgba(62, 212, 196, 0.14), rgba(139, 111, 208, 0.12));
   box-shadow: var(--glow-maya), 0 12px 40px rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  pointer-events: auto;
+}
+.install-banner[hidden] {
+  display: none !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
 }
 @media (min-width: 480px) {
   .install-banner {

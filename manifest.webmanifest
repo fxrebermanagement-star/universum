@@ -2,7 +2,7 @@
   "name": "UNIVERSUM",
   "short_name": "UNIVERSUM",
   "description": "UNIVERSUM — stiller Ritualbegleiter. Lokal-first, ethisch, pfadstark. Tiefe optional. Kein Konto.",
-  "start_url": "./cockpit.html",
+  "start_url": "./cockpit.html#cockpit",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait-primary",

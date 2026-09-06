@@ -2,9 +2,9 @@
  * UNIVERSUM · Service Worker — offline shell caching
  * Relative URLs so GitHub Pages /universum/ subpath works.
  * Cache-first for app shell; network-first navigations; offline fallback to cockpit.
- * v113: 5.33.6 — install never awaits browser prompt (no hang)
+ * v114: 5.33.7 — no install overlay auto-show; Altar boot; no blur
  */
-const CACHE = 'universum-shell-v113';
+const CACHE = 'universum-shell-v114';
 const SHELL = [
   './',
   './index.html',
