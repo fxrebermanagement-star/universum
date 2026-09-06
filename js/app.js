@@ -1483,10 +1483,40 @@
     if (aud) aud.checked = !!(state.settings && state.settings.schumannAudio);
   }
 
+  function syncAltarMehrOpen() {
+    const mehr = document.getElementById('mehr-aus-dem-feld');
+    const sec = document.getElementById('sec-cockpit');
+    const open = !!(mehr && mehr.open);
+    document.body.classList.toggle('altar-mehr-open', open);
+    if (sec) sec.classList.toggle('altar-mehr-open', open);
+    if (open && mehr) {
+      try {
+        requestAnimationFrame(() => {
+          try {
+            mehr.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          } catch (_) { /* ignore */ }
+        });
+      } catch (_) { /* ignore */ }
+    }
+  }
+
+  function bindAltarMehrExpand() {
+    const mehr = document.getElementById('mehr-aus-dem-feld');
+    if (!mehr || mehr.dataset.mehrExpandBound === '1') return;
+    mehr.dataset.mehrExpandBound = '1';
+    mehr.addEventListener('toggle', () => syncAltarMehrOpen());
+    syncAltarMehrOpen();
+  }
+
   function syncAltarHomeBtn(id) {
     const btn = $('#altar-home-btn');
     const onAltar = !id || id === 'cockpit';
     document.body.classList.toggle('on-altar', onAltar);
+    if (!onAltar) {
+      const mehr = document.getElementById('mehr-aus-dem-feld');
+      if (mehr && mehr.open) mehr.open = false;
+      syncAltarMehrOpen();
+    }
     const nav = $('#bottom-nav');
     if (nav) {
       nav.hidden = onAltar;
@@ -8848,6 +8878,7 @@
       if (SECTIONS.some(s => s.id === resolved)) navigate(resolved, { fromAlias: fromAlias });
       else navigate('cockpit');
     }
+    bindAltarMehrExpand();
     window.addEventListener('hashchange', () => {
       const h = (location.hash || '').replace('#', '').split('?')[0];
       if (h === 'briefing' || h === 'tagesbriefing') focusBriefingFromShare();

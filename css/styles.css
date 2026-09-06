@@ -9309,9 +9309,33 @@ body.quiet-mode .first-session-tip { display: none !important; }
   overflow: hidden;
 }
 #sec-cockpit > #mehr-aus-dem-feld[open] {
-  max-height: min(55dvh, 22rem);
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
+  max-height: none;
+  overflow: visible;
+  flex: 0 0 auto;
+}
+/* v5.31.1 — Mehr am Altar: Seite wächst und scrollt (kein Mini-Innen-Scroll) */
+#sec-cockpit.altar-sacred.active.altar-mehr-open {
+  height: auto !important;
+  max-height: none !important;
+  min-height: calc(100dvh - 3.5rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+  overflow: visible !important;
+  overscroll-behavior: auto;
+  padding-bottom: calc(1.4rem + env(safe-area-inset-bottom, 0px)) !important;
+}
+#sec-cockpit.altar-sacred.active.altar-mehr-open .altar-cockpit.altar-homescreen,
+#sec-cockpit.altar-sacred.active.altar-mehr-open .altar-cockpit {
+  flex: 0 0 auto;
+  overflow: visible;
+  /* keep homescreen compact above Mehr; don't stretch forever */
+  grid-template-rows: auto auto auto auto;
+  max-height: none;
+}
+body.altar-mehr-open {
+  overflow-y: auto;
+  overscroll-behavior-y: auto;
+}
+body.altar-mehr-open .app-shell {
+  overflow: visible;
 }
 #sec-cockpit > #mehr-aus-dem-feld > .mehr-summary {
   padding: 0.42rem 0.7rem;
@@ -10168,4 +10192,12 @@ body.on-altar nav.bottom-nav {
   min-height: 0 !important;
   overflow: hidden !important;
   opacity: 0 !important;
+}
+
+/* v5.31.1b — main scroll when Mehr open */
+body.altar-mehr-open #main-content,
+body.altar-mehr-open .app-shell > main {
+  overflow: visible !important;
+  height: auto !important;
+  max-height: none !important;
 }

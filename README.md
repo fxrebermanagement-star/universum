@@ -430,6 +430,11 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.31.1 — Mehr am Altar: Seite wächst
+
+- «Mehr am Altar» öffnen → Altar-Lock (feste Viewport-Höhe) aus · volle Seite scrollbar
+- Kein Mini-Innen-Scroll mehr im Accordion · SW `universum-shell-v97`
+
 ## 5.31.0 — Altar Wärme · Ritual→Buch · Produkt · Pfadfiguren
 
 - Altar: wärmere Heute/Mond/Sonne/Schumann/Wetter-Hierarchie, soft Day-Banner, einmaliger First-Session-Tipp
