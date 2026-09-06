@@ -43,7 +43,7 @@
     <div id="main-content" tabindex="-1">
     <!-- 1. Altar (route id: cockpit) -->
     <section id="sec-cockpit" class="section-view active cockpit-lovely-page altar-sacred" aria-label="Altar">
-      <!-- v5.26.0 Altar — exact sketch + warm path figure · zum Lieben · kein Bottom-Nav -->
+      <!-- v5.26.2 Altar — Skizze + Glas · Figur ohne Kachel · kein Sitzungs-Banner · kein Bottom-Nav -->
       <h1 class="section-title altar-cockpit-heading sr-only"><span class="sec-ico" aria-hidden="true">🪔</span> Altar</h1>
       <span class="section-motif altar-cockpit-motif" aria-hidden="true" hidden></span>
       <p class="section-sub altar-cockpit-sub sr-only">Dein Altar — warm, still, zum Ankommen.</p>
@@ -51,13 +51,14 @@
         <div class="altar-welcome-glow" aria-hidden="true">
           <div class="candle-flame altar-candle"><div class="flame"></div><div class="wick"></div></div>
         </div>
-        <p class="altar-welcome-eyebrow">Willkommen — hier beginnt die Magie</p>
-        <p class="section-sub altar-welcome-line" id="cockpit-greeting">Dein warmer Altar — Mond, Sonne und ein kleiner magischer Impuls für heute.</p>
+        <p class="altar-welcome-eyebrow">Willkommen — Magie darf leicht sein</p>
+        <p class="section-sub altar-welcome-line" id="cockpit-greeting">Dein warmer Altar — Mond, Sonne und ein kleiner Impuls. Keine Angst vor Magie: wir machen sie nahbar.</p>
         <div class="cockpit-path-art" id="cockpit-path-art" aria-hidden="true"><span class="path-art-orb" id="path-art-orb">✦</span></div>
         <p class="path-haltung" id="path-haltung" aria-live="polite"><span class="path-sym" aria-hidden="true">✦</span> <span class="path-haltung-text">Stille Praxis — Daten bleiben bei dir.</span></p>
       </div>
 
-      <div class="sitzung-bar" id="sitzung-bar" role="region" aria-label="Sitzung A bis Z" hidden>
+      <!-- v5.26.2: Sitzungs-Banner dauerhaft entfernt am Altar (DOM/JS-Hooks bleiben stumm) -->
+      <div class="sitzung-bar sitzung-bar-retired" id="sitzung-bar" role="region" aria-label="Sitzung A bis Z" hidden aria-hidden="true">
         <div class="sitzung-steps" aria-hidden="true">
           <span class="sitzung-step" data-sitzung="heute">① Heute</span>
           <span class="sitzung-arrow" aria-hidden="true">→</span>
@@ -98,46 +99,46 @@
       <!-- legacy chip kept for JS -->
       <button type="button" class="fest-countdown-chip" id="fest-countdown-chip" hidden aria-live="polite"></button>
 
-      <!-- v5.26.0 Altar — exact sketch: status · Mond|Sonne|Figur · Schumann · dock -->
+      <!-- v5.26.2 Altar — Skizze: Status · Figur frei · Mond|Sonne · Schumann · Dock -->
       <div class="altar-cockpit altar-homescreen" id="altar-cockpit" aria-label="Altar — dein magisches Home">
 
-        <!-- 1. Top full bar: Zeit/Datum · Wetter · Heute (compact, no CTA) -->
-        <div class="cock-status-bar" role="group" aria-label="Zeit, Wetter und Heute">
-          <div class="cock-status-zeit cock-tile" aria-label="Zeit und Datum">
-            <span class="cock-status-ico" aria-hidden="true">🕰️</span>
-            <div class="cock-status-body">
-              <span class="value cock-clock" id="dash-datetime-clock">—</span>
-              <span class="mess-readout" id="dash-datetime-date">—</span>
+        <div class="cock-hero-grid" aria-label="Zeit, Kosmos und Pfad">
+          <!-- 1. Oben links: Zeit/Datum · Wetter · Heute (kompakte Glaskacheln) -->
+          <div class="cock-status-bar" role="group" aria-label="Zeit, Wetter und Heute">
+            <div class="cock-status-zeit cock-tile cock-glass" aria-label="Zeit und Datum">
+              <span class="cock-status-ico" aria-hidden="true">🕰️</span>
+              <div class="cock-status-body">
+                <span class="value cock-clock" id="dash-datetime-clock">—</span>
+                <span class="mess-readout" id="dash-datetime-date">—</span>
+              </div>
             </div>
+            <button type="button" class="dash-panel mess-tile cock-tile cock-glass cock-wetter cock-status-wetter" id="mess-wetter" data-mess-nav="kosmos" aria-label="Wetter — Standort Zürich oder gemerkt">
+              <span class="cock-status-ico" aria-hidden="true">🌤️</span>
+              <div class="cock-status-body">
+                <span class="value" id="dash-wetter-temp">—</span>
+                <span class="mess-readout" id="dash-wetter-cond">—</span>
+                <span class="chip-quiet" id="dash-wetter-chip" hidden>Lokal</span>
+                <span class="meta sr-only" id="dash-wetter-meta">Open-Meteo · Zürich-Default</span>
+              </div>
+            </button>
+            <article class="card jetzt-card cockpit-lovely heute-primary altar-heart cock-tile cock-glass cock-datum cock-status-heute" id="jetzt-card" aria-labelledby="jetzt-title">
+              <span class="cock-status-ico" aria-hidden="true">✦</span>
+              <div class="cock-status-body">
+                <h2 id="jetzt-title" class="heute-title label">Heute</h2>
+                <p class="jetzt-lead cock-heute-slim-lead" id="jetzt-lead">—</p>
+                <span class="chip-quiet" id="jetzt-chip" hidden>Praxis</span>
+                <p class="jetzt-kind chip-quiet" id="jetzt-kind" hidden>Praxis</p>
+                <p class="jetzt-meta heute-starter-meta sr-only" id="jetzt-meta">für dich heute</p>
+              </div>
+              <div class="btn-row heute-starter-actions cock-heute-slim-actions" hidden>
+                <button type="button" class="primary tiny" id="jetzt-start" hidden>Kreis öffnen</button>
+                <button type="button" class="ghost tiny" id="jetzt-starter" hidden>3-Min</button>
+              </div>
+            </article>
           </div>
-          <button type="button" class="dash-panel mess-tile cock-tile cock-wetter cock-status-wetter" id="mess-wetter" data-mess-nav="kosmos" aria-label="Wetter — Standort Zürich oder gemerkt">
-            <span class="cock-status-ico" aria-hidden="true">🌤️</span>
-            <div class="cock-status-body">
-              <span class="value" id="dash-wetter-temp">—</span>
-              <span class="mess-readout" id="dash-wetter-cond">—</span>
-              <span class="chip-quiet" id="dash-wetter-chip" hidden>Lokal</span>
-              <span class="meta sr-only" id="dash-wetter-meta">Open-Meteo · Zürich-Default</span>
-            </div>
-          </button>
-          <article class="card jetzt-card cockpit-lovely heute-primary altar-heart cock-tile cock-datum cock-status-heute" id="jetzt-card" aria-labelledby="jetzt-title">
-            <span class="cock-status-ico" aria-hidden="true">✦</span>
-            <div class="cock-status-body">
-              <h2 id="jetzt-title" class="heute-title label">Heute</h2>
-              <p class="jetzt-lead cock-heute-slim-lead" id="jetzt-lead">—</p>
-              <span class="chip-quiet" id="jetzt-chip" hidden>Praxis</span>
-              <p class="jetzt-kind chip-quiet" id="jetzt-kind" hidden>Praxis</p>
-              <p class="jetzt-meta heute-starter-meta sr-only" id="jetzt-meta">für dich heute</p>
-            </div>
-            <div class="btn-row heute-starter-actions cock-heute-slim-actions" hidden>
-              <button type="button" class="primary tiny" id="jetzt-start" hidden>Kreis öffnen</button>
-              <button type="button" class="ghost tiny" id="jetzt-starter" hidden>3-Min</button>
-            </div>
-          </article>
-        </div>
 
-        <!-- 2. Mond | Sonne | Pfad-Figur -->
-        <div class="cock-mid-row">
-          <button type="button" class="dash-panel moon mess-tile mess-tap cock-tile cock-mond" id="mess-mond" data-mess-nav="kosmos" aria-label="Mond — öffnet Kosmos">
+          <!-- 2. Mond | Sonne (hohe Glaskacheln mit Glow) -->
+          <button type="button" class="dash-panel moon mess-tile mess-tap cock-tile cock-glass cock-glow-mond cock-mond" id="mess-mond" data-mess-nav="kosmos" aria-label="Mond — öffnet Kosmos">
             <div class="cock-head">
               <span class="cock-ico" aria-hidden="true">🌙</span>
               <span class="label">Mond</span>
@@ -148,7 +149,7 @@
             <div class="mess-sign" id="dash-moon-sign">—</div>
           </button>
 
-          <button type="button" class="dash-panel sun mess-tile mess-tap cock-tile cock-sonne" id="mess-sonne" data-mess-nav="kosmos" aria-label="Sonne — öffnet Kosmos">
+          <button type="button" class="dash-panel sun mess-tile mess-tap cock-tile cock-glass cock-glow-sonne cock-sonne" id="mess-sonne" data-mess-nav="kosmos" aria-label="Sonne — öffnet Kosmos">
             <div class="cock-head">
               <span class="cock-ico" aria-hidden="true">☀️</span>
               <span class="label">Sonne</span>
@@ -159,7 +160,8 @@
             <div class="meta" id="dash-sun-meta">Aufgang · Untergang · Näherung</div>
           </button>
 
-          <figure class="cock-tile cock-path-figur" id="cock-path-figur" aria-labelledby="path-figure-label">
+          <!-- 3. Pfad-Figur OHNE Kachel — frei schwebend -->
+          <figure class="cock-path-figur cock-path-figur-float" id="cock-path-figur" aria-labelledby="path-figure-label">
             <div class="path-figure-frame">
               <img id="path-figure-img" class="path-figure-img" src="assets/path-figures/esoterik.png" alt="" width="512" height="512" decoding="async" data-path-figure="1" />
             </div>
@@ -167,8 +169,8 @@
           </figure>
         </div>
 
-        <!-- 3. Schumann graphics only -->
-        <article class="card mess-schumann schumann-card cock-tile cock-schumann cock-schumann-visual" id="glance-schumann-card" aria-labelledby="glance-schumann-title">
+        <!-- 3. Schumann breit (Glaskachel + Grafik) -->
+        <article class="card mess-schumann schumann-card cock-tile cock-glass cock-schumann cock-schumann-visual" id="glance-schumann-card" aria-labelledby="glance-schumann-title">
           <div class="schumann-head compact-head cock-sch-head cock-head cock-sch-head-slim">
             <span class="cock-ico" aria-hidden="true">〰️</span>
             <h3 id="glance-schumann-title" class="sr-only">Schumann</h3>
@@ -194,7 +196,7 @@
           <span class="sr-only" data-sch-honesty></span>
         </article>
 
-        <!-- 4. Phone-dock: 4 primary + slim 2nd row Sigille/Karten/Kalender (no scroll) -->
+        <!-- 4. Apps/Menue: 4 Icons + schlanke 2. Reihe -->
         <div class="cock-dock-wrap">
           <nav class="cock-app-dock cock-app-dock-primary" aria-label="Altar Apps">
             <button type="button" class="hs-app" id="glance-ritual-card" aria-label="Rituale">
@@ -297,7 +299,7 @@
       </div>
 
       <aside class="first-session-tip" id="first-session-tip" hidden role="status" aria-live="polite">
-        <p class="first-session-tip-text" id="first-session-tip-text">Lust auf ein bisschen Hexerei? Ein kurzes Ritual reicht oft — unter Rituale findest du mehr zum Ausprobieren.</p>
+        <p class="first-session-tip-text" id="first-session-tip-text">Lust auf ein bisschen Hexerei — ganz ohne Grusel? Ein kurzes Ritual reicht oft. Magie darf freundlich sein.</p>
         <button type="button" class="ghost tiny" id="first-session-tip-dismiss">Verstanden</button>
       </aside>
 
@@ -326,7 +328,7 @@
 
       <article class="card starter-card" id="starter-card" hidden aria-labelledby="starter-title">
         <div class="intention-top">
-          <h3 id="starter-title">Dein erster Funke — 3 Minuten Magie</h3>
+          <h3 id="starter-title">Dein erster Funke — 3 Minuten, ganz leicht</h3>
           <span class="chip-quiet">geführt · neu</span>
         </div>
         <p class="starter-lead">Intention, Atem, Erdung — ein klarer Einstieg, ohne Hektik.</p>
@@ -1196,7 +1198,7 @@
       <div class="starter-flow-head">
         <p class="splash-eyebrow">3 MINUTEN · EINSTIEG</p>
         <h2 id="starter-flow-title">Erste Magie</h2>
-        <p class="hint-sm" id="starter-flow-lead">Drei leichte Schritte. Neugierig bleiben. Maß und Ethik bleiben.</p>
+        <p class="hint-sm" id="starter-flow-lead">Drei leichte Schritte. Neugierig bleiben — Magie ohne Angst. Maß und Ethik bleiben.</p>
         <div class="onboard-progress" id="starter-progress" aria-hidden="true"><i data-sp="0"></i><i data-sp="1"></i><i data-sp="2"></i></div>
       </div>
       <div class="starter-flow-body" id="starter-flow-body"></div>
@@ -1346,7 +1348,7 @@
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
         <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem">Daten bleiben lokal auf diesem Gerät · App v<span id="settings-app-version">5.26.1</span> · <a href="#vertrauen" data-open-vertrauen>Vertrauen</a></p>
+        <p class="footer-ethics" style="padding-top:1rem">Daten bleiben lokal auf diesem Gerät · App v<span id="settings-app-version">5.26.2</span> · <a href="#vertrauen" data-open-vertrauen>Vertrauen</a></p>
       </div>
     </div>
   </div>

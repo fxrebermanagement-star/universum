@@ -9366,3 +9366,317 @@ body.stille-modus #sec-cockpit #jetzt-card .jetzt-lead {
 .cock-app-dock .hs-app:active .ico {
   transform: scale(0.96);
 }
+
+
+/* ——— v5.26.2 Altar — soft neon glass · freundlich · Figur ohne Kachel ——— */
+#sec-cockpit.altar-sacred {
+  --neon-pink: #ff6ec7;
+  --neon-cyan: #5ce1ff;
+  --neon-pink-soft: rgba(255, 110, 199, 0.55);
+  --neon-cyan-soft: rgba(92, 225, 255, 0.5);
+  --glass-fill: rgba(12, 8, 22, 0.42);
+  --glass-fill-strong: rgba(18, 12, 32, 0.55);
+  position: relative;
+  isolation: isolate;
+}
+/* Soft drip accents (liebevoll, nicht horror) */
+#sec-cockpit.altar-sacred::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1.35rem;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 0.55rem 0.85rem at 12% 0%, var(--neon-pink) 0%, transparent 70%),
+    radial-gradient(ellipse 0.45rem 0.7rem at 18% 0%, var(--neon-cyan) 0%, transparent 72%),
+    radial-gradient(ellipse 0.5rem 0.95rem at 78% 0%, var(--neon-cyan) 0%, transparent 70%),
+    radial-gradient(ellipse 0.4rem 0.65rem at 86% 0%, var(--neon-pink) 0%, transparent 72%);
+  opacity: 0.55;
+  filter: blur(0.4px);
+}
+#sec-cockpit.altar-sacred > * { position: relative; z-index: 1; }
+
+/* Sitzungs-Banner dauerhaft aus am Altar */
+#sec-cockpit > .sitzung-bar,
+#sec-cockpit > .sitzung-bar-retired,
+.sitzung-bar-retired {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+}
+
+.altar-cockpit.altar-homescreen,
+.altar-cockpit {
+  --cock-gap: 0.5rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows:
+    minmax(0, 2.55fr)
+    minmax(0, 1.05fr)
+    auto;
+  gap: var(--cock-gap);
+  flex: 1 1 auto;
+  min-height: 0;
+  align-content: stretch;
+  margin: 0 0 0.1rem;
+  overflow: hidden;
+}
+
+/* Hero: Status | Mond | Sonne | Figur (Figur rechts über 2 Reihen) */
+.cock-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.28fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-areas:
+    "status status figur"
+    "mond   sonne  figur";
+  gap: var(--cock-gap);
+  min-height: 0;
+  height: 100%;
+  align-items: stretch;
+}
+.cock-hero-grid .cock-status-bar { grid-area: status; }
+.cock-hero-grid .cock-mond { grid-area: mond; }
+.cock-hero-grid .cock-sonne { grid-area: sonne; }
+.cock-hero-grid .cock-path-figur { grid-area: figur; }
+
+/* Soft glassmorphism + neon stroke */
+.altar-cockpit .cock-tile,
+.altar-cockpit .cock-glass {
+  margin: 0 !important;
+  min-height: 0 !important;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 18px;
+  padding: 0.58rem 0.65rem 0.5rem !important;
+  border: 1.5px solid rgba(92, 225, 255, 0.38) !important;
+  background:
+    linear-gradient(145deg, rgba(255, 110, 199, 0.1), transparent 42%),
+    linear-gradient(320deg, rgba(92, 225, 255, 0.08), transparent 50%),
+    var(--glass-fill) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(1.25);
+  backdrop-filter: blur(14px) saturate(1.25);
+  box-shadow:
+    0 0 0 1px rgba(255, 110, 199, 0.12),
+    0 0 18px rgba(92, 225, 255, 0.14),
+    0 8px 22px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+  transition: box-shadow 0.25s ease, border-color 0.25s ease, transform 0.15s ease;
+  animation: cock-glass-shimmer 7.5s ease-in-out infinite;
+}
+@keyframes cock-glass-shimmer {
+  0%, 100% {
+    box-shadow:
+      0 0 0 1px rgba(255, 110, 199, 0.1),
+      0 0 16px rgba(92, 225, 255, 0.12),
+      0 8px 22px rgba(0, 0, 0, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.09);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px rgba(255, 110, 199, 0.18),
+      0 0 22px rgba(92, 225, 255, 0.2),
+      0 8px 22px rgba(0, 0, 0, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  }
+}
+
+.cock-status-bar {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 0.85fr) minmax(0, 1.2fr);
+  gap: var(--cock-gap);
+  min-height: 0;
+  align-items: stretch;
+}
+.cock-status-bar .cock-tile {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.42rem;
+  padding: 0.4rem 0.5rem !important;
+  border-radius: 14px;
+  min-height: 2.95rem;
+  animation: none; /* keep shimmer only on larger tiles for calm UI */
+}
+.cock-status-heute {
+  border-color: rgba(255, 110, 199, 0.48) !important;
+  box-shadow:
+    0 0 14px rgba(255, 110, 199, 0.22),
+    0 6px 16px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+.cock-status-wetter {
+  border-color: rgba(92, 225, 255, 0.45) !important;
+}
+
+/* Mond / Sonne — tall soft neon glow borders */
+.cock-mond,
+.cock-sonne {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: flex-start;
+  padding-top: 0.6rem !important;
+  border-radius: 20px;
+}
+.cock-mond,
+.cock-glow-mond {
+  border-color: rgba(92, 225, 255, 0.55) !important;
+  background:
+    radial-gradient(ellipse at 30% 0%, rgba(92, 225, 255, 0.22) 0%, transparent 58%),
+    var(--glass-fill-strong) !important;
+  box-shadow:
+    0 0 0 1px rgba(92, 225, 255, 0.2),
+    0 0 24px rgba(92, 225, 255, 0.28),
+    0 10px 24px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+.cock-sonne,
+.cock-glow-sonne {
+  border-color: rgba(255, 110, 199, 0.55) !important;
+  background:
+    radial-gradient(ellipse at 30% 0%, rgba(255, 110, 199, 0.22) 0%, transparent 58%),
+    var(--glass-fill-strong) !important;
+  box-shadow:
+    0 0 0 1px rgba(255, 110, 199, 0.22),
+    0 0 24px rgba(255, 110, 199, 0.28),
+    0 10px 24px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+.cock-sonne .value { color: rgba(255, 190, 230, 0.96); }
+.cock-mond .value { color: rgba(190, 240, 255, 0.96); }
+
+/* Pfad-Figur — OHNE Kachel, frei, soft neon glow, atmen */
+.cock-path-figur,
+.cock-path-figur-float {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  margin: 0 !important;
+  padding: 0.15rem 0.1rem 0.1rem !important;
+  min-height: 0;
+  height: 100%;
+  width: 100%;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  animation: none !important;
+  overflow: visible !important;
+  cursor: default;
+}
+.cock-path-figur .path-figure-frame {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  display: grid;
+  place-items: center;
+  border-radius: 0;
+  overflow: visible;
+  background: transparent !important;
+}
+.cock-path-figur .path-figure-img {
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  display: block;
+  border-radius: 0;
+  background: transparent;
+  animation: path-figur-breathe 4.6s ease-in-out infinite, path-figur-neon-glow 5.2s ease-in-out infinite;
+  filter:
+    drop-shadow(0 0 10px rgba(255, 110, 199, 0.45))
+    drop-shadow(0 0 18px rgba(92, 225, 255, 0.35))
+    drop-shadow(0 8px 16px rgba(0, 0, 0, 0.35));
+}
+@keyframes path-figur-breathe {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-4px) scale(1.015); }
+}
+@keyframes path-figur-neon-glow {
+  0%, 100% {
+    filter:
+      drop-shadow(0 0 8px rgba(255, 110, 199, 0.4))
+      drop-shadow(0 0 16px rgba(92, 225, 255, 0.3))
+      drop-shadow(0 8px 14px rgba(0, 0, 0, 0.32));
+  }
+  50% {
+    filter:
+      drop-shadow(0 0 14px rgba(255, 110, 199, 0.55))
+      drop-shadow(0 0 24px rgba(92, 225, 255, 0.45))
+      drop-shadow(0 8px 16px rgba(0, 0, 0, 0.32));
+  }
+}
+.path-figure-caption {
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  opacity: 0.82;
+  color: color-mix(in srgb, var(--neon-cyan) 55%, #f4ecff);
+  text-shadow: 0 0 10px rgba(92, 225, 255, 0.35);
+  margin: 0;
+  text-align: center;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Schumann — glass + soft cyan stroke */
+.cock-schumann {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-color: rgba(92, 225, 255, 0.42) !important;
+  background:
+    radial-gradient(ellipse at 18% 0%, rgba(92, 225, 255, 0.16) 0%, transparent 58%),
+    var(--glass-fill) !important;
+  height: 100%;
+  padding: 0.32rem !important;
+  border-radius: 18px;
+}
+
+/* Dock icons — soft neon wells */
+.cock-app-dock .hs-app .ico {
+  background:
+    linear-gradient(160deg, rgba(255, 110, 199, 0.16), transparent 55%),
+    rgba(14, 10, 24, 0.55) !important;
+  border: 1px solid rgba(92, 225, 255, 0.28) !important;
+  box-shadow:
+    0 0 12px rgba(255, 110, 199, 0.18),
+    0 5px 14px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+.cock-app-dock .hs-app#glance-ritual-card .ico {
+  border-color: rgba(255, 110, 199, 0.4) !important;
+  box-shadow: 0 0 14px rgba(255, 110, 199, 0.28), 0 5px 14px rgba(0,0,0,0.28) !important;
+}
+.cock-app-dock .hs-app#glance-kosmos-card .ico {
+  border-color: rgba(92, 225, 255, 0.42) !important;
+  box-shadow: 0 0 14px rgba(92, 225, 255, 0.28), 0 5px 14px rgba(0,0,0,0.28) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .altar-cockpit .cock-tile,
+  .altar-cockpit .cock-glass,
+  .cock-path-figur .path-figure-img { animation: none !important; }
+}
+
+@media (max-width: 430px) {
+  .altar-cockpit { --cock-gap: 0.36rem; }
+  .cock-hero-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.15fr);
+  }
+  .path-figure-caption { font-size: 0.58rem; }
+}

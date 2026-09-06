@@ -636,7 +636,7 @@
     const chip = $('#path-teach-chip');
     if (!textEl) return;
     const path = currentPath();
-    const tip = (path && path.teachingTip) || (path && path.practiceHint) || 'Magie beginnt klein — mit Neugier, Grenze und einem Lächeln.';
+    const tip = (path && path.teachingTip) || (path && path.practiceHint) || 'Magie darf leicht sein — mit Neugier, Grenze und einem Lächeln. Keine Angst.';
     textEl.textContent = tip;
     if (chip) chip.textContent = path && path.name ? path.name : 'Pfad';
   }
@@ -1693,6 +1693,10 @@
   function renderSitzungBar() {
     const bar = $('#sitzung-bar');
     if (!bar) return;
+    /* v5.26.2: Sitzungs-Banner am Altar dauerhaft aus */
+    bar.hidden = true;
+    bar.setAttribute('aria-hidden', 'true');
+    return;
     const order = ['heute', 'ritual', 'schliessen', 'buch'];
     const phase = sitzung.phase;
     const show = sitzung.visible && phase && phase !== 'idle';

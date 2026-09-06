@@ -430,6 +430,14 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.26.2 — Altar soft neon glass · Magie ohne Angst
+
+- **Layout (Skizze):** Zeit/Datum·Wetter·Heute links · **Pfad-Figur ohne Kachel** rechts · Mond|Sonne · Schumann · Apps-Dock
+- **Sitzungs-Banner** (`#sitzung-bar`) dauerhaft aus am Altar
+- **Soft neon glass:** Pink/Cyan-Glow, transparente Kacheln, Blur, leichte Shimmer/Breath-Animationen — freundlich, nie gruselig
+- Mission: «Alle haben Angst vor Magie — wir nehmen ihnen das.»
+- SW-Cache `universum-shell-v79`
+
 ## 5.26.1 — Magie & Hexerei einladen
 
 - Copy/Onboarding/Heute: spielerisch, magisch, neugierig — nicht belehrend

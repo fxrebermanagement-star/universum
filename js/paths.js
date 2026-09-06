@@ -274,7 +274,7 @@
       calendarNote: 'Jahresrad als Praxis — Sabbats und Mond als Arbeitsfenster, nicht als Pflichtkalender.',
       recommendedRitual: 'elemente',
       practiceHint: 'Heute Hexerei zum Ausprobieren: Schutz, Reinigung, Anziehen oder Loslassen — liebevoll, ohne Schaden.',
-      teachingTip: 'Hexerei hier heißt Hauspraxis im Kreis: klare Absicht, Grenze, Gabe, Schweigen — kein Spektakel.',
+      teachingTip: 'Hexerei hier heißt freundliche Hauspraxis im Kreis: Absicht, Grenze, Gabe, Schweigen — nahbar, kein Spektakel.',
       diaryPrompts: [
         'Welches Werk war es heute: Schutz, Reinigung, Anziehen oder Loslassen?',
         'Hat deine Absicht jemandem geschadet — auch subtil?',
