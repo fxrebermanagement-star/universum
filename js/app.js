@@ -1846,17 +1846,34 @@
   let lexikonDetailCtx = null; // { kind, name, ico, description, pathNames, pathId }
 
 
+  /* ——— v5.21.2 Resonanz category chips (like Rituale Werkzeug) ——— */
+  const LEXIKON_TAB_KEY = 'universum-lexikon-tab';
+
+  function loadLexikonTab() {
+    try {
+      const v = sessionStorage.getItem(LEXIKON_TAB_KEY);
+      if (v && LEXIKON_TAB_META[v]) return v;
+    } catch (_) { /* ignore */ }
+    return 'herb';
+  }
+
+  function persistLexikonTab(tab) {
+    try { sessionStorage.setItem(LEXIKON_TAB_KEY, tab); } catch (_) { /* ignore */ }
+  }
+
   function currentLexikonTab() {
     const list = $('#herb-list');
-    const tab = (list && list.dataset.lexikonTab) || 'herb';
+    const tab = (list && list.dataset.lexikonTab) || loadLexikonTab();
     return LEXIKON_TAB_META[tab] ? tab : 'herb';
   }
 
+  /** Exclusive Lexikon category: one list at a time; persist chip in session. */
   function setLexikonTab(tab) {
     const t = LEXIKON_TAB_META[tab] ? tab : 'herb';
     const list = $('#herb-list');
     if (list) list.dataset.lexikonTab = t;
-    $$('[data-lexikon-tab]').forEach(function (b) {
+    persistLexikonTab(t);
+    $$('.resonanz-jump-chip').forEach(function (b) {
       const on = b.getAttribute('data-lexikon-tab') === t;
       b.classList.toggle('active', on);
       b.setAttribute('aria-selected', on ? 'true' : 'false');
@@ -7075,7 +7092,9 @@
         Rituals.vibrate(12);
       });
     }
-    $$('[data-lexikon-tab]').forEach(function (btn) {
+    $$('.resonanz-jump-chip').forEach(function (btn) {
+      if (btn.dataset.boundLexJump) return;
+      btn.dataset.boundLexJump = '1';
       btn.addEventListener('click', function () {
         const tab = btn.getAttribute('data-lexikon-tab') || 'herb';
         setLexikonTab(tab);
@@ -7084,6 +7103,7 @@
         Rituals.vibrate(10);
       });
     });
+    setLexikonTab(loadLexikonTab());
     const lexSearch = $('#lexikon-search');
     if (lexSearch && !lexSearch.dataset.bound) {
       lexSearch.dataset.bound = '1';

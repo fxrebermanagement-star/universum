@@ -430,6 +430,14 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.21.2 — Resonanz-Menü wie Rituale
+
+- **Kategorie-Chips** (Kräuter · Hausmittel · Steine · Farben · Werkzeuge · Bezüge · Opfergaben) im Stil der Rituale-Jump-Pills: große Tap-Ziele, Icon + Label, aktiv hervorgehoben / inaktiv gedämpft
+- **Exklusiv**: nur eine Kategorie sichtbar (Lexikon-Liste); letzte Kategorie in `sessionStorage` (`universum-lexikon-tab`)
+- Horizontal scroll auf schmalen Phones — Chips bleiben groß (keine Mini-Pills)
+- Suche, A–Z-Sort, Pfadfilter, Detail-Sheet und Favoriten unverändert
+- SW-Cache `universum-shell-v69`
+
 ## 5.21.1 — Pfad ≠ Sigil (exklusive Panels)
 
 - **Werkzeug-Chips** steuern exklusive Panels: Grenze · Pfad · Sigil · Karten — nur ein Block sichtbar
