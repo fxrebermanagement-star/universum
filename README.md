@@ -430,6 +430,12 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.30.0 — Bottom-Menü zurück · Seiten ohne Altar-Scroll
+
+- Unteres Hauptmenü wieder sichtbar (Altar · Kalender · Kosmos · Rituale · Resonanzen · Buch)
+- App/Menü-Tap: Seite erscheint oben, ohne zum Altar hochzuscrollen
+- SW `universum-shell-v93`
+
 ## 5.29.4 — Nächster Vollmond auf Mond-Kachel
 
 - Mond-Kachel zeigt Vollmond · heute/morgen/in X Tagen (+ Datum)

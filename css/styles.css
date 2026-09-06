@@ -273,8 +273,8 @@ input[type="checkbox"] {
   display: flex;
   flex-direction: column;
   min-height: 100dvh;
-  /* v5.25.1: bottom-nav hidden — only safe-area padding */
-  padding-bottom: calc(0.65rem + var(--safe-bottom));
+  /* v5.30: room for bottom-nav */
+  padding-bottom: calc(4.15rem + var(--safe-bottom));
 }
 
 .app-header {
@@ -426,14 +426,8 @@ input[type="checkbox"] {
 .mt-2 { margin-top: 1rem; }
 .w-full { width: 100%; }
 
-/* ——— Bottom nav (v5.25.1: hidden — Altar dock is hub) ——— */
-#bottom-nav,
+/* ——— Bottom nav (v5.30: wieder aktiv neben Altar-Dock) ——— */
 .bottom-nav {
-  display: none !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
-}
-.bottom-nav { /* layout kept for DOM build; forced hidden above */
   position: fixed;
   bottom: 0;
   left: 0;
@@ -10034,4 +10028,9 @@ body.stille-modus #sec-cockpit #jetzt-card .jetzt-lead {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* v5.30.0 — Bottom-Nav zurück · Seiten springen ohne Altar-Scroll */
+body.on-altar .bottom-nav button[data-nav="cockpit"] {
+  color: var(--maya, #3ed4c4);
 }

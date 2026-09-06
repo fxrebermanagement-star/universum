@@ -1552,13 +1552,21 @@
     }
     try { history.replaceState(null, '', '#' + id); } catch (_) { /* ignore */ }
     if (!opts.keepScroll) {
-      // After section show + possible re-render, wait one frame for layout
-      const scrollOpts = { instant: !!opts.instantScroll || !!opts.force };
+      // Seite erscheint oben — kein Zurück-Scrollen zum Altar
       try {
-        requestAnimationFrame(function () { scrollSectionToContent(id, scrollOpts); });
+        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
       } catch (_) {
-        scrollSectionToContent(id, scrollOpts);
+        try { window.scrollTo(0, 0); } catch (__) { /* ignore */ }
       }
+      // Nach Layout nochmals oben andocken (Titel sichtbar unter Header)
+      try {
+        requestAnimationFrame(function () {
+          try { window.scrollTo(0, 0); } catch (_) { /* ignore */ }
+          if (id !== 'cockpit') {
+            scrollSectionToContent(id, { instant: true });
+          }
+        });
+      } catch (_) { /* ignore */ }
     }
   }
 
