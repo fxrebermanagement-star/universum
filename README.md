@@ -430,6 +430,13 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.26.0 — Altar exact sketch + path figure (warm)
+
+- **Layout:** Top-Leiste Zeit/Datum · Wetter · Heute · Mond | Sonne | **Pfad-Figur** · Schumann nur Grafik · Dock 4+3
+- **Figur:** `assets/path-figures/{pathId}.png` — liebevolle Charakterfiguren, Foto-Override später möglich
+- Warm, humorvoll, Kinder-App-Geborgenheit + Magie — kein Bottom-Nav
+- SW-Cache `universum-shell-v77`
+
 ## 5.25.1 — Drop «Heute gewählt», hide bottom menu
 
 - **Oben:** Phrase «Heute gewählt» entfernt (Sitzungs-Lead bereinigt)

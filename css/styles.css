@@ -8766,71 +8766,62 @@ body.quiet-mode .first-session-tip { display: none !important; }
 }
 
 
-/* ——— v5.25.1 Altar Homescreen — widgets + app dock · no bottom-nav ——— */
+/* ——— v5.26.0 Altar — exact sketch + warm path figure · kids-app cozy ——— */
 #sec-cockpit.altar-sacred {
   display: flex;
   flex-direction: column;
-  padding: 0.55rem 0.85rem 0.15rem;
-  overflow: hidden; /* one fixed homescreen — no altar scroll */
+  padding: 0.5rem 0.8rem 0.12rem;
+  overflow: hidden;
   overscroll-behavior: none;
   box-sizing: border-box;
 }
 #sec-cockpit.altar-sacred.active {
   min-height: 0;
-  /* v5.25.1: no bottom-nav — fill under sticky header */
   height: calc(100dvh - 3.5rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
   max-height: calc(100dvh - 3.5rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
 }
 #sec-cockpit .altar-cockpit-heading.sr-only,
 #sec-cockpit .altar-cockpit-sub.sr-only {
   position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
+  width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
 }
 #sec-cockpit .altar-cockpit-motif[hidden] { display: none !important; }
 
 .altar-cockpit.altar-homescreen,
 .altar-cockpit {
-  --cock-gap: 0.55rem;
+  --cock-gap: 0.48rem;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   grid-template-rows:
-    minmax(0, 2.55fr)
+    auto
+    minmax(0, 2.4fr)
     minmax(0, 1.05fr)
-    minmax(0, 1.15fr);
+    auto;
   gap: var(--cock-gap);
   flex: 1 1 auto;
   min-height: 0;
-  height: auto;
-  max-height: none;
-  flex: 1 1 auto;
   align-content: stretch;
-  margin: 0 0 0.15rem;
+  margin: 0 0 0.1rem;
   overflow: hidden;
 }
 
-/* Soft glass tiles */
+/* Soft glass tiles — warmer, rounder */
 .altar-cockpit .cock-tile {
   margin: 0 !important;
   min-height: 0 !important;
   min-width: 0;
   overflow: hidden;
-  border-radius: 18px;
-  padding: 0.7rem 0.75rem 0.62rem !important;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 0.62rem 0.7rem 0.55rem !important;
+  border: 1px solid rgba(255, 220, 200, 0.12);
   background:
-    linear-gradient(165deg, rgba(255, 255, 255, 0.055), transparent 44%),
-    color-mix(in srgb, var(--bg-card, #1e1628) 92%, #261a32) !important;
+    linear-gradient(165deg, rgba(255, 230, 210, 0.08), transparent 48%),
+    color-mix(in srgb, var(--bg-card, #1e1628) 88%, #322038) !important;
   box-shadow:
-    0 0 0 1px rgba(255, 236, 210, 0.045),
-    0 10px 28px rgba(0, 0, 0, 0.26),
-    inset 0 1px 0 rgba(255, 255, 255, 0.055);
+    0 0 0 1px rgba(255, 200, 160, 0.05),
+    0 8px 22px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
   transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
   text-align: left;
   color: inherit;
@@ -8838,18 +8829,15 @@ body.quiet-mode .first-session-tip { display: none !important; }
   width: 100%;
   cursor: pointer;
 }
-.altar-cockpit .cock-tile:is(button):active {
-  transform: scale(0.985);
-}
-.altar-cockpit article.cock-tile {
-  cursor: default;
-}
+.altar-cockpit .cock-tile:is(button):active { transform: scale(0.985); }
+.altar-cockpit article.cock-tile,
+.altar-cockpit figure.cock-tile { cursor: default; }
 
 .altar-cockpit .cock-head {
   display: flex;
   align-items: center;
   gap: 0.35rem;
-  margin: 0 0 0.22rem;
+  margin: 0 0 0.18rem;
   min-width: 0;
 }
 .altar-cockpit .cock-ico,
@@ -8857,90 +8845,282 @@ body.quiet-mode .first-session-tip { display: none !important; }
   position: static;
   font-size: 1rem;
   line-height: 1;
-  opacity: 0.78;
+  opacity: 0.85;
   flex: 0 0 auto;
-  top: auto;
-  right: auto;
 }
 .altar-cockpit .cock-head .label,
 .altar-cockpit .cock-head h3,
-.altar-cockpit .cock-head .heute-title {
-  flex: 1 1 auto;
-  min-width: 0;
-}
+.altar-cockpit .cock-head .heute-title { flex: 1 1 auto; min-width: 0; }
 .altar-cockpit .cock-head .chip-quiet,
-.altar-cockpit .cock-head .schumann-live-badge {
-  margin-left: auto;
+.altar-cockpit .cock-head .schumann-live-badge { margin-left: auto; flex: 0 0 auto; }
+
+/* 1. Top status strip: Zeit · Wetter · Heute */
+.cock-status-bar {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 0.85fr) minmax(0, 1.2fr);
+  gap: var(--cock-gap);
+  min-height: 0;
+  align-items: stretch;
+}
+.cock-status-bar .cock-tile {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.55rem !important;
+  border-radius: 16px;
+  min-height: 3.1rem;
+}
+.cock-status-ico {
+  font-size: 1.15rem;
+  line-height: 1;
   flex: 0 0 auto;
+  opacity: 0.9;
 }
+.cock-status-body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1 1 auto;
+  gap: 0.05rem;
+}
+.cock-status-body .value,
+.cock-status-bar .cock-clock {
+  font-family: Syne, Manrope, system-ui, sans-serif;
+  font-size: clamp(0.95rem, 3.6vw, 1.15rem) !important;
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0 !important;
+  font-variant-numeric: tabular-nums;
+}
+.cock-status-body .mess-readout,
+.cock-status-heute .jetzt-lead {
+  font-size: 0.7rem !important;
+  margin: 0 !important;
+  opacity: 0.88;
+  line-height: 1.25;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.cock-status-heute .heute-title,
+.cock-status-heute .label {
+  font-size: 0.62rem !important;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.78;
+  margin: 0 !important;
+}
+.cock-status-heute {
+  border-color: rgba(252, 211, 77, 0.32) !important;
+  background:
+    radial-gradient(ellipse at 20% -40%, rgba(255, 200, 120, 0.22) 0%, transparent 55%),
+    color-mix(in srgb, var(--bg-card, #1e1628) 90%, #2a1830) !important;
+}
+.cock-status-wetter {
+  border-color: rgba(120, 190, 220, 0.3) !important;
+}
+.cock-heute-slim-actions[hidden] { display: none !important; }
 
-/* Top: Datum·Zeit+Wetter | Mond | Sonne */
-.cock-top-row {
+/* 2. Mond | Sonne | Pfad-Figur */
+.cock-mid-row {
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.35fr);
   gap: var(--cock-gap);
   min-height: 0;
   height: 100%;
 }
-.cock-left-stack {
-  display: grid;
-  grid-template-rows: minmax(0, 1.05fr) minmax(0, 1.2fr);
-  gap: var(--cock-gap);
-  min-height: 0;
+.cock-mond,
+.cock-sonne {
+  display: flex;
+  flex-direction: column;
   height: 100%;
+  justify-content: flex-start;
+  padding-top: 0.65rem !important;
+  border-radius: 20px;
+}
+.cock-mond {
+  border-color: rgba(126, 192, 255, 0.34) !important;
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(126, 192, 255, 0.16) 0%, transparent 55%),
+    color-mix(in srgb, var(--bg-card, #1e1628) 94%, #182030) !important;
+}
+.cock-sonne {
+  border-color: rgba(255, 190, 90, 0.38) !important;
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(255, 190, 90, 0.18) 0%, transparent 55%),
+    color-mix(in srgb, var(--bg-card, #1e1628) 94%, #2a2010) !important;
+}
+.cock-sonne .value { color: rgba(255, 230, 180, 0.96); }
+
+/* Path figure tile — warm, cozy */
+.cock-path-figur {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.28rem;
+  padding: 0.4rem 0.4rem 0.35rem !important;
+  border-color: color-mix(in srgb, var(--path-accent, #8b6fd0) 45%, rgba(255,255,255,0.12)) !important;
+  background:
+    radial-gradient(ellipse at 50% 20%, color-mix(in srgb, var(--path-accent, #8b6fd0) 28%, transparent) 0%, transparent 60%),
+    color-mix(in srgb, var(--bg-card, #1e1628) 90%, #261a32) !important;
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--path-accent, #8b6fd0) 18%, transparent),
+    0 10px 28px rgba(0, 0, 0, 0.24),
+    0 0 28px color-mix(in srgb, var(--path-accent, #8b6fd0) 16%, transparent) !important;
+}
+.path-figure-frame {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.18);
+}
+.path-figure-img {
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  border-radius: 14px;
+}
+.path-figure-caption {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  opacity: 0.78;
+  color: color-mix(in srgb, var(--path-accent, #c9b4ff) 70%, #efeaf8);
+  margin: 0;
+  text-align: center;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-/* Compact app dock — bottom-nav language, hub navigation */
+/* 3. Schumann graphics only */
+.cock-schumann {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-color: rgba(62, 207, 191, 0.32) !important;
+  background:
+    radial-gradient(ellipse at 18% 0%, rgba(62, 207, 191, 0.16) 0%, transparent 58%),
+    color-mix(in srgb, var(--bg-card, #1e1628) 90%, #102428) !important;
+  height: 100%;
+  padding: 0.32rem !important;
+  border-radius: 18px;
+}
+.cock-schumann-visual .cock-sch-head-slim,
+.cock-schumann-visual .cock-sch-metrics,
+.cock-schumann-visual .schumann-live-badge { display: none !important; }
+.cock-spectro {
+  margin: 0 !important;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.cock-spectro .schumann-spectrogram-figure {
+  margin: 0;
+  max-height: none;
+  height: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(62, 207, 191, 0.12);
+}
+.cock-spectro .schumann-spectrogram-figure img {
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  min-height: 44px;
+}
+.altar-cockpit .schumann-spectrogram-attr,
+.altar-cockpit .schumann-secondary-label,
+.altar-cockpit .schumann-update,
+.altar-cockpit [data-sch-honesty] { display: none !important; }
+
+/* 4. Phone dock — primary 4 + slim secondary */
+.cock-dock-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+  min-height: 0;
+  padding: 0.08rem 0 0.05rem;
+}
 .cock-app-dock {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.35rem 0.28rem;
+  gap: 0.28rem;
   align-content: center;
   justify-items: stretch;
   min-height: 0;
-  height: 100%;
-  padding: 0.2rem 0.05rem 0.1rem;
   margin: 0;
+  padding: 0;
+}
+.cock-app-dock-primary {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.cock-app-dock-secondary {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-width: 16rem;
+  margin-inline: auto;
+  width: 100%;
 }
 .cock-app-dock .hs-app {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.22rem;
-  min-height: 3.35rem;
+  gap: 0.18rem;
+  min-height: 3.15rem;
   min-width: 0;
-  padding: 0.45rem 0.2rem;
+  padding: 0.38rem 0.15rem;
   border: none;
-  border-radius: 14px;
+  border-radius: 16px;
   background: transparent;
   color: var(--muted, rgba(220, 210, 235, 0.72));
   font: inherit;
-  font-size: 0.68rem;
+  font-size: 0.66rem;
   font-weight: 560;
   letter-spacing: 0.01em;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   transition: background 0.15s ease, color 0.15s ease, transform 0.12s ease;
 }
+.cock-app-dock .hs-app-sm {
+  min-height: 2.55rem;
+  font-size: 0.6rem;
+  padding: 0.22rem 0.1rem;
+}
 .cock-app-dock .hs-app .ico {
   display: grid;
   place-items: center;
-  width: 2.7rem;
-  height: 2.7rem;
+  width: 2.55rem;
+  height: 2.55rem;
   border-radius: 0.95rem;
-  font-size: 1.38rem;
+  font-size: 1.28rem;
   line-height: 1;
   background:
-    linear-gradient(160deg, rgba(255, 255, 255, 0.12), transparent 55%),
+    linear-gradient(160deg, rgba(255, 230, 210, 0.14), transparent 55%),
     color-mix(in srgb, var(--bg-card, #1e1628) 70%, #2a2038);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 220, 200, 0.12);
   box-shadow:
-    0 6px 16px rgba(0, 0, 0, 0.28),
+    0 5px 14px rgba(0, 0, 0, 0.24),
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  filter: none;
 }
-
+.cock-app-dock .hs-app-sm .ico {
+  width: 2.05rem;
+  height: 2.05rem;
+  font-size: 1.05rem;
+  border-radius: 0.75rem;
+}
 .cock-app-dock .hs-app#glance-kosmos-card .ico {
   background: linear-gradient(160deg, rgba(126, 192, 255, 0.28), rgba(30, 40, 70, 0.5)), color-mix(in srgb, #1a2030 80%, #2a4060);
   border-color: rgba(126, 192, 255, 0.28);
@@ -8969,25 +9149,24 @@ body.quiet-mode .first-session-tip { display: none !important; }
   background: linear-gradient(160deg, rgba(120, 190, 150, 0.28), rgba(20, 40, 32, 0.45)), color-mix(in srgb, #182820 80%, #2a4840);
   border-color: rgba(120, 190, 150, 0.28);
 }
-
 .cock-app-dock .hs-app .hs-label {
   line-height: 1.15;
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: rgba(236, 226, 255, 0.88);
+  color: rgba(236, 226, 255, 0.9);
 }
 .cock-app-dock .hs-app:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 230, 210, 0.06);
   color: rgba(245, 238, 255, 0.95);
 }
 .cock-app-dock .hs-app:active {
   transform: scale(0.96);
-  background: rgba(110, 181, 255, 0.12);
+  background: rgba(255, 176, 96, 0.12);
 }
 .cock-app-dock .hs-app:focus-visible {
-  outline: 2px solid rgba(110, 181, 255, 0.55);
+  outline: 2px solid rgba(255, 176, 96, 0.55);
   outline-offset: 2px;
 }
 
@@ -8996,9 +9175,7 @@ body.quiet-mode .first-session-tip { display: none !important; }
 .cock-tageszeile,
 .cock-werkzeug,
 .cock-offline,
-.cock-notiz {
-  display: none !important;
-}
+.cock-notiz { display: none !important; }
 
 /* Hierarchy */
 .altar-cockpit .dash-panel .label,
@@ -9019,23 +9196,23 @@ body.quiet-mode .first-session-tip { display: none !important; }
 .altar-cockpit .dash-panel .value,
 .altar-cockpit .cock-clock {
   font-family: Syne, Manrope, system-ui, sans-serif;
-  font-size: clamp(1.08rem, 4.2vw, 1.4rem) !important;
+  font-size: clamp(1.02rem, 4vw, 1.32rem) !important;
   font-weight: 700;
-  margin-top: 0.1rem !important;
+  margin-top: 0.08rem !important;
   line-height: 1.15;
   letter-spacing: -0.01em;
 }
 .altar-cockpit .mess-readout {
-  font-size: 0.8rem !important;
-  margin-top: 0.12rem !important;
+  font-size: 0.78rem !important;
+  margin-top: 0.1rem !important;
   opacity: 0.92;
   line-height: 1.3;
 }
 .altar-cockpit .mess-sign,
 .altar-cockpit .dash-panel .meta,
 .altar-cockpit .impulse-meta {
-  font-size: 0.68rem !important;
-  margin-top: 0.2rem !important;
+  font-size: 0.66rem !important;
+  margin-top: 0.16rem !important;
   line-height: 1.3;
   opacity: 0.78;
   display: -webkit-box;
@@ -9050,123 +9227,18 @@ body.quiet-mode .first-session-tip { display: none !important; }
 }
 .altar-cockpit .intention-top { display: none; }
 
-/* Datum · Zeit */
-.cock-datum {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  border-color: rgba(252, 211, 77, 0.36) !important;
-  background:
-    radial-gradient(ellipse at 30% -30%, rgba(255, 200, 120, 0.24) 0%, transparent 55%),
-    color-mix(in srgb, var(--bg-card, #1e1628) 90%, #2a1830) !important;
-  box-shadow:
-    0 0 0 1px rgba(255, 236, 210, 0.06),
-    0 10px 28px rgba(0, 0, 0, 0.26),
-    0 0 32px rgba(255, 176, 96, 0.12) !important;
-}
-.cock-datum .cock-clock {
-  font-variant-numeric: tabular-nums;
-}
-.cock-heute-slim-actions[hidden] { display: none !important; }
-
-/* Wetter */
-.cock-wetter {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  border-color: rgba(120, 190, 220, 0.34) !important;
-  background:
-    radial-gradient(ellipse at 20% 0%, rgba(120, 190, 220, 0.16) 0%, transparent 55%),
-    color-mix(in srgb, var(--bg-card, #1e1628) 94%, #182028) !important;
-}
-.cock-wetter .value {
-  font-size: clamp(1.2rem, 4.6vw, 1.5rem) !important;
-}
+/* Legacy class hooks still used by JS */
+.cock-datum { /* now in status bar */ }
 .cock-wetter[data-offline="1"] .value,
-.cock-wetter[data-offline="1"] .mess-readout {
-  opacity: 0.7;
-}
-
-/* Mond / Sonne tall */
-.cock-mond,
-.cock-sonne {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  justify-content: flex-start;
-  padding-top: 0.75rem !important;
-}
-.cock-mond {
-  border-color: rgba(126, 192, 255, 0.36) !important;
-  background:
-    radial-gradient(ellipse at 20% 0%, rgba(126, 192, 255, 0.16) 0%, transparent 55%),
-    color-mix(in srgb, var(--bg-card, #1e1628) 94%, #182030) !important;
-}
-.cock-sonne {
-  border-color: rgba(255, 190, 90, 0.4) !important;
-  background:
-    radial-gradient(ellipse at 20% 0%, rgba(255, 190, 90, 0.18) 0%, transparent 55%),
-    color-mix(in srgb, var(--bg-card, #1e1628) 94%, #2a2010) !important;
-}
-.cock-sonne .value {
-  color: rgba(255, 230, 180, 0.96);
-}
-
-/* Schumann — graphics only */
-.cock-schumann {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  border-color: rgba(62, 207, 191, 0.34) !important;
-  background:
-    radial-gradient(ellipse at 18% 0%, rgba(62, 207, 191, 0.18) 0%, transparent 58%),
-    color-mix(in srgb, var(--bg-card, #1e1628) 90%, #102428) !important;
-  height: 100%;
-  padding: 0.35rem !important;
-}
-.cock-schumann-visual .cock-sch-head-slim {
-  display: none !important;
-}
-.cock-schumann-visual .cock-sch-metrics,
-.cock-schumann-visual .schumann-live-badge {
-  display: none !important;
-}
-.cock-spectro {
-  margin: 0 !important;
-  flex: 1 1 auto;
-  min-height: 0;
-}
-.cock-spectro .schumann-spectrogram-figure {
-  margin: 0;
-  max-height: none;
-  height: 100%;
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: inset 0 0 0 1px rgba(62, 207, 191, 0.12);
-}
-.cock-spectro .schumann-spectrogram-figure img {
-  width: 100%;
-  height: 100%;
-  max-height: none;
-  object-fit: cover;
-  object-position: center;
-  display: block;
-  min-height: 48px;
-}
-.altar-cockpit .schumann-spectrogram-attr,
-.altar-cockpit .schumann-secondary-label,
-.altar-cockpit .schumann-update,
-.altar-cockpit [data-sch-honesty] {
-  display: none !important;
-}
+.cock-wetter[data-offline="1"] .mess-readout { opacity: 0.7; }
 
 /* Hide chrome under cockpit */
 #sec-cockpit > .footer-ethics { display: none; }
 #sec-cockpit > .cockpit-stardust { display: none; }
 #sec-cockpit > #mehr-aus-dem-feld {
-  margin-top: 0.1rem;
+  margin-top: 0.08rem;
   flex: 0 0 auto;
-  max-height: 2.4rem;
+  max-height: 2.2rem;
   overflow: hidden;
 }
 #sec-cockpit > #mehr-aus-dem-feld[open] {
@@ -9175,16 +9247,16 @@ body.quiet-mode .first-session-tip { display: none !important; }
   -webkit-overflow-scrolling: touch;
 }
 #sec-cockpit > #mehr-aus-dem-feld > .mehr-summary {
-  padding: 0.48rem 0.75rem;
-  font-size: 0.8rem;
+  padding: 0.42rem 0.7rem;
+  font-size: 0.78rem;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.35rem 0.55rem;
+  gap: 0.3rem 0.5rem;
 }
 #sec-cockpit > #mehr-aus-dem-feld .mehr-offline-chip {
   margin-left: auto;
-  font-size: 0.62rem;
+  font-size: 0.6rem;
   font-weight: 550;
   letter-spacing: 0.02em;
   opacity: 0.78;
@@ -9210,21 +9282,17 @@ body.quiet-mode .first-session-tip { display: none !important; }
   display: none !important;
 }
 
-/* Stille-Modus: Datum/Zeit fills cockpit */
+/* Stille-Modus: Heute fills cockpit */
 body.stille-modus #sec-cockpit > *:not(.altar-cockpit):not(.stille-ritual-slot):not(.sitzung-bar) {
   display: none !important;
 }
-body.stille-modus #altar-cockpit > *:not(#jetzt-card):not(.cock-top-row) {
+body.stille-modus #altar-cockpit > *:not(.cock-status-bar) {
   display: none !important;
 }
-body.stille-modus #altar-cockpit .cock-top-row > *:not(.cock-left-stack) {
+body.stille-modus #altar-cockpit .cock-status-bar > *:not(#jetzt-card) {
   display: none !important;
 }
-body.stille-modus #altar-cockpit .cock-left-stack > *:not(#jetzt-card) {
-  display: none !important;
-}
-body.stille-modus #altar-cockpit .cock-top-row,
-body.stille-modus #altar-cockpit .cock-left-stack {
+body.stille-modus #altar-cockpit .cock-status-bar {
   display: contents;
 }
 body.stille-modus #sec-cockpit #jetzt-card {
@@ -9234,54 +9302,67 @@ body.stille-modus #sec-cockpit #jetzt-card {
   margin-top: 0;
   height: 100%;
   min-height: 12rem;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1.2rem !important;
+}
+body.stille-modus #sec-cockpit #jetzt-card .jetzt-lead {
+  -webkit-line-clamp: 6;
+  font-size: 1.05rem !important;
 }
 
 @media (max-width: 430px) {
-  .altar-cockpit {
-    --cock-gap: 0.42rem;
-    height: auto;
-    max-height: none;
-  }
+  .altar-cockpit { --cock-gap: 0.38rem; }
   .altar-cockpit .cock-tile {
-    padding: 0.55rem 0.58rem 0.48rem !important;
+    padding: 0.48rem 0.52rem 0.42rem !important;
     border-radius: 16px;
   }
-  .altar-cockpit .dash-panel .value,
-  .altar-cockpit .cock-clock {
-    font-size: clamp(1rem, 4vw, 1.22rem) !important;
-  }
-  .cock-app-dock .hs-app {
-    min-height: 3.15rem;
-    font-size: 0.62rem;
-    padding: 0.38rem 0.12rem;
-  }
-  .cock-app-dock .hs-app .ico {
-    width: 2.45rem;
-    height: 2.45rem;
-    font-size: 1.22rem;
-    border-radius: 0.85rem;
-  }
-  .cock-top-row {
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr) minmax(0, 1fr);
-  }
+  .cock-status-bar .cock-tile { min-height: 2.85rem; padding: 0.38rem 0.45rem !important; }
+  .cock-app-dock .hs-app { min-height: 2.95rem; font-size: 0.6rem; }
+  .cock-app-dock .hs-app .ico { width: 2.35rem; height: 2.35rem; font-size: 1.15rem; }
+  .path-figure-caption { font-size: 0.6rem; }
 }
 
 @media (min-width: 720px) {
-  .altar-cockpit {
-    height: auto;
-    max-height: none;
-    min-height: 0;
-    --cock-gap: 0.62rem;
-  }
-  .cock-app-dock {
-    grid-template-columns: repeat(7, minmax(0, 1fr));
-    max-width: 44rem;
-    justify-self: center;
-    width: 100%;
-  }
+  .altar-cockpit { --cock-gap: 0.58rem; }
+  .cock-dock-wrap { max-width: 36rem; justify-self: center; width: 100%; }
+  .cock-app-dock-secondary { max-width: 18rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .altar-cockpit .cock-tile,
   .cock-app-dock .hs-app { transition: none; }
+}
+
+
+/* ——— v5.26.0 soft delight · lovable altar personality ——— */
+@keyframes path-figur-breathe {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+@keyframes path-figur-glow {
+  0%, 100% { filter: drop-shadow(0 0 10px color-mix(in srgb, var(--path-accent, #8b6fd0) 35%, transparent)); }
+  50% { filter: drop-shadow(0 0 18px color-mix(in srgb, var(--path-accent, #8b6fd0) 55%, transparent)); }
+}
+.cock-path-figur .path-figure-img {
+  animation: path-figur-breathe 4.8s ease-in-out infinite, path-figur-glow 5.6s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cock-path-figur .path-figure-img { animation: none; }
+}
+.cock-status-bar .cock-tile {
+  box-shadow:
+    0 0 0 1px rgba(255, 220, 190, 0.06),
+    0 6px 16px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+.cock-app-dock .hs-app .ico {
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.cock-app-dock .hs-app:hover .ico,
+.cock-app-dock .hs-app:focus-visible .ico {
+  transform: translateY(-2px) scale(1.04);
+}
+.cock-app-dock .hs-app:active .ico {
+  transform: scale(0.96);
 }

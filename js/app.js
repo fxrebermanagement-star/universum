@@ -1621,6 +1621,36 @@
     }
     const artOrb = $('#path-art-orb');
     if (artOrb) artOrb.textContent = sym || '✦';
+    // Path figure tile — SVG/PNG placeholder; user photo can override via same key
+    (function updatePathFigure() {
+      const figImg = $('#path-figure-img');
+      const figLabel = $('#path-figure-label');
+      const figur = $('#cock-path-figur');
+      const name = (path && path.name) || 'Pfad';
+      if (figLabel) figLabel.textContent = name;
+      if (figur) {
+        figur.setAttribute('data-path', id);
+        figur.style.setProperty('--path-accent', (path && path.accent) || '#8b6fd0');
+      }
+      if (!figImg) return;
+      let src = 'assets/path-figures/' + id + '.png';
+      try {
+        const override = localStorage.getItem('universum-path-figure-' + id)
+          || localStorage.getItem('universum-path-figure-photo-' + id);
+        if (override && String(override).trim()) src = String(override).trim();
+      } catch (_) {}
+      if (figImg.getAttribute('src') !== src) {
+        figImg.setAttribute('src', src);
+      }
+      figImg.setAttribute('alt', name + ' · Pfadfigur');
+      figImg.onerror = function () {
+        // fallback to soft SVG silhouette if png missing
+        if (!figImg.dataset.fellBack) {
+          figImg.dataset.fellBack = '1';
+          figImg.src = 'assets/path-figures/' + id + '.svg';
+        }
+      };
+    })();
     const chip = $('#path-chip');
     if (chip && path) {
       chip.innerHTML = '<span class="path-sym" aria-hidden="true">' + escapeHtml(pathSymbol(path)) + '</span> ' +
@@ -1772,7 +1802,14 @@
       kindEl.textContent = tip && tip.kind === 'haltung' ? 'Haltung' : 'Einladung';
     }
     if (lead) {
-      lead.textContent = (tip && tip.text) || (path && path.practiceHint) || 'Eine ruhige Praxis reicht — bleib, wenn es sich gut anfühlt.';
+      let leadText = (tip && tip.text) || (path && path.practiceHint) || 'Heute reicht ein kleiner Funke — ganz in Ruhe.';
+      // Compact status-strip: keep it short, warm, memorable
+      if (leadText.length > 72) {
+        const cut = leadText.slice(0, 70);
+        const sp = cut.lastIndexOf(' ');
+        leadText = (sp > 40 ? cut.slice(0, sp) : cut).trim() + '…';
+      }
+      lead.textContent = leadText;
     }
     const tipTitle = tip && tip.title ? tip.title : (ritual ? ritual.name : 'Praxis');
     const dur = ritual

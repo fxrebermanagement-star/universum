@@ -2,9 +2,9 @@
  * UNIVERSUM · Service Worker — offline shell caching
  * Relative URLs so GitHub Pages /universum/ subpath works.
  * Cache-first for app shell; network-first navigations; offline fallback to cockpit.
- * v76: 5.25.1 — Drop Heute gewählt · hide bottom-nav · Altar-Home
+ * v77: 5.26.0 — Altar exact sketch + warm path figures
  */
-const CACHE = 'universum-shell-v76';
+const CACHE = 'universum-shell-v77';
 const SHELL = [
   './',
   './index.html',
@@ -46,6 +46,14 @@ const SHELL = [
   './icons/icon.svg',
   './icons/icon-192.png',
   './icons/icon-512.png',
+  './assets/path-figures/esoterik.png',
+  './assets/path-figures/schamanismus.png',
+  './assets/path-figures/nordisch.png',
+  './assets/path-figures/voodoo.png',
+  './assets/path-figures/santeria.png',
+  './assets/path-figures/hermetik.png',
+  './assets/path-figures/wicca.png',
+  './assets/path-figures/chaosmagie.png',
   './assets/lexikon/manifest.json',
   './assets/lexikon/fallback-blank.svg',
   './assets/lexikon/fallback-herb.svg',
