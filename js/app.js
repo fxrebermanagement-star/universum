@@ -1505,10 +1505,11 @@
     try { history.replaceState(null, '', '#' + id); } catch (_) { /* ignore */ }
     if (!opts.keepScroll) {
       // After section show + possible re-render, wait one frame for layout
+      const scrollOpts = { instant: !!opts.instantScroll || !!opts.force };
       try {
-        requestAnimationFrame(function () { scrollSectionToContent(id); });
+        requestAnimationFrame(function () { scrollSectionToContent(id, scrollOpts); });
       } catch (_) {
-        scrollSectionToContent(id);
+        scrollSectionToContent(id, scrollOpts);
       }
     }
   }
@@ -1548,14 +1549,16 @@
     return sec;
   }
 
-  function scrollSectionToContent(sectionId) {
+  function scrollSectionToContent(sectionId, scrollOpts) {
+    scrollOpts = scrollOpts || {};
     const sec = document.getElementById('sec-' + sectionId);
     const target = firstSectionContent(sec);
     if (!target) {
       try { window.scrollTo(0, 0); } catch (_) { /* ignore */ }
       return;
     }
-    const behavior = navScrollBehavior();
+    // Homescreen hub / force nav: land instantly at section top (page feel)
+    const behavior = scrollOpts.instant ? 'auto' : navScrollBehavior();
     const pad = stickyHeaderOffset();
     try {
       const top = target.getBoundingClientRect().top + (window.pageYOffset || window.scrollY || 0) - pad;
@@ -2613,15 +2616,24 @@
       bar.dataset.standalone = standalone ? '1' : '0';
     }
     const chip = $('#offline-chip');
+    let label;
+    if (!online) {
+      label = swOk ? '📴 Offline · Shell bereit' : '📴 Offline · Cache fehlt';
+    } else if (standalone) {
+      label = '● Homescreen · lokal';
+    } else {
+      label = swOk ? '● Online · Shell bereit' : '● Online · Shell lädt';
+    }
     if (chip) {
       chip.hidden = false;
-      if (!online) {
-        chip.textContent = swOk ? '📴 Offline · Shell bereit' : '📴 Offline · Cache fehlt';
-      } else if (standalone) {
-        chip.textContent = '● Homescreen · lokal';
-      } else {
-        chip.textContent = swOk ? '● Online · Shell bereit' : '● Online · Shell lädt';
-      }
+      chip.textContent = label;
+    }
+    const mehrChip = $('#mehr-offline-chip');
+    if (mehrChip) {
+      mehrChip.textContent = !online
+        ? (swOk ? '📴 Offline' : '📴 Offline')
+        : (standalone ? '● Lokal' : (swOk ? '● Lokal' : '● Shell'));
+      mehrChip.dataset.state = stateKey;
     }
   }
 
@@ -4637,7 +4649,7 @@
     opts = opts || {};
     const alias = { sigil: 'werkzeug', karten: 'werkzeug', cards: 'werkzeug', tools: 'werkzeug' };
     const target = alias[tab] || tab || 'werkzeug';
-    navigate('rituale', { force: true, keepRitualTab: true });
+    navigate('rituale', { force: true, keepRitualTab: true, instantScroll: true });
     $$('[data-rtab]').forEach(b => {
       const on = b.dataset.rtab === target;
       b.classList.toggle('active', on);
@@ -7810,7 +7822,6 @@
           return;
         }
         navigate('rituale', { force: true });
-        toast('Rituale öffnen');
       });
     }
     const glanceBuch = $('#glance-buch-card');

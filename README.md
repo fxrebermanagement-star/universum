@@ -430,6 +430,15 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.25.0 — Altar clean + homescreen hub
+
+- **Homescreen:** Oben Status-Widgets (Datum·Zeit · Wetter | Mond | Sonne) · Schumann nur Grafik
+- **Unten App-Dock** wie Bottom-Nav (Icon-Well + Label): Kosmos · Rituale · Resonanzen · Buch · Sigille · Karten · Kalender
+- Kein «Kreis öffnen», kein Kalender-/Notiz-Kachel-Clutter, Offline winzig unter Mehr
+- Eine feste Viewport-Seite (kein Altar-Scroll); Tippen öffnet nur die Ziel-Sektion oben
+- Sigille → Rituale Werkzeug `sub=sigil`; Karten → `sub=karten`
+- SW-Cache `universum-shell-v75`
+
 ## 5.24.0 — Altar layout from user sketch
 
 - **Top:** Datum/Zeit (+ slim Heute) · Kalender · Wetter (höher) | Mond | Sonne

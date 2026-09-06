@@ -42,10 +42,10 @@
     <div id="main-content" tabindex="-1">
     <!-- 1. Altar (route id: cockpit) -->
     <section id="sec-cockpit" class="section-view active cockpit-lovely-page altar-sacred" aria-label="Altar">
-      <!-- v5.24.0 Altar: sketch layout · Datum/Kalender/Wetter · Mond · Sonne -->
-      <h1 class="section-title altar-cockpit-heading"><span class="sec-ico" aria-hidden="true">🪔</span> Altar</h1>
-      <span class="section-motif altar-cockpit-motif" aria-hidden="true"></span>
-      <p class="section-sub altar-cockpit-sub">Cockpit — alles auf einen Blick.</p>
+      <!-- v5.25.0 Altar — phone homescreen hub -->
+      <h1 class="section-title altar-cockpit-heading sr-only"><span class="sec-ico" aria-hidden="true">🪔</span> Altar</h1>
+      <span class="section-motif altar-cockpit-motif" aria-hidden="true" hidden></span>
+      <p class="section-sub altar-cockpit-sub sr-only">Homescreen — Status und Apps.</p>
       <div class="altar-welcome altar-welcome-compact" id="altar-welcome" hidden aria-hidden="true">
         <div class="altar-welcome-glow" aria-hidden="true">
           <div class="candle-flame altar-candle"><div class="flame"></div><div class="wick"></div></div>
@@ -94,42 +94,32 @@
         </div>
       </div>
 
-      <!-- legacy chip kept for JS; visually replaced by Kalender glance card -->
+      <!-- legacy chip kept for JS -->
       <button type="button" class="fest-countdown-chip" id="fest-countdown-chip" hidden aria-live="polite"></button>
 
-      <!-- v5.24.0 Altar — layout from user sketch -->
-      <div class="altar-cockpit" id="altar-cockpit" aria-label="Altar Cockpit">
+      <!-- v5.25.0 Altar homescreen: widgets + compact app dock -->
+      <div class="altar-cockpit altar-homescreen" id="altar-cockpit" aria-label="Altar Homescreen">
 
         <div class="cock-top-row">
           <div class="cock-left-stack">
-            <!-- Datum/Zeit (+ slim Heute CTA) -->
+            <!-- Datum · Zeit (no CTA) -->
             <article class="card jetzt-card cockpit-lovely heute-primary altar-heart cock-tile cock-datum" id="jetzt-card" aria-labelledby="jetzt-title">
               <div class="cock-head">
                 <span class="cock-ico" aria-hidden="true">🕰️</span>
-                <span class="label">Datum / Zeit</span>
-                <span class="chip-quiet" id="jetzt-chip">Praxis</span>
+                <span class="label">Datum · Zeit</span>
+                <span class="chip-quiet" id="jetzt-chip" hidden>Praxis</span>
               </div>
               <div class="value cock-clock" id="dash-datetime-clock">—</div>
               <div class="mess-readout" id="dash-datetime-date">—</div>
               <h2 id="jetzt-title" class="heute-title sr-only">Heute</h2>
               <p class="jetzt-kind chip-quiet" id="jetzt-kind" hidden>Praxis</p>
-              <p class="jetzt-lead cock-heute-slim-lead" id="jetzt-lead">Heute</p>
+              <p class="jetzt-lead cock-heute-slim-lead sr-only" id="jetzt-lead">Heute</p>
               <p class="jetzt-meta heute-starter-meta" id="jetzt-meta" hidden>für dich heute</p>
-              <div class="btn-row heute-starter-actions cock-heute-slim-actions">
-                <button type="button" class="primary tiny" id="jetzt-start">Kreis öffnen</button>
+              <div class="btn-row heute-starter-actions cock-heute-slim-actions" hidden>
+                <button type="button" class="primary tiny" id="jetzt-start" hidden>Kreis öffnen</button>
                 <button type="button" class="ghost tiny" id="jetzt-starter" hidden>3-Min</button>
               </div>
             </article>
-
-            <button type="button" class="card glance-card glance-kalender nested-card cockpit-lovely glance-widget cock-tile cock-kalender" id="glance-kalender-card" aria-labelledby="glance-kalender-title">
-              <div class="cock-head">
-                <span class="glance-ico cock-ico" aria-hidden="true">📅</span>
-                <h3 id="glance-kalender-title">Kalender</h3>
-                <span class="chip-quiet" id="glance-kalender-chip">Fest</span>
-              </div>
-              <p class="glance-lead" id="glance-kalender-lead">Feste</p>
-              <p class="hint-sm" id="glance-kalender-meta">öffnen</p>
-            </button>
 
             <button type="button" class="dash-panel mess-tile cock-tile cock-wetter" id="mess-wetter" data-mess-nav="kosmos" aria-label="Wetter — Standort Zürich oder gemerkt">
               <div class="cock-head">
@@ -166,11 +156,11 @@
           </button>
         </div>
 
-        <article class="card mess-schumann schumann-card cock-tile cock-schumann" id="glance-schumann-card" aria-labelledby="glance-schumann-title">
-          <div class="schumann-head compact-head cock-sch-head cock-head">
+        <article class="card mess-schumann schumann-card cock-tile cock-schumann cock-schumann-visual" id="glance-schumann-card" aria-labelledby="glance-schumann-title">
+          <div class="schumann-head compact-head cock-sch-head cock-head cock-sch-head-slim">
             <span class="cock-ico" aria-hidden="true">〰️</span>
-            <h3 id="glance-schumann-title">Schumann</h3>
-            <span class="schumann-live-badge" data-sch-badge data-state="offline">7,83 Hz</span>
+            <h3 id="glance-schumann-title" class="sr-only">Schumann</h3>
+            <span class="schumann-live-badge" data-sch-badge data-state="offline" hidden>7,83 Hz</span>
           </div>
           <div class="schumann-spectrogram glance-spectro cock-spectro" data-sch-spectrogram>
             <figure class="schumann-spectrogram-figure">
@@ -178,7 +168,7 @@
               <p class="schumann-spectrogram-err" data-sch-spectrogram-err hidden>Spektro offline</p>
             </figure>
           </div>
-          <div class="schumann-live-panel cock-sch-metrics" data-sch-panel>
+          <div class="schumann-live-panel cock-sch-metrics" data-sch-panel hidden aria-hidden="true">
             <div class="schumann-metrics" aria-label="Stationsdaten">
               <div class="sch-metric"><span class="m-label">SR</span> <strong data-sch-hz>—</strong></div>
               <div class="sch-metric"><span class="m-label">Kp</span> <strong data-sch-kp>—</strong></div>
@@ -192,83 +182,65 @@
           <span class="sr-only" data-sch-honesty></span>
         </article>
 
-        <div class="cock-apps-row">
-          <button type="button" class="card glance-card glance-kosmos nested-card cockpit-lovely glance-widget cock-tile cock-kosmos" id="glance-kosmos-card" aria-labelledby="glance-kosmos-title">
-            <div class="cock-head">
-              <span class="glance-ico cock-ico" aria-hidden="true">🪐</span>
-              <h3 id="glance-kosmos-title">Kosmos</h3>
-              <span class="chip-quiet" id="glance-kosmos-chip">Stunde</span>
-            </div>
-            <p class="glance-lead" id="glance-kosmos-lead">Stunde · Radar</p>
-            <p class="hint-sm" id="glance-kosmos-meta">öffnen</p>
+        <!-- Compact app dock — same language as bottom-nav; hub so footer is rarely needed -->
+        <nav class="cock-app-dock" aria-label="Altar Apps">
+          <button type="button" class="hs-app" id="glance-kosmos-card" aria-label="Kosmos">
+            <span class="ico" aria-hidden="true">🪐</span>
+            <span class="hs-label">Kosmos</span>
+            <span class="sr-only" id="glance-kosmos-title">Kosmos</span>
+            <span class="chip-quiet sr-only" id="glance-kosmos-chip">Stunde</span>
+            <span class="glance-lead sr-only" id="glance-kosmos-lead">Stunde · Radar</span>
+            <span class="hint-sm sr-only" id="glance-kosmos-meta">öffnen</span>
           </button>
-
-          <button type="button" class="card glance-card glance-ritual nested-card cockpit-lovely glance-widget cock-tile cock-ritual" id="glance-ritual-card" aria-labelledby="glance-ritual-title">
-            <div class="cock-head">
-              <span class="glance-ico cock-ico" aria-hidden="true">🕯️</span>
-              <h3 id="glance-ritual-title">Ritual</h3>
-              <span class="chip-quiet" id="glance-ritual-chip">—</span>
-            </div>
-            <p class="glance-lead" id="glance-ritual-lead">Noch still</p>
-            <p class="hint-sm" id="glance-ritual-meta">öffnen</p>
+          <button type="button" class="hs-app" id="glance-ritual-card" aria-label="Rituale">
+            <span class="ico" aria-hidden="true">🕯️</span>
+            <span class="hs-label">Rituale</span>
+            <span class="sr-only" id="glance-ritual-title">Rituale</span>
+            <span class="chip-quiet sr-only" id="glance-ritual-chip">—</span>
+            <span class="glance-lead sr-only" id="glance-ritual-lead">Noch still</span>
+            <span class="hint-sm sr-only" id="glance-ritual-meta">öffnen</span>
           </button>
-
-          <button type="button" class="card glance-card glance-resonanz nested-card cockpit-lovely glance-widget cock-tile cock-resonanz" id="glance-resonanz-card" aria-labelledby="glance-resonanz-title">
-            <div class="cock-head">
-              <span class="glance-ico cock-ico" aria-hidden="true">🌿</span>
-              <h3 id="glance-resonanz-title">Resonanz</h3>
-              <span class="chip-quiet" id="glance-resonanz-chip">—</span>
-            </div>
-            <p class="glance-lead" id="glance-resonanz-lead">Heute passt …</p>
-            <p class="hint-sm" id="glance-resonanz-meta">öffnen</p>
+          <button type="button" class="hs-app" id="glance-resonanz-card" aria-label="Resonanzen">
+            <span class="ico" aria-hidden="true">🌿</span>
+            <span class="hs-label">Resonanzen</span>
+            <span class="sr-only" id="glance-resonanz-title">Resonanzen</span>
+            <span class="chip-quiet sr-only" id="glance-resonanz-chip">—</span>
+            <span class="glance-lead sr-only" id="glance-resonanz-lead">Heute passt …</span>
+            <span class="hint-sm sr-only" id="glance-resonanz-meta">öffnen</span>
           </button>
-
-          <button type="button" class="card glance-card glance-buch nested-card cockpit-lovely glance-widget cock-tile cock-buch" id="glance-buch-card" aria-labelledby="glance-buch-title">
-            <div class="cock-head">
-              <span class="glance-ico cock-ico" aria-hidden="true">📖</span>
-              <h3 id="glance-buch-title">Buch</h3>
-              <span class="chip-quiet" id="glance-buch-chip">Buch</span>
-            </div>
-            <div class="glance-buch-body">
-              <div class="glance-buch-thumb" id="glance-buch-thumb" hidden></div>
-              <div>
-                <p class="glance-lead" id="glance-buch-lead">Leer</p>
-                <p class="hint-sm" id="glance-buch-meta">öffnen</p>
-              </div>
-            </div>
+          <button type="button" class="hs-app" id="glance-buch-card" aria-label="Buch">
+            <span class="ico" aria-hidden="true">📖</span>
+            <span class="hs-label">Buch</span>
+            <span class="sr-only" id="glance-buch-title">Buch</span>
+            <span class="chip-quiet sr-only" id="glance-buch-chip">Buch</span>
+            <span class="glance-buch-thumb sr-only" id="glance-buch-thumb" hidden></span>
+            <span class="glance-lead sr-only" id="glance-buch-lead">Leer</span>
+            <span class="hint-sm sr-only" id="glance-buch-meta">öffnen</span>
           </button>
-        </div>
-
-        <div class="cock-bottom-row">
-          <button type="button" class="card glance-card nested-card cockpit-lovely glance-widget cock-tile cock-sigil" id="glance-sigil-card" aria-label="Sigil — öffnet Rituale Sigil">
-            <div class="cock-head">
-              <span class="glance-ico cock-ico" aria-hidden="true">✒️</span>
-              <h3>Sigil</h3>
-            </div>
-            <p class="glance-lead">Glyph</p>
-            <p class="hint-sm">Rituale</p>
+          <button type="button" class="hs-app" id="glance-sigil-card" aria-label="Sigille — Rituale Werkzeug">
+            <span class="ico" aria-hidden="true">✒️</span>
+            <span class="hs-label">Sigille</span>
           </button>
-
-          <button type="button" class="card glance-card nested-card cockpit-lovely glance-widget cock-tile cock-karten" id="glance-karten-card" aria-label="Karten — öffnet Rituale Feldkarten">
-            <div class="cock-head">
-              <span class="glance-ico cock-ico" aria-hidden="true">🃏</span>
-              <h3>Karten</h3>
-            </div>
-            <p class="glance-lead">Feldkarten</p>
-            <p class="hint-sm">ziehen</p>
+          <button type="button" class="hs-app" id="glance-karten-card" aria-label="Karten — Rituale Feldkarten">
+            <span class="ico" aria-hidden="true">🃏</span>
+            <span class="hs-label">Karten</span>
           </button>
-
-          <button type="button" class="card glance-card nested-card cockpit-lovely glance-widget cock-tile cock-notiz" id="glance-notiz-card" aria-label="Notiz — öffnet Magie-Buch Notiz">
-            <div class="cock-head">
-              <span class="glance-ico cock-ico" aria-hidden="true">📝</span>
-              <h3>Notiz</h3>
-            </div>
-            <p class="glance-lead">Festhalten</p>
-            <p class="hint-sm">Magie-Buch</p>
+          <button type="button" class="hs-app" id="glance-kalender-card" aria-label="Kalender">
+            <span class="ico" aria-hidden="true">📅</span>
+            <span class="hs-label">Kalender</span>
+            <span class="sr-only" id="glance-kalender-title">Kalender</span>
+            <span class="chip-quiet sr-only" id="glance-kalender-chip">Fest</span>
+            <span class="glance-lead sr-only" id="glance-kalender-lead">Feste</span>
+            <span class="hint-sm sr-only" id="glance-kalender-meta">öffnen</span>
           </button>
-        </div>
+        </nav>
 
-        <!-- Legacy / JS mirrors (off sketch cockpit) -->
+        <!-- Legacy / JS mirrors (off homescreen) -->
+        <button type="button" class="card glance-card nested-card cockpit-lovely glance-widget cock-tile cock-notiz" id="glance-notiz-card" hidden aria-hidden="true" aria-label="Notiz — öffnet Magie-Buch Notiz">
+          <div class="cock-head"><span class="glance-ico cock-ico" aria-hidden="true">📝</span><h3>Notiz</h3></div>
+          <p class="glance-lead">Festhalten</p>
+        </button>
+
         <div class="dash-panel unrest impulse-panel mess-tile mess-unruhe-wide cock-tile cock-unruhe" id="mess-unruhe" hidden aria-hidden="true">
           <div class="label">Impuls</div>
           <div class="value" id="dash-unrest-val">—</div>
@@ -365,6 +337,7 @@
         <summary class="mehr-summary">
           Mehr am Altar
           <span class="mehr-hint">Pfad-Woche · Journal · Notizen · Einstellungen</span>
+          <span class="mehr-offline-chip" id="mehr-offline-chip" aria-live="polite">● Lokal</span>
         </summary>
         <div class="mehr-body" id="cockpit-flow">
 
@@ -1357,7 +1330,7 @@
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
         <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem">Daten bleiben lokal auf diesem Gerät · App v<span id="settings-app-version">5.24.0</span> · <a href="#vertrauen" data-open-vertrauen>Vertrauen</a></p>
+        <p class="footer-ethics" style="padding-top:1rem">Daten bleiben lokal auf diesem Gerät · App v<span id="settings-app-version">5.25.0</span> · <a href="#vertrauen" data-open-vertrauen>Vertrauen</a></p>
       </div>
     </div>
   </div>
