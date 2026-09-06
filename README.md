@@ -430,6 +430,14 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.31.0 — Altar Wärme · Ritual→Buch · Produkt · Pfadfiguren
+
+- Altar: wärmere Heute/Mond/Sonne/Schumann/Wetter-Hierarchie, soft Day-Banner, einmaliger First-Session-Tipp
+- Ritual-Abschluss: klare CTA «Ins Buch legen» / «Im Buch weiterschreiben» mit Eintrag-Defaults
+- Produkt: Vertrauen & Ethik am Altar + Settings, warme Offline/Wetter-Texte, sanfter PWA-Hinweis (einmal)
+- Pfadfiguren: soft/cute Neon-Glow (kids-app), Cutouts oben rechts — kein Foto-Upload
+- SW `universum-shell-v96` · kritisch: inactive Altar `display:none` + `body.on-altar` Bottom-Nav hide bleiben
+
 ## 5.30.2 — Untermenüs ohne Altar-Scroll
 
 - Bugfix: `#sec-cockpit.altar-sacred { display:flex }` hat `.section-view` überschrieben — Altar blieb im Flow

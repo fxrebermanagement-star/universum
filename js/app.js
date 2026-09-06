@@ -483,7 +483,7 @@
     const body = $('#day-banner-text');
     if (title) title.textContent = dayGreetingWord();
     if (body) {
-      body.textContent = 'Einträge bleiben. Intention und Tageskarte sind frisch.';
+      body.textContent = 'Willkommen zurück — Einträge bleiben. Intention und Tageskarte sind frisch.';
     }
     // Einmal am Tag kurz nicken, dann von selbst weg — Altar bleibt frei
     dayBannerAutoTimer = setTimeout(function () {
@@ -1679,7 +1679,7 @@
       const figTip = $('#path-figure-tip');
       const figur = $('#cock-path-figur');
       const name = (path && path.name) || 'Pfad';
-      const tip = (path && (path.haltung || path.saying || path.teachingTip)) || 'Stille Praxis — neugierig, leicht.';
+      const tip = (path && (path.haltung || path.saying || path.teachingTip)) || 'Dein Pfad-Begleiter — neugierig, leicht, ohne Grusel.';
       if (figLabel) figLabel.textContent = name;
       if (figTip) figTip.textContent = tip;
       if (figur) {
@@ -1846,7 +1846,7 @@
       ritualId = firstOwnRitualId();
       ritual = ritualId ? Rituals.getRitual(ritualId) : null;
     }
-    if (title) title.textContent = 'Heute';
+    if (title) title.textContent = 'Heute · Impuls';
     if (chip) {
       chip.innerHTML = '<span class="path-sym" aria-hidden="true">' + escapeHtml(pathSymbol(path)) + '</span> ' +
         escapeHtml((path && path.name) || 'Praxis');
@@ -2721,13 +2721,13 @@
     if (el) {
       if (online) {
         el.textContent = swOk
-          ? 'Online · Offline-Shell aktiv — Rituale, Buch und Fokus bleiben lokal auch ohne Netz.'
-          : 'Online · lokal · einmal laden, dann offline Praxis. Tipp: Zum Homescreen für die Shell.';
+          ? 'Online · Shell bereit — Rituale, Buch und Fokus bleiben lokal, auch ohne Netz.'
+          : 'Online · lokal · einmal laden, dann offline Praxis. Optional: Zum Homescreen.';
         el.dataset.state = 'online';
       } else {
         el.textContent = swOk
-          ? 'Offline · Shell aus dem Cache. Rituale, Magie-Buch und Fokus laufen lokal. Live-Station pausiert.'
-          : 'Offline · ohne Cache eingeschränkt. Online neu laden oder Zum Homescreen installieren.';
+          ? 'Ohne Netz — alles Wichtige läuft lokal weiter. Live-Wetter und Station pausieren kurz.'
+          : 'Ohne Netz · Shell noch nicht gecacht. Online kurz öffnen oder zum Homescreen legen.';
         el.dataset.state = 'offline';
       }
     }
@@ -2739,7 +2739,7 @@
     const chip = $('#offline-chip');
     let label;
     if (!online) {
-      label = swOk ? '📴 Offline · Shell bereit' : '📴 Offline · Cache fehlt';
+      label = swOk ? '📴 Lokal weiter' : '📴 Kurz offline';
     } else if (standalone) {
       label = '● Homescreen · lokal';
     } else {
@@ -3224,11 +3224,13 @@
     if (tile) tile.dataset.offline = offline && !data ? '1' : '0';
     if (!data) {
       tempEl.textContent = '—';
-      if (condEl) condEl.textContent = offline ? 'Gleich wieder' : 'Lädt …';
-      if (metaEl) metaEl.textContent = 'Wetter · Zürich-Standard · lokal gemerkt';
+      if (condEl) condEl.textContent = offline ? 'Später wieder' : 'Lädt …';
+      if (metaEl) metaEl.textContent = offline
+        ? 'Wetter pausiert — Praxis läuft lokal weiter'
+        : 'Wetter · Zürich-Standard · lokal gemerkt';
       if (chipEl) {
         chipEl.hidden = false;
-        chipEl.textContent = offline ? 'Pause' : '…';
+        chipEl.textContent = offline ? 'Lokal' : '…';
       }
       return;
     }
@@ -5054,6 +5056,46 @@
    * Fuller body-felt closing: Danken → Atmen → Erden → Siegeln → optional diary seed.
    * Used after guided rituals, 3-min starter, and focus sessions.
    */
+
+  /** Prefill Magie-Buch after ritual (eintrag mode, sensible defaults). */
+  function openBuchAfterRitual(ritual, opts) {
+    opts = opts || {};
+    const label = (ritual && ritual.name) || opts.label || 'Praxis';
+    const jPrompt = (ritual && ritual.journal) || opts.prompt || '';
+    const seed = (opts.seed && String(opts.seed).trim()) || '';
+    const mode = opts.buchMode === 'notiz' ? 'notiz' : 'eintrag';
+    navigate('buch', { force: true, buchMode: mode });
+    setTimeout(function () {
+      try {
+        if (typeof setBuchMode === 'function') setBuchMode(mode);
+        if (mode === 'eintrag') {
+          const titleEl = $('#diary-title');
+          const bodyEl = $('#diary-body');
+          const tagsEl = $('#diary-tags');
+          if (titleEl && !String(titleEl.value || '').trim()) {
+            titleEl.value = 'Nach ' + label;
+          }
+          if (bodyEl && !String(bodyEl.value || '').trim()) {
+            bodyEl.value = seed || (jPrompt ? jPrompt : '');
+            try { bodyEl.focus(); } catch (_) {}
+          } else if (titleEl) {
+            try { titleEl.focus(); } catch (_) {}
+          }
+          if (tagsEl && !String(tagsEl.value || '').trim()) {
+            tagsEl.value = 'abschluss, ritual';
+          }
+        } else {
+          const note = $('#note-input');
+          if (note) {
+            if (!String(note.value || '').trim()) note.value = seed || ('Nach ' + label);
+            try { note.focus(); } catch (_) {}
+          }
+        }
+        toast(mode === 'notiz' ? 'Notiz bereit · Magie-Buch' : 'Eintrag bereit · Magie-Buch');
+      } catch (_) {}
+    }, 90);
+  }
+
   function showClosingFlow(ritual, opts) {
     opts = opts || {};
     clearInterval(ritualTimer);
@@ -5107,8 +5149,8 @@
       },
       {
         id: 'seed',
-        title: 'Ins Buch (optional)',
-        text: 'Ein kurzer Satz und optional ein Foto — mit Ritualname und Pfad ins Magie-Buch. Kein Zwang.',
+        title: 'Ins Magie-Buch',
+        text: 'Optional und klar: kurzer Satz (und Foto) speichern — oder direkt im Magie-Buch weiterschreiben. Ritualname und Pfad kommen mit.',
         ico: '📖',
         diary: true
       }
@@ -5131,7 +5173,18 @@
       const wentToBuch = !!optsFinish.goBuch;
       setSitzungPhase('buch', { savedToBuch: !!optsFinish.savedToBuch || wentToBuch });
       if (wentToBuch) {
-        navigate('buch', { force: true, buchMode: 'eintrag' });
+        if (optsFinish.prefill) {
+          openBuchAfterRitual(ritual, {
+            label: label,
+            seed: optsFinish.seed || '',
+            buchMode: optsFinish.buchMode || 'eintrag'
+          });
+        } else {
+          navigate('buch', { force: true, buchMode: optsFinish.buchMode || 'eintrag' });
+          setTimeout(function () {
+            try { if (typeof setBuchMode === 'function') setBuchMode(optsFinish.buchMode || 'eintrag'); } catch (_) {}
+          }, 60);
+        }
       } else {
         navigate('cockpit', { force: true, keepScroll: true });
         renderSitzungBar();
@@ -5177,6 +5230,7 @@
         '<div class="rr-actions">' +
         (step.diary
           ? '<button type="button" class="primary" id="rr-close-seed-save">📖 Ins Buch legen</button>' +
+            '<button type="button" class="primary ghost-primary" id="rr-close-open-buch">📖 Im Buch weiterschreiben</button>' +
             '<button type="button" class="ghost" id="rr-done">Kreis schließen</button>'
           : (isLast
             ? '<button type="button" class="primary" id="rr-done">Kreis schließen</button>'
@@ -5315,6 +5369,17 @@
           toast('Eintrag konnte nicht gespeichert werden', 3200, 'warn');
           finishClosing('Schwelle gehalten — gute Praxis.');
         }
+      });
+      const openBuchBtn = $('#rr-close-open-buch');
+      if (openBuchBtn) openBuchBtn.addEventListener('click', () => {
+        const ta = $('#rr-closing-seed');
+        const seed = ta ? String(ta.value || '').trim() : '';
+        finishClosing('Weiter im Magie-Buch — Schwelle gehalten.', {
+          goBuch: true,
+          prefill: true,
+          seed: seed,
+          buchMode: 'eintrag'
+        });
       });
       const skip = $('#rr-close-skip');
       if (skip) skip.addEventListener('click', () => {
@@ -6038,8 +6103,8 @@
     const text = $('#install-banner-text');
     // Offline-zuerst: Banner auch auf Desktop bei force; Copy betont Cache
     if (plat.isIOS) {
-      if (title) title.textContent = 'Zum Homescreen · iPhone / iPad';
-      if (text) text.textContent = 'Safari → Teilen → „Zum Home-Bildschirm“. Dann öffnet UNIVERSUM wie eine App — offline-fähig, lokal.';
+      if (title) title.textContent = 'Optional · Homescreen (iPhone / iPad)';
+      if (text) text.textContent = 'Safari → Teilen → „Zum Home-Bildschirm“. Einmal legen — offline-fähig, lokal. Kein Muss.';
       if (steps) {
         steps.innerHTML =
           '<li>Tippe auf <strong>Teilen</strong> (Quadrat mit Pfeil).</li>' +
@@ -6047,8 +6112,8 @@
           '<li>Bestätige „Hinzufügen“ — fertig.</li>';
       }
     } else if (plat.isAndroid) {
-      if (title) title.textContent = 'Zum Homescreen · Android';
-      if (text) text.textContent = 'Chrome-Menü → „App installieren“ oder „Zum Startbildschirm“. UNIVERSUM bleibt lokal auf dem Gerät.';
+      if (title) title.textContent = 'Optional · Homescreen (Android)';
+      if (text) text.textContent = 'Chrome-Menü → „App installieren“ / Zum Startbildschirm. Lokal auf dem Gerät — einmal reicht.';
       if (steps) {
         steps.innerHTML =
           '<li>Öffne das <strong>Menü</strong> (⋮) im Browser.</li>' +
@@ -6056,8 +6121,8 @@
           '<li>Bestätigen — Icon erscheint neben deinen Apps.</li>';
       }
     } else {
-      if (title) title.textContent = 'Zum Homescreen · App';
-      if (text) text.textContent = 'Über das Browser-Menü „Zum Home-Bildschirm“ / Installieren — ideal auf dem Handy.';
+      if (title) title.textContent = 'Optional · wie eine kleine App';
+      if (text) text.textContent = 'Browser-Menü → „Zum Home-Bildschirm“ / Installieren. Praktisch auf dem Handy — kein Druck.';
       if (steps) {
         steps.innerHTML =
           '<li>Browser-Menü öffnen.</li>' +
@@ -6072,9 +6137,12 @@
   function dismissInstallBanner(persist) {
     const ban = $('#install-banner');
     if (ban) ban.hidden = true;
-    if (persist && Store.dismissInstallHint) {
+    // v5.31.0: einmal weg = weg (auch „Später“) — nicht naggy
+    if (Store.dismissInstallHint) {
       Store.dismissInstallHint();
       refreshState();
+    } else if (persist) {
+      /* no-op fallback */
     }
   }
 
@@ -7093,12 +7161,33 @@
   }
 
   function maybeShowFirstSessionTip() {
-    // v5.29.2: „Verstanden“-Tipp am Altar entfernt — Altar bleibt frei
+    // v5.31.0: weicher Einmal-Tipp — kein Spam, leicht schließbar
     const el = $('#first-session-tip');
-    if (el) el.hidden = true;
+    if (!el) return;
+    if (Store.getFirstSessionTipShown && Store.getFirstSessionTipShown()) {
+      el.hidden = true;
+      return;
+    }
+    if (!(state.onboarding && state.onboarding.done)) {
+      el.hidden = true;
+      return;
+    }
+    if (document.body.classList.contains('quiet-mode') || document.body.classList.contains('stille-modus')) {
+      el.hidden = true;
+      return;
+    }
+    el.hidden = false;
+    el.setAttribute('aria-hidden', 'false');
+    // Einmalig: als gesehen markieren, nach 12s sanft ausblenden
     if (Store.markFirstSessionTipShown) {
       try { Store.markFirstSessionTipShown(); } catch (_) {}
     }
+    setTimeout(function () {
+      if (el && !el.hidden) {
+        el.hidden = true;
+        el.setAttribute('aria-hidden', 'true');
+      }
+    }, 12000);
   }
 
   function dismissFirstSessionTip() {
@@ -7256,16 +7345,14 @@
         if (card && !card.hidden) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
       } catch (_) {}
     }, 350);
-    setTimeout(() => { try { showInstallBanner(true); } catch (_) {} }, 900);
-    return true;
-  
+    // Sanfter Homescreen-Hinweis einmal, nicht sofort nach Onboarding-Druck
     setTimeout(function () {
       maybeShowFirstSessionTip();
-      // Soft install nudge after first calm minute
       try {
         if (!isStandaloneDisplay()) showInstallBanner(false);
       } catch (_) {}
-    }, 4000);
+    }, 2800);
+    return true;
   }
 
   function escapeHtml(s) {

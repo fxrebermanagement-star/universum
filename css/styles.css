@@ -9702,7 +9702,6 @@ body.stille-modus #sec-cockpit #jetzt-card .jetzt-lead {
   cursor: default;
   pointer-events: none;
 }
-}
 .altar-cockpit {
   position: relative;
 }
@@ -10053,4 +10052,120 @@ body.on-altar .app-shell {
 }
 body:not(.on-altar) .bottom-nav button[data-nav="cockpit"] {
   color: var(--maya, #3ed4c4);
+}
+
+
+/* ——— v5.31.0 — Altar warmth · soft path figures · trust link · ritual→buch ——— */
+.altar-trust-link {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.15rem;
+  z-index: 8;
+  margin: 0;
+  padding: 0 0.5rem;
+  text-align: center;
+  font-size: 0.68rem;
+  opacity: 0.9;
+  pointer-events: auto;
+}
+#sec-cockpit.altar-sacred {
+  position: relative;
+}
+.altar-trust-link a {
+  color: color-mix(in srgb, var(--maya, #3ed4c4) 70%, #efeaf8);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.altar-trust-note { opacity: 0.75; }
+.privacy-line-slim a[data-open-vertrauen] {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  opacity: 0.95;
+}
+.first-session-tip:not([hidden]) {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin: 0.35rem 0 0.45rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--accent-soft, rgba(139,111,208,0.22)) 80%, rgba(255,255,255,0.04));
+  border: 1px solid rgba(255, 190, 230, 0.22);
+  box-shadow: 0 0 18px rgba(255, 140, 200, 0.12);
+}
+body.stille-modus .altar-trust-link,
+body.stille-modus .first-session-tip { display: none !important; }
+.ghost-primary {
+  border-color: color-mix(in srgb, var(--accent, #8b6fd0) 45%, transparent) !important;
+  color: #f4ecff !important;
+}
+.rr-actions #rr-close-open-buch {
+  order: 2;
+}
+.cock-path-figur .path-figure-img {
+  animation: path-figur-breathe 4.8s ease-in-out infinite, path-figur-neon-glow 5.6s ease-in-out infinite;
+  filter:
+    drop-shadow(0 0 10px rgba(255, 170, 210, 0.45))
+    drop-shadow(0 0 18px rgba(160, 210, 255, 0.28))
+    drop-shadow(0 8px 16px rgba(0, 0, 0, 0.28));
+}
+@keyframes path-figur-neon-glow {
+  0%, 100% {
+    filter:
+      drop-shadow(0 0 8px rgba(255, 170, 210, 0.38))
+      drop-shadow(0 0 14px rgba(160, 210, 255, 0.24))
+      drop-shadow(0 8px 14px rgba(0, 0, 0, 0.26));
+  }
+  50% {
+    filter:
+      drop-shadow(0 0 14px rgba(255, 190, 220, 0.52))
+      drop-shadow(0 0 22px rgba(170, 220, 255, 0.36))
+      drop-shadow(0 8px 16px rgba(0, 0, 0, 0.26));
+  }
+}
+.path-figure-caption {
+  color: color-mix(in srgb, #ffe6f4 55%, #d9f4ff);
+  text-shadow: 0 0 10px rgba(255, 170, 210, 0.28);
+}
+.path-figure-tip {
+  font-size: 0.58rem;
+  line-height: 1.25;
+  opacity: 0.78;
+  text-align: center;
+  max-width: 100%;
+  color: color-mix(in srgb, #f8e9ff 70%, #b8e8ff);
+}
+.day-banner-compact .day-banner-inner {
+  padding: 0.45rem 0.65rem;
+}
+.day-banner-inner strong {
+  letter-spacing: 0.02em;
+}
+.install-banner-inner strong {
+  font-size: 0.92rem;
+}
+.cock-status-heute .heute-title {
+  letter-spacing: 0.04em;
+  font-weight: 700;
+}
+.cock-wetter[data-offline="1"] .mess-readout {
+  opacity: 0.85;
+  font-style: italic;
+}
+/* CRITICAL retain — inactive altar + on-altar bottom-nav (v5.30.2 / v5.31.0) */
+#sec-cockpit.altar-sacred:not(.active) {
+  display: none !important;
+}
+body.on-altar .bottom-nav,
+body.on-altar #bottom-nav,
+body.on-altar nav.bottom-nav {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
 }

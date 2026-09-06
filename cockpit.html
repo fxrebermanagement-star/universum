@@ -43,7 +43,7 @@
     <div id="main-content" tabindex="-1">
     <!-- 1. Altar (route id: cockpit) -->
     <section id="sec-cockpit" class="section-view active cockpit-lovely-page altar-sacred" aria-label="Altar">
-      <!-- v5.30.2 Altar — Skizze + volles Apps-Dock · 1 Status-Box · Figur frei · kein Sitzungs-Banner -->
+      <!-- v5.31.0 Altar — warm · Figur soft neon · 1 Status-Box · Dock · kein Spam-Banner -->
       <h1 class="section-title altar-cockpit-heading sr-only"><span class="sec-ico" aria-hidden="true">🪔</span> Altar</h1>
       <span class="section-motif altar-cockpit-motif" aria-hidden="true" hidden></span>
       <p class="section-sub altar-cockpit-sub sr-only">Dein Altar — warm, still, zum Ankommen.</p>
@@ -77,8 +77,8 @@
 
       <div class="install-banner" id="install-banner" hidden role="region" aria-label="Zum Homescreen">
         <div class="install-banner-inner">
-          <strong id="install-banner-title">Wie eine kleine Zauber-App auf dem Homescreen</strong>
-          <p id="install-banner-text">Leg UNIVERSUM auf den Homescreen: Rituale und Magie-Buch auch offline. Privat, lokal — und irgendwie magisch.</p>
+          <strong id="install-banner-title">Optional · auf den Homescreen</strong>
+          <p id="install-banner-text">Einmal hinzufügen — Rituale und Magie-Buch auch offline. Privat, lokal, ohne Store. Kein Muss.</p>
           <ol class="install-steps" id="install-steps"></ol>
           <div class="btn-row">
             <button type="button" class="primary tiny" id="install-banner-prompt" hidden>Zum Homescreen</button>
@@ -91,15 +91,15 @@
       <div class="day-banner" id="day-banner" hidden role="status" aria-live="polite">
         <div class="day-banner-inner">
           <strong id="day-banner-title">Neuer Tag</strong>
-          <p id="day-banner-text">Deine Einträge bleiben. Intention und Tageskarte sind frisch für heute.</p>
-          <button type="button" class="ghost tiny" id="day-banner-dismiss">Willkommen · schließen</button>
+          <p id="day-banner-text">Willkommen zurück — Einträge bleiben, Intention und Tageskarte sind frisch.</p>
+          <button type="button" class="ghost tiny" id="day-banner-dismiss">Schön · weiter</button>
         </div>
       </div>
 
       <!-- legacy chip kept for JS -->
       <button type="button" class="fest-countdown-chip" id="fest-countdown-chip" hidden aria-live="polite"></button>
 
-      <!-- v5.30.2 Altar — Skizze: 1 Status-Box · Figur frei · Mond|Sonne · Schumann · volles Apps-Dock -->
+      <!-- v5.31.0 Altar — Status · Mond|Sonne · Schumann · Dock · Figur soft oben rechts -->
       <div class="altar-cockpit altar-homescreen" id="altar-cockpit" aria-label="Altar — dein magisches Home">
 
                   <figure class="cock-path-figur cock-path-figur-float cock-path-figur-overlay" id="cock-path-figur" aria-labelledby="path-figure-label">
@@ -107,7 +107,7 @@
               <img id="path-figure-img" class="path-figure-img" src="assets/path-figures/esoterik.png" alt="" width="512" height="512" decoding="async" data-path-figure="1" />
             </div>
             <figcaption class="path-figure-caption" id="path-figure-label">Esoterik</figcaption>
-            <p class="path-figure-tip" id="path-figure-tip">Stille Praxis — neugierig, leicht.</p>
+            <p class="path-figure-tip" id="path-figure-tip">Dein Pfad-Begleiter — neugierig, leicht, ohne Grusel.</p>
           </figure>
 
 <div class="cock-hero-grid" aria-label="Zeit, Kosmos und Pfad">
@@ -126,7 +126,7 @@
                 <div class="cock-status-body">
                   <span class="value" id="dash-wetter-temp">—</span>
                   <span class="mess-readout" id="dash-wetter-cond">—</span>
-                  <span class="chip-quiet" id="dash-wetter-chip" hidden>Lokal</span>
+                  <span class="chip-quiet" id="dash-wetter-chip" hidden>Sanft</span>
                   <span class="meta sr-only" id="dash-wetter-meta">Open-Meteo · Zürich-Default</span>
                 </div>
               </button>
@@ -134,7 +134,7 @@
             <article class="card jetzt-card cockpit-lovely heute-primary altar-heart cock-datum cock-status-heute" id="jetzt-card" aria-labelledby="jetzt-title">
               <span class="cock-status-ico" aria-hidden="true">✦</span>
               <div class="cock-status-body">
-                <h2 id="jetzt-title" class="heute-title label">Heute</h2>
+                <h2 id="jetzt-title" class="heute-title label">Heute · Impuls</h2>
                 <p class="jetzt-lead cock-heute-slim-lead" id="jetzt-lead">—</p>
                 <button type="button" class="jetzt-next-fest" id="jetzt-next-fest" hidden aria-label="Nächster wichtiger Tag im Kalender">
                   <span class="jetzt-next-fest-ico" id="jetzt-next-fest-ico" aria-hidden="true">✦</span>
@@ -171,7 +171,7 @@
             <div class="value" id="dash-sun-sign">—</div>
             <div class="mess-readout" id="dash-sun-rise">↑ —</div>
             <div class="mess-readout" id="dash-sun-set">↓ —</div>
-            <div class="meta" id="dash-sun-meta">Aufgang · Untergang · Näherung</div>
+            <div class="meta" id="dash-sun-meta">Aufgang · Untergang · warmes Fenster</div>
           </button>
             </div>
           </div>
@@ -192,7 +192,7 @@
           <div class="schumann-spectrogram glance-spectro cock-spectro" data-sch-spectrogram>
             <figure class="schumann-spectrogram-figure">
               <img data-sch-spectrogram-img alt="Schumann-Spektrogramm Tomsk" width="1200" height="400" decoding="async" />
-              <p class="schumann-spectrogram-err" data-sch-spectrogram-err hidden>Spektro offline</p>
+              <p class="schumann-spectrogram-err" data-sch-spectrogram-err hidden>Spektro pausiert — ruhig weiterüben</p>
             </figure>
           </div>
           <div class="schumann-live-panel cock-sch-metrics" data-sch-panel hidden aria-hidden="true">
@@ -300,18 +300,24 @@
         <div class="altar-offline-bar cock-tile cock-offline" id="altar-offline-bar" role="status" data-state="online" hidden aria-hidden="true">
           <span class="offline-chip offline-chip-bar" id="offline-chip">● Lokal</span>
           <p class="offline-honesty hint-sm" id="offline-honesty" hidden>Shell bereit</p>
-          <p class="privacy-line privacy-line-slim" id="privacy-line">Lokal · kein Konto</p>
+          <p class="privacy-line privacy-line-slim" id="privacy-line">Lokal · kein Konto · <a href="#vertrauen" data-open-vertrauen>Vertrauen</a></p>
         </div>
       </div><!-- #altar-cockpit -->
+
+      <p class="altar-trust-link hint-sm" id="altar-trust-link">
+        <a href="#vertrauen" data-open-vertrauen>Vertrauen &amp; Ethik</a>
+        <span aria-hidden="true"> · </span>
+        <span class="altar-trust-note">Daten bleiben auf diesem Gerät</span>
+      </p>
 
       <!-- legacy / JS mirrors (hidden) -->
       <div class="altar-messpult cockpit-top messpult-home" id="cockpit-top" hidden aria-hidden="true">
         <p class="approx-note hint-sm cockpit-approx-once soft-honesty" id="astro-approx-note-home">Mond und Stunde sind Fenster zur Praxis (Näherung).</p>
       </div>
 
-      <aside class="first-session-tip first-session-tip-retired" id="first-session-tip" hidden aria-hidden="true">
-        <p class="first-session-tip-text" id="first-session-tip-text">Lust auf ein bisschen Hexerei — ganz ohne Grusel? Ein kurzes Ritual reicht oft. Magie darf freundlich sein.</p>
-        <button type="button" class="ghost tiny" id="first-session-tip-dismiss">Verstanden</button>
+      <aside class="first-session-tip" id="first-session-tip" hidden>
+        <p class="first-session-tip-text" id="first-session-tip-text">Kurzer Tipp: Heute antippen, ein kleines Ritual — danach gern einen Satz ins Magie-Buch. Magie darf freundlich sein.</p>
+        <button type="button" class="ghost tiny" id="first-session-tip-dismiss">Alles klar</button>
       </aside>
 
       <div class="altar-glance altar-bento" id="altar-glance" hidden aria-hidden="true">
@@ -602,7 +608,7 @@
         </div><!-- .mehr-body / #cockpit-flow -->
       </details>
 
-      <p class="footer-ethics">Astronomie = Näherungen zur Praxis · keine Astrologie-Beratung · Voodoo/Santería nur Hauspraxis · <a href="#vertrauen" data-open-vertrauen>Vertrauen</a></p>
+      <p class="footer-ethics">Näherungen zur Praxis · keine Astrologie-Beratung · Voodoo/Santería nur Hauspraxis · <a href="#vertrauen" data-open-vertrauen>Vertrauen &amp; Ethik</a></p>
     </section>
 
     <!-- 2. Kalender -->
@@ -1359,7 +1365,7 @@
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
         <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem">Daten bleiben lokal auf diesem Gerät · App v<span id="settings-app-version">5.30.2</span> · <a href="#vertrauen" data-open-vertrauen>Vertrauen</a></p>
+        <p class="footer-ethics" style="padding-top:1rem">Daten bleiben lokal auf diesem Gerät · App v<span id="settings-app-version">5.31.0</span> · <a href="#vertrauen" data-open-vertrauen>Vertrauen</a></p>
       </div>
     </div>
   </div>
