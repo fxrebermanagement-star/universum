@@ -1647,13 +1647,12 @@
     }
     const artOrb = $('#path-art-orb');
     if (artOrb) artOrb.textContent = sym || '✦';
-    // Path figure — tip + optional user photo (localStorage)
+    // Path figure — Haltungstipp (kein Foto-Upload)
     (function updatePathFigure() {
       const figImg = $('#path-figure-img');
       const figLabel = $('#path-figure-label');
       const figTip = $('#path-figure-tip');
       const figur = $('#cock-path-figur');
-      const resetBtn = $('#path-figure-photo-reset');
       const name = (path && path.name) || 'Pfad';
       const tip = (path && (path.haltung || path.saying || path.teachingTip)) || 'Stille Praxis — neugierig, leicht.';
       if (figLabel) figLabel.textContent = name;
@@ -1663,26 +1662,16 @@
         figur.style.setProperty('--path-accent', (path && path.accent) || '#8b6fd0');
       }
       if (!figImg) return;
-      let src = 'assets/path-figures/' + id + '.png';
-      let hasPhoto = false;
-      try {
-        const override = localStorage.getItem('universum-path-figure-photo-' + id)
-          || localStorage.getItem('universum-path-figure-' + id);
-        if (override && String(override).trim()) {
-          src = String(override).trim();
-          hasPhoto = true;
-        }
-      } catch (_) {}
-      if (resetBtn) resetBtn.hidden = !hasPhoto;
+      const src = 'assets/path-figures/' + id + '.png';
       figImg.dataset.fellBack = '';
       if (figImg.getAttribute('src') !== src) {
         figImg.setAttribute('src', src);
       }
-      figImg.setAttribute('alt', name + (hasPhoto ? ' · dein Foto' : ' · Pfadfigur'));
+      figImg.setAttribute('alt', name + ' · Pfadfigur');
       figImg.onerror = function () {
         if (!figImg.dataset.fellBack) {
           figImg.dataset.fellBack = '1';
-          figImg.src = 'assets/path-figures/' + id + '.png';
+          figImg.src = 'assets/path-figures/' + id + '.svg';
         }
       };
     })();
@@ -8553,51 +8542,6 @@
       });
     }
 
-    // Pfad-Figur: eigenes Foto (lokal, pro Pfad)
-    const pathFile = $('#path-figure-file');
-    if (pathFile && !pathFile.dataset.bound) {
-      pathFile.dataset.bound = '1';
-      pathFile.addEventListener('change', function () {
-        const file = pathFile.files && pathFile.files[0];
-        pathFile.value = '';
-        if (!file) return;
-        if (file.size > 2.5 * 1024 * 1024) {
-          toast('Foto bitte unter ≈2,5 MB', 2800, 'warn');
-          return;
-        }
-        const reader = new FileReader();
-        reader.onload = function () {
-          const dataUrl = String(reader.result || '');
-          if (!dataUrl.startsWith('data:image/')) {
-            toast('Kein Bild erkannt', 2200, 'warn');
-            return;
-          }
-          const pid = (state && state.path) || 'esoterik';
-          try {
-            localStorage.setItem('universum-path-figure-photo-' + pid, dataUrl);
-          } catch (_) {
-            toast('Speicher voll — Foto zu groß?', 2800, 'warn');
-            return;
-          }
-          applyPathTheme();
-          toast('Foto für diesen Pfad gesetzt', 2200);
-        };
-        reader.readAsDataURL(file);
-      });
-    }
-    const pathReset = $('#path-figure-photo-reset');
-    if (pathReset && !pathReset.dataset.bound) {
-      pathReset.dataset.bound = '1';
-      pathReset.addEventListener('click', function () {
-        const pid = (state && state.path) || 'esoterik';
-        try {
-          localStorage.removeItem('universum-path-figure-photo-' + pid);
-          localStorage.removeItem('universum-path-figure-' + pid);
-        } catch (_) {}
-        applyPathTheme();
-        toast('Platzhalter wieder da', 1800);
-      });
-    }
 
     // Briefing share / print / invite
     const brCopy = $('#briefing-copy');

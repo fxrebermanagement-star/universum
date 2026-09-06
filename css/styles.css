@@ -9706,10 +9706,6 @@ body.stille-modus #sec-cockpit #jetzt-card .jetzt-lead {
   cursor: default;
   pointer-events: none;
 }
-.cock-path-figur .path-figure-actions,
-.cock-path-figur .path-figure-photo-btn,
-.cock-path-figur .path-figure-photo-reset {
-  pointer-events: auto;
 }
 .altar-cockpit {
   position: relative;
@@ -9918,7 +9914,7 @@ body.stille-modus #sec-cockpit #jetzt-card .jetzt-lead {
   padding-right: 0;
 }
 
-/* v5.29.0 — Wetter/Banner/Schumann/Figur-Tipp/Foto */
+/* v5.29.1 — ohne Figur-Foto-Upload */
 .cock-sch-readout {
   display: flex;
   align-items: baseline;
@@ -9959,37 +9955,6 @@ body.stille-modus #sec-cockpit #jetzt-card .jetzt-lead {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
-}
-.path-figure-actions {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.25rem;
-  margin-top: 0.2rem;
-}
-.path-figure-photo-btn,
-.path-figure-photo-reset {
-  appearance: none;
-  border: 1px solid rgba(92, 225, 255, 0.35);
-  background: rgba(12, 8, 22, 0.55);
-  color: #efe8ff;
-  border-radius: 999px;
-  padding: 0.18rem 0.45rem;
-  font-size: 0.58rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  cursor: pointer;
-  line-height: 1.2;
-}
-.path-figure-photo-btn:hover,
-.path-figure-photo-reset:hover {
-  border-color: rgba(255, 110, 199, 0.45);
-}
-.path-figure-img[src^="data:"] {
-  border-radius: 18px;
-  object-fit: cover;
-  aspect-ratio: 1;
-  max-height: min(38vh, 12rem);
 }
 
 .day-banner.day-banner-compact {

@@ -430,6 +430,11 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.29.1 — Figur-Foto-Upload entfernt
+
+- Foto-Button an der Pfad-Figur weg (Tipp bleibt)
+- SW `universum-shell-v89`
+
 ## 5.29.0 — Altar Feinschliff (Wetter · Banner · Schumann · Figur)
 
 - Wetter: Cache zuerst, Open-Meteo + wttr.in-Fallback, kein hartes „Offline“ bei bekannten Werten
