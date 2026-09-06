@@ -985,3 +985,11 @@ Sechzehnte Runde — **Kalender nur mein Pfad**: Standardfilter auf pfadrelevant
 ## Craft-Pass (v2.8)
 
 Siebzehnte Runde — **UX Klarheit**: modernes dunkles UI mit mehr Weißraum und weicher Elevation; eindeutige Pfad-Symbole in Chip/Haltung/Rituale/Kalender; Cockpit auf Jetzt + Pfad-Woche verdichtet (Rest unter Mehr); Rituale und Onboarding gestrafft; **Maya-Kalender (Tzolkin/Haab) ganz entfernt**. Kalender pfadfokussiert (v2.7), Live-Schumann/Tomsk und Ethik bleiben. App `2.8.0`, SW-Cache `universum-shell-v20`. Server Port **8765**.
+
+## 5.33.5 — Homescreen-Icons (seit Lampen-Bild)
+
+- PWA-Icons wieder als RGBA, klassische `icon-192/512`-Pfade
+- Eigenes maskable-Icon mit Safe-Zone
+- SVG aus dem Web-Manifest entfernt (nur noch Favicon)
+- `apple-touch-icon` 180×180 für iPhone
+- SW-Cache `universum-shell-v112`

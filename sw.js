@@ -2,9 +2,9 @@
  * UNIVERSUM · Service Worker — offline shell caching
  * Relative URLs so GitHub Pages /universum/ subpath works.
  * Cache-first for app shell; network-first navigations; offline fallback to cockpit.
- * v111: 5.33.4 — install overlay fix (banner outside altar + settings howto)
+ * v112: 5.33.5 — PWA icons RGBA + maskable safe-zone (install since lamp)
  */
-const CACHE = 'universum-shell-v111';
+const CACHE = 'universum-shell-v112';
 const SHELL = [
   './',
   './index.html',
@@ -44,9 +44,13 @@ const SHELL = [
   './assets/feldkarten/21-sternennadel.svg',
   './assets/feldkarten/22-heimkehr.svg',
   './manifest.webmanifest',
-  './icons/app-icon.svg',
+  './icons/icon.svg',
+  './icons/icon-192.png',
+  './icons/icon-512.png',
   './icons/app-icon-192.png',
   './icons/app-icon-512.png',
+  './icons/app-icon-maskable-512.png',
+  './icons/apple-touch-icon.png',
   './assets/path-figures/esoterik.png',
   './assets/path-figures/schamanismus.png',
   './assets/path-figures/nordisch.png',
