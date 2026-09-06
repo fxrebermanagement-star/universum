@@ -1519,8 +1519,10 @@
     }
     const nav = $('#bottom-nav');
     if (nav) {
-      nav.hidden = onAltar;
-      nav.setAttribute('aria-hidden', onAltar ? 'true' : 'false');
+      // v5.31.2 — Bottom-Menü bleibt auch am Altar sichtbar
+      nav.hidden = false;
+      nav.removeAttribute('hidden');
+      nav.setAttribute('aria-hidden', 'false');
     }
     if (!btn) return;
     btn.hidden = onAltar;

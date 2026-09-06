@@ -430,6 +430,12 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.31.2 — Mehr Bereiche weg · Menü unten
+
+- «Mehr Bereiche»-Kacheln entfernt
+- Bottom-Nav auch am Altar sichtbar (Navigation statt Tile-Grid)
+- SW `universum-shell-v98`
+
 ## 5.31.1 — Mehr am Altar: Seite wächst
 
 - «Mehr am Altar» öffnen → Altar-Lock (feste Viewport-Höhe) aus · volle Seite scrollbar

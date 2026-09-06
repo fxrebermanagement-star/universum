@@ -10059,21 +10059,33 @@ body.stille-modus #sec-cockpit #jetzt-card .jetzt-lead {
 body.on-altar .bottom-nav button[data-nav="cockpit"] {
   color: var(--maya, #3ed4c4);
 }
-/* v5.30.2 — Bottom-Nav nur außerhalb Altar · hard hide */
+/* v5.31.2 — Bottom-Nav auch am Altar (statt Mehr Bereiche) */
 body.on-altar .bottom-nav,
 body.on-altar #bottom-nav,
 body.on-altar nav.bottom-nav {
-  display: none !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
-  height: 0 !important;
+  display: flex !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  height: auto !important;
   min-height: 0 !important;
-  overflow: hidden !important;
-  opacity: 0 !important;
+  overflow: visible !important;
+  opacity: 1 !important;
 }
 body.on-altar .app-shell {
-  padding-bottom: calc(0.65rem + var(--safe-bottom));
+  padding-bottom: calc(4.15rem + var(--safe-bottom));
 }
+/* Altar homescreen leaves room for bottom nav */
+#sec-cockpit.altar-sacred.active {
+  height: calc(100dvh - 3.5rem - 4.15rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+  max-height: calc(100dvh - 3.5rem - 4.15rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+}
+#sec-cockpit.altar-sacred.active.altar-mehr-open {
+  height: auto !important;
+  max-height: none !important;
+  min-height: calc(100dvh - 3.5rem - 4.15rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+  padding-bottom: calc(5.2rem + env(safe-area-inset-bottom, 0px)) !important;
+}
+
 body:not(.on-altar) .bottom-nav button[data-nav="cockpit"] {
   color: var(--maya, #3ed4c4);
 }
