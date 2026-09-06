@@ -1035,3 +1035,8 @@ Siebzehnte Runde — **UX Klarheit**: modernes dunkles UI mit mehr Weißraum und
 - Kein Auto-Reload / SW-Update-Loop
 - Ruhige SW-Registrierung
 - Homescreen nur über Chrome ⋮
+
+## 5.33.12 — WebAPK / „vorherige Website“
+
+- Manifest mit absoluter `id` / `start_url` / `scope` unter `/universum/`
+- Hilft gegen hängende Chrome-WebAPK-Updates

@@ -6297,7 +6297,7 @@
       el.textContent = 'iPhone: nur Safari → Teilen → Zum Home-Bildschirm.';
       return;
     }
-    el.textContent = 'Android: Chrome-Menü ⋮ → App installieren / Zum Startbildschirm (In-App-Dialog aus — hat gehängt).';
+    el.textContent = 'Android: Zuerst alte UNIVERSUM-App deinstallieren, dann Chrome ⋮ → App installieren.';
   }
 
   function promptPwaInstall(opts) {
