@@ -1512,6 +1512,9 @@
     const btn = $('#altar-home-btn');
     const onAltar = !id || id === 'cockpit';
     document.body.classList.toggle('on-altar', onAltar);
+    if (id === 'buch') {
+      try { syncBuchBackToAltar(); } catch (_) { /* ignore */ }
+    }
     if (!onAltar) {
       const mehr = document.getElementById('mehr-aus-dem-feld');
       if (mehr && mehr.open) mehr.open = false;
@@ -2844,7 +2847,9 @@
     }
     const copy = mondArbeitCopy(kind);
     mondArbeitRitualId = copy.ritualId;
-    card.hidden = false;
+    // v5.32.0 — slim Mehr: Mond-Arbeit bleibt im DOM, aber unsichtbar
+    card.hidden = true;
+    card.setAttribute('aria-hidden', 'true');
     card.classList.add('show');
     card.classList.toggle('neu', kind === 'new');
     card.classList.toggle('voll', kind === 'full');
@@ -5090,13 +5095,37 @@
    */
 
   /** Prefill Magie-Buch after ritual (eintrag mode, sensible defaults). */
+  const FROM_RITUAL_BUCH_KEY = 'universum-from-ritual-buch';
+
+  function markCameFromRitual() {
+    try { sessionStorage.setItem(FROM_RITUAL_BUCH_KEY, '1'); } catch (_) { /* ignore */ }
+  }
+
+  function clearCameFromRitual() {
+    try { sessionStorage.removeItem(FROM_RITUAL_BUCH_KEY); } catch (_) { /* ignore */ }
+  }
+
+  function cameFromRitual() {
+    try { return sessionStorage.getItem(FROM_RITUAL_BUCH_KEY) === '1'; } catch (_) { return false; }
+  }
+
+  function syncBuchBackToAltar() {
+    const bar = $('#buch-back-to-altar');
+    if (!bar) return;
+    const show = cameFromRitual();
+    bar.hidden = !show;
+    bar.setAttribute('aria-hidden', show ? 'false' : 'true');
+  }
+
   function openBuchAfterRitual(ritual, opts) {
     opts = opts || {};
     const label = (ritual && ritual.name) || opts.label || 'Praxis';
     const jPrompt = (ritual && ritual.journal) || opts.prompt || '';
     const seed = (opts.seed && String(opts.seed).trim()) || '';
     const mode = opts.buchMode === 'notiz' ? 'notiz' : 'eintrag';
+    markCameFromRitual();
     navigate('buch', { force: true, buchMode: mode });
+    setTimeout(syncBuchBackToAltar, 40);
     setTimeout(function () {
       try {
         if (typeof setBuchMode === 'function') setBuchMode(mode);
@@ -5212,9 +5241,11 @@
             buchMode: optsFinish.buchMode || 'eintrag'
           });
         } else {
+          markCameFromRitual();
           navigate('buch', { force: true, buchMode: optsFinish.buchMode || 'eintrag' });
           setTimeout(function () {
             try { if (typeof setBuchMode === 'function') setBuchMode(optsFinish.buchMode || 'eintrag'); } catch (_) {}
+            syncBuchBackToAltar();
           }, 60);
         }
       } else {
@@ -5263,9 +5294,11 @@
         (step.diary
           ? '<button type="button" class="primary" id="rr-close-seed-save">📖 Ins Buch legen</button>' +
             '<button type="button" class="primary ghost-primary" id="rr-close-open-buch">📖 Im Buch weiterschreiben</button>' +
+            '<button type="button" class="ghost" id="rr-close-to-altar">🪔 Zum Altar</button>' +
             '<button type="button" class="ghost" id="rr-done">Kreis schließen</button>'
           : (isLast
-            ? '<button type="button" class="primary" id="rr-done">Kreis schließen</button>'
+            ? '<button type="button" class="primary" id="rr-done">Kreis schließen</button>' +
+              '<button type="button" class="ghost" id="rr-close-to-altar">🪔 Zum Altar</button>'
             : '<button type="button" class="primary" id="rr-close-next">Weiter im Kreis</button>')) +
         '<button type="button" class="ghost" id="rr-close-skip">Schwelle lassen</button></div></div>';
 
@@ -5412,6 +5445,11 @@
           seed: seed,
           buchMode: 'eintrag'
         });
+      });
+      const toAltarBtn = $('#rr-close-to-altar');
+      if (toAltarBtn) toAltarBtn.addEventListener('click', () => {
+        clearCameFromRitual();
+        finishClosing((Paths.closingToast && Paths.closingToast(state.path)) || 'Praxis gesiegelt — zurück am Altar.');
       });
       const skip = $('#rr-close-skip');
       if (skip) skip.addEventListener('click', () => {
@@ -7430,6 +7468,15 @@
     if (settingsOpen) settingsOpen.addEventListener('click', openSettings);
     const settingsFromCockpit = $('#open-settings-from-cockpit');
     if (settingsFromCockpit) settingsFromCockpit.addEventListener('click', openSettings);
+    const buchBackAltar = $('#buch-back-altar-btn');
+    if (buchBackAltar) {
+      buchBackAltar.addEventListener('click', () => {
+        clearCameFromRitual();
+        syncBuchBackToAltar();
+        navigate('cockpit', { force: true });
+      });
+    }
+    syncBuchBackToAltar();
     const settingsClose = $('#settings-close');
     if (settingsClose) settingsClose.addEventListener('click', closeSettings);
 

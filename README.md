@@ -430,6 +430,13 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.32.0 — Slim Dock · dünnes Mehr · Praxis-Loop
+
+- Altar-Dock: nur **Sigille** + **Karten** (Kalender/Kosmos/Rituale/Resonanzen/Buch über Bottom-Nav); Legacy-glance-* Spiegel für JS
+- Mehr am Altar: sichtbar nur Pfad-Woche · Intention · 369 · Empfehlen (+ soft Einstellungen); Rest `hidden` für JS
+- Ritual-Abschluss: «Zum Altar» neben Buch-CTAs; Magie-Buch sticky «Zurück zum Altar» nach Ritual-Seed (Session)
+- SW `universum-shell-v99`
+
 ## 5.31.2 — Mehr Bereiche weg · Menü unten
 
 - «Mehr Bereiche»-Kacheln entfernt

@@ -43,7 +43,7 @@
     <div id="main-content" tabindex="-1">
     <!-- 1. Altar (route id: cockpit) -->
     <section id="sec-cockpit" class="section-view active cockpit-lovely-page altar-sacred" aria-label="Altar">
-      <!-- v5.31.2 Altar — warm · Figur soft neon · 1 Status-Box · Dock · kein Spam-Banner -->
+      <!-- v5.32.0 Altar — warm · Figur soft neon · 1 Status-Box · Dock · kein Spam-Banner -->
       <h1 class="section-title altar-cockpit-heading sr-only"><span class="sec-ico" aria-hidden="true">🪔</span> Altar</h1>
       <span class="section-motif altar-cockpit-motif" aria-hidden="true" hidden></span>
       <p class="section-sub altar-cockpit-sub sr-only">Dein Altar — warm, still, zum Ankommen.</p>
@@ -99,7 +99,7 @@
       <!-- legacy chip kept for JS -->
       <button type="button" class="fest-countdown-chip" id="fest-countdown-chip" hidden aria-live="polite"></button>
 
-      <!-- v5.31.2 Altar — Status · Mond|Sonne · Schumann · Dock · Figur soft oben rechts -->
+      <!-- v5.32.0 Altar — Status · Mond|Sonne · Schumann · Dock · Figur soft oben rechts -->
       <div class="altar-cockpit altar-homescreen" id="altar-cockpit" aria-label="Altar — dein magisches Home">
 
                   <figure class="cock-path-figur cock-path-figur-float cock-path-figur-overlay" id="cock-path-figur" aria-labelledby="path-figure-label">
@@ -209,50 +209,9 @@
           <span class="sr-only" data-sch-honesty></span>
         </article>
 
-        <!-- 4. Apps-Dock: alle 7 wie altes Menü+Werkzeug — Wrap/Grid, kein Side-Scroll -->
+        <!-- 4. Slim Apps-Dock: Schnellzugriff Sigille · Karten (Rest = Bottom-Nav) -->
         <div class="cock-dock-wrap">
-          <nav class="cock-app-dock cock-app-dock-full" aria-label="Altar Apps">
-            <button type="button" class="hs-app" id="glance-kalender-card" aria-label="Kalender">
-              <span class="ico" aria-hidden="true">📅</span>
-              <span class="hs-label">Kalender</span>
-              <span class="sr-only" id="glance-kalender-title">Kalender</span>
-              <span class="chip-quiet sr-only" id="glance-kalender-chip">Fest</span>
-              <span class="glance-lead sr-only" id="glance-kalender-lead">Feste</span>
-              <span class="hint-sm sr-only" id="glance-kalender-meta">öffnen</span>
-            </button>
-            <button type="button" class="hs-app" id="glance-kosmos-card" aria-label="Kosmos">
-              <span class="ico" aria-hidden="true">🪐</span>
-              <span class="hs-label">Kosmos</span>
-              <span class="sr-only" id="glance-kosmos-title">Kosmos</span>
-              <span class="chip-quiet sr-only" id="glance-kosmos-chip">Stunde</span>
-              <span class="glance-lead sr-only" id="glance-kosmos-lead">Stunde · Radar</span>
-              <span class="hint-sm sr-only" id="glance-kosmos-meta">öffnen</span>
-            </button>
-            <button type="button" class="hs-app" id="glance-ritual-card" aria-label="Rituale">
-              <span class="ico" aria-hidden="true">🕯️</span>
-              <span class="hs-label">Rituale</span>
-              <span class="sr-only" id="glance-ritual-title">Rituale</span>
-              <span class="chip-quiet sr-only" id="glance-ritual-chip">—</span>
-              <span class="glance-lead sr-only" id="glance-ritual-lead">Noch still</span>
-              <span class="hint-sm sr-only" id="glance-ritual-meta">öffnen</span>
-            </button>
-            <button type="button" class="hs-app" id="glance-resonanz-card" aria-label="Resonanzen">
-              <span class="ico" aria-hidden="true">🌿</span>
-              <span class="hs-label">Resonanzen</span>
-              <span class="sr-only" id="glance-resonanz-title">Resonanzen</span>
-              <span class="chip-quiet sr-only" id="glance-resonanz-chip">—</span>
-              <span class="glance-lead sr-only" id="glance-resonanz-lead">Heute passt …</span>
-              <span class="hint-sm sr-only" id="glance-resonanz-meta">öffnen</span>
-            </button>
-            <button type="button" class="hs-app" id="glance-buch-card" aria-label="Buch">
-              <span class="ico" aria-hidden="true">📖</span>
-              <span class="hs-label">Buch</span>
-              <span class="sr-only" id="glance-buch-title">Buch</span>
-              <span class="chip-quiet sr-only" id="glance-buch-chip">Buch</span>
-              <span class="glance-buch-thumb sr-only" id="glance-buch-thumb" hidden></span>
-              <span class="glance-lead sr-only" id="glance-buch-lead">Leer</span>
-              <span class="hint-sm sr-only" id="glance-buch-meta">öffnen</span>
-            </button>
+          <nav class="cock-app-dock cock-app-dock-slim" aria-label="Schnellzugriff Sigille · Karten">
             <button type="button" class="hs-app" id="glance-sigil-card" aria-label="Sigille — Rituale Werkzeug">
               <span class="ico" aria-hidden="true">✒️</span>
               <span class="hs-label">Sigille</span>
@@ -262,6 +221,40 @@
               <span class="hs-label">Karten</span>
             </button>
           </nav>
+          <!-- Legacy glance-* mirrors for JS writers (off-homescreen; Bottom-Nav covers these apps) -->
+          <div class="cock-dock-legacy-mirrors sr-only" aria-hidden="true" hidden>
+            <button type="button" class="hs-app" id="glance-kalender-card" tabindex="-1" aria-label="Kalender">
+              <span class="sr-only" id="glance-kalender-title">Kalender</span>
+              <span class="chip-quiet sr-only" id="glance-kalender-chip">Fest</span>
+              <span class="glance-lead sr-only" id="glance-kalender-lead">Feste</span>
+              <span class="hint-sm sr-only" id="glance-kalender-meta">öffnen</span>
+            </button>
+            <button type="button" class="hs-app" id="glance-kosmos-card" tabindex="-1" aria-label="Kosmos">
+              <span class="sr-only" id="glance-kosmos-title">Kosmos</span>
+              <span class="chip-quiet sr-only" id="glance-kosmos-chip">Stunde</span>
+              <span class="glance-lead sr-only" id="glance-kosmos-lead">Stunde · Radar</span>
+              <span class="hint-sm sr-only" id="glance-kosmos-meta">öffnen</span>
+            </button>
+            <button type="button" class="hs-app" id="glance-ritual-card" tabindex="-1" aria-label="Rituale">
+              <span class="sr-only" id="glance-ritual-title">Rituale</span>
+              <span class="chip-quiet sr-only" id="glance-ritual-chip">—</span>
+              <span class="glance-lead sr-only" id="glance-ritual-lead">Noch still</span>
+              <span class="hint-sm sr-only" id="glance-ritual-meta">öffnen</span>
+            </button>
+            <button type="button" class="hs-app" id="glance-resonanz-card" tabindex="-1" aria-label="Resonanzen">
+              <span class="sr-only" id="glance-resonanz-title">Resonanzen</span>
+              <span class="chip-quiet sr-only" id="glance-resonanz-chip">—</span>
+              <span class="glance-lead sr-only" id="glance-resonanz-lead">Heute passt …</span>
+              <span class="hint-sm sr-only" id="glance-resonanz-meta">öffnen</span>
+            </button>
+            <button type="button" class="hs-app" id="glance-buch-card" tabindex="-1" aria-label="Buch">
+              <span class="sr-only" id="glance-buch-title">Buch</span>
+              <span class="chip-quiet sr-only" id="glance-buch-chip">Buch</span>
+              <span class="glance-buch-thumb sr-only" id="glance-buch-thumb" hidden></span>
+              <span class="glance-lead sr-only" id="glance-buch-lead">Leer</span>
+              <span class="hint-sm sr-only" id="glance-buch-meta">öffnen</span>
+            </button>
+          </div>
         </div>
 
         <!-- Legacy / JS mirrors (off homescreen) -->
@@ -371,12 +364,12 @@
       <details class="card mehr-accordion mehr-feld" id="mehr-aus-dem-feld">
         <summary class="mehr-summary">
           Mehr am Altar
-          <span class="mehr-hint">Pfad-Woche · Journal · Intention · Einstellungen</span>
+          <span class="mehr-hint">Pfad-Woche · Intention · 369</span>
           <span class="mehr-offline-chip" id="mehr-offline-chip" aria-live="polite">● Lokal</span>
         </summary>
         <div class="mehr-body" id="cockpit-flow">
 
-      <article class="card path-week-card nested-card" id="path-week-card" aria-labelledby="path-week-title">
+<article class="card path-week-card nested-card" id="path-week-card" aria-labelledby="path-week-title">
         <div class="intention-top">
           <h3 id="path-week-title">Pfad-Woche</h3>
           <span class="chip-quiet" id="path-week-chip">Tag —</span>
@@ -390,93 +383,7 @@
         <p class="meta-line" id="path-week-status" aria-live="polite"></p>
       </article>
 
-      <article class="card ritual-journal-card nested-card" id="ritual-journal-card" aria-labelledby="ritual-journal-title">
-        <div class="intention-top">
-          <h3 id="ritual-journal-title">Ritual-Journal</h3>
-          <span class="chip-quiet">lokal</span>
-        </div>
-        <p class="hint-sm">Kurze Reflexionen nach Ritual-Abschluss — nur auf diesem Gerät.</p>
-        <div id="ritual-journal-list" class="ritual-journal-list" aria-live="polite"></div>
-        <p class="empty-hint" id="ritual-journal-empty">Noch still hier — nach einem Ritual kannst du kurz reflektieren.</p>
-      </article>
-
-      <article class="card briefing-card briefing-card-slim nested-card" id="tagesbriefing" aria-labelledby="briefing-title">
-        <div class="briefing-top">
-          <h3 id="briefing-title">Tagesbild</h3>
-          <span class="briefing-streak" id="briefing-streak" hidden></span>
-        </div>
-        <p class="briefing-lead" id="briefing-lead">Der Tag wird gelesen…</p>
-        <ul class="briefing-meta" id="briefing-meta" aria-label="Tages-Chips"></ul>
-        <p class="briefing-practice" id="briefing-practice" hidden></p>
-        <p class="briefing-path-note" id="briefing-path-note"></p>
-        <div class="briefing-actions briefing-actions-slim" role="group" aria-label="Briefing-Aktionen">
-          <button type="button" class="ghost tiny" id="briefing-share" title="Tagesbriefing teilen">Teilen</button>
-          <button type="button" class="ghost tiny" id="briefing-copy" title="Tagesbriefing als Text kopieren">Text</button>
-          <button type="button" class="ghost tiny" id="briefing-copy-link" title="Teilbaren Briefing-Link kopieren">Link</button>
-          <button type="button" class="ghost tiny" id="briefing-print" title="Druckansicht">Drucken</button>
-          <button type="button" class="ghost tiny" id="briefing-open-kalender">Zum Fest</button>
-          <button type="button" class="primary hidden" id="briefing-start-practice" tabindex="-1" aria-hidden="true">Empfohlene Praxis</button>
-        </div>
-      </article>
-
-      <div class="voc-banner nested-card" id="voc-banner" role="status">
-        <span class="voc-ico">☾</span>
-        <span id="voc-text"></span>
-        <span class="approx-badge voc-approx" title="VoC-Hinweis ist eine JS-Näherung">Näherung</span>
-      </div>
-
-      <article class="card mond-arbeit-card nested-card" id="mond-arbeit" hidden aria-live="polite">
-        <div class="intention-top">
-          <h3 id="mond-arbeit-title">Mond-Arbeit</h3>
-          <span class="chip-quiet" id="mond-arbeit-phase">—</span>
-        </div>
-        <p class="mond-arbeit-lead" id="mond-arbeit-lead"></p>
-        <p class="hint-sm" id="mond-arbeit-practice"></p>
-        <div class="btn-row">
-          <button type="button" class="primary" id="mond-arbeit-start">Praxis starten</button>
-          <button type="button" class="ghost tiny" id="mond-arbeit-diary">Ins Magie-Buch</button>
-        </div>
-      </article>
-
-      <ul class="trust-strip trust-strip-inline nested-card" aria-label="Warum UNIVERSUM">
-        <li><strong>Lokal</strong><span>Daten bei dir</span></li>
-        <li><strong>Ethisch</strong><span>Grenze &amp; Ausgleich</span></li>
-        <li><strong>Pfadstark</strong><span>Haltung statt Show</span></li>
-      </ul>
-
-      <article class="card path-teach-card nested-card" id="path-teach-card" aria-labelledby="path-teach-title">
-        <div class="intention-top">
-          <h3 id="path-teach-title">Pfad-Lehre</h3>
-          <span class="chip-quiet" id="path-teach-chip">Pfad</span>
-        </div>
-        <p class="path-teach-text" id="path-teach-text">…</p>
-        <p class="hint-sm">Ein stiller Lehrsatz für deine Haltung — Praxis vor Spektakel.</p>
-      </article>
-
-      <article class="card path-werkzeug-card nested-card" id="path-werkzeug-card" aria-labelledby="path-werkzeug-title">
-        <div class="intention-top">
-          <h3 id="path-werkzeug-title">Werkzeug-Set</h3>
-          <span class="chip-quiet" id="path-werkzeug-chip">Pfad</span>
-        </div>
-        <p class="hint-sm" id="path-werkzeug-hint">Mini-Modul für deinen Pfad — kein volles Ritual.</p>
-        <div id="path-werkzeug-body" class="path-werkzeug-body"></div>
-      </article>
-
-      <article class="card invite-card nested-card" id="invite-card" aria-labelledby="invite-title">
-        <div class="intention-top">
-          <h3 id="invite-title">Weitergeben</h3>
-          <span class="chip-quiet">ohne Druck</span>
-        </div>
-        <p class="invite-lead">Wenn jemand einen ruhigen Ritualbegleiter sucht: kurze Einladung teilen — lokal, ethisch, ohne Konto.</p>
-        <div class="invite-preview" id="invite-preview" aria-live="polite"></div>
-        <div class="btn-row invite-actions">
-          <button type="button" class="primary" id="invite-copy">Einladung kopieren</button>
-          <button type="button" class="ghost" id="invite-share">Teilen</button>
-        </div>
-        <p class="hint-sm">Link: <code class="invite-url">https://fxrebermanagement-star.github.io/universum/</code></p>
-      </article>
-
-      <article class="card intention-card nested-card" id="intention-card" aria-labelledby="intention-title">
+<article class="card intention-card nested-card" id="intention-card" aria-labelledby="intention-title">
         <div class="intention-top">
           <h3 id="intention-title">Intention des Tages</h3>
           <button type="button" class="ghost tiny" id="intention-clear" aria-label="Intention löschen">Löschen</button>
@@ -495,36 +402,8 @@
         <p class="empty-state compact" id="intention-history-empty" hidden>Noch keine Intentionen diese Woche — ein Satz genügt.</p>
       </article>
 
-      <article class="card quick-praxis-card nested-card" id="quick-praxis-card" aria-labelledby="quick-praxis-title">
-        <div class="intention-top">
-          <h3 id="quick-praxis-title">Schnellzugriff</h3>
-          <span class="chip-quiet">Favoriten · zuletzt</span>
-        </div>
-        <p class="hint-sm">Favoriten und letzte Praxis — ein Tippen startet oder öffnet.</p>
-        <div class="quick-praxis-row" id="quick-praxis-row" role="list"></div>
-        <div class="empty-state convert compact" id="quick-praxis-empty">
-          <strong>Schnellzugriff ist noch leer</strong>
-          <p>Sterne ein Ritual oder halte einmal Praxis — Favoriten und Letzte erscheinen hier.</p>
-          <div class="empty-cta">
-            <button type="button" class="primary" id="empty-goto-rituals">Zu den Ritualen</button>
-          </div>
-        </div>
-      </article>
-
-      <div class="briefing-pin-bar nested-card card" id="briefing-pin-bar">
-        <button type="button" class="ghost tiny" id="briefing-pins-toggle" aria-expanded="false" aria-controls="briefing-pins-panel">Chips wählen</button>
-        <div class="briefing-pins-panel" id="briefing-pins-panel" hidden></div>
-      </div>
-
-      <div class="card nested-card">
-        <h3>Hinweise</h3>
-        <ul class="recs-list" id="dash-recs"></ul>
-        <p class="meta-line" id="dash-next-moon"></p>
-        <p class="astro-doc"><span class="approx-badge">Näherung</span> Mondphase (synodisch), Sonne tropisch, Planetenstunden ab Sonnenzeiten, VoC-Stil — ruhige Praxiswerte, <strong>kein professionelles Ephemeris</strong>.</p>
-      </div>
-
-      <div class="card nested-card">
-        <h3>369-Praxis · heute</h3>
+<div class="card nested-card" id="phrase-369-card" aria-labelledby="phrase-369-heading">
+        <h3 id="phrase-369-heading">369-Praxis · heute</h3>
         <p class="hint">Ethischer Satz · 3 / 6 / 9 — lokal gespeichert</p>
         <div class="form-row">
           <input id="phrase-369" placeholder="z. B. Ich halte klare Grenzen im Alltag" maxlength="120" />
@@ -548,7 +427,155 @@
         </div>
       </div>
 
-      <div class="card nested-card">
+
+<article class="card empfehlen-card empfehlen-card-slim" id="empfehlen-card" aria-labelledby="empfehlen-title">
+        <div class="intention-top">
+          <h3 id="empfehlen-title">Empfehlen</h3>
+          <span class="chip-quiet">lokal</span>
+        </div>
+        <p class="hint-sm" id="empfehlen-lead">Link teilen oder zum Homescreen — Daten bleiben lokal.</p>
+        <p class="hint-sm" id="empfehlen-trust" hidden>Vertrauen: lokal auf diesem Gerät, ohne Konto und ohne Online-Kreis.</p>
+        <p class="hint-sm"><a href="#vertrauen" id="empfehlen-vertrauen-link" data-open-vertrauen>Vertrauen</a></p>
+        <div class="btn-row empfehlen-actions">
+          <button type="button" class="primary tiny" id="empfehlen-share">Teilen</button>
+          <button type="button" class="ghost tiny" id="empfehlen-copy">Link</button>
+          <button type="button" class="ghost tiny" id="empfehlen-install">Homescreen</button>
+        </div>
+        <p class="meta-line" id="empfehlen-status" aria-live="polite"></p>
+      </article>
+
+<p class="mehr-settings-link hint-sm" id="mehr-settings-link">
+        <button type="button" id="open-settings-from-cockpit" class="ghost tiny">⚙ Einstellungen</button>
+        <span class="sr-only" id="loc-summary">Europa/Zürich · 47,37 / 8,54</span>
+      </p>
+      <div class="hidden" aria-hidden="true" id="mehr-settings-inputs">
+        <input id="loc-lat" type="number" step="0.01" value="47.37" />
+        <input id="loc-lon" type="number" step="0.01" value="8.54" />
+        <button type="button" id="loc-save">Am Altar merken</button>
+        <input type="checkbox" id="haptics-toggle" checked />
+        <input type="checkbox" id="schumann-audio" />
+      </div>
+
+
+      <!-- v5.32.0: legacy Mehr blocks hidden for JS writers -->
+<article class="card ritual-journal-card nested-card" id="ritual-journal-card" aria-labelledby="ritual-journal-title" hidden aria-hidden="true">
+        <div class="intention-top">
+          <h3 id="ritual-journal-title">Ritual-Journal</h3>
+          <span class="chip-quiet">lokal</span>
+        </div>
+        <p class="hint-sm">Kurze Reflexionen nach Ritual-Abschluss — nur auf diesem Gerät.</p>
+        <div id="ritual-journal-list" class="ritual-journal-list" aria-live="polite"></div>
+        <p class="empty-hint" id="ritual-journal-empty">Noch still hier — nach einem Ritual kannst du kurz reflektieren.</p>
+      </article>
+
+      <article class="card briefing-card briefing-card-slim nested-card" id="tagesbriefing" aria-labelledby="briefing-title" hidden aria-hidden="true">
+        <div class="briefing-top">
+          <h3 id="briefing-title">Tagesbild</h3>
+          <span class="briefing-streak" id="briefing-streak" hidden></span>
+        </div>
+        <p class="briefing-lead" id="briefing-lead">Der Tag wird gelesen…</p>
+        <ul class="briefing-meta" id="briefing-meta" aria-label="Tages-Chips"></ul>
+        <p class="briefing-practice" id="briefing-practice" hidden></p>
+        <p class="briefing-path-note" id="briefing-path-note"></p>
+        <div class="briefing-actions briefing-actions-slim" role="group" aria-label="Briefing-Aktionen">
+          <button type="button" class="ghost tiny" id="briefing-share" title="Tagesbriefing teilen">Teilen</button>
+          <button type="button" class="ghost tiny" id="briefing-copy" title="Tagesbriefing als Text kopieren">Text</button>
+          <button type="button" class="ghost tiny" id="briefing-copy-link" title="Teilbaren Briefing-Link kopieren">Link</button>
+          <button type="button" class="ghost tiny" id="briefing-print" title="Druckansicht">Drucken</button>
+          <button type="button" class="ghost tiny" id="briefing-open-kalender">Zum Fest</button>
+          <button type="button" class="primary hidden" id="briefing-start-practice" tabindex="-1" aria-hidden="true">Empfohlene Praxis</button>
+        </div>
+      </article>
+
+      <div class="voc-banner nested-card" id="voc-banner" role="status" hidden aria-hidden="true">
+        <span class="voc-ico">☾</span>
+        <span id="voc-text"></span>
+        <span class="approx-badge voc-approx" title="VoC-Hinweis ist eine JS-Näherung">Näherung</span>
+      </div>
+
+      <article class="card mond-arbeit-card nested-card" id="mond-arbeit" hidden aria-live="polite" aria-hidden="true">
+        <div class="intention-top">
+          <h3 id="mond-arbeit-title">Mond-Arbeit</h3>
+          <span class="chip-quiet" id="mond-arbeit-phase">—</span>
+        </div>
+        <p class="mond-arbeit-lead" id="mond-arbeit-lead"></p>
+        <p class="hint-sm" id="mond-arbeit-practice"></p>
+        <div class="btn-row">
+          <button type="button" class="primary" id="mond-arbeit-start">Praxis starten</button>
+          <button type="button" class="ghost tiny" id="mond-arbeit-diary">Ins Magie-Buch</button>
+        </div>
+      </article>
+
+      <ul class="trust-strip trust-strip-inline nested-card" aria-label="Warum UNIVERSUM" hidden aria-hidden="true">
+        <li><strong>Lokal</strong><span>Daten bei dir</span></li>
+        <li><strong>Ethisch</strong><span>Grenze &amp; Ausgleich</span></li>
+        <li><strong>Pfadstark</strong><span>Haltung statt Show</span></li>
+      </ul>
+
+      <article class="card path-teach-card nested-card" id="path-teach-card" aria-labelledby="path-teach-title" hidden aria-hidden="true">
+        <div class="intention-top">
+          <h3 id="path-teach-title">Pfad-Lehre</h3>
+          <span class="chip-quiet" id="path-teach-chip">Pfad</span>
+        </div>
+        <p class="path-teach-text" id="path-teach-text">…</p>
+        <p class="hint-sm">Ein stiller Lehrsatz für deine Haltung — Praxis vor Spektakel.</p>
+      </article>
+
+      <article class="card path-werkzeug-card nested-card" id="path-werkzeug-card" aria-labelledby="path-werkzeug-title" hidden aria-hidden="true">
+        <div class="intention-top">
+          <h3 id="path-werkzeug-title">Werkzeug-Set</h3>
+          <span class="chip-quiet" id="path-werkzeug-chip">Pfad</span>
+        </div>
+        <p class="hint-sm" id="path-werkzeug-hint">Mini-Modul für deinen Pfad — kein volles Ritual.</p>
+        <div id="path-werkzeug-body" class="path-werkzeug-body"></div>
+      </article>
+
+      <article class="card invite-card nested-card" id="invite-card" aria-labelledby="invite-title" hidden aria-hidden="true">
+        <div class="intention-top">
+          <h3 id="invite-title">Weitergeben</h3>
+          <span class="chip-quiet">ohne Druck</span>
+        </div>
+        <p class="invite-lead">Wenn jemand einen ruhigen Ritualbegleiter sucht: kurze Einladung teilen — lokal, ethisch, ohne Konto.</p>
+        <div class="invite-preview" id="invite-preview" aria-live="polite"></div>
+        <div class="btn-row invite-actions">
+          <button type="button" class="primary" id="invite-copy">Einladung kopieren</button>
+          <button type="button" class="ghost" id="invite-share">Teilen</button>
+        </div>
+        <p class="hint-sm">Link: <code class="invite-url">https://fxrebermanagement-star.github.io/universum/</code></p>
+      </article>
+
+      
+
+      <article class="card quick-praxis-card nested-card" id="quick-praxis-card" aria-labelledby="quick-praxis-title" hidden aria-hidden="true">
+        <div class="intention-top">
+          <h3 id="quick-praxis-title">Schnellzugriff</h3>
+          <span class="chip-quiet">Favoriten · zuletzt</span>
+        </div>
+        <p class="hint-sm">Favoriten und letzte Praxis — ein Tippen startet oder öffnet.</p>
+        <div class="quick-praxis-row" id="quick-praxis-row" role="list"></div>
+        <div class="empty-state convert compact" id="quick-praxis-empty">
+          <strong>Schnellzugriff ist noch leer</strong>
+          <p>Sterne ein Ritual oder halte einmal Praxis — Favoriten und Letzte erscheinen hier.</p>
+          <div class="empty-cta">
+            <button type="button" class="primary" id="empty-goto-rituals">Zu den Ritualen</button>
+          </div>
+        </div>
+      </article>
+
+      <div class="briefing-pin-bar nested-card card" id="briefing-pin-bar" hidden aria-hidden="true">
+        <button type="button" class="ghost tiny" id="briefing-pins-toggle" aria-expanded="false" aria-controls="briefing-pins-panel">Chips wählen</button>
+        <div class="briefing-pins-panel" id="briefing-pins-panel" hidden></div>
+      </div>
+
+      <div class="card nested-card" hidden aria-hidden="true">
+        <h3>Hinweise</h3>
+        <ul class="recs-list" id="dash-recs"></ul>
+        <p class="meta-line" id="dash-next-moon"></p>
+        <p class="astro-doc"><span class="approx-badge">Näherung</span> Mondphase (synodisch), Sonne tropisch, Planetenstunden ab Sonnenzeiten, VoC-Stil — ruhige Praxiswerte, <strong>kein professionelles Ephemeris</strong>.</p>
+      </div>
+
+      
+      <div class="card nested-card" hidden aria-hidden="true">
         <h3>Kurz-Check-in (optional)</h3>
         <p class="hint">Wie unruhig fühlst du dich gerade? (fließt in die Unruhe-Anzeige)</p>
         <div class="checkin-row">
@@ -561,44 +588,16 @@
         </div>
       </div>
 
-      <div class="card nested-card tip-card" id="tip-of-day-card">
+      <div class="card nested-card tip-card" id="tip-of-day-card" hidden aria-hidden="true">
         <h3>Tipp des Tages</h3>
         <p id="tip-of-day" class="tip-text">…</p>
       </div>
 
-      <div class="card nested-card">
-        <h3>Standort &amp; Einstellungen</h3>
-        <p class="hint-sm" id="loc-summary">Europa/Zürich · 47,37 / 8,54</p>
-        <p class="hint">Standort, Haptik, Schumann-Audio und Bewegung findest du in den Einstellungen (⚙).</p>
-        <button type="button" id="open-settings-from-cockpit" class="ghost">Einstellungen öffnen</button>
-        <div class="hidden" aria-hidden="true">
-          <input id="loc-lat" type="number" step="0.01" value="47.37" />
-          <input id="loc-lon" type="number" step="0.01" value="8.54" />
-          <button type="button" id="loc-save">Am Altar merken</button>
-          <input type="checkbox" id="haptics-toggle" checked />
-          <input type="checkbox" id="schumann-audio" />
-        </div>
-      </div>
+      
+      
 
-      <article class="card empfehlen-card" id="empfehlen-card" aria-labelledby="empfehlen-title">
-        <div class="intention-top">
-          <h3 id="empfehlen-title">Empfehlen</h3>
-          <span class="chip-quiet">lokal · kein Konto</span>
-        </div>
-        <p class="hint-sm" id="empfehlen-lead">UNIVERSUM bleibt auf dem Gerät. Kein Login, kein Tracking — zum Home-Bildschirm oder Link teilen.</p>
-        <p class="hint-sm" id="empfehlen-trust">Vertrauen: lokal auf diesem Gerät, ohne Konto und ohne Online-Kreis.</p>
-        <p class="hint-sm"><a href="#vertrauen" id="empfehlen-vertrauen-link" data-open-vertrauen>Zur Vertrauensseite</a> · Ethik, Privatsphäre, Maß.</p>
-        <div class="btn-row empfehlen-actions">
-          <button type="button" class="primary tiny" id="empfehlen-share">Teilen</button>
-          <button type="button" class="ghost tiny" id="empfehlen-copy">Link kopieren</button>
-          <button type="button" class="ghost tiny" id="empfehlen-install">Zum Homescreen</button>
-        </div>
-        <p class="meta-line" id="empfehlen-status" aria-live="polite"></p>
-      </article>
-
-      <!-- v5.31.2: Mehr Bereiche entfernt — Navigation über Bottom-Menü -->
-
-        </div><!-- .mehr-body / #cockpit-flow -->
+      <!-- v5.32.0: Slim Mehr · Navigation Bottom-Nav -->
+</div><!-- .mehr-body / #cockpit-flow -->
       </details>
 
       <p class="footer-ethics">Näherungen zur Praxis · keine Astrologie-Beratung · Voodoo/Santería nur Hauspraxis · <a href="#vertrauen" data-open-vertrauen>Vertrauen &amp; Ethik</a></p>
@@ -953,6 +952,9 @@
     <section id="sec-buch" class="section-view">
       <h1 class="section-title"><span class="sec-ico" aria-hidden="true">📖</span> Magie-Buch</h1>
       <span class="section-motif" aria-hidden="true"></span>
+      <div class="buch-back-altar" id="buch-back-to-altar" hidden>
+        <button type="button" class="ghost tiny" id="buch-back-altar-btn" aria-label="Zurück zum Altar">← Zurück zum Altar</button>
+      </div>
       <p class="section-sub">Lokal · Notiz &amp; Eintrag · Fotos bleiben auf dem Gerät · Export</p>
       <div class="toolbar export-pack" role="group" aria-label="Export-Paket">
         <button type="button" class="primary" id="diary-export">Buch JSON</button>
@@ -1358,7 +1360,7 @@
         <button type="button" class="ghost" id="set-reset-onboarding">Onboarding zurücksetzen</button>
         <button type="button" class="ghost" id="set-reset-starter">„Erste Praxis“ erneut anbieten</button>
 
-        <p class="footer-ethics" style="padding-top:1rem">Daten bleiben lokal auf diesem Gerät · App v<span id="settings-app-version">5.31.2</span> · <a href="#vertrauen" data-open-vertrauen>Vertrauen</a></p>
+        <p class="footer-ethics" style="padding-top:1rem">Daten bleiben lokal auf diesem Gerät · App v<span id="settings-app-version">5.32.0</span> · <a href="#vertrauen" data-open-vertrauen>Vertrauen</a></p>
       </div>
     </div>
   </div>
