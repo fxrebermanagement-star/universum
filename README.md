@@ -430,6 +430,11 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.30.1 — Bottom-Menü nur außerhalb Altar
+
+- Unteres Menü am Altar ausgeblendet (Dock reicht)
+- In Kalender/Kosmos/… wieder sichtbar · SW `universum-shell-v94`
+
 ## 5.30.0 — Bottom-Menü zurück · Seiten ohne Altar-Scroll
 
 - Unteres Hauptmenü wieder sichtbar (Altar · Kalender · Kosmos · Rituale · Resonanzen · Buch)

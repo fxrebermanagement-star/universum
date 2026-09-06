@@ -1487,6 +1487,11 @@
     const btn = $('#altar-home-btn');
     const onAltar = !id || id === 'cockpit';
     document.body.classList.toggle('on-altar', onAltar);
+    const nav = $('#bottom-nav');
+    if (nav) {
+      nav.hidden = onAltar;
+      nav.setAttribute('aria-hidden', onAltar ? 'true' : 'false');
+    }
     if (!btn) return;
     btn.hidden = onAltar;
     btn.setAttribute('aria-hidden', onAltar ? 'true' : 'false');
