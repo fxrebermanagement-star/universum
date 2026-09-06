@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140" role="img" aria-label="Nachtwache · Voodoo">
+  <defs>
+    <linearGradient id="bgvoodoo20" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a0c18"/>
+      <stop offset="55%" stop-color="#0e0610"/>
+      <stop offset="100%" stop-color="#060408"/>
+    </linearGradient>
+    <radialGradient id="glowvoodoo20" cx="50%" cy="38%" r="55%">
+      <stop offset="0%" stop-color="#3a2a80" stop-opacity="0.55"/>
+      <stop offset="55%" stop-color="#f0e8f8" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="goldvoodoo20" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f0e8f8"/>
+      <stop offset="100%" stop-color="#c05070"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="140" rx="12" fill="url(#bgvoodoo20)"/>
+  <rect x="3.5" y="3.5" width="113" height="133" rx="6" fill="none" stroke="#e8e0f0" stroke-opacity="0.45" stroke-width="1.3"/>
+  <rect x="7" y="7" width="106" height="126" rx="4" fill="none" stroke="#b84a6a" stroke-opacity="0.4" stroke-width="0.9"/>
+  <path d="M14 10 H30 M90 10 H106 M14 130 H30 M90 130 H106" stroke="#b84a6a" stroke-opacity="0.55" stroke-width="1.2"/>
+  <circle cx="60" cy="58" r="46" fill="url(#glowvoodoo20)"/>
+  <rect x="14" y="20" width="92" height="100" rx="8" fill="#060408" fill-opacity="0.4"/>
+  <path d="M60 88 C52 72 52 58 60 42 C68 58 68 72 60 88 Z" fill="#f0e8f8" stroke="#e05060" stroke-width="1.2"/>
+  <path d="M60 78 C56 70 56 62 60 52 C64 62 64 70 60 78 Z" fill="#fff3c0"/>
+  <g fill="#d06080">
+    <circle cx="28" cy="36" r="1.5"/><circle cx="92" cy="40" r="1.8"/><circle cx="84" cy="28" r="1.2"/>
+    <circle cx="36" cy="28" r="1.4"/><circle cx="96" cy="70" r="1.3"/>
+  </g>
+  <path d="M40 108 H80" stroke="#3a2a80" stroke-width="2"/>
+  <g opacity="0.38" transform="translate(90 14)" fill="none" stroke="#e8e0f0" stroke-width="1.3">
+        <path d="M14 2 V26 M6 8 H22 M6 20 H22 M10 8 V14 H18 V8 M10 20 V14"/>
+        <circle cx="14" cy="14" r="2.2" fill="#d06080" fill-opacity="0.5" stroke="none"/>
+      </g>
+</svg>

@@ -2,9 +2,9 @@
  * UNIVERSUM · Service Worker — offline shell caching
  * Relative URLs so GitHub Pages /universum/ subpath works.
  * Cache-first for app shell; network-first navigations; offline fallback to cockpit.
- * v66: 5.20.2 — Rituale Werkzeug redesign · große Jump-Pills · ohne Schwellen-Notiz
+ * v67: 5.21.0 — Path-specific Feldkarten + Sigille · Pfad/Sigil Jump-Fix
  */
-const CACHE = 'universum-shell-v66';
+const CACHE = 'universum-shell-v67';
 const SHELL = [
   './',
   './index.html',
@@ -19,6 +19,7 @@ const SHELL = [
   './js/cards.js',
   './js/schumann.js',
   './js/app.js',
+  './assets/feldkarten/manifest.json',
   './assets/feldkarten/01-schwelle.svg',
   './assets/feldkarten/02-wurzelband.svg',
   './assets/feldkarten/03-atembruecke.svg',
@@ -78,9 +79,26 @@ function precacheLexikonIcons(cache) {
     .catch(() => null);
 }
 
+function precacheFeldkartenPaths(cache) {
+  return fetch('./assets/feldkarten/manifest.json', { cache: 'reload' })
+    .then((res) => (res && res.ok ? res.json() : null))
+    .then((data) => {
+      const items = data && Array.isArray(data.items) ? data.items : [];
+      return Promise.all(
+        items.map((item) => {
+          const file = item && item.file;
+          if (!file) return null;
+          return cacheUrl(cache, './assets/feldkarten/' + file);
+        })
+      );
+    })
+    .catch(() => null);
+}
+
 function precacheShell(cache) {
   return Promise.all(SHELL.map((url) => cacheUrl(cache, url)))
-    .then(() => precacheLexikonIcons(cache));
+    .then(() => precacheLexikonIcons(cache))
+    .then(() => precacheFeldkartenPaths(cache));
 }
 
 self.addEventListener('install', (event) => {

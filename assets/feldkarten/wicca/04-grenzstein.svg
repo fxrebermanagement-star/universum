@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140" role="img" aria-label="Grenzstein · Wicca">
+  <defs>
+    <linearGradient id="bgwicca4" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#101818"/>
+      <stop offset="55%" stop-color="#0a1010"/>
+      <stop offset="100%" stop-color="#060808"/>
+    </linearGradient>
+    <radialGradient id="glowwicca4" cx="50%" cy="38%" r="55%">
+      <stop offset="0%" stop-color="#5aab7a" stop-opacity="0.55"/>
+      <stop offset="55%" stop-color="#d0e8c0" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="goldwicca4" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#d0e8c0"/>
+      <stop offset="100%" stop-color="#5aab7a"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="140" rx="12" fill="url(#bgwicca4)"/>
+  <rect x="3.5" y="3.5" width="113" height="133" rx="16" fill="none" stroke="#a8d0b8" stroke-opacity="0.48" stroke-width="1.4"/>
+  <rect x="8" y="8" width="104" height="124" rx="12" fill="none" stroke="#7a88c0" stroke-opacity="0.32" stroke-width="0.85"/>
+  <circle cx="60" cy="58" r="46" fill="url(#glowwicca4)"/>
+  <path d="M44 112 L48 40 Q60 28 72 40 L76 112 Z" fill="#1e1830" stroke="url(#goldwicca4)" stroke-width="2.4"/>
+  <path d="M52 70 H68 M60 58 V88" stroke="#90b8e0" stroke-width="2"/>
+  <circle cx="60" cy="48" r="5" fill="#d0e8c0"/>
+  <path d="M28 112 H92" stroke="#5aab7a" stroke-width="2.5"/>
+  <path d="M34 100 H86" stroke="#5aab7a" stroke-width="1.2" opacity="0.5"/>
+  <path d="M20 55 L28 55 M92 55 L100 55" stroke="#d0e8c0" stroke-width="2" stroke-linecap="round"/>
+  <g opacity="0.4" transform="translate(92 14)">
+        <path d="M18 8 A9 9 0 1 0 18 22 A7 7 0 1 1 18 8Z" fill="none" stroke="#a8d0b8" stroke-width="1.5"/>
+        <circle cx="8" cy="6" r="1.2" fill="#90b8e0"/>
+        <circle cx="22" cy="18" r="0.9" fill="#90b8e0"/>
+      </g>
+</svg>

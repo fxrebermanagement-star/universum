@@ -8536,3 +8536,88 @@ body.quiet-mode .first-session-tip { display: none !important; }
   font-size: 0.78rem;
   line-height: 1.35;
 }
+
+
+/* ——— v5.21 path-specific Feldkarten / Sigil ——— */
+.ritual-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin: 0.35rem 0 0.55rem;
+}
+.ritual-section-head .ritual-section-label {
+  margin: 0;
+}
+.ritual-section-head .chip-quiet {
+  flex-shrink: 0;
+}
+#werkzeug-path.werkzeug-block {
+  scroll-margin-top: 4.5rem;
+}
+#werkzeug-sigil.werkzeug-block,
+#werkzeug-karten.werkzeug-block,
+#werkzeug-grenze {
+  scroll-margin-top: 4.5rem;
+}
+.sigil-presets {
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--path-accent, var(--gold)) 18%, transparent);
+}
+.sigil-presets-label {
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.72;
+  margin: 0 0 0.45rem;
+}
+.sigil-presets-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.45rem;
+}
+.sigil-preset-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.35rem;
+  border-radius: 10px;
+  background: rgba(12, 8, 20, 0.45);
+  border: 1px solid color-mix(in srgb, var(--path-accent, var(--gold)) 28%, transparent);
+  color: inherit;
+  cursor: pointer;
+}
+.sigil-preset-item:hover,
+.sigil-preset-item:focus-visible {
+  border-color: color-mix(in srgb, var(--path-accent, var(--gold)) 55%, transparent);
+  outline: none;
+}
+.sigil-preset-canvas {
+  width: 72px;
+  height: 72px;
+  border-radius: 8px;
+  display: block;
+}
+.sigil-preset-meta {
+  font-size: 0.72rem;
+  opacity: 0.8;
+}
+.sigil-gal-user {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 0.55rem;
+}
+.feldkarte[data-path] {
+  border-color: color-mix(in srgb, var(--accent, var(--gold)) 22%, transparent);
+}
+
+.wz-jump-flash {
+  animation: wzJumpFlash 0.85s ease;
+}
+@keyframes wzJumpFlash {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--path-accent, var(--gold)) 0%, transparent); }
+  35% { box-shadow: 0 0 0 3px color-mix(in srgb, var(--path-accent, var(--gold)) 45%, transparent); }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}

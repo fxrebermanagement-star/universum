@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140" role="img" aria-label="Schwelle · Esoterik">
+  <defs>
+    <linearGradient id="bgesoterik1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1c1430"/>
+      <stop offset="55%" stop-color="#100c1c"/>
+      <stop offset="100%" stop-color="#080610"/>
+    </linearGradient>
+    <radialGradient id="glowesoterik1" cx="50%" cy="38%" r="55%">
+      <stop offset="0%" stop-color="#8b6fd0" stop-opacity="0.55"/>
+      <stop offset="55%" stop-color="#e8c547" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="goldesoterik1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e8c547"/>
+      <stop offset="100%" stop-color="#c9a030"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="140" rx="12" fill="url(#bgesoterik1)"/>
+  <rect x="3.5" y="3.5" width="113" height="133" rx="10" fill="none" stroke="#c4b0e8" stroke-opacity="0.45" stroke-width="1.4"/>
+  <rect x="7" y="7" width="106" height="126" rx="8" fill="none" stroke="#8b6fd0" stroke-opacity="0.35" stroke-width="0.9"/>
+  <circle cx="60" cy="58" r="46" fill="url(#glowesoterik1)"/>
+  <path d="M26 118 V38 Q26 22 44 22 H76 Q94 22 94 38 V118" fill="none" stroke="url(#goldesoterik1)" stroke-width="2.6"/>
+  <path d="M38 118 V48 Q38 36 50 36 H70 Q82 36 82 48 V118" fill="#1a1830" fill-opacity="0.55" stroke="#3ed4c4" stroke-width="1.8"/>
+  <ellipse cx="60" cy="72" rx="10" ry="22" fill="#e8c547" fill-opacity="0.35"/>
+  <circle cx="74" cy="74" r="2.8" fill="#e8c547"/>
+  <path d="M18 118 H102" stroke="#8b6fd0" stroke-width="2" opacity="0.85"/>
+  <path d="M48 28 L60 14 L72 28" fill="none" stroke="#3ed4c4" stroke-width="1.5"/>
+  <g opacity="0.38" transform="translate(92 14)" fill="none" stroke="#c4b0e8" stroke-width="1.4">
+        <path d="M14 4 L16.2 11 L24 11.5 L18 16 L19.8 24 L14 19.5 L8.2 24 L10 16 L4 11.5 L11.8 11 Z"/>
+      </g>
+</svg>

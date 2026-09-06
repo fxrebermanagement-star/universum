@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140" role="img" aria-label="Ahnenruf · Voodoo">
+  <defs>
+    <linearGradient id="bgvoodoo11" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a0c18"/>
+      <stop offset="55%" stop-color="#0e0610"/>
+      <stop offset="100%" stop-color="#060408"/>
+    </linearGradient>
+    <radialGradient id="glowvoodoo11" cx="50%" cy="38%" r="55%">
+      <stop offset="0%" stop-color="#3a2a80" stop-opacity="0.55"/>
+      <stop offset="55%" stop-color="#f0e8f8" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="goldvoodoo11" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f0e8f8"/>
+      <stop offset="100%" stop-color="#c05070"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="140" rx="12" fill="url(#bgvoodoo11)"/>
+  <rect x="3.5" y="3.5" width="113" height="133" rx="6" fill="none" stroke="#e8e0f0" stroke-opacity="0.45" stroke-width="1.3"/>
+  <rect x="7" y="7" width="106" height="126" rx="4" fill="none" stroke="#b84a6a" stroke-opacity="0.4" stroke-width="0.9"/>
+  <path d="M14 10 H30 M90 10 H106 M14 130 H30 M90 130 H106" stroke="#b84a6a" stroke-opacity="0.55" stroke-width="1.2"/>
+  <circle cx="60" cy="58" r="46" fill="url(#glowvoodoo11)"/>
+  <path d="M36 100 V62 Q36 48 48 48 H52 V100" fill="#1a1430" stroke="#3a2a80" stroke-width="1.6"/>
+  <path d="M52 100 V48 Q52 32 60 32 Q68 32 68 48 V100" fill="#221a36" stroke="url(#goldvoodoo11)" stroke-width="2"/>
+  <path d="M68 100 V62 Q68 48 80 48 H84 V100" fill="#1a1430" stroke="#d06080" stroke-width="1.6"/>
+  <circle cx="60" cy="24" r="4" fill="#f0e8f8"/>
+  <path d="M40 40 L48 28 M80 40 L72 28" stroke="#f0e8f8" stroke-width="1.5" opacity="0.7"/>
+  <path d="M28 108 H92" stroke="#3a2a80" stroke-width="2"/>
+  <g opacity="0.38" transform="translate(90 14)" fill="none" stroke="#e8e0f0" stroke-width="1.3">
+        <path d="M14 2 V26 M6 8 H22 M6 20 H22 M10 8 V14 H18 V8 M10 20 V14"/>
+        <circle cx="14" cy="14" r="2.2" fill="#d06080" fill-opacity="0.5" stroke="none"/>
+      </g>
+</svg>

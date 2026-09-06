@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140" role="img" aria-label="Kreisziehen · Esoterik">
+  <defs>
+    <linearGradient id="bgesoterik13" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1c1430"/>
+      <stop offset="55%" stop-color="#100c1c"/>
+      <stop offset="100%" stop-color="#080610"/>
+    </linearGradient>
+    <radialGradient id="glowesoterik13" cx="50%" cy="38%" r="55%">
+      <stop offset="0%" stop-color="#8b6fd0" stop-opacity="0.55"/>
+      <stop offset="55%" stop-color="#e8c547" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="goldesoterik13" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e8c547"/>
+      <stop offset="100%" stop-color="#c9a030"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="140" rx="12" fill="url(#bgesoterik13)"/>
+  <rect x="3.5" y="3.5" width="113" height="133" rx="10" fill="none" stroke="#c4b0e8" stroke-opacity="0.45" stroke-width="1.4"/>
+  <rect x="7" y="7" width="106" height="126" rx="8" fill="none" stroke="#8b6fd0" stroke-opacity="0.35" stroke-width="0.9"/>
+  <circle cx="60" cy="58" r="46" fill="url(#glowesoterik13)"/>
+  <circle cx="60" cy="64" r="36" fill="none" stroke="url(#goldesoterik13)" stroke-width="2.6"/>
+  <circle cx="60" cy="64" r="26" fill="none" stroke="#3ed4c4" stroke-width="1.6" stroke-dasharray="4 3"/>
+  <circle cx="60" cy="64" r="8" fill="#8b6fd0" fill-opacity="0.5" stroke="#e8c547" stroke-width="1.8"/>
+  <g fill="#e8c547">
+    <circle cx="60" cy="28" r="2.5"/><circle cx="60" cy="100" r="2.5"/>
+    <circle cx="24" cy="64" r="2.5"/><circle cx="96" cy="64" r="2.5"/>
+  </g>
+  <path d="M48 52 L60 70 L78 44" fill="none" stroke="#3ed4c4" stroke-width="1.8" opacity="0.6"/>
+  <g opacity="0.38" transform="translate(92 14)" fill="none" stroke="#c4b0e8" stroke-width="1.4">
+        <path d="M14 4 L16.2 11 L24 11.5 L18 16 L19.8 24 L14 19.5 L8.2 24 L10 16 L4 11.5 L11.8 11 Z"/>
+      </g>
+</svg>

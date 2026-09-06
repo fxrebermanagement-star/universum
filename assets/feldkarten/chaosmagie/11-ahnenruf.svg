@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140" role="img" aria-label="Ahnenruf · Chaosmagie">
+  <defs>
+    <linearGradient id="bgchaosmagie11" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#100818"/>
+      <stop offset="55%" stop-color="#080410"/>
+      <stop offset="100%" stop-color="#040208"/>
+    </linearGradient>
+    <radialGradient id="glowchaosmagie11" cx="50%" cy="38%" r="55%">
+      <stop offset="0%" stop-color="#c45ec8" stop-opacity="0.55"/>
+      <stop offset="55%" stop-color="#ff60e8" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="goldchaosmagie11" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ff60e8"/>
+      <stop offset="100%" stop-color="#c45ec8"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="140" rx="12" fill="url(#bgchaosmagie11)"/>
+  <rect x="3" y="3" width="114" height="134" rx="8" fill="none" stroke="#e060f0" stroke-opacity="0.65" stroke-width="1.8"/>
+  <rect x="7" y="7" width="106" height="126" rx="5" fill="none" stroke="#40e0ff" stroke-opacity="0.45" stroke-width="1"/>
+  <rect x="11" y="11" width="98" height="118" rx="3" fill="none" stroke="#e060f0" stroke-opacity="0.2" stroke-width="0.6"/>
+  <circle cx="60" cy="58" r="46" fill="url(#glowchaosmagie11)"/>
+  <path d="M36 100 V62 Q36 48 48 48 H52 V100" fill="#1a1430" stroke="#c45ec8" stroke-width="1.6"/>
+  <path d="M52 100 V48 Q52 32 60 32 Q68 32 68 48 V100" fill="#221a36" stroke="url(#goldchaosmagie11)" stroke-width="2"/>
+  <path d="M68 100 V62 Q68 48 80 48 H84 V100" fill="#1a1430" stroke="#40e8ff" stroke-width="1.6"/>
+  <circle cx="60" cy="24" r="4" fill="#ff60e8"/>
+  <path d="M40 40 L48 28 M80 40 L72 28" stroke="#ff60e8" stroke-width="1.5" opacity="0.7"/>
+  <path d="M28 108 H92" stroke="#c45ec8" stroke-width="2"/>
+  <g opacity="0.42" transform="translate(90 14)" fill="none" stroke="#e060f0" stroke-width="1.4">
+        <path d="M14 2 L16 12 L26 14 L16 16 L14 26 L12 16 L2 14 L12 12 Z"/>
+        <circle cx="14" cy="14" r="3" stroke="#40e8ff"/>
+      </g>
+</svg>

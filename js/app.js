@@ -697,7 +697,7 @@
         result.hidden = false;
         const full = resolveCardArt(card);
         result.innerHTML =
-          (Cards.artImgHtml ? Cards.artImgHtml(full, 'fk-art fk-art-daily') : '') +
+          (Cards.artImgHtml ? Cards.artImgHtml(full, 'fk-art fk-art-daily', state.path) : '') +
           '<div class="fk-num">Feld ' + full.n + ' · heute</div>' +
           '<div class="fk-name">' + escapeHtml(full.name || '') + '</div>' +
           '<div class="fk-theme">' + escapeHtml(full.theme || '') + '</div>' +
@@ -718,7 +718,7 @@
       renderDailyCardPanel();
       return;
     }
-    const card = Cards.drawOne();
+    const card = Cards.drawOne(null, state.path);
     if (!card) return;
     Store.setDailyCard(card);
     if (!afterPersist(null, { checkBackup: false })) {
@@ -1518,6 +1518,7 @@
     const root = document.documentElement;
     if (path && path.accent) {
       root.style.setProperty('--accent', path.accent);
+      root.style.setProperty('--path-accent', path.accent);
       if (path.accentDeep) root.style.setProperty('--accent-deep', path.accentDeep);
       if (path.accentSoft) root.style.setProperty('--accent-soft', path.accentSoft);
     }
@@ -1536,6 +1537,16 @@
         '<span class="path-chip-name">' + escapeHtml(path.name) + '</span>';
       chip.setAttribute('aria-label', 'Pfad: ' + path.name);
     }
+    const pathChipHtml = path
+      ? ('<span class="path-sym" aria-hidden="true">' + escapeHtml(pathSymbol(path)) + '</span> ' + escapeHtml(path.name))
+      : 'Pfad';
+    ['#karten-path-chip', '#sigil-path-chip'].forEach(function (sel) {
+      const el = $(sel);
+      if (el) {
+        el.innerHTML = pathChipHtml;
+        el.setAttribute('aria-label', 'Angepasst an Pfad: ' + ((path && path.name) || 'Pfad'));
+      }
+    });
   }
 
 
@@ -2635,8 +2646,9 @@
         action: 'custom:' + r.id
       });
     });
-    if (Cards && Cards.FELDKARTEN) {
-      Cards.FELDKARTEN.forEach(c => {
+    const searchDeck = (Cards && Cards.deckFor) ? Cards.deckFor(state.path) : (Cards && Cards.FELDKARTEN);
+    if (searchDeck) {
+      searchDeck.forEach(c => {
         items.push({
           kind: 'card',
           id: String(c.n),
@@ -2761,7 +2773,7 @@
     }
     if (kind === 'card') {
       openRitualTab('karten', { scroll: 'werkzeug-karten' });
-      const card = (Cards.FELDKARTEN || []).find(c => String(c.n) === String(id));
+      const card = ((Cards.deckFor && Cards.deckFor(state.path)) || Cards.FELDKARTEN || []).find(c => String(c.n) === String(id));
       if (card) {
         toast(card.name + ' · ' + (card.theme || 'Feldkarte'), 3600);
         const gridCard = document.querySelector('.feldkarte[data-card="' + card.n + '"]');
@@ -4885,6 +4897,17 @@
     return m + ':' + String(r).padStart(2, '0');
   }
 
+
+  function currentSigilOpts(extra) {
+    const o = Object.assign({ pathId: state.path || 'esoterik' }, extra || {});
+    return o;
+  }
+
+  function paintSigil(canvas, letters, extra) {
+    if (!canvas || !Sigil || !Sigil.drawSigil) return;
+    Sigil.drawSigil(canvas, letters, currentSigilOpts(extra));
+  }
+
   /* ——— Sigil ——— */
   function runSigil() {
     const intention = $('#sigil-input').value;
@@ -4907,7 +4930,7 @@
     lastSigilOk = true;
     $('#sigil-reduced').textContent = 'Reduktion: ' + letters;
     const canvas = $('#sigil-canvas');
-    Sigil.drawSigil(canvas, letters, { glow: false });
+    paintSigil(canvas, letters, { glow: false });
     $('#sigil-charge').classList.remove('hidden');
     $('#sigil-forget').classList.add('hidden');
     Rituals.vibrate(25);
@@ -4919,11 +4942,11 @@
     let n = 0;
     $('#sigil-charge').disabled = true;
     const iv = setInterval(() => {
-      Sigil.drawSigil(canvas, letters, { glow: true, charge: n });
+      paintSigil(canvas, letters, { glow: true, charge: n });
       n++;
       if (n > 10) {
         clearInterval(iv);
-        Sigil.drawSigil(canvas, letters, { glow: true, charge: 3 });
+        paintSigil(canvas, letters, { glow: true, charge: 3 });
         $('#sigil-charge').classList.add('hidden');
         $('#sigil-charge').disabled = false;
         $('#sigil-forget').classList.remove('hidden');
@@ -4984,7 +5007,7 @@
     lastSigilOk = false; // review-only — no re-save of forgotten intention
     lastSigilReview = true;
     const canvas = $('#sigil-canvas');
-    if (canvas) Sigil.drawSigil(canvas, item.letters, { glow: false });
+    if (canvas) paintSigil(canvas, item.letters, { glow: false });
     const reduced = $('#sigil-reduced');
     if (reduced) reduced.textContent = 'Ansicht · Reduktion: ' + item.letters + ' · #' + (item.hash || '····');
     // Do not restore intention plaintext (never stored)
@@ -5016,10 +5039,10 @@
     toast('Stiller Atem (Lesen)');
     Rituals.vibrate(15);
     function tick() {
-      Sigil.drawSigil(canvas, letters, { glow: true, charge: Math.min(3, n / 3) });
+      paintSigil(canvas, letters, { glow: true, charge: Math.min(3, n / 3) });
       n++;
       if (n > 8) {
-        Sigil.drawSigil(canvas, letters, { glow: true, charge: 2 });
+        paintSigil(canvas, letters, { glow: true, charge: 2 });
         if (label) label.textContent = 'Atem gehalten · Glyph bleibt Ansicht';
         breathSoloReviewTimer = null;
         return;
@@ -5035,35 +5058,80 @@
     const bar = $('#sigil-review-bar');
     if (bar) bar.hidden = true;
     const canvas = $('#sigil-canvas');
-    if (canvas && lastSigilLetters) Sigil.drawSigil(canvas, lastSigilLetters, { glow: false });
+    if (canvas && lastSigilLetters) paintSigil(canvas, lastSigilLetters, { glow: false });
   }
 
   function renderSigilGallery() {
     const host = $('#sigil-gallery');
     const empty = $('#sigil-gallery-empty');
     if (!host) return;
+    const pathId = state.path || 'esoterik';
+    const path = currentPath();
+    const presets = (Sigil.getPresets ? Sigil.getPresets(pathId) : []) || [];
     const list = Store.getSigilGallery();
-    if (!list.length) {
-      host.innerHTML = '';
-      if (empty) empty.hidden = false;
-      return;
+    let html = '';
+    if (presets.length) {
+      html += '<div class="sigil-presets" aria-label="Pfad-Beispiele">' +
+        '<p class="sigil-presets-label">Beispiele · ' + escapeHtml((path && path.name) || 'Pfad') + '</p>' +
+        '<div class="sigil-presets-row">';
+      presets.forEach(function (pr, i) {
+        html += '<button type="button" class="sigil-preset-item" data-preset-sigil="' + i + '" title="' + escapeHtml(pr.label || pr.letters) + '">' +
+          '<canvas class="sigil-preset-canvas" width="96" height="96" data-preset-letters="' + escapeHtml(pr.letters) + '" aria-hidden="true"></canvas>' +
+          '<span class="sigil-preset-meta">' + escapeHtml(pr.label || pr.letters) + '</span></button>';
+      });
+      html += '</div></div>';
     }
-    if (empty) empty.hidden = true;
-    host.innerHTML = list.map(item => {
-      const img = item.dataURL
-        ? '<img src="' + item.dataURL + '" alt="Sigil ' + escapeHtml(item.letters || '') + '" />'
-        : '<div class="sigil-gal-meta" style="min-height:90px;display:grid;place-items:center;font-family:var(--font-title)">' +
-          escapeHtml(item.letters || '·') + '</div>';
-      const when = item.at ? new Date(item.at).toLocaleString('de-CH', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : '';
-      return '<div class="sigil-gal-item" data-sigil-id="' + escapeHtml(item.id) + '">' + img +
-        '<div class="sigil-gal-meta">#' + escapeHtml(item.hash || '····') +
-        (item.letters ? ' · ' + escapeHtml(item.letters) : '') +
-        (when ? '<br />' + escapeHtml(when) : '') + '</div>' +
-        '<div class="sigil-gal-actions">' +
-        '<button type="button" class="ghost tiny" data-view-sigil="' + escapeHtml(item.id) + '">Ansehen</button>' +
-        '<button type="button" class="ghost tiny forget-sigil" data-forget-sigil="' + escapeHtml(item.id) + '">Vergessen</button>' +
-        '</div></div>';
-    }).join('');
+    if (list.length) {
+      if (empty) empty.hidden = true;
+      html += '<div class="sigil-gal-user" aria-label="Dein Buch">';
+      html += list.map(item => {
+        const img = item.dataURL
+          ? '<img src="' + item.dataURL + '" alt="Sigil ' + escapeHtml(item.letters || '') + '" />'
+          : '<div class="sigil-gal-meta" style="min-height:90px;display:grid;place-items:center;font-family:var(--font-title)">' +
+            escapeHtml(item.letters || '·') + '</div>';
+        const when = item.at ? new Date(item.at).toLocaleString('de-CH', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : '';
+        return '<div class="sigil-gal-item" data-sigil-id="' + escapeHtml(item.id) + '">' + img +
+          '<div class="sigil-gal-meta">#' + escapeHtml(item.hash || '····') +
+          (item.letters ? ' · ' + escapeHtml(item.letters) : '') +
+          (when ? '<br />' + escapeHtml(when) : '') + '</div>' +
+          '<div class="sigil-gal-actions">' +
+          '<button type="button" class="ghost tiny" data-view-sigil="' + escapeHtml(item.id) + '">Ansehen</button>' +
+          '<button type="button" class="ghost tiny forget-sigil" data-forget-sigil="' + escapeHtml(item.id) + '">Vergessen</button>' +
+          '</div></div>';
+      }).join('');
+      html += '</div>';
+    } else {
+      if (empty) {
+        empty.hidden = false;
+        empty.textContent = 'Noch keine eigenen Glyphs — Beispiele oben zeigen den Ton deines Pfads.';
+      }
+    }
+    host.innerHTML = html;
+    // Paint preset canvases
+    $$('#sigil-gallery .sigil-preset-canvas').forEach(function (cv) {
+      const letters = cv.getAttribute('data-preset-letters') || '';
+      if (Sigil.drawPresetThumb) Sigil.drawPresetThumb(cv, letters, pathId);
+      else paintSigil(cv, letters, { glow: false });
+    });
+    $$('#sigil-gallery [data-preset-sigil]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const i = Number(btn.dataset.presetSigil);
+        const pr = presets[i];
+        if (!pr) return;
+        lastSigilLetters = pr.letters;
+        lastSigilOk = true;
+        const reduced = $('#sigil-reduced');
+        if (reduced) reduced.textContent = 'Beispiel: ' + pr.letters + (pr.label ? ' · ' + pr.label : '');
+        const canvas = $('#sigil-canvas');
+        paintSigil(canvas, pr.letters, { glow: false });
+        const charge = $('#sigil-charge');
+        if (charge) charge.classList.remove('hidden');
+        const forget = $('#sigil-forget');
+        if (forget) forget.classList.add('hidden');
+        toast('Beispiel geladen · ' + ((path && path.name) || 'Pfad'));
+        try { canvas && canvas.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (_) {}
+      });
+    });
     $$('#sigil-gallery [data-forget-sigil]').forEach(btn => {
       btn.addEventListener('click', () => {
         Store.removeSigilGalleryEntry(btn.dataset.forgetSigil);
@@ -5166,16 +5234,18 @@
   function renderFeldkarten() {
     const grid = $('#feldkarten-grid');
     if (!grid) return;
-    grid.innerHTML = Cards.FELDKARTEN.map(c =>
-      '<button type="button" class="feldkarte" data-card="' + c.n + '">' +
-      (Cards.artImgHtml ? Cards.artImgHtml(c, 'fk-art fk-art-grid') : '') +
+    const pathId = state.path || 'esoterik';
+    const deck = (Cards.deckFor ? Cards.deckFor(pathId) : Cards.FELDKARTEN) || [];
+    grid.innerHTML = deck.map(c =>
+      '<button type="button" class="feldkarte" data-card="' + c.n + '" data-path="' + escapeHtml(pathId) + '">' +
+      (Cards.artImgHtml ? Cards.artImgHtml(c, 'fk-art fk-art-grid', pathId) : '') +
       '<div class="fk-num">Feld ' + c.n + '</div>' +
       '<div class="fk-name">' + escapeHtml(c.name) + '</div>' +
       '<div class="fk-theme">' + escapeHtml(c.theme) + '</div></button>'
     ).join('');
     $$('.feldkarte').forEach(btn => {
       btn.addEventListener('click', () => {
-        const card = Cards.getCard(Number(btn.dataset.card));
+        const card = Cards.getCard(Number(btn.dataset.card), pathId);
         if (!card) return;
         revealCards([card], 'peek');
       });
@@ -5183,6 +5253,7 @@
     renderDrawHistory();
     renderDailyCardPanel();
   }
+  function renderFeldkartenGrid() { renderFeldkarten(); }
 
   function renderDrawHistory() {
     const host = $('#draw-history');
@@ -5209,13 +5280,13 @@
         const h = Store.getCardDrawHistory(24).find(x => x.id === btn.dataset.hist);
         if (!h || !h.cards || !h.cards.length) return;
         if (h.kind === 'three' && h.cards.length >= 3) {
-          const enriched = h.cards.map((c, i) => Object.assign({}, Cards.getCard(c.n) || c, {
+          const enriched = h.cards.map((c, i) => Object.assign({}, Cards.getCard(c.n, state.path) || c, {
             position: Cards.SPREAD_THREE[i]
           }));
           showSpread(enriched, true);
           $('#drawn-result').textContent = 'Aus Verlauf: ' + enriched.map(c => c.position.label + ' → ' + c.name).join(' · ');
         } else {
-          const card = Cards.getCard(h.cards[0].n) || h.cards[0];
+          const card = Cards.getCard(h.cards[0].n, state.path) || h.cards[0];
           playDrawReveal([card], true);
           $('#drawn-result').textContent = 'Aus Verlauf: ' + card.name + ' — ' + (card.theme || '');
         }
@@ -5224,15 +5295,16 @@
   }
 
   function resolveCardArt(card) {
-    const full = Cards.getCard(card && card.n) || card || {};
-    return Object.assign({}, full, card || {});
+    const pathId = state.path || (card && card.pathId) || 'esoterik';
+    const full = Cards.getCard(card && card.n, pathId) || card || {};
+    return Object.assign({}, full, card || {}, { pathId: pathId, art: full.art || (card && card.art) });
   }
 
   function cardFaceHtml(card, posLabel) {
     const c = resolveCardArt(card);
     return '<div class="draw-card-face">' +
       (posLabel ? '<div class="sp-pos">' + escapeHtml(posLabel) + '</div>' : '') +
-      (Cards.artImgHtml ? Cards.artImgHtml(c, 'fk-art fk-art-face') : '') +
+      (Cards.artImgHtml ? Cards.artImgHtml(c, 'fk-art fk-art-face', c.pathId || state.path) : '') +
       '<div class="fk-num">Feld ' + c.n + '</div>' +
       '<div class="fk-name">' + escapeHtml(c.name) + '</div>' +
       '<div class="fk-theme">' + escapeHtml(c.theme || '') + '</div>' +
@@ -5332,7 +5404,7 @@
       const full = resolveCardArt(c);
       return '<div class="spread-card" style="animation-delay:' + (idx * 0.12) + 's">' +
       '<div class="sp-pos">' + escapeHtml(c.position.label) + '</div>' +
-      (Cards.artImgHtml ? Cards.artImgHtml(full, 'fk-art fk-art-spread') : '') +
+      (Cards.artImgHtml ? Cards.artImgHtml(full, 'fk-art fk-art-spread', full.pathId || state.path) : '') +
       '<div class="sp-name">' + escapeHtml(full.name) + '</div>' +
       '<div class="sp-theme">' + escapeHtml(full.theme) + '</div>' +
       '<div class="sp-prompt">' + escapeHtml(full.prompt || c.position.hint) + '</div>' +
@@ -6212,6 +6284,12 @@
         Rituals.vibrate(25);
         toast('Haltung: ' + pathDisplayName() + ' — Rituale gewechselt');
         renderRituale();
+        if (typeof renderFeldkarten === 'function') renderFeldkarten();
+        if (typeof renderSigilGallery === 'function') renderSigilGallery();
+        if (lastSigilLetters) {
+          const canvas = $('#sigil-canvas');
+          if (canvas) paintSigil(canvas, lastSigilLetters, { glow: false });
+        }
         const active = $$('.section-view.active')[0];
         if (active) navigate(active.id.replace('sec-', ''), { force: true });
       });
@@ -7936,6 +8014,23 @@
       });
     });
 
+    // Werkzeug jump chips: scroll to distinct blocks (Pfad ≠ Sigil ≠ Karten ≠ Grenze)
+    $$('.werkzeug-jump-chip').forEach(a => {
+      if (a.dataset.boundJump) return;
+      a.dataset.boundJump = '1';
+      a.addEventListener('click', (e) => {
+        const href = a.getAttribute('href') || '';
+        const id = href.charAt(0) === '#' ? href.slice(1) : '';
+        const target = id ? document.getElementById(id) : null;
+        if (!target) return;
+        e.preventDefault();
+        try { target.scrollIntoView({ behavior: (state.settings && state.settings.reducedMotion) ? 'auto' : 'smooth', block: 'start' }); } catch (_) {}
+        try { history.replaceState(null, '', '#' + (activeSection || 'rituale')); } catch (_) {}
+        target.classList.add('wz-jump-flash');
+        setTimeout(() => target.classList.remove('wz-jump-flash'), 900);
+      });
+    });
+
     $('#sigil-make').addEventListener('click', runSigil);
     $('#sigil-charge').addEventListener('click', chargeSigil);
     $('#sigil-forget').addEventListener('click', forgetSigil);
@@ -7946,13 +8041,13 @@
       if (stage) { stage.hidden = false; }
       $('#spread-area').classList.remove('show');
       $('#spread-area').innerHTML = '';
-      const card = Cards.drawOne();
+      const card = Cards.drawOne(null, state.path);
       if (!card) return;
       revealCards([card], 'one');
     });
     $('#draw-three').addEventListener('click', () => {
       if (drawAnimating) return;
-      const three = Cards.drawThree();
+      const three = Cards.drawThree(state.path);
       revealCards(three, 'three');
     });
     const clearBtn = $('#draw-clear');

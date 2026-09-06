@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140" role="img" aria-label="Wurzelband · Chaosmagie">
+  <defs>
+    <linearGradient id="bgchaosmagie2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#100818"/>
+      <stop offset="55%" stop-color="#080410"/>
+      <stop offset="100%" stop-color="#040208"/>
+    </linearGradient>
+    <radialGradient id="glowchaosmagie2" cx="50%" cy="38%" r="55%">
+      <stop offset="0%" stop-color="#c45ec8" stop-opacity="0.55"/>
+      <stop offset="55%" stop-color="#ff60e8" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="goldchaosmagie2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ff60e8"/>
+      <stop offset="100%" stop-color="#c45ec8"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="140" rx="12" fill="url(#bgchaosmagie2)"/>
+  <rect x="3" y="3" width="114" height="134" rx="8" fill="none" stroke="#e060f0" stroke-opacity="0.65" stroke-width="1.8"/>
+  <rect x="7" y="7" width="106" height="126" rx="5" fill="none" stroke="#40e0ff" stroke-opacity="0.45" stroke-width="1"/>
+  <rect x="11" y="11" width="98" height="118" rx="3" fill="none" stroke="#e060f0" stroke-opacity="0.2" stroke-width="0.6"/>
+  <circle cx="60" cy="58" r="46" fill="url(#glowchaosmagie2)"/>
+  <path d="M60 28 V62" stroke="url(#goldchaosmagie2)" stroke-width="3.2" stroke-linecap="round"/>
+  <path d="M60 42 C40 48 32 38 28 30 M60 42 C80 48 88 38 92 30" fill="none" stroke="#40e8ff" stroke-width="2"/>
+  <path d="M60 62 C42 78 28 92 22 112 M60 62 C78 78 92 92 98 112 M60 62 C52 88 48 100 46 118 M60 62 C68 88 72 100 74 118" fill="none" stroke="#c4893a" stroke-width="2.2" stroke-linecap="round"/>
+  <ellipse cx="60" cy="118" rx="38" ry="6" fill="#c45ec8" fill-opacity="0.35"/>
+  <circle cx="60" cy="28" r="5" fill="#ff60e8"/>
+  <g opacity="0.42" transform="translate(90 14)" fill="none" stroke="#e060f0" stroke-width="1.4">
+        <path d="M14 2 L16 12 L26 14 L16 16 L14 26 L12 16 L2 14 L12 12 Z"/>
+        <circle cx="14" cy="14" r="3" stroke="#40e8ff"/>
+      </g>
+</svg>

@@ -1,12 +1,16 @@
 /**
  * UNIVERSUM — 22 originale Feldkarten (kein Tarot-Klon)
- * v3.6: absolute Art-URLs, pictorial SVGs, onerror-Fallback «Motif geladen»
+ * v5.21: path-specific art under assets/feldkarten/{path}/
  * Spread: Einzelzug · Dreierlege (Vergangenheit / Gegenwart / Zukunft)
  */
 (function (global) {
   'use strict';
 
   const ART_BASE = 'assets/feldkarten/';
+  const PATH_IDS = [
+    'schamanismus', 'nordisch', 'voodoo', 'santeria',
+    'hermetik', 'wicca', 'chaosmagie', 'esoterik'
+  ];
 
   /** Glyph-Fallback wenn SVG nicht lädt (offline / Pfadbruch). */
   const ART_GLYPH = {
@@ -16,30 +20,57 @@
     19: '🤲', 20: '🔥', 21: '⭐', 22: '🏠'
   };
 
-  const FELDKARTEN = [
-    { n: 1, name: 'Schwelle', theme: 'Übergang, Eintritt, respektvolles Öffnen', prompt: 'Welche Tür steht dir offen — und mit welchem Respekt trittst du ein?', art: ART_BASE + '01-schwelle.svg' },
-    { n: 2, name: 'Wurzelband', theme: 'Erdung, Herkunft, Halt im Körper', prompt: 'Wo spürst du Halt? Was verbindet dich mit dem Boden?', art: ART_BASE + '02-wurzelband.svg' },
-    { n: 3, name: 'Atembrücke', theme: 'Verbindung Innen–Außen, Rhythmus', prompt: 'Welcher Atemrhythmus bringt dich zurück in die Mitte?', art: ART_BASE + '03-atembruecke.svg' },
-    { n: 4, name: 'Grenzstein', theme: 'Schutz, Nein, klare Linie', prompt: 'Wo braucht es heute ein klares, friedliches Nein?', art: ART_BASE + '04-grenzstein.svg' },
-    { n: 5, name: 'Ausgleich', theme: 'Geben und Nehmen, Harmonie', prompt: 'Was hast du gegeben — was darfst du empfangen?', art: ART_BASE + '05-ausgleich.svg' },
-    { n: 6, name: 'Feldlicht', theme: 'Präsenz, stille Begleitung, Klarheit', prompt: 'Was wird klar, wenn du still bleibst und nur wahrnimmst?', art: ART_BASE + '06-feldlicht.svg' },
-    { n: 7, name: 'Mondspiegel', theme: 'Gefühl, Reflexion, Zyklus', prompt: 'Welches Gefühl spiegelt sich — ohne dass du es ändern musst?', art: ART_BASE + '07-mondspiegel.svg' },
-    { n: 8, name: 'Sonnenkern', theme: 'Wille, Wärme, sichtbare Kraft', prompt: 'Welche Wärme darfst du zeigen, ohne zu verbrennen?', art: ART_BASE + '08-sonnenkern.svg' },
-    { n: 9, name: 'Nebelpfad', theme: 'Unklarheit aushalten, nicht erzwingen', prompt: 'Was darf unklar bleiben, bis der Nebel von selbst weicht?', art: ART_BASE + '09-nebelpfad.svg' },
-    { n: 10, name: 'Knotenlösen', theme: 'Loslassen, Entwirren, Freigabe', prompt: 'Welchen Knoten löst du — ohne ihn zu zerschneiden?', art: ART_BASE + '10-knotenloesen.svg' },
-    { n: 11, name: 'Ahnenruf', theme: 'Erinnerung, Linie, Dank ohne Forderung', prompt: 'Wem danke ich — ohne etwas zu fordern?', art: ART_BASE + '11-ahnenruf.svg' },
-    { n: 12, name: 'Werkzeugweihe', theme: 'Widmung, Sorgfalt, Zweck', prompt: 'Wofür widmest du deine Werkzeuge und Worte?', art: ART_BASE + '12-werkzeugweihe.svg' },
-    { n: 13, name: 'Kreisziehen', theme: 'Raum schaffen, halten, schließen', prompt: 'Welchen Raum hältst du — und wann schließt du ihn?', art: ART_BASE + '13-kreisziehen.svg' },
-    { n: 14, name: 'Stille Stunde', theme: 'Pause, Lauschen, Nicht-Tun', prompt: 'Was hörst du, wenn du eine Stunde nichts tust?', art: ART_BASE + '14-stille-stunde.svg' },
-    { n: 15, name: 'Funkenwahl', theme: 'Entscheidung, Fokus, eine Flamme', prompt: 'Welche eine Flamme wählst du heute — und welche lässt du aus?', art: ART_BASE + '15-funkenwahl.svg' },
-    { n: 16, name: 'Regenwaschen', theme: 'Reinigung, Abspülen, Neu', prompt: 'Was darf abgespült werden, damit Neues Raum hat?', art: ART_BASE + '16-regenwaschen.svg' },
-    { n: 17, name: 'Samenwort', theme: 'Intention pflanzen, geduldig warten', prompt: 'Welches Wort pflanzt du — und wie geduldig wartest du?', art: ART_BASE + '17-samenwort.svg' },
-    { n: 18, name: 'Echo der Tat', theme: 'Folge, Verantwortung, Lernen', prompt: 'Welche Tat hallt nach — und was lernst du daraus?', art: ART_BASE + '18-echo-der-tat.svg' },
-    { n: 19, name: 'Hand der Gabe', theme: 'Opfer ohne Schaden, Teilen', prompt: 'Was gibst du freiwillig — ohne Schaden, ohne Zwang?', art: ART_BASE + '19-hand-der-gabe.svg' },
-    { n: 20, name: 'Nachtwache', theme: 'Durchhalten, sanfte Wachsamkeit', prompt: 'Wo bleibst du wachsam — sanft, ohne Panik?', art: ART_BASE + '20-nachtwache.svg' },
-    { n: 21, name: 'Sternennadel', theme: 'Richtung, Orientierung, Hoffnung', prompt: 'Welcher Stern gibt dir Richtung, wenn der Weg dunkel wirkt?', art: ART_BASE + '21-sternennadel.svg' },
-    { n: 22, name: 'Heimkehr', theme: 'Abschluss, Integration, Frieden', prompt: 'Was kehrt heim in dich — und was darf Frieden finden?', art: ART_BASE + '22-heimkehr.svg' }
+  const CARD_META = [
+    { n: 1, name: 'Schwelle', theme: 'Übergang, Eintritt, respektvolles Öffnen', prompt: 'Welche Tür steht dir offen — und mit welchem Respekt trittst du ein?', file: '01-schwelle.svg' },
+    { n: 2, name: 'Wurzelband', theme: 'Erdung, Herkunft, Halt im Körper', prompt: 'Wo spürst du Halt? Was verbindet dich mit dem Boden?', file: '02-wurzelband.svg' },
+    { n: 3, name: 'Atembrücke', theme: 'Verbindung Innen–Außen, Rhythmus', prompt: 'Welcher Atemrhythmus bringt dich zurück in die Mitte?', file: '03-atembruecke.svg' },
+    { n: 4, name: 'Grenzstein', theme: 'Schutz, Nein, klare Linie', prompt: 'Wo braucht es heute ein klares, friedliches Nein?', file: '04-grenzstein.svg' },
+    { n: 5, name: 'Ausgleich', theme: 'Geben und Nehmen, Harmonie', prompt: 'Was hast du gegeben — was darfst du empfangen?', file: '05-ausgleich.svg' },
+    { n: 6, name: 'Feldlicht', theme: 'Präsenz, stille Begleitung, Klarheit', prompt: 'Was wird klar, wenn du still bleibst und nur wahrnimmst?', file: '06-feldlicht.svg' },
+    { n: 7, name: 'Mondspiegel', theme: 'Gefühl, Reflexion, Zyklus', prompt: 'Welches Gefühl spiegelt sich — ohne dass du es ändern musst?', file: '07-mondspiegel.svg' },
+    { n: 8, name: 'Sonnenkern', theme: 'Wille, Wärme, sichtbare Kraft', prompt: 'Welche Wärme darfst du zeigen, ohne zu verbrennen?', file: '08-sonnenkern.svg' },
+    { n: 9, name: 'Nebelpfad', theme: 'Unklarheit aushalten, nicht erzwingen', prompt: 'Was darf unklar bleiben, bis der Nebel von selbst weicht?', file: '09-nebelpfad.svg' },
+    { n: 10, name: 'Knotenlösen', theme: 'Loslassen, Entwirren, Freigabe', prompt: 'Welchen Knoten löst du — ohne ihn zu zerschneiden?', file: '10-knotenloesen.svg' },
+    { n: 11, name: 'Ahnenruf', theme: 'Erinnerung, Linie, Dank ohne Forderung', prompt: 'Wem danke ich — ohne etwas zu fordern?', file: '11-ahnenruf.svg' },
+    { n: 12, name: 'Werkzeugweihe', theme: 'Widmung, Sorgfalt, Zweck', prompt: 'Wofür widmest du deine Werkzeuge und Worte?', file: '12-werkzeugweihe.svg' },
+    { n: 13, name: 'Kreisziehen', theme: 'Raum schaffen, halten, schließen', prompt: 'Welchen Raum hältst du — und wann schließt du ihn?', file: '13-kreisziehen.svg' },
+    { n: 14, name: 'Stille Stunde', theme: 'Pause, Lauschen, Nicht-Tun', prompt: 'Was hörst du, wenn du eine Stunde nichts tust?', file: '14-stille-stunde.svg' },
+    { n: 15, name: 'Funkenwahl', theme: 'Entscheidung, Fokus, eine Flamme', prompt: 'Welche eine Flamme wählst du heute — und welche lässt du aus?', file: '15-funkenwahl.svg' },
+    { n: 16, name: 'Regenwaschen', theme: 'Reinigung, Abspülen, Neu', prompt: 'Was darf abgespült werden, damit Neues Raum hat?', file: '16-regenwaschen.svg' },
+    { n: 17, name: 'Samenwort', theme: 'Intention pflanzen, geduldig warten', prompt: 'Welches Wort pflanzt du — und wie geduldig wartest du?', file: '17-samenwort.svg' },
+    { n: 18, name: 'Echo der Tat', theme: 'Folge, Verantwortung, Lernen', prompt: 'Welche Tat hallt nach — und was lernst du daraus?', file: '18-echo-der-tat.svg' },
+    { n: 19, name: 'Hand der Gabe', theme: 'Opfer ohne Schaden, Teilen', prompt: 'Was gibst du freiwillig — ohne Schaden, ohne Zwang?', file: '19-hand-der-gabe.svg' },
+    { n: 20, name: 'Nachtwache', theme: 'Durchhalten, sanfte Wachsamkeit', prompt: 'Wo bleibst du wachsam — sanft, ohne Panik?', file: '20-nachtwache.svg' },
+    { n: 21, name: 'Sternennadel', theme: 'Richtung, Orientierung, Hoffnung', prompt: 'Welcher Stern gibt dir Richtung, wenn der Weg dunkel wirkt?', file: '21-sternennadel.svg' },
+    { n: 22, name: 'Heimkehr', theme: 'Abschluss, Integration, Frieden', prompt: 'Was kehrt heim in dich — und was darf Frieden finden?', file: '22-heimkehr.svg' }
   ];
+
+  function normalizePath(pathId) {
+    const id = (pathId || 'esoterik').toLowerCase();
+    return PATH_IDS.indexOf(id) >= 0 ? id : 'esoterik';
+  }
+
+  function artPath(file, pathId) {
+    return ART_BASE + normalizePath(pathId) + '/' + file;
+  }
+
+  function makeDeck(pathId) {
+    const pid = normalizePath(pathId);
+    return CARD_META.map(function (c) {
+      return {
+        n: c.n,
+        name: c.name,
+        theme: c.theme,
+        prompt: c.prompt,
+        file: c.file,
+        pathId: pid,
+        art: artPath(c.file, pid)
+      };
+    });
+  }
+
+  /** Default deck (esoterik) for legacy callers of FELDKARTEN. */
+  const FELDKARTEN = makeDeck('esoterik');
 
   const SPREAD_THREE = [
     { id: 'past', label: 'Vergangenheit', hint: 'Was wirkt nach?' },
@@ -56,32 +87,41 @@
     return a;
   }
 
-  function drawOne(exclude) {
+  function deckFor(pathId) {
+    return makeDeck(pathId);
+  }
+
+  function drawOne(exclude, pathId) {
+    const deck = deckFor(pathId);
     const pool = exclude && exclude.length
-      ? FELDKARTEN.filter(c => !exclude.includes(c.n))
-      : FELDKARTEN.slice();
+      ? deck.filter(c => !exclude.includes(c.n))
+      : deck.slice();
     if (!pool.length) return null;
     return pool[Math.floor(Math.random() * pool.length)];
   }
 
-  function drawThree() {
-    const shuffled = shuffle(FELDKARTEN);
+  function drawThree(pathId) {
+    const shuffled = shuffle(deckFor(pathId));
     return shuffled.slice(0, 3).map((c, i) => Object.assign({}, c, {
       position: SPREAD_THREE[i]
     }));
   }
 
-  function getCard(n) {
-    return FELDKARTEN.find(c => c.n === n) || null;
+  function getCard(n, pathId) {
+    const deck = deckFor(pathId);
+    return deck.find(c => c.n === n) || null;
   }
 
   /** Relativen Art-Pfad absolut gegen location.href auflösen. */
-  function artUrl(card) {
+  function artUrl(card, pathId) {
     if (!card) return '';
     let rel = card.art;
-    if (!rel) {
-      const full = getCard(card.n);
-      rel = (full && full.art) || '';
+    if (!rel || pathId) {
+      const full = getCard(card.n, pathId || card.pathId);
+      rel = (full && full.art) || rel || '';
+    }
+    if (!rel && card.file) {
+      rel = artPath(card.file, pathId || card.pathId);
     }
     if (!rel) return '';
     try {
@@ -101,26 +141,30 @@
       '<span class="fk-art-fallback-label">Motif geladen</span></span>';
   }
 
-  function artImgHtml(card, cls) {
-    const src = artUrl(card);
+  function artImgHtml(card, cls, pathId) {
+    const src = artUrl(card, pathId);
     if (!src) return artFallbackHtml(card);
     const name = (card && card.name) || '';
     const n = (card && card.n) || '';
     const glyph = ART_GLYPH[n] || '✦';
-    // onerror: swap to inline fallback so broken paths never show blank
     const onerr =
       "this.onerror=null;this.replaceWith((function(g,n){var s=document.createElement('span');s.className='fk-art-fallback';s.setAttribute('role','img');s.setAttribute('aria-label',n+' · Motif geladen');s.innerHTML='<span class=\\'fk-art-fallback-glyph\\' aria-hidden=\\'true\\'>'+g+'</span><span class=\\'fk-art-fallback-label\\'>Motif geladen</span>';return s;})('" +
       glyph + "','" + String(name).replace(/'/g, '') + "'))";
     return '<img class="' + (cls || 'fk-art') + '" src="' + src + '" alt="' +
       String(name).replace(/"/g, '&quot;') + '" width="120" height="140" loading="lazy" decoding="async" data-card-art="' +
-      n + '" onerror="' + onerr + '"/>';
+      n + '" data-path-art="' + normalizePath(pathId || card.pathId) + '" onerror="' + onerr + '"/>';
   }
 
   global.UniversumCards = {
     FELDKARTEN,
+    CARD_META,
+    PATH_IDS,
     SPREAD_THREE,
     ART_BASE,
     ART_GLYPH,
+    normalizePath,
+    artPath,
+    deckFor,
     drawOne,
     drawThree,
     getCard,

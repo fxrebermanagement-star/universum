@@ -1,0 +1,1073 @@
+{
+  "version": "5.21.0",
+  "paths": [
+    "schamanismus",
+    "nordisch",
+    "voodoo",
+    "santeria",
+    "hermetik",
+    "wicca",
+    "chaosmagie",
+    "esoterik"
+  ],
+  "cardsPerPath": 22,
+  "total": 176,
+  "items": [
+    {
+      "path": "schamanismus",
+      "file": "schamanismus/01-schwelle.svg",
+      "n": 1,
+      "name": "Schwelle"
+    },
+    {
+      "path": "schamanismus",
+      "file": "schamanismus/02-wurzelband.svg",
+      "n": 2,
+      "name": "Wurzelband"
+    },
+    {
+      "path": "schamanismus",
+      "file": "schamanismus/03-atembruecke.svg",
+      "n": 3,
+      "name": "Atembrücke"
+    },
+    {
+      "path": "schamanismus",
+      "file": "schamanismus/04-grenzstein.svg",
+      "n": 4,
+      "name": "Grenzstein"
+    },
+    {
+      "path": "schamanismus",
+      "file": "schamanismus/05-ausgleich.svg",
+      "n": 5,
+      "name": "Ausgleich"
+    },
+    {
+      "path": "schamanismus",
+      "file": "schamanismus/06-feldlicht.svg",
+      "n": 6,
+      "name": "Feldlicht"
+    },
+    {
+      "path": "schamanismus",
+      "file": "schamanismus/07-mondspiegel.svg",
+      "n": 7,
+      "name": "Mondspiegel"
+    },
+    {
+      "path": "schamanismus",
+      "file": "schamanismus/08-sonnenkern.svg",
+      "n": 8,
+      "name": "Sonnenkern"
+    },
+    {
+      "path": "schamanismus",
+      "file": "schamanismus/09-nebelpfad.svg",
+      "n": 9,
+      "name": "Nebelpfad"
+    },
+    {
+      "path": "schamanismus",
+      "file": "schamanismus/10-knotenloesen.svg",
+      "n": 10,
+      "name": "Knotenlösen"
+    },
+    {
+      "path": "schamanismus",
+      "file": "schamanismus/11-ahnenruf.svg",
+      "n": 11,
+      "name": "Ahnenruf"
+    },
+    {
+      "path": "schamanismus",
+      "file": "schamanismus/12-werkzeugweihe.svg",
+      "n": 12,
+      "name": "Werkzeugweihe"
+    },
+    {
+      "path": "schamanismus",
+      "file": "schamanismus/13-kreisziehen.svg",
+      "n": 13,
+      "name": "Kreisziehen"
+    },
+    {
+      "path": "schamanismus",
+      "file": "schamanismus/14-stille-stunde.svg",
+      "n": 14,
+      "name": "Stille Stunde"
+    },
+    {
+      "path": "schamanismus",
+      "file": "schamanismus/15-funkenwahl.svg",
+      "n": 15,
+      "name": "Funkenwahl"
+    },
+    {
+      "path": "schamanismus",
+      "file": "schamanismus/16-regenwaschen.svg",
+      "n": 16,
+      "name": "Regenwaschen"
+    },
+    {
+      "path": "schamanismus",
+      "file": "schamanismus/17-samenwort.svg",
+      "n": 17,
+      "name": "Samenwort"
+    },
+    {
+      "path": "schamanismus",
+      "file": "schamanismus/18-echo-der-tat.svg",
+      "n": 18,
+      "name": "Echo der Tat"
+    },
+    {
+      "path": "schamanismus",
+      "file": "schamanismus/19-hand-der-gabe.svg",
+      "n": 19,
+      "name": "Hand der Gabe"
+    },
+    {
+      "path": "schamanismus",
+      "file": "schamanismus/20-nachtwache.svg",
+      "n": 20,
+      "name": "Nachtwache"
+    },
+    {
+      "path": "schamanismus",
+      "file": "schamanismus/21-sternennadel.svg",
+      "n": 21,
+      "name": "Sternennadel"
+    },
+    {
+      "path": "schamanismus",
+      "file": "schamanismus/22-heimkehr.svg",
+      "n": 22,
+      "name": "Heimkehr"
+    },
+    {
+      "path": "nordisch",
+      "file": "nordisch/01-schwelle.svg",
+      "n": 1,
+      "name": "Schwelle"
+    },
+    {
+      "path": "nordisch",
+      "file": "nordisch/02-wurzelband.svg",
+      "n": 2,
+      "name": "Wurzelband"
+    },
+    {
+      "path": "nordisch",
+      "file": "nordisch/03-atembruecke.svg",
+      "n": 3,
+      "name": "Atembrücke"
+    },
+    {
+      "path": "nordisch",
+      "file": "nordisch/04-grenzstein.svg",
+      "n": 4,
+      "name": "Grenzstein"
+    },
+    {
+      "path": "nordisch",
+      "file": "nordisch/05-ausgleich.svg",
+      "n": 5,
+      "name": "Ausgleich"
+    },
+    {
+      "path": "nordisch",
+      "file": "nordisch/06-feldlicht.svg",
+      "n": 6,
+      "name": "Feldlicht"
+    },
+    {
+      "path": "nordisch",
+      "file": "nordisch/07-mondspiegel.svg",
+      "n": 7,
+      "name": "Mondspiegel"
+    },
+    {
+      "path": "nordisch",
+      "file": "nordisch/08-sonnenkern.svg",
+      "n": 8,
+      "name": "Sonnenkern"
+    },
+    {
+      "path": "nordisch",
+      "file": "nordisch/09-nebelpfad.svg",
+      "n": 9,
+      "name": "Nebelpfad"
+    },
+    {
+      "path": "nordisch",
+      "file": "nordisch/10-knotenloesen.svg",
+      "n": 10,
+      "name": "Knotenlösen"
+    },
+    {
+      "path": "nordisch",
+      "file": "nordisch/11-ahnenruf.svg",
+      "n": 11,
+      "name": "Ahnenruf"
+    },
+    {
+      "path": "nordisch",
+      "file": "nordisch/12-werkzeugweihe.svg",
+      "n": 12,
+      "name": "Werkzeugweihe"
+    },
+    {
+      "path": "nordisch",
+      "file": "nordisch/13-kreisziehen.svg",
+      "n": 13,
+      "name": "Kreisziehen"
+    },
+    {
+      "path": "nordisch",
+      "file": "nordisch/14-stille-stunde.svg",
+      "n": 14,
+      "name": "Stille Stunde"
+    },
+    {
+      "path": "nordisch",
+      "file": "nordisch/15-funkenwahl.svg",
+      "n": 15,
+      "name": "Funkenwahl"
+    },
+    {
+      "path": "nordisch",
+      "file": "nordisch/16-regenwaschen.svg",
+      "n": 16,
+      "name": "Regenwaschen"
+    },
+    {
+      "path": "nordisch",
+      "file": "nordisch/17-samenwort.svg",
+      "n": 17,
+      "name": "Samenwort"
+    },
+    {
+      "path": "nordisch",
+      "file": "nordisch/18-echo-der-tat.svg",
+      "n": 18,
+      "name": "Echo der Tat"
+    },
+    {
+      "path": "nordisch",
+      "file": "nordisch/19-hand-der-gabe.svg",
+      "n": 19,
+      "name": "Hand der Gabe"
+    },
+    {
+      "path": "nordisch",
+      "file": "nordisch/20-nachtwache.svg",
+      "n": 20,
+      "name": "Nachtwache"
+    },
+    {
+      "path": "nordisch",
+      "file": "nordisch/21-sternennadel.svg",
+      "n": 21,
+      "name": "Sternennadel"
+    },
+    {
+      "path": "nordisch",
+      "file": "nordisch/22-heimkehr.svg",
+      "n": 22,
+      "name": "Heimkehr"
+    },
+    {
+      "path": "voodoo",
+      "file": "voodoo/01-schwelle.svg",
+      "n": 1,
+      "name": "Schwelle"
+    },
+    {
+      "path": "voodoo",
+      "file": "voodoo/02-wurzelband.svg",
+      "n": 2,
+      "name": "Wurzelband"
+    },
+    {
+      "path": "voodoo",
+      "file": "voodoo/03-atembruecke.svg",
+      "n": 3,
+      "name": "Atembrücke"
+    },
+    {
+      "path": "voodoo",
+      "file": "voodoo/04-grenzstein.svg",
+      "n": 4,
+      "name": "Grenzstein"
+    },
+    {
+      "path": "voodoo",
+      "file": "voodoo/05-ausgleich.svg",
+      "n": 5,
+      "name": "Ausgleich"
+    },
+    {
+      "path": "voodoo",
+      "file": "voodoo/06-feldlicht.svg",
+      "n": 6,
+      "name": "Feldlicht"
+    },
+    {
+      "path": "voodoo",
+      "file": "voodoo/07-mondspiegel.svg",
+      "n": 7,
+      "name": "Mondspiegel"
+    },
+    {
+      "path": "voodoo",
+      "file": "voodoo/08-sonnenkern.svg",
+      "n": 8,
+      "name": "Sonnenkern"
+    },
+    {
+      "path": "voodoo",
+      "file": "voodoo/09-nebelpfad.svg",
+      "n": 9,
+      "name": "Nebelpfad"
+    },
+    {
+      "path": "voodoo",
+      "file": "voodoo/10-knotenloesen.svg",
+      "n": 10,
+      "name": "Knotenlösen"
+    },
+    {
+      "path": "voodoo",
+      "file": "voodoo/11-ahnenruf.svg",
+      "n": 11,
+      "name": "Ahnenruf"
+    },
+    {
+      "path": "voodoo",
+      "file": "voodoo/12-werkzeugweihe.svg",
+      "n": 12,
+      "name": "Werkzeugweihe"
+    },
+    {
+      "path": "voodoo",
+      "file": "voodoo/13-kreisziehen.svg",
+      "n": 13,
+      "name": "Kreisziehen"
+    },
+    {
+      "path": "voodoo",
+      "file": "voodoo/14-stille-stunde.svg",
+      "n": 14,
+      "name": "Stille Stunde"
+    },
+    {
+      "path": "voodoo",
+      "file": "voodoo/15-funkenwahl.svg",
+      "n": 15,
+      "name": "Funkenwahl"
+    },
+    {
+      "path": "voodoo",
+      "file": "voodoo/16-regenwaschen.svg",
+      "n": 16,
+      "name": "Regenwaschen"
+    },
+    {
+      "path": "voodoo",
+      "file": "voodoo/17-samenwort.svg",
+      "n": 17,
+      "name": "Samenwort"
+    },
+    {
+      "path": "voodoo",
+      "file": "voodoo/18-echo-der-tat.svg",
+      "n": 18,
+      "name": "Echo der Tat"
+    },
+    {
+      "path": "voodoo",
+      "file": "voodoo/19-hand-der-gabe.svg",
+      "n": 19,
+      "name": "Hand der Gabe"
+    },
+    {
+      "path": "voodoo",
+      "file": "voodoo/20-nachtwache.svg",
+      "n": 20,
+      "name": "Nachtwache"
+    },
+    {
+      "path": "voodoo",
+      "file": "voodoo/21-sternennadel.svg",
+      "n": 21,
+      "name": "Sternennadel"
+    },
+    {
+      "path": "voodoo",
+      "file": "voodoo/22-heimkehr.svg",
+      "n": 22,
+      "name": "Heimkehr"
+    },
+    {
+      "path": "santeria",
+      "file": "santeria/01-schwelle.svg",
+      "n": 1,
+      "name": "Schwelle"
+    },
+    {
+      "path": "santeria",
+      "file": "santeria/02-wurzelband.svg",
+      "n": 2,
+      "name": "Wurzelband"
+    },
+    {
+      "path": "santeria",
+      "file": "santeria/03-atembruecke.svg",
+      "n": 3,
+      "name": "Atembrücke"
+    },
+    {
+      "path": "santeria",
+      "file": "santeria/04-grenzstein.svg",
+      "n": 4,
+      "name": "Grenzstein"
+    },
+    {
+      "path": "santeria",
+      "file": "santeria/05-ausgleich.svg",
+      "n": 5,
+      "name": "Ausgleich"
+    },
+    {
+      "path": "santeria",
+      "file": "santeria/06-feldlicht.svg",
+      "n": 6,
+      "name": "Feldlicht"
+    },
+    {
+      "path": "santeria",
+      "file": "santeria/07-mondspiegel.svg",
+      "n": 7,
+      "name": "Mondspiegel"
+    },
+    {
+      "path": "santeria",
+      "file": "santeria/08-sonnenkern.svg",
+      "n": 8,
+      "name": "Sonnenkern"
+    },
+    {
+      "path": "santeria",
+      "file": "santeria/09-nebelpfad.svg",
+      "n": 9,
+      "name": "Nebelpfad"
+    },
+    {
+      "path": "santeria",
+      "file": "santeria/10-knotenloesen.svg",
+      "n": 10,
+      "name": "Knotenlösen"
+    },
+    {
+      "path": "santeria",
+      "file": "santeria/11-ahnenruf.svg",
+      "n": 11,
+      "name": "Ahnenruf"
+    },
+    {
+      "path": "santeria",
+      "file": "santeria/12-werkzeugweihe.svg",
+      "n": 12,
+      "name": "Werkzeugweihe"
+    },
+    {
+      "path": "santeria",
+      "file": "santeria/13-kreisziehen.svg",
+      "n": 13,
+      "name": "Kreisziehen"
+    },
+    {
+      "path": "santeria",
+      "file": "santeria/14-stille-stunde.svg",
+      "n": 14,
+      "name": "Stille Stunde"
+    },
+    {
+      "path": "santeria",
+      "file": "santeria/15-funkenwahl.svg",
+      "n": 15,
+      "name": "Funkenwahl"
+    },
+    {
+      "path": "santeria",
+      "file": "santeria/16-regenwaschen.svg",
+      "n": 16,
+      "name": "Regenwaschen"
+    },
+    {
+      "path": "santeria",
+      "file": "santeria/17-samenwort.svg",
+      "n": 17,
+      "name": "Samenwort"
+    },
+    {
+      "path": "santeria",
+      "file": "santeria/18-echo-der-tat.svg",
+      "n": 18,
+      "name": "Echo der Tat"
+    },
+    {
+      "path": "santeria",
+      "file": "santeria/19-hand-der-gabe.svg",
+      "n": 19,
+      "name": "Hand der Gabe"
+    },
+    {
+      "path": "santeria",
+      "file": "santeria/20-nachtwache.svg",
+      "n": 20,
+      "name": "Nachtwache"
+    },
+    {
+      "path": "santeria",
+      "file": "santeria/21-sternennadel.svg",
+      "n": 21,
+      "name": "Sternennadel"
+    },
+    {
+      "path": "santeria",
+      "file": "santeria/22-heimkehr.svg",
+      "n": 22,
+      "name": "Heimkehr"
+    },
+    {
+      "path": "hermetik",
+      "file": "hermetik/01-schwelle.svg",
+      "n": 1,
+      "name": "Schwelle"
+    },
+    {
+      "path": "hermetik",
+      "file": "hermetik/02-wurzelband.svg",
+      "n": 2,
+      "name": "Wurzelband"
+    },
+    {
+      "path": "hermetik",
+      "file": "hermetik/03-atembruecke.svg",
+      "n": 3,
+      "name": "Atembrücke"
+    },
+    {
+      "path": "hermetik",
+      "file": "hermetik/04-grenzstein.svg",
+      "n": 4,
+      "name": "Grenzstein"
+    },
+    {
+      "path": "hermetik",
+      "file": "hermetik/05-ausgleich.svg",
+      "n": 5,
+      "name": "Ausgleich"
+    },
+    {
+      "path": "hermetik",
+      "file": "hermetik/06-feldlicht.svg",
+      "n": 6,
+      "name": "Feldlicht"
+    },
+    {
+      "path": "hermetik",
+      "file": "hermetik/07-mondspiegel.svg",
+      "n": 7,
+      "name": "Mondspiegel"
+    },
+    {
+      "path": "hermetik",
+      "file": "hermetik/08-sonnenkern.svg",
+      "n": 8,
+      "name": "Sonnenkern"
+    },
+    {
+      "path": "hermetik",
+      "file": "hermetik/09-nebelpfad.svg",
+      "n": 9,
+      "name": "Nebelpfad"
+    },
+    {
+      "path": "hermetik",
+      "file": "hermetik/10-knotenloesen.svg",
+      "n": 10,
+      "name": "Knotenlösen"
+    },
+    {
+      "path": "hermetik",
+      "file": "hermetik/11-ahnenruf.svg",
+      "n": 11,
+      "name": "Ahnenruf"
+    },
+    {
+      "path": "hermetik",
+      "file": "hermetik/12-werkzeugweihe.svg",
+      "n": 12,
+      "name": "Werkzeugweihe"
+    },
+    {
+      "path": "hermetik",
+      "file": "hermetik/13-kreisziehen.svg",
+      "n": 13,
+      "name": "Kreisziehen"
+    },
+    {
+      "path": "hermetik",
+      "file": "hermetik/14-stille-stunde.svg",
+      "n": 14,
+      "name": "Stille Stunde"
+    },
+    {
+      "path": "hermetik",
+      "file": "hermetik/15-funkenwahl.svg",
+      "n": 15,
+      "name": "Funkenwahl"
+    },
+    {
+      "path": "hermetik",
+      "file": "hermetik/16-regenwaschen.svg",
+      "n": 16,
+      "name": "Regenwaschen"
+    },
+    {
+      "path": "hermetik",
+      "file": "hermetik/17-samenwort.svg",
+      "n": 17,
+      "name": "Samenwort"
+    },
+    {
+      "path": "hermetik",
+      "file": "hermetik/18-echo-der-tat.svg",
+      "n": 18,
+      "name": "Echo der Tat"
+    },
+    {
+      "path": "hermetik",
+      "file": "hermetik/19-hand-der-gabe.svg",
+      "n": 19,
+      "name": "Hand der Gabe"
+    },
+    {
+      "path": "hermetik",
+      "file": "hermetik/20-nachtwache.svg",
+      "n": 20,
+      "name": "Nachtwache"
+    },
+    {
+      "path": "hermetik",
+      "file": "hermetik/21-sternennadel.svg",
+      "n": 21,
+      "name": "Sternennadel"
+    },
+    {
+      "path": "hermetik",
+      "file": "hermetik/22-heimkehr.svg",
+      "n": 22,
+      "name": "Heimkehr"
+    },
+    {
+      "path": "wicca",
+      "file": "wicca/01-schwelle.svg",
+      "n": 1,
+      "name": "Schwelle"
+    },
+    {
+      "path": "wicca",
+      "file": "wicca/02-wurzelband.svg",
+      "n": 2,
+      "name": "Wurzelband"
+    },
+    {
+      "path": "wicca",
+      "file": "wicca/03-atembruecke.svg",
+      "n": 3,
+      "name": "Atembrücke"
+    },
+    {
+      "path": "wicca",
+      "file": "wicca/04-grenzstein.svg",
+      "n": 4,
+      "name": "Grenzstein"
+    },
+    {
+      "path": "wicca",
+      "file": "wicca/05-ausgleich.svg",
+      "n": 5,
+      "name": "Ausgleich"
+    },
+    {
+      "path": "wicca",
+      "file": "wicca/06-feldlicht.svg",
+      "n": 6,
+      "name": "Feldlicht"
+    },
+    {
+      "path": "wicca",
+      "file": "wicca/07-mondspiegel.svg",
+      "n": 7,
+      "name": "Mondspiegel"
+    },
+    {
+      "path": "wicca",
+      "file": "wicca/08-sonnenkern.svg",
+      "n": 8,
+      "name": "Sonnenkern"
+    },
+    {
+      "path": "wicca",
+      "file": "wicca/09-nebelpfad.svg",
+      "n": 9,
+      "name": "Nebelpfad"
+    },
+    {
+      "path": "wicca",
+      "file": "wicca/10-knotenloesen.svg",
+      "n": 10,
+      "name": "Knotenlösen"
+    },
+    {
+      "path": "wicca",
+      "file": "wicca/11-ahnenruf.svg",
+      "n": 11,
+      "name": "Ahnenruf"
+    },
+    {
+      "path": "wicca",
+      "file": "wicca/12-werkzeugweihe.svg",
+      "n": 12,
+      "name": "Werkzeugweihe"
+    },
+    {
+      "path": "wicca",
+      "file": "wicca/13-kreisziehen.svg",
+      "n": 13,
+      "name": "Kreisziehen"
+    },
+    {
+      "path": "wicca",
+      "file": "wicca/14-stille-stunde.svg",
+      "n": 14,
+      "name": "Stille Stunde"
+    },
+    {
+      "path": "wicca",
+      "file": "wicca/15-funkenwahl.svg",
+      "n": 15,
+      "name": "Funkenwahl"
+    },
+    {
+      "path": "wicca",
+      "file": "wicca/16-regenwaschen.svg",
+      "n": 16,
+      "name": "Regenwaschen"
+    },
+    {
+      "path": "wicca",
+      "file": "wicca/17-samenwort.svg",
+      "n": 17,
+      "name": "Samenwort"
+    },
+    {
+      "path": "wicca",
+      "file": "wicca/18-echo-der-tat.svg",
+      "n": 18,
+      "name": "Echo der Tat"
+    },
+    {
+      "path": "wicca",
+      "file": "wicca/19-hand-der-gabe.svg",
+      "n": 19,
+      "name": "Hand der Gabe"
+    },
+    {
+      "path": "wicca",
+      "file": "wicca/20-nachtwache.svg",
+      "n": 20,
+      "name": "Nachtwache"
+    },
+    {
+      "path": "wicca",
+      "file": "wicca/21-sternennadel.svg",
+      "n": 21,
+      "name": "Sternennadel"
+    },
+    {
+      "path": "wicca",
+      "file": "wicca/22-heimkehr.svg",
+      "n": 22,
+      "name": "Heimkehr"
+    },
+    {
+      "path": "chaosmagie",
+      "file": "chaosmagie/01-schwelle.svg",
+      "n": 1,
+      "name": "Schwelle"
+    },
+    {
+      "path": "chaosmagie",
+      "file": "chaosmagie/02-wurzelband.svg",
+      "n": 2,
+      "name": "Wurzelband"
+    },
+    {
+      "path": "chaosmagie",
+      "file": "chaosmagie/03-atembruecke.svg",
+      "n": 3,
+      "name": "Atembrücke"
+    },
+    {
+      "path": "chaosmagie",
+      "file": "chaosmagie/04-grenzstein.svg",
+      "n": 4,
+      "name": "Grenzstein"
+    },
+    {
+      "path": "chaosmagie",
+      "file": "chaosmagie/05-ausgleich.svg",
+      "n": 5,
+      "name": "Ausgleich"
+    },
+    {
+      "path": "chaosmagie",
+      "file": "chaosmagie/06-feldlicht.svg",
+      "n": 6,
+      "name": "Feldlicht"
+    },
+    {
+      "path": "chaosmagie",
+      "file": "chaosmagie/07-mondspiegel.svg",
+      "n": 7,
+      "name": "Mondspiegel"
+    },
+    {
+      "path": "chaosmagie",
+      "file": "chaosmagie/08-sonnenkern.svg",
+      "n": 8,
+      "name": "Sonnenkern"
+    },
+    {
+      "path": "chaosmagie",
+      "file": "chaosmagie/09-nebelpfad.svg",
+      "n": 9,
+      "name": "Nebelpfad"
+    },
+    {
+      "path": "chaosmagie",
+      "file": "chaosmagie/10-knotenloesen.svg",
+      "n": 10,
+      "name": "Knotenlösen"
+    },
+    {
+      "path": "chaosmagie",
+      "file": "chaosmagie/11-ahnenruf.svg",
+      "n": 11,
+      "name": "Ahnenruf"
+    },
+    {
+      "path": "chaosmagie",
+      "file": "chaosmagie/12-werkzeugweihe.svg",
+      "n": 12,
+      "name": "Werkzeugweihe"
+    },
+    {
+      "path": "chaosmagie",
+      "file": "chaosmagie/13-kreisziehen.svg",
+      "n": 13,
+      "name": "Kreisziehen"
+    },
+    {
+      "path": "chaosmagie",
+      "file": "chaosmagie/14-stille-stunde.svg",
+      "n": 14,
+      "name": "Stille Stunde"
+    },
+    {
+      "path": "chaosmagie",
+      "file": "chaosmagie/15-funkenwahl.svg",
+      "n": 15,
+      "name": "Funkenwahl"
+    },
+    {
+      "path": "chaosmagie",
+      "file": "chaosmagie/16-regenwaschen.svg",
+      "n": 16,
+      "name": "Regenwaschen"
+    },
+    {
+      "path": "chaosmagie",
+      "file": "chaosmagie/17-samenwort.svg",
+      "n": 17,
+      "name": "Samenwort"
+    },
+    {
+      "path": "chaosmagie",
+      "file": "chaosmagie/18-echo-der-tat.svg",
+      "n": 18,
+      "name": "Echo der Tat"
+    },
+    {
+      "path": "chaosmagie",
+      "file": "chaosmagie/19-hand-der-gabe.svg",
+      "n": 19,
+      "name": "Hand der Gabe"
+    },
+    {
+      "path": "chaosmagie",
+      "file": "chaosmagie/20-nachtwache.svg",
+      "n": 20,
+      "name": "Nachtwache"
+    },
+    {
+      "path": "chaosmagie",
+      "file": "chaosmagie/21-sternennadel.svg",
+      "n": 21,
+      "name": "Sternennadel"
+    },
+    {
+      "path": "chaosmagie",
+      "file": "chaosmagie/22-heimkehr.svg",
+      "n": 22,
+      "name": "Heimkehr"
+    },
+    {
+      "path": "esoterik",
+      "file": "esoterik/01-schwelle.svg",
+      "n": 1,
+      "name": "Schwelle"
+    },
+    {
+      "path": "esoterik",
+      "file": "esoterik/02-wurzelband.svg",
+      "n": 2,
+      "name": "Wurzelband"
+    },
+    {
+      "path": "esoterik",
+      "file": "esoterik/03-atembruecke.svg",
+      "n": 3,
+      "name": "Atembrücke"
+    },
+    {
+      "path": "esoterik",
+      "file": "esoterik/04-grenzstein.svg",
+      "n": 4,
+      "name": "Grenzstein"
+    },
+    {
+      "path": "esoterik",
+      "file": "esoterik/05-ausgleich.svg",
+      "n": 5,
+      "name": "Ausgleich"
+    },
+    {
+      "path": "esoterik",
+      "file": "esoterik/06-feldlicht.svg",
+      "n": 6,
+      "name": "Feldlicht"
+    },
+    {
+      "path": "esoterik",
+      "file": "esoterik/07-mondspiegel.svg",
+      "n": 7,
+      "name": "Mondspiegel"
+    },
+    {
+      "path": "esoterik",
+      "file": "esoterik/08-sonnenkern.svg",
+      "n": 8,
+      "name": "Sonnenkern"
+    },
+    {
+      "path": "esoterik",
+      "file": "esoterik/09-nebelpfad.svg",
+      "n": 9,
+      "name": "Nebelpfad"
+    },
+    {
+      "path": "esoterik",
+      "file": "esoterik/10-knotenloesen.svg",
+      "n": 10,
+      "name": "Knotenlösen"
+    },
+    {
+      "path": "esoterik",
+      "file": "esoterik/11-ahnenruf.svg",
+      "n": 11,
+      "name": "Ahnenruf"
+    },
+    {
+      "path": "esoterik",
+      "file": "esoterik/12-werkzeugweihe.svg",
+      "n": 12,
+      "name": "Werkzeugweihe"
+    },
+    {
+      "path": "esoterik",
+      "file": "esoterik/13-kreisziehen.svg",
+      "n": 13,
+      "name": "Kreisziehen"
+    },
+    {
+      "path": "esoterik",
+      "file": "esoterik/14-stille-stunde.svg",
+      "n": 14,
+      "name": "Stille Stunde"
+    },
+    {
+      "path": "esoterik",
+      "file": "esoterik/15-funkenwahl.svg",
+      "n": 15,
+      "name": "Funkenwahl"
+    },
+    {
+      "path": "esoterik",
+      "file": "esoterik/16-regenwaschen.svg",
+      "n": 16,
+      "name": "Regenwaschen"
+    },
+    {
+      "path": "esoterik",
+      "file": "esoterik/17-samenwort.svg",
+      "n": 17,
+      "name": "Samenwort"
+    },
+    {
+      "path": "esoterik",
+      "file": "esoterik/18-echo-der-tat.svg",
+      "n": 18,
+      "name": "Echo der Tat"
+    },
+    {
+      "path": "esoterik",
+      "file": "esoterik/19-hand-der-gabe.svg",
+      "n": 19,
+      "name": "Hand der Gabe"
+    },
+    {
+      "path": "esoterik",
+      "file": "esoterik/20-nachtwache.svg",
+      "n": 20,
+      "name": "Nachtwache"
+    },
+    {
+      "path": "esoterik",
+      "file": "esoterik/21-sternennadel.svg",
+      "n": 21,
+      "name": "Sternennadel"
+    },
+    {
+      "path": "esoterik",
+      "file": "esoterik/22-heimkehr.svg",
+      "n": 22,
+      "name": "Heimkehr"
+    }
+  ]
+}

@@ -430,6 +430,15 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.21.0 — Path-specific Feldkarten + Sigille
+
+- **Feldkarten** je Pfad unter `assets/feldkarten/{path}/` (8×22 = 176 SVGs): Palette, Rahmen, Wassermarken — öffentliche Hauspraxis / symbolisch, keine kopierten heiligen Veves/Lwa/Orisha-Motive
+- App lädt Karten nur für aktuellen `state.path`; Chip zeigt Pfadname bei Karten & Sigil
+- **Sigil** pfad-getönt (Stroke/Fill/Hintergrund + Symbol-Wasserzeichen); Galerie-Beispiele je Pfad
+- **Fix**: Jump «Pfad» vs «Sigil» — `#werkzeug-path` sitzt am echten Pfad-Werkzeug (nicht mehr leerer sr-only-Anker vor Sigil); Chaosmagie-Werkzeug = Labor-Check (nicht nur Sigil-Shortcut)
+- Generator: `scripts/generate-feldkarten-paths.mjs`
+- SW-Cache `universum-shell-v67` + Precache path-Feldkarten via Manifest
+
 ## 5.20.2 — Rituale Werkzeug redesign
 
 - **Jump-Pills** (Grenze · Pfad · Sigil · Karten) deutlich größer: gleichmäßige Tap-Ziele (~48px), klare Labels — weiterhin sekundär zu Werkzeug/Eigene/Geführt

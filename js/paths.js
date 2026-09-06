@@ -721,7 +721,10 @@
   /** Mini toolkits per path (not full ritual duplicates). */
   const PATH_WERKZEUG = {
     nordisch: { id: 'eid-gabe', title: 'Eid / Gabe', kind: 'note', field: 'eidGabe', placeholder: 'Eid oder Gabe heute…' },
-    chaosmagie: { id: 'sigil-labor', title: 'Sigil-Labor', kind: 'shortcut', target: 'sigil' },
+    chaosmagie: { id: 'labor-check', title: 'Labor-Check', kind: 'checks', fields: [
+      { id: 'ethik', label: 'Ethik geprüft' }, { id: 'statement', label: 'Statement positiv' },
+      { id: 'gnosis', label: 'Gnosis kurz' }, { id: 'vergessen', label: 'Vergessen geplant' }
+    ]},
     hermetik: { id: 'stunden-notiz', title: 'Stunden-Notiz', kind: 'note', field: 'stundenNotiz', placeholder: 'Stunde / Beobachtung…' },
     wicca: { id: 'element-check', title: 'Element-Check', kind: 'checks', fields: [
       { id: 'erde', label: 'Erde' }, { id: 'luft', label: 'Luft' },

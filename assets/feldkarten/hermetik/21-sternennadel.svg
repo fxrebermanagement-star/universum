@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140" role="img" aria-label="Sternennadel · Hermetik">
+  <defs>
+    <linearGradient id="bghermetik21" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#181428"/>
+      <stop offset="55%" stop-color="#0c0a18"/>
+      <stop offset="100%" stop-color="#060410"/>
+    </linearGradient>
+    <radialGradient id="glowhermetik21" cx="50%" cy="38%" r="55%">
+      <stop offset="0%" stop-color="#9a8fd4" stop-opacity="0.55"/>
+      <stop offset="55%" stop-color="#f0d878" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="goldhermetik21" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f0d878"/>
+      <stop offset="100%" stop-color="#c9a030"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="140" rx="12" fill="url(#bghermetik21)"/>
+  <rect x="3" y="3" width="114" height="134" rx="2" fill="none" stroke="#e8c547" stroke-opacity="0.55" stroke-width="1.5"/>
+  <rect x="7" y="7" width="106" height="126" rx="1" fill="none" stroke="#9a8fd4" stroke-opacity="0.35" stroke-width="0.8"/>
+  <path d="M10 10 L16 10 L10 16 Z M110 10 L104 10 L110 16 Z M10 130 L16 130 L10 124 Z M110 130 L104 130 L110 124 Z" fill="#e8c547" fill-opacity="0.45"/>
+  <circle cx="60" cy="58" r="46" fill="url(#glowhermetik21)"/>
+  <path d="M60 22 L66 54 L98 60 L66 66 L60 98 L54 66 L22 60 L54 54 Z" fill="#1a1430" stroke="url(#goldhermetik21)" stroke-width="2"/>
+  <path d="M60 34 L63 54 L60 60 L57 54 Z" fill="#f0d878"/>
+  <path d="M60 60 L63 86 L60 90 L57 86 Z" fill="#b0a8e0"/>
+  <circle cx="60" cy="60" r="5" fill="#f0d878"/>
+  <circle cx="60" cy="60" r="2.2" fill="#1a1430"/>
+  <g fill="#b0a8e0" opacity="0.8">
+    <circle cx="28" cy="30" r="1.5"/><circle cx="94" cy="34" r="1.8"/><circle cx="88" cy="96" r="1.4"/>
+  </g>
+  <g opacity="0.4" transform="translate(90 14)" fill="none" stroke="#e8c547" stroke-width="1.3">
+        <circle cx="14" cy="14" r="10"/>
+        <circle cx="14" cy="14" r="5"/>
+        <path d="M14 4 L22.6 19 L5.4 19 Z"/>
+      </g>
+</svg>

@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140" role="img" aria-label="Regenwaschen · Santería">
+  <defs>
+    <linearGradient id="bgsanteria16" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a2010"/>
+      <stop offset="55%" stop-color="#101408"/>
+      <stop offset="100%" stop-color="#080a04"/>
+    </linearGradient>
+    <radialGradient id="glowsanteria16" cx="50%" cy="38%" r="55%">
+      <stop offset="0%" stop-color="#c9a03a" stop-opacity="0.55"/>
+      <stop offset="55%" stop-color="#f0d878" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="goldsanteria16" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f0d878"/>
+      <stop offset="100%" stop-color="#c9a03a"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="140" rx="12" fill="url(#bgsanteria16)"/>
+  <rect x="3.5" y="3.5" width="113" height="133" rx="16" fill="none" stroke="#e8c860" stroke-opacity="0.48" stroke-width="1.4"/>
+  <rect x="8" y="8" width="104" height="124" rx="12" fill="none" stroke="#5ab0c8" stroke-opacity="0.32" stroke-width="0.85"/>
+  <circle cx="60" cy="58" r="46" fill="url(#glowsanteria16)"/>
+  <path d="M30 40 Q60 22 90 40" fill="none" stroke="#6ec8a0" stroke-width="2.4"/>
+  <g stroke="#6ec8a0" stroke-width="1.8" stroke-linecap="round">
+    <path d="M38 52 V78 M50 48 V86 M62 50 V82 M74 48 V88 M86 54 V76"/>
+  </g>
+  <ellipse cx="60" cy="102" rx="28" ry="8" fill="#6ec8a0" fill-opacity="0.25" stroke="#6ec8a0" stroke-width="1.2"/>
+  <path d="M48 102 Q60 110 72 102" fill="none" stroke="#f0d878" stroke-width="1.5"/>
+  <circle cx="60" cy="36" r="3" fill="#f0d878"/>
+  <g opacity="0.4" transform="translate(94 16)">
+        <circle cx="8" cy="12" r="6" fill="none" stroke="#e8c860" stroke-width="1.5"/>
+        <circle cx="14" cy="10" r="5" fill="none" stroke="#6ec8a0" stroke-width="1.3"/>
+        <path d="M10 6 Q12 2 14 5" fill="none" stroke="#e8c860" stroke-width="1.2"/>
+      </g>
+</svg>

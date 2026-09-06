@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140" role="img" aria-label="Sternennadel · Voodoo">
+  <defs>
+    <linearGradient id="bgvoodoo21" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a0c18"/>
+      <stop offset="55%" stop-color="#0e0610"/>
+      <stop offset="100%" stop-color="#060408"/>
+    </linearGradient>
+    <radialGradient id="glowvoodoo21" cx="50%" cy="38%" r="55%">
+      <stop offset="0%" stop-color="#3a2a80" stop-opacity="0.55"/>
+      <stop offset="55%" stop-color="#f0e8f8" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="goldvoodoo21" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f0e8f8"/>
+      <stop offset="100%" stop-color="#c05070"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="140" rx="12" fill="url(#bgvoodoo21)"/>
+  <rect x="3.5" y="3.5" width="113" height="133" rx="6" fill="none" stroke="#e8e0f0" stroke-opacity="0.45" stroke-width="1.3"/>
+  <rect x="7" y="7" width="106" height="126" rx="4" fill="none" stroke="#b84a6a" stroke-opacity="0.4" stroke-width="0.9"/>
+  <path d="M14 10 H30 M90 10 H106 M14 130 H30 M90 130 H106" stroke="#b84a6a" stroke-opacity="0.55" stroke-width="1.2"/>
+  <circle cx="60" cy="58" r="46" fill="url(#glowvoodoo21)"/>
+  <path d="M60 22 L66 54 L98 60 L66 66 L60 98 L54 66 L22 60 L54 54 Z" fill="#1a1430" stroke="url(#goldvoodoo21)" stroke-width="2"/>
+  <path d="M60 34 L63 54 L60 60 L57 54 Z" fill="#f0e8f8"/>
+  <path d="M60 60 L63 86 L60 90 L57 86 Z" fill="#d06080"/>
+  <circle cx="60" cy="60" r="5" fill="#f0e8f8"/>
+  <circle cx="60" cy="60" r="2.2" fill="#1a1430"/>
+  <g fill="#d06080" opacity="0.8">
+    <circle cx="28" cy="30" r="1.5"/><circle cx="94" cy="34" r="1.8"/><circle cx="88" cy="96" r="1.4"/>
+  </g>
+  <g opacity="0.38" transform="translate(90 14)" fill="none" stroke="#e8e0f0" stroke-width="1.3">
+        <path d="M14 2 V26 M6 8 H22 M6 20 H22 M10 8 V14 H18 V8 M10 20 V14"/>
+        <circle cx="14" cy="14" r="2.2" fill="#d06080" fill-opacity="0.5" stroke="none"/>
+      </g>
+</svg>

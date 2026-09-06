@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140" role="img" aria-label="Nebelpfad · Wicca">
+  <defs>
+    <linearGradient id="bgwicca9" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#101818"/>
+      <stop offset="55%" stop-color="#0a1010"/>
+      <stop offset="100%" stop-color="#060808"/>
+    </linearGradient>
+    <radialGradient id="glowwicca9" cx="50%" cy="38%" r="55%">
+      <stop offset="0%" stop-color="#5aab7a" stop-opacity="0.55"/>
+      <stop offset="55%" stop-color="#d0e8c0" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="goldwicca9" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#d0e8c0"/>
+      <stop offset="100%" stop-color="#5aab7a"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="140" rx="12" fill="url(#bgwicca9)"/>
+  <rect x="3.5" y="3.5" width="113" height="133" rx="16" fill="none" stroke="#a8d0b8" stroke-opacity="0.48" stroke-width="1.4"/>
+  <rect x="8" y="8" width="104" height="124" rx="12" fill="none" stroke="#7a88c0" stroke-opacity="0.32" stroke-width="0.85"/>
+  <circle cx="60" cy="58" r="46" fill="url(#glowwicca9)"/>
+  <path d="M60 118 C48 100 72 88 54 72 C40 58 70 48 58 32" fill="none" stroke="url(#goldwicca9)" stroke-width="3" stroke-linecap="round"/>
+  <ellipse cx="48" cy="50" rx="22" ry="10" fill="#90b8e0" fill-opacity="0.18"/>
+  <ellipse cx="72" cy="70" rx="26" ry="12" fill="#5aab7a" fill-opacity="0.22"/>
+  <ellipse cx="55" cy="90" rx="28" ry="11" fill="#90b8e0" fill-opacity="0.12"/>
+  <circle cx="58" cy="30" r="3.5" fill="#d0e8c0" opacity="0.8"/>
+  <path d="M30 40 Q45 35 55 42" fill="none" stroke="#cfe6ff" stroke-width="1.2" opacity="0.5"/>
+  <g opacity="0.4" transform="translate(92 14)">
+        <path d="M18 8 A9 9 0 1 0 18 22 A7 7 0 1 1 18 8Z" fill="none" stroke="#a8d0b8" stroke-width="1.5"/>
+        <circle cx="8" cy="6" r="1.2" fill="#90b8e0"/>
+        <circle cx="22" cy="18" r="0.9" fill="#90b8e0"/>
+      </g>
+</svg>
