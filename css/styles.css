@@ -9534,14 +9534,15 @@ body.stille-modus #sec-cockpit #jetzt-card .jetzt-lead {
   min-height: 0;
   height: 100%;
   width: 100%;
-  /* leave optical room on the right for floating figure */
-  padding-right: clamp(5.2rem, 28vw, 7.6rem);
+  padding-right: 0;
   box-sizing: border-box;
 }
 .cock-hero-main .cock-status-bar {
   min-height: 0;
   height: 100%;
   width: 100%;
+  /* volle Kachel bis zum Rand; Text weicht der Overlay-Figur aus */
+  padding-right: clamp(5.4rem, 30vw, 8rem) !important;
 }
 .cock-mond-sonne {
   display: grid;
@@ -9892,8 +9893,8 @@ body.stille-modus #sec-cockpit #jetzt-card .jetzt-lead {
     padding-left: 0.28rem !important;
     padding-right: 0.28rem !important;
   }
-  .cock-hero-main {
-    padding-right: clamp(4.8rem, 30vw, 6.8rem);
+  .cock-hero-main .cock-status-bar {
+    padding-right: clamp(4.8rem, 30vw, 7rem) !important;
   }
   .cock-path-figur-overlay {
     width: clamp(4.8rem, 30vw, 6.8rem) !important;
@@ -9904,4 +9905,10 @@ body.stille-modus #sec-cockpit #jetzt-card .jetzt-lead {
 .altar-cockpit.altar-homescreen {
   position: relative;
   overflow: visible;
+}
+
+/* v5.28.4 — Status-Kachel volle Breite bis Rand; Figur Overlay darüber */
+.cock-mond-sonne {
+  /* Mond|Sonne ebenfalls volle Breite; Figur schwebt nur über dem oberen Bereich */
+  padding-right: 0;
 }

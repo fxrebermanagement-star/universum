@@ -430,6 +430,11 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.28.4 — Status-Kachel volle Breite
+
+- Erste Kachel bis zum Bildschirmrand; Text weicht der Overlay-Figur aus
+- SW `universum-shell-v87`
+
 ## 5.28.3 — Figur-Assets freigestellt
 
 - Dunkler Pinsel-/Kachelrahmen aus allen Pfad-Figur-PNGs entfernt
