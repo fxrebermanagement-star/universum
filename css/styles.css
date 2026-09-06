@@ -8761,15 +8761,17 @@ body.quiet-mode .first-session-tip { display: none !important; }
 
 
 /* ——— v5.26.0 Altar — exact sketch + warm path figure · kids-app cozy ——— */
-#sec-cockpit.altar-sacred {
+/* v5.30.2 — inactive Altar must leave the document flow (no scroll-up into Altar) */
+#sec-cockpit.altar-sacred:not(.active) {
+  display: none !important;
+}
+#sec-cockpit.altar-sacred.active {
   display: flex;
   flex-direction: column;
   padding: 0.5rem 0.8rem 0.12rem;
   overflow: hidden;
   overscroll-behavior: none;
   box-sizing: border-box;
-}
-#sec-cockpit.altar-sacred.active {
   min-height: 0;
   height: calc(100dvh - 3.5rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
   max-height: calc(100dvh - 3.5rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
@@ -10034,12 +10036,17 @@ body.stille-modus #sec-cockpit #jetzt-card .jetzt-lead {
 body.on-altar .bottom-nav button[data-nav="cockpit"] {
   color: var(--maya, #3ed4c4);
 }
-/* v5.30.1 — Bottom-Nav nur außerhalb Altar */
+/* v5.30.2 — Bottom-Nav nur außerhalb Altar · hard hide */
 body.on-altar .bottom-nav,
-body.on-altar #bottom-nav {
+body.on-altar #bottom-nav,
+body.on-altar nav.bottom-nav {
   display: none !important;
   visibility: hidden !important;
   pointer-events: none !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
 }
 body.on-altar .app-shell {
   padding-bottom: calc(0.65rem + var(--safe-bottom));

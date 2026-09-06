@@ -430,6 +430,11 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.30.2 — Untermenüs ohne Altar-Scroll
+
+- Bugfix: `#sec-cockpit.altar-sacred { display:flex }` hat `.section-view` überschrieben — Altar blieb im Flow
+- Inaktiv jetzt `display:none !important` · Bottom-Nav hard-hide · SW `universum-shell-v95`
+
 ## 5.30.1 — Bottom-Menü nur außerhalb Altar
 
 - Unteres Menü am Altar ausgeblendet (Dock reicht)
