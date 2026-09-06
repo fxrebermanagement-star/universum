@@ -430,6 +430,11 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.32.4 — Bottom-Dock nur Untermenüs
+
+- Am Altar: Bottom-Nav hard-hide (`[hidden]` + `body.on-altar` + Critical CSS)
+- In Kalender/Kosmos/… wieder sichtbar · SW `universum-shell-v103`
+
 ## 5.32.3 — Bottom-Menü am Altar aus
 
 - Am Altar wieder ohne Bottom-Nav (Dock reicht)

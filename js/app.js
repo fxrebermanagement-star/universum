@@ -7440,6 +7440,8 @@
     $$('#bottom-nav [data-nav]').forEach(btn => {
       btn.addEventListener('click', () => navigate(btn.dataset.nav));
     });
+    /* v5.32.4 nav sync */
+    try { syncAltarHomeBtn(activeSection || 'cockpit'); } catch (_) {}
   }
 
   function init() {
