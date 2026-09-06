@@ -6297,7 +6297,6 @@
       return;
     }
 
-    // No fixed overlay, no native prompt — both froze phones. Steps only in Settings/Empfehlen.
     dismissInstallBanner(false);
     const copy = fillInstallSteps(plat);
     if (status) status.textContent = copy.summary;
@@ -6309,22 +6308,47 @@
           if (howto.scrollIntoView) howto.scrollIntoView({ block: 'nearest', behavior: 'auto' });
         }
       } catch (_) {}
-    } else {
-      // From Empfehlen: open settings so steps are readable
-      try { openSettings(); } catch (_) {}
+    }
+
+    // iOS: never native prompt
+    if (plat.isIOS) {
+      toast('Nur Safari: Teilen → Zum Home-Bildschirm', 3400);
+      return;
+    }
+
+    // Android/Desktop Chrome: fire-and-forget native sheet (no await = no hang)
+    const ev = deferredInstallPrompt;
+    if (ev && typeof ev.prompt === 'function') {
+      deferredInstallPrompt = null;
+      const bp = $('#install-banner-prompt');
+      if (bp) bp.hidden = true;
       try {
-        const howto = $('#install-howto');
-        if (howto) {
-          howto.hidden = false;
-          setTimeout(function () {
-            try { howto.scrollIntoView({ block: 'nearest', behavior: 'auto' }); } catch (_) {}
-          }, 50);
+        const p = ev.prompt();
+        if (p && typeof p.then === 'function') p.catch(function () {});
+      } catch (_) {}
+      try {
+        if (ev.userChoice && typeof ev.userChoice.then === 'function') {
+          ev.userChoice.then(function (choice) {
+            if (choice && choice.outcome === 'accepted') {
+              toast('Schön — UNIVERSUM kommt auf den Homescreen');
+              if (status) status.textContent = 'Installiert — lokal auf dem Gerät, ohne Konto.';
+              const howto = $('#install-howto');
+              if (howto) howto.hidden = true;
+            } else if (status) {
+              status.textContent = 'Falls kein Dialog: Chrome ⋮ → App installieren / Zum Startbildschirm.';
+            }
+          }).catch(function () {});
         }
       } catch (_) {}
+      toast('Install-Dialog sollte erscheinen …', 2600);
+      return;
     }
-    toast(plat.isIOS
-      ? 'Nur Safari: Teilen → Zum Home-Bildschirm'
-      : 'Chrome ⋮ → App installieren', 3200);
+
+    // No deferred event yet — clear Chrome menu path
+    toast('Chrome ⋮ → App installieren / Zum Startbildschirm', 3600);
+    if (status) {
+      status.textContent = 'Kein Dialog bereit — bitte Chrome-Menü ⋮ → App installieren. Seite kurz neu laden und nochmal tippen.';
+    }
   }
 
   function isStandaloneDisplay() {
@@ -8663,7 +8687,7 @@
       e.preventDefault();
       deferredInstallPrompt = e;
       const bp = $('#install-banner-prompt');
-      if (bp) bp.hidden = false;
+      if (bp) bp.hidden = false; // native install available
       const empInst = $('#empfehlen-install');
       if (empInst) empInst.classList.add('has-prompt');
       /* v5.33.7: do not auto-show install banner after beforeinstallprompt */

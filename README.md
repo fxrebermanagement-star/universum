@@ -1014,3 +1014,10 @@ Siebzehnte Runde — **UX Klarheit**: modernes dunkles UI mit mehr Weißraum und
 - Auto-Reload wenn neuer SW aktiv wird
 - Script-URLs mit `?v=5338`, SW `?v=115`
 - Cache-Name `universum-shell-v115`
+
+## 5.33.9 — Android Install wieder
+
+- `beforeinstallprompt().prompt()` nur Android/Desktop, ohne Await/Overlay
+- `start_url` ohne `#` (Chrome-Install)
+- Manifest `id`
+- SW `universum-shell-v116`
