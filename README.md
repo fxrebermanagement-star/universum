@@ -430,6 +430,13 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.33.0 — Sprache DE/EN · UNIVERSUM+ · Lampen-Icon
+
+- UI-Chrome: Sprache **Deutsch | English** (Settings, `settings.lang`, `js/i18n.js`) — Lexikon bleibt DE, keine Gendersprache
+- UNIVERSUM+: ehrliche Vorschau «1 Monat gratis, danach CHF 5 / Monat» — Button «Bald verfügbar», kein Payment
+- App-Icon: Startbildschirm-Diya/Lampe (🪔) in `icons/icon.svg`, `icon-192.png`, `icon-512.png`
+- SW `universum-shell-v107` (+ `js/i18n.js`)
+
 ## 5.32.7 — App-Name UNIVERSUM
 
 - Manifest, Homescreen-Titel, Startseite und Browser-Titel einheitlich **UNIVERSUM**

@@ -10366,3 +10366,57 @@ body.altar-mehr-open .app-shell > main {
   line-height: 1.4;
   opacity: 0.9;
 }
+
+
+/* ——— v5.33.0 Sprache + UNIVERSUM+ ——— */
+.lang-seg {
+  display: flex;
+  gap: 0.4rem;
+  margin: 0.55rem 0 0.85rem;
+  padding: 0.22rem;
+  border-radius: 999px;
+  background: rgba(40, 28, 60, 0.55);
+  border: 1px solid rgba(167, 139, 250, 0.22);
+}
+.lang-seg-btn {
+  flex: 1;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.5rem 0.7rem;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: rgba(240, 230, 255, 0.72);
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+}
+.lang-seg-btn:hover { color: #f6f0ff; }
+.lang-seg-btn.active {
+  color: #1a1028;
+  background: linear-gradient(135deg, #e8d5ff, #c4b5fd);
+  box-shadow: 0 2px 12px rgba(167, 139, 250, 0.35);
+}
+.universum-plus-card {
+  margin: 0.75rem 0 0.35rem;
+  padding: 0.8rem 0.9rem;
+}
+.universum-plus-card .intention-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+}
+.universum-plus-card h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+.universum-plus-card #universum-plus-btn[disabled] {
+  opacity: 0.72;
+  cursor: not-allowed;
+}
+.empfehlen-plus-soft {
+  opacity: 0.85;
+  font-style: italic;
+}

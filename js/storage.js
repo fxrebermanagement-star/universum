@@ -81,6 +81,8 @@
       schumannLive: null,
       calendarPathOnly: true,
       resonanzPathOnly: true,
+      lang: 'de',
+      plusPreviewSeen: false,
       reminders: {
         enabled: false,
         mondfenster: true,
@@ -267,7 +269,7 @@
     });
   }
 
-  const APP_VERSION = '5.32.7';
+  const APP_VERSION = '5.33.0';
 
   function buildExportMeta(data) {
     const pathId = data.path || 'esoterik';
@@ -1329,6 +1331,8 @@
       mondnachtAuto: settings.mondnachtAuto,
       haptics: settings.haptics,
       hourAlert: settings.hourAlert,
+      lang: settings.lang === 'en' ? 'en' : 'de',
+      plusPreviewSeen: !!settings.plusPreviewSeen,
       reminders: settings.reminders || null,
       briefingPins: data.briefingPins || []
     };

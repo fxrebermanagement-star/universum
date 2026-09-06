@@ -298,6 +298,80 @@
   /** Magie-Buch compose mode: notiz | eintrag */
   let buchMode = 'notiz';
 
+  /* ——— v5.33.0 i18n ——— */
+  function tt(key, fallback) {
+    try {
+      if (typeof t === 'function') return t(key, fallback);
+      if (window.UniversumI18n && typeof UniversumI18n.t === 'function') {
+        return UniversumI18n.t(key, fallback);
+      }
+    } catch (_) { /* ignore */ }
+    return fallback != null ? fallback : key;
+  }
+
+  function syncLangSegUi(lang) {
+    lang = lang === 'en' ? 'en' : 'de';
+    const de = $('#set-lang-de');
+    const en = $('#set-lang-en');
+    if (de) {
+      de.classList.toggle('active', lang === 'de');
+      de.setAttribute('aria-pressed', lang === 'de' ? 'true' : 'false');
+    }
+    if (en) {
+      en.classList.toggle('active', lang === 'en');
+      en.setAttribute('aria-pressed', lang === 'en' ? 'true' : 'false');
+    }
+  }
+
+  function syncSectionLabelsFromI18n() {
+    ALTAR_LABEL.name = tt('nav.altar', 'Altar');
+    RESONANZ_LABEL.name = tt('nav.resonanzen', 'Resonanzen');
+    RESONANZ_LABEL.short = tt('nav.resonanz', 'Resonanz');
+    SECTIONS.forEach(function (s) {
+      if (s.id === 'cockpit') s.name = ALTAR_LABEL.name;
+      else if (s.id === 'kalender') s.name = tt('nav.kalender', 'Kalender');
+      else if (s.id === 'kosmos') s.name = tt('nav.kosmos', 'Kosmos');
+      else if (s.id === 'rituale') s.name = tt('nav.rituale', 'Rituale');
+      else if (s.id === 'korrespondenzen') s.name = RESONANZ_LABEL.short;
+      else if (s.id === 'buch') s.name = tt('nav.buch', 'Buch');
+    });
+  }
+
+  function applyUiLanguage(opts) {
+    opts = opts || {};
+    const lang = (opts.lang === 'en' || opts.lang === 'de')
+      ? opts.lang
+      : ((state.settings && state.settings.lang === 'en') ? 'en' : 'de');
+    try {
+      if (window.UniversumI18n) {
+        UniversumI18n.setLang(lang);
+        UniversumI18n.apply(document);
+      }
+    } catch (_) { /* ignore */ }
+    syncSectionLabelsFromI18n();
+    syncLangSegUi(lang);
+    try { buildNav(); } catch (_) { /* ignore */ }
+    try {
+      $$('.bottom-nav button').forEach(function (btn) {
+        btn.classList.toggle('active', btn.dataset.nav === activeSection);
+      });
+    } catch (_) { /* ignore */ }
+  }
+
+  function setAppLanguage(lang, opts) {
+    opts = opts || {};
+    lang = lang === 'en' ? 'en' : 'de';
+    Store.update(function (d) {
+      if (!d.settings) d.settings = {};
+      d.settings.lang = lang;
+    });
+    refreshState();
+    applyUiLanguage({ lang: lang });
+    if (opts.toast !== false) {
+      toast(lang === 'en' ? tt('toast.langEn', 'Language: English') : tt('toast.langDe', 'Sprache: Deutsch'));
+    }
+  }
+
   /* ——— v5.21.1 exclusive Werkzeug sub-panels (Pfad ≠ Sigil) ——— */
   const WERKZEUG_SUBS = ['grenze', 'path', 'sigil', 'karten'];
   const WERKZEUG_SUB_KEY = 'universum-werkzeug-sub';
@@ -6915,6 +6989,19 @@
     const calPath = $('#set-calendar-path-only');
     if (calPath) calPath.checked = isCalendarPathOnly();
     try { syncRemindersUi(); } catch (_) {}
+    try {
+      const lang = (state.settings && state.settings.lang === 'en') ? 'en' : 'de';
+      syncLangSegUi(lang);
+    } catch (_) {}
+    try {
+      if (state.settings && !state.settings.plusPreviewSeen) {
+        Store.update(function (d) {
+          if (!d.settings) d.settings = {};
+          d.settings.plusPreviewSeen = true;
+        });
+        refreshState();
+      }
+    } catch (_) {}
   }
 
   function closeSettings() {
@@ -7449,7 +7536,13 @@
   }
 
   function init() {
-    buildNav();
+    try {
+      const bootLang = (state.settings && state.settings.lang === 'en') ? 'en' : 'de';
+      if (window.UniversumI18n) UniversumI18n.setLang(bootLang);
+      applyUiLanguage({ lang: bootLang });
+    } catch (_) {
+      buildNav();
+    }
     const now = new Date();
     calYear = now.getFullYear();
     calMonth = now.getMonth();
@@ -7484,6 +7577,10 @@
       });
     }
     syncBuchBackToAltar();
+    const setLangDe = $('#set-lang-de');
+    const setLangEn = $('#set-lang-en');
+    if (setLangDe) setLangDe.addEventListener('click', function () { setAppLanguage('de'); });
+    if (setLangEn) setLangEn.addEventListener('click', function () { setAppLanguage('en'); });
     const settingsClose = $('#settings-close');
     if (settingsClose) settingsClose.addEventListener('click', closeSettings);
 
