@@ -636,7 +636,7 @@
     const chip = $('#path-teach-chip');
     if (!textEl) return;
     const path = currentPath();
-    const tip = (path && path.teachingTip) || (path && path.practiceHint) || 'Praxis vor Spektakel — mit Grenze und Ausgleich.';
+    const tip = (path && path.teachingTip) || (path && path.practiceHint) || 'Magie beginnt klein — mit Neugier, Grenze und einem Lächeln.';
     textEl.textContent = tip;
     if (chip) chip.textContent = path && path.name ? path.name : 'Pfad';
   }
@@ -1802,7 +1802,7 @@
       kindEl.textContent = tip && tip.kind === 'haltung' ? 'Haltung' : 'Einladung';
     }
     if (lead) {
-      let leadText = (tip && tip.text) || (path && path.practiceHint) || 'Heute reicht ein kleiner Funke — ganz in Ruhe.';
+      let leadText = (tip && tip.text) || (path && path.practiceHint) || 'Heute ein kleiner Zauberfunke — neugierig, ohne Druck.';
       // Compact status-strip: keep it short, warm, memorable
       if (leadText.length > 72) {
         const cut = leadText.slice(0, 70);
@@ -6950,7 +6950,7 @@
     const el = $('#first-session-tip');
     if (!el) return;
     const tips = [
-      'Ein ruhiger Tipp: Heute reicht oft ein kurzes Ritual — längere Begleitung findest du unter Rituale · Filter «Tiefe».',
+      'Lust auf Hexerei? Ein kurzes Ritual weckt schon Magie — unter Rituale wartet mehr zum Entdecken.',
       'Tipp: Magie-Buch und Lexikon bleiben lokal. Unter Einstellungen kannst du ein Vollbackup ZIP sichern.',
       'Tipp: Zum Homescreen legen — dann läuft die Offline-Shell auch ohne Netz. Daten bleiben auf dem Gerät.'
     ];

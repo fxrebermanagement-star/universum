@@ -430,6 +430,12 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.26.1 — Magie & Hexerei einladen
+
+- Copy/Onboarding/Heute: spielerisch, magisch, neugierig — nicht belehrend
+- Ethik und Maß bleiben; App zum Lieben + Interesse an Praxis wecken
+- SW-Cache `universum-shell-v78`
+
 ## 5.26.0 — Altar exact sketch + path figure (warm)
 
 - **Layout:** Top-Leiste Zeit/Datum · Wetter · Heute · Mond | Sonne | **Pfad-Figur** · Schumann nur Grafik · Dock 4+3

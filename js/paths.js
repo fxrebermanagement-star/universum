@@ -30,7 +30,7 @@
       greeting: 'Der Weg der Trommel und der Geisterreise — achtsam, geerdet.',
       calendarNote: 'Rauhnächte, Samhain, Ahnen-Gedenken und Lostage: still, geerdet, ohne Spektakel. Körper zuerst.',
       recommendedRitual: 'trommel-atem',
-      practiceHint: 'Heute nur Pfad: Trommelpuls, Spurlesen oder Rauchbrücke — Körper zuerst.',
+      practiceHint: 'Heute magisch: Trommelpuls, Spurlesen oder Rauchbrücke — der Körper führt dich hinein.',
       teachingTip: 'Die Trommel bringt dich zurück — drei Atemzüge auf der Erde, bevor du reist.',
       diaryPrompts: [
         'Was hat der Körper heute gesagt, bevor der Kopf antwortete?',
@@ -78,7 +78,7 @@
       greeting: 'Nordischer Pfad: Ehre, Sippe, Jahreskreis.',
       calendarNote: 'Yule, Ostara, Mabon, Michaelis, Rauhnächte und Ahnen-Gedenken — Knoten der Ehre und des Maßes.',
       recommendedRitual: 'mass-eid',
-      practiceHint: 'Heute nur Pfad: Ringwort, Thing-Pause oder Gastgabe — Maß ohne Pathos.',
+      practiceHint: 'Heute magisch: ein Ringwort, eine Thing-Pause oder Gastgabe — Ehre mit einem Augenzwinkern.',
       teachingTip: 'Ein Wort, das du hältst, wiegt mehr als zehn Runen ohne Eid.',
       diaryPrompts: [
         'Welchen Eid hast du heute gehalten — und welchen schuldest du noch?',
@@ -127,7 +127,7 @@
       disclaimer: 'Nur öffentliche/Hauspraxis. Keine Initiation, keine Lwa-Anrufung als Medium. Fetene Gede hier nur als respektvolle Erinnerung — kein Ritus der Einweihung.',
       calendarNote: 'Samhain, Allerheiligen, Fetene Gede (Erinnerung) und Hausaltar-Tag: Respekt und Reinheit im Haus — ausdrücklich keine Initiation und kein Medium.',
       recommendedRitual: 'hausreinigung-voodoo',
-      practiceHint: 'Heute nur Pfad: Schwellenwasser, Hofkehren oder Weißes Licht — Respekt, kein Medium.',
+      practiceHint: 'Heute magisch: Schwellenwasser, Hofkehren oder Weißes Licht — Hauszauber mit Respekt.',
       teachingTip: 'Hauspraxis beginnt mit Reinheit des Raums — Wasser und Licht reichen oft.',
       diaryPrompts: [
         'Was hast du heute mit Respekt getan — ohne Anspruch auf Initiation?',
@@ -176,7 +176,7 @@
       disclaimer: 'Nur öffentliche/Hauspraxis. Keine Initiation, kein Orisha-Priestertum, kein Ile hier. Dank und Reinigung im Alltag — Aché ohne Anspruch.',
       calendarNote: 'Ostara, Beltane, Samhain, Allerheiligen und Haus-Dank-Tage: Reinigung und Aché im Haus — klar getrennt von Ile und Einweihung. Anders als Voodoo-Hauspraxis: Fokus Dank/Aché, nicht Lwa/Fetene-Gede-Ton.',
       recommendedRitual: 'reinigung-ache',
-      practiceHint: 'Heute nur Pfad: Haus-Aché, Weißes Tuch oder Drei Danke — ohne Initiation.',
+      practiceHint: 'Heute magisch: Haus-Aché, Weißes Tuch oder Drei Danke — Licht im Haus, ohne Initiation.',
       teachingTip: 'Aché wächst im Dank — bevor du bittest, nenne drei Dinge, die schon tragen.',
       diaryPrompts: [
         'Wo hast du heute Aché gespürt — im Alltag, nicht im Tempel?',
@@ -224,7 +224,7 @@
       greeting: 'Hermetischer Weg: Maß, Symbol, innere Alchemie.',
       calendarNote: 'Equinoxe, Solstitien und Merkur-Achtung: Achsen der Proportion — Ostara, Litha, Mabon, Yule.',
       recommendedRitual: 'stunden-halten',
-      practiceHint: 'Heute nur Pfad: Operator-Stunde, Vier-Tafel oder Solve et Coagula — Maß.',
+      practiceHint: 'Heute magisch: Operator-Stunde, Vier-Tafel oder Solve et Coagula — Alchemie zum Anfassen.',
       teachingTip: 'Kontemplation vor Operation — prüfe das Maß, bevor du das Symbol bewegst.',
       diaryPrompts: [
         'Welches Symbol hat heute oben und unten verbunden — und mit welchem Maß?',
@@ -273,7 +273,7 @@
       greeting: 'Wicca-Hexerei: Kreis, Sabbat-Atem, kurze Werke ohne Schaden.',
       calendarNote: 'Jahresrad als Praxis — Sabbats und Mond als Arbeitsfenster, nicht als Pflichtkalender.',
       recommendedRitual: 'elemente',
-      practiceHint: 'Heute: ein kurzes Werk — Schutz, Reinigung, Anziehen oder Loslassen — an niemandem Schaden.',
+      practiceHint: 'Heute Hexerei zum Ausprobieren: Schutz, Reinigung, Anziehen oder Loslassen — liebevoll, ohne Schaden.',
       teachingTip: 'Hexerei hier heißt Hauspraxis im Kreis: klare Absicht, Grenze, Gabe, Schweigen — kein Spektakel.',
       diaryPrompts: [
         'Welches Werk war es heute: Schutz, Reinigung, Anziehen oder Loslassen?',
@@ -322,7 +322,7 @@
       greeting: 'Chaosmagie: Modell-Agnostik, Praxis vor Dogma.',
       calendarNote: 'Tore 3/6/9, Labor-Tag und Sigil-Freitag: jeder Tag kann Labor sein — Ethik hält, Ergebnis-Jagd nicht.',
       recommendedRitual: 'sigil-gnosis',
-      practiceHint: 'Heute nur Pfad: Gnosis-Schnitt, Modell-Wechsel oder Vergiss-Schnitt — laden, loslassen.',
+      practiceHint: 'Heute magisch: Gnosis-Schnitt, Modell-Wechsel oder Vergiss-Schnitt — spielerisch laden und loslassen.',
       teachingTip: 'Gnosis ist kurz — lade voll, dann lass los. Ergebnis-Jagd schwächt den Sigil.',
       diaryPrompts: [
         'Welches Modell hast du heute benutzt — und hast du es danach wieder abgelegt?',
@@ -370,7 +370,7 @@
       greeting: 'Offene Esoterik: Praxiswerkzeug, kein Schaukasten.',
       calendarNote: 'Imbolc, Ostara, Samhain, Yule, Rauhnächte, Lostage und Mond-Achtung — sanfte Jahresmarker ohne Orakel-Zwang.',
       recommendedRitual: 'schwelle',
-      practiceHint: 'Heute nur Pfad: Feldlicht-Schwelle, Mondfenster oder Zahlen-Klarheit — still und klar.',
+      practiceHint: 'Heute magisch: Feldlicht-Schwelle, Mondfenster oder Zahlen-Klarheit — still, klar, einladend.',
       teachingTip: 'Feldlicht begleitet still — eine klare Intention ersetzt zehn laute Rituale.',
       diaryPrompts: [
         'Was hat das Feldlicht heute leise gezeigt?',
