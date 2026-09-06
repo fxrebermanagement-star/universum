@@ -483,7 +483,7 @@
     const body = $('#day-banner-text');
     if (title) title.textContent = dayGreetingWord();
     if (body) {
-      body.textContent = 'Willkommen zurück — Einträge bleiben. Intention und Tageskarte sind frisch.';
+      body.textContent = 'Schön, dass du da bist — dein Buch wartet still; Intention und Tageskarte sind frisch.';
     }
     // Einmal am Tag kurz nicken, dann von selbst weg — Altar bleibt frei
     dayBannerAutoTimer = setTimeout(function () {
@@ -502,7 +502,7 @@
     renderDailyCardPanel();
     renderDailyIntention();
     if (show) {
-      toast(dayGreetingWord() + ' — stiller Neustart ohne Datenverlust.', 3200);
+      toast(dayGreetingWord() + ' — still und frisch. Deine Einträge bleiben bei dir.', 3200);
       if ($('#sec-cockpit') && $('#sec-cockpit').classList.contains('active')) {
         renderCockpit();
       }
@@ -1714,7 +1714,7 @@
       const figTip = $('#path-figure-tip');
       const figur = $('#cock-path-figur');
       const name = (path && path.name) || 'Pfad';
-      const tip = (path && (path.haltung || path.saying || path.teachingTip)) || 'Dein Pfad-Begleiter — neugierig, leicht, ohne Grusel.';
+      const tip = (path && (path.teachingTip || path.haltung || path.saying)) || 'Dein kleiner Begleiter am Pfad — neugierig, weich, ohne Grusel.';
       if (figLabel) figLabel.textContent = name;
       if (figTip) figTip.textContent = tip;
       if (figur) {
@@ -1768,7 +1768,7 @@
         const card = $('#empfehlen-card');
         if (card) {
           try { card.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (_) {}
-          toast('Sitzung rund — wenn es stimmt: weiterempfehlen', 3200);
+          toast('Sitzung rund — wenn es sich gut anfühlt: gern weiterempfehlen', 3200);
         }
       }, 1200);
     }
@@ -1890,7 +1890,7 @@
       kindEl.textContent = tip && tip.kind === 'haltung' ? 'Haltung' : 'Einladung';
     }
     if (lead) {
-      let leadText = (tip && tip.text) || (path && path.practiceHint) || 'Heute ein kleiner Zauberfunke — neugierig, ohne Druck.';
+      let leadText = (tip && tip.text) || (path && path.practiceHint) || 'Heute darf etwas Leichtes glänzen — ein kleiner Impuls, ohne Druck.';
       // Compact status-strip: keep it short, warm, memorable
       if (leadText.length > 72) {
         const cut = leadText.slice(0, 70);
@@ -1916,9 +1916,9 @@
         ? next.date.toLocaleDateString('de-CH', { day: 'numeric', month: 'short' })
         : '';
       if (icoEl) icoEl.textContent = next.ico || '✦';
-      textEl.textContent = 'Als Nächstes · ' + next.name + ' · ' + when + (dateStr ? ' (' + dateStr + ')' : '');
+      textEl.textContent = 'Bald · ' + next.name + ' · ' + when + (dateStr ? ' (' + dateStr + ')' : '');
       row.hidden = false;
-      row.setAttribute('aria-label', 'Nächster Tag für deinen Pfad: ' + next.name + ', ' + when);
+      row.setAttribute('aria-label', 'Bald für deinen Pfad: ' + next.name + ', ' + when);
     })();
     const tipTitle = tip && tip.title ? tip.title : (ritual ? ritual.name : 'Praxis');
     const dur = ritual
@@ -3475,7 +3475,7 @@
     const dashMoonNext = $('#dash-moon-next');
     if (dashMoonNext) {
       if (!nextFull) {
-        dashMoonNext.textContent = 'Vollmond · —';
+        dashMoonNext.textContent = 'Nächster Vollmond · —';
       } else {
         const start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
         const fullDay = new Date(nextFull.getFullYear(), nextFull.getMonth(), nextFull.getDate());
@@ -3486,11 +3486,11 @@
         // Wenn schon fast voll: freundlich sagen
         const illum = moon && moon.percent != null ? Number(moon.percent) : null;
         if (illum != null && illum >= 97 && days <= 0) {
-          dashMoonNext.textContent = 'Vollmond · jetzt ≈';
+          dashMoonNext.textContent = 'Vollmond-Licht · jetzt ≈';
         } else {
-          dashMoonNext.textContent = 'Vollmond · ' + when + ' · ' + dateStr + (timeStr ? ' ' + timeStr : '');
+          dashMoonNext.textContent = 'Vollmond kommt · ' + when + ' · ' + dateStr + (timeStr ? ' ' + timeStr : '');
         }
-        dashMoonNext.setAttribute('title', 'Nächster Vollmond ≈ ' + dateStr + ' ' + timeStr);
+        dashMoonNext.setAttribute('title', 'Nächster Vollmond ≈ ' + dateStr + (timeStr ? ' ' + timeStr : ''));
       }
     }
     const hourInv = softHourInvite(hour);
@@ -6069,13 +6069,13 @@
   async function shareAppRecommend() {
     const url = appShareUrl();
     const title = 'UNIVERSUM · Praxiswerkzeug';
-    const text = 'UNIVERSUM: in 3 Minuten ernsthafte Praxis — lokal, ethisch, ohne Konto. Praxiswerkzeug zum Empfehlen.';
+    const text = 'UNIVERSUM — magische Praxis in wenigen Minuten: lokal auf dem Gerät, ethisch, ohne Konto.';
     const status = $('#empfehlen-status');
     try {
       if (navigator.share) {
         await navigator.share({ title: title, text: text, url: url });
-        if (status) status.textContent = 'Geteilt — danke.';
-        toast('Empfehlung geteilt');
+        if (status) status.textContent = 'Geteilt — danke dir.';
+        toast('Danke — Empfehlung unterwegs');
         return;
       }
     } catch (e) {
@@ -6084,8 +6084,8 @@
     try {
       if (navigator.clipboard && navigator.clipboard.writeText) {
         await navigator.clipboard.writeText(url);
-        if (status) status.textContent = 'Link kopiert.';
-        toast('Link kopiert');
+        if (status) status.textContent = 'Link ist kopiert — bereit zum Teilen.';
+        toast('Link ist kopiert');
         return;
       }
     } catch (_) {}
@@ -6098,8 +6098,8 @@
     try {
       if (navigator.clipboard && navigator.clipboard.writeText) {
         await navigator.clipboard.writeText(url);
-        if (status) status.textContent = 'Link kopiert.';
-        toast('Link kopiert');
+        if (status) status.textContent = 'Link ist kopiert — bereit zum Teilen.';
+        toast('Link ist kopiert');
         return;
       }
     } catch (_) {}
@@ -6113,11 +6113,11 @@
         deferredInstallPrompt.prompt();
         const choice = await deferredInstallPrompt.userChoice;
         if (choice && choice.outcome === 'accepted') {
-          toast('App wird installiert');
-          if (status) status.textContent = 'Installiert — lokal auf dem Gerät.';
+          toast('Schön — UNIVERSUM kommt auf den Homescreen');
+          if (status) status.textContent = 'Installiert — lokal auf dem Gerät, ohne Konto.';
           dismissInstallBanner(true);
         } else if (status) {
-          status.textContent = 'Installation abgebrochen — jederzeit über Browser-Menü.';
+          status.textContent = 'Später geht auch — jederzeit über das Browser-Menü.';
         }
       } catch (_) {
         showInstallBanner(true);
@@ -6128,7 +6128,7 @@
       return;
     }
     showInstallBanner(true);
-    if (status) status.textContent = 'Siehe Installationshinweis — oder Browser-Menü „App installieren“.';
+    if (status) status.textContent = 'Kurzer Hinweis unten — oder im Browser-Menü „App installieren“ / Zum Homescreen.';
   }
 
     function isStandaloneDisplay() {
@@ -6173,8 +6173,8 @@
     const text = $('#install-banner-text');
     // Offline-zuerst: Banner auch auf Desktop bei force; Copy betont Cache
     if (plat.isIOS) {
-      if (title) title.textContent = 'Optional · Homescreen (iPhone / iPad)';
-      if (text) text.textContent = 'Safari → Teilen → „Zum Home-Bildschirm“. Einmal legen — offline-fähig, lokal. Kein Muss.';
+      if (title) title.textContent = 'Einladung · Homescreen (iPhone / iPad)';
+      if (text) text.textContent = 'Safari → Teilen → „Zum Home-Bildschirm“. Einmal legen — offline, lokal, ohne Konto. Ganz freiwillig.';
       if (steps) {
         steps.innerHTML =
           '<li>Tippe auf <strong>Teilen</strong> (Quadrat mit Pfeil).</li>' +
@@ -6182,8 +6182,8 @@
           '<li>Bestätige „Hinzufügen“ — fertig.</li>';
       }
     } else if (plat.isAndroid) {
-      if (title) title.textContent = 'Optional · Homescreen (Android)';
-      if (text) text.textContent = 'Chrome-Menü → „App installieren“ / Zum Startbildschirm. Lokal auf dem Gerät — einmal reicht.';
+      if (title) title.textContent = 'Einladung · Homescreen (Android)';
+      if (text) text.textContent = 'Chrome-Menü → „App installieren“ / Zum Startbildschirm. Lokal auf dem Gerät, ohne Konto — einmal reicht.';
       if (steps) {
         steps.innerHTML =
           '<li>Öffne das <strong>Menü</strong> (⋮) im Browser.</li>' +
@@ -6191,8 +6191,8 @@
           '<li>Bestätigen — Icon erscheint neben deinen Apps.</li>';
       }
     } else {
-      if (title) title.textContent = 'Optional · wie eine kleine App';
-      if (text) text.textContent = 'Browser-Menü → „Zum Home-Bildschirm“ / Installieren. Praktisch auf dem Handy — kein Druck.';
+      if (title) title.textContent = 'Einladung · wie eine kleine App';
+      if (text) text.textContent = 'Browser-Menü → „Zum Home-Bildschirm“ / Installieren. Praktisch auf dem Handy — lokal, ohne Konto, kein Druck.';
       if (steps) {
         steps.innerHTML =
           '<li>Browser-Menü öffnen.</li>' +
@@ -8481,8 +8481,8 @@
       deferredInstallPrompt = null;
       dismissInstallBanner(true);
       const st = $('#empfehlen-status');
-      if (st) st.textContent = 'Installiert — öffnet wie eine App, Daten bleiben lokal.';
-      toast('UNIVERSUM installiert');
+      if (st) st.textContent = 'Schön — öffnet wie eine App, Daten bleiben lokal.';
+      toast('UNIVERSUM liegt auf dem Homescreen');
     });
 
     const empShare = $('#empfehlen-share');

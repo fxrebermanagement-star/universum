@@ -430,6 +430,13 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.32.2 — Altar Wärme · Empfehlen warm
+
+- Altar: wärmere Heute-/Fest-/Mond-Zeilen, weichere Pfadfigur-Tipps, Day-Banner & First-Session-Tipp
+- Empfehlen / Install / Teilen: einladendere Copy, klare Buttons, freundliche Toasts — weiterhin lokal, ohne Konto
+- Bottom-Nav am Altar bleibt sichtbar (kein Re-Hide); inactive Altar `display:none` unverändert; volles 7er-Dock
+- SW `universum-shell-v101`
+
 ## 5.32.1 — Dock wieder voll
 
 - Altar-Apps-Dock: wieder alle 7 (Kalender · Kosmos · Rituale · Resonanzen · Buch · Sigille · Karten)
