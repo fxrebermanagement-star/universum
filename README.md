@@ -430,6 +430,11 @@ Astronomie und Kalender sind **Näherungen** für die Praxis. Magie bleibt deine
 - Zwischenstand aufgegangen in `5.1.0`
 
 
+## 5.29.4 — Nächster Vollmond auf Mond-Kachel
+
+- Mond-Kachel zeigt Vollmond · heute/morgen/in X Tagen (+ Datum)
+- SW `universum-shell-v92`
+
 ## 5.29.3 — Nächster Pfad-Tag unter Heute
 
 - Heute-Zeile zeigt den nächsten wichtigen Tag des gewählten Pfads

@@ -10022,3 +10022,16 @@ body.stille-modus #sec-cockpit #jetzt-card .jetzt-lead {
 .cock-status-heute .cock-status-body {
   min-width: 0;
 }
+
+/* v5.29.4 — Nächster Vollmond auf Mond-Kachel */
+.cock-mond .cock-moon-next {
+  margin-top: 0.12rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: color-mix(in srgb, var(--neon-cyan, #5ce1ff) 55%, #e8f4ff);
+  opacity: 0.92;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

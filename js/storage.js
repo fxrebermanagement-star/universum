@@ -267,7 +267,7 @@
     });
   }
 
-  const APP_VERSION = '5.29.3';
+  const APP_VERSION = '5.29.4';
 
   function buildExportMeta(data) {
     const pathId = data.path || 'esoterik';

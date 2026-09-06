@@ -3420,6 +3420,27 @@
     }
     const dashMoonMeta = $('#dash-moon-meta');
     if (dashMoonMeta) dashMoonMeta.textContent = moonGut || ('Arbeitsfenster · ' + ((moonInfo && moonInfo.sign) || ''));
+    const dashMoonNext = $('#dash-moon-next');
+    if (dashMoonNext) {
+      if (!nextFull) {
+        dashMoonNext.textContent = 'Vollmond · —';
+      } else {
+        const start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const fullDay = new Date(nextFull.getFullYear(), nextFull.getMonth(), nextFull.getDate());
+        const days = Math.round((fullDay - start) / 86400000);
+        const when = days <= 0 ? 'heute' : days === 1 ? 'morgen' : ('in ' + days + ' Tagen');
+        const dateStr = fmtDate(nextFull);
+        const timeStr = fmtTime(nextFull);
+        // Wenn schon fast voll: freundlich sagen
+        const illum = moon && moon.percent != null ? Number(moon.percent) : null;
+        if (illum != null && illum >= 97 && days <= 0) {
+          dashMoonNext.textContent = 'Vollmond · jetzt ≈';
+        } else {
+          dashMoonNext.textContent = 'Vollmond · ' + when + ' · ' + dateStr + (timeStr ? ' ' + timeStr : '');
+        }
+        dashMoonNext.setAttribute('title', 'Nächster Vollmond ≈ ' + dateStr + ' ' + timeStr);
+      }
+    }
     const hourInv = softHourInvite(hour);
     const dashHour = $('#dash-hour-val');
     if (dashHour) dashHour.textContent = hourInv.planet;
