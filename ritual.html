@@ -2,27 +2,17 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#07040d">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Rolf Reber 25">
-<meta name="mobile-web-app-capable" content="yes">
 <title>Rolf Reber 25</title>
 <link rel="manifest" href="ritual.webmanifest">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
-</head>
-<body style="margin:0;background:#07040d;color:#f3e7ff;font-family:Georgia,serif">
 <script>
-(function(){
-  var url = "https://raw.githubusercontent.com/fxrebermanagement-star/universum/6e38ecac7a98859505ac47575dd905e6e47ab274/index.html";
-  fetch(url, {cache:"reload"}).then(function(r){ return r.text(); }).then(function(html){
-    document.open();
-    document.write(html);
-    document.close();
-  }).catch(function(){
-    document.body.innerHTML = "<p style='padding:2rem;text-align:center'>Ritual-App lädt nicht. Seite neu laden.</p>";
-  });
-})();
+location.replace("https://cdn.jsdelivr.net/gh/fxrebermanagement-star/universum@6e38ecac7a98859505ac47575dd905e6e47ab274/index.html");
 </script>
+</head>
+<body style="margin:0;background:#07040d;color:#f3e7ff;font-family:Georgia,serif;padding:2rem;text-align:center">
+<p>Ritual-App öffnet …</p>
+<p><a href="https://cdn.jsdelivr.net/gh/fxrebermanagement-star/universum@6e38ecac7a98859505ac47575dd905e6e47ab274/index.html" style="color:#ff7ad9">Hier antippen, falls nichts kommt</a></p>
 </body>
 </html>
