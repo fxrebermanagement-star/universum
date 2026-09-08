@@ -1,10 +1,4 @@
-/**
- * UNIVERSUM · Service Worker — offline shell caching
- * Relative URLs so GitHub Pages /universum/ subpath works.
- * Cache-first for app shell; network-first navigations; offline fallback to cockpit.
- * v119: 5.33.12 — absolute manifest id/start_url/scope for WebAPK
- */
-const CACHE = 'universum-shell-v119';
+const CACHE = 'universum-shell-v120';
 const SHELL = [
   './',
   './index.html',
@@ -20,188 +14,39 @@ const SHELL = [
   './js/schumann.js',
   './js/i18n.js',
   './js/app.js',
-  './assets/feldkarten/manifest.json',
-  './assets/feldkarten/01-schwelle.svg',
-  './assets/feldkarten/02-wurzelband.svg',
-  './assets/feldkarten/03-atembruecke.svg',
-  './assets/feldkarten/04-grenzstein.svg',
-  './assets/feldkarten/05-ausgleich.svg',
-  './assets/feldkarten/06-feldlicht.svg',
-  './assets/feldkarten/07-mondspiegel.svg',
-  './assets/feldkarten/08-sonnenkern.svg',
-  './assets/feldkarten/09-nebelpfad.svg',
-  './assets/feldkarten/10-knotenloesen.svg',
-  './assets/feldkarten/11-ahnenruf.svg',
-  './assets/feldkarten/12-werkzeugweihe.svg',
-  './assets/feldkarten/13-kreisziehen.svg',
-  './assets/feldkarten/14-stille-stunde.svg',
-  './assets/feldkarten/15-funkenwahl.svg',
-  './assets/feldkarten/16-regenwaschen.svg',
-  './assets/feldkarten/17-samenwort.svg',
-  './assets/feldkarten/18-echo-der-tat.svg',
-  './assets/feldkarten/19-hand-der-gabe.svg',
-  './assets/feldkarten/20-nachtwache.svg',
-  './assets/feldkarten/21-sternennadel.svg',
-  './assets/feldkarten/22-heimkehr.svg',
   './manifest.webmanifest',
-  './icons/icon.svg',
   './icons/icon-192.png',
-  './icons/icon-512.png',
-  './icons/app-icon-192.png',
-  './icons/app-icon-512.png',
-  './icons/app-icon-maskable-512.png',
-  './icons/apple-touch-icon.png',
-  './assets/path-figures/esoterik.png',
-  './assets/path-figures/schamanismus.png',
-  './assets/path-figures/nordisch.png',
-  './assets/path-figures/voodoo.png',
-  './assets/path-figures/santeria.png',
-  './assets/path-figures/hermetik.png',
-  './assets/path-figures/wicca.png',
-  './assets/path-figures/chaosmagie.png',
-  './assets/lexikon/manifest.json',
-  './assets/lexikon/fallback-blank.svg',
-  './assets/lexikon/fallback-herb.svg',
-  './assets/lexikon/fallback-kitchen.svg',
-  './assets/lexikon/fallback-stone.svg',
-  './assets/lexikon/fallback-color.svg',
-  './assets/lexikon/fallback-tool.svg',
-  './assets/lexikon/fallback-link.svg',
-  './assets/lexikon/fallback-offering.svg'
+  './icons/icon-512.png'
 ];
-
-function cacheUrl(cache, url) {
-  return cache.add(url).catch(() => fetch(url, { cache: 'reload' }).then((res) => {
-    if (res && res.ok) return cache.put(url, res);
-  }).catch(() => null));
-}
-
-function precacheLexikonIcons(cache) {
-  return fetch('./assets/lexikon/manifest.json', { cache: 'reload' })
-    .then((res) => (res && res.ok ? res.json() : []))
-    .then((list) => {
-      const items = Array.isArray(list) ? list : [];
-      return Promise.all(
-        items.map((item) => {
-          const file = item && (item.file || ((item.slug || '') + '.svg'));
-          if (!file) return null;
-          return cacheUrl(cache, './assets/lexikon/' + file);
-        })
-      );
-    })
-    .catch(() => null);
-}
-
-function precacheFeldkartenPaths(cache) {
-  return fetch('./assets/feldkarten/manifest.json', { cache: 'reload' })
-    .then((res) => (res && res.ok ? res.json() : null))
-    .then((data) => {
-      const items = data && Array.isArray(data.items) ? data.items : [];
-      return Promise.all(
-        items.map((item) => {
-          const file = item && item.file;
-          if (!file) return null;
-          return cacheUrl(cache, './assets/feldkarten/' + file);
-        })
-      );
-    })
-    .catch(() => null);
-}
-
-function precacheShell(cache) {
-  return Promise.all(SHELL.map((url) => cacheUrl(cache, url)))
-    .then(() => precacheLexikonIcons(cache))
-    .then(() => precacheFeldkartenPaths(cache));
-}
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE).then((cache) => precacheShell(cache)).then(() => self.skipWaiting())
+    caches.open(CACHE).then((cache) => Promise.all(SHELL.map((u) => cache.add(u).catch(() => null)))).then(() => self.skipWaiting())
   );
 });
 
-self.addEventListener('message', (event) => {
-  if (event && event.data && event.data.type === 'SKIP_WAITING') {
-    self.skipWaiting();
-  }
-});
-
-
-function isShellPath(pathname) {
-  return (
-    pathname.endsWith('.html') ||
-    pathname.endsWith('.css') ||
-    pathname.endsWith('.js') ||
-    pathname.endsWith('.svg') ||
-    pathname.endsWith('.png') ||
-    pathname.endsWith('.webmanifest') ||
-    pathname.endsWith('/') ||
-    pathname.endsWith('/universum')
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))).then(() => self.clients.claim())
   );
-}
-
-function networkFirst(req) {
-  return fetch(req)
-    .then((res) => {
-      if (res && res.ok) {
-        const clone = res.clone();
-        caches.open(CACHE).then((c) => c.put(req, clone)).catch(() => null);
-      }
-      return res;
-    })
-    .catch(() =>
-      caches.match(req).then((cached) =>
-        cached ||
-        caches.match('./cockpit.html') ||
-        caches.match('./index.html') ||
-        caches.match('./')
-      )
-    );
-}
+});
 
 self.addEventListener('fetch', (event) => {
   const req = event.request;
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
-
   const path = url.pathname || '';
-  const isNav = req.mode === 'navigate';
-  const isShellCode =
-    path.endsWith('.html') ||
-    path.endsWith('.js') ||
-    path.endsWith('.css') ||
-    path.endsWith('.webmanifest') ||
-    path.endsWith('/universum') ||
-    path.endsWith('/');
-
-  // v5.33.8: network-first for app shell so updates are not stuck in old cache
-  if (isNav || isShellCode) {
-    event.respondWith(networkFirst(req));
-    return;
+  if (path.indexOf('/rr25') !== -1 || /ritual/i.test(path)) return;
+  if (req.mode === 'navigate' || path.endsWith('.html') || path.endsWith('.js') || path.endsWith('.css') || path.endsWith('.webmanifest') || path.endsWith('/')) {
+    event.respondWith(
+      fetch(req).then((res) => {
+        if (res && res.ok) {
+          const clone = res.clone();
+          caches.open(CACHE).then((c) => c.put(req, clone)).catch(() => null);
+        }
+        return res;
+      }).catch(() => caches.match(req).then((cached) => cached || caches.match('./cockpit.html') || caches.match('./index.html')))
+    );
   }
-
-  event.respondWith(
-    caches.match(req).then((cached) => {
-      const fetched = fetch(req)
-        .then((res) => {
-          if (res && res.ok && isShellPath(url.pathname)) {
-            const clone = res.clone();
-            caches.open(CACHE).then((c) => c.put(req, clone));
-          }
-          return res;
-        })
-        .catch(() => cached);
-      return cached || fetched;
-    })
-  );
-});
-
-// Tell open tabs to reload once this SW takes control
-self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))
-    ).then(() => self.clients.claim())
-  );
 });
