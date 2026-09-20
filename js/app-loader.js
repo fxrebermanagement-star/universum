@@ -1,14 +1,16 @@
-/** Assembles UNIVERSUM app.js from parts then runs it. */
+/** Assembles UNIVERSUM app.js from sub-chunks then runs it. */
 (function () {
   var s = "";
-  var n = 16;
-  for (var i = 0; i < n; i++) {
-    var p = window["__APP_PART_" + i + "__"];
-    if (typeof p !== "string") {
-      console.error("UNIVERSUM: app part missing", i);
-      return;
+  var parts = 16, subs = 3;
+  for (var i = 0; i < parts; i++) {
+    for (var j = 0; j < subs; j++) {
+      var p = window["__APP_P" + i + "S" + j + "__"];
+      if (typeof p !== "string") {
+        console.error("UNIVERSUM: app chunk missing", i, j);
+        return;
+      }
+      s += p;
     }
-    s += p;
   }
   (0, eval)(s);
 })();
