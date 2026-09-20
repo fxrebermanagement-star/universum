@@ -73,22 +73,7 @@
       try { UniversumI18n.bootFromStorage(); } catch (e) {}
     }
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js?v=123', { scope: './' }).then(function () {
-        return navigator.serviceWorker.ready;
-      }).then(function () {
-        var a = document.getElementById('enter-altar');
-        if (!a) return;
-        a.addEventListener('click', function (ev) {
-          ev.preventDefault();
-          var go = function () { window.location.href = a.getAttribute('href'); };
-          if (navigator.serviceWorker.controller) { go(); return; }
-          navigator.serviceWorker.addEventListener('controllerchange', function once() {
-            navigator.serviceWorker.removeEventListener('controllerchange', once);
-            go();
-          });
-          setTimeout(go, 1200);
-        });
-      }).catch(function () {});
+      navigator.serviceWorker.register('./sw.js?v=130', { scope: './' }).catch(function () {});
     }
     (function () {
       var url = 'https://fxrebermanagement-star.github.io/universum/';
