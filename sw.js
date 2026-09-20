@@ -1,4 +1,4 @@
-const CACHE = 'universum-shell-v120';
+const CACHE = 'universum-shell-v121';
 const SHELL = [
   './',
   './index.html',
@@ -8,6 +8,7 @@ const SHELL = [
   './js/storage.js',
   './js/media.js',
   './js/paths.js',
+  './js/arbeitsaltar.js',
   './js/rituals.js',
   './js/sigil.js',
   './js/cards.js',
