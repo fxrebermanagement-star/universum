@@ -1,4 +1,4 @@
-const CACHE = 'universum-shell-v121';
+const CACHE = 'universum-shell-v122';
 const SHELL = [
   './',
   './index.html',
@@ -7,6 +7,7 @@ const SHELL = [
   './css/arbeitsaltar.css',
   './js/astronomy.js',
   './js/storage.js',
+  './js/arbeitsaltar-version-hook.js',
   './js/media.js',
   './js/paths.js',
   './js/arbeitsaltar-soft.js',
@@ -14,10 +15,12 @@ const SHELL = [
   './js/arbeitsaltar-feld.js',
   './js/arbeitsaltar.js',
   './js/rituals.js',
+  './js/arbeitsaltar-rituals-hook.js',
   './js/sigil.js',
   './js/cards.js',
   './js/schumann.js',
   './js/i18n.js',
+  './js/arbeitsaltar-ui.js',
   './js/app.js',
   './manifest.webmanifest',
   './icons/icon-192.png',
