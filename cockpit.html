@@ -1,1 +1,37 @@
-@file:///workspace/universum/cockpit.html
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0c0814" />
+  <title>UNIVERSUM · Altar</title>
+  <style>body{margin:0;background:#0c0814;color:#efeaf8;font-family:system-ui,sans-serif;display:grid;place-items:center;min-height:100vh}p{opacity:.8}</style>
+  <script>
+  (function () {
+    var urls = [
+      'https://cdn.jsdelivr.net/gh/fxrebermanagement-star/universum@bb1d8fd2426eb5741999f83099d784a6a4a4aaa1/cockpit.html',
+      'https://raw.githubusercontent.com/fxrebermanagement-star/universum/bb1d8fd2426eb5741999f83099d784a6a4a4aaa1/cockpit.html'
+    ];
+    function boot(html) {
+      document.open();
+      document.write(html);
+      document.close();
+    }
+    function tryUrl(i) {
+      if (i >= urls.length) {
+        document.body.innerHTML = '<p>Altar konnte nicht geladen werden. Bitte Hard-Refresh (Cache leeren) und erneut öffnen.</p>';
+        return;
+      }
+      fetch(urls[i], { cache: 'no-store' }).then(function (r) {
+        if (!r.ok) throw new Error('bad');
+        return r.text();
+      }).then(boot).catch(function () { tryUrl(i + 1); });
+    }
+    tryUrl(0);
+  })();
+  </script>
+</head>
+<body>
+  <p>Altar wird geladen…</p>
+</body>
+</html>
