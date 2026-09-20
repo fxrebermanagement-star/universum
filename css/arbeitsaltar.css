@@ -1,0 +1,34 @@
+/* ——— Arbeitsaltar (So sei es) under Rituale → Eigene ——— */
+.arbeitsaltar-card .chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.65rem 0 0.75rem;
+}
+.arbeitsaltar-card .chip {
+  border: 1px solid var(--border-soft);
+  background: transparent;
+  color: var(--text-soft);
+  border-radius: 999px;
+  padding: 0.28rem 0.7rem;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+.arbeitsaltar-card .chip.on {
+  border-color: var(--maya, #3ed4c4);
+  color: var(--maya, #3ed4c4);
+  background: rgba(62, 212, 196, 0.12);
+}
+.aa-group {
+  margin: 0.85rem 0 0.35rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  opacity: 0.85;
+}
+.fav-badge.aa-soft-badge { color: var(--maya, #3ed4c4); }
+.fav-badge.aa-hard-badge { color: #e07a7a; }
+.ritual-item.aa-hard { border-color: rgba(224, 122, 122, 0.28); }
+.ritual-item.aa-blocked { opacity: 0.55; }
+.ritual-item.aa-blocked .ritual-item-main { cursor: not-allowed; }
