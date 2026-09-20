@@ -5,24 +5,70 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#0c0814" />
   <title>UNIVERSUM · Altar</title>
-  <style>body{margin:0;background:#0c0814;color:#efeaf8;font-family:system-ui,sans-serif;display:grid;place-items:center;min-height:100vh}p{opacity:.8}</style>
+  <style>body{margin:0;background:#0c0814;color:#efeaf8;font-family:system-ui,sans-serif;display:grid;place-items:center;min-height:100vh}p{opacity:.85}</style>
   <script>
   (function () {
-    var urls = [
+    var BASES = [
       'https://cdn.jsdelivr.net/gh/fxrebermanagement-star/universum@bb1d8fd2426eb5741999f83099d784a6a4a4aaa1/cockpit.html',
       'https://raw.githubusercontent.com/fxrebermanagement-star/universum/bb1d8fd2426eb5741999f83099d784a6a4a4aaa1/cockpit.html'
     ];
+    function injectArbeitsaltar(html) {
+      if (!html) return html;
+      if (html.indexOf('arbeitsaltar-ui.js') !== -1) return html;
+      if (html.indexOf('arbeitsaltar.css') === -1) {
+        html = html.replace('</head>', '  <link rel="stylesheet" href="css/arbeitsaltar.css?v=5344" />\n</head>');
+      }
+      if (html.indexOf('arbeitsaltar-list') === -1) {
+        var panel =
+          '        <div class="card arbeitsaltar-card" id="arbeitsaltar-card">\n' +
+          '          <div class="intention-top"><h3>Arbeitsaltar · So sei es</h3><span class="chip-quiet">Eigene</span></div>\n' +
+          '          <p class="hint-sm">Soft und Hard aus dem Arbeitsaltar — Ethik-Gate, Rückkehr und 24h nach Hard. Privat, lokal, Praxis.</p>\n' +
+          '          <div id="arbeitsaltar-lock-banner" class="notice ethics-line" hidden></div>\n' +
+          '          <div class="chip-row" id="arbeitsaltar-cats" role="group" aria-label="Arbeitsaltar Kategorien"></div>\n' +
+          '          <div class="ritual-list" id="arbeitsaltar-list" aria-label="Arbeitsaltar Rituale"></div>\n' +
+          '        </div>\n';
+        html = html.replace(/(<div[^>]*data-rpanel="custom"[^>]*>)/, '$1\n' + panel);
+      }
+      function insertAfter(srcMarker, tags) {
+        for (var i = 0; i < tags.length; i++) {
+          if (html.indexOf(tags[i].split('?')[0]) !== -1) return;
+        }
+        var re = new RegExp('(<script defer src="' + srcMarker.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '[^"]*"><\\/script>)');
+        var add = tags.map(function (t) {
+          return '\n  <script defer src="' + t + '"><\\/script>';
+        }).join('');
+        html = html.replace(re, '$1' + add);
+      }
+      insertAfter('js/storage.js', ['js/arbeitsaltar-version-hook.js?v=5344']);
+      insertAfter('js/paths.js', [
+        'js/arbeitsaltar-soft.js?v=5344',
+        'js/arbeitsaltar-hard.js?v=5344',
+        'js/arbeitsaltar-feld.js?v=5344',
+        'js/arbeitsaltar.js?v=5344'
+      ]);
+      insertAfter('js/rituals.js', ['js/arbeitsaltar-rituals-hook.js?v=5344']);
+      insertAfter('js/app.js', ['js/arbeitsaltar-ui.js?v=5344']);
+      html = html.replace(
+        '<p class="section-sub">Werkzeug · Eigene · Geführt (optional)</p>',
+        '<p class="section-sub">Werkzeug · Eigene (Arbeitsaltar) · Geführt (optional)</p>'
+      );
+      html = html.replace(
+        "navigator.serviceWorker.register('./sw.js'",
+        "navigator.serviceWorker.register('./sw.js?v=130'"
+      );
+      return html;
+    }
     function boot(html) {
       document.open();
-      document.write(html);
+      document.write(injectArbeitsaltar(html));
       document.close();
     }
     function tryUrl(i) {
-      if (i >= urls.length) {
-        document.body.innerHTML = '<p>Altar konnte nicht geladen werden. Bitte Hard-Refresh (Cache leeren) und erneut öffnen.</p>';
+      if (i >= BASES.length) {
+        document.body.innerHTML = '<p>Altar konnte nicht geladen werden. Hard-Refresh / Site-Daten leeren, dann erneut öffnen.</p>';
         return;
       }
-      fetch(urls[i], { cache: 'no-store' }).then(function (r) {
+      fetch(BASES[i], { cache: 'no-store' }).then(function (r) {
         if (!r.ok) throw new Error('bad');
         return r.text();
       }).then(boot).catch(function () { tryUrl(i + 1); });
