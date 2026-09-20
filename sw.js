@@ -4,6 +4,7 @@ const SHELL = [
   './index.html',
   './cockpit.html',
   './css/styles.css',
+  './css/arbeitsaltar.css',
   './js/astronomy.js',
   './js/storage.js',
   './js/media.js',
