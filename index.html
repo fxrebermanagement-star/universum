@@ -48,7 +48,7 @@
 
     <p class="landing-ethics-line" data-i18n="landing.ethics">Grenze und Ausgleich. Kein Schaden an Personen. Ein Handy kann keine Geister messen.</p>
 
-    <a class="btn primary enter" href="cockpit.html" data-i18n="landing.enter">Altar öffnen — lass dich einladen</a>
+    <a class="btn primary enter" id="enter-altar" href="cockpit.html" data-i18n="landing.enter">Altar öffnen — lass dich einladen</a>
 
     <p class="landing-ethics-line"><a class="btn ghost" href="ritual.html">Rolf Reber 25 — Ritual-App</a></p>
 
@@ -73,22 +73,32 @@
       try { UniversumI18n.bootFromStorage(); } catch (e) {}
     }
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js', { scope: './' }).catch(function () {});
+      navigator.serviceWorker.register('./sw.js?v=123', { scope: './' }).then(function () {
+        return navigator.serviceWorker.ready;
+      }).then(function () {
+        var a = document.getElementById('enter-altar');
+        if (!a) return;
+        a.addEventListener('click', function (ev) {
+          ev.preventDefault();
+          var go = function () { window.location.href = a.getAttribute('href'); };
+          if (navigator.serviceWorker.controller) { go(); return; }
+          navigator.serviceWorker.addEventListener('controllerchange', function once() {
+            navigator.serviceWorker.removeEventListener('controllerchange', once);
+            go();
+          });
+          setTimeout(go, 1200);
+        });
+      }).catch(function () {});
     }
     (function () {
       var url = 'https://fxrebermanagement-star.github.io/universum/';
       var copyBtn = document.getElementById('landing-copy-link');
       var shareBtn = document.getElementById('landing-share');
       function copyLink(btn, label) {
-        var done = function () {
-          if (!btn) return;
-          btn.textContent = 'Link kopiert';
-          setTimeout(function () { btn.textContent = label; }, 1800);
-        };
         if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(url).then(done).catch(function () {
-            window.prompt('Link kopieren:', url);
-          });
+          navigator.clipboard.writeText(url).then(function () {
+            if (btn) { var t = btn.textContent; btn.textContent = 'Kopiert'; setTimeout(function () { btn.textContent = label || t; }, 1400); }
+          }).catch(function () { window.prompt('Link kopieren:', url); });
         } else {
           window.prompt('Link kopieren:', url);
         }
