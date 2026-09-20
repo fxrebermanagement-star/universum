@@ -1,4 +1,4 @@
-const CACHE = 'universum-shell-v130';
+const CACHE = 'universum-shell-v131';
 const SHELL = [
   './',
   './index.html',
